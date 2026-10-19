@@ -36,5 +36,6 @@ jobs:
         env: { GH_TOKEN: "${{ github.token }}" }
         run: |
           body=$(for f in dist/*_qa.json; do python3 -c "import json,sys;d=json.load(open('$f'));print('### '+d['ep']+(' ✅' if d['pass'] else ' ❌'));[print('- '+i) for i in d['issues']]"; done)
+          gh label create qa --color D93F0B --force || true
           gh issue create --title "動画QA NG $(TZ=Asia/Tokyo date '+%Y-%m-%d')" --body "$body" --label qa || true
           exit 1
