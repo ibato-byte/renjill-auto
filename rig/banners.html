@@ -1,0 +1,42 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@700;900&family=Outfit:wght@600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#fff}
+.b{position:relative;overflow:hidden;background:linear-gradient(180deg,#F6EFE4 0%,#F3E8D8 68%,#E4D2B8 68%,#DCC7A8 100%)}
+.win{position:absolute;background:linear-gradient(180deg,#DCEBF5,#EEF5F9);border:10px solid #FBF7F0;border-radius:6px;box-shadow:0 2px 0 rgba(0,0,0,.05)}
+.win:after{content:"";position:absolute;left:50%;top:0;bottom:0;width:8px;margin-left:-4px;background:#FBF7F0}
+.plant{position:absolute;border-radius:50% 50% 45% 45%;background:radial-gradient(circle at 40% 35%,#9DB886,#6E8F5B)}
+.pot{position:absolute;background:#C9962F;border-radius:4px 4px 10px 10px}
+.title{position:absolute;font-family:'Noto Sans JP','Noto Sans CJK JP',sans-serif;font-weight:900;color:#3B2E22;letter-spacing:.04em;line-height:1}
+.sub{position:absolute;font-family:'Outfit','Noto Sans CJK JP','Noto Sans',sans-serif;font-weight:600;color:#7A6550;letter-spacing:.12em}
+.duo{position:absolute;display:flex;align-items:flex-end}
+.dot{position:absolute;border-radius:50%;background:#C9962F;opacity:.18}
+</style></head><body>
+<!-- X header 1500x500 -->
+<div class="b" id="x" style="width:1500px;height:500px">
+ <div class="win" style="left:90px;top:60px;width:300px;height:210px"></div>
+ <div class="plant" style="left:1360px;top:150px;width:100px;height:110px"></div><div class="pot" style="left:1380px;top:250px;width:60px;height:62px"></div>
+ <div class="title" style="left:470px;top:110px;font-size:92px;font-family:'Outfit','Noto Sans',sans-serif;letter-spacing:.02em">REN &amp; JILL</div>
+ <div class="sub" style="left:476px;top:225px;font-size:30px;font-family:'Noto Sans JP','Noto Sans CJK JP',sans-serif;font-weight:700;line-height:1.5">レンとジル<br><span style="font-family:'Outfit','Noto Sans',sans-serif;font-size:24px">A wordless bunny office comedy</span></div>
+ <div class="duo" style="left:1010px;top:185px"><svg id="xr" viewBox="0 0 400 420" style="width:250px;height:262px"></svg><svg id="xj" viewBox="0 0 400 420" style="width:205px;height:215px;margin-left:-30px"></svg></div>
+</div>
+<!-- YouTube 2560x1440, safe 1546x423 centered (507..2053, 508..931) -->
+<div class="b" id="yt" style="width:2560px;height:1440px;background:linear-gradient(180deg,#F6EFE4 0%,#F3E8D8 64%,#E4D2B8 64%,#DCC7A8 100%)">
+ <div class="win" style="left:180px;top:200px;width:520px;height:380px"></div>
+ <div class="win" style="left:1860px;top:200px;width:520px;height:380px"></div>
+ <div class="title" style="left:560px;top:590px;font-size:130px;font-family:'Outfit','Noto Sans',sans-serif;letter-spacing:.02em">REN &amp; JILL</div>
+ <div class="sub" style="left:566px;top:760px;font-size:46px;font-family:'Noto Sans JP','Noto Sans CJK JP',sans-serif;font-weight:700">レンとジル</div>
+ <div class="sub" style="left:566px;top:830px;font-size:30px">A wordless bunny office comedy</div>
+ <div class="duo" style="left:1430px;top:520px"><svg id="yr" viewBox="0 0 400 420" style="width:390px;height:410px"></svg><svg id="yj" viewBox="0 0 400 420" style="width:320px;height:336px;margin-left:-46px"></svg></div>
+</div>
+<!-- Facebook cover 1640x624 (display crop safe center) -->
+<div class="b" id="fb" style="width:1640px;height:624px">
+ <div class="win" style="left:150px;top:70px;width:340px;height:240px"></div>
+ <div class="plant" style="left:1445px;top:200px;width:120px;height:130px"></div><div class="pot" style="left:1470px;top:318px;width:70px;height:72px"></div>
+ <div class="title" style="left:560px;top:105px;font-size:100px;font-family:'Outfit','Noto Sans',sans-serif;letter-spacing:.02em">REN &amp; JILL</div>
+ <div class="sub" style="left:566px;top:228px;font-size:34px;font-family:'Noto Sans JP','Noto Sans CJK JP',sans-serif;font-weight:700;line-height:1.5">レンとジル<br><span style="font-family:'Outfit','Noto Sans',sans-serif;font-size:28px">A wordless bunny office comedy</span></div>
+ <div class="duo" style="left:960px;top:290px"><svg id="fr" viewBox="0 0 400 420" style="width:290px;height:304px"></svg><svg id="fj" viewBox="0 0 400 420" style="width:238px;height:250px;margin-left:-34px"></svg></div>
+</div>
+<script src="rig.js"></script><script>
+[['xr','ren','smile'],['xj','jil','neutral'],['yr','ren','smile'],['yj','jil','neutral'],['fr','ren','smile'],['fj','jil','neutral']].forEach(([id,c,f])=>RIG.render(document.getElementById(id),{char:c,id:id,face:f}));
+</script></body></html>

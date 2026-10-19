@@ -1,0 +1,32 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>html,body{margin:0;background:#F4ECE0;width:1080px;height:1920px;overflow:hidden;font-family:'Noto Sans CJK JP','Noto Sans JP',sans-serif}
+#stage{position:absolute;left:0;top:0;width:1080px;height:1920px;overflow:hidden}
+svg{position:absolute;left:0;top:0;overflow:visible}
+#dim{position:absolute;left:0;top:0;width:1080px;height:1920px;background:#0B1830;opacity:0;pointer-events:none}
+#end{position:absolute;left:0;top:0;width:1080px;height:1920px;background:#F4ECE0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:26px;color:#3B2E22;opacity:0}
+#end .t{font-size:104px;font-weight:900;letter-spacing:6px}
+#end .s{font-size:40px;color:#7A6550;font-weight:700;letter-spacing:6px}
+#end .c{position:absolute;bottom:90px;font-size:26px;color:#A8957F;letter-spacing:2px}
+</style></head>
+<body>
+<div id="stage">
+<div id="world" style="position:absolute;left:0;top:0;width:1080px;height:1920px;transform-origin:0 0">
+<svg id="bg" viewBox="0 0 1080 1920" width="1080" height="1920"></svg>
+<svg id="back" viewBox="0 0 1080 1920" width="1080" height="1920"></svg>
+<svg id="ren" viewBox="0 0 1080 1920" width="1080" height="1920"></svg>
+<svg id="jil" viewBox="0 0 1080 1920" width="1080" height="1920"></svg>
+<div id="dim"></div>
+<svg id="fx" viewBox="0 0 1080 1920" width="1080" height="1920"></svg>
+</div>
+<svg id="ui" viewBox="0 0 1080 1920" width="1080" height="1920"></svg>
+<div id="end"><div class="t">レンとジル</div><div class="s">REN &amp; JILL</div><div class="c">© COANA TOKYO</div></div>
+</div>
+<script src="rig.js"></script>
+<script src="ep/common.js"></script>
+<script>
+const name=new URLSearchParams(location.search).get('ep');
+document.write('<script src="ep/'+name+'.js"><\/script>');
+</script>
+<script>const CAM=new URLSearchParams(location.search).get('cam');window.setFrame=t=>{EP.frame(t);if(CAM){const [z,cx,cy]=CAM.split(',').map(Number);camera({z,cx,cy},0);document.getElementById('ui').innerHTML='';}};setFrame(0);</script>
+</body></html>
