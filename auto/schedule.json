@@ -1,0 +1,107 @@
+{
+ "_comment": "毎週のPDCAでClaudeがここを更新する。dateはJST。slotは 12:00 / 18:00 / 19:00。platformsは ig / tt / yt。tag_setはA/Bの交互で効果を比較し、勝った方を翌週のdefaultsに昇格させる。thumbはサムネ（t=秒, cam=ズーム,中心x,中心y, hook='英語の一言(12文字以内)/日本語の補足(10文字以内)'）。海外にも届くよう英語を主、日本語を従にする。 camは顔が画面の下寄り（y 900〜1300）に来るよう cy を小さめにする（文字は上、チップはその下、全部が中央3:4に収まる）。",
+ "defaults": {
+  "yt_description": "A wordless office comedy about two bunnies: Ren, the absent-minded boss (Holland Lop), and Jill, his sharp assistant (Netherland Dwarf).\nうさぎの課長レン（たれ耳）と、しっかり者の部下ジル。セリフなしのオフィスコメディ。\n\nNew episodes Mon / Wed / Fri / Sun\nInstagram / TikTok / X: @renjill_office",
+  "platforms": [
+   "ig",
+   "tt",
+   "yt"
+  ],
+  "tag_sets": {
+   "A": "#うさぎのいる生活 #ホーランドロップ #会社あるある #lopbunny #officelife",
+   "B": "#うさぎのいる暮らし #ネザーランドドワーフ #社畜あるある #bunnytok #cuteanimals"
+  }
+ },
+ "posts": [
+  {
+   "date": "2026-10-21",
+   "slot": "12:00",
+   "ep": "papers2",
+   "no": 4,
+   "title": "書類の山",
+   "caption_ja": "整えるほど崩れる。課長、手伝わなくていいです。",
+   "caption_en": "The more he helps, the worse it gets.",
+   "tag_set": "A",
+   "thumb": {
+    "t": 9.0,
+    "cam": "2.0,560,820",
+    "hook": "HELPING./整えるほど崩れる"
+   }
+  },
+  {
+   "date": "2026-10-23",
+   "slot": "18:00",
+   "ep": "mug2",
+   "no": 5,
+   "title": "マグカップはどこ",
+   "caption_ja": "課長、マグカップは頭の上です。",
+   "caption_en": "Sir. The mug. It's on your head.",
+   "tag_set": "B",
+   "thumb": {
+    "t": 8.0,
+    "cam": "2.0,470,1351",
+    "hook": "WHERE'S MY MUG?/頭の上です、課長"
+   }
+  },
+  {
+   "date": "2026-10-25",
+   "slot": "19:00",
+   "ep": "chime2",
+   "no": 6,
+   "title": "定時のチャイム",
+   "caption_ja": "定時のチャイム、よろこびが止まらない。",
+   "caption_en": "5pm chime. Joy cannot be contained.",
+   "tag_set": "A",
+   "thumb": {
+    "t": 6.0,
+    "cam": "1.8,592,1156",
+    "hook": "5 PM!/定時のよろこび"
+   }
+  },
+  {
+   "date": "2026-10-26",
+   "slot": "12:00",
+   "ep": "jil_morning2",
+   "no": 2,
+   "title": "ジルの朝",
+   "caption_ja": "メガネをかけたらスイッチが入る。課長のスイッチはどこ？",
+   "caption_en": "Glasses on, switch on. Where's the boss's switch?",
+   "tag_set": "B",
+   "thumb": {
+    "t": 3.9,
+    "cam": "2.2,830,1397",
+    "hook": "GLASSES ON./スイッチが入る"
+   }
+  },
+  {
+   "date": "2026-10-28",
+   "slot": "12:00",
+   "ep": "receipts2",
+   "no": 8,
+   "title": "牧草の領収書",
+   "caption_ja": "経費精算、ぜんぶ牧草。",
+   "caption_en": "Expense report: 100% hay.",
+   "tag_set": "A",
+   "thumb": {
+    "t": 9.0,
+    "cam": "2.0,560,820",
+    "hook": "EXPENSES: HAY/経費はぜんぶ牧草"
+   }
+  },
+  {
+   "date": "2026-10-30",
+   "slot": "18:00",
+   "ep": "deadline2",
+   "no": 9,
+   "title": "締め切りのカレンダー",
+   "caption_ja": "見なければ、締め切りは来ない（来ます）。",
+   "caption_en": "If you don't look, the deadline doesn't exist. (It does.)",
+   "tag_set": "B",
+   "thumb": {
+    "t": 8.6,
+    "cam": "2.0,480,760",
+    "hook": "DEADLINE? NO./見なければ来ない"
+   }
+  }
+ ]
+}
