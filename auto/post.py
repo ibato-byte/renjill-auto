@@ -45,7 +45,7 @@ def render(ep):
     log("render", ep)
     env = dict(os.environ, NODE_PATH=subprocess.check_output(["npm", "root", "-g"]).decode().strip())
     subprocess.run(["node", str(RIG / "render-ep.js"), ep], check=True, env=env)
-    subprocess.run([str(RIG / "build.sh"), ep, str(yt)], check=True)
+    subprocess.run(["bash", str(RIG / "build.sh"), ep, str(yt)], check=True)
     dur = json.loads((RIG / "out" / ep / "meta.json").read_text())["dur"]
     # ループ版：エンドカード（最後の0.9秒）を落とす
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(yt), "-t", str(dur - 1.0), "-c", "copy", str(loop)], check=True)
