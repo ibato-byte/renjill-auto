@@ -1,0 +1,27 @@
+name: metrics
+on:
+  schedule:
+    - cron: "30 21 * * *"  # 06:30 JST（週次PDCAの前に最新化）
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  metrics:
+    # 投稿用のキー（Secrets）を登録し、Settings → Variables で AUTO_POST_ENABLED=true にするまで動かない
+    if: vars.AUTO_POST_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install -q requests google-api-python-client google-auth google-auth-httplib2
+      - env:
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          TT_ACCESS_TOKEN: ${{ secrets.TT_ACCESS_TOKEN }}
+          YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
+          YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
+          YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
+        run: python auto/metrics.py
+      - run: |
+          git config user.name renjill-bot; git config user.email bot@renjill.local
+          git add content/metrics.csv; git diff --cached --quiet || git commit -m "metrics: $(TZ=Asia/Tokyo date '+%Y-%m-%d')"; git push

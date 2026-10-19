@@ -1,0 +1,40 @@
+name: preflight
+on:
+  schedule:
+    - cron: "0 21 * * *"  # 06:00 JST 毎日：3日以内に投稿する回を先に描画・QA
+  push:
+    paths: ["rig/**", "auto/schedule.json"]
+  workflow_dispatch:
+permissions:
+  contents: write
+  issues: write
+concurrency: post
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg fonts-noto-cjk
+      - run: npm i -g playwright && npx playwright install --with-deps chromium
+      - run: pip install -q requests numpy scipy
+      - id: qa
+        run: python auto/preflight.py
+        continue-on-error: true
+      - name: commit renders and QA reports
+        run: |
+          git config user.name renjill-bot; git config user.email bot@renjill.local
+          git add -A dist/ || true
+          git diff --cached --quiet || git commit -m "preflight: $(TZ=Asia/Tokyo date '+%Y-%m-%d')"
+          git push
+      - name: open issue on QA failure
+        if: steps.qa.outcome == 'failure'
+        env: { GH_TOKEN: "${{ github.token }}" }
+        run: |
+          body=$(for f in dist/*_qa.json; do python3 -c "import json,sys;d=json.load(open('$f'));print('### '+d['ep']+(' ✅' if d['pass'] else ' ❌'));[print('- '+i) for i in d['issues']]"; done)
+          gh issue create --title "動画QA NG $(TZ=Asia/Tokyo date '+%Y-%m-%d')" --body "$body" --label qa || true
+          exit 1
