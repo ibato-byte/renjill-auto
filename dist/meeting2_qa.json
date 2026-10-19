@@ -1,0 +1,13 @@
+{
+  "ep": "meeting2",
+  "pass": true,
+  "issues": [],
+  "warns": [],
+  "render": {
+    "ep": "meeting2",
+    "dur": 24,
+    "pass": true,
+    "issues": [],
+    "warns": []
+  }
+}

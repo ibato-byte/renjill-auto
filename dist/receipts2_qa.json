@@ -1,0 +1,17 @@
+{
+  "ep": "receipts2",
+  "pass": true,
+  "issues": [],
+  "warns": [
+    "エンドカード直前にfx要素が37個残っている"
+  ],
+  "render": {
+    "ep": "receipts2",
+    "dur": 22,
+    "pass": true,
+    "issues": [],
+    "warns": [
+      "エンドカード直前にfx要素が37個残っている"
+    ]
+  }
+}
