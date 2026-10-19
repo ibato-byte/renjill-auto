@@ -1,0 +1,34 @@
+{
+  "ep": "mug2",
+  "render_qa": true,
+  "thumb_qa": true,
+  "review_images": [
+    "/tmp/claude-0/-home-claude/61469d6d-62ad-52e2-ad55-e04baa6df7d2/scratchpad/renjill-auto/dist/mug2_review.jpg",
+    "/tmp/claude-0/-home-claude/61469d6d-62ad-52e2-ad55-e04baa6df7d2/scratchpad/renjill-auto/dist/mug2_sheet.jpg",
+    "/tmp/claude-0/-home-claude/61469d6d-62ad-52e2-ad55-e04baa6df7d2/scratchpad/renjill-auto/dist/mug2_thumb.jpg"
+  ],
+  "checklist": [
+    "最初の1秒で状況（誰が・何をしている）がわかるか",
+    "遊び（ゲーム）は1つだけか。3回、少しずつ大きくなっているか",
+    "オチの前に「間」（音が止まる・寄り）があるか",
+    "オチの後のオチ（ひとひねり）があるか",
+    "セリフなしで海外の人にも伝わるか（文字に頼っていないか）",
+    "顔が隠れる・小道具がキャラの後ろに消える・記号の残骸がないか",
+    "サムネの英語見出しが一目で内容を言い当てているか（12文字以内）"
+  ],
+  "qa_detail": {
+    "ep": "mug2",
+    "pass": true,
+    "issues": [],
+    "warns": [],
+    "render": {
+      "ep": "mug2",
+      "dur": 23,
+      "pass": true,
+      "issues": [],
+      "warns": []
+    }
+  },
+  "thumb": "/tmp/claude-0/-home-claude/61469d6d-62ad-52e2-ad55-e04baa6df7d2/scratchpad/renjill-auto/dist/mug2_thumb.jpg",
+  "pass_machine": true
+}
