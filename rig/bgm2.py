@@ -52,7 +52,8 @@ def snap(vel=0.12):
 
 def hat(vel=0.03):
     n = int(SR * 0.05); x = rng.standard_normal(n) * np.exp(-np.arange(n) / SR / 0.012)
-    return vel * (x - lowpass(x, 5000)) * 0.8 + vel * 0.2 * lowpass(x, 6000)
+    # 耳に刺さるシャー音を避け、柔らかい「チッ」に（高域を削り、短く）
+    return vel * 0.6 * lowpass(x - lowpass(x, 2500), 7000)
 
 # Fmaj7 → Em7 → Dm7 → Cmaj7（ボイシングは中音域に寄せる）
 chords = [[53, 57, 60, 64], [52, 55, 59, 62], [50, 53, 57, 60], [48, 52, 55, 59]]
