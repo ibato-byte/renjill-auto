@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """トークンの期限チェック（毎週。.github/workflows/tokens.yml）
 Instagram・Facebook（ページ「レンとジル」へのリール投稿の権限）・YouTube・GitHub（HUB_TOKEN・MEDIA_TOKEN）のトークンが使えるか、期限が近くないかを確かめる。
+FLOTO の自動格納が使う freee・Google の連携は、格納が毎日確かめて Hub の台帳に書く結果を読む（auto/floto_tokens.py）。
 - 読み取りの API だけを使う（debug_token・/me）。投稿はしない。
 - 値そのものは表示しない（有効かどうか・期限だけ）。
 - 結果は dist/token_check_args（Automation Hub の report に渡す引数、NUL 区切り）に書く。
@@ -10,6 +11,7 @@ import datetime as dt, os, pathlib, sys
 import requests
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 import facebook as fb
+import floto_tokens
 
 WARN_DAYS = 21
 now = dt.datetime.now(dt.timezone.utc)
@@ -102,6 +104,15 @@ def gh_check(label, secret, repo):
 
 gh_check("Hub トークン", "HUB_TOKEN", "ibato-byte/automation-hub")
 gh_check("動画置き場トークン", "MEDIA_TOKEN", "ibato-byte/renjill-media")
+
+# ---- FLOTO の freee・Google（automation-hub の floto-mykomon-sync の記録を読む）----
+if os.environ.get("HUB_TOKEN"):
+    try:
+        k, a, p = floto_tokens.status(floto_tokens.fetch(os.environ["HUB_TOKEN"]), now)
+    except Exception as e:
+        print("FLOTO check error:", type(e).__name__)
+        k, a, p = floto_tokens.status(None, now)
+    kpis += k; actions += a; problems += p
 
 # ---- 出力 ----
 args = []
