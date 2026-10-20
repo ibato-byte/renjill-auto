@@ -28,13 +28,13 @@ jobs:
             echo "paused=false" >> "$GITHUB_OUTPUT"; echo "Automation Hub を使わずに続ける"; exit 0
           fi
           bash "$RUNNER_TEMP/hub/scripts/gha.sh" check renjill-post
-      - if: steps.hub.outputs.paused != 'true'
-        uses: actions/checkout@v4
-      - if: steps.hub.outputs.paused != 'true'
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+        if: steps.hub.outputs.paused != 'true'
+      - uses: actions/setup-node@v4
+        if: steps.hub.outputs.paused != 'true'
         with: { node-version: 20 }
-      - if: steps.hub.outputs.paused != 'true'
-        uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5
+        if: steps.hub.outputs.paused != 'true'
         with: { python-version: "3.12" }
       - if: steps.hub.outputs.paused != 'true'
         run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg fonts-noto-cjk
@@ -54,13 +54,12 @@ jobs:
           MEDIA_TOKEN: ${{ secrets.MEDIA_TOKEN }}
         run: python auto/post.py ${{ github.event.inputs.slot }}
       - name: commit results
-        if: (always()) && steps.hub.outputs.paused != 'true'
+        if: always() && steps.hub.outputs.paused != 'true'
         run: |
           git config user.name renjill-bot; git config user.email bot@renjill.local
           git add -A auto/posted.json dist/*.jpg dist/*.json || true
           git diff --cached --quiet || git commit -m "post: $(TZ=Asia/Tokyo date '+%Y-%m-%d %H:%M')"
           git push
-
       - name: Automation Hub に記録
         if: always()
         env:
@@ -69,5 +68,6 @@ jobs:
           PAUSED: ${{ steps.hub.outputs.paused }}
         run: |
           [ -d "$RUNNER_TEMP/hub" ] || exit 0
-          bash "$RUNNER_TEMP/hub/scripts/gha.sh" report renjill-post "$JOB_STATUS" "$PAUSED" "投稿予定（auto/schedule.json）の回を投稿し、結果を auto/posted.json に記録" \
-            --next-run-at "$(bash "$RUNNER_TEMP/hub/scripts/gha.sh" next-daily 03:00 09:00 10:00)"
+          bash "$RUNNER_TEMP/hub/scripts/gha.sh" report renjill-post "$JOB_STATUS" "$PAUSED" "予定の回を Instagram・YouTube に投稿（投稿済みは auto/posted.json）" \
+            --next-run-at "$(bash "$RUNNER_TEMP/hub/scripts/gha.sh" next-daily 03:00 09:00 10:00)" \
+            --owner-action "Instagram のアクセストークン（GitHub Secrets の IG_ACCESS_TOKEN）は 2026-12-19 に期限切れ。12月上旬に新しいトークンを発行し、renjill-auto の Settings → Secrets → Actions で差し替える"
