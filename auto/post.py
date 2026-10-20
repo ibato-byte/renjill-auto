@@ -105,33 +105,42 @@ def post_tiktok(p, d, path):
     return init["data"]["publish_id"]
 
 # ---------- Instagram ----------
-def ig_cover_url(th_path):
-    """カバー画像の公開URLを作る。リポジトリは非公開のままにするため、FBページに「非公開の写真」として上げ、
-    そのCDN URLをカバーに使う（ページのタイムラインには出ない）。必要な権限: pages_manage_posts"""
-    G = "https://graph.facebook.com/v21.0"
-    page, ptok = os.environ["FB_PAGE_ID"], os.environ["FB_PAGE_TOKEN"]
-    with open(th_path, "rb") as f:
-        r = requests.post(f"{G}/{page}/photos", data={"published": "false", "access_token": ptok}, files={"source": f}).json()
-    if "id" not in r: raise RuntimeError(r)
-    img = requests.get(f"{G}/{r['id']}", params={"fields": "images", "access_token": ptok}).json()
-    return max(img["images"], key=lambda x: x["width"])["source"]
+MEDIA_REPO = os.environ.get("MEDIA_REPO", "ibato-byte/renjill-media")  # 公開済み動画とカバーだけを置く公開リポジトリ（Shota承認 2026-10-20）
+
+def media_publish(local_path, name):
+    """公開リポジトリ renjill-media に置いて、Instagram が取りに来られる公開URLを返す。
+    必要なもの: Secrets の MEDIA_TOKEN（renjill-media の contents 読み書きだけを許可した fine-grained PAT）"""
+    tok = os.environ["MEDIA_TOKEN"]
+    import base64
+    api = f"https://api.github.com/repos/{MEDIA_REPO}/contents/{name}"
+    H = {"Authorization": f"Bearer {tok}", "Accept": "application/vnd.github+json"}
+    body = {"message": f"media: {name}", "content": base64.b64encode(pathlib.Path(local_path).read_bytes()).decode()}
+    cur = requests.get(api, headers=H)
+    if cur.status_code == 200: body["sha"] = cur.json()["sha"]
+    r = requests.put(api, headers=H, json=body)
+    if r.status_code not in (200, 201): raise RuntimeError(f"media upload {r.status_code}: {r.text[:300]}")
+    url = f"https://raw.githubusercontent.com/{MEDIA_REPO}/main/{name}"
+    for _ in range(20):  # CDNに乗るまで待つ
+        if requests.head(url, allow_redirects=True).status_code == 200: return url
+        time.sleep(6)
+    raise RuntimeError(f"public url not ready: {url}")
 
 def post_instagram(p, d, video_path, th_path):
-    """リール投稿。動画はファイルをそのまま送る（resumable upload）ので公開URLは不要"""
+    """リール投稿。動画とカバーを公開リポジトリに置き、その URL で投稿する（cover_url でサムネの文字を確実に出す）"""
     uid, tok = os.environ["IG_USER_ID"], os.environ["IG_ACCESS_TOKEN"]
     G = "https://graph.facebook.com/v21.0"
-    data = {"media_type": "REELS", "upload_type": "resumable", "caption": caption(p, d), "share_to_feed": "true", "access_token": tok}
-    try: data["cover_url"] = ig_cover_url(th_path)
-    except Exception as e: raise RuntimeError(f"カバー画像を用意できないので投稿しない（文字なしサムネを避けるため）: {e!r}"[:400])
+    stamp = dt.datetime.now(JST).strftime("%Y%m%d")
+    try:
+        cover = media_publish(th_path, f"{stamp}_{p['ep']}_cover.jpg")
+        video = media_publish(video_path, f"{stamp}_{p['ep']}.mp4")
+    except Exception as e:
+        raise RuntimeError(f"公開URLを用意できないので投稿しない（文字なしサムネを避けるため）: {e!r}"[:400])
+    data = {"media_type": "REELS", "video_url": video, "cover_url": cover, "caption": caption(p, d), "share_to_feed": "true", "access_token": tok}
     c = requests.post(f"{G}/{uid}/media", data=data).json()
     if "id" not in c: raise RuntimeError(c)
-    cid = c["id"]; size = pathlib.Path(video_path).stat().st_size
-    with open(video_path, "rb") as f:
-        u = requests.post(f"https://rupload.facebook.com/ig-api-upload/v21.0/{cid}",
-                          headers={"Authorization": f"OAuth {tok}", "offset": "0", "file_size": str(size)}, data=f).json()
-    if not u.get("success"): raise RuntimeError(u)
+    cid = c["id"]
     for _ in range(40):  # 処理待ち（最大 ~10分）
-        s = requests.get(f"{G}/{cid}", params={"fields": "status_code", "access_token": tok}).json()
+        s = requests.get(f"{G}/{cid}", params={"fields": "status_code,status", "access_token": tok}).json()
         if s.get("status_code") == "FINISHED": break
         if s.get("status_code") == "ERROR": raise RuntimeError(s)
         time.sleep(15)
