@@ -115,3 +115,23 @@ class PackTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class MetricsManualTest(unittest.TestCase):
+    """数値の収集：手動予約モードの Instagram・Facebook は API を呼ばず、正常終了して Hub に「手動予約モード中」と出す"""
+    def test_metrics_skips_ig_and_fb(self):
+        import shutil, subprocess
+        with tempfile.TemporaryDirectory() as d:
+            shutil.copytree(ROOT / "auto", pathlib.Path(d) / "auto", ignore=shutil.ignore_patterns("__pycache__"))
+            (pathlib.Path(d) / "content").mkdir()
+            (pathlib.Path(d) / "auto" / "posted.json").write_text(json.dumps({"2026-10-27_ep1": {"ig": "1789", "facebook": "999", "tag_set": "A"}}))
+            env = {"PATH": os.environ["PATH"], "MANUAL_PLATFORMS": "ig facebook", "IG_ACCESS_TOKEN": "EAAbad", "FB_PAGE_TOKEN": "EAAbad"}
+            r = subprocess.run([sys.executable, "-I", str(pathlib.Path(d) / "auto" / "metrics.py")], env=env, capture_output=True, text=True, timeout=60,
+                               cwd=d)
+            self.assertEqual(r.returncode, 0, r.stderr)
+            self.assertIn("手動予約モード", r.stdout)
+            args = (pathlib.Path(d) / "dist" / "metrics_hub_args").read_bytes().split(b"\0")
+            self.assertIn("Instagram=手動予約モード中".encode(), args); self.assertIn("Facebook=手動予約モード中".encode(), args)
+            self.assertFalse((pathlib.Path(d) / "dist" / "alerts.jsonl").exists())
+            rows = (pathlib.Path(d) / "content" / "metrics.csv").read_text().strip().splitlines()
+            self.assertEqual(len(rows), 1)  # 見出しだけ（IG・FB の行は書かない）

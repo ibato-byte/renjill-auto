@@ -55,5 +55,7 @@ jobs:
           PAUSED: ${{ steps.hub.outputs.paused }}
         run: |
           [ -d "$RUNNER_TEMP/hub" ] || exit 0
-          bash "$RUNNER_TEMP/hub/scripts/gha.sh" report renjill-metrics "$JOB_STATUS" "$PAUSED" "各SNSの再生・保存・シェアなどを content/metrics.csv に記録" \
-            --next-run-at "$(bash "$RUNNER_TEMP/hub/scripts/gha.sh" next-daily 21:30)" --owner-action none
+          extra=()
+          [ -f dist/metrics_hub_args ] && mapfile -d '' extra < dist/metrics_hub_args
+          bash "$RUNNER_TEMP/hub/scripts/gha.sh" report renjill-metrics "$JOB_STATUS" "$PAUSED" "各SNSの再生・保存・シェアなどを content/metrics.csv に記録（手動予約モードの SNS は計測シートのタブ「BusinessSuite週次」）" \
+            --next-run-at "$(bash "$RUNNER_TEMP/hub/scripts/gha.sh" next-daily 21:30)" --owner-action none "${extra[@]}"
