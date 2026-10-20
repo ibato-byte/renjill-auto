@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
 """投稿済み動画の数値を集めて content/metrics.csv に追記する（毎日1回）。
-YouTube: videos.list statistics / Instagram: media insights / TikTok: video query。
-取れないSNSは空欄のまま（推測で埋めない）。"""
-import csv, datetime as dt, json, os, pathlib, requests
+YouTube: videos.list statistics / Instagram: media insights / TikTok: video query /
+Facebook リール: video_insights（再生=blue_reels_play_count、いいね=リアクション合計、コメント・シェア）。
+取れないSNSは空欄のまま（推測で埋めない。ログに「計測なし」と出す）。"""
+import csv, datetime as dt, json, os, pathlib, sys, requests
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+import facebook as fb
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 JST = dt.timezone(dt.timedelta(hours=9))
 posted = json.loads((ROOT / "auto" / "posted.json").read_text()) if (ROOT / "auto" / "posted.json").exists() else {}
@@ -37,6 +40,13 @@ try: Y = yt_stats([v["yt"] for v in posted.values() if v.get("yt") and v["yt"] !
 except Exception as e: print("yt", e); Y = {}
 try: T = tt_stats([v["tt"] for v in posted.values() if v.get("tt") and v["tt"] != "manual"])
 except Exception as e: print("tt", e); T = {}
+FB_TOK = None
+if any(v.get("facebook") and v["facebook"] != "manual" for v in posted.values()):
+    try:
+        acc = fb.diagnose()
+        FB_TOK = acc["token"]
+        if not acc["ok"]: print("facebook: 計測なし（" + "; ".join(acc["reasons"]) + "）")
+    except Exception as e: print("facebook: 計測なし", type(e).__name__)
 for key, v in posted.items():
     date, ep = key.split("_", 1); ts = v.get("tag_set", "")
     if v.get("yt") and v["yt"] != "manual":
@@ -47,6 +57,13 @@ for key, v in posted.items():
         try: s = ig_stats(v["ig"])
         except Exception as e: print("ig", e); s = {}
         rows.append([today, date, ep, ts, "ig", s.get("plays", ""), s.get("likes", ""), s.get("comments", ""), s.get("shares", ""), s.get("saved", "")])
+    if v.get("facebook") and v["facebook"] != "manual":
+        s = {}
+        if FB_TOK:
+            try: s = fb.reel_stats(v["facebook"], FB_TOK)
+            except Exception as e: print("facebook", fb.scrub(e))
+        if not s: print("facebook: 計測なし", key)
+        rows.append([today, date, ep, ts, "facebook", s.get("plays", ""), s.get("reactions", ""), s.get("comments", ""), s.get("shares", ""), ""])
 with out.open("a", newline="") as f:
     w = csv.writer(f)
     if new: w.writerow(["計測日", "投稿日", "ep", "tag_set", "sns", "再生", "いいね", "コメント", "シェア", "保存"])

@@ -2,17 +2,22 @@
 """レンとジル 自動投稿
 - auto/schedule.json から「今日・このスロット」の回を取り出す
 - 未レンダリングなら rig でレンダリング（dist/<ep>_yt.mp4 と dist/<ep>_loop.mp4）
-- Instagram / TikTok / YouTube に投稿し、auto/posted.json に記録する
+- Instagram / TikTok / YouTube / Facebook（リール）に投稿し、auto/posted.json に記録する
+- `python auto/post.py --dry-run [--date YYYY-MM-DD] [スロット]`（または DRY_RUN=1）で、API を呼ばずに送る内容だけ表示する
 
 必要な環境変数（GitHub Secrets）:
   IG_USER_ID, IG_ACCESS_TOKEN                  … Instagram（Meta Graph API）
   TT_ACCESS_TOKEN                               … TikTok（Content Posting API, video.publish）
   YT_CLIENT_ID, YT_CLIENT_SECRET, YT_REFRESH_TOKEN … YouTube Data API v3
-  PUBLIC_BASE_URL                               … Instagramが取りに来る公開URLの土台（GitHub Pages など）
+  MEDIA_TOKEN                                   … Instagramが取りに来る公開URL（renjill-media）への書き込み
+  FB_PAGE_TOKEN, FB_PAGE_ID                     … Facebook ページ「レンとジル」（auto/facebook.py）
 失敗したSNSはスキップして他を続け、終了コードで知らせる。
+Facebook は権限・設定がなければ飛ばすだけ（失敗にしない）。理由は dist/post_hub_args 経由で Automation Hub の「やること」に出る。
 """
 import datetime as dt, json, os, subprocess, sys, time, pathlib
 import requests
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+import facebook as fb
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 RIG, DIST, AUTO = ROOT / "rig", ROOT / "dist", ROOT / "auto"
@@ -22,10 +27,10 @@ DIST.mkdir(exist_ok=True)
 def log(*a): print("[post]", *a, flush=True)
 
 # ---------- 対象の決定 ----------
-def pick_posts(slot_override=None):
+def pick_posts(slot_override=None, now=None):
     sch = json.loads((AUTO / "schedule.json").read_text())
     posted = json.loads((AUTO / "posted.json").read_text()) if (AUTO / "posted.json").exists() else {}
-    now = dt.datetime.now(JST)
+    now = now or dt.datetime.now(JST)
     today = now.strftime("%Y-%m-%d")
     out = []
     for p in sch["posts"]:
@@ -148,12 +153,47 @@ def post_instagram(p, d, video_path, th_path):
     if "id" not in r: raise RuntimeError(r)
     return r["id"]
 
-def main():
-    slot_override = sys.argv[1] if len(sys.argv) > 1 else None
-    sch, posted, targets = pick_posts(slot_override)
+def parse_args(argv):
+    a = {"dry_run": os.environ.get("DRY_RUN", "") not in ("", "0", "false"), "date": None, "slot": None}
+    it = iter(argv)
+    for x in it:
+        if x == "--dry-run": a["dry_run"] = True
+        elif x == "--date": a["date"] = next(it)
+        elif x: a["slot"] = x
+    return a
+
+def dry_run(targets, d):
+    """API を呼ばず、描画もせず、posted.json も書かない"""
+    for key, p, plats in targets:
+        log(f"[DRY-RUN] {key}（{p['slot']}）→ {', '.join(plats)}")
+        for pl in plats:
+            if pl == "facebook":
+                for line in fb.dry_run_plan(p, d, DIST / f'{p["ep"]}_loop.mp4'): print("    facebook:", line.replace("\n", "\n      "))
+            elif pl == "ig": print("    ig: REELS caption:\n      " + caption(p, d).replace("\n", "\n      "))
+            elif pl == "yt": print(f'    yt: title: {p["caption_en"]} | Ren & Jill「{p["title"]}」')
+            elif pl == "tt": print("    tt: FILE_UPLOAD", f'{p["ep"]}_loop.mp4')
+    log("[DRY-RUN] API は呼んでいません")
+    return 0
+
+def write_hub_args(fb_result):
+    """Automation Hub の report に渡す追加の引数（NUL 区切り。post.yml が読む）"""
+    if not fb_result: return
+    args = ["--kpi", f"Facebook={fb_result['kpi']}"]
+    if fb_result.get("action"): args += ["--owner-action", fb_result["action"][:300]]
+    (DIST / "post_hub_args").write_bytes(b"\0".join(s.encode() for s in args) + b"\0")
+
+def main(argv=None):
+    a = parse_args(sys.argv[1:] if argv is None else argv)
+    now = None
+    if a["date"]:
+        h = int((a["slot"] or "12:00").split(":")[0])
+        now = dt.datetime.fromisoformat(a["date"]).replace(hour=h, tzinfo=JST)
+    sch, posted, targets = pick_posts(a["slot"], now)
     d = sch["defaults"]
     if not targets: log("今日のこの時間帯に投稿なし"); return 0
+    if a["dry_run"]: return dry_run(targets, d)
     failed = []
+    fb_access, fb_result = None, None
     for key, p, plats in targets:
         yt_path, loop_path = render(p["ep"])
         if not qa_gate(p["ep"], yt_path, loop_path):
@@ -165,11 +205,24 @@ def main():
                 elif pl == "tt": rec["tt"] = post_tiktok(p, d, loop_path)
                 elif pl == "ig":
                     rec["ig"] = post_instagram(p, d, loop_path, thumbnail(p))
+                elif pl == "facebook":
+                    fb_access = fb_access or fb.diagnose()
+                    rec["facebook"] = fb.post(p, d, loop_path, access=fb_access, log=log)
+                    fb_result = {"kpi": "投稿OK"}
+                else:
+                    log("未対応のSNS", pl); continue
                 rec[pl + "_at"] = dt.datetime.now(JST).isoformat(timespec="minutes")
                 log("OK", key, pl, rec[pl])
+            except fb.FbSkip as e:
+                why = fb.scrub(e)
+                log("SKIP", key, pl, why)
+                fb_result = {"kpi": "権限・設定なしで見送り",
+                             "action": f"Facebook リールを投稿できず見送り（{why}）。renjill-auto の docs/setup/facebook-reels.md の手順で権限を付けたページトークンを発行し、Settings → Secrets → Actions の FB_PAGE_TOKEN を差し替える"}
             except Exception as e:
-                log("NG", key, pl, repr(e)[:500]); failed.append(f"{key}:{pl}")
+                log("NG", key, pl, fb.scrub(repr(e))[:500]); failed.append(f"{key}:{pl}")
+                if pl == "facebook": fb_result = {"kpi": "投稿失敗"}
         (AUTO / "posted.json").write_text(json.dumps(posted, ensure_ascii=False, indent=2))
+    write_hub_args(fb_result)
     if failed: log("失敗:", failed); return 1
     return 0
 

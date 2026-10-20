@@ -25,6 +25,13 @@ try:
     res("Instagram publish quota", "data" in q, str(q.get("data", q.get("error")))[:200])
 except Exception as e: res("Instagram", False, repr(e)[:200])
 
+# Facebook（ページ「レンとジル」のリール投稿の権限。読み取りのみ）
+try:
+    import facebook as fb
+    f = fb.diagnose()
+    res("Facebook page token", f["ok"], (f"secret={f['secret']} page={f['page_name']}" if f["ok"] else "; ".join(f["reasons"]))[:300])
+except Exception as e: res("Facebook page token", False, type(e).__name__)
+
 # media repo
 try:
     from post import media_publish
