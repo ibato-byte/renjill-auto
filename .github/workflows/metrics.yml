@@ -5,6 +5,7 @@ on:
   workflow_dispatch:
 permissions:
   contents: write
+  issues: write
 jobs:
   metrics:
     # 投稿用のキー（Secrets）を登録し、Settings → Variables で AUTO_POST_ENABLED=true にするまで動かない
@@ -41,6 +42,11 @@ jobs:
         run: |
           git config user.name renjill-bot; git config user.email bot@renjill.local
           git add content/metrics.csv; git diff --cached --quiet || git commit -m "metrics: $(TZ=Asia/Tokyo date '+%Y-%m-%d')"; git push
+      - name: トークンの警告をメールで知らせる（同じ内容は1日1通まで）
+        if: always() && steps.hub.outputs.paused != 'true'
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python auto/alerts.py send || true
       - name: Automation Hub に記録
         if: always()
         env:
