@@ -35,8 +35,7 @@ jobs:
           YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
           YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
           YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
-          FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
-          FB_PAGE_TOKEN: ${{ secrets.FB_PAGE_TOKEN }}
+          MEDIA_TOKEN: ${{ secrets.MEDIA_TOKEN }}
         run: python auto/post.py ${{ github.event.inputs.slot }}
       - name: commit results
         if: always()
