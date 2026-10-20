@@ -11,17 +11,42 @@ jobs:
     if: vars.AUTO_POST_ENABLED == 'true'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - name: Automation Hub：一時停止の確認
+        id: hub
+        env:
+          HUB_TOKEN: ${{ secrets.HUB_TOKEN }}
+        run: |
+          if [ -z "$HUB_TOKEN" ] || ! git clone -q --depth 1 "https://x-access-token:${HUB_TOKEN}@github.com/ibato-byte/automation-hub.git" "$RUNNER_TEMP/hub"; then
+            echo "paused=false" >> "$GITHUB_OUTPUT"; echo "Automation Hub を使わずに続ける"; exit 0
+          fi
+          bash "$RUNNER_TEMP/hub/scripts/gha.sh" check renjill-metrics
+      - if: steps.hub.outputs.paused != 'true'
+        uses: actions/checkout@v4
+      - if: steps.hub.outputs.paused != 'true'
+        uses: actions/setup-python@v5
         with: { python-version: "3.12" }
-      - run: pip install -q requests google-api-python-client google-auth google-auth-httplib2
-      - env:
+      - if: steps.hub.outputs.paused != 'true'
+        run: pip install -q requests google-api-python-client google-auth google-auth-httplib2
+      - if: steps.hub.outputs.paused != 'true'
+        env:
           IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
           TT_ACCESS_TOKEN: ${{ secrets.TT_ACCESS_TOKEN }}
           YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
           YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
           YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
         run: python auto/metrics.py
-      - run: |
+      - if: steps.hub.outputs.paused != 'true'
+        run: |
           git config user.name renjill-bot; git config user.email bot@renjill.local
           git add content/metrics.csv; git diff --cached --quiet || git commit -m "metrics: $(TZ=Asia/Tokyo date '+%Y-%m-%d')"; git push
+
+      - name: Automation Hub に記録
+        if: always()
+        env:
+          HUB_TOKEN: ${{ secrets.HUB_TOKEN }}
+          JOB_STATUS: ${{ job.status }}
+          PAUSED: ${{ steps.hub.outputs.paused }}
+        run: |
+          [ -d "$RUNNER_TEMP/hub" ] || exit 0
+          bash "$RUNNER_TEMP/hub/scripts/gha.sh" report renjill-metrics "$JOB_STATUS" "$PAUSED" "各SNSの数値を取得して content/metrics.csv を更新" \
+            --next-run-at "$(bash "$RUNNER_TEMP/hub/scripts/gha.sh" next-daily 21:30)"
