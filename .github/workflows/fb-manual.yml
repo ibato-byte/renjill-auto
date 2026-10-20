@@ -1,0 +1,42 @@
+name: fb-manual
+# Facebook リールの手動予約用の素材（mp4 と投稿文）を作り、成果物（artifact）として渡す。
+# Meta の開発者アカウントが復旧するまで、オーナーが Meta Business Suite で予約するため（2026-10-21）。
+# API は呼ばない・投稿しない・mp4 はコミットしない。
+on:
+  workflow_dispatch:
+    inputs:
+      eps:
+        description: "作る回（スペース区切り）"
+        required: false
+        default: "papers2 mug2 chime2 jil_morning2 receipts2 deadline2"
+permissions:
+  contents: read
+concurrency: post
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg fonts-noto-cjk
+      - run: npm i -g playwright && npx playwright install --with-deps chromium
+      - run: pip install -q requests numpy scipy
+      - name: 名前（fb-manual-YYYYMMDD）
+        id: name
+        run: echo "name=fb-manual-$(TZ=Asia/Tokyo date +%Y%m%d)" >> "$GITHUB_OUTPUT"
+      - name: 動画と投稿文を作る
+        env:
+          EPS: ${{ inputs.eps }}
+        run: python auto/fb_manual.py "$RUNNER_TEMP/fb-manual" $EPS
+      - name: 成果物にする（保存期間7日）
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.name.outputs.name }}
+          path: ${{ runner.temp }}/fb-manual/
+          retention-days: 7
+          if-no-files-found: error
