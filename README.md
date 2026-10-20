@@ -25,7 +25,8 @@
 ## 手動予約モード（2026-10-21〜）
 - **Instagram と Facebook は API で投稿しない**（`auto/mode.json`）。Meta の開発者機能を使える個人アカウントがないため。オーナーが Meta Business Suite で予約する。
 - 素材（mp4・Instagram のカバー・投稿文）は Actions の **manual** が毎週月曜 10:00 と `auto/schedule.json` の更新時に作り、成果物 `manual-YYYYMMDD`（7日）にする。Automation Hub の「やること」に「今週の予約（Business Suite）」が出る。
-- TikTok・YouTube などは今までどおり自動。トークンの期限チェックでは Instagram・Facebook は「手動予約モード中」（エラー・メールにしない）。
+- TikTok・YouTube などは今までどおり自動。トークンの期限チェックと数値の収集では、Instagram・Facebook は「手動予約モード中」（API を使わず正常終了。エラー・メールにしない）。数字は計測シートのタブ「BusinessSuite週次」。
+- 新しいビジネスポートフォリオ「Shota Ibato丨衣鳩 翔太」（825871460529757）、Facebook ページ「レンとジル Ren & Jill」（ID 1386940331166810）。素材（mp4・投稿文）は非公開の Actions の成果物だけに置く（リポジトリ・公開の場所には置かない）。
 - 予約のしかたと、**完全自動に戻す手順**：[docs/setup/manual-mode.md](docs/setup/manual-mode.md)
 
 ## 公開までの前提
@@ -37,7 +38,7 @@
 - 送る内容の確認だけ：`python auto/post.py --dry-run --date 2026-10-21 12:00`（または `DRY_RUN=1`）。API を呼ばず、posted.json も書かない。
 
 ## 週次PDCA（Claude）
-毎週月曜 7:00 JST に `content/metrics.csv` と計測シートを読み、`auto/schedule.json` と `rig/ep/` に次週分を追加する。
+毎週月曜 7:00 JST に `content/metrics.csv` と計測シート（Google スプレッドシート「レン＆ジル 計測シート」ID `1_BVp-ROGA8X6dwvSlc9QLlIVe4jkgX0uVpOHnssFN4c`。手動予約モード中の Instagram・Facebook の数字はタブ **「BusinessSuite週次」**。オーナーが Business Suite のインサイトを週1回書き込む）を読み、`auto/schedule.json` と `rig/ep/` に次週分を追加する。
 笑いの設計ルール：ゲームは1本に1つ／三段エスカレーション／引きと寄り／オチ前の間／オチの後のオチ。
 
 ## 品質ルール（2026-10-19 決定）
@@ -65,7 +66,7 @@
 | 毎週木曜 7:00 | Claude（再検査） | 4日以内に出す回をもう一度 brushup → 目視 → 辛口チェック → 直す（最大2周）／差し替え／見送り |
 | 毎朝 6:00 | GitHub Actions（preflight） | 3日以内の回を描画・QA・サムネQA。NGなら Issue とメール |
 | 12:00 / 18:00 / 19:00 | GitHub Actions（post） | 直前にもう一度 QA。合格した回だけ投稿（Instagram・YouTube・Facebook） |
-| 毎朝 6:30 | GitHub Actions（metrics） | 数値を集めて metrics.csv に追記 → 月曜の振り返りに使う |
+| 毎朝 6:30 | GitHub Actions（metrics） | 数値を集めて metrics.csv に追記 → 月曜の振り返りに使う（手動予約モード中の Instagram・Facebook は取らず、計測シートのタブ「BusinessSuite週次」を使う） |
 
 検査に落ちた回は出さない（枠が空いても、質の低い回は出さない）。
 
