@@ -2,3 +2,4 @@ rig/out/
 rig/node_modules/
 __pycache__/
 dist/*.mp4
+dist/alerts.jsonl

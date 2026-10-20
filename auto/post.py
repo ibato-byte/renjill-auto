@@ -18,6 +18,7 @@ import datetime as dt, json, os, subprocess, sys, time, pathlib
 import requests
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 import facebook as fb
+import alerts
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 RIG, DIST, AUTO = ROOT / "rig", ROOT / "dist", ROOT / "auto"
@@ -216,10 +217,14 @@ def main(argv=None):
             except fb.FbSkip as e:
                 why = fb.scrub(e)
                 log("SKIP", key, pl, why)
+                alerts.add("use:FB_PAGE_TOKEN", f"自動投稿：「{p['title']}」の Facebook リールをトークン・権限の問題で出せなかった（{why[:80]}）", alerts.FIX["FB_PAGE_TOKEN"])
                 fb_result = {"kpi": "権限・設定なしで見送り",
                              "action": f"Facebook リールを投稿できず見送り（{why}）。renjill-auto の docs/setup/facebook-reels.md の手順で権限を付けたページトークンを発行し、Settings → Secrets → Actions の FB_PAGE_TOKEN を差し替える"}
             except Exception as e:
                 log("NG", key, pl, fb.scrub(repr(e))[:500]); failed.append(f"{key}:{pl}")
+                if alerts.is_token_error(repr(e)) and pl in alerts.PLATFORM_SECRET:
+                    sec = alerts.PLATFORM_SECRET[pl]
+                    alerts.add(f"use:{sec}", f"自動投稿：「{p['title']}」の {alerts.PLATFORM_NAME[pl]} がトークンのエラーで失敗（他のSNSは続けた。直したら出し直せる）", alerts.FIX[sec])
                 if pl == "facebook": fb_result = {"kpi": "投稿失敗"}
         (AUTO / "posted.json").write_text(json.dumps(posted, ensure_ascii=False, indent=2))
     write_hub_args(fb_result)

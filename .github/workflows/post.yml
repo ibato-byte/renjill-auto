@@ -9,8 +9,12 @@ on:
       slot:
         description: "強制実行するスロット（例 12:00）。空なら現在時刻で判定"
         required: false
+      date:
+        description: "出し直す日（例 2026-10-23。トークン復旧後に、出せなかった回を出す）。slot と一緒に指定。投稿済みの SNS は posted.json を見て飛ばす"
+        required: false
 permissions:
   contents: write
+  issues: write
 concurrency: post
 jobs:
   post:
@@ -54,7 +58,16 @@ jobs:
           MEDIA_TOKEN: ${{ secrets.MEDIA_TOKEN }}
           FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
           FB_PAGE_TOKEN: ${{ secrets.FB_PAGE_TOKEN }}
-        run: python auto/post.py ${{ github.event.inputs.slot }}
+          IN_SLOT: ${{ github.event.inputs.slot }}
+          IN_DATE: ${{ github.event.inputs.date }}
+        run: |
+          # 出し直し（date を指定）：その日の回のうち、まだ出ていない SNS だけを出す（posted.json で二重投稿を防ぐ）
+          if [ -n "$IN_DATE" ]; then python auto/post.py --date "$IN_DATE" "${IN_SLOT:-12:00}"; else python auto/post.py $IN_SLOT; fi
+      - name: トークンの警告をメールで知らせる（同じ内容は1日1通まで）
+        if: always() && steps.hub.outputs.paused != 'true'
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python auto/alerts.py send || true
       - name: commit results
         if: always() && steps.hub.outputs.paused != 'true'
         run: |

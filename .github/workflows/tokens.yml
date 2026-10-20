@@ -1,10 +1,11 @@
 name: tokens
 on:
   schedule:
-    - cron: "0 0 * * 1"  # 毎週月曜 9:00 JST
+    - cron: "0 21 * * *"  # 毎日 6:00 JST（Hub の指示 #5：毎日・残り14日で要対応・使えなくなったらその日のうちにメール）
   workflow_dispatch:
 permissions:
   contents: read
+  issues: write
 jobs:
   tokens:
     runs-on: ubuntu-latest
@@ -37,6 +38,11 @@ jobs:
           FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
           FB_PAGE_TOKEN: ${{ secrets.FB_PAGE_TOKEN }}
         run: python auto/token_check.py
+      - name: トークンの警告をメールで知らせる（同じ内容は1日1通まで）
+        if: always() && steps.hub.outputs.paused != 'true'
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python auto/alerts.py send || true
       - name: Automation Hub に記録
         if: always()
         env:
@@ -48,4 +54,4 @@ jobs:
           extra=()
           [ -f dist/token_check_args ] && mapfile -d '' extra < dist/token_check_args
           bash "$RUNNER_TEMP/hub/scripts/gha.sh" report token-health "$JOB_STATUS" "$PAUSED" "Instagram・Facebook・YouTube・GitHub のトークンを確認（結果は下の数値とやること）" \
-            --next-run-at "$(date -u -d "next monday 00:00" +%Y-%m-%dT%H:%M:00Z)" "${extra[@]}"
+            --next-run-at "$(bash "$RUNNER_TEMP/hub/scripts/gha.sh" next-daily 21:00)" "${extra[@]}"
