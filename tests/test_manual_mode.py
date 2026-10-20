@@ -54,31 +54,46 @@ class TokenCheckManualTest(unittest.TestCase):
 
 
 class PackTest(unittest.TestCase):
-    def test_pending_and_mark(self):
+    NOW = dt.datetime(2026, 10, 26, 9, 30, tzinfo=mp.JST)  # 月曜 9:30（保険の cron の時刻）
+
+    def test_week_window(self):
+        s, e = mp.week_window(self.NOW)
+        self.assertEqual((s.isoformat(), e.isoformat()), ("2026-10-26T12:00:00+09:00", "2026-11-02T11:59:00+09:00"))
+        s2, _ = mp.week_window(dt.datetime(2026, 10, 29, 15, tzinfo=mp.JST))  # 木曜でもその週の月曜から
+        self.assertEqual(s2, s)
+
+    def test_pending_window_and_done(self):
         with mock.patch.dict(os.environ, MANUAL):
-            posted = {"2026-10-27_ep1": {"ig": "manual"}}
-            items = mp.pending(SCH, posted, TODAY, 8)
-            self.assertEqual([(p["ep"], pls) for p, pls in items], [("ep1", ["facebook"]), ("ep2", ["ig", "facebook"])])
-            done = mp.mark(SCH, posted, {"ep1", "ep2"}, dt.datetime(2026, 10, 26, 9, tzinfo=mp.JST))
-            self.assertEqual(done, [("2026-10-27_ep1", ["facebook"]), ("2026-10-29_ep2", ["ig", "facebook"])])
-            self.assertEqual(posted["2026-10-29_ep2"]["ig"], "manual")
-            self.assertEqual(mp.pending(SCH, posted, TODAY, 8), [])
-            # 記録した回は自動投稿でも出さない（手動予約モードを解除したあとも二重投稿しない）
-            self.assertNotIn("ig", [x for x in SCH["defaults"]["platforms"] if x not in posted["2026-10-29_ep2"]])
+            posted = {"2026-10-27_ep1": {"ig": "manual"}, "2026-10-29_ep2": {"facebook": "12345"}}
+            items = mp.pending(SCH, posted, self.NOW)
+            # ep3（11/20）は週の外。manual・投稿ID のある SNS は除く
+            self.assertEqual([(p["ep"], pls) for p, pls in items], [("ep1", ["facebook"]), ("ep2", ["ig"])])
+            # bs-scheduled は同じ週の作り直しでも残る（manifest の中身が変わらない）
+            posted["2026-10-27_ep1"]["facebook"] = mp.BS
+            self.assertEqual([(p["ep"], pls) for p, pls in mp.pending(SCH, posted, self.NOW)], [("ep1", ["facebook"]), ("ep2", ["ig"])])
+            # 時刻が過ぎた回は出さない
+            self.assertEqual([p["ep"] for p, _ in mp.pending(SCH, posted, dt.datetime(2026, 10, 28, 9, tzinfo=mp.JST))], ["ep2"])
 
-    def test_texts(self):
-        p = SCH["posts"][0]
-        ig = mp.text_for(p, SCH["defaults"], "ig").split(mp.CUT + "\n", 1)[1]
-        fb_ = mp.text_for(p, SCH["defaults"], "facebook").split(mp.CUT + "\n", 1)[1]
-        self.assertTrue(ig.startswith("One\nいち")); self.assertIn("#e", ig)                  # Instagram：ハッシュタグ5個（既存の caption）
-        self.assertTrue(fb_.startswith("One\nいち\n\nTell us.")); self.assertNotIn("#d", fb_)  # Facebook：fb_cta とハッシュタグ3個まで
-        self.assertIn("カバー画像：ig_ep1_cover.jpg", mp.text_for(p, SCH["defaults"], "ig"))
+    def test_mark_manual(self):
+        with mock.patch.dict(os.environ, MANUAL):
+            posted = {"2026-10-27_ep1": {"ig": mp.BS}}
+            done = mp.mark(SCH, posted, {"ep1"}, self.NOW)
+            self.assertEqual(done, [("2026-10-27_ep1", ["ig", "facebook"])])
+            self.assertEqual(posted["2026-10-27_ep1"]["ig"], "manual")
+            self.assertEqual([p["ep"] for p, _ in mp.pending(SCH, posted, self.NOW)], ["ep2"])
 
-    def test_main_builds_pack_and_hub_action(self):
+    def test_captions(self):
+        p, d = SCH["posts"][0], SCH["defaults"]
+        self.assertEqual(mp.caption_ig(p, d), "One\nいち\n\nTell us.\n教えて\n\n#a #b #c #d #e")  # en → ja → コメントを誘う一言 → tag_set
+        self.assertTrue(mp.caption_for(p, d, "facebook").startswith("One\nいち\n\nTell us."))
+        self.assertNotIn("#d", mp.caption_for(p, d, "facebook"))  # Facebook はハッシュタグ3個まで
+        self.assertIn("カバー画像：ig_ep1_cover.jpg", mp.text_for(p, d, "ig"))
+
+    def run_main(self, posted, argv=()):
         with tempfile.TemporaryDirectory() as d:
             vid = pathlib.Path(d) / "v.mp4"; vid.write_bytes(b"x")
             cover = pathlib.Path(d) / "c.jpg"; cover.write_bytes(b"j")
-            state = {"posted": "{}"}
+            state = {"posted": json.dumps(posted)}
             orig_r, orig_w = pathlib.Path.read_text, pathlib.Path.write_text
             def r(self, *a, **k):
                 if self.name == "schedule.json": return json.dumps(SCH)
@@ -89,32 +104,46 @@ class PackTest(unittest.TestCase):
                 return orig_w(self, data, *a, **k)
             hub = {}
             def wb(self, data): hub[self.name] = data; return len(data)
+            now = self.NOW
             class Now(dt.datetime):
                 @classmethod
-                def now(cls, tz=None): return dt.datetime(2026, 10, 26, 10, tzinfo=tz)
+                def now(cls, tz=None): return now
             with mock.patch.dict(os.environ, {**MANUAL, "GITHUB_RUN_ID": "123", "ARTIFACT_NAME": "manual-20261026"}), \
                  mock.patch.object(pathlib.Path, "read_text", r), mock.patch.object(pathlib.Path, "write_text", w), \
                  mock.patch.object(pathlib.Path, "write_bytes", wb), mock.patch.object(mp.dt, "datetime", Now), \
                  mock.patch.object(post, "render", lambda ep: (vid, vid)), mock.patch.object(post, "qa_gate", lambda *a: True), \
                  mock.patch.object(post, "thumbnail", lambda p: cover), mock.patch.object(mp, "aspect", lambda p: (1080, 1920)):
                 out = pathlib.Path(d) / "out"
-                code = mp.main([str(out), "--mark", "ep1"])
+                code = mp.main([str(out), *argv])
                 files = sorted(x.name for x in out.iterdir())
-            self.assertEqual(code, 0)
-            self.assertEqual(json.loads(state["posted"])["2026-10-27_ep1"]["facebook"], "manual")
-            self.assertEqual(files, ["ep2.mp4", "fb_ep2.txt", "ig_ep2.txt", "ig_ep2_cover.jpg", "一覧.txt"])
-            args = hub["manual_hub_args"].decode().split("\0")
-            act = args[args.index("--owner-action") + 1]
-            self.assertIn("今週の予約（Business Suite）：10/29（木）18:00「二つ目」", act)
-            self.assertIn("manual-20261026", act); self.assertIn("/actions/runs/123", act)
-            self.assertLessEqual(len(act), 300)
+                manifest = json.loads(orig_r(out / "manifest.json"))
+        return code, json.loads(state["posted"]), files, manifest, hub["manual_hub_args"].decode().split("\0")
 
-    def test_nothing_pending_clears_hub_action(self):
-        self.assertEqual(mp.hub_action([], [], "manual-x", "u"), "none")
-
-
-if __name__ == "__main__":
-    unittest.main()
+    def test_main_manifest_and_bs_scheduled(self):
+        code, posted, files, man, args = self.run_main({"2026-10-27_ep1": {"ig": "manual"}})
+        self.assertEqual(code, 0)
+        self.assertEqual(files, ["ep1.mp4", "ep2.mp4", "fb_ep1.txt", "fb_ep2.txt", "ig_ep2.txt", "ig_ep2_cover.jpg", "manifest.json", "一覧.txt"])
+        self.assertEqual(man["week_start"], "2026-10-26T12:00:00+09:00")
+        self.assertEqual([(m["ep"], m["datetime_jst"], m["platforms"]) for m in man["posts"]],
+                         [("ep1", "2026-10-27T12:00:00+09:00", ["facebook"]), ("ep2", "2026-10-29T18:00:00+09:00", ["ig", "facebook"])])
+        m2 = man["posts"][1]
+        self.assertEqual((m2["title"], m2["video"], m2["cover_ig"]), ("二つ目", "ep2.mp4", "ig_ep2_cover.jpg"))
+        self.assertTrue(m2["caption_ig"].startswith("Two\nに\n\nTell us.")); self.assertTrue(m2["caption_fb"].startswith("Two\nに"))
+        self.assertNotIn("caption_ig", man["posts"][0])
+        # manifest に入れた回は bs-scheduled（ig=manual はそのまま）
+        self.assertEqual((posted["2026-10-27_ep1"]["ig"], posted["2026-10-27_ep1"]["facebook"]), ("manual", mp.BS))
+        self.assertEqual((posted["2026-10-29_ep2"]["ig"], posted["2026-10-29_ep2"]["facebook"]), (mp.BS, mp.BS))
+        self.assertEqual(args[args.index("--owner-action") + 1], "none")
+        self.assertIn("今週の予約=2本", args)
+        # 同じ週にもう一度作っても、manifest の中身は同じ（Chrome 側が同じ回を二重に予約しないよう、予約済みかは Business Suite で確かめる）
+        code2, posted2, _, man2, _ = self.run_main(posted)
+        self.assertEqual([m["ep"] for m in man2["posts"]], ["ep1", "ep2"])
+        self.assertEqual(posted2, posted)
+        # 自動投稿は bs-scheduled の SNS を出さない（自動に戻したあとの二重投稿を防ぐ）
+        with mock.patch.dict(os.environ, {"MANUAL_PLATFORMS": ""}), mock.patch.object(pathlib.Path, "read_text",
+                lambda self, *a, **k: json.dumps(SCH) if self.name == "schedule.json" else json.dumps(posted2)):
+            _, _, targets = post.pick_posts(None, dt.datetime(2026, 10, 29, 18, tzinfo=post.JST))
+        self.assertEqual([(t[1]["ep"], t[2]) for t in targets], [("ep2", ["tt", "yt"])])
 
 
 class MetricsManualTest(unittest.TestCase):
