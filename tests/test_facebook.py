@@ -3,6 +3,7 @@ import datetime as dt, json, os, pathlib, sys, tempfile, unittest
 from unittest import mock
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
+os.environ["MANUAL_PLATFORMS"] = ""  # このファイルは API で投稿するとき（手動予約モードでない）の動きを確かめる
 sys.path.insert(0, str(ROOT / "auto"))
 import facebook as fb  # noqa: E402
 import post  # noqa: E402

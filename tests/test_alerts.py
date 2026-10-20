@@ -3,6 +3,7 @@ import datetime as dt, json, os, pathlib, runpy, sys, tempfile, time, unittest
 from unittest import mock
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
+os.environ["MANUAL_PLATFORMS"] = ""  # このファイルは API で投稿するとき（手動予約モードでない）の動きを確かめる
 sys.path.insert(0, str(ROOT / "auto"))
 import alerts  # noqa: E402
 import facebook as fb  # noqa: E402
@@ -71,7 +72,7 @@ class TokenCheckTest(unittest.TestCase):
         def get(url, params=None, timeout=None, headers=None):
             return R({"data": {"is_valid": True, "type": "PAGE", "expires_at": exp, "scopes": []}})
         with tempfile.TemporaryDirectory() as d:
-            env = {"IG_ACCESS_TOKEN": "EAAtest1234567890", "ALERTS_FILE": f"{d}/a.jsonl"}
+            env = {"IG_ACCESS_TOKEN": "EAAtest1234567890", "ALERTS_FILE": f"{d}/a.jsonl", "MANUAL_PLATFORMS": ""}
             cwd = os.getcwd(); os.chdir(d)
             try:
                 with mock.patch.dict(os.environ, env, clear=True), mock.patch("requests.get", get):

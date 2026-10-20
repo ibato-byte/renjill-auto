@@ -4,6 +4,7 @@ Instagram・Facebook（ページ「レンとジル」へのリール投稿の権
 - 読み取りの API だけを使う（debug_token・/me）。投稿はしない。
 - 値そのものは表示しない（有効かどうか・期限だけ）。
 - 結果は dist/token_check_args（Automation Hub の report に渡す引数、NUL 区切り）に書く。
+- 手動予約モード（auto/mode.json）の SNS は確認しない（「手動予約モード中」と表示。エラー・メールにしない）。
 - 問題があれば終了コード 1（Hub で「エラー」になり、やることに手順が出る）。期限が残り14日を切ったものは「やること」に出す（Hub で「要対応」）。
 - 使えない・残り14日を切ったものは、オーナーにメールで知らせる（auto/alerts.py。同じ内容は1日1通まで）。
 """
@@ -11,6 +12,7 @@ import datetime as dt, os, pathlib, sys
 import requests
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 import facebook as fb
+import mode
 import alerts
 
 WARN_DAYS = 14  # 残りがこれ以下なら「要対応」＋メール（Hub の指示 #5）
@@ -22,7 +24,9 @@ def days_left(ts):
 
 # ---- Instagram（ページトークン）----
 ig = os.environ.get("IG_ACCESS_TOKEN", "")
-if not ig:
+if mode.is_manual("ig"):
+    kpis.append("Instagram=手動予約モード中")  # API を使わないので、無効でもエラー・メールにしない（auto/mode.json）
+elif not ig:
     kpis.append("Instagram=未設定")
 else:
     try:
@@ -47,21 +51,24 @@ else:
         print("Instagram check error:", type(e).__name__)
 
 # ---- Facebook（ページ「レンとジル」のリール投稿）----
-try:
-    f = fb.diagnose()
-    for r in f["reasons"]: print("Facebook:", r)
-    if f["ok"]:
-        exp = f["expires_at"]
-        kpis.append("Facebook=OK（" + ("期限なし" if exp == 0 else f"残り{days_left(exp)}日") + ("・IGと共用" if f["secret"] == "IG_ACCESS_TOKEN" else "") + "）")
-        print(f"Facebook: {f['secret']} でページ「{f['page_name']}」に投稿できる（権限 {', '.join(fb.REQUIRED_SCOPES)}）")
-        if exp and days_left(exp) <= WARN_DAYS:
-            actions.append(f"Facebook のページトークン（{f['secret']}）が残り{days_left(exp)}日で切れる。docs/setup/facebook-reels.md の手順で期限なしのページトークンに作り直して差し替える")
-    else:
-        kpis.append("Facebook=権限・設定なし")
-        actions.append("Facebook リールを自動投稿できない（" + "; ".join(f["reasons"])[:150] + "）。renjill-auto の docs/setup/facebook-reels.md の手順で権限 pages_show_list・pages_read_engagement・pages_manage_posts 付きのページトークンを発行し、Secrets の FB_PAGE_TOKEN を差し替える（それまで Facebook だけ飛ばし、他SNSは投稿を続ける）")
-except Exception as e:
-    kpis.append("Facebook=確認失敗")
-    print("Facebook check error:", type(e).__name__)
+if mode.is_manual("facebook"):
+    kpis.append("Facebook=手動予約モード中")  # API を使わないので、確認もメールもしない
+else:
+    try:
+        f = fb.diagnose()
+        for r in f["reasons"]: print("Facebook:", r)
+        if f["ok"]:
+            exp = f["expires_at"]
+            kpis.append("Facebook=OK（" + ("期限なし" if exp == 0 else f"残り{days_left(exp)}日") + ("・IGと共用" if f["secret"] == "IG_ACCESS_TOKEN" else "") + "）")
+            print(f"Facebook: {f['secret']} でページ「{f['page_name']}」に投稿できる（権限 {', '.join(fb.REQUIRED_SCOPES)}）")
+            if exp and days_left(exp) <= WARN_DAYS:
+                actions.append(f"Facebook のページトークン（{f['secret']}）が残り{days_left(exp)}日で切れる。docs/setup/facebook-reels.md の手順で期限なしのページトークンに作り直して差し替える")
+        else:
+            kpis.append("Facebook=権限・設定なし")
+            actions.append("Facebook リールを自動投稿できない（" + "; ".join(f["reasons"])[:150] + "）。renjill-auto の docs/setup/facebook-reels.md の手順で権限 pages_show_list・pages_read_engagement・pages_manage_posts 付きのページトークンを発行し、Secrets の FB_PAGE_TOKEN を差し替える（それまで Facebook だけ飛ばし、他SNSは投稿を続ける）")
+    except Exception as e:
+        kpis.append("Facebook=確認失敗")
+        print("Facebook check error:", type(e).__name__)
 
 # ---- YouTube（リフレッシュトークン）----
 if os.environ.get("YT_REFRESH_TOKEN"):

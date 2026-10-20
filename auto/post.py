@@ -19,6 +19,7 @@ import requests
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 import facebook as fb
 import alerts
+import mode
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 RIG, DIST, AUTO = ROOT / "rig", ROOT / "dist", ROOT / "auto"
@@ -40,7 +41,8 @@ def pick_posts(slot_override=None, now=None):
         if slot_override is None and abs(now.hour - slot_h) > 1: continue
         key = f'{p["date"]}_{p["ep"]}'
         done = posted.get(key, {})
-        plats = [x for x in p.get("platforms", sch["defaults"]["platforms"]) if x not in done]
+        # 手動予約モードの SNS（auto/mode.json）は API で出さない。オーナーが Business Suite で予約する（素材は auto/manual_pack.py）
+        plats = [x for x in p.get("platforms", sch["defaults"]["platforms"]) if x not in done and not mode.is_manual(x)]
         if plats: out.append((key, p, plats))
     return sch, posted, out
 
@@ -178,9 +180,10 @@ def dry_run(targets, d):
 
 def write_hub_args(fb_result):
     """Automation Hub の report に渡す追加の引数（NUL 区切り。post.yml が読む）"""
-    if not fb_result: return
-    args = ["--kpi", f"Facebook={fb_result['kpi']}"]
-    if fb_result.get("action"): args += ["--owner-action", fb_result["action"][:300]]
+    manual = sorted(mode.NAMES[x] for x in mode.manual_platforms())
+    args = ["--kpi", "手動予約=" + ("・".join(manual) if manual else "なし")]
+    if fb_result: args += ["--kpi", f"Facebook={fb_result['kpi']}"]
+    args += ["--owner-action", fb_result["action"][:300]] if fb_result and fb_result.get("action") else ["--owner-action", "none"]
     (DIST / "post_hub_args").write_bytes(b"\0".join(s.encode() for s in args) + b"\0")
 
 def main(argv=None):
@@ -191,7 +194,7 @@ def main(argv=None):
         now = dt.datetime.fromisoformat(a["date"]).replace(hour=h, tzinfo=JST)
     sch, posted, targets = pick_posts(a["slot"], now)
     d = sch["defaults"]
-    if not targets: log("今日のこの時間帯に投稿なし"); return 0
+    if not targets: log("今日のこの時間帯に投稿なし"); write_hub_args(None); return 0
     if a["dry_run"]: return dry_run(targets, d)
     failed = []
     fb_access, fb_result = None, None

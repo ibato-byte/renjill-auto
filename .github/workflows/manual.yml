@@ -1,0 +1,90 @@
+name: manual
+# 手動予約モード（auto/mode.json）：Instagram・Facebook はオーナーが Meta Business Suite で予約する。
+# その素材（mp4・カバー・投稿文）を作って成果物 manual-YYYYMMDD（7日）にし、Automation Hub の「やること」に今週の予約を出す。
+# API は呼ばない・投稿しない・mp4 はコミットしない。完全自動に戻す手順：docs/setup/manual-mode.md
+on:
+  schedule:
+    - cron: "0 1 * * 1"  # 毎週月曜 10:00 JST（週次PDCA のあと）
+  push:
+    branches: [main]
+    paths: ["auto/schedule.json"]  # 回が足された・直されたとき
+  workflow_dispatch:
+    inputs:
+      scheduled:
+        description: "予約が済んだ回（スペース区切り。例 papers2 mug2）。posted.json に manual と記録して、残りだけ作り直す"
+        required: false
+      days:
+        description: "何日先までの回を作るか"
+        required: false
+        default: "8"
+permissions:
+  contents: write
+concurrency: post
+jobs:
+  manual:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - name: Automation Hub：一時停止の確認
+        id: hub
+        env:
+          HUB_TOKEN: ${{ secrets.HUB_TOKEN }}
+        run: |
+          if [ -z "$HUB_TOKEN" ] || ! git clone -q --depth 1 "https://x-access-token:${HUB_TOKEN}@github.com/ibato-byte/automation-hub.git" "$RUNNER_TEMP/hub"; then
+            echo "paused=false" >> "$GITHUB_OUTPUT"; echo "Automation Hub を使わずに続ける"; exit 0
+          fi
+          bash "$RUNNER_TEMP/hub/scripts/gha.sh" check renjill-manual
+      - uses: actions/checkout@v4
+        if: steps.hub.outputs.paused != 'true'
+      - uses: actions/setup-node@v4
+        if: steps.hub.outputs.paused != 'true'
+        with: { node-version: 20 }
+      - uses: actions/setup-python@v5
+        if: steps.hub.outputs.paused != 'true'
+        with: { python-version: "3.12" }
+      - if: steps.hub.outputs.paused != 'true'
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg fonts-noto-cjk
+      - if: steps.hub.outputs.paused != 'true'
+        run: npm i -g playwright && npx playwright install --with-deps chromium
+      - if: steps.hub.outputs.paused != 'true'
+        run: pip install -q requests numpy scipy
+      - name: 名前（manual-YYYYMMDD）
+        id: name
+        run: echo "name=manual-$(TZ=Asia/Tokyo date +%Y%m%d)" >> "$GITHUB_OUTPUT"
+      - name: 素材を作る（予約済みの記録も）
+        if: steps.hub.outputs.paused != 'true'
+        env:
+          SCHEDULED: ${{ inputs.scheduled }}
+          DAYS: ${{ inputs.days || '8' }}
+          ARTIFACT_NAME: ${{ steps.name.outputs.name }}
+        run: |
+          set -- "$RUNNER_TEMP/manual" --days "$DAYS"
+          [ -n "$SCHEDULED" ] && set -- "$@" --mark "$SCHEDULED"
+          python auto/manual_pack.py "$@"
+      - name: 予約済みの記録をコミット
+        if: always() && steps.hub.outputs.paused != 'true' && inputs.scheduled != ''
+        run: |
+          git config user.name renjill-bot; git config user.email bot@renjill.local
+          git add auto/posted.json
+          git diff --cached --quiet || { git commit -m "manual: 予約済みを記録（${{ steps.name.outputs.name }}）"; git pull -q --rebase && git push; }
+      - name: 成果物にする（保存期間7日）
+        if: always() && steps.hub.outputs.paused != 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.name.outputs.name }}
+          path: ${{ runner.temp }}/manual/
+          retention-days: 7
+          if-no-files-found: warn
+          overwrite: true
+      - name: Automation Hub に記録
+        if: always()
+        env:
+          HUB_TOKEN: ${{ secrets.HUB_TOKEN }}
+          JOB_STATUS: ${{ job.status }}
+          PAUSED: ${{ steps.hub.outputs.paused }}
+        run: |
+          [ -d "$RUNNER_TEMP/hub" ] || exit 0
+          extra=()
+          [ -f dist/manual_hub_args ] && mapfile -d '' extra < dist/manual_hub_args
+          bash "$RUNNER_TEMP/hub/scripts/gha.sh" report renjill-manual "$JOB_STATUS" "$PAUSED" "手動予約（Business Suite）用の素材を作った（成果物 ${{ steps.name.outputs.name }}）" \
+            --next-run-at "$(date -u -d "next monday 01:00" +%Y-%m-%dT%H:%M:00Z)" "${extra[@]}"
