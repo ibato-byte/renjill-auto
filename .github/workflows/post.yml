@@ -19,15 +19,31 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 40
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Automation Hub：一時停止の確認
+        id: hub
+        env:
+          HUB_TOKEN: ${{ secrets.HUB_TOKEN }}
+        run: |
+          if [ -z "$HUB_TOKEN" ] || ! git clone -q --depth 1 "https://x-access-token:${HUB_TOKEN}@github.com/ibato-byte/automation-hub.git" "$RUNNER_TEMP/hub"; then
+            echo "paused=false" >> "$GITHUB_OUTPUT"; echo "Automation Hub を使わずに続ける"; exit 0
+          fi
+          bash "$RUNNER_TEMP/hub/scripts/gha.sh" check renjill-post
+      - if: steps.hub.outputs.paused != 'true'
+        uses: actions/checkout@v4
+      - if: steps.hub.outputs.paused != 'true'
+        uses: actions/setup-node@v4
         with: { node-version: 20 }
-      - uses: actions/setup-python@v5
+      - if: steps.hub.outputs.paused != 'true'
+        uses: actions/setup-python@v5
         with: { python-version: "3.12" }
-      - run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg fonts-noto-cjk
-      - run: npm i -g playwright && npx playwright install --with-deps chromium
-      - run: pip install -q requests numpy scipy google-api-python-client google-auth google-auth-httplib2
+      - if: steps.hub.outputs.paused != 'true'
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg fonts-noto-cjk
+      - if: steps.hub.outputs.paused != 'true'
+        run: npm i -g playwright && npx playwright install --with-deps chromium
+      - if: steps.hub.outputs.paused != 'true'
+        run: pip install -q requests numpy scipy google-api-python-client google-auth google-auth-httplib2
       - name: post
+        if: steps.hub.outputs.paused != 'true'
         env:
           IG_USER_ID: ${{ secrets.IG_USER_ID }}
           IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
@@ -38,9 +54,20 @@ jobs:
           MEDIA_TOKEN: ${{ secrets.MEDIA_TOKEN }}
         run: python auto/post.py ${{ github.event.inputs.slot }}
       - name: commit results
-        if: always()
+        if: (always()) && steps.hub.outputs.paused != 'true'
         run: |
           git config user.name renjill-bot; git config user.email bot@renjill.local
           git add -A auto/posted.json dist/*.jpg dist/*.json || true
           git diff --cached --quiet || git commit -m "post: $(TZ=Asia/Tokyo date '+%Y-%m-%d %H:%M')"
           git push
+
+      - name: Automation Hub に記録
+        if: always()
+        env:
+          HUB_TOKEN: ${{ secrets.HUB_TOKEN }}
+          JOB_STATUS: ${{ job.status }}
+          PAUSED: ${{ steps.hub.outputs.paused }}
+        run: |
+          [ -d "$RUNNER_TEMP/hub" ] || exit 0
+          bash "$RUNNER_TEMP/hub/scripts/gha.sh" report renjill-post "$JOB_STATUS" "$PAUSED" "投稿予定（auto/schedule.json）の回を投稿し、結果を auto/posted.json に記録" \
+            --next-run-at "$(bash "$RUNNER_TEMP/hub/scripts/gha.sh" next-daily 03:00 09:00 10:00)"
