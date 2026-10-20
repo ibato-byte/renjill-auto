@@ -1,22 +1,20 @@
 name: manual
-# 手動予約モード（auto/mode.json）：Instagram・Facebook はオーナーが Meta Business Suite で予約する。
-# その素材（mp4・カバー・投稿文）を作って成果物 manual-YYYYMMDD（7日）にし、Automation Hub の「やること」に今週の予約を出す。
+# 手動予約モード（auto/mode.json）：Instagram・Facebook は API で投稿せず、オーナーの iMac の Chrome で動く Claude
+# （スケジュールタスク「レンとジル Business Suite 自動予約」月・火 10:47／16:47）が Meta Business Suite に予約する。
+# その素材（mp4・カバー・投稿文・manifest.json）を作って非公開の成果物 manual-YYYYMMDD（7日）にし、
+# manifest に入れた回を posted.json に bs-scheduled と記録する（二重予約の防止）。
 # API は呼ばない・投稿しない・mp4 はコミットしない。完全自動に戻す手順：docs/setup/manual-mode.md
 on:
   schedule:
-    - cron: "0 1 * * 1"  # 毎週月曜 10:00 JST（週次PDCA のあと）
+    - cron: "30 0 * * 1"  # 毎週月曜 9:30 JST（保険。週次PDCA の push で先に動いていれば同じ中身を作り直すだけ）
   push:
     branches: [main]
-    paths: ["auto/schedule.json"]  # 回が足された・直されたとき
+    paths: ["auto/schedule.json"]  # 週次PDCA が回を足したとき（月曜 10:00 までに成功した実行があるように）
   workflow_dispatch:
     inputs:
       scheduled:
-        description: "予約が済んだ回（スペース区切り。例 papers2 mug2）。posted.json に manual と記録して、残りだけ作り直す"
+        description: "手で予約した回（スペース区切り。例 papers2 mug2）。posted.json に manual と記録して、残りだけ作り直す"
         required: false
-      days:
-        description: "何日先までの回を作るか"
-        required: false
-        default: "8"
 permissions:
   contents: write
 concurrency: post
@@ -55,18 +53,17 @@ jobs:
         if: steps.hub.outputs.paused != 'true'
         env:
           SCHEDULED: ${{ inputs.scheduled }}
-          DAYS: ${{ inputs.days || '8' }}
           ARTIFACT_NAME: ${{ steps.name.outputs.name }}
         run: |
-          set -- "$RUNNER_TEMP/manual" --days "$DAYS"
+          set -- "$RUNNER_TEMP/manual"
           [ -n "$SCHEDULED" ] && set -- "$@" --mark "$SCHEDULED"
           python auto/manual_pack.py "$@"
-      - name: 予約済みの記録をコミット
-        if: always() && steps.hub.outputs.paused != 'true' && inputs.scheduled != ''
+      - name: 予約の記録（bs-scheduled・manual）をコミット
+        if: always() && steps.hub.outputs.paused != 'true'
         run: |
           git config user.name renjill-bot; git config user.email bot@renjill.local
           git add auto/posted.json
-          git diff --cached --quiet || { git commit -m "manual: 予約済みを記録（${{ steps.name.outputs.name }}）"; git pull -q --rebase && git push; }
+          git diff --cached --quiet || { git commit -m "manual: 予約の記録（${{ steps.name.outputs.name }}）"; git pull -q --rebase && git push; }
       - name: 成果物にする（保存期間7日）
         if: always() && steps.hub.outputs.paused != 'true'
         uses: actions/upload-artifact@v4
@@ -86,5 +83,5 @@ jobs:
           [ -d "$RUNNER_TEMP/hub" ] || exit 0
           extra=()
           [ -f dist/manual_hub_args ] && mapfile -d '' extra < dist/manual_hub_args
-          bash "$RUNNER_TEMP/hub/scripts/gha.sh" report renjill-manual "$JOB_STATUS" "$PAUSED" "手動予約（Business Suite）用の素材を作った（成果物 ${{ steps.name.outputs.name }}）" \
-            --next-run-at "$(date -u -d "next monday 01:00" +%Y-%m-%dT%H:%M:00Z)" "${extra[@]}"
+          bash "$RUNNER_TEMP/hub/scripts/gha.sh" report renjill-manual "$JOB_STATUS" "$PAUSED" "Business Suite に予約する素材と manifest.json を作った（成果物 ${{ steps.name.outputs.name }}）" \
+            --next-run-at "$(date -u -d "next monday 00:30" +%Y-%m-%dT%H:%M:00Z)" "${extra[@]}"

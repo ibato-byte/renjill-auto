@@ -40,17 +40,17 @@
     - https://www.soumu.go.jp/menu_news/s-news/01iicp01_02000130.html （令和7年度・報道資料）
     - https://www.soumu.go.jp/menu_news/s-news/01iicp01_02000125.html （令和6年度・報道資料）
     - https://www.soumu.go.jp/main_content/001017160.pdf （令和6年度・報告書本体。年代別の表）
-  - 投稿方法：**2026-10-21 から手動予約モード**。新しいビジネスポートフォリオ「Shota Ibato丨衣鳩 翔太」の Facebook ページ「レンとジル Ren & Jill」（ID 1386940331166810、フォロワー0から）に、オーナーが Meta Business Suite で予約する（素材は Actions の manual。docs/setup/manual-mode.md）。完全自動に戻したら Meta 公式の Reels Publishing API（https://developers.facebook.com/docs/video-api/guides/reels-publishing ）で投稿する。
+  - 投稿方法：**2026-10-21 から手動予約モード**。新しいビジネスポートフォリオ「Shota Ibato丨衣鳩 翔太」の Facebook ページ「レンとジル Ren & Jill」（ID 1386940331166810、フォロワー0から）に、iMac の Chrome の Claude が Meta Business Suite で予約する（素材は Actions の manual の manifest.json。docs/setup/manual-mode.md）。完全自動に戻したら Meta 公式の Reels Publishing API（https://developers.facebook.com/docs/video-api/guides/reels-publishing ）で投稿する。
 - **ルール**：
   - Instagram と同じ回・同じ時刻・同じ loop 版の動画（`schedule.json` の `platforms` に `facebook`。defaults に入っているので通常は書かなくてよい）。
   - キャプション：英語の一言 → 日本語のあるある → コメントを誘う一言（`fb_cta`。既存ルールの「会話を作る」に合わせる）→ ハッシュタグ **3個以内**（`fb_tag_sets`）。
   - 表記：日本語「レンとジル」、英語「Ren & Jill」（自動で直す）。
   - Instagram アプリの「Facebook に自動シェア」はオフ（Facebook 用に別に予約しているので二重になる）。
-- **数字**：手動予約モード中は API で取れないので、計測シートのタブ「BusinessSuite週次」（下の「数字の取り方」）を使う。完全自動に戻したら `content/metrics.csv` の sns=`facebook`（再生＝リールの再生数、いいね＝リアクション合計、コメント、シェア）。取れない日は空欄（推測で埋めない）。2〜3週たまるまでは判定基準を決めない。
+- **数字**：手動予約モード中は API で取れないので、Drive の CSV「レンとジル_BusinessSuite週次_YYYYMMDD」（下の「数字の取り方」）を使う。完全自動に戻したら `content/metrics.csv` の sns=`facebook`（再生＝リールの再生数、いいね＝リアクション合計、コメント、シェア）。取れない日は空欄（推測で埋めない）。2〜3週たまるまでは判定基準を決めない。
 
 ## 4. 数字の見方（週次PDCAの判定基準）
 **数字の取り方（2026-10-21〜・手動予約モード中）**
-- Instagram・Facebook：API で取れない（`content/metrics.csv` には出ない。数値の収集は「手動予約モード中」で正常終了）。オーナーが週1回、Meta Business Suite のインサイトを Google スプレッドシート「レン＆ジル 計測シート」（ID `1_BVp-ROGA8X6dwvSlc9QLlIVe4jkgX0uVpOHnssFN4c`）のタブ **「BusinessSuite週次」** に書き込む。週次PDCA はこのタブを読む（書かれていない週は「計測なし」。推測で埋めない）。
+- Instagram・Facebook：API で取れない（`content/metrics.csv` には出ない。数値の収集は「手動予約モード中」で正常終了）。iMac の Chrome の Claude が週1回、Meta Business Suite のインサイトを Google ドライブの CSV **「レンとジル_BusinessSuite週次_YYYYMMDD」**（列 `date,platform,metric,value,post_title`）に書く。週次PDCA はいちばん新しい CSV を読む（その週の CSV がなければ「計測なし」。推測で埋めない）。ほかの数字は今までどおり Google スプレッドシート「レン＆ジル 計測シート」（ID `1_BVp-ROGA8X6dwvSlc9QLlIVe4jkgX0uVpOHnssFN4c`）。
 - YouTube・TikTok：今までどおり `content/metrics.csv`（毎日、自動）。
 
 | 指標 | 良い | 普通 | 見直し |
@@ -89,7 +89,7 @@
 
 - 一番伸びたのは IG「5 MIN TO GO（まだ夢の中）」120再生、YT「APPROVED（ハンコ）」130再生。
 - YouTubeの2本は再生ほぼ0 → ショートはまず「見られたかどうか」のテスト配信に落ちている。サムネ・冒頭の問題というより、登録者がいない初期段階の通常の姿。本数と継続で突破する。
-- 記録は content/followers.csv（週1）と content/metrics.csv（毎日、YouTube・TikTok は自動）。Instagram・Facebook は手動予約モード中、計測シートのタブ「BusinessSuite週次」（週1、オーナーが記入）。
+- 記録は content/followers.csv（週1）と content/metrics.csv（毎日、YouTube・TikTok は自動）。Instagram・Facebook は手動予約モード中、Drive の CSV「レンとジル_BusinessSuite週次_YYYYMMDD」（週1、Chrome の Claude が記入）。
 
 ### ベンチマーク（同じ土俵で成功している例）
 | アカウント | 規模 | 型 | 学ぶこと |
@@ -111,7 +111,7 @@
 - **やしゅし式の画面**：人気回ほど「1匹を大きく・背景シンプル・動きは1つ」。サムネもこれに寄せる。
 
 ## 変更履歴
-- 2026-10-21 第3章・第4章：Instagram・Facebook を手動予約モードに（新ポートフォリオ「Shota Ibato丨衣鳩 翔太」・新 Facebook ページ「レンとジル Ren & Jill」）。両SNSの数字は計測シートのタブ「BusinessSuite週次」を読む
+- 2026-10-21 第3章・第4章：Instagram・Facebook を手動予約モードに（新ポートフォリオ「Shota Ibato丨衣鳩 翔太」・新 Facebook ページ「レンとジル Ren & Jill」）。両SNSは iMac の Chrome の Claude が Business Suite に予約し、数字は Drive の CSV「レンとジル_BusinessSuite週次_YYYYMMDD」を読む
 - 2026-10-20 第3章：Facebook リールの全自動投稿を追加（理由・出典・キャプションとハッシュタグ3個以内のルール）
 - 2026-10-20 第8章：現在地・ベンチマーク（らぶいーず、やしゅし）・100万人までの道のり・平日毎日投稿の決定を追加
 - 2026-10-20 第7章：モデルのうさぎ2匹の特徴としぐさを追加

@@ -12,6 +12,14 @@ TOK = "EAAtesttoken1234567890"
 SCH = json.loads((ROOT / "auto" / "schedule.json").read_text())
 D = SCH["defaults"]
 P = SCH["posts"][0]
+KEY = f'{P["date"]}_{P["ep"]}'
+
+
+def posted_text_without_fb():
+    """本物の posted.json から、P の facebook の記録だけを外したもの（テストを本番の記録に左右させない）"""
+    real = json.loads((ROOT / "auto" / "posted.json").read_text())
+    real.get(KEY, {}).pop("facebook", None); real.get(KEY, {}).pop("facebook_at", None)
+    return json.dumps(real)
 
 
 class Resp:
@@ -175,7 +183,9 @@ class ScheduleTest(unittest.TestCase):
 
     def test_pick_and_dedupe(self):
         now = dt.datetime.fromisoformat(P["date"]).replace(hour=int(P["slot"][:2]), tzinfo=post.JST)
-        _, posted, targets = post.pick_posts(None, now)
+        text, orig = posted_text_without_fb(), pathlib.Path.read_text
+        with mock.patch.object(pathlib.Path, "read_text", lambda self, *a, **k: text if self.name == "posted.json" else orig(self, *a, **k)):
+            _, posted, targets = post.pick_posts(None, now)
         mine = [t for t in targets if t[1]["ep"] == P["ep"]]
         self.assertTrue(mine)
         key = mine[0][0]
@@ -209,13 +219,15 @@ class MainLoopTest(unittest.TestCase):
     """本番の流れ：Facebook の権限がなければ飛ばして終了コード0、Hub に「やること」を渡す"""
     def run_main(self, access, fb_post=None):
         writes = {}
-        orig_w = pathlib.Path.write_text
+        orig_w, orig_r, text = pathlib.Path.write_text, pathlib.Path.read_text, posted_text_without_fb()
+        def r(self, *a, **k):
+            return text if self.name == "posted.json" else orig_r(self, *a, **k)
         def w(self, data, *a, **k):
             if self.name == "posted.json": writes["posted"] = data; return len(data)
             return orig_w(self, data, *a, **k)
         def wb(self, data):
             writes[self.name] = data; return len(data)
-        ctx = [mock.patch.object(pathlib.Path, "write_text", w), mock.patch.object(pathlib.Path, "write_bytes", wb),
+        ctx = [mock.patch.object(pathlib.Path, "write_text", w), mock.patch.object(pathlib.Path, "read_text", r), mock.patch.object(pathlib.Path, "write_bytes", wb),
                mock.patch.object(post, "render", lambda ep: (pathlib.Path("a.mp4"), pathlib.Path("b.mp4"))),
                mock.patch.object(post, "qa_gate", lambda *a: True), mock.patch.object(fb, "diagnose", lambda *a, **k: access)]
         if fb_post: ctx.append(mock.patch.object(fb, "post", fb_post))

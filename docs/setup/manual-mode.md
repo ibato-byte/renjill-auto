@@ -16,20 +16,38 @@
 | | 手動予約モード中の動き |
 | --- | --- |
 | 自動投稿（`post.yml`） | Instagram・Facebook には API で出さない（失敗にもしない）。ほかの SNS は自動 |
-| 素材づくり（`manual.yml`） | 毎週月曜 10:00 と、`auto/schedule.json` が更新されたときに、8日先までの回の素材を作り、成果物 **manual-YYYYMMDD**（7日で消える）にする。Automation Hub の「レンとジル 手動予約の素材」の「やること」に **今週の予約（Business Suite）** が出る |
-| 数値の収集（`metrics.yml`） | Instagram・Facebook は API で取らない（計測なし） |
+| 素材づくり（`manual.yml`） | 週次PDCA が `auto/schedule.json` を push したときと、月曜 9:30（保険）に、その週（月曜 12:00〜次の月曜 11:59）の回の素材と `manifest.json` を作り、非公開の成果物 **manual-YYYYMMDD**（7日で消える）にする。manifest に入れた回は `posted.json` に `bs-scheduled` と記録する |
+| 予約（Chrome） | オーナーの iMac の Chrome で動く Claude のスケジュールタスク「レンとジル Business Suite 自動予約（Instagram・Facebook）」（月・火 10:47／16:47）が、最新の manual-YYYYMMDD の manifest.json を読んで Business Suite に予約する。見張り：「レンとジル 自動予約のリマインドと見張り」（日・月・火 20:33） |
+| 数値の収集（`metrics.yml`） | Instagram・Facebook は API で取らない（「手動予約モード中」で正常終了）。数字は Chrome の Claude が Drive の CSV「レンとジル_BusinessSuite週次_YYYYMMDD」（列 date,platform,metric,value,post_title）に毎週書く |
 | トークンの期限チェック（`tokens.yml`） | Instagram・Facebook は「手動予約モード中」と表示し、エラーにもメールの対象にもしない |
 
-## 毎週の予約のしかた（オーナー）
+## manifest.json（Chrome 側が読む）
 
-1. Automation Hub の「やること」の **今週の予約（Business Suite）** にあるリンク（Actions の実行ページ）を開く。いちばん下の **Artifacts** から `manual-YYYYMMDD` をダウンロードして展開する。
+```json
+{
+  "week_start": "2026-10-26T12:00:00+09:00", "week_end": "2026-11-02T11:59:00+09:00",
+  "artifact": "manual-20261026", "run_url": "https://github.com/ibato-byte/renjill-auto/actions/runs/…",
+  "posts": [
+    {"datetime_jst": "2026-10-27T12:00:00+09:00", "ep": "…", "title": "…", "video": "….mp4", "cover_ig": "ig_…_cover.jpg",
+     "platforms": ["ig", "facebook"], "caption_ig": "caption_en→caption_ja→コメントを誘う一言→ハッシュタグ", "caption_fb": "fb_*.txt と同じ"}
+  ],
+  "excluded": [{"ep": "…", "reason": "QA など不合格（予約しない）"}]
+}
+```
+
+- `platforms` は、手動予約モードの SNS のうち、`posted.json` で `manual`（手で予約済み）や投稿ID がないもの。
+- 同じ週に作り直しても中身は同じです（`bs-scheduled` の回も残る）。**Chrome 側は、Business Suite の予約一覧で同じ回がすでにあれば予約しない**。
+- 週の途中で回の中身（動画・キャプション）を直しても、すでに予約した Business Suite の投稿は変わりません。差し替えが必要なときは、見張りのタスクかオーナーが Business Suite で入れ替えます。
+
+## 手で予約するとき（Chrome が使えないときなど）
+
+1. Actions → **manual** の最新の実行ページを開き、いちばん下の **Artifacts** から `manual-YYYYMMDD` をダウンロードして展開する。
 2. `一覧.txt` を見て、回ごとに Meta Business Suite で予約する（時刻は一覧のとおり）。
    - **Instagram**（リール）：動画は `<回>.mp4`、カバー画像は `ig_<回>_cover.jpg`、投稿文は `ig_<回>.txt` の区切り線より下。
    - **Facebook**（ページ「レンとジル Ren & Jill」のリール）：動画は同じ `<回>.mp4`、投稿文は `fb_<回>.txt` の区切り線より下。
    - Business Suite では、Instagram 側で予約したリールに Facebook を足せません。**Facebook は別に予約する**。
 3. 予約が済んだら記録する。GitHub の renjill-auto → **Actions** → **manual** → **Run workflow** → `scheduled` に回の名前を入れて（スペース区切り。例 `papers2 mug2`）実行する。Claude に「予約した」と伝えるだけでもかまいません。
    - `auto/posted.json` に `manual` と記録されるので、完全自動に戻したあとも、同じ回を二重に投稿しません。
-   - 記録が済むと、Hub の「やること」から消えます（まだの回だけ残る）。
 
 ## 完全自動に戻す手順（目安：個人 Facebook の完全削除から30日後）
 
