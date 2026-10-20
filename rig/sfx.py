@@ -35,7 +35,7 @@ def S(kind):
         n=int(SR*0.4); b=0.8*tone(np.linspace(160,60,n),0.4,0.12,0.003); b[:int(SR*0.12)]+=0.35*noise(0.12,0.05,0.1); return b
     raise Exception(kind)
 meta=json.load(open(sys.argv[1])); dur=meta['dur']; out=np.zeros(int(SR*(dur+0.2)))
-rng=np.random.default_rng(7); out+=0.004*rng.standard_normal(len(out))  # かすかな部屋の空気
+# 部屋の空気ノイズは「ざー」と聞こえるので入れない（2026-10-20）
 for s in meta['sfx']:
     x=np.asarray(S(s['type']),float); i=int(s['t']*SR); out[i:i+len(x)]+=x[:len(out)-i]
 out=np.tanh(out*1.2)*0.85
