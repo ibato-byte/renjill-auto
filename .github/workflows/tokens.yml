@@ -1,0 +1,49 @@
+name: tokens
+on:
+  schedule:
+    - cron: "0 0 * * 1"  # 毎週月曜 9:00 JST
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  tokens:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Automation Hub：一時停止の確認
+        id: hub
+        env:
+          HUB_TOKEN: ${{ secrets.HUB_TOKEN }}
+        run: |
+          if [ -z "$HUB_TOKEN" ] || ! git clone -q --depth 1 "https://x-access-token:${HUB_TOKEN}@github.com/ibato-byte/automation-hub.git" "$RUNNER_TEMP/hub"; then
+            echo "paused=false" >> "$GITHUB_OUTPUT"; echo "Automation Hub を使わずに続ける"; exit 0
+          fi
+          bash "$RUNNER_TEMP/hub/scripts/gha.sh" check token-health
+      - uses: actions/checkout@v4
+        if: steps.hub.outputs.paused != 'true'
+      - uses: actions/setup-python@v5
+        if: steps.hub.outputs.paused != 'true'
+        with: { python-version: "3.12" }
+      - if: steps.hub.outputs.paused != 'true'
+        run: pip install -q requests
+      - name: トークンの確認
+        if: steps.hub.outputs.paused != 'true'
+        env:
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
+          YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
+          YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
+          HUB_TOKEN: ${{ secrets.HUB_TOKEN }}
+          MEDIA_TOKEN: ${{ secrets.MEDIA_TOKEN }}
+        run: python auto/token_check.py
+      - name: Automation Hub に記録
+        if: always()
+        env:
+          HUB_TOKEN: ${{ secrets.HUB_TOKEN }}
+          JOB_STATUS: ${{ job.status }}
+          PAUSED: ${{ steps.hub.outputs.paused }}
+        run: |
+          [ -d "$RUNNER_TEMP/hub" ] || exit 0
+          extra=()
+          [ -f dist/token_check_args ] && mapfile -d '' extra < dist/token_check_args
+          bash "$RUNNER_TEMP/hub/scripts/gha.sh" report token-health "$JOB_STATUS" "$PAUSED" "Instagram・YouTube・GitHub のトークンはすべて使える状態" \
+            --next-run-at "$(date -u -d "next monday 00:00" +%Y-%m-%dT%H:%M:00Z)" "${extra[@]}"
