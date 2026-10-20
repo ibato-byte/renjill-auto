@@ -52,6 +52,8 @@ jobs:
           YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
           YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
           MEDIA_TOKEN: ${{ secrets.MEDIA_TOKEN }}
+          FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
+          FB_PAGE_TOKEN: ${{ secrets.FB_PAGE_TOKEN }}
         run: python auto/post.py ${{ github.event.inputs.slot }}
       - name: commit results
         if: always() && steps.hub.outputs.paused != 'true'
@@ -68,6 +70,8 @@ jobs:
           PAUSED: ${{ steps.hub.outputs.paused }}
         run: |
           [ -d "$RUNNER_TEMP/hub" ] || exit 0
-          bash "$RUNNER_TEMP/hub/scripts/gha.sh" report renjill-post "$JOB_STATUS" "$PAUSED" "予定の回を Instagram・YouTube に投稿（投稿済みは auto/posted.json）" \
+          extra=()
+          [ -f dist/post_hub_args ] && mapfile -d '' extra < dist/post_hub_args
+          bash "$RUNNER_TEMP/hub/scripts/gha.sh" report renjill-post "$JOB_STATUS" "$PAUSED" "予定の回を Instagram・YouTube・Facebook に投稿（投稿済みは auto/posted.json）" \
             --next-run-at "$(bash "$RUNNER_TEMP/hub/scripts/gha.sh" next-daily 03:00 09:00 10:00)" \
-            --owner-action "Instagram のアクセストークン（GitHub Secrets の IG_ACCESS_TOKEN）は 2026-12-19 に期限切れ。12月上旬に新しいトークンを発行し、renjill-auto の Settings → Secrets → Actions で差し替える"
+            --owner-action "Instagram のアクセストークン（GitHub Secrets の IG_ACCESS_TOKEN）は 2026-12-19 に期限切れ。12月上旬に新しいトークンを発行し、renjill-auto の Settings → Secrets → Actions で差し替える" "${extra[@]}"
