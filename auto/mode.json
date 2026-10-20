@@ -1,0 +1,6 @@
+{
+  "_comment": "手動予約モード（2026-10-21〜）。ここにある SNS は API で投稿・計測・トークン確認をせず、毎週の素材（Actions の manual）でオーナーが Meta Business Suite に予約する。完全自動に戻す手順：docs/setup/manual-mode.md",
+  "manual_platforms": ["ig", "facebook"],
+  "since": "2026-10-21",
+  "reason": "Meta の開発者機能を使える個人アカウントがないため（新しいビジネスポートフォリオ 825871460529757 に移行中）"
+}

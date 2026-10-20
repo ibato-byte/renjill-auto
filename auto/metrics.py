@@ -7,6 +7,7 @@ import csv, datetime as dt, json, os, pathlib, sys, requests
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 import facebook as fb
 import alerts
+import mode
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 JST = dt.timezone(dt.timedelta(hours=9))
 posted = json.loads((ROOT / "auto" / "posted.json").read_text()) if (ROOT / "auto" / "posted.json").exists() else {}
@@ -49,8 +50,9 @@ try: Y = yt_stats([v["yt"] for v in posted.values() if v.get("yt") and v["yt"] !
 except Exception as e: print("yt", fb.scrub(e)); Y = {}; token_alert("yt", e)
 try: T = tt_stats([v["tt"] for v in posted.values() if v.get("tt") and v["tt"] != "manual"])
 except Exception as e: print("tt", fb.scrub(e)); T = {}; token_alert("tt", e)
+MANUAL = mode.manual_platforms()  # 手動予約モードの SNS は API で数値を取らない（「計測なし」）
 FB_TOK = None
-if any(v.get("facebook") and v["facebook"] != "manual" for v in posted.values()):
+if "facebook" not in MANUAL and any(v.get("facebook") and v["facebook"] != "manual" for v in posted.values()):
     try:
         acc = fb.diagnose()
         FB_TOK = acc["token"]
@@ -64,11 +66,11 @@ for key, v in posted.items():
         s = Y.get(v["yt"], {}); rows.append([today, date, ep, ts, "yt", s.get("viewCount", ""), s.get("likeCount", ""), s.get("commentCount", ""), "", ""])
     if v.get("tt") and v["tt"] != "manual":
         s = T.get(v["tt"], {}); rows.append([today, date, ep, ts, "tt", s.get("view_count", ""), s.get("like_count", ""), s.get("comment_count", ""), s.get("share_count", ""), ""])
-    if v.get("ig") and v["ig"] != "manual":
+    if v.get("ig") and v["ig"] != "manual" and "ig" not in MANUAL:
         try: s = ig_stats(v["ig"])
         except Exception as e: print("ig", fb.scrub(e)); s = {}; token_alert("ig", e)
         rows.append([today, date, ep, ts, "ig", s.get("plays", ""), s.get("likes", ""), s.get("comments", ""), s.get("shares", ""), s.get("saved", "")])
-    if v.get("facebook") and v["facebook"] != "manual":
+    if v.get("facebook") and v["facebook"] != "manual" and "facebook" not in MANUAL:
         s = {}
         if FB_TOK:
             try: s = fb.reel_stats(v["facebook"], FB_TOK)
@@ -79,4 +81,5 @@ with out.open("a", newline="") as f:
     w = csv.writer(f)
     if new: w.writerow(["計測日", "投稿日", "ep", "tag_set", "sns", "再生", "いいね", "コメント", "シェア", "保存"])
     w.writerows(rows)
+if MANUAL: print("手動予約モード：", "・".join(sorted(mode.NAMES[x] for x in MANUAL)), "の数値は API で取らない（計測なし）")
 print("rows", len(rows))

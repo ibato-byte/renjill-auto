@@ -22,6 +22,12 @@
 | `YT_CLIENT_ID` / `YT_CLIENT_SECRET` / `YT_REFRESH_TOKEN` | Google Cloud（YouTube Data API v3 OAuth） |
 | `FB_PAGE_ID` / `FB_PAGE_TOKEN` | Facebookページ「レンとジル」のID とページトークン（リールの自動投稿。権限 pages_show_list・pages_read_engagement・pages_manage_posts。作り方は [docs/setup/facebook-reels.md](docs/setup/facebook-reels.md)。`FB_PAGE_TOKEN` がなければ、`IG_ACCESS_TOKEN` が同じページのページトークンで権限があれば流用する） |
 
+## 手動予約モード（2026-10-21〜）
+- **Instagram と Facebook は API で投稿しない**（`auto/mode.json`）。Meta の開発者機能を使える個人アカウントがないため。オーナーが Meta Business Suite で予約する。
+- 素材（mp4・Instagram のカバー・投稿文）は Actions の **manual** が毎週月曜 10:00 と `auto/schedule.json` の更新時に作り、成果物 `manual-YYYYMMDD`（7日）にする。Automation Hub の「やること」に「今週の予約（Business Suite）」が出る。
+- TikTok・YouTube などは今までどおり自動。トークンの期限チェックでは Instagram・Facebook は「手動予約モード中」（エラー・メールにしない）。
+- 予約のしかたと、**完全自動に戻す手順**：[docs/setup/manual-mode.md](docs/setup/manual-mode.md)
+
 ## 公開までの前提
 - Instagram：自分のアカウントなら審査不要で公開投稿できる。動画はファイルを直接送る（公開URL不要、リポジトリは非公開のまま）。
 - YouTube：API準拠監査が通るまで、APIからの投稿は非公開になる。
