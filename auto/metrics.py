@@ -33,17 +33,17 @@ def tt_stats(ids):
                       headers={"Authorization": f"Bearer {tok}", "Content-Type": "application/json"}, json={"filters": {"video_ids": ids}}).json()
     return {v["id"]: v for v in r.get("data", {}).get("videos", [])}
 
-try: Y = yt_stats([v["yt"] for v in posted.values() if v.get("yt")])
+try: Y = yt_stats([v["yt"] for v in posted.values() if v.get("yt") and v["yt"] != "manual"])
 except Exception as e: print("yt", e); Y = {}
-try: T = tt_stats([v["tt"] for v in posted.values() if v.get("tt")])
+try: T = tt_stats([v["tt"] for v in posted.values() if v.get("tt") and v["tt"] != "manual"])
 except Exception as e: print("tt", e); T = {}
 for key, v in posted.items():
     date, ep = key.split("_", 1); ts = v.get("tag_set", "")
-    if v.get("yt"):
+    if v.get("yt") and v["yt"] != "manual":
         s = Y.get(v["yt"], {}); rows.append([today, date, ep, ts, "yt", s.get("viewCount", ""), s.get("likeCount", ""), s.get("commentCount", ""), "", ""])
-    if v.get("tt"):
+    if v.get("tt") and v["tt"] != "manual":
         s = T.get(v["tt"], {}); rows.append([today, date, ep, ts, "tt", s.get("view_count", ""), s.get("like_count", ""), s.get("comment_count", ""), s.get("share_count", ""), ""])
-    if v.get("ig"):
+    if v.get("ig") and v["ig"] != "manual":
         try: s = ig_stats(v["ig"])
         except Exception as e: print("ig", e); s = {}
         rows.append([today, date, ep, ts, "ig", s.get("plays", ""), s.get("likes", ""), s.get("comments", ""), s.get("shares", ""), s.get("saved", "")])
