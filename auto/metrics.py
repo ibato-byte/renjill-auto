@@ -81,5 +81,11 @@ with out.open("a", newline="") as f:
     w = csv.writer(f)
     if new: w.writerow(["計測日", "投稿日", "ep", "tag_set", "sns", "再生", "いいね", "コメント", "シェア", "保存"])
     w.writerows(rows)
-if MANUAL: print("手動予約モード：", "・".join(sorted(mode.NAMES[x] for x in MANUAL)), "の数値は API で取らない（計測なし）")
+if MANUAL: print("手動予約モード：", "・".join(sorted(mode.NAMES[x] for x in MANUAL)), "の数値は API で取らない（計測なし。計測シートのタブ「BusinessSuite週次」を使う）")
 print("rows", len(rows))
+# Automation Hub の report に渡す KPI（NUL 区切り。metrics.yml が読む）
+hub = ["--kpi", f"記録した行={len(rows)}"]
+for pl in ("ig", "facebook"):
+    if pl in MANUAL: hub += ["--kpi", f"{mode.NAMES[pl]}=手動予約モード中"]
+(ROOT / "dist").mkdir(exist_ok=True)
+(ROOT / "dist" / "metrics_hub_args").write_bytes(b"\0".join(x.encode() for x in hub) + b"\0")
