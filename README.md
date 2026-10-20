@@ -1,12 +1,14 @@
 # renjill-auto — レンとジル 自動投稿リポジトリ
 
 うさぎの課長レンと部下ジルの、セリフなしオフィスコメディ（COANA TOKYO）。
-このリポジトリが毎日「今日の回」を描画し、Instagram / TikTok / YouTube に投稿し、数値を記録します。
+このリポジトリが毎日「今日の回」を描画し、Instagram / TikTok / YouTube / Facebook（リール）に投稿し、数値を記録します。
 
 ## 構成
 - `rig/` … SVGリグ・エピソード台本（`ep/*.js`）・描画と音の生成
 - `auto/schedule.json` … 投稿予定（Claudeの週次PDCAが更新）
-- `auto/post.py` … 描画→投稿。`auto/posted.json` に結果を記録
+- `auto/post.py` … 描画→投稿。`auto/posted.json` に結果を記録（同じSNSに二重投稿しない）
+- `auto/facebook.py` … Facebook ページ「レンとジル」へのリール投稿（公式 Reels Publishing API）・権限確認・数値
+- `tests/` … 単体テスト（`python -m unittest discover -s tests`。ネットワークに出ない）
 - `auto/metrics.py` … 投稿済み動画の数値を `content/metrics.csv` に追記
 - `.github/workflows/post.yml` … 12:00 / 18:00 / 19:00 JST に実行
 - `.github/workflows/metrics.yml` … 毎朝 06:30 JST に実行
@@ -18,13 +20,15 @@
 | `IG_USER_ID` / `IG_ACCESS_TOKEN` | Meta for Developers（Instagram API、長期トークン） |
 | `TT_ACCESS_TOKEN` | TikTok for Developers（video.publish スコープ） |
 | `YT_CLIENT_ID` / `YT_CLIENT_SECRET` / `YT_REFRESH_TOKEN` | Google Cloud（YouTube Data API v3 OAuth） |
-| `FB_PAGE_ID` / `FB_PAGE_TOKEN` | Facebookページ「レンとジル」のID とページトークン（カバー画像を非公開写真として置くため。権限 pages_manage_posts） |
+| `FB_PAGE_ID` / `FB_PAGE_TOKEN` | Facebookページ「レンとジル」のID とページトークン（リールの自動投稿。権限 pages_show_list・pages_read_engagement・pages_manage_posts。作り方は [docs/setup/facebook-reels.md](docs/setup/facebook-reels.md)。`FB_PAGE_TOKEN` がなければ、`IG_ACCESS_TOKEN` が同じページのページトークンで権限があれば流用する） |
 
 ## 公開までの前提
 - Instagram：自分のアカウントなら審査不要で公開投稿できる。動画はファイルを直接送る（公開URL不要、リポジトリは非公開のまま）。
 - YouTube：API準拠監査が通るまで、APIからの投稿は非公開になる。
 - TikTok：監査が通るまで、APIからの投稿は本人のみ閲覧になる。またAPIでは文字入りのカバー画像を指定できない（動画の1コマのみ）ため、TikTokはTikTok Studioで文字入りカバーを付けて予約する運用にする。
 監査が通るまでは、`schedule.json` の `platforms` を `["ig"]` にし、YouTube/TikTokは手動予約で運用する。
+- Facebook（2026-10-20 追加）：自分のページへの投稿なので審査不要。Instagram と同じ loop 版の動画を、同じ時刻にリールとして公開する。キャプションは caption_en → caption_ja → コメントを誘う一言（`fb_cta`）→ ハッシュタグ3個以内（`fb_tag_sets`）。権限・設定がなければ Facebook だけ飛ばし、Automation Hub の「やること」に出す。失敗したら1回だけやり直す（公開の指示を送った後はやり直さない＝二重投稿しない）。
+- 送る内容の確認だけ：`python auto/post.py --dry-run --date 2026-10-21 12:00`（または `DRY_RUN=1`）。API を呼ばず、posted.json も書かない。
 
 ## 週次PDCA（Claude）
 毎週月曜 7:00 JST に `content/metrics.csv` と計測シートを読み、`auto/schedule.json` と `rig/ep/` に次週分を追加する。
@@ -41,7 +45,7 @@
 ## 表記ルール
 - 海外にも届くよう **英語を主、日本語を従**：サムネ上段は英語（12文字以内）、下段に日本語（10文字以内）。タイトル・キャプションも英語が先。
 - **話数（EP.N）は載せない**（後で削除・順番変更しても矛盾しないように）。
-- ハッシュタグは5個。A/Bセットを交互に使い、2週連続で勝った方を標準にする。
+- ハッシュタグは5個（Facebook は3個以内）。A/Bセットを交互に使い、2週連続で勝った方を標準にする。
 
 ## 名称
 - 日本語表記は「レンとジル」（「＆」は使わない）。英語表記は「Ren & Jill」。
@@ -54,7 +58,7 @@
 | 毎週月曜 7:00 | Claude（週次PDCA） | 振り返り → ネタ10案 → 採点で4本 → 台本 → `auto/brushup.py` で機械検査 → 24コマ表とサムネを目視 → 別のレビュー役が辛口チェック → 直す（最大3周）→ 合格分だけ schedule.json に登録 |
 | 毎週木曜 7:00 | Claude（再検査） | 4日以内に出す回をもう一度 brushup → 目視 → 辛口チェック → 直す（最大2周）／差し替え／見送り |
 | 毎朝 6:00 | GitHub Actions（preflight） | 3日以内の回を描画・QA・サムネQA。NGなら Issue とメール |
-| 12:00 / 18:00 / 19:00 | GitHub Actions（post） | 直前にもう一度 QA。合格した回だけ投稿 |
+| 12:00 / 18:00 / 19:00 | GitHub Actions（post） | 直前にもう一度 QA。合格した回だけ投稿（Instagram・YouTube・Facebook） |
 | 毎朝 6:30 | GitHub Actions（metrics） | 数値を集めて metrics.csv に追記 → 月曜の振り返りに使う |
 
 検査に落ちた回は出さない（枠が空いても、質の低い回は出さない）。
