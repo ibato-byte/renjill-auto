@@ -23,13 +23,13 @@ jobs:
             echo "paused=false" >> "$GITHUB_OUTPUT"; echo "Automation Hub を使わずに続ける"; exit 0
           fi
           bash "$RUNNER_TEMP/hub/scripts/gha.sh" check renjill-preflight
-      - if: steps.hub.outputs.paused != 'true'
-        uses: actions/checkout@v4
-      - if: steps.hub.outputs.paused != 'true'
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+        if: steps.hub.outputs.paused != 'true'
+      - uses: actions/setup-node@v4
+        if: steps.hub.outputs.paused != 'true'
         with: { node-version: 20 }
-      - if: steps.hub.outputs.paused != 'true'
-        uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5
+        if: steps.hub.outputs.paused != 'true'
         with: { python-version: "3.12" }
       - if: steps.hub.outputs.paused != 'true'
         run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg fonts-noto-cjk
@@ -49,14 +49,13 @@ jobs:
           git diff --cached --quiet || git commit -m "preflight: $(TZ=Asia/Tokyo date '+%Y-%m-%d')"
           git push
       - name: open issue on QA failure
-        if: (steps.qa.outcome == 'failure') && steps.hub.outputs.paused != 'true'
+        if: steps.qa.outcome == 'failure'
         env: { GH_TOKEN: "${{ github.token }}" }
         run: |
           body=$(for f in dist/*_qa.json; do python3 -c "import json,sys;d=json.load(open('$f'));print('### '+d['ep']+(' ✅' if d['pass'] else ' ❌'));[print('- '+i) for i in d['issues']]"; done)
           gh label create qa --color D93F0B --force || true
           gh issue create --title "動画QA NG $(TZ=Asia/Tokyo date '+%Y-%m-%d')" --body "$body" --label qa || true
           exit 1
-
       - name: Automation Hub に記録
         if: always()
         env:
@@ -65,5 +64,5 @@ jobs:
           PAUSED: ${{ steps.hub.outputs.paused }}
         run: |
           [ -d "$RUNNER_TEMP/hub" ] || exit 0
-          bash "$RUNNER_TEMP/hub/scripts/gha.sh" report renjill-preflight "$JOB_STATUS" "$PAUSED" "3日以内に投稿する回を事前描画し、QA に合格" \
-            --next-run-at "$(bash "$RUNNER_TEMP/hub/scripts/gha.sh" next-daily 21:00)"
+          bash "$RUNNER_TEMP/hub/scripts/gha.sh" report renjill-preflight "$JOB_STATUS" "$PAUSED" "3日以内に投稿する回を事前に描画し、QA に合格" \
+            --next-run-at "$(bash "$RUNNER_TEMP/hub/scripts/gha.sh" next-daily 21:00)" --owner-action none
