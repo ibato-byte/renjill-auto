@@ -4,14 +4,16 @@ Instagram・Facebook（ページ「レンとジル」へのリール投稿の権
 - 読み取りの API だけを使う（debug_token・/me）。投稿はしない。
 - 値そのものは表示しない（有効かどうか・期限だけ）。
 - 結果は dist/token_check_args（Automation Hub の report に渡す引数、NUL 区切り）に書く。
-- 問題があれば終了コード 1（Hub で「エラー」になり、やることに手順が出る）。
+- 問題があれば終了コード 1（Hub で「エラー」になり、やることに手順が出る）。期限が残り14日を切ったものは「やること」に出す（Hub で「要対応」）。
+- 使えない・残り14日を切ったものは、オーナーにメールで知らせる（auto/alerts.py。同じ内容は1日1通まで）。
 """
 import datetime as dt, os, pathlib, sys
 import requests
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 import facebook as fb
+import alerts
 
-WARN_DAYS = 21
+WARN_DAYS = 14  # 残りがこれ以下なら「要対応」＋メール（Hub の指示 #5）
 now = dt.datetime.now(dt.timezone.utc)
 kpis, actions, problems = [], [], []
 
@@ -113,6 +115,13 @@ if actions:
 else:
     args += ["--owner-action", "none"]
 out = pathlib.Path("dist"); out.mkdir(exist_ok=True)
+# メールで知らせる（キーは Secret ごと。同じ日に同じキーは送らない）
+SECRETS = ("IG_ACCESS_TOKEN", "FB_PAGE_TOKEN", "YT_REFRESH_TOKEN", "HUB_TOKEN", "MEDIA_TOKEN")
+for a in actions:
+    key = ("FB_PAGE_TOKEN" if a.startswith("Facebook") else "IG_DATA_ACCESS" if "データアクセス" in a
+           else next((x for x in SECRETS if x in a), "other"))
+    head, _, fix = a.partition("。")
+    alerts.add(f"check:{key}", head, fix or "Automation Hub の「トークンの期限チェック」の「やること」を参照")
 (out / "token_check_args").write_bytes(b"\0".join(s.encode() for s in args) + b"\0")
 print("結果:", " / ".join(kpis))
 for a in actions: print("やること:", a)
