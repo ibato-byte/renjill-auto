@@ -66,7 +66,7 @@ def main(eps):
         try:
             res["thumb"] = str(thumbnail(p)); res["thumb_qa"] = True
         except subprocess.CalledProcessError as e:
-            res["thumb_qa"] = False; res["thumb_error"] = f"exit {e.returncode}（3=文字がグリッド外/重なり、4=顔が写っていない、5=英語の見出しが枠の幅の70%未満で小さすぎる）"
+            res["thumb_qa"] = False; res["thumb_error"] = f"exit {e.returncode}（3=文字がグリッド外/重なり、4=顔が写っていない、5=英語の見出しが枠の幅の70%未満で小さすぎる、6=キャラが枠の端で中途半端に切れる、7=文字の背景がごちゃつく、8=直近6本と見出しの幅・高さ・位置が揃わない）"
         try:
             res["review_images"] = [str(review_sheet(ep)), str(DIST / f"{ep}_sheet.jpg")] + ([res["thumb"]] if res.get("thumb") else [])
         except Exception as e:
