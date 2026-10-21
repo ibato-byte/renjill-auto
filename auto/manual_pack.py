@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 """手動予約モード（auto/mode.json）の SNS を Meta Business Suite に予約するための素材を作る。
-予約するのは、オーナーの iMac の Chrome で動く Claude のスケジュールタスク「レンとジル Business Suite 自動予約（Instagram・Facebook）」
-（月・火 10:47／16:47）。.github/workflows/manual.yml が、週次PDCA の schedule.json の push と月曜 9:30 に実行し、
-成果物 manual-YYYYMMDD（非公開・7日）にする。
+【2026-10-21 から予備】Instagram・Facebook は API で投稿している。API が使えないときだけ、mode.json に SNS を入れてから
+.github/workflows/manual.yml を手動実行し、成果物 manual-YYYYMMDD（非公開・7日）にする（docs/setup/manual-mode.md）。
 
   python auto/manual_pack.py <出力先> [--mark "<ep> <ep> …"]
 

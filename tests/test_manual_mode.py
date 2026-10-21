@@ -19,10 +19,11 @@ TODAY = dt.date(2026, 10, 26)
 
 
 class ModeTest(unittest.TestCase):
-    def test_file_says_ig_and_facebook(self):
+    def test_file_says_none(self):
+        """2026-10-21 に手動予約モードを解除（Instagram・Facebook も API で投稿する）"""
         env = {k: v for k, v in os.environ.items() if k != "MANUAL_PLATFORMS"}
         with mock.patch.dict(os.environ, env, clear=True):
-            self.assertEqual(mode.manual_platforms(), {"ig", "facebook"})
+            self.assertEqual(mode.manual_platforms(), set())
 
     def test_post_skips_manual_platforms(self):
         now = dt.datetime(2026, 10, 27, 12, tzinfo=post.JST)
@@ -48,8 +49,7 @@ class TokenCheckManualTest(unittest.TestCase):
                 args = (pathlib.Path(d) / "dist" / "token_check_args").read_bytes().split(b"\0")
             finally: os.chdir(cwd)
         self.assertEqual(cm.exception.code, 0)
-        self.assertIn("Instagram=手動予約モード中".encode(), args)
-        self.assertIn("Facebook=手動予約モード中".encode(), args)
+        self.assertIn("Instagram・Facebook=手動予約モード中".encode(), args)
         self.assertEqual(args[args.index(b"--owner-action") + 1], b"none")
 
 

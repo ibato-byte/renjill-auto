@@ -1,6 +1,17 @@
 name: check
+# 接続テスト（読み取りのみ。投稿しない）：トークン・権限・ページ・Instagram の ID・公開URLの置き場の確認と、投稿内容のドライラン
 on:
   workflow_dispatch:
+    inputs:
+      date:
+        description: "ドライランする日（例 2026-10-31）。空ならドライランしない"
+        required: false
+      slot:
+        description: "ドライランする時刻（例 12:00）"
+        required: false
+        default: "12:00"
+permissions:
+  contents: read
 jobs:
   check:
     runs-on: ubuntu-latest
@@ -19,5 +30,10 @@ jobs:
           YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
           MEDIA_TOKEN: ${{ secrets.MEDIA_TOKEN }}
           FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
-          FB_PAGE_TOKEN: ${{ secrets.FB_PAGE_TOKEN }}
         run: python auto/check.py
+      - name: 投稿内容のドライラン（API は呼ばない。posted.json の記録があっても表示する）
+        if: always() && github.event.inputs.date != ''
+        env:
+          IN_DATE: ${{ github.event.inputs.date }}
+          IN_SLOT: ${{ github.event.inputs.slot }}
+        run: python auto/post.py --dry-run --ignore-posted --date "$IN_DATE" "${IN_SLOT:-12:00}"
