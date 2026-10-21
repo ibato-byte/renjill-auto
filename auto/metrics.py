@@ -16,6 +16,11 @@ new = out.exists() is False
 rows = []
 today = dt.datetime.now(JST).strftime("%Y-%m-%d")
 
+NOT_ID = ("manual", "bs-scheduled")  # 手で予約・Business Suite で予約した回（投稿IDがないので API で数値を取れない）
+
+def is_id(v):
+    return bool(v) and v not in NOT_ID
+
 def yt_stats(ids):
     if not ids: return {}
     from google.oauth2.credentials import Credentials
@@ -46,13 +51,13 @@ def token_alert(pl, e):
         sec = alerts.PLATFORM_SECRET[pl]
         alerts.add(f"use:{sec}", f"数値の収集：{alerts.PLATFORM_NAME[pl]} の数値がトークンのエラーで取れなかった", alerts.FIX[sec])
 
-try: Y = yt_stats([v["yt"] for v in posted.values() if v.get("yt") and v["yt"] != "manual"])
+try: Y = yt_stats([v["yt"] for v in posted.values() if is_id(v.get("yt"))])
 except Exception as e: print("yt", fb.scrub(e)); Y = {}; token_alert("yt", e)
-try: T = tt_stats([v["tt"] for v in posted.values() if v.get("tt") and v["tt"] != "manual"])
+try: T = tt_stats([v["tt"] for v in posted.values() if is_id(v.get("tt"))])
 except Exception as e: print("tt", fb.scrub(e)); T = {}; token_alert("tt", e)
 MANUAL = mode.manual_platforms()  # 手動予約モードの SNS は API で数値を取らない（「計測なし」）
 FB_TOK = None
-if "facebook" not in MANUAL and any(v.get("facebook") and v["facebook"] != "manual" for v in posted.values()):
+if "facebook" not in MANUAL and any(is_id(v.get("facebook")) for v in posted.values()):
     try:
         acc = fb.diagnose()
         FB_TOK = acc["token"]
@@ -62,15 +67,15 @@ if "facebook" not in MANUAL and any(v.get("facebook") and v["facebook"] != "manu
     except Exception as e: print("facebook: 計測なし", type(e).__name__)
 for key, v in posted.items():
     date, ep = key.split("_", 1); ts = v.get("tag_set", "")
-    if v.get("yt") and v["yt"] != "manual":
+    if is_id(v.get("yt")):
         s = Y.get(v["yt"], {}); rows.append([today, date, ep, ts, "yt", s.get("viewCount", ""), s.get("likeCount", ""), s.get("commentCount", ""), "", ""])
-    if v.get("tt") and v["tt"] != "manual":
+    if is_id(v.get("tt")):
         s = T.get(v["tt"], {}); rows.append([today, date, ep, ts, "tt", s.get("view_count", ""), s.get("like_count", ""), s.get("comment_count", ""), s.get("share_count", ""), ""])
-    if v.get("ig") and v["ig"] != "manual" and "ig" not in MANUAL:
+    if is_id(v.get("ig")) and "ig" not in MANUAL:
         try: s = ig_stats(v["ig"])
         except Exception as e: print("ig", fb.scrub(e)); s = {}; token_alert("ig", e)
         rows.append([today, date, ep, ts, "ig", s.get("plays", ""), s.get("likes", ""), s.get("comments", ""), s.get("shares", ""), s.get("saved", "")])
-    if v.get("facebook") and v["facebook"] != "manual" and "facebook" not in MANUAL:
+    if is_id(v.get("facebook")) and "facebook" not in MANUAL:
         s = {}
         if FB_TOK:
             try: s = fb.reel_stats(v["facebook"], FB_TOK)

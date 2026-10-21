@@ -1,15 +1,12 @@
 name: manual
+# 【2026-10-21 から使っていない】Instagram・Facebook は post.yml が Meta Graph API で投稿する。API が使えなくなったときの予備として、手動実行だけ残す
+# （使うときは先に auto/mode.json の manual_platforms に "ig" "facebook" を入れる。手順：docs/setup/manual-mode.md）。
 # 手動予約モード（auto/mode.json）：Instagram・Facebook は API で投稿せず、オーナーの iMac の Chrome で動く Claude
 # （スケジュールタスク「レンとジル Business Suite 自動予約」月・火 10:47／16:47）が Meta Business Suite に予約する。
 # その素材（mp4・カバー・投稿文・manifest.json）を作って非公開の成果物 manual-YYYYMMDD（7日）にし、
 # manifest に入れた回を posted.json に bs-scheduled と記録する（二重予約の防止）。
 # API は呼ばない・投稿しない・mp4 はコミットしない。完全自動に戻す手順：docs/setup/manual-mode.md
 on:
-  schedule:
-    - cron: "30 0 * * 1"  # 毎週月曜 9:30 JST（保険。週次PDCA の push で先に動いていれば同じ中身を作り直すだけ）
-  push:
-    branches: [main]
-    paths: ["auto/schedule.json"]  # 週次PDCA が回を足したとき（月曜 10:00 までに成功した実行があるように）
   workflow_dispatch:
     inputs:
       scheduled:

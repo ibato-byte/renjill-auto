@@ -56,8 +56,6 @@ jobs:
           YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
           YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
           MEDIA_TOKEN: ${{ secrets.MEDIA_TOKEN }}
-          FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
-          FB_PAGE_TOKEN: ${{ secrets.FB_PAGE_TOKEN }}
           IN_SLOT: ${{ github.event.inputs.slot }}
           IN_DATE: ${{ github.event.inputs.date }}
         run: |
@@ -85,6 +83,6 @@ jobs:
           [ -d "$RUNNER_TEMP/hub" ] || exit 0
           extra=()
           [ -f dist/post_hub_args ] && mapfile -d '' extra < dist/post_hub_args
-          bash "$RUNNER_TEMP/hub/scripts/gha.sh" report renjill-post "$JOB_STATUS" "$PAUSED" "予定の回を自動で投稿（手動予約モードの SNS は除く。投稿済みは auto/posted.json）" \
+          bash "$RUNNER_TEMP/hub/scripts/gha.sh" report renjill-post "$JOB_STATUS" "$PAUSED" "予定の回を自動で投稿（Instagram・Facebook は Meta Graph API。投稿済み・Business Suite で予約済みは auto/posted.json で飛ばす）" \
             --next-run-at "$(bash "$RUNNER_TEMP/hub/scripts/gha.sh" next-daily 03:00 09:00 10:00)" \
             "${extra[@]}"
