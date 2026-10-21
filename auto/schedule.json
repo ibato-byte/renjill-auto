@@ -45,7 +45,7 @@
    "tag_set": "B",
    "thumb": {
     "t": 8.0,
-    "cam": "2.0,470,1351",
+    "cam": "1.8,470,1250",
     "hook": "WHERE'S MY MUG?/頭の上です、課長"
    }
   },
@@ -60,7 +60,7 @@
    "tag_set": "A",
    "thumb": {
     "t": 6.0,
-    "cam": "1.8,592,1156",
+    "cam": "2.0,560,1100",
     "hook": "IT'S 5 PM!/定時のよろこび"
    }
   },
@@ -74,8 +74,8 @@
    "caption_en": "Glasses on, switch on. Where's the boss's switch?",
    "tag_set": "B",
    "thumb": {
-    "t": 3.9,
-    "cam": "2.2,830,1397",
+    "t": 13.5,
+    "cam": "3.4,840,1500",
     "hook": "GLASSES ON./スイッチが入る"
    }
   },
