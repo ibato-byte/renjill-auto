@@ -1,7 +1,7 @@
 {
  "_comment": "毎週のPDCAでClaudeがここを更新する。dateはJST。slotは 12:00 / 18:00 / 19:00。platformsは ig / tt / yt / facebook（Facebook ページ「レンとジル」のリール。Instagram と同じ動画・同じ時刻。キャプションは caption_en→caption_ja→fb_cta→fb_tag_sets のハッシュタグ3個以内）。tag_setはA/Bの交互で効果を比較し、勝った方を翌週のdefaultsに昇格させる。thumbはサムネ（t=秒, cam=ズーム,中心x,中心y, hook='英語の一言(12文字以内)/日本語の補足(10文字以内)'）。海外にも届くよう英語を主、日本語を従にする。 camは顔が画面の下寄り（y 900〜1300）に来るよう cy を小さめにする（文字は上、チップはその下、全部が中央3:4に収まる）。",
  "defaults": {
-  "yt_description": "A wordless office comedy about two bunnies: Ren, the absent-minded boss (Holland Lop), and Jill, his sharp assistant (Netherland Dwarf).\nうさぎの課長レン（たれ耳）と、しっかり者の部下ジル。セリフなしのオフィスコメディ。\n\nNew episodes Mon / Wed / Fri / Sun\nInstagram / TikTok / X: @renjill_office",
+  "yt_description": "A wordless office comedy about two bunnies: Ren, the absent-minded boss (Holland Lop), and Jill, his sharp assistant (Netherland Dwarf).\nうさぎの課長レン（たれ耳）と、しっかり者の部下ジル。セリフなしのオフィスコメディ。\n\nNew episodes Mon / Wed / Fri / Sun\nInstagram / TikTok / X: @renjill_office\nFacebook: レンとジル Ren & Jill",
   "platforms": [
    "ig",
    "tt",
