@@ -189,17 +189,43 @@ def dry_run(targets, d, posted=None):
     log("[DRY-RUN] API は呼んでいません")
     return 0
 
-def write_hub_args(fb_result, results=None):
+META = ("ig", "facebook")
+NOT_ID = ("manual", "bs-scheduled")  # 手で予約・Business Suite で予約した回（投稿IDではない）
+
+def next_api_post(sch, posted, now):
+    """次に Instagram・Facebook へ API で出す回の「月/日 時刻」。なければ None"""
+    for p in sorted(sch["posts"], key=lambda p: (p["date"], p["slot"])):
+        h, m = map(int, p["slot"].split(":"))
+        if dt.datetime.fromisoformat(p["date"]).replace(hour=h, minute=m, tzinfo=JST) <= now: continue
+        done = posted.get(f'{p["date"]}_{p["ep"]}', {})
+        if any(x in p.get("platforms", sch["defaults"]["platforms"]) and x not in done and not mode.is_manual(x) for x in META):
+            return f'{p["date"][5:].replace("-", "/")} {p["slot"]}'
+    return None
+
+def write_hub_args(fb_result, results=None, actions=None, next_api=None, keep_actions=False):
     """Automation Hub の report に渡す追加の引数（NUL 区切り。post.yml が読む）。
-    results：{"回": "タイトル（日付 時刻）", "Instagram": "投稿OK", …}（投稿ごとの結果。KPI は8件まで）"""
+    results：{"回": "タイトル（日付 時刻）", "Instagram": "投稿OK", …}（投稿ごとの結果。KPI は8件まで）
+    actions：オーナーのやること（失敗した投稿の出し直しなど）。なければ「やること」を空にする（keep_actions なら前のまま）"""
     manual = sorted(mode.NAMES[x] for x in mode.manual_platforms())
     args = []
     for k, v in list((results or {}).items())[:6]:
         args += ["--kpi", f"{k}={str(v).replace('=', '＝')}"]
     if fb_result and "Facebook" not in (results or {}): args += ["--kpi", f"Facebook={fb_result['kpi']}"]
+    args += ["--kpi", "次の Instagram・Facebook 投稿=" + (next_api or "未登録（週次PDCA で登録）")]
     if manual: args += ["--kpi", "手動予約=" + "・".join(manual)]
-    args += ["--owner-action", fb_result["action"][:300]] if fb_result and fb_result.get("action") else ["--owner-action", "none"]
+    acts = list(actions or [])
+    if fb_result and fb_result.get("action"): acts.append(fb_result["action"])
+    for a in acts: args += ["--owner-action", a[:300]]
+    if not acts and not keep_actions: args += ["--owner-action", "none"]
     (DIST / "post_hub_args").write_bytes(b"\0".join(s.encode() for s in args) + b"\0")
+
+def failure_action(p, pl, err):
+    """投稿に失敗したときの「やること」（Hub に出す）"""
+    name = mode.NAMES.get(pl, pl)
+    redo = f'直したら Actions → post → Run workflow で date に {p["date"]}、slot に {p["slot"]} を入れて出し直す（投稿済みの SNS は飛ばす）'
+    if alerts.is_token_error(repr(err)):
+        return f'「{p["title"]}」の {name} がトークンのエラーで出せなかった。Hub の「トークンの期限チェック」の「やること」（メールにも同じ手順）でトークンを直す。{redo}'
+    return f'「{p["title"]}」の {name} の投稿に失敗した（{type(err).__name__}）。{redo}。続けて失敗するなら、この実行のログを Claude に送って相談する'
 
 def main(argv=None):
     a = parse_args(sys.argv[1:] if argv is None else argv)
@@ -210,15 +236,22 @@ def main(argv=None):
     if a["ignore_posted"] and not a["dry_run"]: log("--ignore-posted はドライランでだけ使える"); return 2
     sch, posted, targets = pick_posts(a["slot"], now, a["ignore_posted"])
     d = sch["defaults"]
-    if not targets: log("今日のこの時間帯に投稿なし"); write_hub_args(None); return 0
+    now_ = now or dt.datetime.now(JST)
+    if not targets:
+        log("今日のこの時間帯に投稿なし")
+        write_hub_args(None, next_api=next_api_post(sch, posted, now_), keep_actions=True)  # 前の失敗の「やること」は消さない
+        return 0
     if a["dry_run"]: return dry_run(targets, d, posted)
     failed = []
-    fb_access, fb_result, results = None, None, {}
+    fb_access, fb_result, results, actions = None, None, {}, []
+    first_fb = not any(v.get("facebook") and v["facebook"] not in NOT_ID for v in posted.values())
     for key, p, plats in targets:
         results["回"] = f'{p["title"]}（{p["date"][5:]} {p["slot"]}）' if "回" not in results else results["回"] + f'・{p["title"]}'
         yt_path, loop_path = render(p["ep"])
         if not qa_gate(p["ep"], yt_path, loop_path):
-            failed.append(f"{key}:QA"); results["QA"] = "不合格で見送り"; continue
+            failed.append(f"{key}:QA"); results["QA"] = "不合格で見送り"
+            actions.append(f'「{p["title"]}」（{p["date"]} {p["slot"]}）が投稿前の QA に不合格で、どの SNS にも出していない（理由は dist/{p["ep"]}_qa.json）。Claude に「{p["ep"]} の QA を直して出し直して」と伝える')
+            continue
         rec = posted.setdefault(key, {"tag_set": p.get("tag_set", "A"), "no": p["no"], "title": p["title"]})
         th = {}
         def thumb():  # Instagram・Facebook で同じサムネ（チェックに通らなければ両方とも出さない）
@@ -240,6 +273,9 @@ def main(argv=None):
                     if info.get("thumb") == "NG":
                         fb_result["action"] = f"Facebook リール「{p['title']}」はサムネを付けられなかった（動画は公開済み）。Business Suite でカバーを差し替えるか、Claude に相談する"
                     results["Facebook"] = fb_result["kpi"]
+                    if first_fb and info.get("thumb") == "OK":
+                        actions.append(f"Facebook リールの API 投稿の1本目（「{p['title']}」）。ページ「レンとジル Ren & Jill」で、カバー（サムネ）が付いているかを一度見る。付いていなければ Claude に知らせる")
+                    first_fb = False
                 else:
                     log("未対応のSNS", pl); continue
                 rec[pl + "_at"] = dt.datetime.now(JST).isoformat(timespec="minutes")
@@ -259,8 +295,9 @@ def main(argv=None):
                     alerts.add(f"use:{sec}", f"自動投稿：「{p['title']}」の {alerts.PLATFORM_NAME[pl]} がトークンのエラーで失敗（他のSNSは続けた。直したら出し直せる）", alerts.FIX[sec])
                 if pl == "facebook": fb_result = {"kpi": "投稿失敗"}
                 results[mode.NAMES.get(pl, pl)] = "投稿失敗"
+                actions.append(failure_action(p, pl, e))
         (AUTO / "posted.json").write_text(json.dumps(posted, ensure_ascii=False, indent=2))
-    write_hub_args(fb_result, results)
+    write_hub_args(fb_result, results, actions, next_api_post(sch, posted, now_))
     if failed: log("失敗:", failed); return 1
     return 0
 

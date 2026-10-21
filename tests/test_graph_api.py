@@ -126,13 +126,80 @@ class HubArgsTest(unittest.TestCase):
             post.write_hub_args({"kpi": "投稿OK（サムネOK）"}, {"回": "新しい回（10-31 12:00）", "Instagram": "投稿OK", "Facebook": "投稿OK（サムネOK）"})
         args = out["b"].split(b"\0")
         self.assertIn("Instagram=投稿OK".encode(), args); self.assertIn("Facebook=投稿OK（サムネOK）".encode(), args)
-        self.assertEqual(args.count(b"--kpi"), 3)
+        self.assertEqual(args.count(b"--kpi"), 4)  # 回・Instagram・Facebook・次の Instagram・Facebook 投稿
+        self.assertIn("次の Instagram・Facebook 投稿=未登録（週次PDCA で登録）".encode(), args)
+        self.assertEqual(args[args.index(b"--owner-action") + 1], b"none")
+
+    def test_failure_goes_to_owner_action(self):
+        out = {}
+        p = {"title": "新しい回", "date": "2026-11-02", "slot": "12:00"}
+        acts = [post.failure_action(p, "ig", RuntimeError({"error": {"code": 190, "type": "OAuthException"}})),
+                post.failure_action(p, "facebook", RuntimeError("boom"))]
+        self.assertIn("トークン", acts[0]); self.assertIn("2026-11-02", acts[1]); self.assertIn("12:00", acts[1])
+        with mock.patch.object(pathlib.Path, "write_bytes", lambda self, b: out.setdefault("b", b)):
+            post.write_hub_args(None, {"Instagram": "投稿失敗"}, acts, "11/04 18:00")
+        args = out["b"].split(b"\0")
+        self.assertEqual(args.count(b"--owner-action"), 2); self.assertNotIn(b"none", args)
+        self.assertIn("次の Instagram・Facebook 投稿=11/04 18:00".encode(), args)
+
+    def test_no_post_keeps_previous_actions(self):
+        out = {}
+        with mock.patch.object(pathlib.Path, "write_bytes", lambda self, b: out.setdefault("b", b)):
+            post.write_hub_args(None, next_api="11/02 12:00", keep_actions=True)
+        self.assertNotIn(b"--owner-action", out["b"].split(b"\0"))
+
+    def test_next_api_post(self):
+        sch = {"defaults": {"platforms": ["ig", "yt", "facebook"]},
+               "posts": [{"date": "2026-10-30", "slot": "18:00", "ep": "a"}, {"date": "2026-11-02", "slot": "12:00", "ep": "b"}]}
+        posted = {"2026-10-30_a": {"ig": "bs-scheduled", "facebook": "bs-scheduled"}}
+        now = dt.datetime(2026, 10, 21, 16, tzinfo=post.JST)
+        with mock.patch.dict(os.environ, {"MANUAL_PLATFORMS": ""}):
+            self.assertEqual(post.next_api_post(sch, posted, now), "11/02 12:00")
+            self.assertIsNone(post.next_api_post(sch, posted, dt.datetime(2026, 11, 3, tzinfo=post.JST)))
 
 
 class MetricsTest(unittest.TestCase):
     def test_not_id(self):
         src = (ROOT / "auto" / "metrics.py").read_text()
         self.assertIn('NOT_ID = ("manual", "bs-scheduled")', src)
+
+    def test_ig_insights_fallback(self):
+        import meta_stats as ms
+        def get(url, params=None, timeout=None):
+            m = params["metric"]
+            if "," in m or m in ("views", "saved"): return R({"error": {"message": "unsupported"}})
+            return R({"data": [{"name": m, "values": [{"value": 7}]}]})
+        s = ms.ig_insights("m1", TOK, type("H", (), {"get": staticmethod(get)})())
+        self.assertEqual((s["views"], s["reach"], s["likes"]), (7, 7, 7))  # views が取れなければ plays を使う
+        with self.assertRaises(RuntimeError):
+            ms.ig_insights("m1", TOK, type("H", (), {"get": staticmethod(lambda *a, **k: R({"error": {"code": 190}}))})())
+
+    def test_find_ids_of_reserved_posts(self):
+        import meta_stats as ms
+        sch = {"posts": [{"date": "2026-10-23", "slot": "18:00", "ep": "mug2", "caption_en": "Where did my mug go? Again."},
+                         {"date": "2026-10-25", "slot": "19:00", "ep": "chime2", "caption_en": "It's 5 PM!"}]}
+        posted = {"2026-10-23_mug2": {"ig": "bs-scheduled", "facebook": "bs-scheduled", "yt": "y1"},
+                  "2026-10-25_chime2": {"ig": "bs-scheduled", "facebook": "bs-scheduled"}}
+        ig = [{"id": "i9", "caption": "Where did my mug go? Again.\nマグ", "timestamp": "2026-10-23T09:00:05+0000"},
+              {"id": "i8", "caption": "Where did my mug go? Again.", "timestamp": "2026-10-20T09:00:05+0000"}]  # 別の日は使わない
+        fbr = [{"id": "f9", "description": "where did my mug go? again.", "created_time": "2026-10-23T09:01:00+0000"}]
+        found = ms.find_ids(posted, sch, ig, fbr, dt.datetime(2026, 10, 26, tzinfo=post.JST))
+        self.assertEqual(found, [("2026-10-23_mug2", "ig"), ("2026-10-23_mug2", "facebook")])
+        rec = posted["2026-10-23_mug2"]
+        self.assertEqual((rec["ig"], rec["ig_via"], rec["facebook"], rec["facebook_via"]), ("i9", "bs-scheduled", "f9", "bs-scheduled"))
+        self.assertEqual(posted["2026-10-25_chime2"]["ig"], "bs-scheduled")  # 見つからなければそのまま（API で出さない）
+
+    def test_followers_csv(self):
+        import meta_stats as ms
+        with tempfile.TemporaryDirectory() as d:
+            p = pathlib.Path(d) / "followers.csv"
+            p.write_text("計測日,ig,tiktok,youtube,x,line,合計,メモ\n2026-10-20,2,5,2,0,,9,手動\n", encoding="utf-8")
+            self.assertTrue(ms.write_followers(p, "2026-10-22", {"ig": 4, "facebook": 1, "youtube": 2}))
+            self.assertFalse(ms.write_followers(p, "2026-10-22", {"ig": 5}))  # 1日1行
+            lines = p.read_text(encoding="utf-8").splitlines()
+        self.assertEqual(lines[0], ",".join(ms.HEADER))
+        self.assertEqual(lines[1], "2026-10-20,2,5,2,,0,,9,手動")
+        self.assertTrue(lines[2].startswith("2026-10-22,4,,2,1,,,7,"))
 
 
 if __name__ == "__main__":
