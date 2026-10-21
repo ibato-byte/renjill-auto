@@ -1,15 +1,15 @@
 {
  "ep": "chime2",
  "en": {
-  "width": 852,
-  "height": 198,
-  "top": 443
+  "width": 854,
+  "height": 252,
+  "top": 415
  },
- "chipTop": 754,
+ "chipTop": 752,
  "busy": {
   "en": 0,
   "ja": 0.1,
   "chip": 0
  },
- "made": "2026-10-21T22:09:49.782Z"
+ "made": "2026-10-21T22:19:54.970Z"
 }
