@@ -3,9 +3,9 @@
   "render_qa": true,
   "thumb_qa": true,
   "review_images": [
-    "/tmp/claude-0/-home-claude/61469d6d-62ad-52e2-ad55-e04baa6df7d2/scratchpad/renjill-auto/dist/mug2_review.jpg",
-    "/tmp/claude-0/-home-claude/61469d6d-62ad-52e2-ad55-e04baa6df7d2/scratchpad/renjill-auto/dist/mug2_sheet.jpg",
-    "/tmp/claude-0/-home-claude/61469d6d-62ad-52e2-ad55-e04baa6df7d2/scratchpad/renjill-auto/dist/mug2_thumb.jpg"
+    "/home/user/renjill-auto/dist/mug2_review.jpg",
+    "/home/user/renjill-auto/dist/mug2_sheet.jpg",
+    "/home/user/renjill-auto/dist/mug2_thumb.jpg"
   ],
   "checklist": [
     "最初の1秒で状況（誰が・何をしている）がわかるか",
@@ -29,6 +29,6 @@
       "warns": []
     }
   },
-  "thumb": "/tmp/claude-0/-home-claude/61469d6d-62ad-52e2-ad55-e04baa6df7d2/scratchpad/renjill-auto/dist/mug2_thumb.jpg",
+  "thumb": "/home/user/renjill-auto/dist/mug2_thumb.jpg",
   "pass_machine": true
 }

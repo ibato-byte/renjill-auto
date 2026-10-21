@@ -1,0 +1,34 @@
+{
+  "ep": "chime2",
+  "render_qa": true,
+  "thumb_qa": true,
+  "review_images": [
+    "/home/user/renjill-auto/dist/chime2_review.jpg",
+    "/home/user/renjill-auto/dist/chime2_sheet.jpg",
+    "/home/user/renjill-auto/dist/chime2_thumb.jpg"
+  ],
+  "checklist": [
+    "最初の1秒で状況（誰が・何をしている）がわかるか",
+    "遊び（ゲーム）は1つだけか。3回、少しずつ大きくなっているか",
+    "オチの前に「間」（音が止まる・寄り）があるか",
+    "オチの後のオチ（ひとひねり）があるか",
+    "セリフなしで海外の人にも伝わるか（文字に頼っていないか）",
+    "顔が隠れる・小道具がキャラの後ろに消える・記号の残骸がないか",
+    "サムネの英語見出しが一目で内容を言い当てているか（12文字以内）"
+  ],
+  "qa_detail": {
+    "ep": "chime2",
+    "pass": true,
+    "issues": [],
+    "warns": [],
+    "render": {
+      "ep": "chime2",
+      "dur": 23,
+      "pass": true,
+      "issues": [],
+      "warns": []
+    }
+  },
+  "thumb": "/home/user/renjill-auto/dist/chime2_thumb.jpg",
+  "pass_machine": true
+}
