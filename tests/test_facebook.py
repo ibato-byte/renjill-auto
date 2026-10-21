@@ -9,6 +9,7 @@ import facebook as fb  # noqa: E402
 import post  # noqa: E402
 
 TOK = "EAAtesttoken1234567890"
+PAGE_TOK = "EAApagetoken1234567890"
 SCH = json.loads((ROOT / "auto" / "schedule.json").read_text())
 D = SCH["defaults"]
 P = SCH["posts"][0]
@@ -29,11 +30,14 @@ class Resp:
 
 class FakeHttp:
     """呼ばれた順に記録し、決めておいた応答を返す"""
-    def __init__(self, debug=None, me=None, start=None, upload=None, finish=None, status=None):
+    def __init__(self, debug=None, me=None, start=None, upload=None, finish=None, status=None, page=None, thumbs=None):
         self.calls = []
-        self.debug = debug if debug is not None else {"data": {"is_valid": True, "type": "PAGE", "profile_id": "111",
-                                                               "scopes": list(fb.REQUIRED_SCOPES), "expires_at": 0}}
-        self.me = me or {"id": "111", "name": "レンとジル Ren & Jill"}
+        self.debug = debug if debug is not None else {"data": {"is_valid": True, "type": "SYSTEM_USER",
+                                                               "scopes": list(fb.ALL_SCOPES), "expires_at": 0}}
+        self.me = me or {"id": fb.PAGE_ID, "name": "レンとジル Ren & Jill", "instagram_business_account": {"id": "17841"}}
+        self.page = page if page is not None else {"id": fb.PAGE_ID, "name": "レンとジル Ren & Jill", "access_token": PAGE_TOK,
+                                                   "instagram_business_account": {"id": "17841"}}
+        self.thumbs = thumbs or [{"success": True}]
         self.start = start or [{"video_id": "v1", "upload_url": "https://rupload.facebook.com/video-upload/v21.0/v1"}]
         self.upload = upload or [{"success": True}]
         self.finish = finish or {"success": True}
@@ -43,12 +47,16 @@ class FakeHttp:
         self.calls.append(("GET", url, params))
         if url.endswith("/debug_token"): return Resp(self.debug)
         if url.endswith("/me"): return Resp(self.me)
+        if url.endswith("/" + fb.PAGE_ID): return Resp(self.page)
         return Resp(self.status)
 
     def post(self, url, data=None, headers=None, timeout=None, **kw):
         if hasattr(data, "read"): data = "<file>"
         self.calls.append(("POST", url, data, headers))
         if "rupload.facebook.com" in url: return Resp(self.upload.pop(0) if len(self.upload) > 1 else self.upload[0])
+        if url.endswith("/thumbnails"):
+            self.calls[-1] = ("POST", url, data, kw.get("files", {}).get("source", ("",))[0])
+            return Resp(self.thumbs.pop(0) if len(self.thumbs) > 1 else self.thumbs[0])
         if data.get("upload_phase") == "start": return Resp(self.start.pop(0) if len(self.start) > 1 else self.start[0])
         if data.get("upload_phase") == "finish": return Resp(self.finish)
         raise AssertionError(url)
@@ -73,35 +81,50 @@ class CaptionTest(unittest.TestCase):
 
 
 class DiagnoseTest(unittest.TestCase):
-    def test_ok(self):
-        a = fb.diagnose({"FB_PAGE_TOKEN": TOK}, FakeHttp())
-        self.assertTrue(a["ok"]); self.assertEqual(a["page_id"], "111"); self.assertEqual(a["secret"], "FB_PAGE_TOKEN")
+    def test_system_user_token(self):
+        h = FakeHttp()
+        a = fb.diagnose({"IG_ACCESS_TOKEN": TOK}, h)
+        self.assertTrue(a["ok"]); self.assertEqual(a["page_id"], "1358515160686321"); self.assertEqual(a["token"], PAGE_TOK)
+        self.assertEqual((a["ig_user_id"], a["expires_at"], a["token_type"]), ("17841", 0, "SYSTEM_USER"))
+        page = [c for c in h.calls if c[1].endswith("/" + fb.PAGE_ID)][0]
+        self.assertIn("instagram_business_account", page[2]["fields"]); self.assertIn("access_token", page[2]["fields"])
 
     def test_unset(self):
         a = fb.diagnose({}, FakeHttp())
         self.assertFalse(a["ok"]); self.assertIn("未設定", a["reasons"][0])
 
-    def test_missing_scope(self):
-        h = FakeHttp(debug={"data": {"is_valid": True, "type": "PAGE", "scopes": ["pages_show_list"]}})
-        a = fb.diagnose({"FB_PAGE_TOKEN": TOK}, h)
-        self.assertFalse(a["ok"]); self.assertIn("pages_manage_posts", a["reasons"][0])
+    def test_fb_page_token_is_not_used(self):
+        self.assertFalse(fb.diagnose({"FB_PAGE_TOKEN": TOK}, FakeHttp())["ok"])
 
-    def test_user_token_rejected(self):
-        h = FakeHttp(debug={"data": {"is_valid": True, "type": "USER", "scopes": list(fb.REQUIRED_SCOPES)}})
-        self.assertFalse(fb.diagnose({"FB_PAGE_TOKEN": TOK}, h)["ok"])
+    def test_missing_scope(self):
+        h = FakeHttp(debug={"data": {"is_valid": True, "type": "SYSTEM_USER", "scopes": ["pages_show_list"], "expires_at": 0}})
+        a = fb.diagnose({"IG_ACCESS_TOKEN": TOK}, h)
+        self.assertFalse(a["ok"]); self.assertIn("pages_manage_posts", a["reasons"][0])
+        self.assertEqual(a["ig_user_id"], "17841")  # 権限が足りなくても、ページと Instagram の ID は確かめる
+
+    def test_page_not_assigned(self):
+        h = FakeHttp(page={"error": {"code": 100, "message": "Unsupported get request"}})
+        a = fb.diagnose({"IG_ACCESS_TOKEN": TOK}, h)
+        self.assertFalse(a["ok"]); self.assertIn(fb.PAGE_ID, a["reasons"][0])
+
+    def test_no_page_token(self):
+        h = FakeHttp(page={"id": fb.PAGE_ID, "name": "レンとジル Ren & Jill"})
+        self.assertFalse(fb.diagnose({"IG_ACCESS_TOKEN": TOK}, h)["ok"])
+
+    def test_page_token_directly(self):
+        h = FakeHttp(debug={"data": {"is_valid": True, "type": "PAGE", "scopes": list(fb.ALL_SCOPES), "expires_at": 0}})
+        a = fb.diagnose({"IG_ACCESS_TOKEN": TOK}, h)
+        self.assertTrue(a["ok"]); self.assertEqual(a["token"], TOK); self.assertEqual(a["ig_user_id"], "17841")
 
     def test_other_page_rejected(self):
-        self.assertFalse(fb.diagnose({"FB_PAGE_TOKEN": TOK, "FB_PAGE_ID": "999"}, FakeHttp())["ok"])
-        self.assertFalse(fb.diagnose({"FB_PAGE_TOKEN": TOK}, FakeHttp(me={"id": "111", "name": "別のページ"}))["ok"])
-
-    def test_ig_token_fallback(self):
-        a = fb.diagnose({"IG_ACCESS_TOKEN": TOK}, FakeHttp())
-        self.assertTrue(a["ok"]); self.assertEqual(a["secret"], "IG_ACCESS_TOKEN")
+        h = FakeHttp(debug={"data": {"is_valid": True, "type": "PAGE", "scopes": list(fb.ALL_SCOPES), "expires_at": 0}},
+                     me={"id": "1386940331166810", "name": "レンとジル Ren & Jill"})
+        self.assertFalse(fb.diagnose({"IG_ACCESS_TOKEN": TOK}, h)["ok"])
 
     def test_no_token_in_reasons(self):
-        h = FakeHttp(debug={"data": {"is_valid": False}})
-        a = fb.diagnose({"FB_PAGE_TOKEN": TOK}, h)
-        self.assertNotIn(TOK, json.dumps(a["reasons"], ensure_ascii=False))
+        for h in (FakeHttp(debug={"data": {"is_valid": False}}), FakeHttp(page={"error": {"message": f"bad access_token={TOK}"}})):
+            a = fb.diagnose({"IG_ACCESS_TOKEN": TOK}, h)
+            self.assertNotIn(TOK, json.dumps(a["reasons"], ensure_ascii=False))
 
 
 class PublishTest(unittest.TestCase):
@@ -123,6 +146,26 @@ class PublishTest(unittest.TestCase):
         fin = posts[2][2]
         self.assertEqual((fin["upload_phase"], fin["video_state"], fin["video_id"]), ("finish", "PUBLISHED", "v1"))
         self.assertEqual(fin["description"], fb.caption(P, D))
+
+    def test_thumbnail(self):
+        th = tempfile.NamedTemporaryFile(suffix="_thumb.jpg", delete=False); th.write(b"jpg"); th.close()
+        try:
+            h, info = FakeHttp(), {}
+            fb.post(P, D, self.tmp.name, http=h, sleep=lambda s: None, access=self.acc(), thumb_path=th.name, info=info)
+            self.assertEqual(info["thumb"], "OK")
+            urls = [c[1] for c in h.calls if c[0] == "POST"]
+            self.assertTrue(urls[2].endswith("/v1/thumbnails"))  # アップロードのあと・公開（finish）の前
+            self.assertEqual([c for c in h.calls if c[1].endswith("/thumbnails")][0][2]["is_preferred"], "true")
+            # 公開前に付けられなければ、公開後にもう一度
+            h, info = FakeHttp(thumbs=[{"error": {"message": "not ready"}}, {"success": True}]), {}
+            fb.post(P, D, self.tmp.name, http=h, sleep=lambda s: None, access=self.acc(), thumb_path=th.name, info=info)
+            self.assertEqual(info["thumb"], "OK")
+            self.assertEqual(sum(1 for c in h.calls if c[1].endswith("/thumbnails")), 2)
+            # それでもだめなら NG（動画は公開済みなので失敗にはしない）
+            h, info = FakeHttp(thumbs=[{"error": {"message": "no"}}]), {}
+            self.assertEqual(fb.post(P, D, self.tmp.name, http=h, sleep=lambda s: None, access=self.acc(), thumb_path=th.name, info=info), "v1")
+            self.assertEqual(info["thumb"], "NG")
+        finally: os.unlink(th.name)
 
     def test_retry_once_before_finish(self):
         h = FakeHttp(upload=[{"error": {"message": "temporary"}}, {"success": True}],
@@ -229,7 +272,8 @@ class MainLoopTest(unittest.TestCase):
             writes[self.name] = data; return len(data)
         ctx = [mock.patch.object(pathlib.Path, "write_text", w), mock.patch.object(pathlib.Path, "read_text", r), mock.patch.object(pathlib.Path, "write_bytes", wb),
                mock.patch.object(post, "render", lambda ep: (pathlib.Path("a.mp4"), pathlib.Path("b.mp4"))),
-               mock.patch.object(post, "qa_gate", lambda *a: True), mock.patch.object(fb, "diagnose", lambda *a, **k: access)]
+               mock.patch.object(post, "qa_gate", lambda *a: True), mock.patch.object(post, "thumbnail", lambda p: pathlib.Path("t.jpg")),
+               mock.patch.object(fb, "diagnose", lambda *a, **k: access)]
         if fb_post: ctx.append(mock.patch.object(fb, "post", fb_post))
         for c in ctx: c.start()
         try: code = post.main(["--date", P["date"], P["slot"]])

@@ -1,67 +1,66 @@
-# Facebook リールの自動投稿：ページトークンの設定（オーナー作業）
+# Instagram・Facebook の自動投稿（Meta Graph API）：トークンの設定と確認
 
-> **2026-10-21 から手動予約モード中**です（古いページ・アプリは使えなくなりました）。いまの手順と、新しいページ「レンとジル Ren & Jill」（ID 1386940331166810）で完全自動に戻す手順は [manual-mode.md](manual-mode.md) を見てください。この文書は古いページでの手順です。
+最終更新：2026-10-21（Business Suite の予約をやめ、GitHub Actions から API で投稿する形に戻した）
 
-レンとジルの Facebook ページに、Instagram と同じ動画を **Facebook リール** として自動投稿します（`auto/facebook.py`）。
-投稿には、Facebook ログイン経由の **ページのアクセストークン** と、次の3つの権限が必要です（Meta の Reels Publishing API の要件）。
+Instagram リールと Facebook リールは、GitHub Actions（`post.yml`、12:00／18:00／19:00）から **Meta Graph API** で投稿します。iMac・Chrome は使いません。
+
+| | いまの設定 |
+| --- | --- |
+| Meta アプリ | renjill-auto（ID 1107271625215495） |
+| ビジネスポートフォリオ | renjill_office（ID 1623311255865570） |
+| システムユーザー | renjill-auto（ページ・Instagram・アプリにフルアクセスで割り当て済み） |
+| Facebook ページ | 「レンとジル Ren & Jill」（ID **1358515160686321**。コードの `auto/facebook.py` の `PAGE_ID`） |
+| Instagram | @renjill_office（ID はページの `instagram_business_account` から毎回取る） |
+| トークン | システムユーザーの **期限なし** トークン → Secrets の `IG_ACCESS_TOKEN`（Instagram と Facebook の両方に使う） |
+
+※ 以前のページ 1386940331166810 は重複していたため削除済み。Secrets の `FB_PAGE_TOKEN` は使っていません（消してもかまいません）。`FB_PAGE_ID`・`IG_USER_ID` は「トークンの期限チェック」で一致するかを見るだけです（違っていても、コードの値・ページから取った値で投稿します）。
+
+## 必要な権限（システムユーザーのトークン）
 
 | 権限 | 用途 |
 |---|---|
-| `pages_show_list` | 自分が管理するページの一覧を見る |
-| `pages_read_engagement` | ページの情報・反応を読む |
-| `pages_manage_posts` | ページに投稿する（リールの公開） |
+| `pages_show_list`・`pages_read_engagement`・`pages_manage_posts` | Facebook ページのトークンを取り、リールを公開する |
+| `business_management` | ビジネスポートフォリオのページ・Instagram を扱う |
+| `instagram_basic`・`instagram_content_publish` | Instagram のリールを公開する |
+| `instagram_manage_insights` | Instagram の数値を取る |
 
-- トークンを作る人は、ページ「レンとジル」で **コンテンツを作成できる**（管理者など）こと。
-- 自分のアプリ（renjill-auto）で自分のページに投稿するだけなので、アプリ審査（App Review）は不要です（開発モードのままで可）。
-- 権限がない間は、**Facebook だけ飛ばして** Instagram・YouTube などは今までどおり投稿します。
-- 毎週月曜 9:00 の「トークンの期限チェック」（`tokens` ワークフロー）が、権限と期限を確認して Automation Hub に出します。
-- 値（トークン）は、チャット・メール・Issue に貼らないでください。GitHub の Secrets にだけ入れます。
+## 投稿のしかた（自動）
 
-## 手順（10分ほど）
+- **Instagram リール**：動画（`dist/<ep>_loop.mp4`）とサムネ（`dist/<ep>_thumb.jpg`、チェック済み）を公開リポジトリ `ibato-byte/renjill-media` に置き（`MEDIA_TOKEN`）、その公開 URL を `video_url`・`cover_url` に入れて `/{IG の ID}/media`（`media_type=REELS`）→ `/media_publish`。
+- **Facebook リール**：`GET /1358515160686321?fields=access_token` でページトークンを取り、Reels Publishing API（start → アップロード → サムネ `/{video_id}/thumbnails`（`is_preferred=true`）→ finish）で公開。サムネを付けられなかったときは公開後にもう一度試し、それでもだめなら Automation Hub の「やること」に出します（動画は公開済み）。
+- `auto/posted.json` に投稿 ID を記録し、同じ SNS に二度出しません。`"bs-scheduled"`（Business Suite で予約済み）・`"manual"`（手で予約済み）も「出した」とみなします。
+- 投稿のたびに Automation Hub の「レンとジル 自動投稿」に、回・SNS ごとの結果を記録します。
+- トークン・権限がだめなときは、その SNS だけ飛ばして他の SNS は続け、オーナーにメール（GitHub の通知。1日1通まで）を送ります。
 
-### 1. ユーザートークンに権限を足す（グラフAPIエクスプローラ）
-1. PC のブラウザで https://developers.facebook.com/tools/explorer/ を開く（Facebook にログインしている状態で）。
-2. 右側の **「Meta App」** で `renjill-auto` を選ぶ。
-3. **「ユーザーまたはページ」** で **「ユーザートークン」** を選ぶ。
-4. **「許可を追加」**（Permissions）の欄に、次を追加する：
-   `pages_show_list`、`pages_read_engagement`、`pages_manage_posts`
-   - すでに入っている `instagram_basic`・`instagram_content_publish` などの Instagram の権限は **外さない**（Instagram の投稿が止まります）。
-   - 数値の収集（再生数など）も取りたいときは `read_insights` も追加する（任意）。
-5. **「Generate Access Token」** を押す。Facebook の確認画面が出たら：
-   - 「現在のページのみ」または「すべてのページ」で **「レンとジル」にチェック** が入っていることを確認
-   - 権限はすべて「はい」のまま **「保存」／「次へ」→「完了」**
+## 毎日のトークンチェック（`tokens.yml`、毎朝 6:00）
 
-### 2. 長期トークンにする（アクセストークンデバッガー）
-1. エクスプローラ上部の「アクセストークン」欄の右にある **ⓘ（情報）** →「**アクセストークンツールで開く**」を押す
-   （または https://developers.facebook.com/tools/debug/accesstoken/ にトークンを貼って「デバッグ」）。
-2. 画面下の **「アクセストークンを延長」** を押す → 表示された長期トークンをコピー（どこにも保存・送信しない）。
+`/debug_token` で次を確かめ、Automation Hub の「トークンの期限チェック」に出します（読み取りのみ。値は出しません）。
 
-### 3. ページトークンを取り出す
-1. グラフAPIエクスプローラに戻り、「アクセストークン」欄に **2. の長期トークン** を貼る。
-2. 上の入力欄に `me/accounts?fields=id,name,tasks,access_token` と入れて **「送信」**。
-3. 結果の中の `"name": "レンとジル"`（または Ren & Jill）の行を見る：
-   - `tasks` に `CREATE_CONTENT` が入っていること
-   - `id` …ページID（**FB_PAGE_ID** に入れる）
-   - `access_token` …ページトークン（**FB_PAGE_TOKEN** に入れる）。長期ユーザートークンから作ったページトークンは期限なしになります。
-4. 念のため、そのページトークンを https://developers.facebook.com/tools/debug/accesstoken/ で「デバッグ」し、
-   **タイプ＝Page**、**有効期限＝なし**、**スコープに上の3つ** があることを確認。
+- 有効か（だめなら「エラー」＋メール）
+- 期限（期限なしなら `Meta トークン=期限なし`。残り14日以下なら「要対応」＋メール）
+- 上の7つの権限がそろっているか（足りなければ「エラー」＋メール）
+- ページ 1358515160686321 のページトークンが取れるか、Instagram の ID が取れるか（Secrets の値と一致するかも表示）
 
-### 4. GitHub の Secrets に入れる
-1. https://github.com/ibato-byte/renjill-auto/settings/secrets/actions を開く。
-2. `FB_PAGE_TOKEN` の **鉛筆（Update）** を押して、3. のページトークンを貼り **「Update secret」**（なければ「New repository secret」で作る）。
-3. `FB_PAGE_ID` も同じように、3. の `id` を入れる（なくても動きますが、別ページへの誤投稿を防ぐため入れてください）。
+## トークンを作り直すとき（オーナー作業）
 
-### 5. 確かめる（読み取りだけ・投稿はしない）
-1. https://github.com/ibato-byte/renjill-auto/actions/workflows/tokens.yml を開き、**「Run workflow」→「Run workflow」**。
-2. 1分ほどで Automation Hub の「トークンの期限チェック」に **Facebook=OK（期限なし）** と出れば完了。
-   「権限・設定なし」のままなら、「やること」に足りないもの（例：`pages_manage_posts`）が出ます。
+> Claude はパスワードの入力・規約への同意・本人確認はしません。トークンの値はチャット・メール・Issue に貼らず、GitHub の Secrets にだけ入れてください。
+
+1. https://business.facebook.com/settings/ → ビジネスポートフォリオ **renjill_office** → **ユーザー** → **システムユーザー** → **renjill-auto**。
+2. **アセットを割り当てる** で、ページ「レンとジル Ren & Jill」・Instagram @renjill_office・アプリ renjill-auto がフルアクセスになっていることを確かめる。
+3. **新しいトークンを生成** → アプリ **renjill-auto** → 有効期限 **なし** → 上の7つの権限にチェック → 生成。
+4. https://github.com/ibato-byte/renjill-auto/settings/secrets/actions → `IG_ACCESS_TOKEN` の鉛筆（Update）→ 貼り付けて **Update secret**。
+5. Actions → **tokens** → **Run workflow**。Hub の「トークンの期限チェック」が `Meta トークン=期限なし`・`Meta 権限=すべてOK` になれば完了。
+
+## 接続テスト（読み取りのみ・投稿しない）
+
+Actions → **check** → **Run workflow**（`date` に日付を入れると、その日の回の投稿内容をドライランで表示。API で投稿はしない）。トークンの種類・期限・権限、ページ、Instagram の ID と投稿の上限、`renjill-media` への書き込み権限を確かめます。
 
 ## 二重投稿を防ぐための確認（1回だけ）
-Instagram アプリで「リールを Facebook にもシェア」が有効だと、Instagram に手動で予約した回が Facebook にも出て、自動投稿と二重になります。
-Instagram アプリ → プロフィール → 右上の ≡ → **アカウントセンター** → **アカウント間でシェア** → Instagram → **Facebook へのリールの共有をオフ** にしてください。
-（予約済みの投稿に個別で「Facebook にシェア」をオンにしている場合も、オフにしてください。）
+
+Instagram アプリで「リールを Facebook にもシェア」が有効だと、Instagram の投稿が Facebook にも出て、Facebook の自動投稿と二重になります。
+Instagram アプリ → プロフィール → ≡ → **アカウントセンター** → **アカウント間でシェア** → Instagram → **Facebook へのリールの共有をオフ**。
 
 ## 参考（公式）
 - Reels Publishing API: https://developers.facebook.com/docs/video-api/guides/reels-publishing
-- 動画の公開（ページトークンと権限）: https://developers.facebook.com/docs/video-api/guides/publishing/
+- Instagram のリール公開（`cover_url`）: https://developers.facebook.com/docs/instagram-platform/instagram-graph-api/reference/ig-user/media
 - アクセストークンデバッガー: https://developers.facebook.com/tools/debug/accesstoken/

@@ -70,7 +70,9 @@ class TokenCheckTest(unittest.TestCase):
             def __init__(self, j): self._j = j
             def json(self): return self._j
         def get(url, params=None, timeout=None, headers=None):
-            return R({"data": {"is_valid": True, "type": "PAGE", "expires_at": exp, "scopes": []}})
+            if url.endswith("/debug_token"):
+                return R({"data": {"is_valid": True, "type": "SYSTEM_USER", "expires_at": exp, "scopes": list(fb.ALL_SCOPES)}})
+            return R({"id": fb.PAGE_ID, "name": "レンとジル Ren & Jill", "access_token": "EAApage1234567890", "instagram_business_account": {"id": "17841"}})
         with tempfile.TemporaryDirectory() as d:
             env = {"IG_ACCESS_TOKEN": "EAAtest1234567890", "ALERTS_FILE": f"{d}/a.jsonl", "MANUAL_PLATFORMS": ""}
             cwd = os.getcwd(); os.chdir(d)
@@ -112,7 +114,7 @@ class OutageAndCatchUpTest(unittest.TestCase):
             if self.name == "posted.json": state["posted"] = data; return len(data)
             return orig_w(self, data, *a, **k)
         def yt(*a): state["calls"].append("yt"); return "yt1"
-        def igp(*a): state["calls"].append("ig"); return ig()
+        def igp(*a, **k): state["calls"].append("ig"); return ig()
         def fbp(*a, access=None, **k):
             if not access["ok"]: raise fb.FbSkip("; ".join(access["reasons"]))  # 本物と同じく、権限がなければ見送り
             state["calls"].append("facebook"); return "fb1"

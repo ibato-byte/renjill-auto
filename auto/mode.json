@@ -1,6 +1,6 @@
 {
-  "_comment": "手動予約モード（2026-10-21〜）。ここにある SNS は API で投稿・計測・トークン確認をせず、毎週の素材（Actions の manual）でオーナーが Meta Business Suite に予約する。完全自動に戻す手順：docs/setup/manual-mode.md",
-  "manual_platforms": ["ig", "facebook"],
+  "_comment": "手動予約モード。ここにある SNS は API で投稿・計測・トークン確認をしない。2026-10-21 に解除し、Instagram・Facebook も GitHub Actions から Meta Graph API で投稿する（システムユーザーのトークン）。Business Suite で予約済みの回は posted.json の bs-scheduled で二重投稿を防ぐ。もう一度手動にするときの手順：docs/setup/manual-mode.md",
+  "manual_platforms": [],
   "since": "2026-10-21",
-  "reason": "Meta の開発者機能を使える個人アカウントがないため（新しいビジネスポートフォリオ 825871460529757 に移行中）"
+  "reason": "ビジネスポートフォリオ renjill_office のシステムユーザー renjill-auto のトークンで API 投稿に戻した"
 }

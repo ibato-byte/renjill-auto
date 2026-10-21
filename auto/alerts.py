@@ -28,8 +28,8 @@ TOKEN_ERROR_RE = re.compile(
 
 # Secret ごとの直し方（Hub の「やること」と同じ内容）
 FIX = {
-    "IG_ACCESS_TOKEN": "グラフAPIエクスプローラ（アプリ renjill-auto）で長期トークン → me/accounts の「レンとジル」のページトークンを作り直し、renjill-auto の Settings → Secrets and variables → Actions の IG_ACCESS_TOKEN を差し替える（Facebook の権限も付けるなら docs/setup/facebook-reels.md の手順で FB_PAGE_TOKEN も同じ値に）",
-    "FB_PAGE_TOKEN": "docs/setup/facebook-reels.md の手順で、権限 pages_show_list・pages_read_engagement・pages_manage_posts 付きのページトークンを発行し、Secrets の FB_PAGE_TOKEN を差し替える",
+    "IG_ACCESS_TOKEN": "ビジネス設定（renjill_office）→ システムユーザー renjill-auto で、ページ「レンとジル Ren & Jill」・Instagram @renjill_office・アプリ renjill-auto の割り当て（フルアクセス）を確かめ、期限なしのトークン（権限 pages_show_list・pages_read_engagement・pages_manage_posts・business_management・instagram_basic・instagram_content_publish・instagram_manage_insights）を生成し直して、renjill-auto の Settings → Secrets and variables → Actions の IG_ACCESS_TOKEN を差し替える（手順は docs/setup/facebook-reels.md）",
+    "FB_PAGE_TOKEN": "Facebook のページトークンは IG_ACCESS_TOKEN（システムユーザーのトークン）から毎回取っている。docs/setup/facebook-reels.md の手順で、システムユーザーにページ 1358515160686321 のフルアクセスと権限 pages_manage_posts などがあるか確かめ、IG_ACCESS_TOKEN を差し替える",
     "YT_REFRESH_TOKEN": "Google Cloud の OAuth 同意画面を「本番環境」にしてから YouTube のリフレッシュトークンを取り直し、Secrets の YT_REFRESH_TOKEN を差し替える",
     "TT_ACCESS_TOKEN": "TikTok for Developers でアプリを認可し直し、Secrets の TT_ACCESS_TOKEN を差し替える",
     "MEDIA_TOKEN": "GitHub の Fine-grained tokens で renjill-media だけのトークンを「No expiration」で作り直し、Secrets の MEDIA_TOKEN を差し替える",
