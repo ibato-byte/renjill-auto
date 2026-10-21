@@ -17,17 +17,21 @@
 ## Secrets（Settings → Secrets and variables → Actions）
 | 名前 | 取得元 |
 |---|---|
-| `IG_USER_ID` / `IG_ACCESS_TOKEN` | Meta for Developers（Instagram API、長期トークン） |
+| `IG_ACCESS_TOKEN` | Meta のシステムユーザー（ビジネスポートフォリオ renjill_office の renjill-auto）の期限なしトークン。Instagram と Facebook の両方に使う（[docs/setup/facebook-reels.md](docs/setup/facebook-reels.md)） |
+| `IG_USER_ID` | 任意。Instagram の ID はページの `instagram_business_account` から毎回取る（トークンの期限チェックで一致を確認） |
+| `MEDIA_TOKEN` | 公開リポジトリ renjill-media（Instagram が取りに来る動画・カバーの公開 URL）への書き込み |
 | `TT_ACCESS_TOKEN` | TikTok for Developers（video.publish スコープ） |
 | `YT_CLIENT_ID` / `YT_CLIENT_SECRET` / `YT_REFRESH_TOKEN` | Google Cloud（YouTube Data API v3 OAuth） |
-| `FB_PAGE_ID` / `FB_PAGE_TOKEN` | Facebookページ「レンとジル」のID とページトークン（リールの自動投稿。権限 pages_show_list・pages_read_engagement・pages_manage_posts。作り方は [docs/setup/facebook-reels.md](docs/setup/facebook-reels.md)。`FB_PAGE_TOKEN` がなければ、`IG_ACCESS_TOKEN` が同じページのページトークンで権限があれば流用する） |
+| `FB_PAGE_ID` | 任意（使っていない。期限チェックで 1358515160686321 と一致するかを見るだけ）。`FB_PAGE_TOKEN` は使っていない（ページトークンは `IG_ACCESS_TOKEN` から毎回取る） |
 
-## 手動予約モード（2026-10-21〜）
-- **Instagram と Facebook は API で投稿しない**（`auto/mode.json`）。Meta の開発者機能を使える個人アカウントがないため。**オーナーの iMac の Chrome で動く Claude**（スケジュールタスク「レンとジル Business Suite 自動予約（Instagram・Facebook）」月・火 10:47／16:47、見張りは「レンとジル 自動予約のリマインドと見張り」日・月・火 20:33）が Meta Business Suite に予約する。
-- 素材（mp4・Instagram のカバー・投稿文・**manifest.json**）は Actions の **manual** が、週次PDCA の `auto/schedule.json` の push と月曜 9:30（保険）に作り、非公開の成果物 `manual-YYYYMMDD`（7日）にする。対象はその週（月曜 12:00〜次の月曜 11:59）の回。manifest に入れた回は `posted.json` に `"bs-scheduled"` と記録する（二重予約の防止）。
-- TikTok・YouTube などは今までどおり自動。トークンの期限チェックと数値の収集では、Instagram・Facebook は「手動予約モード中」（API を使わず正常終了。エラー・メールにしない）。数字は Google ドライブの CSV「レンとジル_BusinessSuite週次_YYYYMMDD」（列 date,platform,metric,value,post_title。iMac の Chrome の Claude が毎週 Business Suite のインサイトから書く）。
-- 新しいビジネスポートフォリオ「Shota Ibato丨衣鳩 翔太」（825871460529757）、Facebook ページ「レンとジル Ren & Jill」（ID 1386940331166810）。素材（mp4・投稿文）は非公開の Actions の成果物だけに置く（リポジトリ・公開の場所には置かない）。
-- 予約のしかたと、**完全自動に戻す手順**：[docs/setup/manual-mode.md](docs/setup/manual-mode.md)
+## Instagram・Facebook は Meta Graph API で自動投稿（2026-10-21〜）
+- GitHub Actions（`post.yml`）から投稿する。iMac・Chrome・Business Suite は使わない。
+- Instagram リール：動画とサムネ（`dist/<ep>_thumb.jpg`）を公開リポジトリ renjill-media に置き（`MEDIA_TOKEN`）、`video_url`・`cover_url` で投稿。
+- Facebook リール：ページ「レンとジル Ren & Jill」（ID 1358515160686321）のページトークンをシステムユーザーのトークンから取り、Reels Publishing API で投稿（サムネ付き）。
+- 10/23・10/25・10/26・10/28・10/30 の Instagram・Facebook は Business Suite で予約済み（`posted.json` の `"bs-scheduled"`）なので API では出さない。
+- 毎朝 6:00 の `tokens.yml` が `/debug_token` で有効か・期限・権限、ページと Instagram の ID を確認し、だめなら Hub で「エラー」＋メール。
+- 接続テスト（読み取りのみ）：Actions → **check** → Run workflow（`date` を入れると投稿内容のドライラン）。
+- 設定とトークンの作り直し：[docs/setup/facebook-reels.md](docs/setup/facebook-reels.md)。API が使えなくなったときの予備（Business Suite に手で予約）：[docs/setup/manual-mode.md](docs/setup/manual-mode.md)
 
 ## 公開までの前提
 - Instagram：自分のアカウントなら審査不要で公開投稿できる。動画はファイルを直接送る（公開URL不要、リポジトリは非公開のまま）。
@@ -35,10 +39,10 @@
 - TikTok：監査が通るまで、APIからの投稿は本人のみ閲覧になる。またAPIでは文字入りのカバー画像を指定できない（動画の1コマのみ）ため、TikTokはTikTok Studioで文字入りカバーを付けて予約する運用にする。
 監査が通るまでは、`schedule.json` の `platforms` を `["ig"]` にし、YouTube/TikTokは手動予約で運用する。
 - Facebook（2026-10-20 追加）：自分のページへの投稿なので審査不要。Instagram と同じ loop 版の動画を、同じ時刻にリールとして公開する。キャプションは caption_en → caption_ja → コメントを誘う一言（`fb_cta`）→ ハッシュタグ3個以内（`fb_tag_sets`）。権限・設定がなければ Facebook だけ飛ばし、Automation Hub の「やること」に出す。失敗したら1回だけやり直す（公開の指示を送った後はやり直さない＝二重投稿しない）。
-- 送る内容の確認だけ：`python auto/post.py --dry-run --date 2026-10-21 12:00`（または `DRY_RUN=1`）。API を呼ばず、posted.json も書かない。
+- 送る内容の確認だけ：`python auto/post.py --dry-run --date 2026-10-21 12:00`（または `DRY_RUN=1`）。API を呼ばず、posted.json も書かない。`--ignore-posted` を付けると投稿済みの SNS も表示する（ドライランだけ）。
 
 ## 週次PDCA（Claude）
-毎週月曜 7:00 JST に `content/metrics.csv` と計測シート（Google スプレッドシート「レン＆ジル 計測シート」ID `1_BVp-ROGA8X6dwvSlc9QLlIVe4jkgX0uVpOHnssFN4c`。）と、手動予約モード中の Instagram・Facebook の数字は Google ドライブの CSV「レンとジル_BusinessSuite週次_YYYYMMDD」（列 date,platform,metric,value,post_title。iMac の Chrome の Claude が毎週 Business Suite のインサイトから書く） を読み、`auto/schedule.json` と `rig/ep/` に次週分を追加する。
+毎週月曜 7:00 JST に `content/metrics.csv` と計測シート（Google スプレッドシート「レン＆ジル 計測シート」ID `1_BVp-ROGA8X6dwvSlc9QLlIVe4jkgX0uVpOHnssFN4c`。） を読み、`auto/schedule.json` と `rig/ep/` に次週分を追加する。
 笑いの設計ルール：ゲームは1本に1つ／三段エスカレーション／引きと寄り／オチ前の間／オチの後のオチ。
 
 ## 品質ルール（2026-10-19 決定）
@@ -70,8 +74,8 @@
 | 毎週月曜 7:00 | Claude（週次PDCA） | 振り返り → ネタ10案 → 採点で4本 → 台本 → `auto/brushup.py` で機械検査 → 24コマ表とサムネを目視 → 別のレビュー役が辛口チェック → 直す（最大3周）→ 合格分だけ schedule.json に登録 |
 | 毎週木曜 7:00 | Claude（再検査） | 4日以内に出す回をもう一度 brushup → 目視 → 辛口チェック → 直す（最大2周）／差し替え／見送り |
 | 毎朝 6:00 | GitHub Actions（preflight） | 3日以内の回を描画・QA・サムネQA。NGなら Issue とメール |
-| 12:00 / 18:00 / 19:00 | GitHub Actions（post） | 直前にもう一度 QA。合格した回だけ投稿（Instagram・YouTube・Facebook） |
-| 毎朝 6:30 | GitHub Actions（metrics） | 数値を集めて metrics.csv に追記 → 月曜の振り返りに使う（手動予約モード中の Instagram・Facebook は取らず、Drive の CSV「レンとジル_BusinessSuite週次_YYYYMMDD」を使う） |
+| 12:00 / 18:00 / 19:00 | GitHub Actions（post） | 直前にもう一度 QA。合格した回だけ投稿（Instagram・YouTube・Facebook。Instagram・Facebook は Meta Graph API） |
+| 毎朝 6:30 | GitHub Actions（metrics） | 数値を集めて metrics.csv に追記 → 月曜の振り返りに使う（Business Suite で予約した回は投稿IDがないので計測なし） |
 
 検査に落ちた回は出さない（枠が空いても、質の低い回は出さない）。
 

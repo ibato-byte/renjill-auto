@@ -2,7 +2,7 @@
 
 > このファイルは「いま一番伸びやすいやり方」を1か所にまとめたものです。
 > 毎週日曜の「成長リサーチ」タスクが調べ直して書き換え、週次PDCAはここを読んでネタ・サムネ・キャプションを決めます。
-> 最終更新: 2026-10-21（手動予約モードへの切り替え）
+> 最終更新: 2026-10-21（Instagram・Facebook を API 投稿に戻した）
 
 ## 0. 一番大事な3つ（毎回これだけは守る）
 1. **最初の1秒で状況、3秒で「続きが見たい」**。IGは最初の3秒の維持率で配信先が決まる（目安60%以上）。1コマ目からキャラが動作中であること。タイトルカード禁止。
@@ -34,24 +34,23 @@
 - 新しい型は必ず IG トライアルリールで先に試す（手動。週次メールで依頼）。
 - 他SNSへの転載はウォーターマーク無しのマスター動画から（現行の自動書き出しで満たしている）。
 
-### Facebook リール（2026-10-20 追加。2026-10-21 から手動予約モード）
+### Facebook リール（2026-10-20 追加）
 - **なぜやるか**：Facebook は日本では若年層より上の世代（30〜50代の会社員）の利用が多いと見込まれ、職場あるあるのネタと相性がよい。動画は Instagram と同じものを流用するので **追加コストなし**。
   - 根拠：総務省「令和7年度情報通信メディアの利用時間と情報行動に関する調査」で、Facebook の利用率は全年代で 27.0%（令和6年度は 26.8%）。年代別の値は報告書本体の表にあるが、原典の表をまだ確認できていないので数字は書かない（成長リサーチで原典を確認したら追記する）。
     - https://www.soumu.go.jp/menu_news/s-news/01iicp01_02000130.html （令和7年度・報道資料）
     - https://www.soumu.go.jp/menu_news/s-news/01iicp01_02000125.html （令和6年度・報道資料）
     - https://www.soumu.go.jp/main_content/001017160.pdf （令和6年度・報告書本体。年代別の表）
-  - 投稿方法：**2026-10-21 から手動予約モード**。新しいビジネスポートフォリオ「Shota Ibato丨衣鳩 翔太」の Facebook ページ「レンとジル Ren & Jill」（ID 1386940331166810、フォロワー0から）に、iMac の Chrome の Claude が Meta Business Suite で予約する（素材は Actions の manual の manifest.json。docs/setup/manual-mode.md）。完全自動に戻したら Meta 公式の Reels Publishing API（https://developers.facebook.com/docs/video-api/guides/reels-publishing ）で投稿する。
+  - 投稿方法：GitHub Actions から Meta 公式の Reels Publishing API（https://developers.facebook.com/docs/video-api/guides/reels-publishing ）で、Facebook ページ「レンとジル Ren & Jill」（ID 1358515160686321）に投稿する。トークンはビジネスポートフォリオ renjill_office のシステムユーザーの期限なしトークン（docs/setup/facebook-reels.md）。10/23〜10/30 の5回だけは Business Suite で予約済み（`posted.json` の `bs-scheduled`）。
 - **ルール**：
   - Instagram と同じ回・同じ時刻・同じ loop 版の動画（`schedule.json` の `platforms` に `facebook`。defaults に入っているので通常は書かなくてよい）。
   - キャプション：英語の一言 → 日本語のあるある → コメントを誘う一言（`fb_cta`。既存ルールの「会話を作る」に合わせる）→ ハッシュタグ **3個以内**（`fb_tag_sets`）。
   - 表記：日本語「レンとジル」、英語「Ren & Jill」（自動で直す）。
-  - Instagram アプリの「Facebook に自動シェア」はオフ（Facebook 用に別に予約しているので二重になる）。
-- **数字**：手動予約モード中は API で取れないので、Drive の CSV「レンとジル_BusinessSuite週次_YYYYMMDD」（下の「数字の取り方」）を使う。完全自動に戻したら `content/metrics.csv` の sns=`facebook`（再生＝リールの再生数、いいね＝リアクション合計、コメント、シェア）。取れない日は空欄（推測で埋めない）。2〜3週たまるまでは判定基準を決めない。
+  - Instagram アプリの「Facebook に自動シェア」はオフ（Facebook には別に投稿しているので二重になる）。
+- **数字**：`content/metrics.csv` の sns=`facebook`（再生＝リールの再生数、いいね＝リアクション合計、コメント、シェア）。取れない日は空欄（推測で埋めない）。Business Suite で予約した5回（`bs-scheduled`）は投稿IDがないので API では取れない（計測なし）。2〜3週たまるまでは判定基準を決めない。
 
 ## 4. 数字の見方（週次PDCAの判定基準）
-**数字の取り方（2026-10-21〜・手動予約モード中）**
-- Instagram・Facebook：API で取れない（`content/metrics.csv` には出ない。数値の収集は「手動予約モード中」で正常終了）。iMac の Chrome の Claude が週1回、Meta Business Suite のインサイトを Google ドライブの CSV **「レンとジル_BusinessSuite週次_YYYYMMDD」**（列 `date,platform,metric,value,post_title`）に書く。週次PDCA はいちばん新しい CSV を読む（その週の CSV がなければ「計測なし」。推測で埋めない）。ほかの数字は今までどおり Google スプレッドシート「レン＆ジル 計測シート」（ID `1_BVp-ROGA8X6dwvSlc9QLlIVe4jkgX0uVpOHnssFN4c`）。
-- YouTube・TikTok：今までどおり `content/metrics.csv`（毎日、自動）。
+**数字の取り方（2026-10-21〜）**
+- Instagram・Facebook・YouTube・TikTok：`content/metrics.csv`（毎日、自動）。Business Suite で予約した 10/23〜10/30 の5回（`posted.json` の `bs-scheduled`）の Instagram・Facebook は投稿IDがないので「計測なし」（推測で埋めない）。ほかの数字は今までどおり Google スプレッドシート「レン＆ジル 計測シート」（ID `1_BVp-ROGA8X6dwvSlc9QLlIVe4jkgX0uVpOHnssFN4c`）。
 
 | 指標 | 良い | 普通 | 見直し |
 |---|---|---|---|
@@ -89,7 +88,7 @@
 
 - 一番伸びたのは IG「5 MIN TO GO（まだ夢の中）」120再生、YT「APPROVED（ハンコ）」130再生。
 - YouTubeの2本は再生ほぼ0 → ショートはまず「見られたかどうか」のテスト配信に落ちている。サムネ・冒頭の問題というより、登録者がいない初期段階の通常の姿。本数と継続で突破する。
-- 記録は content/followers.csv（週1）と content/metrics.csv（毎日、YouTube・TikTok は自動）。Instagram・Facebook は手動予約モード中、Drive の CSV「レンとジル_BusinessSuite週次_YYYYMMDD」（週1、Chrome の Claude が記入）。
+- 記録は content/followers.csv（週1）と content/metrics.csv（毎日、自動）。
 
 ### ベンチマーク（同じ土俵で成功している例）
 | アカウント | 規模 | 型 | 学ぶこと |
@@ -111,6 +110,7 @@
 - **やしゅし式の画面**：人気回ほど「1匹を大きく・背景シンプル・動きは1つ」。サムネもこれに寄せる。
 
 ## 変更履歴
+- 2026-10-21 第3章・第4章（午後）：Instagram・Facebook を Meta Graph API の自動投稿に戻した（システムユーザーの期限なしトークン、Facebook ページ 1358515160686321）。数字も content/metrics.csv に戻す
 - 2026-10-21 第3章・第4章：Instagram・Facebook を手動予約モードに（新ポートフォリオ「Shota Ibato丨衣鳩 翔太」・新 Facebook ページ「レンとジル Ren & Jill」）。両SNSは iMac の Chrome の Claude が Business Suite に予約し、数字は Drive の CSV「レンとジル_BusinessSuite週次_YYYYMMDD」を読む
 - 2026-10-20 第3章：Facebook リールの全自動投稿を追加（理由・出典・キャプションとハッシュタグ3個以内のルール）
 - 2026-10-20 第8章：現在地・ベンチマーク（らぶいーず、やしゅし）・100万人までの道のり・平日毎日投稿の決定を追加
