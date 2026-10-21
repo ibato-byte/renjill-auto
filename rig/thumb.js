@@ -27,14 +27,19 @@ const [ep, t, cam, hook, no, out, variant = 'A'] = process.argv.slice(2);
       d.style[variant === 'A' ? 'top' : 'bottom'] = variant === 'A' ? '450px' : '500px'; // 中央3:4／1:1の切り抜き（プロフィールのグリッド）でも文字が見える安全域に置く
       d.innerHTML = l2 ? `${l1}<small>${l2}</small>` : l1; document.body.appendChild(d);
     }
-    // 自動フィット：英語の見出しが1行に収まるまで文字を小さくし、日本語も1行に。チップは文字のすぐ下に置く
+    // 自動フィット（2026-10-21）：文字数に関係なく、英語の見出しは枠の幅の約80%（既存の「CAMERA OFF」「APPROVED.」と同じくらい）、
+    // 日本語は約50%の幅になるよう文字の大きさを合わせる。ただし大きくするのは元の大きさ（英語138px・日本語66px）の1.3倍まで。
+    // 長い見出しは同じ幅まで小さくする（最小は英語70px・日本語40px）。チップは文字のすぐ下に置く
     const d = document.querySelector('.hook');
     if (d) {
-      const fit = (el, max, min) => { let fs = max; el.style.whiteSpace = 'nowrap'; el.style.fontSize = fs + 'px';
-        const rg = document.createRange(); const width = () => { rg.selectNodeContents(el.firstChild || el); return rg.getBoundingClientRect().width; };
-        while (width() > 940 && fs > min) { fs -= 4; el.style.fontSize = fs + 'px'; } return fs; };
+      const fit = (el, target, base, min) => { el.style.whiteSpace = 'nowrap';
+        const rg = document.createRange(); const width = fs => { el.style.fontSize = fs + 'px'; rg.selectNodeContents(el.firstChild || el); return rg.getBoundingClientRect().width; };
+        const w0 = width(base); let fs = Math.floor(base * target / w0);           // 幅は文字の大きさにほぼ比例する
+        fs = Math.max(min, Math.min(Math.floor(base * 1.3), fs));
+        while (width(fs) > target && fs > min) fs -= 1;                          // 目標の幅を超えない大きさに詰める
+        return fs; };
       const sm = d.querySelector('small'); const main = document.createElement('span'); main.textContent = d.firstChild.textContent; d.replaceChild(main, d.firstChild); main.style.display = 'block';
-      fit(main, 138, 70); if (sm) fit(sm, 66, 40);
+      fit(main, 860, 138, 70); if (sm) fit(sm, 540, 66, 40);
       const r = d.getBoundingClientRect(); const chip = document.querySelector('.chip'); if (chip && variant === 'A') chip.style.top = Math.round(r.bottom + 28) + 'px';
     }
   }, { hook, no, variant });
@@ -45,8 +50,13 @@ const [ep, t, cam, hook, no, out, variant = 'A'] = process.argv.slice(2);
     const u = rs => { const a = [...rs].filter(r => r.width > 0); return a.length ? { top: Math.min(...a.map(r => r.top)), bottom: Math.max(...a.map(r => r.bottom)), left: Math.min(...a.map(r => r.left)), right: Math.max(...a.map(r => r.right)) } : null; };
     const h = document.querySelector('.hook'); let text = null; if (h) { const rs = []; const w = document.createTreeWalker(h, NodeFilter.SHOW_TEXT); let n; while ((n = w.nextNode())) { const rg = document.createRange(); rg.selectNodeContents(n); rs.push(...rg.getClientRects()); } text = u(rs); }
     const c = document.querySelector('.chip .s'); const chip = c ? c.getBoundingClientRect().toJSON() : null;
-    return { text, chip };
+    const line = el => { if (!el) return null; const rg = document.createRange(); rg.selectNodeContents(el); const r = rg.getBoundingClientRect(); return { width: Math.round(r.width), height: Math.round(r.height), fontSize: parseFloat(el.style.fontSize) }; };
+    return { text, chip, en: line(h && h.querySelector('span')), ja: line(h && h.querySelector('small')) };
   });
+  // 見出しの幅チェック（2026-10-21）：英語の見出しが枠の幅の 70% 未満なら、プロフィールの一覧で文字が小さく見えるので失敗させる。
+  // （1.3倍まで大きくしても届かない短い見出しのとき。見出しの言葉を少し長くして作り直す）
+  const MIN_EN_RATIO = 0.70;
+  if (variant !== 'C' && m.en && m.en.width < 1080 * MIN_EN_RATIO) { console.error('THUMB_NARROW', JSON.stringify({ en: m.en, min: Math.round(1080 * MIN_EN_RATIO) })); await b.close(); process.exit(5); }
   // 顔チェック：グリッド（中央3:4）の中、文字より下に、少なくとも1匹の顔（鼻）が十分な大きさで写っていること
   const faces = await p.evaluate(() => ['#C88D85', '#D98F8E'].map(c => { const n = document.querySelector(`path[fill="${c}"]`); if (!n) return null; const r = n.getBoundingClientRect(); return r.width < 1 ? null : { x: r.left + r.width / 2, y: r.top + r.height / 2, w: r.width }; }).filter(Boolean));
   const chipBottom = m.chip ? m.chip.bottom : 800;
@@ -56,5 +66,5 @@ const [ep, t, cam, hook, no, out, variant = 'A'] = process.argv.slice(2);
   const overlap = m.text && m.chip && m.text.bottom > m.chip.top - 8 && m.text.top < m.chip.bottom;
   if (out_of(m.text) || out_of(m.chip) || overlap) { console.error('THUMB_UNSAFE', JSON.stringify({ ...m, overlap })); await b.close(); process.exit(3); }
   await p.screenshot({ path: out, type: 'jpeg', quality: 92 });
-  await b.close(); console.log('thumb', out);
+  await b.close(); console.log('thumb', out, JSON.stringify({ en: m.en, ja: m.ja }));
 })();
