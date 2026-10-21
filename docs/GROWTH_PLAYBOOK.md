@@ -46,11 +46,11 @@
   - キャプション：英語の一言 → 日本語のあるある → コメントを誘う一言（`fb_cta`。既存ルールの「会話を作る」に合わせる）→ ハッシュタグ **3個以内**（`fb_tag_sets`）。
   - 表記：日本語「レンとジル」、英語「Ren & Jill」（自動で直す）。
   - Instagram アプリの「Facebook に自動シェア」はオフ（Facebook には別に投稿しているので二重になる）。
-- **数字**：`content/metrics.csv` の sns=`facebook`（再生＝リールの再生数、いいね＝リアクション合計、コメント、シェア）。取れない日は空欄（推測で埋めない）。Business Suite で予約した5回（`bs-scheduled`）は投稿IDがないので API では取れない（計測なし）。2〜3週たまるまでは判定基準を決めない。
+- **数字**：`content/metrics.csv` の sns=`facebook`（再生＝リールの再生数、いいね＝リアクション合計、コメント、シェア）。取れない日は空欄（推測で埋めない）。Business Suite で予約した5回（`bs-scheduled`）は、公開後に投稿IDを探して取る（見つからなければ計測なし）。2〜3週たまるまでは判定基準を決めない。
 
 ## 4. 数字の見方（週次PDCAの判定基準）
 **数字の取り方（2026-10-21〜）**
-- Instagram・Facebook・YouTube・TikTok：`content/metrics.csv`（毎日、自動）。Business Suite で予約した 10/23〜10/30 の5回（`posted.json` の `bs-scheduled`）の Instagram・Facebook は投稿IDがないので「計測なし」（推測で埋めない）。ほかの数字は今までどおり Google スプレッドシート「レン＆ジル 計測シート」（ID `1_BVp-ROGA8X6dwvSlc9QLlIVe4jkgX0uVpOHnssFN4c`）。
+- Instagram・Facebook・YouTube・TikTok：`content/metrics.csv`（毎日 6:30、自動。Instagram・Facebook は Graph API のインサイト。Instagram の再生は views）。Business Suite で予約した 10/23〜10/30 の回は、公開後に Instagram・Facebook の最近の投稿から予定時刻とキャプションで投稿IDを探して数値を取る（見つからなければ「計測なし」。推測で埋めない）。フォロワー数（Instagram・Facebook・YouTube）は `content/followers.csv` に毎日1行（自動）。Drive の CSV「レンとジル_BusinessSuite週次」はもう作られない。ほかの数字は今までどおり Google スプレッドシート「レン＆ジル 計測シート」（ID `1_BVp-ROGA8X6dwvSlc9QLlIVe4jkgX0uVpOHnssFN4c`）。
 
 | 指標 | 良い | 普通 | 見直し |
 |---|---|---|---|
@@ -88,7 +88,7 @@
 
 - 一番伸びたのは IG「5 MIN TO GO（まだ夢の中）」120再生、YT「APPROVED（ハンコ）」130再生。
 - YouTubeの2本は再生ほぼ0 → ショートはまず「見られたかどうか」のテスト配信に落ちている。サムネ・冒頭の問題というより、登録者がいない初期段階の通常の姿。本数と継続で突破する。
-- 記録は content/followers.csv（週1）と content/metrics.csv（毎日、自動）。
+- 記録は content/followers.csv（毎日、自動）と content/metrics.csv（毎日、自動）。
 
 ### ベンチマーク（同じ土俵で成功している例）
 | アカウント | 規模 | 型 | 学ぶこと |
