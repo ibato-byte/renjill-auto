@@ -56,6 +56,8 @@ jobs:
           YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
           YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
           MEDIA_TOKEN: ${{ secrets.MEDIA_TOKEN }}
+          THREADS_ACCESS_TOKEN: ${{ secrets.THREADS_ACCESS_TOKEN }}
+          THREADS_USER_ID: ${{ secrets.THREADS_USER_ID }}
           IN_SLOT: ${{ github.event.inputs.slot }}
           IN_DATE: ${{ github.event.inputs.date }}
         run: |

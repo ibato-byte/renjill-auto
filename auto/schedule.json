@@ -6,7 +6,8 @@
    "ig",
    "tt",
    "yt",
-   "facebook"
+   "facebook",
+   "threads"
   ],
   "tag_sets": {
    "A": "#うさぎのいる生活 #ホーランドロップ #会社あるある #lopbunny #officelife",
@@ -16,6 +17,12 @@
   "fb_tag_sets": {
    "A": "#会社あるある #うさぎのいる生活 #officelife",
    "B": "#社畜あるある #うさぎのいる暮らし #cuteanimals"
+  },
+  "follow_overlay": true,
+  "seo": {
+   "ja": "職場あるある｜うさぎ｜セリフなしアニメ",
+   "en": "wordless office comedy · bunny boss · workplace humor",
+   "follow_en": "Follow Ren & Jill for the next episode 🐰"
   }
  },
  "posts": [
