@@ -66,9 +66,6 @@ jobs:
           rm -f dist/post_hub_args  # 前の実行の結果を Hub に出さない
           # 出し直し（date を指定）：その日の回のうち、まだ出ていない SNS だけを出す（posted.json で二重投稿を防ぐ）
           if [ -n "$IN_DATE" ]; then python auto/post.py --date "$IN_DATE" "${IN_SLOT:-12:00}"; else python auto/post.py $IN_SLOT; fi
-      - name: 公式ページの更新（AI を使わない。依頼 #38）
-        if: always() && steps.hub.outputs.paused != 'true'
-        run: python site/build.py || true
       - name: トークンの警告をメールで知らせる（同じ内容は1日1通まで）
         if: always() && steps.hub.outputs.paused != 'true'
         env:
@@ -78,7 +75,7 @@ jobs:
         if: always() && steps.hub.outputs.paused != 'true'
         run: |
           git config user.name renjill-bot; git config user.email bot@renjill.local
-          git add -A auto/posted.json dist/*.jpg dist/*.json site/public || true
+          git add -A auto/posted.json dist/*.jpg dist/*.json || true
           git diff --cached --quiet || git commit -m "post: $(TZ=Asia/Tokyo date '+%Y-%m-%d %H:%M')"
           bash auto/push_main.sh
       - name: Automation Hub に記録
