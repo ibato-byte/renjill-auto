@@ -23,6 +23,7 @@ import facebook as fb
 import alerts
 import mode
 import stories
+import growth
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 RIG, DIST, AUTO = ROOT / "rig", ROOT / "dist", ROOT / "auto"
@@ -78,7 +79,8 @@ def tags(p, d):
 
 def caption(p, d, with_tags=True):
     base = f'{p["caption_en"]}\n{p["caption_ja"]}'
-    return base + ("\n\n" + tags(p, d) if with_tags else "")
+    # 末尾に英語の一言を必ず入れる（海外の人がフォローしやすいように。依頼 #38）
+    return base + ("\n\n" + tags(p, d) if with_tags else "") + "\n\n" + growth.tail_en(d)
 
 def thumbnail(p):
     """サムネ生成（rig/thumb.js）。dist/<ep>_thumb.jpg"""
@@ -97,10 +99,11 @@ def post_youtube(p, d, path):
     creds = Credentials(None, refresh_token=os.environ["YT_REFRESH_TOKEN"], token_uri="https://oauth2.googleapis.com/token",
                         client_id=os.environ["YT_CLIENT_ID"], client_secret=os.environ["YT_CLIENT_SECRET"])
     yt = build("youtube", "v3", credentials=creds)
-    body = {"snippet": {"title": f'{p["caption_en"]} | Ren & Jill「{p["title"]}」',
-                        "description": f'{d["yt_description"]}\n\n{tags(p, d)}', "categoryId": "23"},
+    en_title, en_desc = f'{p["caption_en"]} | Ren & Jill「{p["title"]}」', f'{d["yt_description"]}\n\n{tags(p, d)}'
+    body = {"snippet": {"title": en_title, "description": en_desc, "categoryId": "23", "defaultLanguage": "en"},
+            "localizations": growth.youtube_localizations(p, d, en_title, en_desc),  # 英・日・韓・繁体中・西・葡のタイトルと説明（依頼 #38）
             "status": {"privacyStatus": "public", "selfDeclaredMadeForKids": False}}
-    req = yt.videos().insert(part="snippet,status", body=body, media_body=MediaFileUpload(str(path), chunksize=-1, resumable=True))
+    req = yt.videos().insert(part="snippet,status,localizations", body=body, media_body=MediaFileUpload(str(path), chunksize=-1, resumable=True))
     res = req.execute()
     try: yt.thumbnails().set(videoId=res["id"], media_body=MediaFileUpload(str(thumbnail(p)))).execute()
     except Exception as e: log("thumbnail NG", repr(e)[:200])
@@ -294,10 +297,14 @@ def main(argv=None):
     for key, p, plats in targets:
         results["回"] = f'{p["title"]}（{p["date"][5:]} {p["slot"]}）' if "回" not in results else results["回"] + f'・{p["title"]}'
         yt_path, loop_path = render(p["ep"])
+        story_src = loop_path  # ストーリーズの見どころは元のループ版から切り出す
         if not qa_gate(p["ep"], yt_path, loop_path):
             failed.append(f"{key}:QA"); results["QA"] = "不合格で見送り"
             actions.append(f'「{p["title"]}」（{p["date"]} {p["slot"]}）が投稿前の QA に不合格で、どの SNS にも出していない（理由は dist/{p["ep"]}_qa.json）。Claude に「{p["ep"]} の QA を直して出し直して」と伝える')
             continue
+        try:  # 最後に「フォローして続きを見てね」を入れた版（作れなければ元のまま）。ループの継ぎ目は壊さない
+            loop_path = growth.add_follow_line(loop_path, DIST / f'{p["ep"]}_loopf.mp4') or loop_path
+        except Exception as e: log("フォロー案内の追加に失敗（元の動画で続ける）", repr(e)[:200])
         rec = posted.setdefault(key, {"tag_set": p.get("tag_set", "A"), "no": p["no"], "title": p["title"]})
         th = {}
         def thumb():  # Instagram・Facebook で同じサムネ（チェックに通らなければ両方とも出さない）
@@ -308,7 +315,7 @@ def main(argv=None):
                 if pl in ("ig_story", "fb_story", "ig_carousel") and fb_access is None:
                     try: fb_access = fb.diagnose()
                     except Exception as e: log("Meta の確認に失敗", fb.scrub(repr(e))[:200])
-                post_extra(pl, key, p, d, rec, loop_path, fb_access, results, posted)
+                post_extra(pl, key, p, d, rec, story_src, fb_access, results, posted)
                 continue
             try:
                 if pl in ("ig", "facebook") and fb_access is None:

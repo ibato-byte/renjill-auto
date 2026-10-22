@@ -17,6 +17,7 @@
 権限・設定がなければ FbSkip を投げ、呼び出し側は Facebook だけ飛ばして他SNSの投稿を続ける。
 トークンの値は表示しない（エラー文からも消す）。
 """
+import growth
 import os, pathlib, re, time
 import requests
 
@@ -77,7 +78,7 @@ def caption(p, d):
     cta = p.get("fb_cta") or d.get("fb_cta") or DEFAULT_CTA
     body = f'{p["caption_en"]}\n{p["caption_ja"]}\n\n{cta}'
     tags = fb_tags(p, d)
-    return normalize_brand(body + (f"\n\n{tags}" if tags else ""))
+    return normalize_brand(body + (f"\n\n{tags}" if tags else "") + "\n\n" + growth.tail_en(d))  # 末尾に英語の一言（依頼 #38）
 
 
 # ---------- トークン・権限の確認（読み取りのみ） ----------
