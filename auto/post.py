@@ -23,6 +23,7 @@ import facebook as fb
 import alerts
 import mode
 import stories
+import growth
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 RIG, DIST, AUTO = ROOT / "rig", ROOT / "dist", ROOT / "auto"
@@ -77,8 +78,8 @@ def tags(p, d):
     return d["tag_sets"][p.get("tag_set", "A")]
 
 def caption(p, d, with_tags=True):
-    base = f'{p["caption_en"]}\n{p["caption_ja"]}'
-    return base + ("\n\n" + tags(p, d) if with_tags else "")
+    """Instagram・TikTok のキャプション。検索される言葉＋末尾に英語の一言、ハッシュタグは少なめ（依頼 #37・#38）"""
+    return growth.seo_caption(p, d, with_tags)
 
 def thumbnail(p):
     """サムネ生成（rig/thumb.js）。dist/<ep>_thumb.jpg"""
@@ -97,10 +98,8 @@ def post_youtube(p, d, path):
     creds = Credentials(None, refresh_token=os.environ["YT_REFRESH_TOKEN"], token_uri="https://oauth2.googleapis.com/token",
                         client_id=os.environ["YT_CLIENT_ID"], client_secret=os.environ["YT_CLIENT_SECRET"])
     yt = build("youtube", "v3", credentials=creds)
-    body = {"snippet": {"title": f'{p["caption_en"]} | Ren & Jill「{p["title"]}」',
-                        "description": f'{d["yt_description"]}\n\n{tags(p, d)}', "categoryId": "23"},
-            "status": {"privacyStatus": "public", "selfDeclaredMadeForKids": False}}
-    req = yt.videos().insert(part="snippet,status", body=body, media_body=MediaFileUpload(str(path), chunksize=-1, resumable=True))
+    body = growth.yt_body(p, d, tags(p, d))  # タイトル・説明を英・韓・中（繁体）・西・葡にも付ける（localizations）
+    req = yt.videos().insert(part="snippet,status,localizations", body=body, media_body=MediaFileUpload(str(path), chunksize=-1, resumable=True))
     res = req.execute()
     try: yt.thumbnails().set(videoId=res["id"], media_body=MediaFileUpload(str(thumbnail(p)))).execute()
     except Exception as e: log("thumbnail NG", repr(e)[:200])
@@ -165,6 +164,16 @@ def post_instagram(p, d, video_path, th_path, uid=None):
     if "id" not in r: raise RuntimeError(r)
     return r["id"]
 
+def publish_episodes(sch, posted):
+    """公式サイト（coana-website の /renjill）が読む一覧を renjill-media に置く。失敗しても投稿は止めない"""
+    try:
+        if not os.environ.get("MEDIA_TOKEN"): return
+        data = growth.export_episodes(sch, posted, dt.datetime.now(JST).isoformat(timespec="minutes"))
+        f = DIST / "episodes.json"; f.write_text(json.dumps(data, ensure_ascii=False, indent=1))
+        media_publish(f, "episodes.json")
+    except Exception as e:
+        log("episodes.json NG(続行)", fb.scrub(repr(e))[:200])
+
 def parse_args(argv):
     a = {"dry_run": os.environ.get("DRY_RUN", "") not in ("", "0", "false"), "date": None, "slot": None, "ignore_posted": False}
     it = iter(argv)
@@ -188,7 +197,8 @@ def dry_run(targets, d, posted=None):
                 print(f"    ig: POST {fb.G}/<ページ {fb.PAGE_ID} の instagram_business_account>/media  media_type=REELS share_to_feed=true")
                 print(f'    ig: video_url=<renjill-media に置いた {p["ep"]}_loop.mp4> cover_url=<renjill-media に置いた {p["ep"]}_thumb.jpg>')
                 print("    ig: caption:\n      " + caption(p, d).replace("\n", "\n      "))
-            elif pl == "yt": print(f'    yt: title: {p["caption_en"]} | Ren & Jill「{p["title"]}」')
+            elif pl == "yt": print(f'    yt: title: {p["caption_en"]} | Ren & Jill「{p["title"]}」  多言語：{", ".join(growth.LANGS)}')
+            elif pl == "threads": print("    threads: VIDEO（Instagram と同じ公開 URL）" + ("" if growth.threads_ready() else "  ※権限・Secrets 未設定のため本番では見送り"))
             elif pl == "tt": print("    tt: FILE_UPLOAD", f'{p["ep"]}_loop.mp4')
             elif pl in stories.EXTRAS: print(f"    {pl}: {stories.NAMES[pl]}（本編のあとに出す。失敗しても本編は止めない）")
     log("[DRY-RUN] API は呼んでいません")
@@ -298,6 +308,9 @@ def main(argv=None):
             failed.append(f"{key}:QA"); results["QA"] = "不合格で見送り"
             actions.append(f'「{p["title"]}」（{p["date"]} {p["slot"]}）が投稿前の QA に不合格で、どの SNS にも出していない（理由は dist/{p["ep"]}_qa.json）。Claude に「{p["ep"]} の QA を直して出し直して」と伝える')
             continue
+        if d.get("follow_overlay", True):  # 動画の最後に「フォローして続きを見てね」（ループは壊さない。入れられなければ元の動画で出す）
+            try: loop_path = growth.follow_overlay(loop_path, DIST / f'{p["ep"]}_loopf.mp4', stories._font())
+            except growth.GrowthSkip as e: log("最後の一言なし:", e)
         rec = posted.setdefault(key, {"tag_set": p.get("tag_set", "A"), "no": p["no"], "title": p["title"]})
         th = {}
         def thumb():  # Instagram・Facebook で同じサムネ（チェックに通らなければ両方とも出さない）
@@ -316,6 +329,9 @@ def main(argv=None):
                     for r in fb_access["reasons"]: log("Meta:", fb.scrub(r))
                 if pl == "yt": rec["yt"] = post_youtube(p, d, yt_path)
                 elif pl == "tt": rec["tt"] = post_tiktok(p, d, loop_path)
+                elif pl == "threads":
+                    if not growth.threads_ready(): raise growth.GrowthSkip("Threads の権限・Secrets が未設定で見送り")  # 動画を置く前に確かめる
+                    rec["threads"] = growth.post_threads(p, d, media_publish(loop_path, f"{dt.datetime.now(JST).strftime('%Y%m%d')}_{p['ep']}.mp4"))
                 elif pl == "ig":
                     rec["ig"] = post_instagram(p, d, loop_path, thumb(), uid=fb_access.get("ig_user_id"))
                 elif pl == "facebook":
@@ -332,6 +348,8 @@ def main(argv=None):
                 rec[pl + "_at"] = dt.datetime.now(JST).isoformat(timespec="minutes")
                 if pl != "facebook": results[mode.NAMES[pl]] = "投稿OK"
                 log("OK", key, pl, rec[pl])
+            except growth.GrowthSkip as e:  # 今回は出さないだけ（失敗にしない。posted.json にも書かない）
+                log("SKIP", key, pl, fb.scrub(e)); results[mode.NAMES.get(pl, pl)] = f"見送り（{str(fb.scrub(e))[:40]}）"
             except fb.FbSkip as e:
                 why = fb.scrub(e)
                 log("SKIP", key, pl, why)
@@ -348,6 +366,7 @@ def main(argv=None):
                 results[mode.NAMES.get(pl, pl)] = "投稿失敗"
                 actions.append(failure_action(p, pl, e))
         (AUTO / "posted.json").write_text(json.dumps(posted, ensure_ascii=False, indent=2))
+    publish_episodes(sch, posted)
     write_hub_args(fb_result, results, actions, next_api_post(sch, posted, now_))
     if failed: log("失敗:", failed); return 1
     return 0
