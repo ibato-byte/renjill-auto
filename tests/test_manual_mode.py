@@ -30,7 +30,7 @@ class ModeTest(unittest.TestCase):
         with mock.patch.dict(os.environ, MANUAL), mock.patch.object(pathlib.Path, "read_text",
                                                                     lambda self, *a, **k: json.dumps(SCH) if self.name == "schedule.json" else "{}"):
             _, _, targets = post.pick_posts(None, now)
-        self.assertEqual([(t[1]["ep"], t[2]) for t in targets], [("ep1", ["tt", "yt"])])
+        self.assertEqual([(t[1]["ep"], t[2]) for t in targets], [("ep1", ["tt", "yt", "bsky"])])
 
 
 class TokenCheckManualTest(unittest.TestCase):
@@ -143,7 +143,7 @@ class PackTest(unittest.TestCase):
         with mock.patch.dict(os.environ, {"MANUAL_PLATFORMS": ""}), mock.patch.object(pathlib.Path, "read_text",
                 lambda self, *a, **k: json.dumps(SCH) if self.name == "schedule.json" else json.dumps(posted2)):
             _, _, targets = post.pick_posts(None, dt.datetime(2026, 10, 29, 18, tzinfo=post.JST))
-        self.assertEqual([(t[1]["ep"], t[2]) for t in targets], [("ep2", ["tt", "yt"])])
+        self.assertEqual([(t[1]["ep"], t[2]) for t in targets], [("ep2", ["tt", "yt", "bsky"])])
 
 
 class MetricsManualTest(unittest.TestCase):
