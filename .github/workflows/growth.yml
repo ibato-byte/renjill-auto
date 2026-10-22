@@ -1,0 +1,98 @@
+name: growth
+# フォロワー増加策（依頼 #37・#38）。AI を使わない・無料。
+#  topics  … 毎朝 5:30：伸びた回の再活用の候補を確かめる（その日の話題の確認は metrics に入っている）
+#  comments… 1日4回：コメントへの返信（最初の1週間は候補を記録するだけ。auto/reply_mode.json が live になったら実際に返す）
+#  compile … 毎週日曜 20:30：その週のショートをつないだ「まとめ動画」を YouTube に出す
+on:
+  schedule:
+    - cron: "30 20 * * *"      # 05:30 JST
+    - cron: "40 3,9,15,21 * * *"  # 12:40 / 18:40 / 00:40 / 06:40 JST
+    - cron: "30 11 * * 0"      # 日曜 20:30 JST
+  workflow_dispatch:
+    inputs:
+      task:
+        description: "topics / comments / compile（空なら全部）"
+        required: false
+permissions:
+  contents: write
+  issues: write
+concurrency: post
+jobs:
+  growth:
+    if: vars.AUTO_POST_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - name: どの仕事をするか決める
+        id: task
+        env:
+          SCHEDULE: ${{ github.event.schedule }}
+          INPUT: ${{ github.event.inputs.task }}
+        run: |
+          t="$INPUT"
+          case "$SCHEDULE" in
+            "30 20 * * *") t=topics ;;
+            "40 3,9,15,21 * * *") t=comments ;;
+            "30 11 * * 0") t=compile ;;
+          esac
+          echo "task=${t:-all}" >> "$GITHUB_OUTPUT"
+      - name: Automation Hub：一時停止の確認
+        id: hub
+        env:
+          HUB_TOKEN: ${{ secrets.HUB_TOKEN }}
+        run: |
+          if [ -z "$HUB_TOKEN" ] || ! git clone -q --depth 1 "https://x-access-token:${HUB_TOKEN}@github.com/ibato-byte/automation-hub.git" "$RUNNER_TEMP/hub"; then
+            echo "paused=false" >> "$GITHUB_OUTPUT"; echo "Automation Hub を使わずに続ける"; exit 0
+          fi
+          bash "$RUNNER_TEMP/hub/scripts/gha.sh" check renjill-growth
+      - uses: actions/checkout@v5
+        if: steps.hub.outputs.paused != 'true'
+      - uses: actions/setup-python@v6
+        if: steps.hub.outputs.paused != 'true'
+        with: { python-version: "3.12" }
+      - if: steps.hub.outputs.paused != 'true'
+        run: pip install -q requests numpy scipy google-api-python-client google-auth google-auth-httplib2
+      - name: topics（再活用の候補）
+        if: steps.hub.outputs.paused != 'true' && contains('topics all', steps.task.outputs.task)
+        run: python auto/reuse.py
+      - name: comments（コメントへの返信）
+        if: steps.hub.outputs.paused != 'true' && contains('comments all', steps.task.outputs.task)
+        env:
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
+          YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
+          YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
+        run: python auto/comments.py
+      - name: compile の準備（描画に必要なもの）
+        if: steps.hub.outputs.paused != 'true' && contains('compile all', steps.task.outputs.task) && (github.event.schedule == '30 11 * * 0' || github.event_name == 'workflow_dispatch')
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg fonts-noto-cjk
+          npm i -g playwright && npx playwright install --with-deps chromium
+      - name: compile（まとめ動画）
+        if: steps.hub.outputs.paused != 'true' && contains('compile all', steps.task.outputs.task) && (github.event.schedule == '30 11 * * 0' || github.event_name == 'workflow_dispatch')
+        env:
+          YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
+          YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
+          YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          MEDIA_TOKEN: ${{ secrets.MEDIA_TOKEN }}
+        run: python auto/compile.py
+      - name: commit results
+        if: always() && steps.hub.outputs.paused != 'true'
+        run: |
+          git config user.name renjill-bot; git config user.email bot@renjill.local
+          git add -A auto/replies.json auto/compile_state.json content/reuse_candidates.json || true
+          git diff --cached --quiet || git commit -m "growth: $(TZ=Asia/Tokyo date '+%Y-%m-%d %H:%M')"
+          bash auto/push_main.sh
+      - name: Automation Hub に記録
+        if: always()
+        env:
+          HUB_TOKEN: ${{ secrets.HUB_TOKEN }}
+          JOB_STATUS: ${{ job.status }}
+          PAUSED: ${{ steps.hub.outputs.paused }}
+        run: |
+          [ -d "$RUNNER_TEMP/hub" ] || exit 0
+          sum="再活用の候補・コメントへの返信（最初は候補の記録）・毎週のまとめ動画"
+          [ -f dist/compile_summary.txt ] && sum="$sum。$(cat dist/compile_summary.txt)"
+          bash "$RUNNER_TEMP/hub/scripts/gha.sh" report renjill-growth "$JOB_STATUS" "$PAUSED" "$sum" \
+            --next-run-at "$(bash "$RUNNER_TEMP/hub/scripts/gha.sh" next-daily 03:40 09:40 15:40 20:30 21:40)"
