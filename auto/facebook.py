@@ -144,6 +144,28 @@ def set_thumbnail(vid, tok, thumb_path, http=requests):
         return False
 
 
+def thumbnail_attached(vid, tok, http=requests):
+    """Graph API で、リールにカバー（is_preferred のサムネ）が付いているか調べる。True／False／None（調べられない）"""
+    try:
+        j = _json(http.get(f"{G}/{vid}/thumbnails", params={"fields": "uri,is_preferred", "access_token": tok}, timeout=30))
+    except Exception:
+        return None
+    if not isinstance(j.get("data"), list): return None
+    return any(t.get("is_preferred") for t in j["data"])
+
+
+def ensure_thumbnail(vid, tok, thumb_path, http=requests, sleep=time.sleep, tries=3, interval=20):
+    """投稿直後にカバーが付いたかを確かめ、付いていなければ付け直す（人の目視の代わり）。"OK"／"NG" を返す。
+    調べられない（None）ときは、付け直しの成功を「OK」とみなす"""
+    for i in range(tries):
+        if thumbnail_attached(vid, tok, http): return "OK"
+        if set_thumbnail(vid, tok, thumb_path, http):
+            sleep(interval)
+            if thumbnail_attached(vid, tok, http) is not False: return "OK"
+        sleep(interval)
+    return "OK" if thumbnail_attached(vid, tok, http) else "NG"
+
+
 def publish_reel(page_id, tok, video_path, description, http=requests, sleep=time.sleep, polls=20, interval=15, thumb_path=None, info=None):
     """info（dict）を渡すと info["thumb"] にサムネの結果（"OK"／"NG"／"なし"）を入れる"""
     info = {} if info is None else info

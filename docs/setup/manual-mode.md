@@ -8,7 +8,7 @@ Meta の API が長く使えなくなったときだけ、この予備のしく�
 ## これまでの経緯
 - 2026-10-21 午前：Meta の開発者機能を使えなかったため、Instagram・Facebook を「手動予約モード」にして、iMac の Chrome の Claude が Business Suite に予約していた。
 - 2026-10-21 午後：ビジネスポートフォリオ renjill_office（1623311255865570）のシステムユーザー renjill-auto の期限なしトークンで、API 投稿に戻した（`auto/mode.json` の `manual_platforms` を `[]`）。
-- Business Suite で予約済みの回（10/23 mug2・10/25 chime2・10/26 jil_morning2・10/28 receipts2・10/30 deadline2）は `posted.json` に `"bs-scheduled"` と記録してあり、API では出しません（二重投稿の防止）。10/31 以降の回は API で投稿します。
+- 【2026-10-22】Business Suite の予約はやめました。10/23〜10/30 の5回の `"bs-scheduled"` は外してあり、API で出します。この文書は API が使えなくなったときの予備の手順です。
 
 ## 予備として使うとき
 1. Claude に「Instagram・Facebook を手動予約モードにして」と伝える（`auto/mode.json` の `manual_platforms` に `"ig"`・`"facebook"` を入れる PR を作り、テスト合格でマージ）。
