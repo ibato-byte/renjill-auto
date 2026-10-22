@@ -38,6 +38,22 @@ class GrowthTest(unittest.TestCase):
         q, _ = topics.update_queue(d + dt.timedelta(days=30), [], q)
         self.assertEqual(q, [])
 
+    def test_bsky_skips_without_secrets_and_posts_card(self):
+        import bsky
+        with self.assertRaises(LookupError): bsky.post_link_card(P, D, "abc", None, env={})
+        class R:
+            def __init__(s, j): s.j = j
+            def json(s): return s.j
+        calls = []
+        class H:
+            def post(s, url, **kw):
+                calls.append(url)
+                if url.endswith("createSession"): return R({"accessJwt": "j", "did": "did:x"})
+                return R({"uri": "at://x"})
+        self.assertEqual(bsky.post_link_card(P, D, "abc", None, env={"BSKY_HANDLE": "h", "BSKY_APP_PASSWORD": "p"}, http=H()), "at://x")
+        self.assertEqual(len(calls), 2)
+        self.assertLessEqual(len(bsky.post_text({**P, "caption_en": "x" * 400}, D)), 300)
+
 
 if __name__ == "__main__":
     unittest.main()

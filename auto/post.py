@@ -240,7 +240,7 @@ def failure_action(p, pl, err):
 
 def post_extra(pl, key, p, d, rec, loop_path, fb_access, results, posted):
     """ストーリーズ・再生リスト・カルーセル。失敗しても本編は止めない（失敗にも数えない）。出せたら rec[pl] に ID を残す（二重投稿を防ぐ）"""
-    label = {"ig_story": "ストーリーズ", "fb_story": "FBストーリーズ", "yt_playlist": "再生リスト", "ig_carousel": "カルーセル"}[pl]
+    label = {"ig_story": "ストーリーズ", "fb_story": "FBストーリーズ", "yt_playlist": "再生リスト", "ig_carousel": "カルーセル", "bsky": "Bluesky"}[pl]
     base = stories.EXTRAS[pl]
     try:
         if not rec.get(base) or rec[base] in NOT_ID: raise stories.StorySkip("本編が出ていないので見送り")
@@ -262,6 +262,10 @@ def post_extra(pl, key, p, d, rec, loop_path, fb_access, results, posted):
             if not fb_access.get("ig_user_id"): raise stories.StorySkip("Instagram の ID が分からず見送り")
             urls = [media_publish(ROOT / im, f"{month.replace('-', '')}_{p['ep']}_c{i}{pathlib.Path(im).suffix}") for i, im in enumerate(p["carousel"]["images"], 1)]
             rec[pl] = stories.post_ig_carousel(fb_access["ig_user_id"], os.environ["IG_ACCESS_TOKEN"], urls, p["carousel"].get("caption") or caption(p, d))
+        elif pl == "bsky":
+            import bsky
+            try: rec[pl] = bsky.post_link_card(p, d, rec["yt"], DIST / f'{p["ep"]}_thumb.jpg')
+            except LookupError as e: raise stories.StorySkip(str(e))
         elif pl == "yt_playlist":
             from google.oauth2.credentials import Credentials
             from googleapiclient.discovery import build
