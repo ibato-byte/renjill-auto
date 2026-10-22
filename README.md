@@ -28,7 +28,7 @@
 - GitHub Actions（`post.yml`）から投稿する。iMac・Chrome・Business Suite は使わない。
 - Instagram リール：動画とサムネ（`dist/<ep>_thumb.jpg`）を公開リポジトリ renjill-media に置き（`MEDIA_TOKEN`）、`video_url`・`cover_url` で投稿。
 - Facebook リール：ページ「レンとジル Ren & Jill」（ID 1358515160686321）のページトークンをシステムユーザーのトークンから取り、Reels Publishing API で投稿（サムネ付き）。
-- 10/23・10/25・10/26・10/28・10/30 の Instagram・Facebook は Business Suite で予約済み（`posted.json` の `"bs-scheduled"`）なので API では出さない。
+- Instagram・Facebook は全部 API で出す（2026-10-22 から Business Suite の予約は使わない。10/23・10/25・10/26・10/28・10/30 の `"bs-scheduled"` も外した）。Facebook は投稿直後に Graph API でカバーが付いたか確かめ、付いていなければ自動で付け直す。
 - 毎朝 6:00 の `tokens.yml` が `/debug_token` で有効か・期限・権限、ページと Instagram の ID を確認し、だめなら Hub で「エラー」＋メール。
 - 接続テスト（読み取りのみ）：Actions → **check** → Run workflow（`date` を入れると投稿内容のドライラン）。
 - 設定とトークンの作り直し：[docs/setup/facebook-reels.md](docs/setup/facebook-reels.md)。API が使えなくなったときの予備（Business Suite に手で予約）：[docs/setup/manual-mode.md](docs/setup/manual-mode.md)
