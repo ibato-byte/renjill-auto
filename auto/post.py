@@ -219,6 +219,9 @@ def write_hub_args(fb_result, results=None, actions=None, next_api=None, keep_ac
     if not acts and not keep_actions: args += ["--owner-action", "none"]
     (DIST / "post_hub_args").write_bytes(b"\0".join(s.encode() for s in args) + b"\0")
 
+def thumb_path_ok(th):
+    return bool(th.get("path")) and pathlib.Path(th["path"]).exists()
+
 def failure_action(p, pl, err):
     """投稿に失敗したときの「やること」（Hub に出す）"""
     name = mode.NAMES.get(pl, pl)
@@ -244,7 +247,6 @@ def main(argv=None):
     if a["dry_run"]: return dry_run(targets, d, posted)
     failed = []
     fb_access, fb_result, results, actions = None, None, {}, []
-    first_fb = not any(v.get("facebook") and v["facebook"] not in NOT_ID for v in posted.values())
     for key, p, plats in targets:
         results["回"] = f'{p["title"]}（{p["date"][5:]} {p["slot"]}）' if "回" not in results else results["回"] + f'・{p["title"]}'
         yt_path, loop_path = render(p["ep"])
@@ -269,13 +271,12 @@ def main(argv=None):
                 elif pl == "facebook":
                     info = {}
                     rec["facebook"] = fb.post(p, d, loop_path, access=fb_access, log=log, thumb_path=thumb(), info=info)
+                    if rec["facebook"] and thumb_path_ok(th):  # 投稿直後に Graph API でカバーを確かめ、付いていなければ付け直す
+                        info["thumb"] = fb.ensure_thumbnail(rec["facebook"], fb_access["token"], th["path"])
                     fb_result = {"kpi": f'投稿OK（サムネ{info.get("thumb", "なし")}）'}
                     if info.get("thumb") == "NG":
-                        fb_result["action"] = f"Facebook リール「{p['title']}」はサムネを付けられなかった（動画は公開済み）。Business Suite でカバーを差し替えるか、Claude に相談する"
+                        fb_result["action"] = f"Facebook リール「{p['title']}」のカバーを自動で3回付け直しても付かなかった（動画は公開済み）。Claude に「{p['ep']} の Facebook のカバーを付けて」と伝える"
                     results["Facebook"] = fb_result["kpi"]
-                    if first_fb and info.get("thumb") == "OK":
-                        actions.append(f"Facebook リールの API 投稿の1本目（「{p['title']}」）。ページ「レンとジル Ren & Jill」で、カバー（サムネ）が付いているかを一度見る。付いていなければ Claude に知らせる")
-                    first_fb = False
                 else:
                     log("未対応のSNS", pl); continue
                 rec[pl + "_at"] = dt.datetime.now(JST).isoformat(timespec="minutes")

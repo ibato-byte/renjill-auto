@@ -44,9 +44,9 @@
    "caption_en": "Sir. The mug. It's on your head.",
    "tag_set": "B",
    "thumb": {
-    "t": 8.0,
-    "cam": "1.8,470,1250",
-    "hook": "WHERE'S MY MUG?/頭の上です、課長"
+    "t": 1.0,
+    "cam": "1.6,470,1150",
+    "hook": "MY MUG?/頭の上です、課長"
    }
   },
   {
@@ -56,12 +56,12 @@
    "no": 6,
    "title": "定時のチャイム",
    "caption_ja": "定時のチャイム、よろこびが止まらない。",
-   "caption_en": "5pm chime. Joy cannot be contained.",
+   "caption_en": "6pm chime. Joy cannot be contained.",
    "tag_set": "A",
    "thumb": {
     "t": 6.0,
     "cam": "2.0,560,1100",
-    "hook": "IT'S 5 PM!/定時のよろこび"
+    "hook": "IT'S 6 PM!/定時のよろこび"
    }
   },
   {
