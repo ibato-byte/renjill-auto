@@ -22,9 +22,9 @@ jobs:
             echo "paused=false" >> "$GITHUB_OUTPUT"; echo "Automation Hub を使わずに続ける"; exit 0
           fi
           bash "$RUNNER_TEMP/hub/scripts/gha.sh" check renjill-metrics
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         if: steps.hub.outputs.paused != 'true'
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         if: steps.hub.outputs.paused != 'true'
         with: { python-version: "3.12" }
       - if: steps.hub.outputs.paused != 'true'
@@ -40,7 +40,7 @@ jobs:
       - if: steps.hub.outputs.paused != 'true'
         run: |
           git config user.name renjill-bot; git config user.email bot@renjill.local
-          git add content/metrics.csv content/followers.csv auto/posted.json; git diff --cached --quiet || git commit -m "metrics: $(TZ=Asia/Tokyo date '+%Y-%m-%d')"; git push
+          git add content/metrics.csv content/followers.csv auto/posted.json; git diff --cached --quiet || git commit -m "metrics: $(TZ=Asia/Tokyo date '+%Y-%m-%d')"; bash auto/push_main.sh
       - name: トークンの警告をメールで知らせる（同じ内容は1日1通まで）
         if: always() && steps.hub.outputs.paused != 'true'
         env:

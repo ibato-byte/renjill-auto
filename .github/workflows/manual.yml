@@ -29,12 +29,12 @@ jobs:
             echo "paused=false" >> "$GITHUB_OUTPUT"; echo "Automation Hub を使わずに続ける"; exit 0
           fi
           bash "$RUNNER_TEMP/hub/scripts/gha.sh" check renjill-manual
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         if: steps.hub.outputs.paused != 'true'
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         if: steps.hub.outputs.paused != 'true'
         with: { node-version: 20 }
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         if: steps.hub.outputs.paused != 'true'
         with: { python-version: "3.12" }
       - if: steps.hub.outputs.paused != 'true'
@@ -60,7 +60,7 @@ jobs:
         run: |
           git config user.name renjill-bot; git config user.email bot@renjill.local
           git add auto/posted.json
-          git diff --cached --quiet || { git commit -m "manual: 予約の記録（${{ steps.name.outputs.name }}）"; git pull -q --rebase && git push; }
+          git diff --cached --quiet || { git commit -m "manual: 予約の記録（${{ steps.name.outputs.name }}）"; bash auto/push_main.sh; }
       - name: 成果物にする（保存期間7日）
         if: always() && steps.hub.outputs.paused != 'true'
         uses: actions/upload-artifact@v4
