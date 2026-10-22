@@ -27,6 +27,18 @@ class ThreadsTest(unittest.TestCase):
         with mock.patch.dict(os.environ, {}, clear=True):
             with self.assertRaises(threads.GrowthSkip): threads.post_threads(P, D, "https://x/v.mp4")
 
+    def test_user_id_from_me_when_secret_missing(self):
+        seen = []
+        class H:
+            def get(self, url, params=None, **k):
+                seen.append(url); return R({"id": "777"} if url.endswith("/me") else {"error": {"message": "x"}})
+        with mock.patch.dict(os.environ, {"THREADS_ACCESS_TOKEN": "t"}, clear=True):
+            self.assertEqual(threads.threads_user_id("t", H()), "777")
+        class Bad:
+            def get(self, url, params=None, **k): return R({"error": {"message": "expired"}})
+        with mock.patch.dict(os.environ, {"THREADS_ACCESS_TOKEN": "t"}, clear=True):
+            with self.assertRaises(threads.GrowthSkip): threads.threads_user_id("t", Bad())
+
     def test_publish(self):
         calls = []
         class H:

@@ -1,5 +1,5 @@
 """Threads への自動投稿（依頼 #37-1）と、キャプションの検索語（#37-5）。post.py から呼ぶ。失敗しても本編は止めない。
-Secrets（THREADS_ACCESS_TOKEN・THREADS_USER_ID）がなければ見送るだけ。"""
+Secrets は THREADS_ACCESS_TOKEN があれば動く（THREADS_USER_ID は無ければ /me から自動で取る）。トークンがなければ見送るだけ。"""
 import os, time
 import requests
 
@@ -28,15 +28,27 @@ def threads_text(p, d):
 
 # ---------- Threads ----------
 def threads_ready():
-    return bool(os.environ.get("THREADS_ACCESS_TOKEN") and os.environ.get("THREADS_USER_ID"))
+    return bool(os.environ.get("THREADS_ACCESS_TOKEN"))
+
+
+def threads_user_id(tok, http=requests):
+    """THREADS_USER_ID があればそれを、なければトークンで /me を呼んで取る（トークンは出力しない）"""
+    uid = os.environ.get("THREADS_USER_ID")
+    if uid: return uid
+    r = http.get(f"{THREADS_G}/me", params={"fields": "id", "access_token": tok}).json()
+    if "id" not in r:
+        msg = str(r.get("error", {}).get("message", ""))[:80] if isinstance(r.get("error"), dict) else ""
+        raise GrowthSkip(f"Threads のユーザー ID を取得できず見送り（{msg}）")
+    return str(r["id"])
 
 
 def post_threads(p, d, video_url, http=requests, sleep=time.sleep):
     """Threads に動画（MP4・9:16）を出す。作る→処理待ち→公開の3段階。24時間の投稿上限（250件）の手前で止める。
     video_url：Instagram と同じ公開 URL（renjill-media）"""
     if not threads_ready():
-        raise GrowthSkip("Threads の権限・Secrets（THREADS_ACCESS_TOKEN・THREADS_USER_ID）が未設定で見送り")
-    tok, uid = os.environ["THREADS_ACCESS_TOKEN"], os.environ["THREADS_USER_ID"]
+        raise GrowthSkip("Threads の権限・Secrets（THREADS_ACCESS_TOKEN）が未設定で見送り")
+    tok = os.environ["THREADS_ACCESS_TOKEN"]
+    uid = threads_user_id(tok, http)
     lim = http.get(f"{THREADS_G}/{uid}/threads_publishing_limit", params={"fields": "quota_usage,config", "access_token": tok}).json()
     try:
         used, total = lim["data"][0]["quota_usage"], lim["data"][0]["config"]["quota_total"]
