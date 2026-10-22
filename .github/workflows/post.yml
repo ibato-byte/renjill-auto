@@ -32,12 +32,12 @@ jobs:
             echo "paused=false" >> "$GITHUB_OUTPUT"; echo "Automation Hub を使わずに続ける"; exit 0
           fi
           bash "$RUNNER_TEMP/hub/scripts/gha.sh" check renjill-post
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         if: steps.hub.outputs.paused != 'true'
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         if: steps.hub.outputs.paused != 'true'
         with: { node-version: 20 }
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         if: steps.hub.outputs.paused != 'true'
         with: { python-version: "3.12" }
       - if: steps.hub.outputs.paused != 'true'
@@ -73,7 +73,7 @@ jobs:
           git config user.name renjill-bot; git config user.email bot@renjill.local
           git add -A auto/posted.json dist/*.jpg dist/*.json || true
           git diff --cached --quiet || git commit -m "post: $(TZ=Asia/Tokyo date '+%Y-%m-%d %H:%M')"
-          git push
+          bash auto/push_main.sh
       - name: Automation Hub に記録
         if: always()
         env:
