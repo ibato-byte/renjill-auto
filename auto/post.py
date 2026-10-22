@@ -24,6 +24,7 @@ import alerts
 import mode
 import stories
 import growth
+import threads
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 RIG, DIST, AUTO = ROOT / "rig", ROOT / "dist", ROOT / "auto"
@@ -80,7 +81,9 @@ def tags(p, d):
 def caption(p, d, with_tags=True):
     base = f'{p["caption_en"]}\n{p["caption_ja"]}'
     # 末尾に英語の一言を必ず入れる（海外の人がフォローしやすいように。依頼 #38）
-    return base + ("\n\n" + tags(p, d) if with_tags else "") + "\n\n" + growth.tail_en(d)
+    # 検索される言葉（日・英）と、末尾の英語の一言。ハッシュタグは3個まで（依頼 #37・#38）
+    tg = " ".join(tags(p, d).split()[:threads.MAX_TAGS])
+    return base + "\n\n" + threads.seo_line(d) + ("\n\n" + tg if with_tags else "") + "\n\n" + growth.tail_en(d)
 
 def thumbnail(p):
     """サムネ生成（rig/thumb.js）。dist/<ep>_thumb.jpg"""
@@ -191,6 +194,7 @@ def dry_run(targets, d, posted=None):
                 print(f"    ig: POST {fb.G}/<ページ {fb.PAGE_ID} の instagram_business_account>/media  media_type=REELS share_to_feed=true")
                 print(f'    ig: video_url=<renjill-media に置いた {p["ep"]}_loop.mp4> cover_url=<renjill-media に置いた {p["ep"]}_thumb.jpg>')
                 print("    ig: caption:\n      " + caption(p, d).replace("\n", "\n      "))
+            elif pl == "threads": print("    threads: VIDEO（Instagram と同じ公開 URL）" + ("" if threads.threads_ready() else "  ※権限・Secrets 未設定のため本番では見送り"))
             elif pl == "yt": print(f'    yt: title: {p["caption_en"]} | Ren & Jill「{p["title"]}」')
             elif pl == "tt": print("    tt: FILE_UPLOAD", f'{p["ep"]}_loop.mp4')
             elif pl in stories.EXTRAS: print(f"    {pl}: {stories.NAMES[pl]}（本編のあとに出す。失敗しても本編は止めない）")
@@ -327,6 +331,9 @@ def main(argv=None):
                     for r in fb_access["reasons"]: log("Meta:", fb.scrub(r))
                 if pl == "yt": rec["yt"] = post_youtube(p, d, yt_path)
                 elif pl == "tt": rec["tt"] = post_tiktok(p, d, loop_path)
+                elif pl == "threads":
+                    if not threads.threads_ready(): raise threads.GrowthSkip("Threads の権限・Secrets が未設定で見送り")  # 動画を置く前に確かめる
+                    rec["threads"] = threads.post_threads(p, d, media_publish(loop_path, f"{dt.datetime.now(JST).strftime('%Y%m%d')}_{p['ep']}.mp4"))
                 elif pl == "ig":
                     rec["ig"] = post_instagram(p, d, loop_path, thumb(), uid=fb_access.get("ig_user_id"))
                 elif pl == "facebook":
@@ -343,6 +350,8 @@ def main(argv=None):
                 rec[pl + "_at"] = dt.datetime.now(JST).isoformat(timespec="minutes")
                 if pl != "facebook": results[mode.NAMES[pl]] = "投稿OK"
                 log("OK", key, pl, rec[pl])
+            except threads.GrowthSkip as e:  # 今回は出さないだけ（失敗にしない。posted.json にも書かない）
+                log("SKIP", key, pl, fb.scrub(e)); results[mode.NAMES.get(pl, pl)] = f"見送り（{str(fb.scrub(e))[:40]}）"
             except fb.FbSkip as e:
                 why = fb.scrub(e)
                 log("SKIP", key, pl, why)
