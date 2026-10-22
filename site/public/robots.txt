@@ -1,3 +1,0 @@
-User-agent: *
-Allow: /
-Sitemap: https://renjill.pages.dev/sitemap.xml
