@@ -16,57 +16,37 @@
     "tag_set": "B",
     "no": 5,
     "title": "マグカップはどこ",
-    "ig": "bs-scheduled",
     "tt": "manual",
     "note": "IG/TikTokは手動で予約済み（2026-10-20）",
-    "yt": "manual",
-    "facebook": "bs-scheduled",
-    "facebook_at": "2026-10-21T16:00+09:00",
-    "ig_at": "2026-10-21T16:00+09:00"
+    "yt": "manual"
   },
   "2026-10-25_chime2": {
     "tag_set": "A",
     "no": 6,
     "title": "定時のチャイム",
-    "ig": "bs-scheduled",
     "tt": "manual",
     "note": "IG/TikTokは手動で予約済み（2026-10-20）",
-    "yt": "manual",
-    "facebook": "bs-scheduled",
-    "facebook_at": "2026-10-21T16:00+09:00",
-    "ig_at": "2026-10-21T16:00+09:00"
+    "yt": "manual"
   },
   "2026-10-26_jil_morning2": {
     "tag_set": "B",
     "no": 2,
     "title": "ジルの朝",
-    "ig": "bs-scheduled",
     "tt": "manual",
-    "note": "IG/TikTokは手動で予約済み（2026-10-20）",
-    "facebook": "bs-scheduled",
-    "facebook_at": "2026-10-21T16:00+09:00",
-    "ig_at": "2026-10-21T16:00+09:00"
+    "note": "IG/TikTokは手動で予約済み（2026-10-20）"
   },
   "2026-10-28_receipts2": {
     "tag_set": "A",
     "no": 8,
     "title": "牧草の領収書",
-    "ig": "bs-scheduled",
     "tt": "manual",
-    "note": "IG/TikTokは手動で予約済み（2026-10-20）",
-    "facebook": "bs-scheduled",
-    "facebook_at": "2026-10-21T16:00+09:00",
-    "ig_at": "2026-10-21T16:00+09:00"
+    "note": "IG/TikTokは手動で予約済み（2026-10-20）"
   },
   "2026-10-30_deadline2": {
     "tag_set": "B",
     "no": 9,
     "title": "締め切りのカレンダー",
-    "ig": "bs-scheduled",
     "tt": "manual",
-    "note": "IG/TikTokは手動で予約済み（2026-10-20）",
-    "facebook": "bs-scheduled",
-    "facebook_at": "2026-10-21T16:00+09:00",
-    "ig_at": "2026-10-21T16:00+09:00"
+    "note": "IG/TikTokは手動で予約済み（2026-10-20）"
   }
 }

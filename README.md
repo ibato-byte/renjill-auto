@@ -28,7 +28,10 @@
 - GitHub Actions（`post.yml`）から投稿する。iMac・Chrome・Business Suite は使わない。
 - Instagram リール：動画とサムネ（`dist/<ep>_thumb.jpg`）を公開リポジトリ renjill-media に置き（`MEDIA_TOKEN`）、`video_url`・`cover_url` で投稿。
 - Facebook リール：ページ「レンとジル Ren & Jill」（ID 1358515160686321）のページトークンをシステムユーザーのトークンから取り、Reels Publishing API で投稿（サムネ付き）。
-- 10/23・10/25・10/26・10/28・10/30 の Instagram・Facebook は Business Suite で予約済み（`posted.json` の `"bs-scheduled"`）なので API では出さない。
+- **Business Suite の予約は使わない（2026-10-22 オーナー決定）**。10/23〜10/30 の5回も API で出す（`bs-scheduled` は外した）。週次PDCA・週なかの再検査・事前QA は、Instagram・Facebook を Business Suite で予約する手順・案内を出さない。
+- **直した素材は置きっぱなしにしない**：週なかの再検査・週次PDCA は、直して合格したらその場で main への PR を作り、「あなたの番」に PR のリンク付きで「承認してマージ」を1件だけ出す。投稿時刻までに未マージなら `pending-fixes`（毎日 18:00・7:00）が @ibato-byte 付きの Issue でメールする（`auto/pending_fixes.py`）。
+- **まだ出していない回を直したとき**は、素材を直して main に入れるだけでよい（API が直した素材で出す）。手で差し替えを頼まない。すでに出した回は、公開済みの投稿を API で直せないので差し替えず、次の回から直す。
+- **Facebook のリールのカバー**は、投稿直後に Graph API で付いたか確認し、付いていなければ API で付け直す（最大3回）。それでも付かないときだけ「あなたの番」に出る。人の目視はしない。
 - 毎朝 6:00 の `tokens.yml` が `/debug_token` で有効か・期限・権限、ページと Instagram の ID を確認し、だめなら Hub で「エラー」＋メール。
 - 接続テスト（読み取りのみ）：Actions → **check** → Run workflow（`date` を入れると投稿内容のドライラン）。
 - 設定とトークンの作り直し：[docs/setup/facebook-reels.md](docs/setup/facebook-reels.md)。API が使えなくなったときの予備（Business Suite に手で予約）：[docs/setup/manual-mode.md](docs/setup/manual-mode.md)
@@ -75,7 +78,7 @@
 | 毎週木曜 7:00 | Claude（再検査） | 4日以内に出す回をもう一度 brushup → 目視 → 辛口チェック → 直す（最大2周）／差し替え／見送り |
 | 毎朝 6:00 | GitHub Actions（preflight） | 3日以内の回を描画・QA・サムネQA。NGなら Issue とメール |
 | 12:00 / 18:00 / 19:00 | GitHub Actions（post） | 直前にもう一度 QA。合格した回だけ投稿（Instagram・YouTube・Facebook。Instagram・Facebook は Meta Graph API） |
-| 毎朝 6:30 | GitHub Actions（metrics） | 数値を集めて metrics.csv に追記 → 月曜の振り返りに使う（Business Suite で予約した回は投稿IDがないので計測なし） |
+| 毎朝 6:30 | GitHub Actions（metrics） | 数値を集めて metrics.csv に追記 → 月曜の振り返りに使う（手で予約した回は投稿IDがないので計測なし） |
 
 検査に落ちた回は出さない（枠が空いても、質の低い回は出さない）。
 

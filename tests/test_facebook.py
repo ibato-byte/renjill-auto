@@ -147,6 +147,35 @@ class PublishTest(unittest.TestCase):
         self.assertEqual((fin["upload_phase"], fin["video_state"], fin["video_id"]), ("finish", "PUBLISHED", "v1"))
         self.assertEqual(fin["description"], fb.caption(P, D))
 
+    def test_thumbnail_verified_and_retried(self):
+        """公開直後に Graph API でサムネが付いたか確かめ、付いていなければ付け直す（人の目視はしない）"""
+        th = tempfile.NamedTemporaryFile(suffix="_thumb.jpg", delete=False); th.write(b"jpg"); th.close()
+        try:
+            class H(FakeHttp):
+                def __init__(self, seq, **kw):
+                    super().__init__(**kw); self.seq = list(seq)
+                def get(self, url, params=None, timeout=None, **kw):
+                    if url.endswith("/thumbnails"):
+                        self.calls.append(("GET", url, params))
+                        r = self.seq.pop(0) if len(self.seq) > 1 else self.seq[0]
+                        return Resp(r)
+                    return super().get(url, params, timeout, **kw)
+            none, yes = {"data": [{"is_preferred": False}]}, {"data": [{"is_preferred": True}]}
+            posts = lambda h: sum(1 for c in h.calls if c[0] == "POST" and c[1].endswith("/thumbnails"))
+            # 付いていた → 付け直さない
+            h, info = H([yes]), {}
+            fb.post(P, D, self.tmp.name, http=h, sleep=lambda s: None, access=self.acc(), thumb_path=th.name, info=info)
+            self.assertEqual((info["thumb"], posts(h)), ("OK", 1))
+            # 付いていない → 付け直して、付いたら OK
+            h, info = H([none, none, yes]), {}
+            fb.post(P, D, self.tmp.name, http=h, sleep=lambda s: None, access=self.acc(), thumb_path=th.name, info=info)
+            self.assertEqual(info["thumb"], "OK"); self.assertGreaterEqual(posts(h), 2)
+            # 何度付け直しても付かない → NG（このときだけ人に知らせる）。再試行は有限
+            h, info = H([none]), {}
+            fb.post(P, D, self.tmp.name, http=h, sleep=lambda s: None, access=self.acc(), thumb_path=th.name, info=info)
+            self.assertEqual(info["thumb"], "NG"); self.assertLessEqual(posts(h), 5)
+        finally: os.unlink(th.name)
+
     def test_thumbnail(self):
         th = tempfile.NamedTemporaryFile(suffix="_thumb.jpg", delete=False); th.write(b"jpg"); th.close()
         try:
@@ -160,7 +189,7 @@ class PublishTest(unittest.TestCase):
             h, info = FakeHttp(thumbs=[{"error": {"message": "not ready"}}, {"success": True}]), {}
             fb.post(P, D, self.tmp.name, http=h, sleep=lambda s: None, access=self.acc(), thumb_path=th.name, info=info)
             self.assertEqual(info["thumb"], "OK")
-            self.assertEqual(sum(1 for c in h.calls if c[1].endswith("/thumbnails")), 2)
+            self.assertEqual(sum(1 for c in h.calls if c[0] == "POST" and c[1].endswith("/thumbnails")), 2)
             # それでもだめなら NG（動画は公開済みなので失敗にはしない）
             h, info = FakeHttp(thumbs=[{"error": {"message": "no"}}]), {}
             self.assertEqual(fb.post(P, D, self.tmp.name, http=h, sleep=lambda s: None, access=self.acc(), thumb_path=th.name, info=info), "v1")

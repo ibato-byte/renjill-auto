@@ -40,13 +40,13 @@
     - https://www.soumu.go.jp/menu_news/s-news/01iicp01_02000130.html （令和7年度・報道資料）
     - https://www.soumu.go.jp/menu_news/s-news/01iicp01_02000125.html （令和6年度・報道資料）
     - https://www.soumu.go.jp/main_content/001017160.pdf （令和6年度・報告書本体。年代別の表）
-  - 投稿方法：GitHub Actions から Meta 公式の Reels Publishing API（https://developers.facebook.com/docs/video-api/guides/reels-publishing ）で、Facebook ページ「レンとジル Ren & Jill」（ID 1358515160686321）に投稿する。トークンはビジネスポートフォリオ renjill_office のシステムユーザーの期限なしトークン（docs/setup/facebook-reels.md）。10/23〜10/30 の5回だけは Business Suite で予約済み（`posted.json` の `bs-scheduled`）。
+  - 投稿方法：GitHub Actions から Meta 公式の Reels Publishing API（https://developers.facebook.com/docs/video-api/guides/reels-publishing ）で、Facebook ページ「レンとジル Ren & Jill」（ID 1358515160686321）に投稿する。トークンはビジネスポートフォリオ renjill_office のシステムユーザーの期限なしトークン（docs/setup/facebook-reels.md）。Business Suite の予約は使わない（2026-10-22 オーナー決定。10/23〜10/30 の5回も API で出す）。
 - **ルール**：
   - Instagram と同じ回・同じ時刻・同じ loop 版の動画（`schedule.json` の `platforms` に `facebook`。defaults に入っているので通常は書かなくてよい）。
   - キャプション：英語の一言 → 日本語のあるある → コメントを誘う一言（`fb_cta`。既存ルールの「会話を作る」に合わせる）→ ハッシュタグ **3個以内**（`fb_tag_sets`）。
   - 表記：日本語「レンとジル」、英語「Ren & Jill」（自動で直す）。
   - Instagram アプリの「Facebook に自動シェア」はオフ（Facebook には別に投稿しているので二重になる）。
-- **数字**：`content/metrics.csv` の sns=`facebook`（再生＝リールの再生数、いいね＝リアクション合計、コメント、シェア）。取れない日は空欄（推測で埋めない）。Business Suite で予約した5回（`bs-scheduled`）は、公開後に投稿IDを探して取る（見つからなければ計測なし）。2〜3週たまるまでは判定基準を決めない。
+- **数字**：`content/metrics.csv` の sns=`facebook`（再生＝リールの再生数、いいね＝リアクション合計、コメント、シェア）。取れない日は空欄（推測で埋めない）。API で出した回は投稿IDが記録されるのでそのまま取れる。2〜3週たまるまでは判定基準を決めない。
 
 ## 4. 数字の見方（週次PDCAの判定基準）
 **数字の取り方（2026-10-21〜）**
