@@ -1,0 +1,23 @@
+name: pending-fixes
+# 直した素材（サムネ・予定表）がマージされないまま投稿時刻が近づいていないか見張る。あれば @ibato-byte 付きの Issue でメール（読み取りのみ・AI なし）
+on:
+  schedule:
+    - cron: "0 9 * * *"   # 毎日 18:00 JST（前日にお知らせ）
+    - cron: "0 22 * * *"  # 毎日 7:00 JST（当日の朝の再通知）
+  workflow_dispatch:
+permissions:
+  contents: read
+  pull-requests: read
+  issues: write
+jobs:
+  pending:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install -q requests
+      - env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python auto/pending_fixes.py

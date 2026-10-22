@@ -144,6 +144,34 @@ def set_thumbnail(vid, tok, thumb_path, http=requests):
         return False
 
 
+def thumbnail_attached(vid, tok, http=requests):
+    """リールにサムネ（is_preferred）が付いているかを Graph API で見る（GET /{video_id}/thumbnails。読み取りのみ）。
+    付いている=True／付いていない=False／確認できない=None"""
+    try:
+        j = _json(http.get(f"{G}/{vid}/thumbnails", params={"fields": "uri,is_preferred", "access_token": tok}, timeout=30))
+    except Exception:
+        return None
+    data = j.get("data")
+    if not isinstance(data, list): return None
+    return any(t.get("is_preferred") for t in data)
+
+
+def ensure_thumbnail(vid, tok, thumb_path, current, http=requests, sleep=time.sleep, tries=3, interval=20):
+    """公開直後にサムネが付いたかを確認し、付いていなければ API で付け直す（最大 tries 回）。"OK"／"NG" を返す。
+    確認できない（API が答えない）ときは、直前に付けた結果 current を信じ、"NG" のときだけ付け直しを試す"""
+    for i in range(tries):
+        att = thumbnail_attached(vid, tok, http)
+        if att is True: return "OK"
+        if att is None and current == "OK": return "OK"
+        if i: sleep(interval)
+        if set_thumbnail(vid, tok, thumb_path, http):
+            current = "OK"
+            if thumbnail_attached(vid, tok, http) is not False: return "OK"
+        else:
+            current = "NG"
+    return "OK" if thumbnail_attached(vid, tok, http) is True else "NG"
+
+
 def publish_reel(page_id, tok, video_path, description, http=requests, sleep=time.sleep, polls=20, interval=15, thumb_path=None, info=None):
     """info（dict）を渡すと info["thumb"] にサムネの結果（"OK"／"NG"／"なし"）を入れる"""
     info = {} if info is None else info
@@ -170,8 +198,8 @@ def publish_reel(page_id, tok, video_path, description, http=requests, sleep=tim
         if "error" in phases: raise RuntimeError(f"公開処理でエラー video_id={vid}: {s}"[:400])
         if (s.get("publishing_phase") or {}).get("status") == "complete": break
         sleep(interval)
-    if info["thumb"] == "NG":  # アップロード直後に付けられなかったら、公開後にもう一度
-        info["thumb"] = "OK" if set_thumbnail(vid, tok, thumb_path, http) else "NG"
+    if thumb_path:  # 公開直後に付いたかを確認し、付いていなければ付け直す（人の目視はしない）
+        info["thumb"] = ensure_thumbnail(vid, tok, thumb_path, info["thumb"], http=http, sleep=sleep)
     return str(vid)
 
 

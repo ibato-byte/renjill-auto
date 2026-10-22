@@ -82,18 +82,21 @@ class TokenCheckTest(unittest.TestCase):
 
 
 class PostedTest(unittest.TestCase):
-    def test_bs_scheduled_not_posted_again(self):
-        """Business Suite で予約済みの5回は、API で Instagram・Facebook に出さない"""
-        posted = json.loads((ROOT / "auto" / "posted.json").read_text())
+    def test_bs_scheduled_released_so_api_posts(self):
+        """Business Suite の予約はやめた（2026-10-22）：5回とも posted.json に bs-scheduled が残らず、Instagram・Facebook が API 投稿の対象になる
+        （TikTok・YouTube は手動予約のまま）"""
+        raw = (ROOT / "auto" / "posted.json").read_text()
+        self.assertNotIn("bs-scheduled", raw)
+        posted = json.loads(raw)
         sch = json.loads((ROOT / "auto" / "schedule.json").read_text())
         for key in BS_EPS:
-            self.assertEqual((posted[key]["ig"], posted[key]["facebook"]), ("bs-scheduled", "bs-scheduled"), key)
+            self.assertNotIn("ig", posted[key], key); self.assertNotIn("facebook", posted[key], key)
             p = next(p for p in sch["posts"] if f'{p["date"]}_{p["ep"]}' == key)
             now = dt.datetime.fromisoformat(p["date"]).replace(hour=int(p["slot"][:2]), tzinfo=post.JST)
             with mock.patch.dict(os.environ, {"MANUAL_PLATFORMS": ""}):
                 _, _, targets = post.pick_posts(None, now)
-            for t in targets:
-                self.assertNotIn("ig", t[2], key); self.assertNotIn("facebook", t[2], key)
+            plats = [pl for k, _, pls in targets if k == key for pl in pls]
+            self.assertTrue({"ig", "facebook"} <= set(plats), key)  # yt はこれまでどおり（posted.json の記録しだい）
 
     def test_new_posts_go_to_api(self):
         sch = {"defaults": {"platforms": ["ig", "tt", "yt", "facebook"]},

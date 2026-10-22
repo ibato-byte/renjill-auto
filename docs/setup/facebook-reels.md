@@ -28,7 +28,8 @@ Instagram リールと Facebook リールは、GitHub Actions（`post.yml`、12:
 
 - **Instagram リール**：動画（`dist/<ep>_loop.mp4`）とサムネ（`dist/<ep>_thumb.jpg`、チェック済み）を公開リポジトリ `ibato-byte/renjill-media` に置き（`MEDIA_TOKEN`）、その公開 URL を `video_url`・`cover_url` に入れて `/{IG の ID}/media`（`media_type=REELS`）→ `/media_publish`。
 - **Facebook リール**：`GET /1358515160686321?fields=access_token` でページトークンを取り、Reels Publishing API（start → アップロード → サムネ `/{video_id}/thumbnails`（`is_preferred=true`）→ finish）で公開。サムネを付けられなかったときは公開後にもう一度試し、それでもだめなら Automation Hub の「やること」に出します（動画は公開済み）。
-- `auto/posted.json` に投稿 ID を記録し、同じ SNS に二度出しません。`"bs-scheduled"`（Business Suite で予約済み）・`"manual"`（手で予約済み）も「出した」とみなします。
+- `auto/posted.json` に投稿 ID を記録し、同じ SNS に二度出しません。`"manual"`（手で予約済み）も「出した」とみなします（Business Suite の予約は使わなくなり、`bs-scheduled` は外しました）。
+- 投稿直後に Graph API（`GET /{video_id}/thumbnails`）でカバーが付いたか確認し、付いていなければ API で付け直します（最大3回）。それでも付かないときだけ Hub の「やること」に出ます。
 - 投稿のたびに Automation Hub の「レンとジル 自動投稿」に、回・SNS ごとの結果を記録します。
 - トークン・権限がだめなときは、その SNS だけ飛ばして他の SNS は続け、オーナーにメール（GitHub の通知。1日1通まで）を送ります。
 
