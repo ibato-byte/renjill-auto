@@ -118,7 +118,7 @@ class PostedTest(unittest.TestCase):
         orig = pathlib.Path.read_text
         with mock.patch.object(pathlib.Path, "read_text", lambda self, *a, **k: json.dumps(sch) if self.name == "schedule.json" else orig(self, *a, **k)):
             _, _, targets = post.pick_posts(None, dt.datetime(2026, 10, 31, 12, tzinfo=post.JST))
-        self.assertEqual(targets[0][2], ["ig", "tt", "yt", "facebook"])
+        self.assertEqual(targets[0][2], ["ig", "tt", "yt", "facebook", "ig_story", "fb_story"])
 
 
 class InstagramTest(unittest.TestCase):

@@ -27,7 +27,7 @@ jobs:
         if: steps.hub.outputs.paused != 'true'
       - uses: actions/setup-node@v5
         if: steps.hub.outputs.paused != 'true'
-        with: { node-version: 20 }
+        with: { node-version: 22 }
       - uses: actions/setup-python@v6
         if: steps.hub.outputs.paused != 'true'
         with: { python-version: "3.12" }

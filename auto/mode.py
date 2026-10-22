@@ -3,7 +3,7 @@
 import json, os, pathlib
 
 FILE = pathlib.Path(__file__).resolve().parent / "mode.json"
-NAMES = {"ig": "Instagram", "facebook": "Facebook", "yt": "YouTube", "tt": "TikTok"}
+NAMES = {"ig": "Instagram", "facebook": "Facebook", "yt": "YouTube", "tt": "TikTok", "ig_story": "Instagram ストーリーズ", "fb_story": "Facebook ストーリーズ", "yt_playlist": "YouTube 再生リスト", "ig_carousel": "Instagram カルーセル"}
 
 
 def manual_platforms():

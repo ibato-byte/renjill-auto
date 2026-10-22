@@ -22,6 +22,7 @@ sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 import facebook as fb
 import alerts
 import mode
+import stories
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 RIG, DIST, AUTO = ROOT / "rig", ROOT / "dist", ROOT / "auto"
@@ -46,6 +47,9 @@ def pick_posts(slot_override=None, now=None, ignore_posted=False):
         # posted.json に記録がある SNS（投稿ID・"manual"・"bs-scheduled"＝Business Suite で予約済み）は出さない（二重投稿を防ぐ）。
         # 手動予約モードの SNS（auto/mode.json。2026-10-21 に解除）も API で出さない
         plats = [x for x in p.get("platforms", sch["defaults"]["platforms"]) if x not in done and not mode.is_manual(x)]
+        # 本編に付くおまけ（ストーリーズ・再生リスト・カルーセル）。本編を API で出した（または今出す）SNS にだけ付く
+        real = {x: v for x, v in done.items() if v not in ("manual", "bs-scheduled")}
+        plats += stories.extras_for(p, sch["defaults"], real, set(plats))
         if plats: out.append((key, p, plats))
     return sch, posted, out
 
@@ -186,6 +190,7 @@ def dry_run(targets, d, posted=None):
                 print("    ig: caption:\n      " + caption(p, d).replace("\n", "\n      "))
             elif pl == "yt": print(f'    yt: title: {p["caption_en"]} | Ren & Jill「{p["title"]}」')
             elif pl == "tt": print("    tt: FILE_UPLOAD", f'{p["ep"]}_loop.mp4')
+            elif pl in stories.EXTRAS: print(f"    {pl}: {stories.NAMES[pl]}（本編のあとに出す。失敗しても本編は止めない）")
     log("[DRY-RUN] API は呼んでいません")
     return 0
 
@@ -230,6 +235,45 @@ def failure_action(p, pl, err):
         return f'「{p["title"]}」の {name} がトークンのエラーで出せなかった。Hub の「トークンの期限チェック」の「やること」（メールにも同じ手順）でトークンを直す。{redo}'
     return f'「{p["title"]}」の {name} の投稿に失敗した（{type(err).__name__}）。{redo}。続けて失敗するなら、この実行のログを Claude に送って相談する'
 
+def post_extra(pl, key, p, d, rec, loop_path, fb_access, results, posted):
+    """ストーリーズ・再生リスト・カルーセル。失敗しても本編は止めない（失敗にも数えない）。出せたら rec[pl] に ID を残す（二重投稿を防ぐ）"""
+    label = {"ig_story": "ストーリーズ", "fb_story": "FBストーリーズ", "yt_playlist": "再生リスト", "ig_carousel": "カルーセル"}[pl]
+    base = stories.EXTRAS[pl]
+    try:
+        if not rec.get(base) or rec[base] in NOT_ID: raise stories.StorySkip("本編が出ていないので見送り")
+        if pl in ("ig_story", "fb_story", "ig_carousel") and fb_access is None:
+            raise stories.StorySkip("Meta の確認ができず見送り")
+        if pl == "ig_story":
+            if not fb_access.get("ig_user_id"): raise stories.StorySkip("Instagram の ID が分からず見送り")
+            sv = stories.build_story_video(p, loop_path, DIST / f'{p["ep"]}_story.mp4')
+            url = media_publish(sv, f"{dt.datetime.now(JST).strftime('%Y%m%d')}_{p['ep']}_story.mp4")
+            rec[pl] = stories.post_ig_story(fb_access["ig_user_id"], os.environ["IG_ACCESS_TOKEN"], url)
+        elif pl == "fb_story":
+            if not fb_access.get("ok"): raise stories.StorySkip("Facebook の権限・設定なしで見送り")
+            sv = DIST / f'{p["ep"]}_story.mp4'
+            if not sv.exists(): stories.build_story_video(p, loop_path, sv)
+            rec[pl] = stories.post_fb_story(fb_access["page_id"], fb_access["token"], sv)
+        elif pl == "ig_carousel":
+            month = dt.datetime.now(JST).strftime("%Y-%m")
+            if stories.carousel_left(posted, month) <= 0: raise stories.StorySkip(f"今月のカルーセルは {stories.CAROUSEL_PER_MONTH} 本に達したので見送り")
+            if not fb_access.get("ig_user_id"): raise stories.StorySkip("Instagram の ID が分からず見送り")
+            urls = [media_publish(ROOT / im, f"{month.replace('-', '')}_{p['ep']}_c{i}{pathlib.Path(im).suffix}") for i, im in enumerate(p["carousel"]["images"], 1)]
+            rec[pl] = stories.post_ig_carousel(fb_access["ig_user_id"], os.environ["IG_ACCESS_TOKEN"], urls, p["carousel"].get("caption") or caption(p, d))
+        elif pl == "yt_playlist":
+            from google.oauth2.credentials import Credentials
+            from googleapiclient.discovery import build
+            creds = Credentials(None, refresh_token=os.environ["YT_REFRESH_TOKEN"], token_uri="https://oauth2.googleapis.com/token",
+                                client_id=os.environ["YT_CLIENT_ID"], client_secret=os.environ["YT_CLIENT_SECRET"])
+            rec[pl] = stories.add_to_playlist(build("youtube", "v3", credentials=creds), rec["yt"], p["series"])
+        rec[pl + "_at"] = dt.datetime.now(JST).isoformat(timespec="minutes")
+        results[label] = "投稿OK"
+        log("OK", key, pl, rec[pl])
+    except stories.StorySkip as e:
+        log("SKIP", key, pl, fb.scrub(e)); results[label] = f"見送り（{str(fb.scrub(e))[:40]}）"
+    except Exception as e:
+        log("NG(続行)", key, pl, fb.scrub(repr(e))[:500]); results[label] = "失敗（本編は投稿済み）"
+
+
 def main(argv=None):
     a = parse_args(sys.argv[1:] if argv is None else argv)
     now = None
@@ -259,7 +303,13 @@ def main(argv=None):
         def thumb():  # Instagram・Facebook で同じサムネ（チェックに通らなければ両方とも出さない）
             if "path" not in th: th["path"] = thumbnail(p)
             return th["path"]
-        for pl in plats:
+        for pl in [x for x in plats if x not in stories.EXTRAS] + [x for x in plats if x in stories.EXTRAS]:  # おまけは本編のあと
+            if pl in stories.EXTRAS:
+                if pl in ("ig_story", "fb_story", "ig_carousel") and fb_access is None:
+                    try: fb_access = fb.diagnose()
+                    except Exception as e: log("Meta の確認に失敗", fb.scrub(repr(e))[:200])
+                post_extra(pl, key, p, d, rec, loop_path, fb_access, results, posted)
+                continue
             try:
                 if pl in ("ig", "facebook") and fb_access is None:
                     fb_access = fb.diagnose()  # ページトークンと Instagram の ID（読み取りのみ）
