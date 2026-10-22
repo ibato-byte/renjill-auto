@@ -82,18 +82,35 @@ class TokenCheckTest(unittest.TestCase):
 
 
 class PostedTest(unittest.TestCase):
-    def test_bs_scheduled_not_posted_again(self):
-        """Business Suite で予約済みの5回は、API で Instagram・Facebook に出さない"""
+    def test_five_eps_go_to_api(self):
+        """2026-10-22：Business Suite の予約をやめた。5回とも Instagram・Facebook を API で出す（bs-scheduled は残さない）"""
         posted = json.loads((ROOT / "auto" / "posted.json").read_text())
         sch = json.loads((ROOT / "auto" / "schedule.json").read_text())
         for key in BS_EPS:
-            self.assertEqual((posted[key]["ig"], posted[key]["facebook"]), ("bs-scheduled", "bs-scheduled"), key)
+            self.assertNotIn("bs-scheduled", posted[key].values(), key)
             p = next(p for p in sch["posts"] if f'{p["date"]}_{p["ep"]}' == key)
             now = dt.datetime.fromisoformat(p["date"]).replace(hour=int(p["slot"][:2]), tzinfo=post.JST)
             with mock.patch.dict(os.environ, {"MANUAL_PLATFORMS": ""}):
                 _, _, targets = post.pick_posts(None, now)
-            for t in targets:
-                self.assertNotIn("ig", t[2], key); self.assertNotIn("facebook", t[2], key)
+            self.assertTrue(any(t[1]["ep"] == p["ep"] and "ig" in t[2] and "facebook" in t[2] for t in targets), key)
+
+    def test_ensure_thumbnail_retries(self):
+        """投稿直後にカバーを確かめ、付いていなければ付け直す"""
+        import facebook as fb
+        class R:
+            def __init__(s, j): s.j = j; s.status_code = 200
+            def json(s): return s.j
+        class H:
+            def __init__(s, attached): s.attached, s.sets = list(attached), 0
+            def get(s, url, params=None, **k):
+                a = s.attached.pop(0) if len(s.attached) > 1 else s.attached[0]
+                return R({"data": [{"uri": "x", "is_preferred": a}]})
+            def post(s, url, data=None, **k): s.sets += 1; return R({"success": True})
+        import tempfile
+        th = tempfile.NamedTemporaryFile(suffix=".jpg", delete=False); th.write(b"j"); th.close()
+        h = H([True]); self.assertEqual(fb.ensure_thumbnail("v1", "t", th.name, h, sleep=lambda s: None), "OK"); self.assertEqual(h.sets, 0)
+        h = H([False, True]); self.assertEqual(fb.ensure_thumbnail("v1", "t", th.name, h, sleep=lambda s: None), "OK"); self.assertEqual(h.sets, 1)
+        h = H([False]); self.assertEqual(fb.ensure_thumbnail("v1", "t", th.name, h, sleep=lambda s: None), "NG"); self.assertEqual(h.sets, 3)
 
     def test_new_posts_go_to_api(self):
         sch = {"defaults": {"platforms": ["ig", "tt", "yt", "facebook"]},
