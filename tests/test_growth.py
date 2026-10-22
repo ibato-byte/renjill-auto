@@ -54,6 +54,17 @@ class GrowthTest(unittest.TestCase):
         self.assertEqual(len(calls), 2)
         self.assertLessEqual(len(bsky.post_text({**P, "caption_en": "x" * 400}, D)), 300)
 
+    def test_site_lists_only_youtube_posted_episodes(self):
+        sys.path.insert(0, str(ROOT / "site"))
+        import build
+        sch = {"defaults": {"site": {"url": "https://x"}}, "posts": [
+            {"date": "2026-10-21", "ep": "a", "no": 1, "title": "A<b>", "caption_en": "e", "caption_ja": "j", "series": "S"},
+            {"date": "2026-10-23", "ep": "b", "no": 2, "title": "B", "caption_en": "e", "caption_ja": "j"}]}
+        eps = build.episodes(sch, {"2026-10-21_a": {"yt": "ID1"}, "2026-10-23_b": {"yt": "manual"}})
+        self.assertEqual([e["ep"] for e in eps], ["a"])
+        h = build.page(sch, eps)
+        self.assertIn("ID1", h); self.assertIn("A&lt;b&gt;", h); self.assertNotIn("<b>", h.split("<main>")[1])
+
 
 if __name__ == "__main__":
     unittest.main()
