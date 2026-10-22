@@ -35,7 +35,7 @@ class Http:
 class ExtrasTest(unittest.TestCase):
     def test_story_follows_reel_only(self):
         p = {"ep": "a"}
-        self.assertEqual(stories.extras_for(p, D, {}, {"ig", "facebook", "yt", "tt"}), ["ig_story", "fb_story"])
+        self.assertEqual(stories.extras_for(p, D, {}, {"ig", "facebook", "yt", "tt"}), ["ig_story", "fb_story", "bsky"])
         self.assertEqual(stories.extras_for(p, D, {}, {"tt"}), [])  # 本編が出ない SNS にはつけない
         self.assertEqual(stories.extras_for(p, D, {"ig": "1", "ig_story": "2"}, set()), [])  # 出済みは二重に出さない
         self.assertEqual(stories.extras_for(p, D, {"ig": "1"}, set()), ["ig_story"])  # 本編は出済み・ストーリーズだけ未

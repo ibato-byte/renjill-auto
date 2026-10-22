@@ -23,6 +23,8 @@ import facebook as fb
 import alerts
 import mode
 import stories
+import growth
+import threads
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 RIG, DIST, AUTO = ROOT / "rig", ROOT / "dist", ROOT / "auto"
@@ -78,7 +80,10 @@ def tags(p, d):
 
 def caption(p, d, with_tags=True):
     base = f'{p["caption_en"]}\n{p["caption_ja"]}'
-    return base + ("\n\n" + tags(p, d) if with_tags else "")
+    # 末尾に英語の一言を必ず入れる（海外の人がフォローしやすいように。依頼 #38）
+    # 検索される言葉（日・英）と、末尾の英語の一言。ハッシュタグは3個まで（依頼 #37・#38）
+    tg = " ".join(tags(p, d).split()[:threads.MAX_TAGS])
+    return base + "\n\n" + threads.seo_line(d) + ("\n\n" + tg if with_tags else "") + "\n\n" + growth.tail_en(d)
 
 def thumbnail(p):
     """サムネ生成（rig/thumb.js）。dist/<ep>_thumb.jpg"""
@@ -97,10 +102,11 @@ def post_youtube(p, d, path):
     creds = Credentials(None, refresh_token=os.environ["YT_REFRESH_TOKEN"], token_uri="https://oauth2.googleapis.com/token",
                         client_id=os.environ["YT_CLIENT_ID"], client_secret=os.environ["YT_CLIENT_SECRET"])
     yt = build("youtube", "v3", credentials=creds)
-    body = {"snippet": {"title": f'{p["caption_en"]} | Ren & Jill「{p["title"]}」',
-                        "description": f'{d["yt_description"]}\n\n{tags(p, d)}', "categoryId": "23"},
+    en_title, en_desc = f'{p["caption_en"]} | Ren & Jill「{p["title"]}」', f'{d["yt_description"]}\n\n{tags(p, d)}'
+    body = {"snippet": {"title": en_title, "description": en_desc, "categoryId": "23", "defaultLanguage": "en"},
+            "localizations": growth.youtube_localizations(p, d, en_title, en_desc),  # 英・日・韓・繁体中・西・葡のタイトルと説明（依頼 #38）
             "status": {"privacyStatus": "public", "selfDeclaredMadeForKids": False}}
-    req = yt.videos().insert(part="snippet,status", body=body, media_body=MediaFileUpload(str(path), chunksize=-1, resumable=True))
+    req = yt.videos().insert(part="snippet,status,localizations", body=body, media_body=MediaFileUpload(str(path), chunksize=-1, resumable=True))
     res = req.execute()
     try: yt.thumbnails().set(videoId=res["id"], media_body=MediaFileUpload(str(thumbnail(p)))).execute()
     except Exception as e: log("thumbnail NG", repr(e)[:200])
@@ -188,6 +194,7 @@ def dry_run(targets, d, posted=None):
                 print(f"    ig: POST {fb.G}/<ページ {fb.PAGE_ID} の instagram_business_account>/media  media_type=REELS share_to_feed=true")
                 print(f'    ig: video_url=<renjill-media に置いた {p["ep"]}_loop.mp4> cover_url=<renjill-media に置いた {p["ep"]}_thumb.jpg>')
                 print("    ig: caption:\n      " + caption(p, d).replace("\n", "\n      "))
+            elif pl == "threads": print("    threads: VIDEO（Instagram と同じ公開 URL）" + ("" if threads.threads_ready() else "  ※権限・Secrets 未設定のため本番では見送り"))
             elif pl == "yt": print(f'    yt: title: {p["caption_en"]} | Ren & Jill「{p["title"]}」')
             elif pl == "tt": print("    tt: FILE_UPLOAD", f'{p["ep"]}_loop.mp4')
             elif pl in stories.EXTRAS: print(f"    {pl}: {stories.NAMES[pl]}（本編のあとに出す。失敗しても本編は止めない）")
@@ -237,7 +244,7 @@ def failure_action(p, pl, err):
 
 def post_extra(pl, key, p, d, rec, loop_path, fb_access, results, posted):
     """ストーリーズ・再生リスト・カルーセル。失敗しても本編は止めない（失敗にも数えない）。出せたら rec[pl] に ID を残す（二重投稿を防ぐ）"""
-    label = {"ig_story": "ストーリーズ", "fb_story": "FBストーリーズ", "yt_playlist": "再生リスト", "ig_carousel": "カルーセル"}[pl]
+    label = {"ig_story": "ストーリーズ", "fb_story": "FBストーリーズ", "yt_playlist": "再生リスト", "ig_carousel": "カルーセル", "bsky": "Bluesky"}[pl]
     base = stories.EXTRAS[pl]
     try:
         if not rec.get(base) or rec[base] in NOT_ID: raise stories.StorySkip("本編が出ていないので見送り")
@@ -259,6 +266,10 @@ def post_extra(pl, key, p, d, rec, loop_path, fb_access, results, posted):
             if not fb_access.get("ig_user_id"): raise stories.StorySkip("Instagram の ID が分からず見送り")
             urls = [media_publish(ROOT / im, f"{month.replace('-', '')}_{p['ep']}_c{i}{pathlib.Path(im).suffix}") for i, im in enumerate(p["carousel"]["images"], 1)]
             rec[pl] = stories.post_ig_carousel(fb_access["ig_user_id"], os.environ["IG_ACCESS_TOKEN"], urls, p["carousel"].get("caption") or caption(p, d))
+        elif pl == "bsky":
+            import bsky
+            try: rec[pl] = bsky.post_link_card(p, d, rec["yt"], DIST / f'{p["ep"]}_thumb.jpg')
+            except LookupError as e: raise stories.StorySkip(str(e))
         elif pl == "yt_playlist":
             from google.oauth2.credentials import Credentials
             from googleapiclient.discovery import build
@@ -294,10 +305,14 @@ def main(argv=None):
     for key, p, plats in targets:
         results["回"] = f'{p["title"]}（{p["date"][5:]} {p["slot"]}）' if "回" not in results else results["回"] + f'・{p["title"]}'
         yt_path, loop_path = render(p["ep"])
+        story_src = loop_path  # ストーリーズの見どころは元のループ版から切り出す
         if not qa_gate(p["ep"], yt_path, loop_path):
             failed.append(f"{key}:QA"); results["QA"] = "不合格で見送り"
             actions.append(f'「{p["title"]}」（{p["date"]} {p["slot"]}）が投稿前の QA に不合格で、どの SNS にも出していない（理由は dist/{p["ep"]}_qa.json）。Claude に「{p["ep"]} の QA を直して出し直して」と伝える')
             continue
+        try:  # 最後に「フォローして続きを見てね」を入れた版（作れなければ元のまま）。ループの継ぎ目は壊さない
+            loop_path = growth.add_follow_line(loop_path, DIST / f'{p["ep"]}_loopf.mp4') or loop_path
+        except Exception as e: log("フォロー案内の追加に失敗（元の動画で続ける）", repr(e)[:200])
         rec = posted.setdefault(key, {"tag_set": p.get("tag_set", "A"), "no": p["no"], "title": p["title"]})
         th = {}
         def thumb():  # Instagram・Facebook で同じサムネ（チェックに通らなければ両方とも出さない）
@@ -308,7 +323,7 @@ def main(argv=None):
                 if pl in ("ig_story", "fb_story", "ig_carousel") and fb_access is None:
                     try: fb_access = fb.diagnose()
                     except Exception as e: log("Meta の確認に失敗", fb.scrub(repr(e))[:200])
-                post_extra(pl, key, p, d, rec, loop_path, fb_access, results, posted)
+                post_extra(pl, key, p, d, rec, story_src, fb_access, results, posted)
                 continue
             try:
                 if pl in ("ig", "facebook") and fb_access is None:
@@ -316,6 +331,9 @@ def main(argv=None):
                     for r in fb_access["reasons"]: log("Meta:", fb.scrub(r))
                 if pl == "yt": rec["yt"] = post_youtube(p, d, yt_path)
                 elif pl == "tt": rec["tt"] = post_tiktok(p, d, loop_path)
+                elif pl == "threads":
+                    if not threads.threads_ready(): raise threads.GrowthSkip("Threads の権限・Secrets が未設定で見送り")  # 動画を置く前に確かめる
+                    rec["threads"] = threads.post_threads(p, d, media_publish(loop_path, f"{dt.datetime.now(JST).strftime('%Y%m%d')}_{p['ep']}.mp4"))
                 elif pl == "ig":
                     rec["ig"] = post_instagram(p, d, loop_path, thumb(), uid=fb_access.get("ig_user_id"))
                 elif pl == "facebook":
@@ -332,6 +350,8 @@ def main(argv=None):
                 rec[pl + "_at"] = dt.datetime.now(JST).isoformat(timespec="minutes")
                 if pl != "facebook": results[mode.NAMES[pl]] = "投稿OK"
                 log("OK", key, pl, rec[pl])
+            except threads.GrowthSkip as e:  # 今回は出さないだけ（失敗にしない。posted.json にも書かない）
+                log("SKIP", key, pl, fb.scrub(e)); results[mode.NAMES.get(pl, pl)] = f"見送り（{str(fb.scrub(e))[:40]}）"
             except fb.FbSkip as e:
                 why = fb.scrub(e)
                 log("SKIP", key, pl, why)
