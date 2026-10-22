@@ -11,8 +11,8 @@ import facebook as fb
 
 G = "https://graph.facebook.com/v21.0"
 # 本編に付く「おまけ」の種類 → 先に出ているべき本編の SNS
-EXTRAS = {"ig_story": "ig", "fb_story": "facebook", "yt_playlist": "yt", "ig_carousel": "ig"}
-NAMES = {"ig_story": "Instagram ストーリーズ", "fb_story": "Facebook ストーリーズ", "yt_playlist": "YouTube 再生リスト", "ig_carousel": "Instagram カルーセル"}
+EXTRAS = {"ig_story": "ig", "fb_story": "facebook", "yt_playlist": "yt", "ig_carousel": "ig", "bsky": "yt"}
+NAMES = {"ig_story": "Instagram ストーリーズ", "fb_story": "Facebook ストーリーズ", "yt_playlist": "YouTube 再生リスト", "ig_carousel": "Instagram カルーセル", "bsky": "Bluesky"}
 IG_QUOTA_MARGIN = 5          # 24 時間の上限まで、これだけ余裕がなければ出さない（リール・ストーリーズを優先）
 CAROUSEL_PER_MONTH = 2
 END_CARD_SEC = 2.0
@@ -32,6 +32,7 @@ def extras_for(p, defaults, done, planned):
     for ex, base in EXTRAS.items():
         if ex in done or base not in base_ok: continue
         if ex in ("ig_story", "fb_story") and (p.get("story") is False or base not in want): continue
+        if ex == "bsky" and ("yt" not in want or p.get("bsky") is False): continue
         if ex == "yt_playlist" and not (p.get("series") and "yt" in want): continue
         if ex == "ig_carousel" and not ("ig_carousel" in want and (p.get("carousel") or {}).get("images")): continue
         out.append(ex)

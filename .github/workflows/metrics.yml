@@ -37,10 +37,13 @@ jobs:
           YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
           YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
         run: python auto/metrics.py
+      - name: その日の話題の確認（Claude を使わない。使える話題がある日だけ候補を積む。依頼 #38）
+        if: steps.hub.outputs.paused != 'true'
+        run: python auto/topics.py || true
       - if: steps.hub.outputs.paused != 'true'
         run: |
           git config user.name renjill-bot; git config user.email bot@renjill.local
-          git add content/metrics.csv content/followers.csv auto/posted.json; git diff --cached --quiet || git commit -m "metrics: $(TZ=Asia/Tokyo date '+%Y-%m-%d')"; bash auto/push_main.sh
+          git add content/metrics.csv content/followers.csv auto/posted.json auto/topic_queue.json; git diff --cached --quiet || git commit -m "metrics: $(TZ=Asia/Tokyo date '+%Y-%m-%d')"; bash auto/push_main.sh
       - name: トークンの警告をメールで知らせる（同じ内容は1日1通まで）
         if: always() && steps.hub.outputs.paused != 'true'
         env:
