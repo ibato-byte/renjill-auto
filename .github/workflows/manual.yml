@@ -17,7 +17,7 @@ permissions:
 concurrency: post
 jobs:
   manual:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 90
     steps:
       - name: Automation Hub：一時停止の確認
@@ -38,7 +38,13 @@ jobs:
         if: steps.hub.outputs.paused != 'true'
         with: { python-version: "3.12" }
       - if: steps.hub.outputs.paused != 'true'
-        run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg fonts-noto-cjk
+        timeout-minutes: 15
+        run: |
+          for i in 1 2 3; do
+            timeout 300 bash -c 'sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg fonts-noto-cjk' && exit 0
+            echo "準備をやり直す（$i回目）"; sleep 10
+          done
+          exit 1
       - if: steps.hub.outputs.paused != 'true'
         run: npm i -g playwright && npx playwright install --with-deps chromium
       - if: steps.hub.outputs.paused != 'true'
