@@ -20,7 +20,7 @@ jobs:
   post:
     # 投稿用のキー（Secrets）を登録し、Settings → Variables で AUTO_POST_ENABLED=true にするまで動かない
     if: vars.AUTO_POST_ENABLED == 'true'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 40
     steps:
       - name: Automation Hub：一時停止の確認
