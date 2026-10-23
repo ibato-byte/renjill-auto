@@ -23,7 +23,18 @@ class GrowthTest(unittest.TestCase):
 
     def test_follow_filter_fades_out_before_end(self):
         f = growth.follow_filter(10.0, "/f.ttf", pathlib.Path("/t"))
-        self.assertIn("alpha=", f); self.assertIn("9.9", f)  # 最後の0.1秒は表示しない
+        self.assertIn("alpha=", f); self.assertIn("tpad=", f)
+        L = growth.follow_layout(10.0, 1920)
+        self.assertAlmostEqual(L["end"], L["total"] - 0.15)  # 最後の0.15秒は表示しない
+
+    def test_follow_layout_rules(self):
+        for total in (10.0, 22.0, 29.5):
+            L = growth.follow_layout(total, 1920)
+            self.assertGreaterEqual(L["show"], 2.0); self.assertLessEqual(L["show"], 2.5)
+            self.assertGreaterEqual(L["fontsize"], 1920 * 0.06)
+            self.assertLessEqual(L["text_bottom"], 1920 * 0.80)  # 下から20%より上
+            self.assertLess(L["total"], 30)
+            self.assertLessEqual(L["start"] + L["show"], L["total"] + 1e-6)
 
     def test_topics(self):
         self.assertIn("month_end", [k for k, _ in topics.calendar_topics(dt.date(2026, 10, 30))])

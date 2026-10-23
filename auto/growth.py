@@ -50,26 +50,73 @@ def duration(path):
     return float(subprocess.check_output(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", str(path)]).decode().strip())
 
 
-def follow_filter(total, fontfile, textdir, show=0.9):
-    """最後の show 秒だけ、下側に小さく文字を出す。出入りは0.2秒でなめらかに、最後の0.1秒は完全に消えてループの継ぎ目に残らない"""
-    t0, t1 = total - show, total - 0.1
-    alpha = f"if(lt(t,{t0}),0,if(lt(t,{t0 + 0.2}),(t-{t0})/0.2,if(lt(t,{t1 - 0.2}),1,max(0,({t1}-t)/0.2))))"
-    parts = []
-    for i, (name, size, y) in enumerate((("en.txt", 56, "h*0.70"), ("ja.txt", 46, "h*0.70+80"))):
-        parts.append(f"drawtext=fontfile={fontfile}:textfile={textdir / name}:fontsize={size}:fontcolor=white:borderw=4:bordercolor=black@0.55:x=(w-text_w)/2:y={y}:alpha='{alpha}'")
+# 動画の最後の一言（依頼 #51）。出す長さ・大きさ・位置の決まり。検査（brushup）も同じ値を使う
+FOLLOW_SHOW = 2.3        # 表示する秒数（2.0〜2.5）
+FOLLOW_FADE_IN = 0.2     # 出てくる動き（フェード）
+FOLLOW_CUT = 0.15        # 最後のこの秒数だけ消す（最後→最初のループの継ぎ目に文字を残さない）
+FOLLOW_EXTEND = 1.2      # 最後の絵をのばす秒数（1〜1.5）。オチに重ねず、余韻の部分に文字を載せるため
+FOLLOW_MAX_TOTAL = 29.9  # 本編は30秒未満
+FOLLOW_FONT_RATIO = 0.062  # 文字の大きさ＝画面の高さの6.2%（6%以上）
+FOLLOW_BOTTOM_RATIO = 0.78  # 文字の下端。下から20%より上（Instagram・TikTok の下のボタンや説明文に隠れない）
+FOLLOW_LINES = ("Follow for more!", "フォローして", "続きを見てね")
+FOLLOW_BG, FOLLOW_FG = "0x1F3A5F", "0xFFF7E8"  # 紺の帯＋クリーム色の文字（コントラスト約11:1）
+
+
+def follow_layout(total, h, extend=FOLLOW_EXTEND):
+    """最後の一言の置き方（秒・大きさ・位置）。total は文字を載せる前の動画の長さ、h は画面の高さ。検査と共用"""
+    ext = max(0.0, min(extend, FOLLOW_MAX_TOTAL - total))
+    new_total = total + ext
+    fs = int(round(h * FOLLOW_FONT_RATIO))
+    pad = int(round(fs * 0.16))
+    pitch = fs + 2 * pad + int(round(fs * 0.08))
+    n = len(FOLLOW_LINES)
+    bottom = h * FOLLOW_BOTTOM_RATIO
+    y0 = int(bottom - (n - 1) * pitch - fs - pad)
+    return {"extend": round(ext, 3), "total": round(new_total, 3), "start": round(new_total - FOLLOW_SHOW, 3),
+            "end": round(new_total - FOLLOW_CUT, 3), "fontsize": fs, "pad": pad, "pitch": pitch, "y0": y0,
+            "text_bottom": y0 + (n - 1) * pitch + fs + pad, "show": FOLLOW_SHOW}
+
+
+def follow_filter(total, fontfile, textdir, h=1920, extend=FOLLOW_EXTEND):
+    """最後の一言のフィルタ。最後の絵をのばし、その終わりの約2.3秒に紺の帯＋クリーム色の文字を出す。
+    0.2秒でフェードして出て、最後の0.15秒は完全に消える（ループの継ぎ目に残らない）"""
+    L = follow_layout(total, h, extend)
+    t0, t1 = L["start"], L["end"]
+    alpha = f"if(lt(t,{t0}),0,if(lt(t,{t0 + FOLLOW_FADE_IN}),(t-{t0})/{FOLLOW_FADE_IN},if(lt(t,{t1}),1,0)))"
+    parts = [f"tpad=stop_mode=clone:stop_duration={L['extend']}"] if L["extend"] > 0 else []
+    for i, _ in enumerate(FOLLOW_LINES):
+        parts.append(f"drawtext=fontfile={fontfile}:textfile={textdir / f'l{i}.txt'}:fontsize={L['fontsize']}:fontcolor={FOLLOW_FG}"
+                     f":box=1:boxcolor={FOLLOW_BG}:boxborderw={L['pad']}:x=(w-text_w)/2:y={L['y0'] + i * L['pitch']}:alpha='{alpha}'")
     return ",".join(parts)
 
 
+def _video_height(path):
+    try:
+        return int(subprocess.check_output(["ffprobe", "-v", "error", "-select_streams", "v:0", "-show_entries", "stream=height", "-of", "csv=p=0", str(path)]).decode().strip())
+    except Exception:
+        return 1920
+
+
+def _has_audio(path):
+    return bool(subprocess.run(["ffprobe", "-v", "error", "-select_streams", "a:0", "-show_entries", "stream=index", "-of", "csv=p=0", str(path)],
+                               capture_output=True, text=True).stdout.strip())
+
+
 def add_follow_line(loop_path, out_path):
-    """ループ版の最後に「フォローして続きを見てね」を入れた動画を作る。音声はそのまま。できなければ None（元の動画を使う）"""
+    """ループ版の最後に「フォローして続きを見てね」を入れた動画を作る。できなければ None（元の動画を使う）"""
     f = font()
     if not f: return None
     total = duration(loop_path)
     if total < 3: return None
+    h = _video_height(loop_path)
+    L = follow_layout(total, h)
     tmp = pathlib.Path(tempfile.mkdtemp())
-    (tmp / "en.txt").write_text("Follow for more!", encoding="utf-8")
-    (tmp / "ja.txt").write_text("フォローして続きを見てね", encoding="utf-8")
-    r = subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(loop_path), "-vf", follow_filter(total, f, tmp),
-                        "-c:v", "libx264", "-preset", "veryfast", "-crf", "18", "-pix_fmt", "yuv420p", "-c:a", "copy", "-movflags", "+faststart", str(out_path)],
-                       capture_output=True, text=True)
+    for i, line in enumerate(FOLLOW_LINES): (tmp / f"l{i}.txt").write_text(line, encoding="utf-8")
+    cmd = ["ffmpeg", "-y", "-loglevel", "error", "-i", str(loop_path), "-vf", follow_filter(total, f, tmp, h)]
+    if _has_audio(loop_path) and L["extend"] > 0:
+        cmd += ["-af", f"apad=pad_dur={L['extend']}", "-t", str(L["total"]), "-c:a", "aac", "-b:a", "160k"]
+    else:
+        cmd += ["-c:a", "copy"]
+    cmd += ["-c:v", "libx264", "-preset", "veryfast", "-crf", "18", "-pix_fmt", "yuv420p", "-movflags", "+faststart", str(out_path)]
+    r = subprocess.run(cmd, capture_output=True, text=True)
     return pathlib.Path(out_path) if r.returncode == 0 and pathlib.Path(out_path).exists() else None

@@ -41,7 +41,14 @@ jobs:
         if: steps.hub.outputs.paused != 'true'
         with: { python-version: "3.12" }
       - if: steps.hub.outputs.paused != 'true'
-        run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg fonts-noto-cjk
+        # 準備が止まって40分たって「中止」になった（2026-10-23 19:00）ため、5分で打ち切って最大3回やり直す
+        timeout-minutes: 15
+        run: |
+          for i in 1 2 3; do
+            timeout 300 bash -c 'sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg fonts-noto-cjk' && exit 0
+            echo "準備をやり直す（$i回目）"; sleep 10
+          done
+          exit 1
       - if: steps.hub.outputs.paused != 'true'
         run: npm i -g playwright && npx playwright install --with-deps chromium
       - if: steps.hub.outputs.paused != 'true'
