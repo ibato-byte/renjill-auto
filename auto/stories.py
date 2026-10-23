@@ -15,7 +15,7 @@ EXTRAS = {"ig_story": "ig", "fb_story": "facebook", "yt_playlist": "yt", "ig_car
 NAMES = {"ig_story": "Instagram ストーリーズ", "fb_story": "Facebook ストーリーズ", "yt_playlist": "YouTube 再生リスト", "ig_carousel": "Instagram カルーセル", "bsky": "Bluesky"}
 IG_QUOTA_MARGIN = 5          # 24 時間の上限まで、これだけ余裕がなければ出さない（リール・ストーリーズを優先）
 CAROUSEL_PER_MONTH = 2
-END_CARD_SEC = 2.0
+END_CARD_SEC = 2.5  # 最後の一言は2秒以上（依頼 #51）
 DEFAULT_POLL = "どっち派？コメントで"
 
 
@@ -82,7 +82,7 @@ def build_story_video(p, loop_path, out_path):
     (tmp / "a.txt").write_text("続きはリールで", encoding="utf-8")
     (tmp / "b.txt").write_text(poll, encoding="utf-8")
     dt_ = lambda f, size, y, color: f"drawtext=fontfile={font}:textfile={tmp / f}:fontsize={size}:fontcolor={color}:x=(w-text_w)/2:y={y}"
-    card = f"color=c=0xFFF7E8:s=1080x1920:d={END_CARD_SEC}:r=30,{dt_('a.txt', 110, 720, '0x5A3A1E')},{dt_('b.txt', 64, 960, '0x355F86')},format=yuv420p"
+    card = f"color=c=0xFFF7E8:s=1080x1920:d={END_CARD_SEC}:r=30,{dt_('a.txt', 120, 720, '0x5A3A1E')},{dt_('b.txt', 72, 960, '0x355F86')},format=yuv420p"
     audio = _has_audio(loop_path)
     fc = ("[0:v]scale=1080:1920:force_original_aspect_ratio=decrease,pad=1080:1920:(ow-iw)/2:(oh-ih)/2,setsar=1,fps=30,format=yuv420p[v0];"
           "[1:v]setsar=1[v1];")

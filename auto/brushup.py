@@ -12,12 +12,14 @@
 検査は3段：
   1. 描画QA＋ファイルQA（auto/qa.py。瞬間カット・瞬間移動・顔の見切れ/隠れ・止まり・音）
   2. サムネQA（rig/thumb.js。グリッド切り抜き・文字とチップの重なり・顔）
+  2b. 最後の一言（フォローして続きを見てね）：2秒以上・読める大きさ・隠れない位置（依頼 #51）
   3. レビュー用素材の書き出し（Claudeが画像を開いて目視レビュー、別の視点の「辛口レビュー」も行う。
      基準は README の「笑いの設計」と下の REVIEW_CHECKLIST）
 """
 import json, os, pathlib, subprocess, sys
 sys.path.insert(0, str(pathlib.Path(__file__).parent))
 from post import render, qa_gate, thumbnail, AUTO, DIST, RIG
+import growth
 
 REVIEW_CHECKLIST = [
     "最初の1秒で状況（誰が・何をしている）がわかるか",
@@ -51,6 +53,29 @@ const [ep, out, rig] = process.argv.slice(1);
     subprocess.run(["node", "-e", js, ep, str(out), str(RIG)], check=True, env=env)
     return out
 
+def follow_check(ep, loop):
+    """最後の一言（フォローして続きを見てね）の検査：2秒以上・読める大きさ・下のボタンに隠れない・30秒未満。
+    作った動画の最後の数コマを dist/<ep>_follow.jpg に書き出す（目視で、顔に重なっていないか見る）"""
+    out = growth.add_follow_line(loop, DIST / f"{ep}_loopf.mp4")
+    if not out: return {"pass": False, "issues": ["最後の一言を動画に入れられなかった（日本語フォントや ffmpeg を確認）"]}
+    h = growth._video_height(out)
+    total = growth.duration(loop)
+    L = growth.follow_layout(total, h)
+    real = growth.duration(out)
+    issues = []
+    if L["show"] < 2.0: issues.append(f"表示が{L['show']}秒（2秒以上にする）")
+    if L["fontsize"] < h * 0.06: issues.append("文字が小さい（画面の高さの6%以上にする）")
+    if L["text_bottom"] > h * 0.80: issues.append("文字が下すぎる（下から20%より上にする。下のボタンや説明文に隠れる）")
+    if real >= 30: issues.append(f"動画が{real:.1f}秒で30秒以上")
+    if abs(real - L["total"]) > 0.3: issues.append(f"動画の長さが想定（{L['total']}秒）とずれている（{real:.2f}秒）")
+    ts = [L["start"] - 0.3, L["start"] + 0.1, L["start"] + 1.0, L["end"] - 0.1, real - 0.05]
+    tmp = DIST / f"_{ep}_ff"; tmp.mkdir(exist_ok=True)
+    for i, t in enumerate(ts):
+        subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-ss", f"{max(0, t):.2f}", "-i", str(out), "-frames:v", "1", "-vf", "scale=270:480", str(tmp / f"{i}.png")], check=False)
+    sheet = DIST / f"{ep}_follow.jpg"
+    subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(tmp / "%d.png"), "-filter_complex", f"tile={len(ts)}x1", str(sheet)], check=False)
+    return {"pass": not issues, "issues": issues, "show_sec": L["show"], "extend_sec": L["extend"], "total_sec": round(real, 2), "image": str(sheet)}
+
 def main(eps):
     sch = {p["ep"]: p for p in json.loads((AUTO / "schedule.json").read_text())["posts"]}
     ok_all = True
@@ -62,16 +87,20 @@ def main(eps):
             res["qa_detail"] = json.loads((DIST / f"{ep}_qa.json").read_text())
         except Exception as e:
             res["render_qa"] = False; res["error"] = repr(e)[:400]
+        try:
+            res["follow"] = follow_check(ep, loop)
+        except Exception as e:
+            res["follow"] = {"pass": False, "issues": [repr(e)[:300]]}
         p = sch.get(ep) or {"ep": ep, "no": 0, "title": ep}
         try:
             res["thumb"] = str(thumbnail(p)); res["thumb_qa"] = True
         except subprocess.CalledProcessError as e:
             res["thumb_qa"] = False; res["thumb_error"] = f"exit {e.returncode}（3=文字がグリッド外/重なり、4=顔が写っていない、5=英語の見出しが枠の幅の70%未満で小さすぎる、6=キャラが枠の端で中途半端に切れる、7=文字の背景がごちゃつく、8=直近6本と見出しの幅・高さ・位置が揃わない）"
         try:
-            res["review_images"] = [str(review_sheet(ep)), str(DIST / f"{ep}_sheet.jpg")] + ([res["thumb"]] if res.get("thumb") else [])
+            res["review_images"] = [str(review_sheet(ep)), str(DIST / f"{ep}_sheet.jpg")] + ([res["follow"]["image"]] if res.get("follow", {}).get("image") else []) + ([res["thumb"]] if res.get("thumb") else [])
         except Exception as e:
             res["review_error"] = repr(e)[:300]
-        res["pass_machine"] = bool(res["render_qa"] and res["thumb_qa"])
+        res["pass_machine"] = bool(res["render_qa"] and res["thumb_qa"] and res.get("follow", {}).get("pass"))
         ok_all &= res["pass_machine"]
         (DIST / f"{ep}_brushup.json").write_text(json.dumps(res, ensure_ascii=False, indent=2))
         print(json.dumps({k: res[k] for k in ("ep", "render_qa", "thumb_qa", "pass_machine")}, ensure_ascii=False), flush=True)
