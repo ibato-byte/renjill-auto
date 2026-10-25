@@ -70,28 +70,89 @@ def highlight_window(p, total):
     return start, round(dur, 2)
 
 
-def build_story_video(p, loop_path, out_path):
-    """見どころ（縦 9:16）＋「続きはリールで」の画像を、1本の動画にする"""
+# ストーリーズのデザイン（依頼 #91）。3案を比べて B を採用（理由は knowledge/renjill-post.md）。
+#   A 「ひとこと重ね」：見どころの動画に、ひとことのフックと下の誘導を重ねるだけ（1場面）
+#   B 「つかみ→本編へ」：①見どころ＋フック＋「この続きは？」②同じ絵を暗い幕で覆い、「Watch the full episode」と矢印（2場面）← 採用
+#   C 「クイズ」：見どころ＋問いかけの大きな札、最後に誘導
+# どれも：紺・クリーム・金（レンとジルの色）、金の枠、画面の端から端まで（暗い幕・枠にすき間を作らない・依頼 #90）。
+# 上 14%・下 20% は Instagram の表示で隠れるので、文字は置かない。
+NAVY, CREAM, GOLD = "0x1F3A5F", "0xFFF7E8", "0xE8B84A"
+STORY_VARIANTS = ("A", "B", "C")
+DEFAULT_STORY_VARIANT = "B"
+CTA_EN, CTA_JA = "Watch the full episode", "本編はこちら"
+TEASE_JA = "この続きは…？"
+
+
+def story_hook(p):
+    """ひとことのフック（英語を主・日本語を従）。schedule.json の thumb.hook「英語/日本語」。なければ汎用"""
+    h = ((p.get("thumb") or {}).get("hook") or "").strip()
+    en, _, ja = h.partition("/")
+    return (en.strip() or "WHAT HAPPENS NEXT?"), ja.strip()
+
+
+def _text(tmp, name, text):
+    (tmp / name).write_text(text, encoding="utf-8")
+    return tmp / name
+
+
+def _dt(font, tf, size, y, color, box=None, x="(w-text_w)/2", border=26, enable=None):
+    s = f"drawtext=fontfile={font}:textfile={tf}:fontsize={size}:fontcolor={color}:x={x}:y={y}"
+    if box: s += f":box=1:boxcolor={box}:boxborderw={border}"
+    if enable: s += f":enable='{enable}'"
+    return s
+
+
+def story_filters(variant, font, tmp, hook_en, hook_ja, poll, tease_sec, card_sec):
+    """(見どころの映像に足すフィルタ, 最後の幕の映像に足すフィルタ)。どちらも 1080x1920"""
+    en, ja = _text(tmp, "en.txt", hook_en), _text(tmp, "ja.txt", hook_ja or " ")
+    frame = f"drawbox=x=0:y=0:w=iw:h=ih:color={GOLD}:t=18"          # 金の枠（画面いっぱい）
+    fs_en = 128 if len(hook_en) <= 12 else 100 if len(hook_en) <= 18 else 78
+    tease = [frame, _dt(font, en, fs_en, 330, CREAM, NAVY), _dt(font, ja, 68, 330 + fs_en + 70, GOLD, NAVY, border=20)]
+    pl = _text(tmp, "poll.txt", poll)
+    psz = lambda base: max(36, min(base, int(900 / max(1, len(poll)))))  # 長い問いかけは小さくして、端からはみ出さない
+    if variant == "A":
+        tease += [_dt(font, _text(tmp, "c1.txt", f"▶ {CTA_EN}"), 66, 1420, CREAM, NAVY, border=24),
+                  _dt(font, _text(tmp, "c2.txt", f"{CTA_JA}（最新のリール）"), 52, 1540, GOLD, NAVY, border=18)]
+        card = [f"drawbox=x=0:y=0:w=iw:h=ih:color={NAVY}@0.78:t=fill", frame,
+                _dt(font, _text(tmp, "a1.txt", "続きはリールで"), 120, 720, CREAM), _dt(font, pl, psz(68), 960, GOLD)]
+    elif variant == "C":
+        q = _text(tmp, "q.txt", poll)
+        tease = [frame, _dt(font, en, fs_en, 330, CREAM, NAVY), _dt(font, q, psz(76), 1380, NAVY, CREAM, border=34)]
+        card = [f"drawbox=x=0:y=0:w=iw:h=ih:color={NAVY}@0.78:t=fill", frame,
+                _dt(font, _text(tmp, "b1.txt", f"▶ {CTA_EN}"), 78, 760, CREAM), _dt(font, _text(tmp, "b2.txt", CTA_JA), 70, 900, GOLD)]
+    else:  # B
+        tease += [_dt(font, _text(tmp, "t.txt", TEASE_JA), 88, 1400, NAVY, CREAM, border=34)]
+        card = [f"drawbox=x=0:y=0:w=iw:h=ih:color={NAVY}@0.80:t=fill", frame,
+                _dt(font, _text(tmp, "d1.txt", f"▶ {CTA_EN}"), 80, 700, CREAM),
+                _dt(font, _text(tmp, "d2.txt", CTA_JA), 96, 850, GOLD),
+                _dt(font, _text(tmp, "d3.txt", "▼ 最新のリール ▼"), 60, 1020, CREAM),
+                _dt(font, pl, psz(60), 1150, NAVY, CREAM, border=30)]
+    return ",".join(tease), ",".join(card)
+
+
+def build_story_video(p, loop_path, out_path, variant=None):
+    """見どころ（縦 9:16）に、ひとことのフックを重ね、最後に「本編はこちら」の幕を付けた1本の動画にする"""
     total = _duration(loop_path)
     start, dur = highlight_window(p, total)
     s = p.get("story") if isinstance(p.get("story"), dict) else {}
     poll = s.get("poll", DEFAULT_POLL)
     font = _font()
-    if not font: raise StorySkip("日本語フォントがなく、エンドカードを作れない")
+    if not font: raise StorySkip("日本語フォントがなく、ストーリーズの絵を作れない")
     tmp = pathlib.Path(tempfile.mkdtemp())
-    (tmp / "a.txt").write_text("続きはリールで", encoding="utf-8")
-    (tmp / "b.txt").write_text(poll, encoding="utf-8")
-    dt_ = lambda f, size, y, color: f"drawtext=fontfile={font}:textfile={tmp / f}:fontsize={size}:fontcolor={color}:x=(w-text_w)/2:y={y}"
-    card = f"color=c=0xFFF7E8:s=1080x1920:d={END_CARD_SEC}:r=30,{dt_('a.txt', 120, 720, '0x5A3A1E')},{dt_('b.txt', 72, 960, '0x355F86')},format=yuv420p"
+    en, ja = story_hook(p)
+    tease_f, card_f = story_filters(variant or s.get("design") or DEFAULT_STORY_VARIANT, font, tmp, en, ja, poll, dur, END_CARD_SEC)
     audio = _has_audio(loop_path)
-    fc = ("[0:v]scale=1080:1920:force_original_aspect_ratio=decrease,pad=1080:1920:(ow-iw)/2:(oh-ih)/2,setsar=1,fps=30,format=yuv420p[v0];"
-          "[1:v]setsar=1[v1];")
+    norm = "scale=1080:1920:force_original_aspect_ratio=decrease,pad=1080:1920:(ow-iw)/2:(oh-ih)/2,setsar=1,fps=30,format=yuv420p"
+    fc = (f"[0:v]{norm},{tease_f}[v0];"
+          f"[1:v]{norm},tpad=stop_mode=clone:stop_duration={END_CARD_SEC},trim=duration={END_CARD_SEC},setpts=PTS-STARTPTS,{card_f},setsar=1[v1];")
     if audio:
         fc += (f"[0:a]aformat=sample_rates=44100:channel_layouts=stereo[a0];anullsrc=r=44100:cl=stereo,atrim=0:{END_CARD_SEC}[a1];"
                "[v0][a0][v1][a1]concat=n=2:v=1:a=1[v][a]")
     else:
         fc += "[v0][v1]concat=n=2:v=1:a=0[v]"
-    cmd = ["ffmpeg", "-y", "-loglevel", "error", "-ss", str(start), "-t", str(dur), "-i", str(loop_path), "-f", "lavfi", "-i", card,
+    last = max(0.0, start + dur - 0.1)
+    cmd = ["ffmpeg", "-y", "-loglevel", "error", "-ss", str(start), "-t", str(dur), "-i", str(loop_path),
+           "-ss", f"{last:.2f}", "-t", "0.1", "-i", str(loop_path),
            "-filter_complex", fc, "-map", "[v]"] + (["-map", "[a]", "-c:a", "aac", "-b:a", "128k"] if audio else []) + \
           ["-c:v", "libx264", "-preset", "veryfast", "-crf", "20", "-movflags", "+faststart", str(out_path)]
     subprocess.run(cmd, check=True)
