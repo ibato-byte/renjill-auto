@@ -97,10 +97,13 @@ jobs:
         run: |
           [ -d "$RUNNER_TEMP/hub" ] || exit 0
           sum="再活用の候補・コメントへの返信・毎週のまとめ動画"
-          [ -f dist/compile_summary.txt ] && sum="$sum。$(cat dist/compile_summary.txt)"
-          # コメント返信の結果（返した数・非表示にした数・見送った数・困りごと）を Hub に残す。返した文そのものは auto/replies.json
           kp=()
-          [ -f dist/comments_summary.json ] && mapfile -d '' kp < <(python3 -c "import json;s=json.load(open('dist/comments_summary.json'));print('--kpi\0コメント返信（今回）='+('返信 %d・非表示 %d・見送り %d' % (s['replied'], s['hidden'], s['skipped']) if s['mode']=='live' else '候補の記録 %d' % s['candidates'])+'\0--kpi\0コメント返信の困りごと='+('、'.join(s['problems'])[:120] or 'なし'),end='\0')")
-          bash "$RUNNER_TEMP/hub/scripts/gha.sh" report renjill-growth "$JOB_STATUS" "$PAUSED" "$sum" "${kp[@]}" \
-            --does "毎日、フォロワーを増やすための追加の投稿・確認を行う（レンとジル）" \
+          if [ -f dist/comments_summary.json ]; then
+            c=$(python3 -c "import json;s=json.load(open('dist/comments_summary.json'));print('返信%d・非表示%d・見送り%d（%s）%s'%(s['replied'],s['hidden'],s['skipped'],s['mode'],('／問題: '+'・'.join(s['problems'])) if s['problems'] else ''))")
+            kp=(--kpi "直近のコメント対応=${c}")
+          fi
+          [ -s dist/comments_log.md ] && kp+=(--log "$(cat dist/comments_log.md)")
+          [ -f dist/compile_summary.txt ] && sum="$sum。$(cat dist/compile_summary.txt)"
+          bash "$RUNNER_TEMP/hub/scripts/gha.sh" report renjill-growth "$JOB_STATUS" "$PAUSED" "$sum" \
+            --does "毎日、フォロワーを増やすための追加の投稿・確認を行う（レンとジル）" "${kp[@]}" \
             --next-run-at "$(bash "$RUNNER_TEMP/hub/scripts/gha.sh" next-daily 03:40 09:40 15:40 20:30 21:40)"
