@@ -9,6 +9,9 @@
 `python auto/daily_review.py [--date YYYY-MM-DD]`"""
 import csv, datetime as dt, io, json, pathlib, statistics, sys
 
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+import cadence
+
 import novelty
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
@@ -256,6 +259,12 @@ def main(argv):
     if he["new"] is not None:
         hub += ["--kpi", f'最後まで見られた割合（平均視聴時間÷長さ）=冒頭を直した回 {he["new"]*100:.0f}%'
                 + (f'／前の回 {he["old"]*100:.0f}%' if he["old"] is not None else "／前の回との比較は直した回の数字が出てから")]
+    # 投稿頻度の段階（依頼 #98）：冒頭を直した回の最後まで見られた割合で、週5本→毎日（週7本）を自動で判定する
+    cad = cadence.main(["--date", today.isoformat()])
+    if "content/cadence.json" not in changed_files: changed_files.append("content/cadence.json")
+    hub += ["--kpi", f'投稿頻度=第{cad["stage"]}段階・週{cad["per_week"]}本（{cad["why"]}）']
+    hub += ["--kpi", f'予定表={cad["schedule_days_ahead"]}/{cad["schedule_target_days"]}日先まで']
+    if cad["same_day_twice"]: problems.append({"kind": "same-day-twice", "text": f'同じ日に2本入っている日がある：{"・".join(cad["same_day_twice"])}', "fix": "別の日にずらす"})
     hub += ["--kpi", f"止まっているもの={len(problems)}"]
     (ROOT / "dist" / "daily_hub_args").write_bytes(b"\0".join(x.encode() for x in hub) + b"\0")
     print("[daily] " + ("；".join(notes) or "変更なし（記録だけ）"), "| 問題:", [p["kind"] for p in problems] or "なし")
