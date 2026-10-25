@@ -71,6 +71,19 @@ def goal_status(followers, today, goal, history):
     return {"followers": followers, "target": target, "gap": gap, "raised": raised, "due": goal["due"]}
 
 
+def hook_effect(insights, posted):
+    """冒頭を直した回（posted の opening あり）と、それ以前の回の、平均視聴時間÷長さの平均（依頼 #97）。
+    insights は content/insights.csv の行。回ごとに最新の値を使う。どちらかが無ければ None"""
+    latest = {}
+    for r in insights:
+        if r.get("対象") == "reel" and r.get("指標") == "avg_watch_ratio" and num(r.get("値")) is not None:
+            latest[r["ref"]] = num(r["値"])  # 古い日から並んでいる前提で、あとの行が最新
+    new = [v for k, v in latest.items() if (posted.get(k) or {}).get("opening")]
+    old = [v for k, v in latest.items() if k in posted and not (posted.get(k) or {}).get("opening")]
+    if not new or not old: return {"new": statistics.mean(new) if new else None, "old": statistics.mean(old) if old else None, "n_new": len(new), "n_old": len(old), "up": None}
+    return {"new": statistics.mean(new), "old": statistics.mean(old), "n_new": len(new), "n_old": len(old), "up": statistics.mean(new) > statistics.mean(old)}
+
+
 def stalled_metrics(metrics, today):
     """数字が2日続けて取れていない（最新の計測日が一昨日以前）ならその日付を返す"""
     days = sorted({r["計測日"] for r in metrics if r["計測日"]})
@@ -199,6 +212,11 @@ def main(argv):
         changed_files.append("content/goal.json"); notes.append(f'目標を {gs["raised"]} 人に引き上げた（届きそうなため）')
     avg = statistics.mean(views.values()) if views else None
 
+    # 3b. 冒頭の作り直し（依頼 #97）の効果：平均視聴時間÷長さが前の回より上がったか。上がらなければ次の回で別の型を試す
+    he = hook_effect(read_csv(ROOT / "content" / "insights.csv"), posted)
+    if he["new"] is not None and he["old"] is not None:
+        notes.append(f'冒頭の作り直し：平均視聴時間÷長さ {he["old"]*100:.0f}%→{he["new"]*100:.0f}%（{"上がった" if he["up"] else "上がらなかった。次の回で別の冒頭の型を試す"}）')
+
     # 4. 止まっていないかの点検
     s = stalled_metrics(metrics, today)
     if s: problems.append({"kind": "metrics-stalled", "text": f"数字が2日以上取れていない：{s}", "fix": "metrics を動かし直す"})
@@ -228,6 +246,9 @@ def main(argv):
     hub = ["--kpi", f'目標との差=Instagram フォロワー {fol if fol is not None else "不明"}/{gs["target"]}（{goal["due"][5:].replace("-", "/")}まで）']
     if avg: hub += ["--kpi", f'平均再生={int(avg)}/{goal["avg_views_target"]}']
     hub += ["--kpi", f'次の投稿で試すこと={next_try or "割り当てなし（予定表に未投稿の回がない）"}']
+    if he["new"] is not None:
+        hub += ["--kpi", f'最後まで見られた割合（平均視聴時間÷長さ）=冒頭を直した回 {he["new"]*100:.0f}%'
+                + (f'／前の回 {he["old"]*100:.0f}%' if he["old"] is not None else "／前の回との比較は直した回の数字が出てから")]
     hub += ["--kpi", f"止まっているもの={len(problems)}"]
     (ROOT / "dist" / "daily_hub_args").write_bytes(b"\0".join(x.encode() for x in hub) + b"\0")
     print("[daily] " + ("；".join(notes) or "変更なし（記録だけ）"), "| 問題:", [p["kind"] for p in problems] or "なし")
