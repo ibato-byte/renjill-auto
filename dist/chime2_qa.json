@@ -1,13 +1,21 @@
 {
   "ep": "chime2",
-  "pass": true,
-  "issues": [],
+  "pass": false,
+  "issues": [
+    "尺が範囲外: 23.0s（8〜20s。目安は7〜12s、最後まで見られる長さに）",
+    "冒頭の英語の一言がない（pace.js に hook を入れる）",
+    "yt: 尺 23.0s",
+    "loop: 尺 22.1s"
+  ],
   "warns": [],
   "render": {
     "ep": "chime2",
     "dur": 23,
-    "pass": true,
-    "issues": [],
+    "pass": false,
+    "issues": [
+      "尺が範囲外: 23.0s（8〜20s。目安は7〜12s、最後まで見られる長さに）",
+      "冒頭の英語の一言がない（pace.js に hook を入れる）"
+    ],
     "warns": []
   }
 }
