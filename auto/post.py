@@ -342,6 +342,12 @@ def main(argv=None):
         try:  # 最後に「フォローして続きを見てね」を入れた版（作れなければ元のまま）。ループの継ぎ目は壊さない
             loop_path = growth.add_follow_line(loop_path, DIST / f'{p["ep"]}_loopf.mp4') or loop_path
         except Exception as e: log("フォロー案内の追加に失敗（元の動画で続ける）", repr(e)[:200])
+        if loop_path != story_src:  # 最後の帯が左右の端・四隅まで暗いか（依頼 #90）。暗くなければ投稿しない
+            edge = growth.follow_edge_issues(loop_path, growth.follow_layout(growth.duration(story_src), growth._video_height(loop_path)), growth._video_height(loop_path), growth.duration(loop_path))
+            if edge:
+                failed.append(f"{key}:QA"); results["QA"] = "最後の帯の端が暗くなく見送り"
+                actions.append(f'「{p["title"]}」（{p["date"]} {p["slot"]}）の最後の「フォローして続きを見てね」の帯が画面の端まで暗くなく（{edge[0]}）、どの SNS にも出していない。Claude に「{p["ep"]} の最後の帯を直して出し直して」と伝える')
+                continue
         rec = posted.setdefault(key, {"tag_set": p.get("tag_set", "A"), "no": p["no"], "title": p["title"]})
         th = {}
         def thumb():  # Instagram・Facebook で同じサムネ（チェックに通らなければ両方とも出さない）

@@ -72,6 +72,7 @@ def follow_check(ep, loop):
     tmp = DIST / f"_{ep}_ff"; tmp.mkdir(exist_ok=True)
     for i, t in enumerate(ts):
         subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-ss", f"{max(0, t):.2f}", "-i", str(out), "-frames:v", "1", "-vf", "scale=270:480", str(tmp / f"{i}.png")], check=False)
+    issues += growth.follow_edge_issues(out, L, h, real)
     sheet = DIST / f"{ep}_follow.jpg"
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(tmp / "%d.png"), "-filter_complex", f"tile={len(ts)}x1", str(sheet)], check=False)
     return {"pass": not issues, "issues": issues, "show_sec": L["show"], "extend_sec": L["extend"], "total_sec": round(real, 2), "image": str(sheet)}
