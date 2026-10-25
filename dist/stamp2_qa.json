@@ -1,7 +1,13 @@
 {
   "ep": "stamp2",
-  "dur": 25,
   "pass": true,
   "issues": [],
-  "warns": []
+  "warns": [],
+  "render": {
+    "ep": "stamp2",
+    "dur": 25,
+    "pass": true,
+    "issues": [],
+    "warns": []
+  }
 }

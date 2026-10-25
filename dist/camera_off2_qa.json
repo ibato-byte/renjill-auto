@@ -1,7 +1,13 @@
 {
   "ep": "camera_off2",
-  "dur": 22,
   "pass": true,
   "issues": [],
-  "warns": []
+  "warns": [],
+  "render": {
+    "ep": "camera_off2",
+    "dur": 22,
+    "pass": true,
+    "issues": [],
+    "warns": []
+  }
 }
