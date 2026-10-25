@@ -71,4 +71,5 @@ jobs:
         run: |
           [ -d "$RUNNER_TEMP/hub" ] || exit 0
           bash "$RUNNER_TEMP/hub/scripts/gha.sh" report renjill-preflight "$JOB_STATUS" "$PAUSED" "3日以内に投稿する回を事前に描画し、QA に合格" \
+            --does "毎日、3日以内に投稿する回を事前に描画し、品質チェック（QA）に通るか確かめる" --outcome done \
             --next-run-at "$(bash "$RUNNER_TEMP/hub/scripts/gha.sh" next-daily 21:00)" --owner-action none

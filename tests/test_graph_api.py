@@ -165,6 +165,24 @@ class HubArgsTest(unittest.TestCase):
             post.write_hub_args(None, next_api="11/02 12:00", keep_actions=True)
         self.assertNotIn(b"--owner-action", out["b"].split(b"\0"))
 
+    def test_idle_summary_and_hub_args(self):
+        """予定がない回は「やることなし」と、次の投稿を具体的に書く（固定文にしない。依頼 #79）"""
+        sch = {"defaults": {"platforms": ["ig", "yt", "facebook"]},
+               "posts": [{"date": "2026-10-25", "slot": "19:00", "ep": "a", "title": "定時のチャイム"}]}
+        now = dt.datetime(2026, 10, 25, 12, 20, tzinfo=post.JST)
+        with mock.patch.dict(os.environ, {"MANUAL_PLATFORMS": ""}):
+            nx = post.next_api_post(sch, {}, now, detail=True)
+            self.assertEqual(nx, ("10/25 19:00", "定時のチャイム", "2026-10-25T10:00:00Z"))
+            self.assertEqual(post.idle_summary(sch, now, nx), "12:20 は予定なし。次の投稿は 10/25 19:00『定時のチャイム』")
+            out = {}
+            with mock.patch.object(pathlib.Path, "write_bytes", lambda self, b: out.setdefault("b", b)), \
+                 mock.patch.object(pathlib.Path, "write_text", lambda self, t: out.setdefault("t", t)):
+                post.write_hub_args(None, next_api=nx[0], keep_actions=True, summary="x", outcome="idle", next_action=("10/25 19:00『定時のチャイム』を投稿", nx[2]))
+            args = out["b"].split(b"\0")
+            self.assertIn(b"idle", args)
+            self.assertIn("10/25 19:00『定時のチャイム』を投稿".encode(), args)
+            self.assertNotIn(b"--count", args)
+
     def test_next_api_post(self):
         sch = {"defaults": {"platforms": ["ig", "yt", "facebook"]},
                "posts": [{"date": "2026-10-30", "slot": "18:00", "ep": "a"}, {"date": "2026-11-02", "slot": "12:00", "ep": "b"}]}
