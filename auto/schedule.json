@@ -1,178 +1,185 @@
 {
- "_comment": "毎週のPDCAでClaudeがここを更新する。dateはJST。slotは 12:00 / 18:00 / 19:00。platformsは ig / tt / yt / facebook（Facebook ページ「レンとジル」のリール。Instagram と同じ動画・同じ時刻。キャプションは caption_en→caption_ja→fb_cta→fb_tag_sets のハッシュタグ3個以内）。tag_setはA/Bの交互で効果を比較し、勝った方を翌週のdefaultsに昇格させる。thumbはサムネ（t=秒, cam=ズーム,中心x,中心y, hook='英語の一言(12文字以内)/日本語の補足(10文字以内)'）。海外にも届くよう英語を主、日本語を従にする。 camは顔が画面の下寄り（y 900〜1300）に来るよう cy を小さめにする（文字は上、チップはその下、全部が中央3:4に収まる）。",
- "defaults": {
-  "yt_description": "A wordless office comedy about two bunnies: Ren, the absent-minded boss (Holland Lop), and Jill, his sharp assistant (Netherland Dwarf).\nうさぎの課長レン（たれ耳）と、しっかり者の部下ジル。セリフなしのオフィスコメディ。\n\nNew episodes Mon / Wed / Fri / Sun\nInstagram / TikTok / X: @renjill_office\nFacebook: レンとジル Ren & Jill",
-  "platforms": [
-   "ig",
-   "tt",
-   "yt",
-   "facebook",
-   "threads"
-  ],
-  "tag_sets": {
-   "A": "#うさぎのいる生活 #ホーランドロップ #会社あるある #lopbunny #officelife",
-   "B": "#うさぎのいる暮らし #ネザーランドドワーフ #社畜あるある #bunnytok #cuteanimals"
+  "_comment": "毎週のPDCAでClaudeがここを更新する。dateはJST。slotは 12:00 / 18:00 / 19:00。platformsは ig / tt / yt / facebook（Facebook ページ「レンとジル」のリール。Instagram と同じ動画・同じ時刻。キャプションは caption_en→caption_ja→fb_cta→fb_tag_sets のハッシュタグ3個以内）。tag_setはA/Bの交互で効果を比較し、勝った方を翌週のdefaultsに昇格させる。thumbはサムネ（t=秒, cam=ズーム,中心x,中心y, hook='英語の一言(12文字以内)/日本語の補足(10文字以内)'）。海外にも届くよう英語を主、日本語を従にする。 camは顔が画面の下寄り（y 900〜1300）に来るよう cy を小さめにする（文字は上、チップはその下、全部が中央3:4に収まる）。",
+  "defaults": {
+    "yt_description": "A wordless office comedy about two bunnies: Ren, the absent-minded boss (Holland Lop), and Jill, his sharp assistant (Netherland Dwarf).\nうさぎの課長レン（たれ耳）と、しっかり者の部下ジル。セリフなしのオフィスコメディ。\n\nNew episodes Mon / Wed / Fri / Sun\nInstagram / TikTok / X: @renjill_office\nFacebook: レンとジル Ren & Jill",
+    "platforms": [
+      "ig",
+      "tt",
+      "yt",
+      "facebook",
+      "threads"
+    ],
+    "tag_sets": {
+      "A": "#うさぎのいる生活 #ホーランドロップ #会社あるある #lopbunny #officelife",
+      "B": "#うさぎのいる暮らし #ネザーランドドワーフ #社畜あるある #bunnytok #cuteanimals"
+    },
+    "fb_cta": "Who in your office does this? Tell us in the comments.\nあなたの職場にもいますか？コメントで教えてください",
+    "fb_tag_sets": {
+      "A": "#会社あるある #うさぎのいる生活 #officelife",
+      "B": "#社畜あるある #うさぎのいる暮らし #cuteanimals"
+    },
+    "seo": {
+      "ja": "職場あるある｜うさぎ｜セリフなしアニメ",
+      "en": "wordless office comedy · bunny boss · workplace humor"
+    }
   },
-  "fb_cta": "Who in your office does this? Tell us in the comments.\nあなたの職場にもいますか？コメントで教えてください",
-  "fb_tag_sets": {
-   "A": "#会社あるある #うさぎのいる生活 #officelife",
-   "B": "#社畜あるある #うさぎのいる暮らし #cuteanimals"
-  },
-  "seo": {
-   "ja": "職場あるある｜うさぎ｜セリフなしアニメ",
-   "en": "wordless office comedy · bunny boss · workplace humor"
-  }
- },
- "posts": [
-  {
-   "date": "2026-10-21",
-   "slot": "12:00",
-   "ep": "papers2",
-   "no": 4,
-   "title": "書類の山",
-   "caption_ja": "整えるほど崩れる。課長、手伝わなくていいです。",
-   "caption_en": "The more he helps, the worse it gets.",
-   "tag_set": "A",
-   "thumb": {
-    "t": 9.0,
-    "cam": "2.0,560,820",
-    "hook": "HELPING./整えるほど崩れる"
-   }
-  },
-  {
-   "date": "2026-10-23",
-   "slot": "18:00",
-   "ep": "mug2",
-   "no": 5,
-   "title": "マグカップはどこ",
-   "caption_ja": "課長、マグカップは頭の上です。",
-   "caption_en": "Sir. The mug. It's on your head.",
-   "tag_set": "B",
-   "thumb": {
-    "t": 1.0,
-    "cam": "1.6,470,1150",
-    "hook": "MY MUG?/頭の上です、課長"
-   }
-  },
-  {
-   "date": "2026-10-25",
-   "slot": "19:00",
-   "ep": "chime2",
-   "no": 6,
-   "title": "定時のチャイム",
-   "caption_ja": "定時のチャイム、よろこびが止まらない。",
-   "caption_en": "6pm chime. Joy cannot be contained.",
-   "tag_set": "A",
-   "thumb": {
-    "t": 6.0,
-    "cam": "2.0,560,1100",
-    "hook": "IT'S 6 PM!/定時のよろこび"
-   }
-  },
-  {
-   "date": "2026-10-26",
-   "slot": "12:00",
-   "ep": "jil_morning2",
-   "no": 2,
-   "title": "ジルの朝",
-   "caption_ja": "メガネをかけたらスイッチが入る。課長のスイッチはどこ？",
-   "caption_en": "Glasses on, switch on. Where's the boss's switch?",
-   "tag_set": "B",
-   "thumb": {
-    "t": 13.5,
-    "cam": "3.4,840,1500",
-    "hook": "GLASSES ON./スイッチが入る"
-   }
-  },
-  {
-   "date": "2026-10-28",
-   "slot": "12:00",
-   "ep": "receipts2",
-   "no": 8,
-   "title": "牧草の領収書",
-   "caption_ja": "経費精算、ぜんぶ牧草。",
-   "caption_en": "Expense report: 100% hay.",
-   "tag_set": "A",
-   "thumb": {
-    "t": 9.0,
-    "cam": "2.0,560,820",
-    "hook": "EXPENSES: HAY/経費はぜんぶ牧草"
-   }
-  },
-  {
-   "date": "2026-10-30",
-   "slot": "18:00",
-   "ep": "deadline2",
-   "no": 9,
-   "title": "締め切りのカレンダー",
-   "caption_ja": "見なければ、締め切りは来ない（来ます）。",
-   "caption_en": "If you don't look, the deadline doesn't exist. (It does.)",
-   "tag_set": "B",
-   "thumb": {
-    "t": 8.6,
-    "cam": "2.0,480,760",
-    "hook": "DEADLINE? NO./見なければ来ない"
-   }
-  },
-  {
-   "date": "2026-11-01",
-   "slot": "19:00",
-   "ep": "pom_debut",
-   "no": 10,
-   "title": "新人のポム",
-   "caption_ja": "断れない新人のほおぶくろは、もう満杯です。",
-   "caption_en": "The new hire never says no. His cheeks can't either.",
-   "tag_set": "A",
-   "thumb": {
-    "t": 6.5,
-    "cam": "1.2,540,960",
-    "hook": "NEW HIRE/新人のポム"
-   }
-  },
-  {
-   "date": "2026-11-02",
-   "slot": "12:00",
-   "ep": "meeting2",
-   "no": 1,
-   "title": "会議の5分前",
-   "caption_ja": "会議の5分前。課長はまだ夢の中。",
-   "caption_en": "Meeting in 5 minutes. The boss is still dreaming.",
-   "tag_set": "B",
-   "thumb": {
-    "t": 6.0,
-    "cam": "2.0,540,900",
-    "hook": "5 MIN LEFT/会議の5分前"
-   }
-  },
-  {
-   "date": "2026-11-04",
-   "slot": "12:00",
-   "ep": "stamp2",
-   "no": 3,
-   "title": "ハンコは鼻で",
-   "caption_ja": "課長はハンコを体で押します。ジルがそっと押し直します。",
-   "caption_en": "He stamps with his whole body. Jill stamps it right.",
-   "tag_set": "A",
-   "thumb": {
-    "t": 10.5,
-    "cam": "2.0,540,900",
-    "hook": "STAMP IT/鼻でハンコ"
-   }
-  },
-  {
-   "date": "2026-11-06",
-   "slot": "18:00",
-   "ep": "camera_off2",
-   "no": 7,
-   "title": "カメラオフの正体",
-   "caption_ja": "カメラオフなら寝てもバレない。（はず）",
-   "caption_en": "Camera off, nap on. (Or so he thought.)",
-   "tag_set": "B",
-   "thumb": {
-    "t": 6.0,
-    "cam": "2.0,540,900",
-    "hook": "NAP TIME/カメラオフの正体"
-   }
-  }
- ]
+  "posts": [
+    {
+      "date": "2026-10-21",
+      "slot": "12:00",
+      "ep": "papers2",
+      "no": 4,
+      "title": "書類の山",
+      "caption_ja": "整えるほど崩れる。課長、手伝わなくていいです。",
+      "caption_en": "The more he helps, the worse it gets.",
+      "tag_set": "A",
+      "thumb": {
+        "t": 9.0,
+        "cam": "2.0,560,820",
+        "hook": "HELPING./整えるほど崩れる"
+      }
+    },
+    {
+      "date": "2026-10-23",
+      "slot": "18:00",
+      "ep": "mug2",
+      "no": 5,
+      "title": "マグカップはどこ",
+      "caption_ja": "課長、マグカップは頭の上です。",
+      "caption_en": "Sir. The mug. It's on your head.",
+      "tag_set": "B",
+      "thumb": {
+        "t": 1.0,
+        "cam": "1.6,470,1150",
+        "hook": "MY MUG?/頭の上です、課長"
+      }
+    },
+    {
+      "date": "2026-10-25",
+      "slot": "19:00",
+      "ep": "chime2",
+      "no": 6,
+      "title": "定時のチャイム",
+      "caption_ja": "定時のチャイム、よろこびが止まらない。",
+      "caption_en": "6pm chime. Joy cannot be contained.",
+      "tag_set": "A",
+      "thumb": {
+        "t": 6.0,
+        "cam": "2.0,560,1100",
+        "hook": "IT'S 6 PM!/定時のよろこび"
+      }
+    },
+    {
+      "date": "2026-10-26",
+      "slot": "12:00",
+      "ep": "jil_morning2",
+      "no": 2,
+      "title": "ジルの朝",
+      "caption_ja": "メガネをかけたらスイッチが入る。課長のスイッチはどこ？",
+      "caption_en": "Glasses on, switch on. Where's the boss's switch?",
+      "tag_set": "B",
+      "thumb": {
+        "t": 13.5,
+        "cam": "3.4,840,1500",
+        "hook": "GLASSES ON./スイッチが入る"
+      }
+    },
+    {
+      "date": "2026-10-28",
+      "slot": "12:00",
+      "ep": "receipts2",
+      "no": 8,
+      "title": "牧草の領収書",
+      "caption_ja": "経費精算、ぜんぶ牧草。",
+      "caption_en": "Expense report: 100% hay.",
+      "tag_set": "A",
+      "thumb": {
+        "t": 9.0,
+        "cam": "2.0,560,820",
+        "hook": "EXPENSES: HAY/経費はぜんぶ牧草"
+      }
+    },
+    {
+      "date": "2026-10-30",
+      "slot": "18:00",
+      "ep": "deadline2",
+      "no": 9,
+      "title": "締め切りのカレンダー",
+      "caption_ja": "見なければ、締め切りは来ない（来ます）。",
+      "caption_en": "If you don't look, the deadline doesn't exist. (It does.)",
+      "tag_set": "B",
+      "thumb": {
+        "t": 8.6,
+        "cam": "2.0,480,760",
+        "hook": "DEADLINE? NO./見なければ来ない"
+      }
+    },
+    {
+      "date": "2026-11-01",
+      "slot": "19:00",
+      "ep": "pom_debut",
+      "no": 10,
+      "title": "新人のポム",
+      "caption_ja": "断れない新人のほおぶくろは、もう満杯です。",
+      "caption_en": "The new hire never says no. His cheeks can't either.",
+      "tag_set": "A",
+      "thumb": {
+        "t": 6.5,
+        "cam": "1.2,540,960",
+        "hook": "NEW HIRE/新人のポム",
+        "variant": "B"
+      },
+      "experiment": {
+        "var": "thumb_variant",
+        "std": "A",
+        "value": "B",
+        "why": "サムネの文字の位置（上と下）を変えて、プロフィール一覧からの見られ方を比べる"
+      }
+    },
+    {
+      "date": "2026-11-02",
+      "slot": "12:00",
+      "ep": "meeting2",
+      "no": 1,
+      "title": "会議の5分前",
+      "caption_ja": "会議の5分前。課長はまだ夢の中。",
+      "caption_en": "Meeting in 5 minutes. The boss is still dreaming.",
+      "tag_set": "B",
+      "thumb": {
+        "t": 6.0,
+        "cam": "2.0,540,900",
+        "hook": "5 MIN LEFT/会議の5分前"
+      }
+    },
+    {
+      "date": "2026-11-04",
+      "slot": "12:00",
+      "ep": "stamp2",
+      "no": 3,
+      "title": "ハンコは鼻で",
+      "caption_ja": "課長はハンコを体で押します。ジルがそっと押し直します。",
+      "caption_en": "He stamps with his whole body. Jill stamps it right.",
+      "tag_set": "A",
+      "thumb": {
+        "t": 10.5,
+        "cam": "2.0,540,900",
+        "hook": "STAMP IT/鼻でハンコ"
+      }
+    },
+    {
+      "date": "2026-11-06",
+      "slot": "18:00",
+      "ep": "camera_off2",
+      "no": 7,
+      "title": "カメラオフの正体",
+      "caption_ja": "カメラオフなら寝てもバレない。（はず）",
+      "caption_en": "Camera off, nap on. (Or so he thought.)",
+      "tag_set": "B",
+      "thumb": {
+        "t": 6.0,
+        "cam": "2.0,540,900",
+        "hook": "NAP TIME/カメラオフの正体"
+      }
+    }
+  ]
 }
