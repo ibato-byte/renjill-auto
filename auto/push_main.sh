@@ -5,6 +5,8 @@ set -u
 for i in 1 2 3 4 5; do
   git push origin HEAD:main && exit 0
   echo "push に失敗（$i/5 回目）。main に追いついてやり直します"
+  # 追跡中のファイルに未保存の変更が残っていると rebase できない（2026-10-25 19:28 の失敗）。保存済みの commit は残るので、作業ツリーだけ戻す
+  git reset -q --hard HEAD
   git fetch -q origin main || { sleep $((i * 3)); continue; }
   if ! git rebase -q origin/main; then
     # 衝突したファイルを解決する（ours＝main 側、theirs＝今回保存した側）
