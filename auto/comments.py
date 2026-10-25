@@ -19,6 +19,8 @@ NOT_ID = ("manual", "bs-scheduled")
 DAILY_LIMIT = 8            # SNS ごとの 1 日の返信（または候補）の上限
 LOOKBACK_DAYS = 7          # 何日前までの投稿を見るか
 NO_REPEAT_DAYS = 14
+OWN_IG_NAME = "renjill_office"      # 自分たちの Instagram のアカウント名
+OWN_FB_PAGE_ID = "1358515160686321"  # 自分たちの Facebook ページ
 MAX_LEN = 60               # 長いコメントは、意図が読み取れないので返さない
 
 REPLIES = {
@@ -122,7 +124,9 @@ def fetch_meta(platform, media_id, tok, http=requests):
         r = http.get(f"{G}/{media_id}/comments", params={"fields": "id,message,from,created_time", "filter": "toplevel", "limit": 50, "access_token": tok}).json()
         key = "message"
     if "error" in r: raise PermissionError(str(r["error"].get("message", ""))[:120])
-    return [{"platform": platform, "id": c["id"], "text": c.get(key, ""), "media": media_id, "own": False} for c in r.get("data", [])]
+    # 自分たちのコメントには返さない（Instagram は投稿者名、Facebook はページの ID で見分ける）
+    own = lambda c: (c.get("username") == OWN_IG_NAME) if platform == "ig" else (str((c.get("from") or {}).get("id", "")) == OWN_FB_PAGE_ID)
+    return [{"platform": platform, "id": c["id"], "text": c.get(key, ""), "media": media_id, "own": own(c)} for c in r.get("data", [])]
 
 
 def reply_meta(platform, cid, text, tok, http=requests):
