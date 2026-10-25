@@ -3,7 +3,8 @@
 <style>html,body{margin:0;background:#F4ECE0;width:1080px;height:1920px;overflow:hidden;font-family:'Noto Sans CJK JP','Noto Sans JP',sans-serif}
 #stage{position:absolute;left:0;top:0;width:1080px;height:1920px;overflow:hidden}
 svg{position:absolute;left:0;top:0;overflow:visible}
-#dim{position:absolute;left:0;top:0;width:1080px;height:1920px;background:#0B1830;opacity:0;pointer-events:none}
+/* カメラの寄り・パンで world が動いても、画面の端までかかるよう大きめに（左端だけ暗くならない不具合の修正・依頼 #90） */
+#dim{position:absolute;left:-600px;top:-600px;width:2280px;height:3120px;background:#0B1830;opacity:0;pointer-events:none}
 #end{position:absolute;left:0;top:0;width:1080px;height:1920px;background:#F4ECE0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:26px;color:#3B2E22;opacity:0}
 #end .t{font-size:104px;font-weight:900;letter-spacing:6px}
 #end .s{font-size:40px;color:#7A6550;font-weight:700;letter-spacing:6px}
