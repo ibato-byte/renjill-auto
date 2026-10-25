@@ -99,4 +99,5 @@ jobs:
           sum="再活用の候補・コメントへの返信（最初は候補の記録）・毎週のまとめ動画"
           [ -f dist/compile_summary.txt ] && sum="$sum。$(cat dist/compile_summary.txt)"
           bash "$RUNNER_TEMP/hub/scripts/gha.sh" report renjill-growth "$JOB_STATUS" "$PAUSED" "$sum" \
+            --does "毎日、フォロワーを増やすための追加の投稿・確認を行う（レンとジル）" \
             --next-run-at "$(bash "$RUNNER_TEMP/hub/scripts/gha.sh" next-daily 03:40 09:40 15:40 20:30 21:40)"

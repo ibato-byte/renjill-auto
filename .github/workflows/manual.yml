@@ -87,4 +87,5 @@ jobs:
           extra=()
           [ -f dist/manual_hub_args ] && mapfile -d '' extra < dist/manual_hub_args
           bash "$RUNNER_TEMP/hub/scripts/gha.sh" report renjill-manual "$JOB_STATUS" "$PAUSED" "Business Suite に予約する素材と manifest.json を作った（成果物 ${{ steps.name.outputs.name }}）" \
+            --does "毎週月曜に、Business Suite で予約するための素材と一覧（manifest.json）を作る" --outcome done \
             --next-run-at "$(date -u -d "next monday 00:30" +%Y-%m-%dT%H:%M:00Z)" "${extra[@]}"
