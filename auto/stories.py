@@ -16,7 +16,9 @@ NAMES = {"ig_story": "Instagram ストーリーズ", "fb_story": "Facebook ス�
 IG_QUOTA_MARGIN = 5          # 24 時間の上限まで、これだけ余裕がなければ出さない（リール・ストーリーズを優先）
 CAROUSEL_PER_MONTH = 2
 END_CARD_SEC = 2.5  # 最後の一言は2秒以上（依頼 #51）
-DEFAULT_POLL = "どっち派？コメントで"
+DEFAULT_POLL = "あなたの職場にもいる？"  # 選択肢のない「どっち派？」は意味が通じないので、答えやすい問いかけにする
+DEFAULT_POLL_EN = "Is there one at your office?"
+CTA_EN = "FULL EPISODE ON REELS"
 
 
 class StorySkip(Exception):
@@ -76,13 +78,16 @@ def build_story_video(p, loop_path, out_path):
     start, dur = highlight_window(p, total)
     s = p.get("story") if isinstance(p.get("story"), dict) else {}
     poll = s.get("poll", DEFAULT_POLL)
+    poll_en = s.get("poll_en", "" if "poll" in s else DEFAULT_POLL_EN)
     font = _font()
     if not font: raise StorySkip("日本語フォントがなく、エンドカードを作れない")
     tmp = pathlib.Path(tempfile.mkdtemp())
     (tmp / "a.txt").write_text("続きはリールで", encoding="utf-8")
     (tmp / "b.txt").write_text(poll, encoding="utf-8")
+    (tmp / "c.txt").write_text(poll_en or " ", encoding="utf-8")
+    (tmp / "d.txt").write_text(CTA_EN, encoding="utf-8")
     dt_ = lambda f, size, y, color: f"drawtext=fontfile={font}:textfile={tmp / f}:fontsize={size}:fontcolor={color}:x=(w-text_w)/2:y={y}"
-    card = f"color=c=0xFFF7E8:s=1080x1920:d={END_CARD_SEC}:r=30,{dt_('a.txt', 120, 720, '0x5A3A1E')},{dt_('b.txt', 72, 960, '0x355F86')},format=yuv420p"
+    card = f"color=c=0xFFF7E8:s=1080x1920:d={END_CARD_SEC}:r=30,{dt_('d.txt', 58, 600, '0x9A7F5A')},{dt_('a.txt', 120, 690, '0x5A3A1E')},{dt_('b.txt', 72, 960, '0x355F86')},{dt_('c.txt', 50, 1060, '0x6E7F99')},format=yuv420p"
     audio = _has_audio(loop_path)
     fc = ("[0:v]scale=1080:1920:force_original_aspect_ratio=decrease,pad=1080:1920:(ow-iw)/2:(oh-ih)/2,setsar=1,fps=30,format=yuv420p[v0];"
           "[1:v]setsar=1[v1];")
