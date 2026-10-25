@@ -9,6 +9,8 @@
 `python auto/daily_review.py [--date YYYY-MM-DD]`"""
 import csv, datetime as dt, io, json, pathlib, statistics, sys
 
+import novelty
+
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 JST = dt.timezone(dt.timedelta(hours=9))
 EXP_HEADER = ["投稿日", "ep", "変数", "標準", "試す値", "理由", "状態", "結果", "採用"]
@@ -212,6 +214,11 @@ def main(argv):
     last_date = max((dt.date.fromisoformat(p["date"]) for p in posts), default=today)
     left = (last_date - today).days
     if left < SCHEDULE_MIN_DAYS: problems.append({"kind": "schedule-short", "text": f"予定表があと {left} 日分しかない（最後は {last_date}）", "fix": "週次PDCAのネタ作りで埋める"})
+    # 「新作」の数え方（Hub 依頼 #101）：出したことのある話は、作り直し版でも新作に数えない。描画が始まる3日前より先の回だけ直せるので、そこを点検する
+    nv = novelty.judge(posts, today)
+    if nv["ratio"] is not None and nv["ratio"] < 0.5: problems.append({"kind": "novelty-low", "text": f'直近14日の新作が {nv["new"]}/{nv["total"]} 本しかない', "fix": "週次PDCAのネタ作りで新作に差し替える"})
+    fixable = [v for v in nv["violations"] if (dt.date.fromisoformat(v["date"]) - today).days >= 4]
+    if fixable: problems.append({"kind": "remake-rule", "text": "作り直しのきまり（前回から4週間以上・理由の記録）に合わない回：" + "、".join(v["text"] for v in fixable[:3]), "fix": "新ネタに差し替える（間に合わなければ冒頭とオチを大きく変え、理由 remake.why を書く）"})
 
     # 記録（毎日1行。数字が変わらない日は同じ内容が並ぶだけ）
     log_f = ROOT / "content" / "daily_log.csv"
