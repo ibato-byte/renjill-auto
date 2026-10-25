@@ -5,8 +5,8 @@
  "baseline": 0.16,
  "need": 0.208,
  "recent": [],
- "schedule_days_ahead": 12,
+ "schedule_days_ahead": 11,
  "schedule_target_days": 14,
  "same_day_twice": [],
- "date": "2026-10-25"
+ "date": "2026-10-26"
 }

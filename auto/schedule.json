@@ -144,11 +144,17 @@
       "title": "会議の5分前",
       "caption_ja": "会議の5分前。課長はまだ夢の中。",
       "caption_en": "Meeting in 5 minutes. The boss is still dreaming.",
-      "tag_set": "B",
+      "tag_set": "A",
       "thumb": {
         "t": 6.0,
         "cam": "2.0,540,900",
         "hook": "5 MIN LEFT/会議の5分前"
+      },
+      "experiment": {
+        "var": "tag_set",
+        "std": "B",
+        "value": "A",
+        "why": "ハッシュタグの組み合わせを変えて、見つかり方を比べる"
       }
     },
     {
