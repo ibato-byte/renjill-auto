@@ -70,7 +70,7 @@ jobs:
           IN_SLOT: ${{ github.event.inputs.slot }}
           IN_DATE: ${{ github.event.inputs.date }}
         run: |
-          rm -f dist/post_hub_args  # 前の実行の結果を Hub に出さない
+          rm -f dist/post_hub_args dist/post_hub_summary  # 前の実行の結果を Hub に出さない
           # 出し直し（date を指定）：その日の回のうち、まだ出ていない SNS だけを出す（posted.json で二重投稿を防ぐ）
           if [ -n "$IN_DATE" ]; then python auto/post.py --date "$IN_DATE" "${IN_SLOT:-12:00}"; else python auto/post.py $IN_SLOT; fi
       - name: 公式ページの更新（AI を使わない。依頼 #38）
@@ -102,6 +102,9 @@ jobs:
           if [ "$JOB_STATUS" != success ] && [ "$PAUSED" != true ] && [ ${#extra[@]} -eq 0 ]; then
             extra=(--owner-action "途中で止まった（$(TZ=Asia/Tokyo date +%m/%d) の実行）。Hub の「前回の結果」のリンクから実行のログを開き、赤い行を Claude に送って相談する")
           fi
-          bash "$RUNNER_TEMP/hub/scripts/gha.sh" report renjill-post "$JOB_STATUS" "$PAUSED" "予定の回を自動で投稿（Instagram・Facebook は Meta Graph API。投稿済み・Business Suite で予約済みは auto/posted.json で飛ばす）" \
+          # その回に実際にやったこと（投稿した／予定なし）を1行で。post.py が書く。なければ中立の文
+          summary="今回の結果のファイルがない（途中で止まったか、動く前に終わった）"
+          [ -f dist/post_hub_summary ] && summary="$(cat dist/post_hub_summary)"
+          bash "$RUNNER_TEMP/hub/scripts/gha.sh" report renjill-post "$JOB_STATUS" "$PAUSED" "$summary" \
             --next-run-at "$(bash "$RUNNER_TEMP/hub/scripts/gha.sh" next-daily 03:00 09:00 10:00)" \
             "${extra[@]}"
