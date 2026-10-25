@@ -41,6 +41,7 @@ jobs:
         if: steps.hub.outputs.paused != 'true'
         env:
           IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          THREADS_ACCESS_TOKEN: ${{ secrets.THREADS_ACCESS_TOKEN }}
         run: python auto/insights.py || true
       - name: その日の話題の確認（Claude を使わない。使える話題がある日だけ候補を積む。依頼 #38）
         if: steps.hub.outputs.paused != 'true'

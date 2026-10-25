@@ -89,9 +89,8 @@ class CommentsTest(unittest.TestCase):
         self.assertEqual(comments.plan(cs, {"ig:1": {"platform": "ig"}}, now, "live"), [])
 
     def test_draft_does_not_post(self):
-        self.assertEqual(comments.load_mode(ROOT / "nonexistent.json"), "draft")  # ファイルがなければ返さない
-        # 2026-10-25 にオーナーの指示（依頼 #99・#100）で live に切り替えた。値が正しい形であることだけ確かめる
-        self.assertEqual(comments.load_mode(ROOT / "auto" / "reply_mode.json"), "live")
+        self.assertEqual(comments.load_mode(ROOT / "nonexistent.json"), "draft")
+        self.assertEqual(comments.load_mode(ROOT / "auto" / "reply_mode.json"), "live")  # 2026-10-25 にオーナー指示（Hub 依頼 #99）で実際の返信へ。ファイルがないときは draft のまま
 
 
 

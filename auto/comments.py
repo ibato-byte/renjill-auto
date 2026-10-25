@@ -160,6 +160,19 @@ def fetch_yt(yt, video_id):
     return out
 
 
+def recent_log(now, state_f=AUTO / "replies.json", limit=12):
+    """今日の対応（返した・非表示にした）を Hub に残す短い一覧。コメント本文は80字まで"""
+    try: state = json.loads(pathlib.Path(state_f).read_text())
+    except FileNotFoundError: return ""
+    today = now.strftime("%Y-%m-%d")
+    lines = []
+    for v in state.values():
+        if v.get("at", "")[:10] != today or v.get("mode") != "live": continue
+        if v.get("reply"): lines.append(f'- 返信（{v["platform"]}）「{v.get("text", "")}」→「{v["reply"]}」')
+        elif v.get("hide"): lines.append(f'- 非表示（{v["platform"]}・{v["hide"]}）')
+    return "## 今日のコメント対応\n" + "\n".join(lines[-limit:]) if lines else ""
+
+
 def run(now=None, dry_run=False, log=print, http=requests):
     now = now or dt.datetime.now(JST)
     mode = load_mode()
@@ -228,3 +241,4 @@ if __name__ == "__main__":
     print("[comments]", json.dumps(s, ensure_ascii=False))
     pathlib.Path(ROOT / "dist").mkdir(exist_ok=True)
     (ROOT / "dist" / "comments_summary.json").write_text(json.dumps(s, ensure_ascii=False))
+    (ROOT / "dist" / "comments_log.md").write_text(recent_log(dt.datetime.now(JST)))

@@ -127,13 +127,30 @@ def post_youtube(p, d, path):
     return res["id"]
 
 # ---------- TikTok ----------
+class TikTokManual(Exception):
+    """TikTok の API で出せない（トークンなし・未審査のアプリは非公開でしか出せない）。オーナーの「あなたの番」に1件で出す（依頼 #99）"""
+
+OWNER_TASKS = []  # この実行で Hub の「あなたの番」に出すもの（write_hub_args が --owner-task にする）
+
+def tiktok_task(p, d, video_url):
+    cap = caption(p, d)
+    steps = ("TikTok の投稿画面（https://www.tiktok.com/tiktokstudio/upload）で、①動画のファイルを選ぶ（下の動画リンクを開いて保存したもの）"
+             "②説明欄に次の文をそのまま貼る ③「投稿」を押す。\n\n--- 説明欄に貼る文 ---\n" + cap)
+    links = [{"label": "TikTok の投稿画面を開く", "url": "https://www.tiktok.com/tiktokstudio/upload"}]
+    if video_url: links.insert(0, {"label": "動画をダウンロード", "url": video_url})
+    return {"id": f'tiktok-{p["ep"]}', "kind": "browser", "text": f'TikTok に「{p["title"]}」を投稿する（約2分。動画と説明文は用意済み）',
+            "due": p["date"], "links": links, "copy": steps, "key": "tiktok-post"}
+
 def post_tiktok(p, d, path):
+    if not os.environ.get("TT_ACCESS_TOKEN"): raise TikTokManual("TT_ACCESS_TOKEN なし")
     tok = os.environ["TT_ACCESS_TOKEN"]; H = {"Authorization": f"Bearer {tok}", "Content-Type": "application/json; charset=UTF-8"}
     size = path.stat().st_size
     init = requests.post("https://open.tiktokapis.com/v2/post/publish/video/init/", headers=H, json={
         "post_info": {"title": caption(p, d), "privacy_level": "PUBLIC_TO_EVERYONE", "disable_duet": False, "disable_comment": False, "disable_stitch": False, "video_cover_timestamp_ms": int(float((p.get("thumb") or {}).get("t", 1.0)) * 1000)},
         "source_info": {"source": "FILE_UPLOAD", "video_size": size, "chunk_size": size, "total_chunk_count": 1}}).json()
-    if init.get("error", {}).get("code") != "ok": raise RuntimeError(init)
+    if init.get("error", {}).get("code") != "ok":
+        if any(w in json.dumps(init) for w in ("unaudited", "scope_not_authorized", "access_token_invalid", "url_ownership")): raise TikTokManual(init.get("error", {}).get("code", ""))
+        raise RuntimeError(init)
     up = init["data"]["upload_url"]
     r = requests.put(up, data=path.read_bytes(), headers={"Content-Type": "video/mp4", "Content-Range": f"bytes 0-{size-1}/{size}"})
     r.raise_for_status()
@@ -210,8 +227,7 @@ def dry_run(targets, d, posted=None):
                 print("    ig: caption:\n      " + caption(p, d).replace("\n", "\n      "))
             elif pl == "threads": print("    threads: VIDEO（Instagram と同じ公開 URL）" + ("" if threads.threads_ready() else "  ※権限・Secrets 未設定のため本番では見送り"))
             elif pl == "yt": print(f'    yt: title: {p["caption_en"]} | Ren & Jill「{p["title"]}」')
-            elif pl == "tt":
-                print("    tt: FILE_UPLOAD", f'{p["ep"]}_loop.mp4') if os.environ.get("TT_ACCESS_TOKEN") else print("    tt: API の許可なし → 動画の公開 URL と投稿文を「あなたの番」に1件出す（手動投稿）")
+            elif pl == "tt": print("    tt: FILE_UPLOAD", f'{p["ep"]}_loop.mp4')
             elif pl in stories.EXTRAS: print(f"    {pl}: {stories.NAMES[pl]}（本編のあとに出す。失敗しても本編は止めない）")
     log("[DRY-RUN] API は呼んでいません")
     return 0
@@ -234,7 +250,7 @@ def next_api_post(sch, posted, now, detail=False):
 
 HUB_DOES = "毎日 12:00・18:00・19:00 に、予定の動画を Instagram・Facebook などに自動で投稿する（レンとジル）"
 
-def write_hub_args(fb_result, results=None, actions=None, next_api=None, keep_actions=False, summary=None, outcome=None, count=None, next_action=None, tasks=None):
+def write_hub_args(fb_result, results=None, actions=None, next_api=None, keep_actions=False, summary=None, outcome=None, count=None, next_action=None):
     """Automation Hub の report に渡す追加の引数（NUL 区切り。post.yml が読む）。
     results：{"回": "タイトル（日付 時刻）", "Instagram": "投稿OK", …}（投稿ごとの結果。KPI は8件まで）
     actions：オーナーのやること（失敗した投稿の出し直しなど）。なければ「やること」を空にする（keep_actions なら前のまま）
@@ -255,8 +271,8 @@ def write_hub_args(fb_result, results=None, actions=None, next_api=None, keep_ac
     acts = list(actions or [])
     if fb_result and fb_result.get("action"): acts.append(fb_result["action"])
     for a in acts: args += ["--owner-action", a[:300]]
-    for t in tasks or []: args += ["--owner-task", json.dumps(t, ensure_ascii=False)]
-    if not acts and not tasks and not keep_actions: args += ["--owner-action", "none"]
+    for t in OWNER_TASKS: args += ["--owner-task", json.dumps(t, ensure_ascii=False)]
+    if not acts and not keep_actions and not OWNER_TASKS: args += ["--owner-action", "none"]
     (DIST / "post_hub_args").write_bytes(b"\0".join(s.encode() for s in args) + b"\0")
 
 def next_hub_info(sch, posted, now):
@@ -272,22 +288,6 @@ def idle_summary(sch, now, nxt):
     why = "予定の回は投稿済み（または手動で予約済み）のため何もしなかった" if near else "予定なし"
     nxt_s = f"次の投稿は {nxt[0]}『{nxt[1]}』" if nxt else "次の投稿の予定はまだ登録されていない"
     return f'{now.strftime("%H:%M")} は{why}。{nxt_s}'
-
-TT_TODO_DAYS = 3  # TikTok の手動投稿の「あなたの番」を出し続ける日数（出し忘れ防止。済ませたら Hub の「完了」で消える）
-TT_UPLOAD_URL = "https://www.tiktok.com/upload"
-
-def tiktok_tasks(sch, posted, now):
-    """TikTok に API で出せない回（TT_ACCESS_TOKEN なし）の「あなたの番」。1回＝1動作（動画を保存→投稿画面で貼る）。
-    posted.json に tt_todo（出した日）と tt_video（動画の公開 URL）がある回だけ、TT_TODO_DAYS 日間出し続ける"""
-    d, out = sch["defaults"], []
-    for p in sch["posts"]:
-        rec = posted.get(f'{p["date"]}_{p["ep"]}') or {}
-        if rec.get("tt") != "manual" or not rec.get("tt_todo") or not rec.get("tt_video"): continue
-        if (now.date() - dt.date.fromisoformat(rec["tt_todo"])).days > TT_TODO_DAYS: continue
-        steps = f'1) 動画を保存する：{rec["tt_video"]}\n2) TikTok の投稿画面（{TT_UPLOAD_URL}）で動画を選び、下の文を貼って投稿する\n\n{caption(p, d)}'
-        out.append({"id": f'tiktok-{p["ep"]}', "kind": "manual", "text": f'TikTok に「{p["title"]}」を投稿する（約2分）',
-                    "links": [{"label": "動画を保存する", "url": rec["tt_video"]}, {"label": "TikTok の投稿画面を開く", "url": TT_UPLOAD_URL}], "copy": steps})
-    return out
 
 def thumb_path_ok(th):
     return bool(th.get("path")) and pathlib.Path(th["path"]).exists()
@@ -391,13 +391,6 @@ def main(argv=None):
                     fb_access = fb.diagnose()  # ページトークンと Instagram の ID（読み取りのみ）
                     for r in fb_access["reasons"]: log("Meta:", fb.scrub(r))
                 if pl == "yt": rec["yt"] = post_youtube(p, d, yt_path)
-                elif pl == "tt" and not os.environ.get("TT_ACCESS_TOKEN"):
-                    # TikTok の API の許可がまだ。動画の公開 URL を用意して、手動投稿を「あなたの番」に1件出す（投稿済みの扱いにして二重に出さない）
-                    rec["tt"], rec["tt_todo"] = "manual", now_.strftime("%Y-%m-%d")
-                    try: rec["tt_video"] = media_publish(loop_path, f"{dt.datetime.now(JST).strftime('%Y%m%d')}_{p['ep']}.mp4")
-                    except Exception as e: log("TikTok 用の動画の置き場に失敗", fb.scrub(repr(e))[:200]); rec.pop("tt", None); rec.pop("tt_todo", None); raise
-                    results["TikTok"] = "手動投稿をお願い（あなたの番）"
-                    log("TikTok は API の許可がないので手動投稿のタスクを出す", key); continue
                 elif pl == "tt": rec["tt"] = post_tiktok(p, d, loop_path)
                 elif pl == "threads":
                     if not threads.threads_ready(): raise threads.GrowthSkip("Threads の権限・Secrets が未設定で見送り")  # 動画を置く前に確かめる
@@ -421,6 +414,13 @@ def main(argv=None):
                 log("OK", key, pl, rec[pl])
             except threads.GrowthSkip as e:  # 今回は出さないだけ（失敗にしない。posted.json にも書かない）
                 log("SKIP", key, pl, fb.scrub(e)); results[mode.NAMES.get(pl, pl)] = f"見送り（{str(fb.scrub(e))[:40]}）"
+            except TikTokManual as e:  # API で出せない回は、動画と説明文つきの「あなたの番」にする（毎回の手動投稿を1クリックに近づける）
+                log("TikTok は手動:", e)
+                try: url = media_publish(loop_path, f"tt_{p['date'].replace('-', '')}_{p['ep']}.mp4")
+                except Exception as e2: url = None; log("動画の置き場に失敗", repr(e2)[:120])
+                OWNER_TASKS.append(tiktok_task(p, d, url))
+                rec["tt"] = "manual"  # 同じ回の二重の依頼を防ぐ
+                results["TikTok"] = "手動（あなたの番に出した）"
             except fb.FbSkip as e:
                 why = fb.scrub(e)
                 log("SKIP", key, pl, why)
@@ -441,7 +441,7 @@ def main(argv=None):
     if did: summary = "・".join(f'『{t}』' for t in did) + " を " + "・".join(dict.fromkeys(x for v in did.values() for x in v)) + " に投稿"
     else: summary = f'{now_.strftime("%H:%M")} は投稿できなかった（見送りまたは失敗。理由は結果の欄）'
     if nxt: summary += f"。次の投稿は {nxt}"
-    write_hub_args(fb_result, results, actions, nxt, summary=summary, outcome="done" if did else "idle", count=len(did), next_action=nxa, tasks=tiktok_tasks(sch, posted, now_))
+    write_hub_args(fb_result, results, actions, nxt, summary=summary, outcome="done" if did else "idle", count=len(did), next_action=nxa)
     if failed: log("失敗:", failed); return 1
     return 0
 
