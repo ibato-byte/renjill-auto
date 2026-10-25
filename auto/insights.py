@@ -74,7 +74,8 @@ def reel_rows(today, posted, tok, http, durations):
         res = one_by_one(http, f"{fb.G}/{mid}/insights", REEL_METRICS, tok)
         for m, (val, note) in res.items(): rows.append([today, "reel", key, m, val, note])
         ep = key.split("_", 1)[1]
-        rows.append([today, "reel", key, "avg_watch_ratio", completion_proxy(res["ig_reels_avg_watch_time"][0], durations.get(ep)), "平均視聴時間÷動画の長さ（完走率の代わり）"])
+        # len＝実際に出した動画の長さ（冒頭を速くした回は短い。依頼 #97）
+        rows.append([today, "reel", key, "avg_watch_ratio", completion_proxy(res["ig_reels_avg_watch_time"][0], v.get("len") or durations.get(ep)), "平均視聴時間÷動画の長さ（完走率の代わり）"])
         rows.append([today, "reel", key, "view_3s_rate", "", NO_3SEC])
         for m in ("profile_visits", "follows"): rows.append([today, "reel", key, m, "", REEL_UNSUPPORTED])
     return rows

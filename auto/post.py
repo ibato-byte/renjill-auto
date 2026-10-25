@@ -80,6 +80,32 @@ def qa_gate(ep, yt, loop):
     if not rep["pass"]: log("QA NG", ep, rep["issues"]); return False
     log("QA OK", ep, "warns:", rep.get("warns")); return True
 
+def final_loop(p, loop):
+    """本編の最終版（冒頭の一言＋少し速く＋最後の一言）。作れなければ None（依頼 #97）"""
+    return growth.add_follow_line(loop, DIST / f'{p["ep"]}_loopf.mp4', hook=growth.hook_parts(p), speed=growth.TIGHTEN_SPEED)
+
+def opening_gate(p, loop):
+    """冒頭の検査（依頼 #97）：最初の0.5秒で動く・冒頭の文字が大きい・長さが基準内。基準に届かない回は投稿しない。
+    結果は dist/<ep>_opening.json に残す。作った最終版を返す"""
+    ep = p["ep"]; en, ja = growth.hook_parts(p); issues, warns = [], []
+    out = final_loop(p, loop)
+    rep = {"ep": ep, "pass": False, "issues": issues, "warns": warns}
+    if not out: issues.append("冒頭の一言・速度を入れた動画を作れなかった（日本語フォントや ffmpeg を確認）")
+    else:
+        h = growth._video_height(out); dur = growth.duration(out); mot = growth.opening_motion(out)
+        H = growth.hook_layout(en, ja, h)
+        rep.update({"hook": [en, ja], "en_ratio": H["en_ratio"], "opening_motion": round(mot, 2), "length_sec": round(dur, 2)})
+        if not en: issues.append("冒頭の英語の一言がない（schedule.json の thumb.hook）")
+        if H["en_ratio"] < growth.HOOK_MIN_RATIO: issues.append(f"冒頭の英語が小さい（画面の高さの{H['en_ratio']*100:.1f}%。{growth.HOOK_MIN_RATIO*100:.0f}%以上にする。言葉を短くする）")
+        if mot < growth.OPENING_MIN_MOTION: issues.append(f"最初の0.5秒の動きが少ない（{mot:.1f}。{growth.OPENING_MIN_MOTION}以上にする）")
+        if dur > growth.LENGTH_FAIL: issues.append(f"長すぎる（{dur:.1f}秒。{growth.LENGTH_FAIL:.0f}秒以下にする）")
+        elif dur > growth.LENGTH_WARN: warns.append(f"目標の12秒より長い（{dur:.1f}秒）")
+        rep["pass"] = not issues
+    (DIST / f"{ep}_opening.json").write_text(json.dumps(rep, ensure_ascii=False, indent=2))
+    if issues: log("冒頭の検査 NG", ep, issues)
+    else: log("冒頭の検査 OK", ep, rep.get("length_sec"), "秒 動き", rep.get("opening_motion"))
+    return out if not issues else None
+
 def tags(p, d):
     return d["tag_sets"][p.get("tag_set", "A")]
 
@@ -353,10 +379,18 @@ def main(argv=None):
             failed.append(f"{key}:QA"); results["QA"] = "不合格で見送り"
             actions.append(f'「{p["title"]}」（{p["date"]} {p["slot"]}）が投稿前の QA に不合格で、どの SNS にも出していない（理由は dist/{p["ep"]}_qa.json）。Claude に「{p["ep"]} の QA を直して出し直して」と伝える')
             continue
-        try:  # 最後に「フォローして続きを見てね」を入れた版（作れなければ元のまま）。ループの継ぎ目は壊さない
-            loop_path = growth.add_follow_line(loop_path, DIST / f'{p["ep"]}_loopf.mp4') or loop_path
-        except Exception as e: log("フォロー案内の追加に失敗（元の動画で続ける）", repr(e)[:200])
-        rec = posted.setdefault(key, {"tag_set": p.get("tag_set", "A"), "no": p["no"], "title": p["title"]})
+        try:  # 冒頭の一言＋少し速く＋最後に「フォローして続きを見てね」を入れた版。ループの継ぎ目は壊さない。検査に届かない回は出さない（依頼 #97）
+            fin = opening_gate(p, loop_path)
+        except Exception as e:
+            log("冒頭の検査で例外", repr(e)[:200]); fin = None
+        if not fin:
+            failed.append(f"{key}:冒頭"); results["QA"] = "冒頭の検査で見送り"
+            actions.append(f'「{p["title"]}」（{p["date"]} {p["slot"]}）が冒頭の検査（最初の1秒の動き・文字の大きさ・長さ）に不合格で、どの SNS にも出していない（理由は dist/{p["ep"]}_opening.json）。Claude に「{p["ep"]} の冒頭を直して出し直して」と伝える')
+            continue
+        loop_path = fin
+        rec = posted.setdefault(key, {"tag_set": p.get("tag_set", "A"), "no": p["no"], "title": p["title"], "opening": f"hook+x{growth.TIGHTEN_SPEED}"})
+        try: rec["len"] = round(growth.duration(loop_path), 2)  # 実際に出した動画の長さ（平均視聴時間÷長さの計算に使う）
+        except Exception: pass
         th = {}
         def thumb():  # Instagram・Facebook で同じサムネ（チェックに通らなければ両方とも出さない）
             if "path" not in th: th["path"] = thumbnail(p)
