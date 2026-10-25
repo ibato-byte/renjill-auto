@@ -40,7 +40,7 @@ def main(ep, yt, loop):
         if (v["width"], v["height"]) != (1080, 1920): issues.append(f"{name}: 解像度 {v['width']}x{v['height']}")
         if abs(eval(v["r_frame_rate"]) - 24) > 0.1: issues.append(f"{name}: fps {v['r_frame_rate']}")
         if not a: issues.append(f"{name}: 音声トラックなし"); continue
-        if not (14 <= d <= 32): issues.append(f"{name}: 尺 {d:.1f}s")
+        if not (8 <= d <= 20): issues.append(f"{name}: 尺 {d:.1f}s")
         peak, rms, longest = audio_stats(path)
         if peak > 0.99: issues.append(f"{name}: 音がクリップ（peak {peak:.2f}）")
         if rms < 0.01: issues.append(f"{name}: ほぼ無音（rms {rms:.3f}）")

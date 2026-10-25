@@ -4,7 +4,6 @@ content/insights.csv に「1指標1行」で足す（計測日,対象,ref,指標
 - reel   ：Instagram リール1本ごと（reach・保存・シェア・平均視聴時間・合計視聴時間・プロフィール訪問・フォロー）。完走率の代わりに「平均視聴時間÷動画の長さ」も出す
 - account：Instagram アカウントの1日分（リーチ・プロフィール訪問・フォロー増減・エンゲージしたアカウント）
 - story  ：24時間以内のストーリーズ（リーチ・返信・タップ前/後・離脱・リンク移動・シェア）
-- threads：Threads の投稿ごと（再生・いいね・返信・リポスト・引用・シェア）
 - fb_reel：Facebook リール（再生・反応の内訳・コメント・シェア）
 - 3秒視聴率：Instagram の API には出ない（アプリの画面にだけ出る）。取れない理由として毎回メモに書き、Hub の資料にも載せる
 `python auto/insights.py`（metrics.yml から毎日。失敗しても止めない）"""
@@ -75,8 +74,7 @@ def reel_rows(today, posted, tok, http, durations):
         res = one_by_one(http, f"{fb.G}/{mid}/insights", REEL_METRICS, tok)
         for m, (val, note) in res.items(): rows.append([today, "reel", key, m, val, note])
         ep = key.split("_", 1)[1]
-        # len＝実際に出した動画の長さ（冒頭を速くした回は短い。依頼 #97）
-        rows.append([today, "reel", key, "avg_watch_ratio", completion_proxy(res["ig_reels_avg_watch_time"][0], v.get("len") or durations.get(ep)), "平均視聴時間÷動画の長さ（完走率の代わり）"])
+        rows.append([today, "reel", key, "avg_watch_ratio", completion_proxy(res["ig_reels_avg_watch_time"][0], durations.get(ep)), "平均視聴時間÷動画の長さ（完走率の代わり）"])
         rows.append([today, "reel", key, "view_3s_rate", "", NO_3SEC])
         for m in ("profile_visits", "follows"): rows.append([today, "reel", key, m, "", REEL_UNSUPPORTED])
     return rows
@@ -145,32 +143,21 @@ def fb_rows(today, posted, token, http):
     return rows
 
 
-THREADS_G = "https://graph.threads.net/v1.0"
-THREADS_METRICS = ("views", "likes", "replies", "reposts", "quotes", "shares")
-
-
-def threads_rows(today, posted, tok, http):
-    """Threads の投稿ごとの数字（Hub 依頼 #99）。取れないときは理由をメモに残す"""
-    rows = []
-    for key, v in sorted(posted.items()):
-        mid = v.get("threads")
-        if not mid or mid in meta_stats.NOT_ID: continue
-        j = _get(http, f"{THREADS_G}/{mid}/insights", {"metric": ",".join(THREADS_METRICS), "access_token": tok})
-        if j.get("error"):
-            rows += [[today, "threads", key, m, "", _err(j)] for m in THREADS_METRICS]
-            continue
-        got = {d["name"]: (d.get("values") or [{}])[0].get("value", "") for d in j.get("data", [])}
-        rows += [[today, "threads", key, m, got.get(m, ""), "" if m in got else "値が返らなかった"] for m in THREADS_METRICS]
-    return rows
-
-
 def durations_of():
-    """ep → 動画の長さ（秒）。rig/ep/<ep>.js の dur から"""
+    """ep → 画面に出る動画の長さ（秒）。rig/ep/<ep>.js の dur（台本の長さ）から、rig/pace.js の「頭を削る秒数 start・速さ speed」を引き直す
+    （(dur − start) ÷ speed。これを忘れると完走率の代わりの数字が実際より低く出る。依頼 #97）"""
     import re
+    pace = {}
+    pf = ROOT / "rig" / "pace.js"
+    if pf.exists():
+        for m in re.finditer(r"(\w+):\s*\{\s*start:\s*([0-9.]+),\s*speed:\s*([0-9.]+)", pf.read_text(encoding="utf-8")):
+            pace[m.group(1)] = (float(m.group(2)), float(m.group(3)))
     out = {}
     for f in (ROOT / "rig" / "ep").glob("*.js"):
         m = re.search(r"\bdur:\s*([0-9.]+)", f.read_text(encoding="utf-8"))
-        if m: out[f.stem] = float(m.group(1))
+        if m:
+            start, speed = pace.get(f.stem, (0.0, 1.0))
+            out[f.stem] = round((float(m.group(1)) - start) / speed, 2)
     return out
 
 
@@ -213,8 +200,6 @@ def main():
         rows += account_rows(today, uid, tok, requests)
         rows += story_rows(today, uid, tok, requests)
     if meta.get("token"): rows += fb_rows(today, posted, meta["token"], requests)
-    ttok = os.environ.get("THREADS_ACCESS_TOKEN")
-    if ttok: rows += threads_rows(today, posted, ttok, requests)
     n = append(ROOT / "content" / "insights.csv", rows, today)
     g = gaps(rows)
     (ROOT / "dist").mkdir(exist_ok=True)

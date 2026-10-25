@@ -17,15 +17,37 @@ const STEP = 0.125, W = 1080, H = 1920;
   p.on('pageerror', e => errors.push('pageerror: ' + e.message));
   p.on('console', m => { if (m.type() === 'error') errors.push('console: ' + m.text()); });
   await p.goto('file://' + __dirname + '/ep.html?ep=' + ep); await p.waitForTimeout(600);
-  const dur = await p.evaluate(() => EP.dur);
+  const dur = await p.evaluate(() => outDur());   // 画面に出る長さ（頭を削り、速くしたあと。依頼 #97）
   const issues = [], warns = [];
-  if (!(dur >= 15 && dur <= 32)) issues.push(`尺が範囲外: ${dur}s（15〜32s）`);
+  if (!(dur >= 8 && dur <= 20)) issues.push(`尺が範囲外: ${dur.toFixed(1)}s（8〜20s。目安は7〜12s、最後まで見られる長さに）`);
+  else if (dur > 17) warns.push(`尺が長め: ${dur.toFixed(1)}s（目安は7〜12s）`);
+  // ---- つかみの検査（依頼 #97）：①最初の1秒で絵が動く ②冒頭の英語の文字が十分大きく、安全域（上下の隠れる範囲の内側）に収まる
+  {
+    const sig = async o => { await p.evaluate(t => window.setOut(t), o); return p.evaluate(() => {
+      const m = getComputedStyle(document.getElementById('world')).transform; const v = m && m !== 'none' ? m.split('(')[1].split(')')[0].split(',').map(Number) : [1, 0, 0, 1, 0, 0];
+      const bb = id => { const els = [...document.querySelectorAll('#' + id + ' path, #' + id + ' ellipse, #' + id + ' circle, #' + id + ' rect')].filter(e => e.getBoundingClientRect().width > 1); if (!els.length) return [0, 0, 0, 0]; const rs = els.map(e => e.getBoundingClientRect()); return [Math.min(...rs.map(r => r.left)), Math.min(...rs.map(r => r.top)), Math.max(...rs.map(r => r.right)), Math.max(...rs.map(r => r.bottom))]; };
+      return { z: v[0], tx: v[4], ty: v[5], ren: bb('ren'), jil: bb('jil'), fx: document.querySelectorAll('#fx > *').length }; }); };
+    const diff = (a, b) => Math.max(Math.abs(a.z - b.z) * 400, Math.abs(a.tx - b.tx), Math.abs(a.ty - b.ty), ...['ren', 'jil'].flatMap(k => a[k].map((x, i) => Math.abs(x - b[k][i]))), Math.abs(a.fx - b.fx) * 40);
+    const s0 = await sig(0), s5 = await sig(0.5), s10 = await sig(1.0);
+    const m5 = diff(s0, s5), m10 = diff(s0, s10);
+    if (m5 < 6) issues.push(`最初の0.5秒で絵が動いていない（動き ${m5.toFixed(1)}px。0.5秒以内に動きを出す）`);
+    if (m10 < 30) issues.push(`最初の1秒で絵がほとんど動かない（動き ${m10.toFixed(0)}px）`);
+    const hk = await p.evaluate(() => { const h = document.getElementById('hook'); if (!window.PACE.hook) return null; window.setOut(0.5);
+      const sp = h.firstChild, sm = h.querySelector('small'); const rg = document.createRange(); rg.selectNodeContents(sp); const r = rg.getBoundingClientRect(), all = h.getBoundingClientRect(), sr = sm && sm.getBoundingClientRect();
+      return { op: parseFloat(getComputedStyle(h).opacity), en: parseFloat(sp.style.fontSize), w: r.width, top: all.top, bottom: all.bottom, ja: sm ? parseFloat(sm.style.fontSize) : 0 }; });
+    if (!hk) issues.push('冒頭の英語の一言がない（pace.js に hook を入れる）');
+    else {
+      if (hk.op < 0.9) issues.push(`冒頭の一言が0.5秒の時点で見えていない（opacity ${hk.op.toFixed(2)}）`);
+      if (hk.en < 90 || hk.w < 1080 * 0.6) issues.push(`冒頭の英語が小さい（${Math.round(hk.en)}px・幅${Math.round(hk.w)}px。90px以上・幅の60%以上に）`);
+      if (hk.top < 280 || hk.bottom > 1640 || hk.w > 1040) issues.push(`冒頭の一言が安全域をはみ出す（上${Math.round(hk.top)}・下${Math.round(hk.bottom)}・幅${Math.round(hk.w)}）`);
+    }
+  }
   let prevHash = null, stillSince = 0, noFace = 0, prevFaces = {}, prevTx = 0, prevTy = 0, prevZ = 1; const occl = {}, prevD = {};
   // 瞬間カット禁止（24fpsで確認）：1フレームで倍率が35%以上、または中心が画面幅の30%以上跳んだらNG。0.4秒のカメラ移動は通る
   {
     let pz = null, ptx = 0, pty = 0;
     for (let i = 0; i < Math.round(dur * 24); i++) {
-      const tt = i / 24; await p.evaluate(t => window.setFrame(t), tt);
+      const tt = i / 24; await p.evaluate(t => window.setOut(t), tt);
       const c = await p.evaluate(() => { const m = getComputedStyle(document.getElementById('world')).transform; const v = m && m !== 'none' ? m.split('(')[1].split(')')[0].split(',').map(Number) : [1, 0, 0, 1, 0, 0]; return { z: v[0], tx: v[4], ty: v[5], end: parseFloat(getComputedStyle(document.getElementById('end')).opacity) }; });
       if (pz !== null && c.end < 0.5 && (Math.abs(c.z - pz) / pz > 0.35 || Math.abs(c.tx - ptx) > 0.3 * W || Math.abs(c.ty - pty) > 0.3 * H)) issues.push(`画面が急に切り替わる t=${tt.toFixed(2)}（z ${pz.toFixed(2)}→${c.z.toFixed(2)}）`);
       pz = c.z; ptx = c.tx; pty = c.ty;
@@ -33,7 +55,7 @@ const STEP = 0.125, W = 1080, H = 1920;
   }
   const sheet = [];
   for (let t = 0; t < dur; t += STEP) {
-    await p.evaluate(t => window.setFrame(t), t);
+    await p.evaluate(t => window.setOut(t), t);
     const r = await p.evaluate(() => {
       const W = 1080, H = 1920;
       // 体の外接矩形：文字（Zz・！・？などの記号）は除外し、図形だけで取る
@@ -103,7 +125,7 @@ const STEP = 0.125, W = 1080, H = 1920;
     if (Math.abs((t / dur) * 12 - Math.round((t / dur) * 12)) < STEP / dur * 6 && sheet.length < 12) sheet.push({ t, buf: await p.screenshot({ type: 'jpeg', quality: 70 }) });
   }
   // エンドカードが出ること
-  await p.evaluate(t => window.setFrame(t), dur - 0.2);
+  await p.evaluate(t => window.setOut(t), dur - 0.05);
   const endOp = await p.evaluate(() => parseFloat(getComputedStyle(document.getElementById('end')).opacity));
   if (endOp < 0.9) issues.push(`エンドカードが出ていない（opacity ${endOp}）`);
   await b.close();

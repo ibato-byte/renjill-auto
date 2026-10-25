@@ -96,14 +96,8 @@ jobs:
           PAUSED: ${{ steps.hub.outputs.paused }}
         run: |
           [ -d "$RUNNER_TEMP/hub" ] || exit 0
-          sum="再活用の候補・コメントへの返信・毎週のまとめ動画"
-          kp=()
-          if [ -f dist/comments_summary.json ]; then
-            c=$(python3 -c "import json;s=json.load(open('dist/comments_summary.json'));print('返信%d・非表示%d・見送り%d（%s）%s'%(s['replied'],s['hidden'],s['skipped'],s['mode'],('／問題: '+'・'.join(s['problems'])) if s['problems'] else ''))")
-            kp=(--kpi "直近のコメント対応=${c}")
-          fi
-          [ -s dist/comments_log.md ] && kp+=(--log "$(cat dist/comments_log.md)")
+          sum="再活用の候補・コメントへの返信（最初は候補の記録）・毎週のまとめ動画"
           [ -f dist/compile_summary.txt ] && sum="$sum。$(cat dist/compile_summary.txt)"
           bash "$RUNNER_TEMP/hub/scripts/gha.sh" report renjill-growth "$JOB_STATUS" "$PAUSED" "$sum" \
-            --does "毎日、フォロワーを増やすための追加の投稿・確認を行う（レンとジル）" "${kp[@]}" \
+            --does "毎日、フォロワーを増やすための追加の投稿・確認を行う（レンとジル）" \
             --next-run-at "$(bash "$RUNNER_TEMP/hub/scripts/gha.sh" next-daily 03:40 09:40 15:40 20:30 21:40)"
