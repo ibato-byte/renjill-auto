@@ -110,6 +110,25 @@ def _video_width(path):
         return 1080
 
 
+def follow_edge_issues(video, L, h, real):
+    """最後の一言の帯が、左右の端・四隅まで暗いか（依頼 #90）。帯を出している間のコマで、帯の行の左端・右端と、文字のない帯の色を比べる。
+    端が帯の紺より明るければ NG"""
+    w = _video_width(video)
+    t = min(L["end"] - 0.2, real - 0.3)
+    raw = subprocess.run(["ffmpeg", "-v", "error", "-ss", f"{t:.2f}", "-i", str(video), "-frames:v", "1", "-f", "rawvideo", "-pix_fmt", "gray", "-"], capture_output=True).stdout
+    if len(raw) < w * h: return ["最後の一言のコマを読めず、帯の端を確認できない"]
+    px = lambda x, y, n=1: sum(raw[y * w + x + i] for i in range(n)) / n
+    y0, y1 = L["y0"] - L["pad"], L["text_bottom"] + L["pad"]
+    ref = (px(w // 2 - 4, y0 + 3, 8) + px(w // 2 - 4, y1 - 4, 8)) / 2  # 帯の上下の縁（文字のない所）の色
+    issues = []
+    for r in (y0 + 3, (y0 + y1) // 2, y1 - 4):
+        for name, x in (("左端", 0), ("右端", w - 6)):
+            v = px(x, r, 6)
+            if v > ref + 18: issues.append(f"帯が{name}まで暗くない（y={r}、明るさ{v:.0f}／帯{ref:.0f}）")
+    for name, (x, y) in (("左上", (2, y0 + 2)), ("右上", (w - 3, y0 + 2)), ("左下", (2, y1 - 3)), ("右下", (w - 3, y1 - 3))):
+        if px(x, y) > ref + 18: issues.append(f"帯の{name}の隅が暗くない")
+    return issues
+
 def _has_audio(path):
     return bool(subprocess.run(["ffprobe", "-v", "error", "-select_streams", "a:0", "-show_entries", "stream=index", "-of", "csv=p=0", str(path)],
                                capture_output=True, text=True).stdout.strip())

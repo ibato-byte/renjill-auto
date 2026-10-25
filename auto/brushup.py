@@ -53,25 +53,6 @@ const [ep, out, rig] = process.argv.slice(1);
     subprocess.run(["node", "-e", js, ep, str(out), str(RIG)], check=True, env=env)
     return out
 
-def follow_edge_issues(video, L, h, real):
-    """最後の一言の帯が、左右の端・四隅まで暗いか（依頼 #90）。帯を出している間のコマで、帯の行の左端・右端と、文字のない帯の色を比べる。
-    端が帯の紺より明るければ NG"""
-    w = growth._video_width(video)
-    t = min(L["end"] - 0.2, real - 0.3)
-    raw = subprocess.run(["ffmpeg", "-v", "error", "-ss", f"{t:.2f}", "-i", str(video), "-frames:v", "1", "-f", "rawvideo", "-pix_fmt", "gray", "-"], capture_output=True).stdout
-    if len(raw) < w * h: return ["最後の一言のコマを読めず、帯の端を確認できない"]
-    px = lambda x, y, n=1: sum(raw[y * w + x + i] for i in range(n)) / n
-    y0, y1 = L["y0"] - L["pad"], L["text_bottom"] + L["pad"]
-    ref = (px(w // 2 - 4, y0 + 3, 8) + px(w // 2 - 4, y1 - 4, 8)) / 2  # 帯の上下の縁（文字のない所）の色
-    issues = []
-    for r in (y0 + 3, (y0 + y1) // 2, y1 - 4):
-        for name, x in (("左端", 0), ("右端", w - 6)):
-            v = px(x, r, 6)
-            if v > ref + 18: issues.append(f"帯が{name}まで暗くない（y={r}、明るさ{v:.0f}／帯{ref:.0f}）")
-    for name, (x, y) in (("左上", (2, y0 + 2)), ("右上", (w - 3, y0 + 2)), ("左下", (2, y1 - 3)), ("右下", (w - 3, y1 - 3))):
-        if px(x, y) > ref + 18: issues.append(f"帯の{name}の隅が暗くない")
-    return issues
-
 def follow_check(ep, loop):
     """最後の一言（フォローして続きを見てね）の検査：2秒以上・読める大きさ・下のボタンに隠れない・30秒未満。
     作った動画の最後の数コマを dist/<ep>_follow.jpg に書き出す（目視で、顔に重なっていないか見る）"""
@@ -91,7 +72,7 @@ def follow_check(ep, loop):
     tmp = DIST / f"_{ep}_ff"; tmp.mkdir(exist_ok=True)
     for i, t in enumerate(ts):
         subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-ss", f"{max(0, t):.2f}", "-i", str(out), "-frames:v", "1", "-vf", "scale=270:480", str(tmp / f"{i}.png")], check=False)
-    issues += follow_edge_issues(out, L, h, real)
+    issues += growth.follow_edge_issues(out, L, h, real)
     sheet = DIST / f"{ep}_follow.jpg"
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(tmp / "%d.png"), "-filter_complex", f"tile={len(ts)}x1", str(sheet)], check=False)
     return {"pass": not issues, "issues": issues, "show_sec": L["show"], "extend_sec": L["extend"], "total_sec": round(real, 2), "image": str(sheet)}
