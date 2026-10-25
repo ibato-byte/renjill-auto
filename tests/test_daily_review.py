@@ -42,6 +42,14 @@ class Evaluate(unittest.TestCase):
         self.assertEqual(exps[0]["状態"], "予定")
 
 
+class HookEffect(unittest.TestCase):
+    def test_new_vs_old(self):
+        ins = [{"対象": "reel", "ref": "a", "指標": "avg_watch_ratio", "値": "0.15"}, {"対象": "reel", "ref": "b", "指標": "avg_watch_ratio", "値": "0.17"},
+               {"対象": "reel", "ref": "c", "指標": "avg_watch_ratio", "値": "0.30"}, {"対象": "reel", "ref": "c", "指標": "avg_watch_ratio", "値": "0.40"}]
+        r = dr.hook_effect(ins, {"a": {}, "b": {}, "c": {"opening": "hook+x1.2"}})
+        self.assertTrue(r["up"]); self.assertAlmostEqual(r["old"], 0.16); self.assertAlmostEqual(r["new"], 0.40)  # 同じ回は最新の行
+        self.assertIsNone(dr.hook_effect(ins[:2], {"a": {}, "b": {}})["up"])  # 直した回がまだ無い
+
 class Checks(unittest.TestCase):
     def test_stalled(self):
         m = [{"計測日": "2026-10-22", "sns": "ig", "再生": "1"}]
