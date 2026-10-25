@@ -17,7 +17,8 @@ import meta_stats
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 JST = dt.timezone(dt.timedelta(hours=9))
 HEADER = ["計測日", "対象", "ref", "指標", "値", "メモ"]
-REEL_METRICS = ("reach", "saved", "shares", "ig_reels_avg_watch_time", "ig_reels_video_view_total_time", "profile_visits", "follows", "total_interactions")
+REEL_METRICS = ("reach", "saved", "shares", "ig_reels_avg_watch_time", "ig_reels_video_view_total_time", "total_interactions")
+REEL_UNSUPPORTED = "リール1本ごとの値は API が対応していない（2026-10-25 に確認）。アカウント全体の profile_views・follows で見る"
 ACCOUNT_METRICS = ("reach", "profile_views", "accounts_engaged", "follows_and_unfollows", "views")
 STORY_METRICS = ("reach", "replies", "shares", "follows", "profile_visits", "total_interactions", "views")
 NO_3SEC = "Instagram の API では3秒視聴率・完走率は取れない（アプリの画面にだけ出る）。代わりに平均視聴時間÷動画の長さを見る"
@@ -75,12 +76,25 @@ def reel_rows(today, posted, tok, http, durations):
         ep = key.split("_", 1)[1]
         rows.append([today, "reel", key, "avg_watch_ratio", completion_proxy(res["ig_reels_avg_watch_time"][0], durations.get(ep)), "平均視聴時間÷動画の長さ（完走率の代わり）"])
         rows.append([today, "reel", key, "view_3s_rate", "", NO_3SEC])
+        for m in ("profile_visits", "follows"): rows.append([today, "reel", key, m, "", REEL_UNSUPPORTED])
     return rows
 
 
 def account_rows(today, uid, tok, http):
     res = one_by_one(http, f"{fb.G}/{uid}/insights", ACCOUNT_METRICS, tok, {"period": "day", "metric_type": "total_value"})
-    return [[today, "account", uid, m, val, note] for m, (val, note) in res.items()]
+    rows = [[today, "account", uid, m, val, note] for m, (val, note) in res.items() if m != "follows_and_unfollows"]
+    # フォロー増減は内訳つきで聞く（follow_type：フォローした／やめた）
+    j = _get(http, f"{fb.G}/{uid}/insights", {"metric": "follows_and_unfollows", "period": "day", "metric_type": "total_value", "breakdown": "follow_type", "access_token": tok})
+    if j.get("error"): rows.append([today, "account", uid, "follows_and_unfollows", "", _err(j)])
+    else:
+        got = {}
+        for d in j.get("data", []):
+            for b in (d.get("total_value") or {}).get("breakdowns") or []:
+                for r in b.get("results", []): got["follows_" + "_".join(r.get("dimension_values", ["?"]))] = r.get("value", 0)
+        if got:
+            for k, v in got.items(): rows.append([today, "account", uid, k, v, ""])
+        else: rows.append([today, "account", uid, "follows_and_unfollows", (j.get("data") or [{}])[0].get("total_value", {}).get("value", ""), "内訳が返らなかった"])
+    return rows
 
 
 def story_rows(today, uid, tok, http):
@@ -101,14 +115,31 @@ def story_rows(today, uid, tok, http):
 
 
 def fb_rows(today, posted, token, http):
+    """Facebook リール。インサイト・動画そのものの順に聞き、取れなかったときは API が返した理由をメモに残す（Hub 依頼 #95）"""
     rows = []
     for key, v in sorted(posted.items()):
         vid = v.get("facebook")
         if not vid or vid in meta_stats.NOT_ID: continue
-        try: s = fb.reel_stats(vid, token) or {}
-        except Exception as e: s = {}; rows.append([today, "fb_reel", key, "error", "", fb.scrub(e)[:120]])
-        for m, label in (("plays", "再生"), ("reactions", "反応"), ("comments", "コメント"), ("shares", "シェア")):
-            rows.append([today, "fb_reel", key, m, s.get(m, ""), "" if s.get(m, "") != "" else "取れなかった（応答が空）"])
+        got, why = {}, []
+        for m, label in (("blue_reels_play_count", "plays"), ("post_video_likes_by_reaction_type", "reactions"), ("post_video_social_actions", "social")):
+            j = _get(http, f"{fb.G}/{vid}/video_insights", {"metric": m, "access_token": token})
+            if j.get("error"): why.append(f"{m}：{_err(j)}"); continue
+            vals = ((j.get("data") or [{}])[0].get("values") or [{}])[0].get("value")
+            if vals is None: why.append(f"{m}：値が返らなかった"); continue
+            if label == "social" and isinstance(vals, dict): got["comments"] = vals.get("comment", 0); got["shares"] = vals.get("share", 0)
+            elif label == "reactions" and isinstance(vals, dict): got["reactions"] = sum(x for x in vals.values() if isinstance(x, (int, float)))
+            elif label == "plays": got["plays"] = vals
+        if "plays" not in got:
+            for fields in ("views", "video_insights", "likes.summary(true).limit(0),comments.summary(true).limit(0)"):
+                j = _get(http, f"{fb.G}/{vid}", {"fields": fields, "access_token": token})
+                if j.get("error"): why.append(f"動画の {fields.split('.')[0]}：{_err(j)}"); continue
+                if isinstance(j.get("views"), (int, float)): got["plays"] = j["views"]
+                for k, name in (("likes", "reactions"), ("comments", "comments")):
+                    t = ((j.get(k) or {}).get("summary") or {}).get("total_count")
+                    if isinstance(t, (int, float)) and name not in got: got[name] = t
+        note = " / ".join(why)[:300]
+        for m in ("plays", "reactions", "comments", "shares"):
+            rows.append([today, "fb_reel", key, m, got.get(m, ""), "" if m in got else (note or "値が返らなかった")])
     return rows
 
 
