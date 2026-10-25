@@ -204,22 +204,34 @@ def dry_run(targets, d, posted=None):
 META = ("ig", "facebook")
 NOT_ID = ("manual", "bs-scheduled")  # 手で予約・Business Suite で予約した回（投稿IDではない）
 
-def next_api_post(sch, posted, now):
-    """次に Instagram・Facebook へ API で出す回の「月/日 時刻」。なければ None"""
+def next_api_post(sch, posted, now, detail=False):
+    """次に Instagram・Facebook へ API で出す回の「月/日 時刻」。なければ None。
+    detail=True なら (「月/日 時刻」, タイトル, 投稿予定の時刻 UTC の ISO 8601) を返す"""
     for p in sorted(sch["posts"], key=lambda p: (p["date"], p["slot"])):
         h, m = map(int, p["slot"].split(":"))
-        if dt.datetime.fromisoformat(p["date"]).replace(hour=h, minute=m, tzinfo=JST) <= now: continue
+        at = dt.datetime.fromisoformat(p["date"]).replace(hour=h, minute=m, tzinfo=JST)
+        if at <= now: continue
         done = posted.get(f'{p["date"]}_{p["ep"]}', {})
         if any(x in p.get("platforms", sch["defaults"]["platforms"]) and x not in done and not mode.is_manual(x) for x in META):
-            return f'{p["date"][5:].replace("-", "/")} {p["slot"]}'
+            label = f'{p["date"][5:].replace("-", "/")} {p["slot"]}'
+            return (label, p["title"], at.astimezone(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:00Z")) if detail else label
     return None
 
-def write_hub_args(fb_result, results=None, actions=None, next_api=None, keep_actions=False):
+HUB_DOES = "毎日 12:00・18:00・19:00 に、予定の動画を Instagram・Facebook などに自動で投稿する（レンとジル）"
+
+def write_hub_args(fb_result, results=None, actions=None, next_api=None, keep_actions=False, summary=None, outcome=None, count=None, next_action=None):
     """Automation Hub の report に渡す追加の引数（NUL 区切り。post.yml が読む）。
     results：{"回": "タイトル（日付 時刻）", "Instagram": "投稿OK", …}（投稿ごとの結果。KPI は8件まで）
-    actions：オーナーのやること（失敗した投稿の出し直しなど）。なければ「やること」を空にする（keep_actions なら前のまま）"""
+    actions：オーナーのやること（失敗した投稿の出し直しなど）。なければ「やること」を空にする（keep_actions なら前のまま）
+    summary：その回に実際にやったことを1行で（dist/post_hub_summary に書く。Hub の「前回やったこと」になる）
+    outcome：done（投稿した）／idle（やることがなかった）。count：投稿した回の数。next_action：(次の投稿の説明, 時刻 UTC)"""
     manual = sorted(mode.NAMES[x] for x in mode.manual_platforms())
-    args = []
+    args = ["--does", HUB_DOES]
+    if outcome: args += ["--outcome", outcome]
+    if outcome == "done" and count: args += ["--count", str(count)]
+    if next_action: args += ["--next-action", next_action[0]] + (["--next-action-at", next_action[1]] if next_action[1] else [])
+    elif next_api is None and outcome: args += ["--next-action", "none"]
+    if summary: (DIST / "post_hub_summary").write_text(summary)
     for k, v in list((results or {}).items())[:6]:
         args += ["--kpi", f"{k}={str(v).replace('=', '＝')}"]
     if fb_result and "Facebook" not in (results or {}): args += ["--kpi", f"Facebook={fb_result['kpi']}"]
@@ -230,6 +242,20 @@ def write_hub_args(fb_result, results=None, actions=None, next_api=None, keep_ac
     for a in acts: args += ["--owner-action", a[:300]]
     if not acts and not keep_actions: args += ["--owner-action", "none"]
     (DIST / "post_hub_args").write_bytes(b"\0".join(s.encode() for s in args) + b"\0")
+
+def next_hub_info(sch, posted, now):
+    """Hub に渡す「次の投稿」：(「月/日 時刻」, next_action=(説明, 時刻UTC) か None)"""
+    nx = next_api_post(sch, posted, now, detail=True)
+    if not nx: return None, None
+    return nx[0], (f"{nx[0]}『{nx[1]}』を投稿", nx[2])
+
+def idle_summary(sch, now, nxt):
+    """やることがなかった回の説明（なぜ何もしなかったか＋次の投稿）"""
+    today = now.strftime("%Y-%m-%d")
+    near = any(p["date"] == today and abs(now.hour - int(p["slot"].split(":")[0])) <= 1 for p in sch["posts"])
+    why = "予定の回は投稿済み（または手動で予約済み）のため何もしなかった" if near else "予定なし"
+    nxt_s = f"次の投稿は {nxt[0]}『{nxt[1]}』" if nxt else "次の投稿の予定はまだ登録されていない"
+    return f'{now.strftime("%H:%M")} は{why}。{nxt_s}'
 
 def thumb_path_ok(th):
     return bool(th.get("path")) and pathlib.Path(th["path"]).exists()
@@ -297,11 +323,14 @@ def main(argv=None):
     now_ = now or dt.datetime.now(JST)
     if not targets:
         log("今日のこの時間帯に投稿なし")
-        write_hub_args(None, next_api=next_api_post(sch, posted, now_), keep_actions=True)  # 前の失敗の「やること」は消さない
+        nx = next_api_post(sch, posted, now_, detail=True)
+        write_hub_args(None, next_api=nx[0] if nx else None, keep_actions=True,  # 前の失敗の「やること」は消さない
+                       summary=idle_summary(sch, now_, nx), outcome="idle", next_action=(f"{nx[0]}『{nx[1]}』を投稿", nx[2]) if nx else None)
         return 0
     if a["dry_run"]: return dry_run(targets, d, posted)
     failed = []
     fb_access, fb_result, results, actions = None, None, {}, []
+    did = {}  # タイトル → 投稿できた SNS の名前
     for key, p, plats in targets:
         results["回"] = f'{p["title"]}（{p["date"][5:]} {p["slot"]}）' if "回" not in results else results["回"] + f'・{p["title"]}'
         yt_path, loop_path = render(p["ep"])
@@ -349,6 +378,7 @@ def main(argv=None):
                     log("未対応のSNS", pl); continue
                 rec[pl + "_at"] = dt.datetime.now(JST).isoformat(timespec="minutes")
                 if pl != "facebook": results[mode.NAMES[pl]] = "投稿OK"
+                did.setdefault(p["title"], []).append(mode.NAMES.get(pl, pl))
                 log("OK", key, pl, rec[pl])
             except threads.GrowthSkip as e:  # 今回は出さないだけ（失敗にしない。posted.json にも書かない）
                 log("SKIP", key, pl, fb.scrub(e)); results[mode.NAMES.get(pl, pl)] = f"見送り（{str(fb.scrub(e))[:40]}）"
@@ -368,7 +398,11 @@ def main(argv=None):
                 results[mode.NAMES.get(pl, pl)] = "投稿失敗"
                 actions.append(failure_action(p, pl, e))
         (AUTO / "posted.json").write_text(json.dumps(posted, ensure_ascii=False, indent=2))
-    write_hub_args(fb_result, results, actions, next_api_post(sch, posted, now_))
+    nxt, nxa = next_hub_info(sch, posted, now_)
+    if did: summary = "・".join(f'『{t}』' for t in did) + " を " + "・".join(dict.fromkeys(x for v in did.values() for x in v)) + " に投稿"
+    else: summary = f'{now_.strftime("%H:%M")} は投稿できなかった（見送りまたは失敗。理由は結果の欄）'
+    if nxt: summary += f"。次の投稿は {nxt}"
+    write_hub_args(fb_result, results, actions, nxt, summary=summary, outcome="done" if did else "idle", count=len(did), next_action=nxa)
     if failed: log("失敗:", failed); return 1
     return 0
 
