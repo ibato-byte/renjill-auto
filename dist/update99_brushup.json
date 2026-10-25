@@ -1,0 +1,43 @@
+{
+  "ep": "update99",
+  "render_qa": true,
+  "thumb_qa": true,
+  "review_images": [
+    "/home/user/renjill-auto/dist/update99_review.jpg",
+    "/home/user/renjill-auto/dist/update99_sheet.jpg",
+    "/home/user/renjill-auto/dist/update99_follow.jpg",
+    "/home/user/renjill-auto/dist/update99_thumb.jpg"
+  ],
+  "checklist": [
+    "最初の1秒で状況（誰が・何をしている）がわかるか",
+    "遊び（ゲーム）は1つだけか。3回、少しずつ大きくなっているか",
+    "オチの前に「間」（音が止まる・寄り）があるか",
+    "オチの後のオチ（ひとひねり）があるか",
+    "セリフなしで海外の人にも伝わるか（文字に頼っていないか）",
+    "顔が隠れる・小道具がキャラの後ろに消える・記号の残骸がないか",
+    "サムネの英語見出しが一目で内容を言い当てているか（12文字以内）"
+  ],
+  "qa_detail": {
+    "ep": "update99",
+    "pass": true,
+    "issues": [],
+    "warns": [],
+    "render": {
+      "ep": "update99",
+      "dur": 12,
+      "pass": true,
+      "issues": [],
+      "warns": []
+    }
+  },
+  "follow": {
+    "pass": true,
+    "issues": [],
+    "show_sec": 2.3,
+    "extend_sec": 1.2,
+    "total_sec": 12.29,
+    "image": "/home/user/renjill-auto/dist/update99_follow.jpg"
+  },
+  "thumb": "/home/user/renjill-auto/dist/update99_thumb.jpg",
+  "pass_machine": true
+}
