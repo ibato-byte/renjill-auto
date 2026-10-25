@@ -127,13 +127,30 @@ def post_youtube(p, d, path):
     return res["id"]
 
 # ---------- TikTok ----------
+class TikTokManual(Exception):
+    """TikTok の API で出せない（トークンなし・未審査のアプリは非公開でしか出せない）。オーナーの「あなたの番」に1件で出す（依頼 #99）"""
+
+OWNER_TASKS = []  # この実行で Hub の「あなたの番」に出すもの（write_hub_args が --owner-task にする）
+
+def tiktok_task(p, d, video_url):
+    cap = caption(p, d)
+    steps = ("TikTok の投稿画面（https://www.tiktok.com/tiktokstudio/upload）で、①動画のファイルを選ぶ（下の動画リンクを開いて保存したもの）"
+             "②説明欄に次の文をそのまま貼る ③「投稿」を押す。\n\n--- 説明欄に貼る文 ---\n" + cap)
+    links = [{"label": "TikTok の投稿画面を開く", "url": "https://www.tiktok.com/tiktokstudio/upload"}]
+    if video_url: links.insert(0, {"label": "動画をダウンロード", "url": video_url})
+    return {"id": f'tiktok-{p["ep"]}', "kind": "browser", "text": f'TikTok に「{p["title"]}」を投稿する（約2分。動画と説明文は用意済み）',
+            "due": p["date"], "links": links, "copy": steps, "key": "tiktok-post"}
+
 def post_tiktok(p, d, path):
+    if not os.environ.get("TT_ACCESS_TOKEN"): raise TikTokManual("TT_ACCESS_TOKEN なし")
     tok = os.environ["TT_ACCESS_TOKEN"]; H = {"Authorization": f"Bearer {tok}", "Content-Type": "application/json; charset=UTF-8"}
     size = path.stat().st_size
     init = requests.post("https://open.tiktokapis.com/v2/post/publish/video/init/", headers=H, json={
         "post_info": {"title": caption(p, d), "privacy_level": "PUBLIC_TO_EVERYONE", "disable_duet": False, "disable_comment": False, "disable_stitch": False, "video_cover_timestamp_ms": int(float((p.get("thumb") or {}).get("t", 1.0)) * 1000)},
         "source_info": {"source": "FILE_UPLOAD", "video_size": size, "chunk_size": size, "total_chunk_count": 1}}).json()
-    if init.get("error", {}).get("code") != "ok": raise RuntimeError(init)
+    if init.get("error", {}).get("code") != "ok":
+        if any(w in json.dumps(init) for w in ("unaudited", "scope_not_authorized", "access_token_invalid", "url_ownership")): raise TikTokManual(init.get("error", {}).get("code", ""))
+        raise RuntimeError(init)
     up = init["data"]["upload_url"]
     r = requests.put(up, data=path.read_bytes(), headers={"Content-Type": "video/mp4", "Content-Range": f"bytes 0-{size-1}/{size}"})
     r.raise_for_status()
@@ -254,7 +271,8 @@ def write_hub_args(fb_result, results=None, actions=None, next_api=None, keep_ac
     acts = list(actions or [])
     if fb_result and fb_result.get("action"): acts.append(fb_result["action"])
     for a in acts: args += ["--owner-action", a[:300]]
-    if not acts and not keep_actions: args += ["--owner-action", "none"]
+    for t in OWNER_TASKS: args += ["--owner-task", json.dumps(t, ensure_ascii=False)]
+    if not acts and not keep_actions and not OWNER_TASKS: args += ["--owner-action", "none"]
     (DIST / "post_hub_args").write_bytes(b"\0".join(s.encode() for s in args) + b"\0")
 
 def next_hub_info(sch, posted, now):
@@ -396,6 +414,13 @@ def main(argv=None):
                 log("OK", key, pl, rec[pl])
             except threads.GrowthSkip as e:  # 今回は出さないだけ（失敗にしない。posted.json にも書かない）
                 log("SKIP", key, pl, fb.scrub(e)); results[mode.NAMES.get(pl, pl)] = f"見送り（{str(fb.scrub(e))[:40]}）"
+            except TikTokManual as e:  # API で出せない回は、動画と説明文つきの「あなたの番」にする（毎回の手動投稿を1クリックに近づける）
+                log("TikTok は手動:", e)
+                try: url = media_publish(loop_path, f"tt_{p['date'].replace('-', '')}_{p['ep']}.mp4")
+                except Exception as e2: url = None; log("動画の置き場に失敗", repr(e2)[:120])
+                OWNER_TASKS.append(tiktok_task(p, d, url))
+                rec["tt"] = "manual"  # 同じ回の二重の依頼を防ぐ
+                results["TikTok"] = "手動（あなたの番に出した）"
             except fb.FbSkip as e:
                 why = fb.scrub(e)
                 log("SKIP", key, pl, why)
