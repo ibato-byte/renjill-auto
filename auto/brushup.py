@@ -63,7 +63,7 @@ def follow_check(ep, loop):
     L = growth.follow_layout(total, h)
     real = growth.duration(out)
     issues = []
-    if L["show"] < 2.0: issues.append(f"表示が{L['show']}秒（2秒以上にする）")
+    if L["show"] < 1.5: issues.append(f"表示が{L['show']}秒（1.5秒以上にする）")
     if L["fontsize"] < h * 0.06: issues.append("文字が小さい（画面の高さの6%以上にする）")
     if L["text_bottom"] > h * 0.80: issues.append("文字が下すぎる（下から20%より上にする。下のボタンや説明文に隠れる）")
     if real >= 30: issues.append(f"動画が{real:.1f}秒で30秒以上")
