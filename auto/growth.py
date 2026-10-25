@@ -84,6 +84,12 @@ def follow_filter(total, fontfile, textdir, h=1920, extend=FOLLOW_EXTEND):
     t0, t1 = L["start"], L["end"]
     alpha = f"if(lt(t,{t0}),0,if(lt(t,{t0 + FOLLOW_FADE_IN}),(t-{t0})/{FOLLOW_FADE_IN},if(lt(t,{t1}),1,0)))"
     parts = [f"tpad=stop_mode=clone:stop_duration={L['extend']}"] if L["extend"] > 0 else []
+    # 帯は画面の端から端まで（文字の幅だけだと左右の端が暗くならない・依頼 #90）。0.2秒で段階的に濃くして出し、最後に消す
+    by, bh = L["y0"] - L["pad"], L["text_bottom"] - L["y0"] + 2 * L["pad"]
+    steps = 4
+    for k in range(steps):
+        a, b = t0 + FOLLOW_FADE_IN * k / steps, (t0 + FOLLOW_FADE_IN * (k + 1) / steps if k < steps - 1 else t1)
+        parts.append(f"drawbox=x=0:y={by}:w=iw:h={bh}:color={FOLLOW_BG}@{(k + 1) / steps:.2f}:t=fill:enable='between(t,{a:.3f},{b:.3f})'")
     for i, _ in enumerate(FOLLOW_LINES):
         parts.append(f"drawtext=fontfile={fontfile}:textfile={textdir / f'l{i}.txt'}:fontsize={L['fontsize']}:fontcolor={FOLLOW_FG}"
                      f":box=1:boxcolor={FOLLOW_BG}:boxborderw={L['pad']}:x=(w-text_w)/2:y={L['y0'] + i * L['pitch']}:alpha='{alpha}'")
@@ -95,6 +101,13 @@ def _video_height(path):
         return int(subprocess.check_output(["ffprobe", "-v", "error", "-select_streams", "v:0", "-show_entries", "stream=height", "-of", "csv=p=0", str(path)]).decode().strip())
     except Exception:
         return 1920
+
+
+def _video_width(path):
+    try:
+        return int(subprocess.check_output(["ffprobe", "-v", "error", "-select_streams", "v:0", "-show_entries", "stream=width", "-of", "csv=p=0", str(path)]).decode().strip())
+    except Exception:
+        return 1080
 
 
 def _has_audio(path):
