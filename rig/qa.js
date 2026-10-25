@@ -6,6 +6,7 @@
 //  - エンドカード直前に残骸（fxレイヤーの要素）が残る
 //  - カメラの倍率が範囲外、カットが0.6秒未満で連続
 //  - 真っ白／真っ黒のフレーム
+//  - 暗い幕（#dim）が画面の四隅・四辺まで届いていない／背景が画面の端まで届いていない（依頼 #90：左端だけ明るいまま）
 // 加えて12コマのコンタクトシートを出力する（週次レビューで人／Claudeが目視する）。
 const { chromium } = require('playwright'); const fs = require('fs'); const path = require('path');
 const [ep, reportPath, sheetPath] = process.argv.slice(2);
@@ -58,7 +59,11 @@ const STEP = 0.125, W = 1080, H = 1920;
         }
         faces[id] = { vis: vis / area, covered: n ? covered / n : 0, cx, cy };
       }
-      return { faces, z, tx, ty, fx: document.querySelectorAll('#fx > *').length, end: parseFloat(getComputedStyle(document.getElementById('end')).opacity), dim: parseFloat(getComputedStyle(document.getElementById('dim')).opacity) };
+      // 端のすき間：暗い幕と背景（#world）が画面全体（四隅・四辺）をおおっているか。1px の誤差は許す
+      const rc = id => document.getElementById(id).getBoundingClientRect();
+      const gap = r => Math.max(r.left, r.top, W - r.right, H - r.bottom);
+      const dimOp = parseFloat(getComputedStyle(document.getElementById('dim')).opacity);
+      return { dimGap: dimOp > 0.02 ? gap(rc('dim')) : 0, worldGap: gap(rc('world')), faces, z, tx, ty, fx: document.querySelectorAll('#fx > *').length, end: parseFloat(getComputedStyle(document.getElementById('end')).opacity), dim: parseFloat(getComputedStyle(document.getElementById('dim')).opacity) };
     });
     // 画面に顔が1つもない（両方とも60%未満）が2.6秒以上続いたらNG（モニターなど小道具への寄りは2.5秒以内の演出として許容）。片方だけ見切れは寄りの演出なのでOK。
     const visList = Object.values(r.faces).map(f => f.vis);
@@ -79,6 +84,8 @@ const STEP = 0.125, W = 1080, H = 1920;
     for (const [id, f] of Object.entries(r.faces)) {
       if (f.vis >= 0.6 && f.covered >= 0.55 && r.end < 0.5) { occl[id] = (occl[id] || 0) + STEP; if (Math.abs(occl[id] - 0.75) < 1e-6) issues.push(`${id === 'ren' ? 'レン' : 'ジル'}の顔が隠れている t=${(t - 0.75).toFixed(2)}〜`); } else occl[id] = 0;
     }
+    if (r.end < 0.5 && r.dimGap > 1) issues.push(`暗い幕が画面の端まで届いていない t=${t.toFixed(2)}（すき間 ${Math.round(r.dimGap)}px）`);
+    if (r.end < 0.5 && r.worldGap > 1) issues.push(`背景が画面の端まで届いていない t=${t.toFixed(2)}（すき間 ${Math.round(r.worldGap)}px）`);
     if (r.z < 0.9 || r.z > 4.2) issues.push(`カメラ倍率が範囲外 t=${t.toFixed(2)} z=${r.z.toFixed(2)}`);
     // 止まり検出：縮小スクショのハッシュ比較
     const buf = await p.screenshot({ type: 'jpeg', quality: 40, clip: { x: 0, y: 0, width: W, height: H }, scale: 'css' });
