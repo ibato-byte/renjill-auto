@@ -5,6 +5,10 @@
 svg{position:absolute;left:0;top:0;overflow:visible}
 /* カメラの寄り・パンで world が動いても、画面の端までかかるよう大きめに（左端だけ暗くならない不具合の修正・依頼 #90） */
 #dim{position:absolute;left:-600px;top:-600px;width:2280px;height:3120px;background:#0B1830;opacity:0;pointer-events:none}
+/* 冒頭の一言（依頼 #97）：サムネと同じ文字を、最初の約1.7秒だけ画面中央寄り（Instagram の上下に隠れる範囲の内側）に大きく出す */
+#hook{position:absolute;left:0;right:0;top:450px;text-align:center;pointer-events:none;opacity:0;font-family:'Noto Sans','Noto Sans CJK JP',sans-serif;font-weight:900;line-height:1.05;color:#FFF7E8;-webkit-text-stroke:14px #5A3A1E;paint-order:stroke fill;text-shadow:0 16px 0 #5A3A1E,0 30px 40px rgba(60,35,10,.35)}
+#hook span{display:block;white-space:nowrap}
+#hook small{display:block;margin-top:14px;color:#FFD86B;font-family:'Noto Sans CJK JP',sans-serif;letter-spacing:.04em;white-space:nowrap}
 #end{position:absolute;left:0;top:0;width:1080px;height:1920px;background:#F4ECE0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:26px;color:#3B2E22;opacity:0}
 #end .t{font-size:104px;font-weight:900;letter-spacing:6px}
 #end .s{font-size:40px;color:#7A6550;font-weight:700;letter-spacing:6px}
@@ -21,13 +25,33 @@ svg{position:absolute;left:0;top:0;overflow:visible}
 <svg id="fx" viewBox="0 0 1080 1920" width="1080" height="1920"></svg>
 </div>
 <svg id="ui" viewBox="0 0 1080 1920" width="1080" height="1920"></svg>
+<div id="hook"></div>
 <div id="end"><div class="t">レンとジル</div><div class="s">REN &amp; JILL</div><div class="c">© COANA TOKYO</div></div>
 </div>
 <script src="rig.js"></script>
 <script src="ep/common.js"></script>
+<script src="pace.js"></script>
 <script>
 const name=new URLSearchParams(location.search).get('ep');
 document.write('<script src="ep/'+name+'.js"><\/script>');
 </script>
-<script>const CAM=new URLSearchParams(location.search).get('cam');window.setFrame=t=>{EP.frame(t);if(CAM){const [z,cx,cy]=CAM.split(',').map(Number);camera({z,cx,cy},0);document.getElementById('ui').innerHTML='';}};setFrame(0);</script>
+<script>
+// 話ごとの「頭を削る・速さ・冒頭の一言」。setOut(o) は「画面に出る時間 o 秒」の1コマを描く（動画の書き出しと検査はこちらを使う）。setFrame は台本の時間のまま（サムネ用）
+const PACE=Object.assign({start:0,speed:1,hook:''},(window.PACE_ALL||{})[name]||{});
+window.PACE=PACE; window.outDur=()=>(EP.dur-PACE.start)/PACE.speed;
+window.HOOK_END=1.7;
+const hookEl=document.getElementById('hook');
+if(PACE.hook){const [l1,l2]=PACE.hook.split('/');hookEl.innerHTML='<span></span>'+(l2?'<small></small>':'');hookEl.firstChild.textContent=l1;if(l2)hookEl.querySelector('small').textContent=l2;
+  const fit=(el,target,base,min)=>{const w=fs=>{el.style.fontSize=fs+'px';return el.getBoundingClientRect().width||(el.scrollWidth)};let fs=Math.floor(base*target/w(base));fs=Math.max(min,Math.min(Math.floor(base*1.3),fs));while(w(fs)>target&&fs>min)fs--;el.style.fontSize=fs+'px'};
+  hookEl.style.opacity=0.01;
+  // inline-block で幅を測る
+  hookEl.firstChild.style.display='inline-block';fit(hookEl.firstChild,860,138,70);hookEl.firstChild.style.display='block';
+  const sm=hookEl.querySelector('small');if(sm){sm.style.display='inline-block';fit(sm,540,66,40);sm.style.display='block'}
+  hookEl.style.opacity=0}
+window.drawHook=o=>{ if(!PACE.hook){hookEl.style.opacity=0;return}
+  const a=(0.6+0.4*Math.min(1,o/0.12))*(1-Math.min(1,Math.max(0,(o-(HOOK_END-0.3))/0.3)));   // 最初のコマから見え（サムネと同じ）、0.12秒で全部の濃さに、最後の0.3秒で消える
+  const sc=1+0.16*Math.max(0,1-o/0.28);                                            // 出るとき少し大きく→元の大きさ（最初のコマから動く）
+  hookEl.style.opacity=o>=HOOK_END?0:Math.max(0.001,a);hookEl.style.transform='scale('+sc+')';hookEl.style.transformOrigin='50% 40%'};
+window.setOut=o=>{window.setFrame(PACE.start+o*PACE.speed);window.drawHook(o)};
+const CAM=new URLSearchParams(location.search).get('cam');window.setFrame=t=>{EP.frame(t);if(CAM){const [z,cx,cy]=CAM.split(',').map(Number);camera({z,cx,cy},0);document.getElementById('ui').innerHTML='';}};setFrame(0);</script>
 </body></html>

@@ -25,10 +25,11 @@ class DecideTest(unittest.TestCase):
         self.assertEqual(cadence.decide([("a_x", 0.30), ("b_y", 0.30), ("c_z", 0.14)], prev_stage=2)[0], 2)
 
     def test_old_style_episodes_are_not_counted(self):
-        ins = [{"対象": "reel", "指標": "avg_watch_ratio", "ref": "2026-10-21_papers2", "値": "0.9", "計測日": "2026-10-25"},
-               {"対象": "reel", "指標": "avg_watch_ratio", "ref": "2026-10-26_jil", "値": "0.3", "計測日": "2026-10-27"}]
-        posted = {"2026-10-21_papers2": {}, "2026-10-26_jil": {"opening": "hook+x1.2"}}
-        self.assertEqual(cadence.ratios(ins, posted), [("2026-10-26_jil", 0.3)])
+        eps = cadence.new_style_eps()
+        self.assertIn("meeting2", eps); self.assertNotIn("papers2", eps)
+        rows = cadence.ratios([{"対象": "reel", "指標": "avg_watch_ratio", "ref": "2026-10-21_papers2", "値": "0.9", "計測日": "2026-10-25"}],
+                              {"2026-10-21_papers2": {}}, eps)
+        self.assertEqual(rows, [])
 
 
 if __name__ == "__main__":

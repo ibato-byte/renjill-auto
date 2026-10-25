@@ -30,21 +30,11 @@ class GrowthTest(unittest.TestCase):
     def test_follow_layout_rules(self):
         for total in (10.0, 22.0, 29.5):
             L = growth.follow_layout(total, 1920)
-            self.assertGreaterEqual(L["show"], 1.5); self.assertLessEqual(L["show"], 2.5)
+            self.assertGreaterEqual(L["show"], 2.0); self.assertLessEqual(L["show"], 2.5)
             self.assertGreaterEqual(L["fontsize"], 1920 * 0.06)
             self.assertLessEqual(L["text_bottom"], 1920 * 0.80)  # 下から20%より上
             self.assertLess(L["total"], 30)
             self.assertLessEqual(L["start"] + L["show"], L["total"] + 1e-6)
-
-    def test_hook_parts_and_layout(self):
-        self.assertEqual(growth.hook_parts({"thumb": {"hook": "GLASSES ON./スイッチが入る"}, "title": "x"}), ("GLASSES ON.", "スイッチが入る"))
-        self.assertEqual(growth.hook_parts({"title": "題名"}), ("題名", ""))
-        for en in ("STAMP IT", "EXPENSES: HAY", "DEADLINE? NO."):
-            H = growth.hook_layout(en, "日本語", 1920)
-            self.assertGreaterEqual(H["en_ratio"], growth.HOOK_MIN_RATIO)  # 全部の回で読める大きさ
-            self.assertLess(H["y_en"], 1920 * 0.3); self.assertGreater(H["y_en"], 1920 * 0.13)  # 上の隠れる範囲より下
-        f = growth.follow_filter(10.0, "/f.ttf", pathlib.Path("/t"), hook=("HI", "こんにちは"))
-        self.assertIn("h0.txt", f); self.assertIn("h1.txt", f)
 
     def test_topics(self):
         self.assertIn("month_end", [k for k, _ in topics.calendar_topics(dt.date(2026, 10, 30))])

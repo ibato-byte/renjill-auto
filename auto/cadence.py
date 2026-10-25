@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """投稿の頻度を「毎日（週7本）」へ段階的に増やす判定（Claude を使わない。Hub 依頼 #98）。
 第1段階（今）：週4〜5本。つかみの改善（#97）を優先し、毎日出せる体制（ネタ・描画・検査・予定表14日先）だけ先に作る。
-第2段階：#97 の直しで出した回（posted.json の opening あり）のうち、投稿順に「最後まで見られた割合（平均視聴時間÷長さ）」が
+第2段階：#97 の直しで作った回（rig/pace.js に載っている回）のうち、投稿順に「最後まで見られた割合（平均視聴時間÷長さ）」が
   直す前の基準（約16%）より明らかに上（RISE_RATIO 倍以上）の回が 2 本続いたら、毎日（週7本）に切り替える。
   切り替えたあとも、直近2本が基準を割ったら週4〜5本に戻す（質が落ちるなら本数を戻す）。
 結果は content/cadence.json に書く。daily_review.py が毎朝呼んで Hub に出し、週次PDCAは「今週の本数」をこの値から決める。
@@ -22,13 +22,19 @@ def read_csv(path):
     return list(csv.DictReader(io.StringIO(path.read_text(encoding="utf-8")))) if path.exists() else []
 
 
-def ratios(insights, posted):
-    """投稿順（キーの日付順）の [(key, 最新の avg_watch_ratio)]。冒頭を直した版（posted の opening あり。依頼 #97）の回だけ"""
+def new_style_eps():
+    """#97 の直し（冒頭の一言・長さ詰め）で作る回。rig/pace.js に載っている ep"""
+    pf = ROOT / "rig" / "pace.js"
+    return set(re.findall(r"^\s*(\w+):\s*\{\s*start:", pf.read_text(encoding="utf-8"), re.M)) if pf.exists() else set()
+
+
+def ratios(insights, posted, eps):
+    """投稿順（キーの日付順）の [(key, 最新の avg_watch_ratio)]。直した版の回だけ"""
     last = {}
     for r in insights:
         if r["対象"] != "reel" or r["指標"] != "avg_watch_ratio" or r["値"] == "": continue
         if r["ref"] not in last or r["計測日"] >= last[r["ref"]][0]: last[r["ref"]] = (r["計測日"], float(r["値"]))
-    return [(k, v) for k, (_, v) in sorted(last.items()) if (posted.get(k) or {}).get("opening")]
+    return [(k, v) for k, (_, v) in sorted(last.items()) if k.split("_", 1)[1] in eps and k in posted]
 
 
 def decide(rows, prev_stage=1):
@@ -62,7 +68,7 @@ def main(argv):
     prev = json.loads(f.read_text(encoding="utf-8")) if f.exists() else {}
     posted_f = ROOT / "auto" / "posted.json"
     posted = json.loads(posted_f.read_text(encoding="utf-8")) if posted_f.exists() else {}
-    rows = ratios(read_csv(ROOT / "content" / "insights.csv"), posted)
+    rows = ratios(read_csv(ROOT / "content" / "insights.csv"), posted, new_style_eps())
     stage, per_week, why = decide(rows, prev.get("stage", 1))
     days, dup = planned(json.loads((ROOT / "auto" / "schedule.json").read_text(encoding="utf-8")), today)
     out = {"stage": stage, "per_week": per_week, "why": why, "baseline": BASELINE, "need": round(BASELINE * RISE_RATIO, 3),
