@@ -36,7 +36,7 @@ jobs:
         if: steps.hub.outputs.paused != 'true'
         run: |
           git config user.name renjill-bot; git config user.email bot@renjill.local
-          git add auto/schedule.json content/experiments.csv content/standards.json content/goal.json content/daily_log.csv
+          git add auto/schedule.json content
           git diff --cached --quiet || git commit -m "daily-review: $(TZ=Asia/Tokyo date '+%Y-%m-%d')"; bash auto/push_main.sh
       - name: 止まっているものを自動で直す・直す依頼を出す
         if: steps.hub.outputs.paused != 'true'
