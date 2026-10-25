@@ -34,6 +34,12 @@ DIST.mkdir(exist_ok=True)
 def log(*a): print("[post]", *a, flush=True)
 
 # ---------- 対象の決定 ----------
+def in_window(p, now):
+    """予定時刻の10分前〜2時間後だけ出す。cron の遅れ（20分前後）は許すが、1時間前の回で先に出さない（依頼 #90）"""
+    h, m = map(int, p["slot"].split(":"))
+    d = (now - now.replace(hour=h, minute=m, second=0, microsecond=0)).total_seconds() / 60
+    return -10 <= d <= 120
+
 def pick_posts(slot_override=None, now=None, ignore_posted=False):
     sch = json.loads((AUTO / "schedule.json").read_text())
     posted = json.loads((AUTO / "posted.json").read_text()) if (AUTO / "posted.json").exists() else {}
@@ -42,8 +48,7 @@ def pick_posts(slot_override=None, now=None, ignore_posted=False):
     out = []
     for p in sch["posts"]:
         if p["date"] != today: continue
-        slot_h = int(p["slot"].split(":")[0])
-        if slot_override is None and abs(now.hour - slot_h) > 1: continue
+        if slot_override is None and not in_window(p, now): continue
         key = f'{p["date"]}_{p["ep"]}'
         done = {} if ignore_posted else posted.get(key, {})
         # posted.json に記録がある SNS（投稿ID・"manual"・"bs-scheduled"＝Business Suite で予約済み）は出さない（二重投稿を防ぐ）。
@@ -252,7 +257,7 @@ def next_hub_info(sch, posted, now):
 def idle_summary(sch, now, nxt):
     """やることがなかった回の説明（なぜ何もしなかったか＋次の投稿）"""
     today = now.strftime("%Y-%m-%d")
-    near = any(p["date"] == today and abs(now.hour - int(p["slot"].split(":")[0])) <= 1 for p in sch["posts"])
+    near = any(p["date"] == today and in_window(p, now) for p in sch["posts"])
     why = "予定の回は投稿済み（または手動で予約済み）のため何もしなかった" if near else "予定なし"
     nxt_s = f"次の投稿は {nxt[0]}『{nxt[1]}』" if nxt else "次の投稿の予定はまだ登録されていない"
     return f'{now.strftime("%H:%M")} は{why}。{nxt_s}'

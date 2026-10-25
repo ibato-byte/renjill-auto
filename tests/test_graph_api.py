@@ -91,7 +91,7 @@ class PostedTest(unittest.TestCase):
             p = next(p for p in sch["posts"] if f'{p["date"]}_{p["ep"]}' == key)
             now = dt.datetime.fromisoformat(p["date"]).replace(hour=int(p["slot"][:2]), tzinfo=post.JST)
             with mock.patch.dict(os.environ, {"MANUAL_PLATFORMS": ""}):
-                _, _, targets = post.pick_posts(None, now)
+                _, _, targets = post.pick_posts(None, now, True)
             self.assertTrue(any(t[1]["ep"] == p["ep"] and "ig" in t[2] and "facebook" in t[2] for t in targets), key)
 
     def test_ensure_thumbnail_retries(self):

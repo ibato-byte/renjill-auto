@@ -58,6 +58,9 @@ class PushTest(unittest.TestCase):
                 json.dump(data, open(p, "w"))
                 run("git", "commit", "-qam", key, cwd=d, env=env)
             run("git", "push", "-q", "origin", "HEAD:main", cwd=a, env=env)
+            # 追跡中のファイルに未保存の変更があっても push できる（2026-10-25 19:28 の失敗）
+            with open(os.path.join(b, "auto", "merge_posted.py"), "a") as f:
+                f.write("\n# stray\n")
             r = subprocess.run(["bash", "auto/push_main.sh"], cwd=b, env=env, capture_output=True, text=True)
             self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
             run("git", "pull", "-q", "origin", "main", cwd=a, env=env)
