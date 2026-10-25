@@ -85,6 +85,8 @@ def tags(p, d):
 
 def caption(p, d, with_tags=True):
     base = f'{p["caption_en"]}\n{p["caption_ja"]}'
+    # 毎日の振り返り（daily_review.py）が割り当てた「最後の一言」の打ち手（英語/日本語）
+    if p.get("cta"): base += "\n" + p["cta"].replace("/", "\n", 1)
     # 末尾に英語の一言を必ず入れる（海外の人がフォローしやすいように。依頼 #38）
     # 検索される言葉（日・英）と、末尾の英語の一言。ハッシュタグは3個まで（依頼 #37・#38）
     tg = " ".join(tags(p, d).split()[:threads.MAX_TAGS])
@@ -96,7 +98,14 @@ def thumbnail(p):
     # 毎回作り直す（古いサムネを使い回して見切れ版が出る事故を防ぐ）。はみ出しがあれば thumb.js が終了コード3で止まり、投稿もしない
     th = p.get("thumb") or {"t": 1.0, "cam": "1.6,560,1050", "hook": p["title"]}
     env = dict(os.environ, NODE_PATH=subprocess.check_output(["npm", "root", "-g"]).decode().strip())
-    subprocess.run(["node", str(RIG / "thumb.js"), p["ep"], str(th["t"]), th["cam"], th["hook"], f'EP.{p["no"]}', str(out), "A"], check=True, env=env)
+    def gen(v): return subprocess.run(["node", str(RIG / "thumb.js"), p["ep"], str(th["t"]), th["cam"], th["hook"], f'EP.{p["no"]}', str(out), v], env=env).returncode
+    v = th.get("variant", "A")
+    rc = gen(v)
+    # 毎日の振り返りが試すサムネの型（B・C）が検査に通らないときは、標準の型（A）で作る（打ち手のせいで投稿が止まらないように）
+    if rc != 0 and v != "A":
+        log(f"thumbnail variant {v} NG → A")
+        rc = gen("A")
+    if rc != 0: raise subprocess.CalledProcessError(rc, "thumb.js")
     return out
 
 # ---------- YouTube ----------

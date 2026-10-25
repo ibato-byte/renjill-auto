@@ -113,6 +113,66 @@
     "cam": "2.0,480,760",
     "hook": "DEADLINE? NO./見なければ来ない"
    }
+  },
+  {
+   "date": "2026-11-01",
+   "slot": "19:00",
+   "ep": "pom_debut",
+   "no": 10,
+   "title": "新人のポム",
+   "caption_ja": "断れない新人のほおぶくろは、もう満杯です。",
+   "caption_en": "The new hire never says no. His cheeks can't either.",
+   "tag_set": "A",
+   "thumb": {
+    "t": 6.5,
+    "cam": "1.2,540,960",
+    "hook": "NEW HIRE/新人のポム"
+   }
+  },
+  {
+   "date": "2026-11-02",
+   "slot": "12:00",
+   "ep": "meeting2",
+   "no": 1,
+   "title": "会議の5分前",
+   "caption_ja": "会議の5分前。課長はまだ夢の中。",
+   "caption_en": "Meeting in 5 minutes. The boss is still dreaming.",
+   "tag_set": "B",
+   "thumb": {
+    "t": 6.0,
+    "cam": "2.0,540,900",
+    "hook": "5 MIN LEFT/会議の5分前"
+   }
+  },
+  {
+   "date": "2026-11-04",
+   "slot": "12:00",
+   "ep": "stamp2",
+   "no": 3,
+   "title": "ハンコは鼻で",
+   "caption_ja": "課長はハンコを体で押します。ジルがそっと押し直します。",
+   "caption_en": "He stamps with his whole body. Jill stamps it right.",
+   "tag_set": "A",
+   "thumb": {
+    "t": 10.5,
+    "cam": "2.0,540,900",
+    "hook": "STAMP IT/鼻でハンコ"
+   }
+  },
+  {
+   "date": "2026-11-06",
+   "slot": "18:00",
+   "ep": "camera_off2",
+   "no": 7,
+   "title": "カメラオフの正体",
+   "caption_ja": "カメラオフなら寝てもバレない。（はず）",
+   "caption_en": "Camera off, nap on. (Or so he thought.)",
+   "tag_set": "B",
+   "thumb": {
+    "t": 6.0,
+    "cam": "2.0,540,900",
+    "hook": "NAP TIME/カメラオフの正体"
+   }
   }
  ]
 }

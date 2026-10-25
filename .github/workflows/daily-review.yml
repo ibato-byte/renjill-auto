@@ -1,0 +1,70 @@
+name: daily-review
+# 毎日の軽い振り返り（Claude を使わない。Hub 依頼 #95）。数字の収集（metrics・06:30）のあと 06:50 に動く。
+# 前の投稿の初動を標準の回と比べて評価し、次の投稿に打ち手を1つ割り当て、目標との差を Hub に出す。
+# 数字が2日続けて取れない・打ち手の記録がない・予定表が7日を切ったときは、自動で直す（metrics をやり直す）か、直す依頼を Hub に出す。
+on:
+  schedule:
+    - cron: "50 21 * * *"  # 06:50 JST
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: write
+concurrency: post  # schedule.json・posted.json を書くので、投稿・数字の収集と同時に動かさない
+jobs:
+  review:
+    if: vars.AUTO_POST_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Automation Hub：一時停止の確認
+        id: hub
+        env:
+          HUB_TOKEN: ${{ secrets.HUB_TOKEN }}
+        run: |
+          if [ -z "$HUB_TOKEN" ] || ! git clone -q --depth 1 "https://x-access-token:${HUB_TOKEN}@github.com/ibato-byte/automation-hub.git" "$RUNNER_TEMP/hub"; then
+            echo "paused=false" >> "$GITHUB_OUTPUT"; echo "Automation Hub を使わずに続ける"; exit 0
+          fi
+          bash "$RUNNER_TEMP/hub/scripts/gha.sh" check renjill-daily-review
+      - uses: actions/checkout@v5
+        if: steps.hub.outputs.paused != 'true'
+      - uses: actions/setup-python@v6
+        if: steps.hub.outputs.paused != 'true'
+        with: { python-version: "3.12" }
+      - name: 振り返り
+        if: steps.hub.outputs.paused != 'true'
+        run: python auto/daily_review.py
+      - name: 変えたものを保存
+        if: steps.hub.outputs.paused != 'true'
+        run: |
+          git config user.name renjill-bot; git config user.email bot@renjill.local
+          git add auto/schedule.json content/experiments.csv content/standards.json content/goal.json content/daily_log.csv
+          git diff --cached --quiet || git commit -m "daily-review: $(TZ=Asia/Tokyo date '+%Y-%m-%d')"; bash auto/push_main.sh
+      - name: 止まっているものを自動で直す・直す依頼を出す
+        if: steps.hub.outputs.paused != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          [ -f dist/daily_problems.json ] || exit 0
+          for k in $(python3 -c "import json;print(' '.join(p['kind'] for p in json.load(open('dist/daily_problems.json')) if p['new']))"); do
+            case "$k" in
+              metrics-stalled|ig-blank|facebook-blank)
+                # まず数字の収集をやり直す（1日1回まで。それでも取れなければ翌朝の点検が依頼にする）
+                [ "$k" = metrics-stalled ] && gh workflow run metrics.yml || true ;;
+              schedule-short|no-experiment)
+                [ -d "$RUNNER_TEMP/hub" ] && node "$RUNNER_TEMP/hub/scripts/hub.mjs" req-new --type improve --target renjill-weekly-pdca --auto \
+                  --title "【改善が止まっています】$k（毎日の振り返りが見つけた）" \
+                  --body "毎日の振り返り（renjill-daily-review）が見つけました：$(python3 -c "import json;print([p['text'] for p in json.load(open('dist/daily_problems.json')) if p['kind']=='$k'][0])")。予定表をあと14日以上埋める・打ち手の記録を付ける、のうち該当するものを自動で直してください。" || true ;;
+            esac
+          done
+      - name: Automation Hub に記録
+        if: always()
+        env:
+          HUB_TOKEN: ${{ secrets.HUB_TOKEN }}
+          JOB_STATUS: ${{ job.status }}
+          PAUSED: ${{ steps.hub.outputs.paused }}
+        run: |
+          [ -d "$RUNNER_TEMP/hub" ] || exit 0
+          extra=()
+          [ -f dist/daily_hub_args ] && mapfile -d '' extra < dist/daily_hub_args
+          bash "$RUNNER_TEMP/hub/scripts/gha.sh" report renjill-daily-review "$JOB_STATUS" "$PAUSED" "毎日の振り返り：前の投稿の初動を評価し、次の投稿に打ち手を1つ割り当てた（目標との差・次に試すことは KPI を見る）" \
+            --does "毎日、前の投稿の初動を標準の回と比べ、次の投稿に試すことを1つ決め、目標との差を出す" --outcome done --owner-action none \
+            --next-run-at "$(bash "$RUNNER_TEMP/hub/scripts/gha.sh" next-daily 21:50)" "${extra[@]}"

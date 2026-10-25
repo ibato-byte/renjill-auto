@@ -1,0 +1,17 @@
+{
+  "ep": "pom_debut",
+  "pass": true,
+  "issues": [],
+  "warns": [
+    "エンドカード直前にfx要素が8個残っている"
+  ],
+  "render": {
+    "ep": "pom_debut",
+    "dur": 18,
+    "pass": true,
+    "issues": [],
+    "warns": [
+      "エンドカード直前にfx要素が8個残っている"
+    ]
+  }
+}
