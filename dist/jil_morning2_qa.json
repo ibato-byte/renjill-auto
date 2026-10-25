@@ -2,12 +2,16 @@
   "ep": "jil_morning2",
   "pass": true,
   "issues": [],
-  "warns": [],
+  "warns": [
+    "尺が長め: 17.6s（目安は7〜12s）"
+  ],
   "render": {
     "ep": "jil_morning2",
-    "dur": 22,
+    "dur": 17.6,
     "pass": true,
     "issues": [],
-    "warns": []
+    "warns": [
+      "尺が長め: 17.6s（目安は7〜12s）"
+    ]
   }
 }
