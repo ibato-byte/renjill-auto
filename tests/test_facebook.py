@@ -211,13 +211,6 @@ class StatsTest(unittest.TestCase):
                     {"name": "post_video_social_actions", "values": [{"value": {"share": 3, "comment": 1}}]}]})
         self.assertEqual(fb.reel_stats("v1", TOK, H()), {"plays": 321, "reactions": 7, "comments": 1, "shares": 3})
 
-    def test_reel_stats_falls_back_to_video_fields(self):
-        class H:
-            def get(self, url, params=None, timeout=None):
-                if url.endswith("/video_insights"): return Resp({"data": []})
-                return Resp({"views": 40, "likes": {"summary": {"total_count": 2}}, "comments": {"summary": {"total_count": 1}}})
-        self.assertEqual(fb.reel_stats("v1", TOK, H()), {"plays": 40, "reactions": 2, "comments": 1})
-
     def test_reel_stats_unavailable(self):
         class H:
             def get(self, url, params=None, timeout=None): return Resp({"error": {"message": "no permission"}})

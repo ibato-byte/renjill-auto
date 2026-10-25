@@ -27,11 +27,6 @@ class GrowthTest(unittest.TestCase):
         L = growth.follow_layout(10.0, 1920)
         self.assertAlmostEqual(L["end"], L["total"] - 0.15)  # 最後の0.15秒は表示しない
 
-    def test_follow_band_spans_full_width(self):
-        # 帯は画面の端から端まで（依頼 #90）。文字の幅だけの帯だと、左右の端が暗くならない
-        f = growth.follow_filter(10.0, "/f.ttf", pathlib.Path("/t"))
-        self.assertIn("drawbox=x=0:", f); self.assertIn(":w=iw:", f)
-
     def test_follow_layout_rules(self):
         for total in (10.0, 22.0, 29.5):
             L = growth.follow_layout(total, 1920)

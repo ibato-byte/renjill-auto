@@ -115,9 +115,9 @@ function cameraAt(shots, t) {
 function camera(c, punch) {
   // punch: 0〜1 のズームパンチ（足ダンの瞬間にぐっと寄って戻る）
   const z = c.z * (1 + 0.12 * (punch || 0));
-  // 画面外（背景の外）が映らないように中心を制限（余白 0：左右上下どの端にもすき間を出さない。#90）
+  // 画面外（背景の外）が映らないように中心を制限
   const hw = 540 / z, hh = 960 / z;
-  const cx = clamp(c.cx, hw, 1080 - hw), cy = clamp(c.cy, hh, 1920 - hh);
+  const cx = clamp(c.cx, hw - 40, 1120 - hw), cy = clamp(c.cy, hh - 40, 1960 - hh);
   document.getElementById('world').style.transform = `translate(${540 - cx * z}px, ${960 - cy * z}px) scale(${z})`;
 }
 // 画面空間の演出（集中線・衝撃フラッシュ）
