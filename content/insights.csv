@@ -1,0 +1,56 @@
+計測日,対象,ref,指標,値,メモ
+2026-10-25,reel,2026-10-21_papers2,reach,116,
+2026-10-25,reel,2026-10-21_papers2,saved,0,
+2026-10-25,reel,2026-10-21_papers2,shares,0,
+2026-10-25,reel,2026-10-21_papers2,ig_reels_avg_watch_time,3297,
+2026-10-25,reel,2026-10-21_papers2,ig_reels_video_view_total_time,451750,
+2026-10-25,reel,2026-10-21_papers2,profile_visits,,(#100) The Media Insights API does not support the profile_visits metric for this media product type.
+2026-10-25,reel,2026-10-21_papers2,follows,,(#100) The Media Insights API does not support the follows metric for this media product type.
+2026-10-25,reel,2026-10-21_papers2,total_interactions,1,
+2026-10-25,reel,2026-10-21_papers2,avg_watch_ratio,0.15,平均視聴時間÷動画の長さ（完走率の代わり）
+2026-10-25,reel,2026-10-21_papers2,view_3s_rate,,Instagram の API では3秒視聴率・完走率は取れない（アプリの画面にだけ出る）。代わりに平均視聴時間÷動画の長さを見る
+2026-10-25,reel,2026-10-23_mug2,reach,108,
+2026-10-25,reel,2026-10-23_mug2,saved,0,
+2026-10-25,reel,2026-10-23_mug2,shares,0,
+2026-10-25,reel,2026-10-23_mug2,ig_reels_avg_watch_time,3923,
+2026-10-25,reel,2026-10-23_mug2,ig_reels_video_view_total_time,482541,
+2026-10-25,reel,2026-10-23_mug2,profile_visits,,(#100) The Media Insights API does not support the profile_visits metric for this media product type.
+2026-10-25,reel,2026-10-23_mug2,follows,,(#100) The Media Insights API does not support the follows metric for this media product type.
+2026-10-25,reel,2026-10-23_mug2,total_interactions,1,
+2026-10-25,reel,2026-10-23_mug2,avg_watch_ratio,0.171,平均視聴時間÷動画の長さ（完走率の代わり）
+2026-10-25,reel,2026-10-23_mug2,view_3s_rate,,Instagram の API では3秒視聴率・完走率は取れない（アプリの画面にだけ出る）。代わりに平均視聴時間÷動画の長さを見る
+2026-10-25,reel,2026-10-25_chime2,reach,101,
+2026-10-25,reel,2026-10-25_chime2,saved,0,
+2026-10-25,reel,2026-10-25_chime2,shares,0,
+2026-10-25,reel,2026-10-25_chime2,ig_reels_avg_watch_time,3690,
+2026-10-25,reel,2026-10-25_chime2,ig_reels_video_view_total_time,391164,
+2026-10-25,reel,2026-10-25_chime2,profile_visits,,(#100) The Media Insights API does not support the profile_visits metric for this media product type.
+2026-10-25,reel,2026-10-25_chime2,follows,,(#100) The Media Insights API does not support the follows metric for this media product type.
+2026-10-25,reel,2026-10-25_chime2,total_interactions,1,
+2026-10-25,reel,2026-10-25_chime2,avg_watch_ratio,0.16,平均視聴時間÷動画の長さ（完走率の代わり）
+2026-10-25,reel,2026-10-25_chime2,view_3s_rate,,Instagram の API では3秒視聴率・完走率は取れない（アプリの画面にだけ出る）。代わりに平均視聴時間÷動画の長さを見る
+2026-10-25,account,17841455420932757,reach,103,
+2026-10-25,account,17841455420932757,profile_views,4,
+2026-10-25,account,17841455420932757,accounts_engaged,1,
+2026-10-25,account,17841455420932757,follows_and_unfollows,,値が返らなかった
+2026-10-25,account,17841455420932757,views,132,
+2026-10-25,story,17924178378442000,reach,,(#10) Not enough viewers for the media to show insights
+2026-10-25,story,17924178378442000,replies,,(#10) Not enough viewers for the media to show insights
+2026-10-25,story,17924178378442000,shares,,(#10) Not enough viewers for the media to show insights
+2026-10-25,story,17924178378442000,follows,,(#10) Not enough viewers for the media to show insights
+2026-10-25,story,17924178378442000,profile_visits,,(#10) Not enough viewers for the media to show insights
+2026-10-25,story,17924178378442000,total_interactions,,(#10) Not enough viewers for the media to show insights
+2026-10-25,story,17924178378442000,views,,(#10) Not enough viewers for the media to show insights
+2026-10-25,story,17924178378442000,navigation,,(#10) Not enough viewers for the media to show insights
+2026-10-25,fb_reel,2026-10-21_papers2,plays,,取れなかった（応答が空）
+2026-10-25,fb_reel,2026-10-21_papers2,reactions,,取れなかった（応答が空）
+2026-10-25,fb_reel,2026-10-21_papers2,comments,,取れなかった（応答が空）
+2026-10-25,fb_reel,2026-10-21_papers2,shares,,取れなかった（応答が空）
+2026-10-25,fb_reel,2026-10-23_mug2,plays,,取れなかった（応答が空）
+2026-10-25,fb_reel,2026-10-23_mug2,reactions,,取れなかった（応答が空）
+2026-10-25,fb_reel,2026-10-23_mug2,comments,,取れなかった（応答が空）
+2026-10-25,fb_reel,2026-10-23_mug2,shares,,取れなかった（応答が空）
+2026-10-25,fb_reel,2026-10-25_chime2,plays,,取れなかった（応答が空）
+2026-10-25,fb_reel,2026-10-25_chime2,reactions,,取れなかった（応答が空）
+2026-10-25,fb_reel,2026-10-25_chime2,comments,,取れなかった（応答が空）
+2026-10-25,fb_reel,2026-10-25_chime2,shares,,取れなかった（応答が空）
