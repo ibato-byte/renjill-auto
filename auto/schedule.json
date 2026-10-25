@@ -139,47 +139,82 @@
     {
       "date": "2026-11-02",
       "slot": "12:00",
-      "ep": "meeting2",
-      "no": 1,
-      "title": "会議の5分前",
-      "caption_ja": "会議の5分前。課長はまだ夢の中。",
-      "caption_en": "Meeting in 5 minutes. The boss is still dreaming.",
+      "ep": "update99",
+      "no": 11,
+      "title": "99%で止まる更新",
+      "caption_ja": "99%で止まった更新バー。待っているうちに全員寝ました。",
+      "caption_en": "Stuck at 99%. We waited. Everyone fell asleep.",
       "tag_set": "B",
       "thumb": {
-        "t": 6.0,
-        "cam": "2.0,540,900",
-        "hook": "5 MIN LEFT/会議の5分前"
-      }
+        "t": 4.25,
+        "cam": "1.15,600,1060",
+        "hook": "STUCK AT 99%/99%で止まる"
+      },
+      "first_comment": "足ダンで催促する？それとも寝て待つ？ / Stomp your foot, or nap until it finishes?"
     },
     {
       "date": "2026-11-04",
       "slot": "12:00",
-      "ep": "stamp2",
-      "no": 3,
-      "title": "ハンコは鼻で",
-      "caption_ja": "課長はハンコを体で押します。ジルがそっと押し直します。",
-      "caption_en": "He stamps with his whole body. Jill stamps it right.",
+      "ep": "vending",
+      "no": 12,
+      "title": "自販機のにんじんジュース",
+      "caption_ja": "自販機にコインを入れたのに、にんじんジュースが出ない。叩いて、蹴って、そして缶の雨。（ジルは全部持っていった）",
+      "caption_en": "He just wanted a carrot juice. He got every can except that one.",
       "tag_set": "A",
       "thumb": {
-        "t": 10.5,
-        "cam": "2.0,540,900",
-        "hook": "STAMP IT/鼻でハンコ"
-      }
+        "t": 1.8,
+        "cam": "1.5,400,1200",
+        "hook": "NO CARROT?!/にんじん出ない"
+      },
+      "first_comment": "自販機で「出ない…」のとき、叩く派？諦めて去る派？ / Smack it or walk away?"
     },
     {
       "date": "2026-11-06",
       "slot": "18:00",
-      "ep": "camera_off2",
-      "no": 7,
-      "title": "カメラオフの正体",
-      "caption_ja": "カメラオフなら寝てもバレない。（はず）",
-      "caption_en": "Camera off, nap on. (Or so he thought.)",
+      "ep": "replyall",
+      "no": 13,
+      "title": "全員に返信",
+      "caption_ja": "「返信」のつもりが「全員に返信」。取り消しは間に合わない。（尻尾は正直）",
+      "caption_en": "Hit \"Reply All\" by mistake. Undo can't save him. (His tail gave him away.)",
       "tag_set": "B",
       "thumb": {
-        "t": 6.0,
-        "cam": "2.0,540,900",
-        "hook": "NAP TIME/カメラオフの正体"
-      }
+        "t": 4.0,
+        "cam": "1.3,600,930",
+        "hook": "REPLY ALL?!/全員に返信"
+      },
+      "first_comment": "ジルが無言で画面を閉じたのは、やさしさ？それとも巻き込まれたくなかった？"
+    },
+    {
+      "date": "2026-11-08",
+      "slot": "12:00",
+      "ep": "thumbsup",
+      "no": 14,
+      "title": "了解です",
+      "caption_ja": "「了解です」を押しすぎた課長。辞めますにも親指。",
+      "caption_en": "He thumbs-upped her resignation.",
+      "tag_set": "A",
+      "thumb": {
+        "t": 5.3,
+        "cam": "2.0,450,820",
+        "hook": "THUMBS UP./了解です"
+      },
+      "first_comment": "ジルの「辞めます」に、あなたの職場でやりがちなのは？ A: 親指だけ返す B: 既読スルー"
+    },
+    {
+      "date": "2026-11-10",
+      "slot": "12:00",
+      "ep": "lastsheet",
+      "no": 15,
+      "title": "最後の1枚",
+      "caption_ja": "最後の1枚をレンもジルも譲らない。結局ポムがテープで貼って「1枚」。",
+      "caption_en": "One sheet left. Two bunnies. Zero compromise. Pom tapes it all back together.",
+      "tag_set": "B",
+      "thumb": {
+        "t": 5.3,
+        "cam": "1.1,600,1300",
+        "hook": "LAST SHEET/最後の1枚"
+      },
+      "first_comment": "あなたなら？ ①ジルみたいに半分でも堂々と出す ②レンみたいに最後まで引っぱる"
     }
   ]
 }

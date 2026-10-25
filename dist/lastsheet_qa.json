@@ -1,0 +1,17 @@
+{
+  "ep": "lastsheet",
+  "pass": true,
+  "issues": [],
+  "warns": [
+    "エンドカード直前にfx要素が30個残っている"
+  ],
+  "render": {
+    "ep": "lastsheet",
+    "dur": 12,
+    "pass": true,
+    "issues": [],
+    "warns": [
+      "エンドカード直前にfx要素が30個残っている"
+    ]
+  }
+}

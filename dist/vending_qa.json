@@ -1,0 +1,17 @@
+{
+  "ep": "vending",
+  "pass": true,
+  "issues": [],
+  "warns": [
+    "エンドカード直前にfx要素が14個残っている"
+  ],
+  "render": {
+    "ep": "vending",
+    "dur": 11.5,
+    "pass": true,
+    "issues": [],
+    "warns": [
+      "エンドカード直前にfx要素が14個残っている"
+    ]
+  }
+}
