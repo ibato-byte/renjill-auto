@@ -11,5 +11,10 @@ window.PACE_ALL = {
   pom_debut:   { start: 0.0, speed: 1.25, hook: 'NEW HIRE/新人のポム' },
   meeting2:    { start: 1.8, speed: 1.25, hook: '5 MIN LEFT/会議の5分前' },
   stamp2:      { start: 0.9, speed: 1.25, hook: 'STAMP IT/鼻でハンコ' },
-  camera_off2: { start: 1.6, speed: 1.25, hook: 'NAP TIME/カメラオフの正体' }
+  camera_off2: { start: 1.6, speed: 1.25, hook: 'NAP TIME/カメラオフの正体' },
+  update99:    { start: 0.0, speed: 1.0, hook: 'STUCK AT 99%/99%で止まる' }
 };
+window.PACE_ALL.replyall = { start: 0.0, speed: 1.0, hook: 'REPLY ALL?!/全員に返信' };
+window.PACE_ALL.thumbsup = { start: 0.0, speed: 1.0, hook: 'THUMBS UP./了解です' };
+window.PACE_ALL.vending = { start: 0.0, speed: 1.0, hook: 'NO CARROT?!/にんじん出ない' };
+window.PACE_ALL.lastsheet = { start: 0.0, speed: 1.0, hook: 'LAST SHEET/最後の1枚' };

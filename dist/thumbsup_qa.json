@@ -1,0 +1,17 @@
+{
+  "ep": "thumbsup",
+  "pass": true,
+  "issues": [],
+  "warns": [
+    "エンドカード直前にfx要素が7個残っている"
+  ],
+  "render": {
+    "ep": "thumbsup",
+    "dur": 11.4,
+    "pass": true,
+    "issues": [],
+    "warns": [
+      "エンドカード直前にfx要素が7個残っている"
+    ]
+  }
+}
