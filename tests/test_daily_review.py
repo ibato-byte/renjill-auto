@@ -85,5 +85,22 @@ class Insights(unittest.TestCase):
         self.assertEqual(insights.append(f, rows, "2026-10-25"), 0)  # 同じ日は重ならない
 
 
+
+class FbRows(unittest.TestCase):
+    class Http:
+        def get(self, url, params, timeout=30):
+            class R:
+                def json(s):
+                    if "video_insights" in url: return {"error": {"message": "(#100) deprecated metric"}}
+                    return {"views": 42, "likes": {"summary": {"total_count": 3}}, "comments": {"summary": {"total_count": 1}}}
+            return R()
+
+    def test_fallback_and_reason(self):
+        rows = insights.fb_rows("2026-10-25", {"k": {"facebook": "123"}}, "t", self.Http())
+        d = {r[3]: (r[4], r[5]) for r in rows}
+        self.assertEqual(d["plays"][0], 42); self.assertEqual(d["reactions"][0], 3)
+        self.assertEqual(d["shares"][0], ""); self.assertIn("deprecated", d["shares"][1])
+
+
 if __name__ == "__main__":
     unittest.main()
