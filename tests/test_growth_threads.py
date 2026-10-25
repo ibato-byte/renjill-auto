@@ -90,7 +90,7 @@ class CommentsTest(unittest.TestCase):
 
     def test_draft_does_not_post(self):
         self.assertEqual(comments.load_mode(ROOT / "nonexistent.json"), "draft")
-        self.assertEqual(comments.load_mode(ROOT / "auto" / "reply_mode.json"), "draft")
+        self.assertEqual(comments.load_mode(ROOT / "auto" / "reply_mode.json"), "live")  # 2026-10-25 にオーナー指示（Hub 依頼 #99）で実際の返信へ。ファイルがないときは draft のまま
 
 
 
