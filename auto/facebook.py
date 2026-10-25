@@ -247,4 +247,11 @@ def reel_stats(vid, tok, http=requests):
         elif it.get("name") == "post_video_likes_by_reaction_type": out["reactions"] = _num(v)
         elif it.get("name") == "post_video_social_actions" and isinstance(v, dict):
             out["comments"] = v.get("comment", ""); out["shares"] = v.get("share", "")
+    if "plays" not in out:  # インサイトが空・廃止されたときの代わり：動画そのものの再生数・いいね・コメント数（依頼 #92）
+        j = _json(http.get(f"{G}/{vid}", params={"fields": "views,likes.summary(true).limit(0),comments.summary(true).limit(0)", "access_token": tok}, timeout=30))
+        if "error" not in j:
+            if isinstance(j.get("views"), (int, float)): out["plays"] = j["views"]
+            for k, name in (("likes", "reactions"), ("comments", "comments")):
+                t = ((j.get(k) or {}).get("summary") or {}).get("total_count")
+                if isinstance(t, (int, float)) and name not in out: out[name] = t
     return out
