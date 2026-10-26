@@ -19,6 +19,8 @@ NOT_ID = ("manual", "bs-scheduled")
 DAILY_LIMIT = 8            # SNS ごとの 1 日の返信（または候補）の上限
 LOOKBACK_DAYS = 7          # 何日前までの投稿を見るか
 NO_REPEAT_DAYS = 14
+OWN_IG_NAME = "renjill_office"      # 自分たちの Instagram のアカウント名
+OWN_FB_PAGE_ID = "1358515160686321"  # 自分たちの Facebook ページ
 MAX_LEN = 60               # 長いコメントは、意図が読み取れないので返さない
 
 REPLIES = {
@@ -122,7 +124,9 @@ def fetch_meta(platform, media_id, tok, http=requests):
         r = http.get(f"{G}/{media_id}/comments", params={"fields": "id,message,from,created_time", "filter": "toplevel", "limit": 50, "access_token": tok}).json()
         key = "message"
     if "error" in r: raise PermissionError(str(r["error"].get("message", ""))[:120])
-    return [{"platform": platform, "id": c["id"], "text": c.get(key, ""), "media": media_id, "own": False} for c in r.get("data", [])]
+    # 自分たちのコメントには返さない（Instagram は投稿者名、Facebook はページの ID で見分ける）
+    own = lambda c: (c.get("username") == OWN_IG_NAME) if platform == "ig" else (str((c.get("from") or {}).get("id", "")) == OWN_FB_PAGE_ID)
+    return [{"platform": platform, "id": c["id"], "text": c.get(key, ""), "media": media_id, "own": own(c)} for c in r.get("data", [])]
 
 
 def reply_meta(platform, cid, text, tok, http=requests):
@@ -154,6 +158,19 @@ def fetch_yt(yt, video_id):
                     "own": top["snippet"].get("authorChannelId", {}).get("value") == it["snippet"].get("channelId") and bool(it["snippet"].get("channelId")),
                     "replied": it["snippet"].get("totalReplyCount", 0) > 0})
     return out
+
+
+def recent_log(now, state_f=AUTO / "replies.json", limit=12):
+    """今日の対応（返した・非表示にした）を Hub に残す短い一覧。コメント本文は80字まで"""
+    try: state = json.loads(pathlib.Path(state_f).read_text())
+    except FileNotFoundError: return ""
+    today = now.strftime("%Y-%m-%d")
+    lines = []
+    for v in state.values():
+        if v.get("at", "")[:10] != today or v.get("mode") != "live": continue
+        if v.get("reply"): lines.append(f'- 返信（{v["platform"]}）「{v.get("text", "")}」→「{v["reply"]}」')
+        elif v.get("hide"): lines.append(f'- 非表示（{v["platform"]}・{v["hide"]}）')
+    return "## 今日のコメント対応\n" + "\n".join(lines[-limit:]) if lines else ""
 
 
 def run(now=None, dry_run=False, log=print, http=requests):
@@ -224,3 +241,4 @@ if __name__ == "__main__":
     print("[comments]", json.dumps(s, ensure_ascii=False))
     pathlib.Path(ROOT / "dist").mkdir(exist_ok=True)
     (ROOT / "dist" / "comments_summary.json").write_text(json.dumps(s, ensure_ascii=False))
+    (ROOT / "dist" / "comments_log.md").write_text(recent_log(dt.datetime.now(JST)))
