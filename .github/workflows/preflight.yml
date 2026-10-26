@@ -47,6 +47,9 @@ jobs:
         if: steps.hub.outputs.paused != 'true'
         run: python auto/preflight.py
         continue-on-error: true
+      - name: 手で予約した TikTok・YouTube の文言のずれを調べる
+        if: steps.hub.outputs.paused != 'true'
+        run: python auto/driftcheck.py || true
       - name: commit renders and QA reports
         if: steps.hub.outputs.paused != 'true'
         run: |
@@ -70,6 +73,8 @@ jobs:
           PAUSED: ${{ steps.hub.outputs.paused }}
         run: |
           [ -d "$RUNNER_TEMP/hub" ] || exit 0
+          extra=(--owner-action none)
+          if [ -f dist/drift_hub_args ]; then mapfile -d '' -t extra < dist/drift_hub_args; fi
           bash "$RUNNER_TEMP/hub/scripts/gha.sh" report renjill-preflight "$JOB_STATUS" "$PAUSED" "3日以内に投稿する回を事前に描画し、QA に合格" \
             --does "毎日、3日以内に投稿する回を事前に描画し、品質チェック（QA）に通るか確かめる" --outcome done \
-            --next-run-at "$(bash "$RUNNER_TEMP/hub/scripts/gha.sh" next-daily 21:00)" --owner-action none
+            --next-run-at "$(bash "$RUNNER_TEMP/hub/scripts/gha.sh" next-daily 21:00)" "${extra[@]}"
