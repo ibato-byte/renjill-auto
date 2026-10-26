@@ -4,11 +4,14 @@ NGがあれば終了コード2（Actionsが失敗→GitHubからメール通知�
 import datetime as dt, json, pathlib, subprocess, sys
 sys.path.insert(0, str(pathlib.Path(__file__).parent))
 from post import render, qa_gate, thumbnail, AUTO, JST
+import textcheck
 sch = json.loads((AUTO / "schedule.json").read_text())
 today = dt.datetime.now(JST).date(); bad = []
 for p in sch["posts"]:
     d = dt.date.fromisoformat(p["date"])
     if not (0 <= (d - today).days <= 3): continue
+    for msg in textcheck.check(p):  # 文字の時刻が動画の時計と違う回は出さない（Hub 依頼 #113）
+        print("text NG", msg); bad.append(p["ep"])
     try:
         yt, loop = render(p["ep"])
         if not qa_gate(p["ep"], yt, loop): bad.append(p["ep"])

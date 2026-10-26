@@ -25,6 +25,7 @@ import mode
 import stories
 import growth
 import threads
+import textcheck
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 RIG, DIST, AUTO = ROOT / "rig", ROOT / "dist", ROOT / "auto"
@@ -347,6 +348,11 @@ def main(argv=None):
     did = {}  # タイトル → 投稿できた SNS の名前
     for key, p, plats in targets:
         results["回"] = f'{p["title"]}（{p["date"][5:]} {p["slot"]}）' if "回" not in results else results["回"] + f'・{p["title"]}'
+        tx = textcheck.check(p)  # 文字の時刻が動画の時計と違う回は、どの SNS にも出さない（Hub 依頼 #113）
+        if tx:
+            failed.append(f"{key}:文字"); results["QA"] = "文字と動画の食い違いで見送り"
+            actions.append(f'「{p["title"]}」（{p["date"]} {p["slot"]}）の文字が動画の絵と食い違うため、どの SNS にも出していない：{" / ".join(tx)}。Claude に「{p["ep"]} の文字を直して出し直して」と伝える')
+            continue
         yt_path, loop_path = render(p["ep"])
         story_src = loop_path  # ストーリーズの見どころは元のループ版から切り出す
         if not qa_gate(p["ep"], yt_path, loop_path):
