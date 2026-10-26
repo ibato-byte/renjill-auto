@@ -26,6 +26,7 @@ import stories
 import growth
 import threads
 import textcheck
+import covercheck
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 RIG, DIST, AUTO = ROOT / "rig", ROOT / "dist", ROOT / "auto"
@@ -63,15 +64,22 @@ def pick_posts(slot_override=None, now=None, ignore_posted=False):
 
 # ---------- レンダリング ----------
 def render(ep):
+    """yt＝YouTube 用（冒頭の一言を焼き込まない。YouTube は冒頭のコマを表紙にするため。依頼 #124）、loop＝ほかの SNS 用（一言あり・エンドカードなし）"""
     yt, loop = DIST / f"{ep}_yt.mp4", DIST / f"{ep}_loop.mp4"
-    if yt.exists() and loop.exists(): return yt, loop
+    mark = DIST / f"{ep}_yt.nohook"  # この印がない yt は一言入りの古い版なので作り直す
+    if yt.exists() and loop.exists() and mark.exists(): return yt, loop
     log("render", ep)
     env = dict(os.environ, NODE_PATH=subprocess.check_output(["npm", "root", "-g"]).decode().strip())
+    full = DIST / f"{ep}_full.mp4"  # 一言ありの全編（ループ版の元）
     subprocess.run(["node", str(RIG / "render-ep.js"), ep], check=True, env=env)
-    subprocess.run(["bash", str(RIG / "build.sh"), ep, str(yt)], check=True)
+    subprocess.run(["bash", str(RIG / "build.sh"), ep, str(full)], check=True)
     dur = json.loads((RIG / "out" / ep / "meta.json").read_text())["dur"]
     # ループ版：エンドカード（最後の0.9秒）を落とす
-    subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(yt), "-t", str(dur - 1.0), "-c", "copy", str(loop)], check=True)
+    subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(full), "-t", str(dur - 1.0), "-c", "copy", str(loop)], check=True)
+    # YouTube 版：冒頭の一言なし
+    subprocess.run(["node", str(RIG / "render-ep.js"), ep, "nohook"], check=True, env=env)
+    subprocess.run(["bash", str(RIG / "build.sh"), f"{ep}_nohook", str(yt)], check=True)
+    mark.write_text("hook なし（依頼 #124）\n")
     return yt, loop
 
 def qa_gate(ep, yt, loop):
@@ -123,8 +131,7 @@ def post_youtube(p, d, path):
             "status": {"privacyStatus": "public", "selfDeclaredMadeForKids": False}}
     req = yt.videos().insert(part="snippet,status,localizations", body=body, media_body=MediaFileUpload(str(path), chunksize=-1, resumable=True))
     res = req.execute()
-    try: yt.thumbnails().set(videoId=res["id"], media_body=MediaFileUpload(str(thumbnail(p)))).execute()
-    except Exception as e: log("thumbnail NG", repr(e)[:200])
+    # YouTube には文字入りの表紙を送らない（YouTube は文字なしにそろえる。オーナー決定 2026-10-26・依頼 #124）。表紙は動画の冒頭のコマ（一言なし）になる
     return res["id"]
 
 # ---------- TikTok ----------
@@ -359,6 +366,15 @@ def main(argv=None):
             failed.append(f"{key}:QA"); results["QA"] = "不合格で見送り"
             actions.append(f'「{p["title"]}」（{p["date"]} {p["slot"]}）が投稿前の QA に不合格で、どの SNS にも出していない（理由は dist/{p["ep"]}_qa.json）。Claude に「{p["ep"]} の QA を直して出し直して」と伝える')
             continue
+        # 表紙の型がそろっているか（YouTube＝文字なし、ほかの SNS＝文字あり。今回だけ違う・直近と違うなら、どの SNS にも出さない。Hub 依頼 #124）
+        try:
+            cprobs, cstyles = covercheck.check(p, key, posted, yt_path, loop_path, thumbnail(p), only=set(plats))
+        except Exception as e:
+            cprobs, cstyles = [("all", f"表紙の検査ができなかった（{repr(e)[:80]}）")], {}
+        if cprobs:
+            failed.append(f"{key}:表紙"); results["表紙"] = "型がそろわず見送り"
+            actions.append(f'「{p["title"]}」（{p["date"]} {p["slot"]}）の表紙の型がそろっていないため、どの SNS にも出していない：{" / ".join(m for _, m in cprobs)}。直近の表紙との並び：dist/{p["ep"]}_covers.jpg。Claude に「{p["ep"]} の表紙の型を直して出し直して」と伝える')
+            continue
         try:  # 最後に「フォローして続きを見てね」を入れた版（作れなければ元のまま）。ループの継ぎ目は壊さない
             loop_path = growth.add_follow_line(loop_path, DIST / f'{p["ep"]}_loopf.mp4') or loop_path
         except Exception as e: log("フォロー案内の追加に失敗（元の動画で続ける）", repr(e)[:200])
@@ -397,6 +413,7 @@ def main(argv=None):
                 else:
                     log("未対応のSNS", pl); continue
                 rec[pl + "_at"] = dt.datetime.now(JST).isoformat(timespec="minutes")
+                if pl in cstyles: rec.setdefault("cover_style", {})[pl] = cstyles[pl]  # 次回以降の「直近と型が同じか」の検査に使う
                 if pl != "facebook": results[mode.NAMES[pl]] = "投稿OK"
                 did.setdefault(p["title"], []).append(mode.NAMES.get(pl, pl))
                 log("OK", key, pl, rec[pl])

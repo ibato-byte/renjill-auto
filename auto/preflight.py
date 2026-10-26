@@ -5,6 +5,7 @@ import datetime as dt, json, pathlib, subprocess, sys
 sys.path.insert(0, str(pathlib.Path(__file__).parent))
 from post import render, qa_gate, thumbnail, AUTO, JST
 import textcheck
+import covercheck
 sch = json.loads((AUTO / "schedule.json").read_text())
 today = dt.datetime.now(JST).date(); bad = []
 for p in sch["posts"]:
@@ -15,7 +16,9 @@ for p in sch["posts"]:
     try:
         yt, loop = render(p["ep"])
         if not qa_gate(p["ep"], yt, loop): bad.append(p["ep"])
-        thumbnail(p)  # グリッドで文字が切れないかも事前に確認
+        th = thumbnail(p)  # グリッドで文字が切れないかも事前に確認
+        probs, _ = covercheck.check(p, f'{p["date"]}_{p["ep"]}', json.loads((AUTO / "posted.json").read_text()), yt, loop, th)  # 表紙の型（Hub 依頼 #124）
+        for _, m in probs: print("cover NG", p["ep"], m); bad.append(p["ep"])
     except Exception as e:
         print("render NG", p["ep"], repr(e)[:300]); bad.append(p["ep"])
 print("NG:", bad) if bad else print("all pass")
