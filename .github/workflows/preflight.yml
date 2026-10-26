@@ -47,6 +47,12 @@ jobs:
         if: steps.hub.outputs.paused != 'true'
         run: python auto/preflight.py
         continue-on-error: true
+      - id: tests
+        name: 全テストの実行（1件でも落ちたら失敗にして「あなたの番」に出す。Hub 依頼 #125）
+        if: steps.hub.outputs.paused != 'true'
+        run: python -m unittest discover -s tests 2>&1 | tail -40; test ${PIPESTATUS[0]} -eq 0
+        shell: bash
+        continue-on-error: true
       - name: 手で予約した TikTok・YouTube の文言のずれを調べる
         if: steps.hub.outputs.paused != 'true'
         run: python auto/driftcheck.py || true
@@ -57,6 +63,9 @@ jobs:
           git add -A dist/ || true
           git diff --cached --quiet || git commit -m "preflight: $(TZ=Asia/Tokyo date '+%Y-%m-%d')"
           bash auto/push_main.sh
+      - name: テストが落ちたら失敗にする
+        if: steps.tests.outcome == 'failure'
+        run: echo "テストが1件以上失敗している（この実行のログの「全テストの実行」を見る）"; exit 1
       - name: open issue on QA failure
         if: steps.qa.outcome == 'failure'
         env: { GH_TOKEN: "${{ github.token }}" }
@@ -71,10 +80,12 @@ jobs:
           HUB_TOKEN: ${{ secrets.HUB_TOKEN }}
           JOB_STATUS: ${{ job.status }}
           PAUSED: ${{ steps.hub.outputs.paused }}
+          TESTS: ${{ steps.tests.outcome }}
         run: |
           [ -d "$RUNNER_TEMP/hub" ] || exit 0
           extra=(--owner-action none)
           if [ -f dist/drift_hub_args ]; then mapfile -d '' -t extra < dist/drift_hub_args; fi
+          if [ "$TESTS" = "failure" ]; then extra=(--owner-action "renjill-auto の自動テストが1件以上落ちている。投稿の仕組みのどこかが壊れている。Claude に「renjill-auto のテストが落ちているので直して」と伝える"); fi
           bash "$RUNNER_TEMP/hub/scripts/gha.sh" report renjill-preflight "$JOB_STATUS" "$PAUSED" "3日以内に投稿する回を事前に描画し、QA に合格" \
             --does "毎日、3日以内に投稿する回を事前に描画し、品質チェック（QA）に通るか確かめる" --outcome done \
             --next-run-at "$(bash "$RUNNER_TEMP/hub/scripts/gha.sh" next-daily 21:00)" "${extra[@]}"
