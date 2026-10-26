@@ -123,7 +123,7 @@ class OutageAndCatchUpTest(unittest.TestCase):
              mock.patch.object(pathlib.Path, "exists", lambda self: self.name == "posted.json" or orig_e(self)), \
              mock.patch.object(pathlib.Path, "write_bytes", lambda self, data: len(data)), \
              mock.patch.object(post, "render", lambda ep: (pathlib.Path("a.mp4"), pathlib.Path("b.mp4"))), \
-             mock.patch.object(post, "qa_gate", lambda *a: True), mock.patch.object(post, "thumbnail", lambda p: pathlib.Path("t.jpg")), \
+             mock.patch.object(post, "qa_gate", lambda *a: True), mock.patch.object(post.covercheck, "check", lambda *a, **k: ([], {})), mock.patch.object(post, "thumbnail", lambda p: pathlib.Path("t.jpg")), \
              mock.patch.object(post, "post_youtube", yt), mock.patch.object(post, "post_instagram", igp), \
              mock.patch.object(fb, "diagnose", lambda *a, **k: fb_access), mock.patch.object(fb, "post", fbp):
             code = post.main(argv)

@@ -111,7 +111,7 @@ class PackTest(unittest.TestCase):
             with mock.patch.dict(os.environ, {**MANUAL, "GITHUB_RUN_ID": "123", "ARTIFACT_NAME": "manual-20261026"}), \
                  mock.patch.object(pathlib.Path, "read_text", r), mock.patch.object(pathlib.Path, "write_text", w), \
                  mock.patch.object(pathlib.Path, "write_bytes", wb), mock.patch.object(mp.dt, "datetime", Now), \
-                 mock.patch.object(post, "render", lambda ep: (vid, vid)), mock.patch.object(post, "qa_gate", lambda *a: True), \
+                 mock.patch.object(post, "render", lambda ep: (vid, vid)), mock.patch.object(post, "qa_gate", lambda *a: True), mock.patch.object(post.covercheck, "check", lambda *a, **k: ([], {})), \
                  mock.patch.object(post, "thumbnail", lambda p: cover), mock.patch.object(mp, "aspect", lambda p: (1080, 1920)):
                 out = pathlib.Path(d) / "out"
                 code = mp.main([str(out), *argv])
