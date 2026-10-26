@@ -1,0 +1,24 @@
+{
+  "2026-10-28_receipts2": {
+    "texts": {
+      "title": "牧草の領収書",
+      "caption_en": "Expense report: 100% hay.",
+      "caption_ja": "経費精算、ぜんぶ牧草。",
+      "hook": "EXPENSES: HAY/経費はぜんぶ牧草",
+      "tags": "#うさぎのいる生活 #ホーランドロップ #会社あるある #lopbunny #officelife"
+    },
+    "at": "2026-10-26T12:44+09:00",
+    "note": "依頼 #113：予約時の文言は未記録。git の履歴で 2026-10-21 以降 schedule.json の文言が変わっていないことを確認して、その文言を基準にした"
+  },
+  "2026-10-30_deadline2": {
+    "texts": {
+      "title": "締め切りのカレンダー",
+      "caption_en": "If you don't look, the deadline doesn't exist. (It does.)",
+      "caption_ja": "見なければ、締め切りは来ない（来ます）。",
+      "hook": "DEADLINE? NO./見なければ来ない",
+      "tags": "#うさぎのいる暮らし #ネザーランドドワーフ #社畜あるある #bunnytok #cuteanimals"
+    },
+    "at": "2026-10-26T12:44+09:00",
+    "note": "依頼 #113：予約時の文言は未記録。git の履歴で 2026-10-21 以降 schedule.json の文言が変わっていないことを確認して、その文言を基準にした"
+  }
+}
