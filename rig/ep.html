@@ -38,6 +38,8 @@ document.write('<script src="ep/'+name+'.js"><\/script>');
 <script>
 // 話ごとの「頭を削る・速さ・冒頭の一言」。setOut(o) は「画面に出る時間 o 秒」の1コマを描く（動画の書き出しと検査はこちらを使う）。setFrame は台本の時間のまま（サムネ用）
 const PACE=Object.assign({start:0,speed:1,hook:''},(window.PACE_ALL||{})[name]||{});
+// ?nohook=1：冒頭の一言を焼き込まない版（YouTube 用。YouTube は冒頭のコマを表紙に使うので、文字を入れない。依頼 #124）
+if(new URLSearchParams(location.search).get('nohook'))PACE.hook='';
 window.PACE=PACE; window.outDur=()=>(EP.dur-PACE.start)/PACE.speed;
 window.HOOK_END=1.7;
 const hookEl=document.getElementById('hook');

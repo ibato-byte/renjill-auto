@@ -272,7 +272,7 @@ class MainLoopTest(unittest.TestCase):
             writes[self.name] = data; return len(data)
         ctx = [mock.patch.object(pathlib.Path, "write_text", w), mock.patch.object(pathlib.Path, "read_text", r), mock.patch.object(pathlib.Path, "write_bytes", wb),
                mock.patch.object(post, "render", lambda ep: (pathlib.Path("a.mp4"), pathlib.Path("b.mp4"))),
-               mock.patch.object(post, "qa_gate", lambda *a: True), mock.patch.object(post, "thumbnail", lambda p: pathlib.Path("t.jpg")),
+               mock.patch.object(post, "qa_gate", lambda *a: True), mock.patch.object(post.covercheck, "check", lambda *a, **k: ([], {})), mock.patch.object(post, "thumbnail", lambda p: pathlib.Path("t.jpg")),
                mock.patch.object(fb, "diagnose", lambda *a, **k: access)]
         if fb_post: ctx.append(mock.patch.object(fb, "post", fb_post))
         for c in ctx: c.start()
