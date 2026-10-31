@@ -72,13 +72,19 @@
     "no": 8,
     "title": "牧草の領収書",
     "tt": "manual",
-    "note": "IG/TikTokは手動で予約済み（2026-10-20）"
+    "note": "IG/YT/Threadsは手作業で投稿済み（2026-10-31確認、依頼 #141）。投稿URLは再開後に反映",
+    "ig": "manual",
+    "yt": "manual",
+    "threads": "manual"
   },
   "2026-10-30_deadline2": {
     "tag_set": "B",
     "no": 9,
     "title": "締め切りのカレンダー",
     "tt": "manual",
-    "note": "IG/TikTokは手動で予約済み（2026-10-20）"
+    "note": "IG/YT/Threadsは手作業で投稿済み（2026-10-31確認、依頼 #141）。投稿URLは再開後に反映",
+    "ig": "manual",
+    "yt": "manual",
+    "threads": "manual"
   }
 }
