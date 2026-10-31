@@ -2,7 +2,7 @@
   "_comment": "SNS の多言語方針（2026-10-31 オーナー決定）。アカウントは各SNSに1つ、キャプションは日本語＋英語の一言のまま。YouTube は多言語メタデータ（growth.LOCALE_DESC：ja/ko/zh-Hant/es/pt。簡体字は入れない）。ここの各項目を false にすると、その変更だけ止まる（投稿の曜日・時刻・素材・流れは変えない）",
   "yt_extra_lines": true,
   "yt_lines": [
-    "▶ Official site / 公式サイト: https://ibato-byte.github.io/renjill-site/",
+    "▶ Official site / 公式サイト: https://renjill.coana.co.jp/",
     "▶ Game / ゲーム: https://renjill-hay-dash.pages.dev/"
   ],
   "tt_i18n_tags": true,
