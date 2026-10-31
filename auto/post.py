@@ -22,6 +22,8 @@ sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 import facebook as fb
 import alerts
 import mode
+import sns_policy
+import episodes_json
 import stories
 import growth
 import threads
@@ -125,7 +127,8 @@ def post_youtube(p, d, path):
     creds = Credentials(None, refresh_token=os.environ["YT_REFRESH_TOKEN"], token_uri="https://oauth2.googleapis.com/token",
                         client_id=os.environ["YT_CLIENT_ID"], client_secret=os.environ["YT_CLIENT_SECRET"])
     yt = build("youtube", "v3", credentials=creds)
-    en_title, en_desc = f'{p["caption_en"]} | Ren & Jill「{p["title"]}」', f'{d["yt_description"]}\n\n{tags(p, d)}'
+    # 説明に公式サイトの行を足す（sns_policy.json の yt_extra_lines。多言語の説明にも同じ行が入る）
+    en_title, en_desc = f'{p["caption_en"]} | Ren & Jill「{p["title"]}」', f'{sns_policy.yt_description(d["yt_description"])}\n\n{tags(p, d)}'
     body = {"snippet": {"title": en_title, "description": en_desc, "categoryId": "23", "defaultLanguage": "en"},
             "localizations": growth.youtube_localizations(p, d, en_title, en_desc),  # 英・日・韓・繁体中・西・葡のタイトルと説明（依頼 #38）
             "status": {"privacyStatus": "public", "selfDeclaredMadeForKids": False}}
@@ -140,8 +143,12 @@ class TikTokManual(Exception):
 
 OWNER_TASKS = []  # この実行で Hub の「あなたの番」に出すもの（write_hub_args が --owner-task にする）
 
+def tt_caption(p, d):
+    """TikTok だけ、末尾に繁体字・韓国語のハッシュタグ（sns_policy.json の tt_i18n_tags。上限を超えるなら足さない）"""
+    return sns_policy.tiktok_caption(caption(p, d))
+
 def tiktok_task(p, d, video_url):
-    cap = caption(p, d)
+    cap = tt_caption(p, d)
     steps = ("TikTok の投稿画面（https://www.tiktok.com/tiktokstudio/upload）で、①動画のファイルを選ぶ（下の動画リンクを開いて保存したもの）"
              "②説明欄に次の文をそのまま貼る ③「投稿」を押す。\n\n--- 説明欄に貼る文 ---\n" + cap)
     links = [{"label": "TikTok の投稿画面を開く", "url": "https://www.tiktok.com/tiktokstudio/upload"}]
@@ -154,7 +161,7 @@ def post_tiktok(p, d, path):
     tok = os.environ["TT_ACCESS_TOKEN"]; H = {"Authorization": f"Bearer {tok}", "Content-Type": "application/json; charset=UTF-8"}
     size = path.stat().st_size
     init = requests.post("https://open.tiktokapis.com/v2/post/publish/video/init/", headers=H, json={
-        "post_info": {"title": caption(p, d), "privacy_level": "PUBLIC_TO_EVERYONE", "disable_duet": False, "disable_comment": False, "disable_stitch": False, "video_cover_timestamp_ms": int(float((p.get("thumb") or {}).get("t", 1.0)) * 1000)},
+        "post_info": {"title": tt_caption(p, d), "privacy_level": "PUBLIC_TO_EVERYONE", "disable_duet": False, "disable_comment": False, "disable_stitch": False, "video_cover_timestamp_ms": int(float((p.get("thumb") or {}).get("t", 1.0)) * 1000)},
         "source_info": {"source": "FILE_UPLOAD", "video_size": size, "chunk_size": size, "total_chunk_count": 1}}).json()
     if init.get("error", {}).get("code") != "ok":
         if any(w in json.dumps(init) for w in ("unaudited", "scope_not_authorized", "access_token_invalid", "url_ownership")): raise TikTokManual(init.get("error", {}).get("code", ""))
@@ -210,6 +217,17 @@ def post_instagram(p, d, video_path, th_path, uid=None):
     if "id" not in r: raise RuntimeError(r)
     return r["id"]
 
+def publish_episodes(sch, posted):
+    """公式サイトのエピソード一覧（renjill-media/episodes.json）を書き直す。失敗しても投稿は止めない（sns_policy.json の episodes_json）"""
+    if not sns_policy.load().get("episodes_json"): return
+    try:
+        files = episodes_json.media_listing(MEDIA_REPO, os.environ.get("MEDIA_TOKEN"))
+        eps = episodes_json.build(sch, posted, files)
+        media_publish(episodes_json.write_local(DIST / episodes_json.NAME, eps), episodes_json.NAME)
+        log("episodes.json を更新", len(eps), "本")
+    except Exception as e:
+        log("episodes.json の更新に失敗（投稿は続ける）", repr(e)[:200])
+
 def parse_args(argv):
     a = {"dry_run": os.environ.get("DRY_RUN", "") not in ("", "0", "false"), "date": None, "slot": None, "ignore_posted": False}
     it = iter(argv)
@@ -234,9 +252,16 @@ def dry_run(targets, d, posted=None):
                 print(f'    ig: video_url=<renjill-media に置いた {p["ep"]}_loop.mp4> cover_url=<renjill-media に置いた {p["ep"]}_thumb.jpg>')
                 print("    ig: caption:\n      " + caption(p, d).replace("\n", "\n      "))
             elif pl == "threads": print("    threads: VIDEO（Instagram と同じ公開 URL）" + ("" if threads.threads_ready() else "  ※権限・Secrets 未設定のため本番では見送り"))
-            elif pl == "yt": print(f'    yt: title: {p["caption_en"]} | Ren & Jill「{p["title"]}」')
-            elif pl == "tt": print("    tt: FILE_UPLOAD", f'{p["ep"]}_loop.mp4')
+            elif pl == "yt":
+                print(f'    yt: title: {p["caption_en"]} | Ren & Jill「{p["title"]}」')
+                print("    yt: description:\n      " + sns_policy.yt_description(d["yt_description"]).replace("\n", "\n      "))
+            elif pl == "tt":
+                print("    tt: FILE_UPLOAD", f'{p["ep"]}_loop.mp4')
+                print("    tt: caption:\n      " + tt_caption(p, d).replace("\n", "\n      "))
             elif pl in stories.EXTRAS: print(f"    {pl}: {stories.NAMES[pl]}（本編のあとに出す。失敗しても本編は止めない）")
+    if sns_policy.load().get("episodes_json"):
+        sch = json.loads((AUTO / "schedule.json").read_text())
+        print(f"    site: renjill-media/{episodes_json.NAME} を書き直す（今の記録で {len(episodes_json.build(sch, posted or {}))} 本。カバー・動画は renjill-media にある回だけ）")
     log("[DRY-RUN] API は呼んでいません")
     return 0
 
@@ -460,6 +485,7 @@ def main(argv=None):
                 results[mode.NAMES.get(pl, pl)] = "投稿失敗"
                 actions.append(failure_action(p, pl, e))
         (AUTO / "posted.json").write_text(json.dumps(posted, ensure_ascii=False, indent=2))
+    if did: publish_episodes(sch, posted)
     nxt, nxa = next_hub_info(sch, posted, now_)
     if did: summary = "・".join(f'『{t}』' for t in did) + " を " + "・".join(dict.fromkeys(x for v in did.values() for x in v)) + " に投稿"
     else: summary = f'{now_.strftime("%H:%M")} は投稿できなかった（見送りまたは失敗。理由は結果の欄）'

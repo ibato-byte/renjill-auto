@@ -10,9 +10,17 @@
 - `auto/facebook.py` … Facebook ページ「レンとジル」へのリール投稿（公式 Reels Publishing API）・権限確認・数値
 - `tests/` … 単体テスト（`python -m unittest discover -s tests`。ネットワークに出ない）
 - `auto/metrics.py` … 投稿済み動画の数値を `content/metrics.csv` に追記
+- `auto/sns_policy.json` … SNS の多言語方針のスイッチ（YouTube の説明の公式サイトの行・TikTok だけの繁体字／韓国語ハッシュタグ・公式サイトの一覧 episodes.json）。項目を false にすると、その変更だけ止まる
+- `auto/episodes_json.py` … 公式サイト（ibato-byte/renjill-site）のエピソード一覧 `renjill-media/episodes.json` を作る。投稿のあとに毎回全件を書き直す（失敗しても投稿は止めない）。`python auto/episodes_json.py` で中身だけ表示
 - `.github/workflows/post.yml` … 12:00 / 18:00 / 19:00 JST に実行
 - `.github/workflows/metrics.yml` … 毎朝 06:30 JST に実行
 - `dist/` … 生成済み動画（`*_yt.mp4` エンドカード付き、`*_loop.mp4` ループ版）
+
+## SNS の多言語方針（2026-10-31 オーナー決定）
+- アカウントは各SNSに1つのまま（言語別のアカウントは作らない）。キャプションは「日本語＋英語の一言」のまま（セリフのない作品なので十分）。
+- YouTube だけタイトル・説明を多言語に（`auto/growth.py` の LOCALE_DESC：ja・ko・zh-Hant・es・pt。簡体字は入れない）。説明の冒頭に公式サイト https://ibato-byte.github.io/renjill-site/ の行。
+- TikTok だけ、キャプションの末尾に繁体字・韓国語のハッシュタグを合計3つまで（#兔子 #療癒 #토끼。文字数の上限を超えるなら足さない）。Instagram・Facebook・Threads は変えない。
+- 投稿の曜日・時刻・素材・流れは変えない。確認は `DRY_RUN=1 python auto/post.py --date YYYY-MM-DD --slot HH:MM`（説明・キャプション・episodes.json の本数が出る）。
 
 ## Secrets（Settings → Secrets and variables → Actions）
 | 名前 | 取得元 |
