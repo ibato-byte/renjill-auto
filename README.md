@@ -18,7 +18,7 @@
 
 ## SNS の多言語方針（2026-10-31 オーナー決定）
 - アカウントは各SNSに1つのまま（言語別のアカウントは作らない）。キャプションは「日本語＋英語の一言」のまま（セリフのない作品なので十分）。
-- YouTube だけタイトル・説明を多言語に（`auto/growth.py` の LOCALE_DESC：ja・ko・zh-Hant・es・pt。簡体字は入れない）。説明の冒頭に公式サイト https://ibato-byte.github.io/renjill-site/ の行。
+- YouTube だけタイトル・説明を多言語に（`auto/growth.py` の LOCALE_DESC：ja・ko・zh-Hant・es・pt。簡体字は入れない）。説明の冒頭に公式サイト https://renjill.coana.co.jp/ の行。
 - TikTok だけ、キャプションの末尾に繁体字・韓国語のハッシュタグを合計3つまで（#兔子 #療癒 #토끼。文字数の上限を超えるなら足さない）。Instagram・Facebook・Threads は変えない。
 - 投稿の曜日・時刻・素材・流れは変えない。確認は `DRY_RUN=1 python auto/post.py --date YYYY-MM-DD --slot HH:MM`（説明・キャプション・episodes.json の本数が出る）。
 
