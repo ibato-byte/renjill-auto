@@ -18,3 +18,5 @@ window.PACE_ALL.replyall = { start: 0.0, speed: 1.0, hook: 'REPLY ALL?!/全員�
 window.PACE_ALL.thumbsup = { start: 0.0, speed: 1.0, hook: 'THUMBS UP./了解です' };
 window.PACE_ALL.vending = { start: 0.0, speed: 1.0, hook: 'NO CARROT?!/にんじん出ない' };
 window.PACE_ALL.lastsheet = { start: 0.0, speed: 1.0, hook: 'LAST SHEET/最後の1枚' };
+window.PACE_ALL.sticky = { start: 0.0, speed: 1.0, hook: 'STICKY NOTES/付箋だらけ' };
+window.PACE_ALL.watercooler = { start: 0.0, speed: 1.0, hook: 'WATER COOLER/水がおさまらない' };

@@ -1,0 +1,13 @@
+{
+  "ep": "sticky",
+  "pass": true,
+  "issues": [],
+  "warns": [],
+  "render": {
+    "ep": "sticky",
+    "dur": 11.2,
+    "pass": true,
+    "issues": [],
+    "warns": []
+  }
+}
