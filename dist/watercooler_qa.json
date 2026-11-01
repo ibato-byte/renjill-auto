@@ -1,0 +1,17 @@
+{
+  "ep": "watercooler",
+  "pass": true,
+  "issues": [],
+  "warns": [
+    "エンドカード直前にfx要素が5個残っている"
+  ],
+  "render": {
+    "ep": "watercooler",
+    "dur": 11.2,
+    "pass": true,
+    "issues": [],
+    "warns": [
+      "エンドカード直前にfx要素が5個残っている"
+    ]
+  }
+}
