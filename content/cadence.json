@@ -1,12 +1,17 @@
 {
  "stage": 1,
  "per_week": 5,
- "why": "直した版の回の数字がまだ 0 本（2 本そろうまで週5本。つかみの改善を優先）",
+ "why": "直した版の回の数字がまだ 1 本（2 本そろうまで週5本。つかみの改善を優先）",
  "baseline": 0.16,
  "need": 0.208,
- "recent": [],
- "schedule_days_ahead": 12,
+ "recent": [
+  {
+   "key": "2026-10-26_jil_morning2",
+   "ratio": 0.139
+  }
+ ],
+ "schedule_days_ahead": 9,
  "schedule_target_days": 14,
  "same_day_twice": [],
- "date": "2026-10-25"
+ "date": "2026-11-01"
 }

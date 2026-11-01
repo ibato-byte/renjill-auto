@@ -145,13 +145,19 @@
       "title": "99%で止まる更新",
       "caption_ja": "99%で止まった更新バー。待っているうちに全員寝ました。",
       "caption_en": "Stuck at 99%. We waited. Everyone fell asleep.",
-      "tag_set": "B",
+      "tag_set": "A",
       "thumb": {
         "t": 4.25,
         "cam": "1.15,600,1060",
         "hook": "STUCK AT 99%/99%で止まる"
       },
-      "first_comment": "足ダンで催促する？それとも寝て待つ？ / Stomp your foot, or nap until it finishes?"
+      "first_comment": "足ダンで催促する？それとも寝て待つ？ / Stomp your foot, or nap until it finishes?",
+      "experiment": {
+        "var": "tag_set",
+        "std": "B",
+        "value": "A",
+        "why": "ハッシュタグの組み合わせを変えて、見つかり方を比べる"
+      }
     },
     {
       "date": "2026-11-04",
