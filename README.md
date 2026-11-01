@@ -11,7 +11,7 @@
 - `tests/` … 単体テスト（`python -m unittest discover -s tests`。ネットワークに出ない）
 - `auto/metrics.py` … 投稿済み動画の数値を `content/metrics.csv` に追記
 - `auto/sns_policy.json` … SNS の多言語方針のスイッチ（YouTube の説明の公式サイトの行・TikTok だけの繁体字／韓国語ハッシュタグ・公式サイトの一覧 episodes.json）。項目を false にすると、その変更だけ止まる
-- `auto/episodes_json.py` … 公式サイト（ibato-byte/renjill-site）のエピソード一覧 `renjill-media/episodes.json` を作る。投稿のあとに毎回全件を書き直す（失敗しても投稿は止めない）。`python auto/episodes_json.py` で中身だけ表示
+- `auto/episodes_json.py` … 公式サイト（https://renjill.coana.co.jp/）のエピソード一覧 `renjill-media/episodes.json` を作る。題・一言は4言語（ja・en・zh・ko。zh・ko は予定表の回の `site_i18n`）、カバー・動画・YouTube の ID つき。投稿のあとに毎回、今のファイルとまとめて書き直す（前の ID や回は消さない。失敗しても投稿は止めない）。`python auto/episodes_json.py` で中身だけ表示
 - `.github/workflows/post.yml` … 12:00 / 18:00 / 19:00 JST に実行
 - `.github/workflows/metrics.yml` … 毎朝 06:30 JST に実行
 - `dist/` … 生成済み動画（`*_yt.mp4` エンドカード付き、`*_loop.mp4` ループ版）
