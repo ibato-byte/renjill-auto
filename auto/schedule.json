@@ -1,7 +1,7 @@
 {
   "_comment": "毎週のPDCAでClaudeがここを更新する。dateはJST。slotは 12:00 / 18:00 / 19:00。platformsは ig / tt / yt / facebook（Facebook ページ「レンとジル」のリール。Instagram と同じ動画・同じ時刻。キャプションは caption_en→caption_ja→fb_cta→fb_tag_sets のハッシュタグ3個以内）。tag_setはA/Bの交互で効果を比較し、勝った方を翌週のdefaultsに昇格させる。thumbはサムネ（t=秒, cam=ズーム,中心x,中心y, hook='英語の一言(12文字以内)/日本語の補足(10文字以内)'）。海外にも届くよう英語を主、日本語を従にする。 camは顔が画面の下寄り（y 900〜1300）に来るよう cy を小さめにする（文字は上、チップはその下、全部が中央3:4に収まる）。 caption_tail_en はキャプションの最後の行（Instagram・TikTok・Threads はリンクが押せないので「プロフィールのリンクから」）。yt_description と fb_cta にはゲームのリンクを入れる（押せる）。",
   "defaults": {
-    "yt_description": "▶ Play the free game – Ren & Jill: Hay Dash (no download): https://renjill-hay-dash.pages.dev/?lang=en\n▶ 無料ゲーム「レンとジルのチモシーダッシュ」（登録なし・スマホですぐ遊べる）: https://renjill-hay-dash.pages.dev/\n\nA wordless office comedy about two bunnies: Ren, the absent-minded boss (Holland Lop), and Jill, his sharp assistant (Netherland Dwarf).\nうさぎの課長レン（たれ耳）と、しっかり者の部下ジル。セリフなしのオフィスコメディ。\n\nNew episodes Mon / Wed / Fri / Sun\nInstagram / TikTok / X: @renjill_office\nFacebook: レンとジル Ren & Jill",
+    "yt_description": "▶ Play the free game – Ren & Jill: Hay Dash (no download): https://hay-dash.coana.co.jp/?lang=en\n▶ 無料ゲーム「レンとジルのチモシーダッシュ」（登録なし・スマホですぐ遊べる）: https://hay-dash.coana.co.jp/\n\nA wordless office comedy about two bunnies: Ren, the absent-minded boss (Holland Lop), and Jill, his sharp assistant (Netherland Dwarf).\nうさぎの課長レン（たれ耳）と、しっかり者の部下ジル。セリフなしのオフィスコメディ。\n\nNew episodes Mon / Wed / Fri / Sun\nInstagram / TikTok / X: @renjill_office\nFacebook: レンとジル Ren & Jill",
     "caption_tail_en": "Follow for more Ren & Jill 🐰\n▶ Free game: link in bio / 無料ゲームはプロフィールのリンクから",
     "platforms": [
       "ig",
@@ -14,7 +14,7 @@
       "A": "#うさぎのいる生活 #ホーランドロップ #会社あるある #lopbunny #officelife",
       "B": "#うさぎのいる暮らし #ネザーランドドワーフ #社畜あるある #bunnytok #cuteanimals"
     },
-    "fb_cta": "Who in your office does this? Tell us in the comments.\nあなたの職場にもいますか？コメントで教えてください\n\n▶ 無料ゲーム / Free game: https://renjill-hay-dash.pages.dev/",
+    "fb_cta": "Who in your office does this? Tell us in the comments.\nあなたの職場にもいますか？コメントで教えてください\n\n▶ 無料ゲーム / Free game: https://hay-dash.coana.co.jp/",
     "fb_tag_sets": {
       "A": "#会社あるある #うさぎのいる生活 #officelife",
       "B": "#社畜あるある #うさぎのいる暮らし #cuteanimals"

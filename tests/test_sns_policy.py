@@ -7,7 +7,7 @@ sys.path.insert(0, str(ROOT / "auto"))
 import sns_policy, episodes_json, post, growth  # noqa: E402
 
 POL = json.loads((ROOT / "auto" / "sns_policy.json").read_text())
-D = {"yt_description": "▶ game: https://renjill-hay-dash.pages.dev/?lang=en\n\nabout", "platforms": ["ig"],
+D = {"yt_description": "▶ game: https://hay-dash.coana.co.jp/?lang=en\n\nabout", "platforms": ["ig"],
      "tag_sets": {"A": "#a #b"}, "fb_tag_sets": {"A": "#a"}}
 P = {"caption_en": "EN", "caption_ja": "JA", "tag_set": "A", "title": "T"}
 SITE = "https://renjill.coana.co.jp/"
@@ -28,7 +28,7 @@ class YouTubeTest(unittest.TestCase):
         out = sns_policy.yt_description(D["yt_description"], POL)
         self.assertEqual(out.count(SITE), 1)
         self.assertIn(SITE, out.split("\n\n")[0])
-        self.assertEqual(out.count("renjill-hay-dash.pages.dev"), 1)  # ゲームはもうあるので足さない
+        self.assertEqual(out.count("hay-dash.coana.co.jp"), 1)  # ゲームはもうあるので足さない
         self.assertEqual(sns_policy.yt_description(out, POL), out)
 
     def test_flag_off(self):
