@@ -2,131 +2,64 @@
  {
   "ep": "pom_debut",
   "date": "2026-11-01",
-  "title": {
-   "ja": "新人のポム",
-   "en": "New hire: Pom",
-   "zh": "新人 Pom",
-   "ko": "신입 Pom"
-  },
+  "title": "新人のポム",
+  "caption_ja": "断れない新人のほおぶくろは、もう満杯です。",
+  "caption_en": "The new hire never says no. His cheeks can't either.",
   "cover": "20261101_pom_debut_cover.jpg",
   "video": "20261101_pom_debut.mp4",
-  "caption": {
-   "ja": "断れない新人のほおぶくろは、もう満杯です。",
-   "en": "The new hire never says no. His cheeks can't either.",
-   "zh": "不會拒絕的新人，頰囊已經塞滿了。",
-   "ko": "거절 못 하는 신입, 볼주머니는 이미 꽉 찼어요."
-  }
+  "youtube_id": "PRylIlpVD-k"
  },
  {
   "ep": "deadline2",
   "date": "2026-10-30",
-  "title": {
-   "ja": "締め切りのカレンダー",
-   "en": "The deadline calendar",
-   "zh": "截止日月曆",
-   "ko": "마감 달력"
-  },
+  "title": "締め切りのカレンダー",
+  "caption_ja": "見なければ、締め切りは来ない（来ます）。",
+  "caption_en": "If you don't look, the deadline doesn't exist. (It does.)",
   "cover": "20261030_deadline2_cover.jpg",
-  "video": "20261030_deadline2.mp4",
-  "caption": {
-   "ja": "見なければ、締め切りは来ない（来ます）。",
-   "en": "If you don't look, the deadline doesn't exist. (It does.)",
-   "zh": "不看就沒有截止日（有的）。",
-   "ko": "안 보면 마감은 안 와요 (옵니다)."
-  },
-  "youtube_id": "rnYfUNddYQs"
+  "video": "20261030_deadline2.mp4"
  },
  {
   "ep": "receipts2",
   "date": "2026-10-28",
-  "title": {
-   "ja": "牧草の領収書",
-   "en": "Hay receipts",
-   "zh": "牧草收據",
-   "ko": "건초 영수증"
-  },
+  "title": "牧草の領収書",
+  "caption_ja": "経費精算、ぜんぶ牧草。",
+  "caption_en": "Expense report: 100% hay.",
   "cover": "20261028_receipts2_cover.jpg",
-  "video": "20261028_receipts2.mp4",
-  "caption": {
-   "ja": "経費精算、ぜんぶ牧草。",
-   "en": "Expense report: 100% hay.",
-   "zh": "報帳，全部是牧草。",
-   "ko": "경비 정산, 전부 건초."
-  },
-  "youtube_id": "Z4xjAF7jovo"
+  "video": "20261028_receipts2.mp4"
  },
  {
   "ep": "jil_morning2",
   "date": "2026-10-26",
-  "title": {
-   "ja": "ジルの朝",
-   "en": "Jill's morning",
-   "zh": "Jill 的早晨",
-   "ko": "Jill의 아침"
-  },
+  "title": "ジルの朝",
+  "caption_ja": "メガネをかけたらスイッチが入る。課長のスイッチはどこ？",
+  "caption_en": "Glasses on, switch on. Where's the boss's switch?",
   "cover": "20261026_jil_morning2_cover.jpg",
   "video": "20261026_jil_morning2.mp4",
-  "youtube_id": "QvCS2uRpm8o",
-  "caption": {
-   "ja": "メガネをかけたらスイッチが入る。課長のスイッチはどこ？",
-   "en": "Glasses on, switch on. Where's the boss's switch?",
-   "zh": "戴上眼鏡就開啟工作模式。課長的開關在哪？",
-   "ko": "안경을 쓰면 스위치 ON. 과장님의 스위치는 어디?"
-  }
+  "youtube_id": "QvCS2uRpm8o"
  },
  {
   "ep": "chime2",
   "date": "2026-10-25",
-  "title": {
-   "ja": "定時のチャイム",
-   "en": "The 6 pm chime",
-   "zh": "下班的鐘聲",
-   "ko": "퇴근 종소리"
-  },
+  "title": "定時のチャイム",
+  "caption_ja": "定時のチャイム、よろこびが止まらない。",
+  "caption_en": "6pm chime. Joy cannot be contained.",
   "cover": "20261025_chime2_cover.jpg",
-  "video": "20261025_chime2.mp4",
-  "caption": {
-   "ja": "定時のチャイム、よろこびが止まらない。",
-   "en": "6pm chime. Joy cannot be contained.",
-   "zh": "下班鐘聲一響，喜悅停不下來。",
-   "ko": "퇴근 종소리. 기쁨이 멈추지 않아요."
-  },
-  "youtube_id": "ToguHMsoIaU"
+  "video": "20261025_chime2.mp4"
  },
  {
   "ep": "mug2",
   "date": "2026-10-23",
-  "title": {
-   "ja": "マグカップはどこ",
-   "en": "Where's the mug",
-   "zh": "馬克杯在哪",
-   "ko": "머그컵은 어디에"
-  },
+  "title": "マグカップはどこ",
+  "caption_ja": "課長、マグカップは頭の上です。",
+  "caption_en": "Sir. The mug. It's on your head.",
   "cover": "20261023_mug2_cover.jpg",
-  "video": "20261023_mug2.mp4",
-  "caption": {
-   "ja": "課長、マグカップは頭の上です。",
-   "en": "Sir. The mug. It's on your head.",
-   "zh": "課長，馬克杯在你頭上。",
-   "ko": "과장님, 머그컵은 머리 위에 있어요."
-  },
-  "youtube_id": "xIzVzowGgjw"
+  "video": "20261023_mug2.mp4"
  },
  {
   "ep": "papers2",
   "date": "2026-10-21",
-  "title": {
-   "ja": "書類の山",
-   "en": "The paper mountain",
-   "zh": "文件山",
-   "ko": "서류 산"
-  },
-  "caption": {
-   "ja": "整えるほど崩れる。課長、手伝わなくていいです。",
-   "en": "The more he helps, the worse it gets.",
-   "zh": "越整理越崩。課長，不用幫忙。",
-   "ko": "정리할수록 무너집니다. 과장님, 안 도와주셔도 돼요."
-  },
-  "youtube_id": "tgxLKS_ontc"
+  "title": "書類の山",
+  "caption_ja": "整えるほど崩れる。課長、手伝わなくていいです。",
+  "caption_en": "The more he helps, the worse it gets."
  }
 ]
