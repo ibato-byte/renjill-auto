@@ -109,3 +109,83 @@
 2026-10-26,fb_reel,2026-10-25_chime2,reactions,0,
 2026-10-26,fb_reel,2026-10-25_chime2,comments,0,
 2026-10-26,fb_reel,2026-10-25_chime2,shares,,blue_reels_play_count：(#200) read_insights permission missing (https://developers.facebook.com/docs/permissions/reference/read_insights) / post_video_likes_by_reaction_type：(#200) read_insights permission missing (https://developers.facebook.com/docs/permissions/reference/read_insights) / post_video
+2026-11-01,reel,2026-10-21_papers2,reach,116,
+2026-11-01,reel,2026-10-21_papers2,saved,0,
+2026-11-01,reel,2026-10-21_papers2,shares,0,
+2026-11-01,reel,2026-10-21_papers2,ig_reels_avg_watch_time,3310,
+2026-11-01,reel,2026-10-21_papers2,ig_reels_video_view_total_time,463444,
+2026-11-01,reel,2026-10-21_papers2,total_interactions,1,
+2026-11-01,reel,2026-10-21_papers2,avg_watch_ratio,0.15,平均視聴時間÷動画の長さ（完走率の代わり）
+2026-11-01,reel,2026-10-21_papers2,view_3s_rate,,Instagram の API では3秒視聴率・完走率は取れない（アプリの画面にだけ出る）。代わりに平均視聴時間÷動画の長さを見る
+2026-11-01,reel,2026-10-21_papers2,profile_visits,,リール1本ごとの値は API が対応していない（2026-10-25 に確認）。アカウント全体の profile_views・follows で見る
+2026-11-01,reel,2026-10-21_papers2,follows,,リール1本ごとの値は API が対応していない（2026-10-25 に確認）。アカウント全体の profile_views・follows で見る
+2026-11-01,reel,2026-10-23_mug2,reach,108,
+2026-11-01,reel,2026-10-23_mug2,saved,0,
+2026-11-01,reel,2026-10-23_mug2,shares,0,
+2026-11-01,reel,2026-10-23_mug2,ig_reels_avg_watch_time,3839,
+2026-11-01,reel,2026-10-23_mug2,ig_reels_video_view_total_time,487589,
+2026-11-01,reel,2026-10-23_mug2,total_interactions,1,
+2026-11-01,reel,2026-10-23_mug2,avg_watch_ratio,0.167,平均視聴時間÷動画の長さ（完走率の代わり）
+2026-11-01,reel,2026-10-23_mug2,view_3s_rate,,Instagram の API では3秒視聴率・完走率は取れない（アプリの画面にだけ出る）。代わりに平均視聴時間÷動画の長さを見る
+2026-11-01,reel,2026-10-23_mug2,profile_visits,,リール1本ごとの値は API が対応していない（2026-10-25 に確認）。アカウント全体の profile_views・follows で見る
+2026-11-01,reel,2026-10-23_mug2,follows,,リール1本ごとの値は API が対応していない（2026-10-25 に確認）。アカウント全体の profile_views・follows で見る
+2026-11-01,reel,2026-10-25_chime2,reach,102,
+2026-11-01,reel,2026-10-25_chime2,saved,0,
+2026-11-01,reel,2026-10-25_chime2,shares,0,
+2026-11-01,reel,2026-10-25_chime2,ig_reels_avg_watch_time,4131,
+2026-11-01,reel,2026-10-25_chime2,ig_reels_video_view_total_time,466810,
+2026-11-01,reel,2026-10-25_chime2,total_interactions,1,
+2026-11-01,reel,2026-10-25_chime2,avg_watch_ratio,0.18,平均視聴時間÷動画の長さ（完走率の代わり）
+2026-11-01,reel,2026-10-25_chime2,view_3s_rate,,Instagram の API では3秒視聴率・完走率は取れない（アプリの画面にだけ出る）。代わりに平均視聴時間÷動画の長さを見る
+2026-11-01,reel,2026-10-25_chime2,profile_visits,,リール1本ごとの値は API が対応していない（2026-10-25 に確認）。アカウント全体の profile_views・follows で見る
+2026-11-01,reel,2026-10-25_chime2,follows,,リール1本ごとの値は API が対応していない（2026-10-25 に確認）。アカウント全体の profile_views・follows で見る
+2026-11-01,reel,2026-10-26_jil_morning2,reach,129,
+2026-11-01,reel,2026-10-26_jil_morning2,saved,0,
+2026-11-01,reel,2026-10-26_jil_morning2,shares,0,
+2026-11-01,reel,2026-10-26_jil_morning2,ig_reels_avg_watch_time,2439,
+2026-11-01,reel,2026-10-26_jil_morning2,ig_reels_video_view_total_time,339062,
+2026-11-01,reel,2026-10-26_jil_morning2,total_interactions,1,
+2026-11-01,reel,2026-10-26_jil_morning2,avg_watch_ratio,0.139,平均視聴時間÷動画の長さ（完走率の代わり）
+2026-11-01,reel,2026-10-26_jil_morning2,view_3s_rate,,Instagram の API では3秒視聴率・完走率は取れない（アプリの画面にだけ出る）。代わりに平均視聴時間÷動画の長さを見る
+2026-11-01,reel,2026-10-26_jil_morning2,profile_visits,,リール1本ごとの値は API が対応していない（2026-10-25 に確認）。アカウント全体の profile_views・follows で見る
+2026-11-01,reel,2026-10-26_jil_morning2,follows,,リール1本ごとの値は API が対応していない（2026-10-25 に確認）。アカウント全体の profile_views・follows で見る
+2026-11-01,account,17841455420932757,reach,121,
+2026-11-01,account,17841455420932757,profile_views,0,
+2026-11-01,account,17841455420932757,accounts_engaged,0,
+2026-11-01,account,17841455420932757,views,138,
+2026-11-01,account,17841455420932757,follows_and_unfollows,,内訳が返らなかった
+2026-11-01,story,17841455420932757,stories,,いま24時間以内のストーリーズがない
+2026-11-01,fb_reel,2026-10-21_papers2,plays,12,
+2026-11-01,fb_reel,2026-10-21_papers2,reactions,0,
+2026-11-01,fb_reel,2026-10-21_papers2,comments,0,
+2026-11-01,fb_reel,2026-10-21_papers2,shares,,blue_reels_play_count：(#200) read_insights permission missing (https://developers.facebook.com/docs/permissions/reference/read_insights) / post_video_likes_by_reaction_type：(#200) read_insights permission missing (https://developers.facebook.com/docs/permissions/reference/read_insights) / post_video
+2026-11-01,fb_reel,2026-10-23_mug2,plays,0,
+2026-11-01,fb_reel,2026-10-23_mug2,reactions,0,
+2026-11-01,fb_reel,2026-10-23_mug2,comments,0,
+2026-11-01,fb_reel,2026-10-23_mug2,shares,,blue_reels_play_count：(#200) read_insights permission missing (https://developers.facebook.com/docs/permissions/reference/read_insights) / post_video_likes_by_reaction_type：(#200) read_insights permission missing (https://developers.facebook.com/docs/permissions/reference/read_insights) / post_video
+2026-11-01,fb_reel,2026-10-25_chime2,plays,3,
+2026-11-01,fb_reel,2026-10-25_chime2,reactions,0,
+2026-11-01,fb_reel,2026-10-25_chime2,comments,0,
+2026-11-01,fb_reel,2026-10-25_chime2,shares,,blue_reels_play_count：(#200) read_insights permission missing (https://developers.facebook.com/docs/permissions/reference/read_insights) / post_video_likes_by_reaction_type：(#200) read_insights permission missing (https://developers.facebook.com/docs/permissions/reference/read_insights) / post_video
+2026-11-01,fb_reel,2026-10-26_jil_morning2,plays,2,
+2026-11-01,fb_reel,2026-10-26_jil_morning2,reactions,0,
+2026-11-01,fb_reel,2026-10-26_jil_morning2,comments,0,
+2026-11-01,fb_reel,2026-10-26_jil_morning2,shares,,blue_reels_play_count：(#200) read_insights permission missing (https://developers.facebook.com/docs/permissions/reference/read_insights) / post_video_likes_by_reaction_type：(#200) read_insights permission missing (https://developers.facebook.com/docs/permissions/reference/read_insights) / post_video
+2026-11-01,threads,2026-10-23_mug2,views,6,
+2026-11-01,threads,2026-10-23_mug2,likes,0,
+2026-11-01,threads,2026-10-23_mug2,replies,0,
+2026-11-01,threads,2026-10-23_mug2,reposts,0,
+2026-11-01,threads,2026-10-23_mug2,quotes,0,
+2026-11-01,threads,2026-10-23_mug2,shares,0,
+2026-11-01,threads,2026-10-25_chime2,views,5,
+2026-11-01,threads,2026-10-25_chime2,likes,0,
+2026-11-01,threads,2026-10-25_chime2,replies,0,
+2026-11-01,threads,2026-10-25_chime2,reposts,0,
+2026-11-01,threads,2026-10-25_chime2,quotes,0,
+2026-11-01,threads,2026-10-25_chime2,shares,0,
+2026-11-01,threads,2026-10-26_jil_morning2,views,3,
+2026-11-01,threads,2026-10-26_jil_morning2,likes,0,
+2026-11-01,threads,2026-10-26_jil_morning2,replies,0,
+2026-11-01,threads,2026-10-26_jil_morning2,reposts,0,
+2026-11-01,threads,2026-10-26_jil_morning2,quotes,0,
+2026-11-01,threads,2026-10-26_jil_morning2,shares,0,
