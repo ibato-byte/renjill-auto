@@ -58,25 +58,40 @@ class TikTokTest(unittest.TestCase):
 class EpisodesJsonTest(unittest.TestCase):
     SCH = {"posts": [
         {"date": "2026-10-28", "ep": "a", "title": "エー", "caption_ja": "じゃ", "caption_en": "en"},
-        {"date": "2026-10-30", "ep": "b", "title": "ビー", "caption_ja": "じゃ2", "caption_en": "en2", "title_i18n": {"en": "Bee", "ko": "비"}},
+        {"date": "2026-10-30", "ep": "b", "title": "ビー", "caption_ja": "じゃ2", "caption_en": "en2",
+         "site_i18n": {"title": {"en": "Bee", "zh": "比", "ko": "비"}, "caption": {"zh": "中2", "ko": "한2"}}},
         {"date": "2026-11-01", "ep": "c", "title": "シー", "caption_ja": "", "caption_en": ""},
         {"date": "2026-10-20", "ep": "d", "title": "ディー", "caption_ja": "", "caption_en": ""}]}
     POSTED = {"2026-10-28_a": {"yt": "manual", "ig": "1"}, "2026-10-30_b": {"yt": "YTID"}, "2026-11-01_c": {"yt": "X"}}
 
-    def test_build(self):
+    def test_build_four_languages(self):
         eps = episodes_json.build(self.SCH, self.POSTED, ["20261028_a_cover.jpg", "20261030_b.mp4"], today="2026-10-31")
         self.assertEqual([e["ep"] for e in eps], ["b", "a"])  # 未来の回・記録のない回は出さない、新しい順
         b, a = eps
-        self.assertEqual(b["title"], {"ja": "ビー", "en": "Bee", "ko": "비"})
+        self.assertEqual(b["title"], {"ja": "ビー", "en": "Bee", "zh": "比", "ko": "비"})
+        self.assertEqual(b["caption"], {"ja": "じゃ2", "en": "en2", "zh": "中2", "ko": "한2"})
         self.assertEqual(b["youtube_id"], "YTID"); self.assertEqual(b["video"], "20261030_b.mp4"); self.assertNotIn("cover", b)
-        self.assertEqual(a["title"], "エー"); self.assertNotIn("youtube_id", a)  # "manual" は ID ではない
-        self.assertEqual(a["cover"], "20261028_a_cover.jpg"); self.assertEqual(a["caption_en"], "en")
+        self.assertEqual(a["title"], {"ja": "エー"}); self.assertNotIn("youtube_id", a)  # "manual" は ID ではない。無い言語は書かない
+        self.assertEqual(a["cover"], "20261028_a_cover.jpg"); self.assertEqual(a["caption"], {"ja": "じゃ", "en": "en"})
+
+    def test_merge_keeps_existing(self):
+        old = [{"ep": "a", "date": "2026-10-28", "title": "エー", "caption_ja": "古い", "caption_en": "old", "youtube_id": "KEEP"},
+               {"ep": "z", "date": "2026-11-05", "title": {"ja": "ゼット"}}]
+        new = episodes_json.build(self.SCH, self.POSTED, [], today="2026-10-31")
+        m = {e["ep"]: e for e in episodes_json.merge(old, new)}
+        self.assertEqual(m["a"]["youtube_id"], "KEEP")  # 今回分からない ID は前のまま
+        self.assertEqual(m["a"]["caption"], {"ja": "じゃ", "en": "en"}); self.assertNotIn("caption_ja", m["a"])
+        self.assertIn("z", m)  # 今ある回は消さない
+        self.assertEqual([e["ep"] for e in episodes_json.merge(old, new)], ["z", "b", "a"])
 
     def test_real_data_builds(self):
         sch = json.loads((ROOT / "auto" / "schedule.json").read_text())
         posted = json.loads((ROOT / "auto" / "posted.json").read_text())
         eps = episodes_json.build(sch, posted, today="2099-01-01")
-        self.assertTrue(eps and all(e["ep"] and e["date"] and e["title"] for e in eps))
+        self.assertTrue(eps and all(e["ep"] and e["date"] and e["title"].get("ja") for e in eps))
+        for e in eps:
+            if e["ep"] in ("deadline2", "receipts2", "chime2", "mug2", "papers2"):
+                self.assertTrue(e.get("youtube_id")); self.assertEqual(set(e["title"]), {"ja", "en", "zh", "ko"})
 
     def test_publish_failure_does_not_raise(self):
         with mock.patch.object(sns_policy, "load", return_value=POL), \

@@ -222,7 +222,8 @@ def publish_episodes(sch, posted):
     if not sns_policy.load().get("episodes_json"): return
     try:
         files = episodes_json.media_listing(MEDIA_REPO, os.environ.get("MEDIA_TOKEN"))
-        eps = episodes_json.build(sch, posted, files)
+        old = episodes_json.fetch_existing(MEDIA_REPO, os.environ.get("MEDIA_TOKEN"))
+        eps = episodes_json.merge(old, episodes_json.build(sch, posted, files, also={e.get("ep") for e in old if isinstance(e, dict)}))
         media_publish(episodes_json.write_local(DIST / episodes_json.NAME, eps), episodes_json.NAME)
         log("episodes.json を更新", len(eps), "本")
     except Exception as e:
