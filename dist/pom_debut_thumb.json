@@ -1,15 +1,15 @@
 {
  "ep": "pom_debut",
  "en": {
-  "width": 852,
-  "height": 174,
-  "top": 454
+  "width": 857,
+  "height": 251,
+  "top": 415
  },
- "chipTop": 764,
+ "chipTop": 763,
  "busy": {
-  "en": 0.4,
+  "en": 0.3,
   "ja": 0,
   "chip": 0
  },
- "made": "2026-10-25T12:36:08.267Z"
+ "made": "2026-11-01T03:32:46.484Z"
 }

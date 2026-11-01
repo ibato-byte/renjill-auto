@@ -1,0 +1,55 @@
+[
+ {
+  "ep": "deadline2",
+  "date": "2026-10-30",
+  "title": "締め切りのカレンダー",
+  "caption_ja": "見なければ、締め切りは来ない（来ます）。",
+  "caption_en": "If you don't look, the deadline doesn't exist. (It does.)",
+  "cover": "20261030_deadline2_cover.jpg",
+  "video": "20261030_deadline2.mp4"
+ },
+ {
+  "ep": "receipts2",
+  "date": "2026-10-28",
+  "title": "牧草の領収書",
+  "caption_ja": "経費精算、ぜんぶ牧草。",
+  "caption_en": "Expense report: 100% hay.",
+  "cover": "20261028_receipts2_cover.jpg",
+  "video": "20261028_receipts2.mp4"
+ },
+ {
+  "ep": "jil_morning2",
+  "date": "2026-10-26",
+  "title": "ジルの朝",
+  "caption_ja": "メガネをかけたらスイッチが入る。課長のスイッチはどこ？",
+  "caption_en": "Glasses on, switch on. Where's the boss's switch?",
+  "cover": "20261026_jil_morning2_cover.jpg",
+  "video": "20261026_jil_morning2.mp4",
+  "youtube_id": "QvCS2uRpm8o"
+ },
+ {
+  "ep": "chime2",
+  "date": "2026-10-25",
+  "title": "定時のチャイム",
+  "caption_ja": "定時のチャイム、よろこびが止まらない。",
+  "caption_en": "6pm chime. Joy cannot be contained.",
+  "cover": "20261025_chime2_cover.jpg",
+  "video": "20261025_chime2.mp4"
+ },
+ {
+  "ep": "mug2",
+  "date": "2026-10-23",
+  "title": "マグカップはどこ",
+  "caption_ja": "課長、マグカップは頭の上です。",
+  "caption_en": "Sir. The mug. It's on your head.",
+  "cover": "20261023_mug2_cover.jpg",
+  "video": "20261023_mug2.mp4"
+ },
+ {
+  "ep": "papers2",
+  "date": "2026-10-21",
+  "title": "書類の山",
+  "caption_ja": "整えるほど崩れる。課長、手伝わなくていいです。",
+  "caption_en": "The more he helps, the worse it gets."
+ }
+]
