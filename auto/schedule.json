@@ -299,6 +299,33 @@
         "hook": "LAST SHEET/最後の1枚"
       },
       "first_comment": "あなたなら？ ①ジルみたいに半分でも堂々と出す ②レンみたいに最後まで引っぱる"
+    },
+    {
+      "date": "2026-11-14",
+      "slot": "18:00",
+      "ep": "watercooler",
+      "no": 17,
+      "title": "ウォーターサーバー",
+      "caption_ja": "紙コップ、マグ、バケツ。課長の「ちょっとだけ」で床が水びたしです。",
+      "caption_en": "A cup, a mug, a bucket. The boss's \"just a little water\" has flooded the floor.",
+      "tag_set": "B",
+      "thumb": {
+        "t": 8.2,
+        "cam": "1.9,400,880",
+        "hook": "WATER COOLER/水がおさまらない"
+      },
+      "first_comment": "給湯室でやりがちなのは？ ①入れすぎる ②足りなくて何度も行く / Overfill it, or keep going back for more?",
+      "site_i18n": {
+        "title": {
+          "en": "Water cooler",
+          "zh": "飲水機",
+          "ko": "정수기"
+        },
+        "caption": {
+          "zh": "紙杯、馬克杯、水桶。課長的「只要一點點」，讓地板變成了水池。",
+          "ko": "종이컵, 머그, 양동이. 과장의 \"조금만\"에 바닥이 물바다가 됐어요."
+        }
+      }
     }
   ]
 }
