@@ -58,9 +58,21 @@ def texts_of(p):
     return t
 
 
+_FILENAME_TAIL = re.compile(r"(\d{8}_[A-Za-z0-9_]+|[\w\-]+\.(?:mp4|jpg|jpeg|png|mov))\s*$")
+
+
+def caption_tail_problem(text):
+    """説明文の末尾にファイル名（20261102_update99 など）が残っていれば、その説明（なければ空）。Hub 依頼 #178"""
+    m = _FILENAME_TAIL.search((text or "").rstrip())
+    return f"ファイル名「{m.group(1)}」が残っている" if m else ""
+
+
 def check(p):
     """この回の食い違い（文字列のリスト）。なければ空"""
     ep, issues, hs = p["ep"], [], video_hours(p["ep"], p)
+    for field, text in texts_of(p).items():  # 説明文の末尾のファイル名（Hub 依頼 #178）
+        bad = caption_tail_problem(text)
+        if bad: issues.append(f"{ep}：{field}の末尾に{bad}")
     for field, text in texts_of(p).items():
         for shown, h in times_in(text):
             if hs is None:
