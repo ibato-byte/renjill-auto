@@ -23,6 +23,12 @@ class TextCheckTest(unittest.TestCase):
         self.assertEqual(textcheck.check(p), [])
         self.assertEqual(len(textcheck.check(dict(p, shows_time=["10:00"]))), 1)
 
+    def test_filename_left_at_caption_end_is_ng(self):  # Hub 依頼 #178：説明文の末尾に 20261102_update99 が残りかけた
+        p = {"ep": "deadline2", "caption_en": "Update stuck at 99%. 20261102_update99"}
+        self.assertEqual(len(textcheck.check(p)), 1)
+        self.assertEqual(textcheck.check({"ep": "deadline2", "caption_en": "Update stuck at 99%. #RenAndJill"}), [])
+        self.assertTrue(textcheck.caption_tail_problem("たのしい update99.mp4"))
+
     def test_schedule_is_clean(self):
         import json
         sch = json.load(open(os.path.join(ROOT, "auto", "schedule.json")))
