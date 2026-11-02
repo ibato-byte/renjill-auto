@@ -147,16 +147,27 @@ def tt_caption(p, d):
     """TikTok だけ、末尾に繁体字・韓国語のハッシュタグ（sns_policy.json の tt_i18n_tags。上限を超えるなら足さない）"""
     return sns_policy.tiktok_caption(caption(p, d))
 
-def tiktok_task(p, d, video_url):
+class TikTokNoCover(Exception):
+    """TikTok の表紙画像（<日付>_<ep>_cover.jpg）が用意できない。表紙が無いまま TikTok に出さない（Hub 依頼 #178：動画のコマのまま投稿して半透明の表紙になった）"""
+
+def tiktok_task(p, d, video_url, cover_url):
+    if not cover_url: raise TikTokNoCover("表紙画像がない")
     cap = tt_caption(p, d)
+    tail = textcheck.caption_tail_problem(cap)
+    if tail: raise TikTokNoCover("説明文の末尾に" + tail)
     steps = ("TikTok の投稿画面（https://www.tiktok.com/tiktokstudio/upload）で、①動画のファイルを選ぶ（下の動画リンクを開いて保存したもの）"
-             "②説明欄に次の文をそのまま貼る ③「投稿」を押す。\n\n--- 説明欄に貼る文 ---\n" + cap)
-    links = [{"label": "TikTok の投稿画面を開く", "url": "https://www.tiktok.com/tiktokstudio/upload"}]
+             "②表紙：「カバーを編集」→「カバーをアップロード」で、下の「表紙の画像」を保存して選ぶ（動画のコマや TikTok の文字・スタンプで表紙を作らない。画像を指定できないときは投稿しない）"
+             "③説明欄に次の文をそのまま貼り、最後が「Follow for more Ren & Jill 🐰」や #タグで終わっていて、ファイル名（20261102_update99 など）が残っていないか確かめる"
+             "④「投稿」を押す ⑤投稿のあと、プロフィールの一覧で表紙が画像どおり（半透明でない）か見る。違ったら削除せず、すぐ知らせる（削除は取り返しがつかない）。"
+             "\n\n--- 説明欄に貼る文 ---\n" + cap)
+    links = [{"label": "表紙の画像を開く（保存して使う）", "url": cover_url}, {"label": "TikTok の投稿画面を開く", "url": "https://www.tiktok.com/tiktokstudio/upload"}]
     if video_url: links.insert(0, {"label": "動画をダウンロード", "url": video_url})
-    return {"id": f'tiktok-{p["ep"]}', "kind": "browser", "text": f'TikTok に「{p["title"]}」を投稿する（約2分。動画と説明文は用意済み）',
+    return {"id": f'tiktok-{p["ep"]}', "kind": "browser", "text": f'TikTok に「{p["title"]}」を投稿する（約3分。動画・表紙・説明文は用意済み）',
             "due": p["date"], "links": links, "copy": steps, "key": "tiktok-post"}
 
 def post_tiktok(p, d, path):
+    # API は表紙を動画のコマでしか指定できず、半透明の表紙になる（Hub 依頼 #178）。表紙画像を指定できる手動の手順だけを使う
+    raise TikTokManual("API は表紙画像を指定できない")
     if not os.environ.get("TT_ACCESS_TOKEN"): raise TikTokManual("TT_ACCESS_TOKEN なし")
     tok = os.environ["TT_ACCESS_TOKEN"]; H = {"Authorization": f"Bearer {tok}", "Content-Type": "application/json; charset=UTF-8"}
     size = path.stat().st_size
@@ -467,9 +478,15 @@ def main(argv=None):
                 log("TikTok は手動:", e)
                 try: url = media_publish(loop_path, f"tt_{p['date'].replace('-', '')}_{p['ep']}.mp4")
                 except Exception as e2: url = None; log("動画の置き場に失敗", repr(e2)[:120])
-                OWNER_TASKS.append(tiktok_task(p, d, url))
-                rec["tt"] = "manual"  # 同じ回の二重の依頼を防ぐ
-                results["TikTok"] = "手動（あなたの番に出した）"
+                try: cover_url = media_publish(thumbnail(p), f"{p['date'].replace('-', '')}_{p['ep']}_cover.jpg")
+                except Exception as e2: cover_url = None; log("表紙の置き場に失敗", repr(e2)[:120])
+                try:
+                    OWNER_TASKS.append(tiktok_task(p, d, url, cover_url))
+                    rec["tt"] = "manual"  # 同じ回の二重の依頼を防ぐ
+                    results["TikTok"] = "手動（あなたの番に出した）"
+                except TikTokNoCover as e3:  # 表紙が無い・説明文の末尾が不正なら、TikTok には出さない（Hub 依頼 #178）
+                    results["TikTok"] = f"見送り（{e3}）"
+                    actions.append(f'TikTok「{p["title"]}」は、{e3}ため「あなたの番」に出していない。Claude に「{p["ep"]} の TikTok の表紙と説明文を直して」と伝える')
             except fb.FbSkip as e:
                 why = fb.scrub(e)
                 log("SKIP", key, pl, why)
