@@ -24,9 +24,20 @@ class Tests(unittest.TestCase):
         with self.assertRaises(post.TikTokManual): post.post_tiktok(P, D, pathlib.Path("/nonexistent"))
 
     def test_tiktok_task_has_link_caption_due(self):
-        t = post.tiktok_task(P, D, "https://example.com/v.mp4")
+        t = post.tiktok_task(P, D, "https://example.com/v.mp4", "https://example.com/c.jpg")
         self.assertEqual(t["due"], "2026-10-26"); self.assertEqual(t["links"][0]["url"], "https://example.com/v.mp4")
         self.assertIn("Follow for more", t["copy"]); self.assertEqual(t["id"], "tiktok-x")
+        self.assertIn("カバーをアップロード", t["copy"]); self.assertIn("プロフィールの一覧", t["copy"])  # Hub 依頼 #178
+        self.assertTrue(any(l["url"] == "https://example.com/c.jpg" for l in t["links"]))
+
+    def test_tiktok_never_without_cover_image(self):  # Hub 依頼 #178：表紙画像が無ければ TikTok に出さない
+        with self.assertRaises(post.TikTokNoCover): post.tiktok_task(P, D, "https://example.com/v.mp4", None)
+
+    def test_tiktok_api_is_never_used_for_posting(self):  # API は動画のコマが表紙になり半透明になる
+        os.environ["TT_ACCESS_TOKEN"] = "x"
+        try:
+            with self.assertRaises(post.TikTokManual): post.post_tiktok(P, D, pathlib.Path("/nonexistent"))
+        finally: os.environ.pop("TT_ACCESS_TOKEN", None)
 
     def test_threads_rows(self):
         j = {"data": [{"name": "views", "values": [{"value": 5}]}, {"name": "likes", "values": [{"value": 1}]}]}
