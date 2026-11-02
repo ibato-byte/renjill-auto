@@ -21,6 +21,8 @@ class WindowTest(unittest.TestCase):
         self.assertTrue(post.in_window(p, at(19, 20)))   # 19:00 の cron の遅れた実行は出す
         self.assertTrue(post.in_window(p, at(20, 59)))
         self.assertFalse(post.in_window(p, at(21, 10)))
+        self.assertTrue(post.in_window(p, at(21, 10), catchup=True))  # 定時実行が来なかった日は、その日のうちに拾う（依頼 #175）
+        self.assertFalse(post.in_window(p, at(17, 0), catchup=True))  # 早出しはしない
 
 
 if __name__ == "__main__":

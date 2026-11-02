@@ -38,11 +38,13 @@ DIST.mkdir(exist_ok=True)
 def log(*a): print("[post]", *a, flush=True)
 
 # ---------- 対象の決定 ----------
-def in_window(p, now):
-    """予定時刻の10分前〜2時間後だけ出す。cron の遅れ（20分前後）は許すが、1時間前の回で先に出さない（依頼 #90）"""
+def in_window(p, now, catchup=False):
+    """予定時刻の10分前〜2時間後だけ出す。cron の遅れ（20分前後）は許すが、1時間前の回で先に出さない（依頼 #90）。
+    catchup=True（本番の定時実行）のときは、その日のうちなら2時間を過ぎても拾って出す（11/2 12:00 の定時実行が来なかった件・依頼 #175）。
+    二重投稿は posted.json（SNS ごとの記録）と concurrency: post で防ぐので、拾い直しても同じ SNS には出ない"""
     h, m = map(int, p["slot"].split(":"))
     d = (now - now.replace(hour=h, minute=m, second=0, microsecond=0)).total_seconds() / 60
-    return -10 <= d <= 120
+    return -10 <= d and (catchup or d <= 120)
 
 def pick_posts(slot_override=None, now=None, ignore_posted=False):
     sch = json.loads((AUTO / "schedule.json").read_text())
@@ -52,7 +54,7 @@ def pick_posts(slot_override=None, now=None, ignore_posted=False):
     out = []
     for p in sch["posts"]:
         if p["date"] != today: continue
-        if slot_override is None and not in_window(p, now): continue
+        if slot_override is None and not in_window(p, now, catchup=True): continue
         key = f'{p["date"]}_{p["ep"]}'
         done = {} if ignore_posted else posted.get(key, {})
         # posted.json に記録がある SNS（投稿ID・"manual"・"bs-scheduled"＝Business Suite で予約済み）は出さない（二重投稿を防ぐ）。
