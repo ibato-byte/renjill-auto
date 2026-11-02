@@ -12,8 +12,13 @@ def merge(base, mine):
     for key, rec in mine.items():
         if isinstance(rec, dict) and isinstance(out.get(key), dict):
             for field, value in rec.items():
-                if value not in (None, "", []):
-                    out[key][field] = value
+                if value in (None, "", []):
+                    continue
+                # 「manual」（手で予約済みの印）で、すでにある本物の ID を上書きしない（2026-11-01 に YouTube の ID が戻った。Hub 依頼 #170）
+                cur = out[key].get(field)
+                if value == "manual" and cur not in (None, "", [], "manual"):
+                    continue
+                out[key][field] = value
         else:
             out[key] = rec
     return out
