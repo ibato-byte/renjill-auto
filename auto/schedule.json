@@ -250,7 +250,14 @@
         "cam": "1.5,400,1200",
         "hook": "NO CARROT?!/にんじん出ない"
       },
-      "first_comment": "自販機で「出ない…」のとき、叩く派？諦めて去る派？ / Smack it or walk away?"
+      "first_comment": "自販機で「出ない…」のとき、叩く派？諦めて去る派？ / Smack it or walk away?",
+      "cta": "Send this to the coworker who needs it./あの同僚に送ってあげて",
+      "experiment": {
+        "var": "cta",
+        "std": "なし",
+        "value": "Send this to the coworker who needs it./あの同僚に送ってあげて",
+        "why": "最後の一言を足して、送る・保存する人が増えるか比べる"
+      }
     },
     {
       "date": "2026-11-06",
