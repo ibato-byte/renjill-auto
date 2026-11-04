@@ -1,5 +1,19 @@
 [
  {
+  "ep": "vending",
+  "date": "2026-11-04",
+  "title": {
+   "ja": "自販機のにんじんジュース"
+  },
+  "caption": {
+   "ja": "自販機にコインを入れたのに、にんじんジュースが出ない。叩いて、蹴って、そして缶の雨。（ジルは全部持っていった）",
+   "en": "He just wanted a carrot juice. He got every can except that one."
+  },
+  "cover": "20261104_vending_cover.jpg",
+  "video": "20261104_vending.mp4",
+  "youtube_id": "DS44Zo6wJQg"
+ },
+ {
   "ep": "update99",
   "date": "2026-11-02",
   "title": {
