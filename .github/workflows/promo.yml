@@ -1,0 +1,46 @@
+name: promo
+# ゲームの紹介動画（できあがった動画）を Instagram・Facebook（リール＋ストーリーズ）・YouTube ショートに出す（オーナー依頼 2026-11-04、Hub #209）
+# 手で実行するだけ（Actions → promo → Run workflow）。出した SNS は auto/posted.json に記録し、2回目からは飛ばす（二重投稿しない）
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "1 なら送る内容を表示するだけ（投稿しない）"
+        required: false
+        default: "0"
+permissions:
+  contents: write
+concurrency: post
+jobs:
+  promo:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with: { python-version: "3.12" }
+      - timeout-minutes: 15
+        run: |
+          for i in 1 2 3; do
+            timeout 300 bash -c 'sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg fonts-noto-cjk' && exit 0
+            echo "準備をやり直す（$i回目）"; sleep 10
+          done
+          exit 1
+      - run: pip install -q requests numpy scipy google-api-python-client google-auth google-auth-httplib2
+      - name: post
+        env:
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
+          YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
+          YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
+          MEDIA_TOKEN: ${{ secrets.MEDIA_TOKEN }}
+          DRY_RUN: ${{ github.event.inputs.dry_run }}
+        run: python auto/promo_post.py
+      - name: commit results
+        if: always()
+        run: |
+          git config user.name renjill-bot; git config user.email bot@renjill.local
+          git add auto/posted.json || true
+          git diff --cached --quiet || git commit -m "promo: ゲーム紹介動画の投稿記録 $(TZ=Asia/Tokyo date '+%Y-%m-%d %H:%M')"
+          bash auto/push_main.sh
