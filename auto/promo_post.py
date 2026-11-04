@@ -26,8 +26,9 @@ ORDER = ["ig", "facebook", "yt", "ig_story", "fb_story"]
 
 def promo(today):
     return {"ep": PROMO_ID, "no": 0, "date": today, "slot": "promo", "tag_set": "A", "title": "チモシーダッシュ",
-            "caption_en": "Ren & Jill: Hay Dash — a free bunny running game. Dash across Tokyo with the boss who overslept. No sign-up, plays in your phone browser. Winter lights event until 12/25. Link in bio.",
-            "caption_ja": "寝坊した課長と、東京をかけぬけて出社！うさぎのランゲーム『レンとジルのチモシーダッシュ』。無料・登録なしで、スマホのブラウザですぐ遊べます。冬のイルミネーション企画は12/25まで。プロフィールのリンクから。"}
+            "caption_en": "The boss overslept. Run! Our free bunny game is here.",
+            "caption_ja": "寝坊した課長と、東京を走って出社。無料のゲームができました。",
+            "cta": "Ren or Jill — who do you run as? / レンとジル、どっちで走る？"}
 
 
 def fetch(name):
@@ -54,7 +55,7 @@ def post_youtube(p, d, path):
                         client_id=os.environ["YT_CLIENT_ID"], client_secret=os.environ["YT_CLIENT_SECRET"])
     yt = build("youtube", "v3", credentials=creds)
     title = "Free bunny running game | Ren & Jill: Hay Dash #Shorts"
-    desc = f"{p['caption_en']}\n{p['caption_ja']}\n\nPlay free: {GAME}\n\n{P.tags(p, d)}"
+    desc = f"{p['caption_en']}\n{p['caption_ja']}\n\nPlay free (no sign-up): {GAME}\n無料・登録なしで遊べます：{GAME}\n\n{P.tags(p, d)}"
     loc = {"ja": {"title": "寝坊した課長と東京ダッシュ｜無料ゲーム『レンとジルのチモシーダッシュ』 #Shorts", "description": desc},
            "zh-Hant": {"title": "和睡過頭的課長衝過東京｜免費遊戲「Ren & Jill：Hay Dash」 #Shorts", "description": desc},
            "ko": {"title": "늦잠 잔 과장님과 도쿄 질주｜무료 게임 「Ren & Jill: Hay Dash」 #Shorts", "description": desc}}
