@@ -351,6 +351,13 @@
           "zh": "紙杯、馬克杯、水桶。課長的「只要一點點」，讓地板變成了水池。",
           "ko": "종이컵, 머그, 양동이. 과장의 \"조금만\"에 바닥이 물바다가 됐어요."
         }
+      },
+      "cta": "Which one is your boss?/あなたの職場のレンは誰？",
+      "experiment": {
+        "var": "cta",
+        "std": "Send this to the coworker who needs it./あの同僚に送ってあげて",
+        "value": "Which one is your boss?/あなたの職場のレンは誰？",
+        "why": "最後の一言を足して、送る・保存する人が増えるか比べる"
       }
     }
   ]
