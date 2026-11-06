@@ -1,5 +1,19 @@
 [
  {
+  "ep": "replyall",
+  "date": "2026-11-06",
+  "title": {
+   "ja": "全員に返信"
+  },
+  "caption": {
+   "ja": "「返信」のつもりが「全員に返信」。取り消しは間に合わない。（尻尾は正直）",
+   "en": "Hit \"Reply All\" by mistake. Undo can't save him. (His tail gave him away.)"
+  },
+  "cover": "20261106_replyall_cover.jpg",
+  "video": "20261106_replyall.mp4",
+  "youtube_id": "TwQ8ilmzlpY"
+ },
+ {
   "ep": "vending",
   "date": "2026-11-04",
   "title": {
