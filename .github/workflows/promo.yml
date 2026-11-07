@@ -19,10 +19,12 @@ jobs:
       - uses: actions/checkout@v5
       - uses: actions/setup-python@v6
         with: { python-version: "3.12" }
-      - timeout-minutes: 15
+      - timeout-minutes: 20
         run: |
           for i in 1 2 3; do
-            timeout 300 bash -c 'sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg fonts-noto-cjk' && exit 0
+            # 2026-11-07：取得が止まり15分枠で打ち切られたため、2回目からは別のミラーで取り直す（枠は20分）
+            if [ "$i" -ge 2 ]; then sudo sed -i 's|http://azure.archive.ubuntu.com|http://archive.ubuntu.com|g' /etc/apt/sources.list /etc/apt/sources.list.d/*.sources 2>/dev/null || true; fi
+            timeout 300 bash -c 'sudo apt-get update -qq && sudo apt-get install -y -qq --no-install-recommends ffmpeg fonts-noto-cjk' && exit 0
             echo "準備をやり直す（$i回目）"; sleep 10
           done
           exit 1
