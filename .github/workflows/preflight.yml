@@ -62,7 +62,8 @@ jobs:
         if: steps.hub.outputs.paused != 'true'
         run: python auto/driftcheck.py || true
       - name: commit renders and QA reports
-        if: steps.hub.outputs.paused != 'true'
+        # main で動いたときだけ保存する（push_main.sh は HEAD を main に push するので、作業ブランチの内容が PR の前に main へ落ちていた。2026-11-08）
+        if: steps.hub.outputs.paused != 'true' && github.ref == 'refs/heads/main'
         run: |
           git config user.name renjill-bot; git config user.email bot@renjill.local
           git add -A dist/ || true
