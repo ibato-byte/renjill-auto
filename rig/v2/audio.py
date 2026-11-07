@@ -143,7 +143,8 @@ def main():
     # 終わりの 0.25 秒を消す（ループの頭につないでも、ぶつっと聞こえない）
     end = int(SR * dur); f = int(SR * .25); mix[end - f:end] *= np.linspace(1, 0, f)[:, None]; mix = mix[:end]
     mix = hp(mix.T, 35).T  # 聞こえない低音を切る
-    mix = np.tanh(mix * 1.1) / np.tanh(1.1) * .9
+    # やわらかい頭打ち（最大でも 0.7＝約 -3dBFS。旧版は 1.12 まで行って割れていた：qa「音がクリップ peak 1.06」2026-11-08）
+    mix = np.tanh(mix * 1.1) * .7
     with wave.open(sys.argv[2], 'wb') as w:
         w.setnchannels(2); w.setsampwidth(2); w.setframerate(SR)
         w.writeframes((np.clip(mix, -1, 1) * 32767).astype('<i2').tobytes())
