@@ -612,6 +612,34 @@
         }
       },
       "cta": "Send this to the coworker who always freezes mid-sentence/会議中によく固まる人に送ろう"
+    },
+    {
+      "date": "2026-11-20",
+      "slot": "18:00",
+      "ep": "bonenkai",
+      "no": 27,
+      "title": "忘年会の幹事",
+      "caption_ja": "忘年会の幹事はジル。お店は全部満席。課長が決めた会場は、この机でした。",
+      "caption_en": "Jill is in charge of the year-end party. Every place is full. The boss picks the venue: this desk.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 8.0,
+        "cam": "1.1,600,1100",
+        "hook": "PARTY PLANNER/忘年会の幹事はジル"
+      },
+      "first_comment": "幹事をやったことある？一番大変だったのは？ / Ever had to organize the office party? Hardest part?",
+      "site_i18n": {
+        "title": {
+          "en": "Party planner",
+          "zh": "尾牙的主辦人",
+          "ko": "송년회 총무"
+        },
+        "caption": {
+          "zh": "尾牙的主辦人是吉兒。每家店都客滿。課長決定的會場，是這張桌子。",
+          "ko": "송년회 총무는 질. 가게는 전부 만석. 과장님이 정한 장소는 이 책상이었어요."
+        }
+      },
+      "cta": "Send this to this year's party planner/今年の幹事に送ろう"
     }
   ]
 }
