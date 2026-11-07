@@ -48,6 +48,9 @@ jobs:
       - id: qa
         if: steps.hub.outputs.paused != 'true'
         run: python auto/preflight.py
+        env:
+          # main 以外（新作の PR）では 14 日先まで描画・QAする（投稿の 3 日前に初めて落ちるのを防ぐ。2026-11-08）
+          PREFLIGHT_DAYS: ${{ github.ref == 'refs/heads/main' && '3' || '14' }}
         continue-on-error: true
       - id: tests
         name: 全テストの実行（1件でも落ちたら失敗にして「あなたの番」に出す。Hub 依頼 #125）
