@@ -20,6 +20,6 @@ window.PACE_ALL.vending = { start: 0.0, speed: 1.0, hook: 'NO CARROT?!/にんじ
 window.PACE_ALL.lastsheet = { start: 0.0, speed: 1.0, hook: 'LAST SHEET/最後の1枚' };
 window.PACE_ALL.sticky = { start: 0.0, speed: 1.0, hook: 'STICKY NOTES/付箋だらけ' };
 window.PACE_ALL.watercooler = { start: 0.0, speed: 1.0, hook: 'WATER COOLER/水がおさまらない' };
-// v2 絵（rig/v2/lib.js）の回。冒頭の一言は英語を大きく・日本語を小さく（英語圏・中国語圏の人も読める。2026-11 見直し）
-window.PACE_ALL.nenmatsu = { start: 0.0, speed: 1.0, hook: 'TAX FORMS/年末調整する上司' };
-window.PACE_ALL.teiji = { start: 0.0, speed: 1.0, hook: 'FRIDAY 17:59/金曜17:59に来る上司' };
+// v2 絵（rig/v2/lib.js）の回。冒頭の一言は英語を大きく・日本語を小さく。「誰が・どんな状況か」を必ず書く（ラベルだけにしない。docs/CLARITY.md）
+window.PACE_ALL.nenmatsu = { start: 0.0, speed: 1.0, hook: 'BOSS VS. TAX FORMS/年末調整の書類を前にした上司' };
+window.PACE_ALL.teiji = { start: 0.0, speed: 1.0, hook: 'BOSS AT 17:59/定時1分前に仕事を持ってくる上司' };
