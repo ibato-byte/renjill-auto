@@ -808,6 +808,146 @@
         }
       },
       "cta": "Send this to the one who never carries an umbrella/傘を持たない人に送ろう"
+    },
+    {
+      "date": "2026-11-26",
+      "slot": "18:00",
+      "ep": "donuts",
+      "no": 34,
+      "title": "差し入れのドーナツ",
+      "caption_ja": "差し入れのドーナツ、6個。ジルが後ろを向いた2秒で箱は空。課長の口のまわりに、粉砂糖。",
+      "caption_en": "Six donuts for the team. Jill looks away for two seconds. Box: empty. Boss: powdered sugar on his face.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 7.5,
+        "cam": "1.5,820,1120",
+        "hook": "6 DONUTS/差し入れのドーナツ、上司と2秒"
+      },
+      "first_comment": "差し入れが一番早く消えるのはだれ？ / Who empties the snack box fastest in your office?",
+      "site_i18n": {
+        "title": {
+          "en": "Six donuts",
+          "zh": "六個甜甜圈",
+          "ko": "도넛 6개"
+        },
+        "caption": {
+          "zh": "同事送的甜甜圈，六個。吉兒轉過身的兩秒，盒子空了。課長嘴邊全是糖粉。",
+          "ko": "직원들 간식으로 도넛 6개. 질이 뒤돌아선 2초 만에 상자는 빈 것. 과장님 입가에 설탕 가루."
+        }
+      },
+      "cta": "Send this to the office snack thief/おやつを持っていく人に送ろう"
+    },
+    {
+      "date": "2026-11-27",
+      "slot": "18:00",
+      "ep": "yukyu",
+      "no": 35,
+      "title": "有給の申請",
+      "caption_ja": "ジルの有給申請。課長は見ずに承認。その日は大事な会議。気づいた0.5秒後、ジルは出発済み。",
+      "caption_en": "Jill’s leave request. The boss approves without looking. That day is the big meeting. 0.5 seconds later, Jill is already gone.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 4.7,
+        "cam": "1.3,540,700",
+        "hook": "LEAVE: APPROVED/有給、見ずに承認した上司"
+      },
+      "first_comment": "有給、取りやすい職場？ / Is it easy to take a day off where you work?",
+      "site_i18n": {
+        "title": {
+          "en": "Leave approved",
+          "zh": "假區批了",
+          "ko": "휴가 승인"
+        },
+        "caption": {
+          "zh": "吉兒的請假單。課長看都沒看就批了。那天是大會議。發現的半秒後，吉兒已經出發了。",
+          "ko": "질의 휴가 신청. 과장님은 보지도 않고 승인. 그날은 중요한 회의. 알아차린 0.5초 뒤, 질은 이미 출발."
+        }
+      },
+      "cta": "Tag the boss who approves everything/何でも承認する上司に送ろう"
+    },
+    {
+      "date": "2026-11-28",
+      "slot": "12:00",
+      "ep": "noodle",
+      "no": 36,
+      "title": "残業の夜食",
+      "caption_ja": "21:00、残業のカップ麺。3分待つつもりが寝落ちし、23:00。麺、のびのび。",
+      "caption_en": "21:00, overtime noodles. He meant to wait 3 minutes. He woke up at 23:00. Noodles: overgrown.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 8,
+        "cam": "1.3,680,1180",
+        "hook": "OVERTIME 21:00/残業の夜食、上司の3分"
+      },
+      "first_comment": "残業の夜食、何派？ / Go-to overtime snack?",
+      "site_i18n": {
+        "title": {
+          "en": "Overtime noodles",
+          "zh": "加班泡麵",
+          "ko": "야근 라면"
+        },
+        "caption": {
+          "zh": "21:00，加班的泡麵。本來要等三分鐘，結果睡到23:00。麵，泹爐了。",
+          "ko": "21:00, 야근 라면. 3분만 기다릴 생각이었는데 잠들어 23:00. 면은 평평 불었어요."
+        }
+      },
+      "cta": "Send this to the one who falls asleep at the desk/机で寝落ちする人に送ろう"
+    },
+    {
+      "date": "2026-11-29",
+      "slot": "12:00",
+      "ep": "plant",
+      "no": 37,
+      "title": "机の観葉植物",
+      "caption_ja": "課長の机の植物、水やりはコーヒー。ジルがそっと造花に。翌日も課長はコーヒーをかけます。",
+      "caption_en": "The boss waters his desk plant with coffee. Jill quietly swaps it for a plastic one. Next day: coffee again.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 6,
+        "cam": "1.2,600,1150",
+        "hook": "DESK PLANT/上司の植物、水やりはコーヒー"
+      },
+      "first_comment": "オフィスの植物、だれが世話してる？ / Who actually waters the office plants?",
+      "site_i18n": {
+        "title": {
+          "en": "Desk plant",
+          "zh": "桃上的盆栽",
+          "ko": "책상 위 화분"
+        },
+        "caption": {
+          "zh": "課長用咖啡給桃上的盆栽澆水。吉兒悄悄換成假花。隔天，課長又澆了咖啡。",
+          "ko": "과장님은 책상 화분에 커피를 줍니다. 질이 조용히 조화로 바꾿어요. 다음 날도 커피."
+        }
+      },
+      "cta": "Tag the plant killer in your office/植物を枯らす人に送ろう"
+    },
+    {
+      "date": "2026-11-30",
+      "slot": "18:00",
+      "ep": "deadline",
+      "no": 38,
+      "title": "締め切り前夜",
+      "caption_ja": "締め切りは明日 9:00。22:00、二人の山は同じ高さ。8:59、ジルは完了。課長は1枚目で寝ています。",
+      "caption_en": "Deadline 9:00 AM. At 22:00 both piles are the same height. At 8:59, Jill is done. The boss is asleep on page 1.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 7.3,
+        "cam": "1.3,360,1200",
+        "hook": "DEADLINE 9:00/締め切り前夜、上司と部下"
+      },
+      "first_comment": "締め切り前夜、何時までやる？ / Night before a deadline: how late do you go?",
+      "site_i18n": {
+        "title": {
+          "en": "Deadline eve",
+          "zh": "截止前夜",
+          "ko": "마감 전날 밤"
+        },
+        "caption": {
+          "zh": "截止是明天 9:00。22:00，兩人的文件山一樣高。8:59，吉兒完成。課長在第一頁睡著了。",
+          "ko": "마감은 내일 9:00. 22:00, 두 사람의 서류 더미는 같은 높이. 8:59, 질은 완료. 과장님은 1페이지에서 잠들었어요."
+        }
+      },
+      "cta": "Send this to the one who starts the night before/前日に始める人に送ろう"
     }
   ]
 }
