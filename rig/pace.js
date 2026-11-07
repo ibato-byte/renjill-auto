@@ -29,3 +29,4 @@ window.PACE_ALL.meeting = { start: 0.0, speed: 1.0, hook: '"JUST 10 MIN"/10分�
 window.PACE_ALL.elevator = { start: 0.0, speed: 1.0, hook: 'BOSS. ELEVATOR./エレベーターで上司と2人きり' };
 window.PACE_ALL.printer = { start: 0.0, speed: 1.0, hook: 'PRINT: 1 PAGE/「1枚だけ印刷」の上司' };
 window.PACE_ALL.osouji = { start: 0.0, speed: 1.0, hook: 'CLEANING DAY/大掃除、上司の机' };
+window.PACE_ALL.wifi = { start: 0.0, speed: 1.0, hook: 'WI-FI: OFF/オンライン会議で上司が固まった' };
