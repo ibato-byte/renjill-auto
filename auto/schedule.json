@@ -948,6 +948,230 @@
         }
       },
       "cta": "Send this to the one who starts the night before/前日に始める人に送ろう"
+    },
+    {
+      "date": "2026-12-01",
+      "slot": "18:00",
+      "ep": "kotatsu",
+      "no": 39,
+      "title": "会社にこたつ",
+      "caption_ja": "12月。ジルがオフィスにこたつを持ち込んだ。14:00に入った課長、18:00になっても出てきません。",
+      "caption_en": "December. Jill brings a kotatsu to the office. The boss got in at 14:00. At 18:00 he still hasn't come out.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 5.0,
+        "cam": "1.4,530,1146",
+        "hook": "KOTATSU DAY/会社にこたつ、上司が出てこない"
+      },
+      "first_comment": "こたつに入ったら出られる？ / Can you ever leave a kotatsu?",
+      "site_i18n": {
+        "title": {
+          "en": "Kotatsu at work",
+          "zh": "公司裡的暖桌",
+          "ko": "회사에 고타쓰"
+        },
+        "caption": {
+          "zh": "12月。吉兒把暖桌搬進辦公室。14:00鑽進去的課長，到了18:00還沒出來。",
+          "ko": "12월. 질이 사무실에 고타쓰를 들여왔어요. 14:00에 들어간 과장님, 18:00이 되어도 안 나옵니다."
+        }
+      },
+      "cta": "Send this to the one who never leaves the kotatsu/こたつから出ない人に送ろう"
+    },
+    {
+      "date": "2026-12-02",
+      "slot": "18:00",
+      "ep": "tree",
+      "no": 40,
+      "title": "ツリーの飾り",
+      "caption_ja": "オフィスのツリー。ジルは赤と金の玉、課長は締め切りの書類を吊るしました。てっぺんは「済」。",
+      "caption_en": "The office tree. Jill hangs red and gold balls. The boss hangs deadline paperwork. On top: a big check mark.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 5.0,
+        "cam": "1.4,550,1096",
+        "hook": "OFFICE TREE/オフィスのツリー、上司の飾り"
+      },
+      "first_comment": "職場のツリー、飾りつけは誰の担当？ / Who decorates the office tree where you work?",
+      "site_i18n": {
+        "title": {
+          "en": "The office tree",
+          "zh": "辦公室的聖誕樹",
+          "ko": "사무실 트리"
+        },
+        "caption": {
+          "zh": "辦公室的聖誕樹。吉兒掛上紅色和金色的球，課長掛上截止日的文件。樹頂是一個大勾。",
+          "ko": "사무실 트리. 질은 빨강과 금색 공을, 과장님은 마감 서류를 걸었어요. 꼭대기는 커다란 체크."
+        }
+      },
+      "cta": "Tag the coworker who turns everything into work/何でも仕事にしてしまう人に送ろう"
+    },
+    {
+      "date": "2026-12-03",
+      "slot": "18:00",
+      "ep": "santa",
+      "no": 41,
+      "title": "シークレットサンタ",
+      "caption_ja": "プレゼント交換。箱を開けたら、二人とも牧草。見合わせて、そのまま交換して、もぐもぐ。",
+      "caption_en": "Secret Santa. Both boxes: hay. They stare at each other, swap anyway, and munch.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 5.0,
+        "cam": "1.4,550,1096",
+        "hook": "SECRET SANTA/プレゼント交換、上司と部下"
+      },
+      "first_comment": "プレゼント交換で一番うれしかったものは？ / Best gift-exchange present you ever got?",
+      "site_i18n": {
+        "title": {
+          "en": "Secret Santa",
+          "zh": "交換禮物",
+          "ko": "시크릿 산타"
+        },
+        "caption": {
+          "zh": "交換禮物。打開盒子，兩個人都是牧草。對看一眼，照樣交換，然後開吃。",
+          "ko": "선물 교환. 상자를 열었더니 둘 다 건초. 마주 보다가 그냥 바꾸고, 우물우물."
+        }
+      },
+      "cta": "Send this to your Secret Santa/プレゼント交換の相手に送ろう"
+    },
+    {
+      "date": "2026-12-04",
+      "slot": "18:00",
+      "ep": "scarf",
+      "no": 42,
+      "title": "手編みのマフラー",
+      "caption_ja": "ジルの手編みのマフラー。課長が5周巻いてもまだ余る。長さ5メートル、二人用でした。",
+      "caption_en": "A hand-knit scarf from Jill. Five wraps around the boss and it keeps going. Five meters: made for two.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 8.2,
+        "cam": "1.4,550,1096",
+        "hook": "HAND-KNIT SCARF/ジルの手編み、上司に5周"
+      },
+      "first_comment": "手編み、もらったことある？作ったことある？ / Ever received or made something hand-knit?",
+      "site_i18n": {
+        "title": {
+          "en": "Hand-knit scarf",
+          "zh": "手織的圍巾",
+          "ko": "손뜨개 목도리"
+        },
+        "caption": {
+          "zh": "吉兒手織的圍巾。課長繞了五圈還有剩。長五公尺，兩個人用的。",
+          "ko": "질이 손으로 뜬 목도리. 과장님이 다섯 바퀴 감아도 남아요. 길이 5미터, 두 사람용이었어요."
+        }
+      },
+      "cta": "Send this to someone who knits/編み物をする人に送ろう"
+    },
+    {
+      "date": "2026-12-05",
+      "slot": "12:00",
+      "ep": "snow",
+      "no": 43,
+      "title": "窓を3秒開けた",
+      "caption_ja": "外は雪。課長が「ちょっと換気」と窓を開けました。3秒で机もジルの頭も雪。課長はその雪で雪うさぎを作りました。",
+      "caption_en": "Snow outside. The boss opens the window for \"a little fresh air.\" Three seconds later, the desk and Jill are covered. The boss makes a snow bunny.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 7.8,
+        "cam": "1.4,550,1096",
+        "hook": "WINDOW: 3 SEC/上司が窓を3秒開けた"
+      },
+      "first_comment": "冬の換気、何秒が限界？ / Winter ventilation: how many seconds can you take?",
+      "site_i18n": {
+        "title": {
+          "en": "Three seconds of fresh air",
+          "zh": "開窗三秒",
+          "ko": "창문을 3초 열었다"
+        },
+        "caption": {
+          "zh": "外面下雪。課長說「通個風」打開了窗。三秒後，桌子和吉兒的頭上都是雪。課長用那些雪做了一隻雪兔。",
+          "ko": "밖은 눈. 과장님이 \"환기 좀\" 하며 창문을 열었어요. 3초 만에 책상도 질의 머리도 눈. 과장님은 그 눈으로 눈토끼를 만들었어요."
+        }
+      },
+      "cta": "Send this to the one who always opens the window/すぐ窓を開ける人に送ろう"
+    },
+    {
+      "date": "2026-12-06",
+      "slot": "12:00",
+      "ep": "photo",
+      "no": 44,
+      "title": "年賀状の写真",
+      "caption_ja": "年賀状用の写真。3・2・1、フラッシュのたびに課長は目をつぶる。3回目はジルが目を開けたまま固定しました。",
+      "caption_en": "The New Year card photo. 3, 2, 1: every flash, the boss blinks. Take three: Jill holds his eyes open.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 5.0,
+        "cam": "1.4,560,1096",
+        "hook": "SAY CHEESE/年賀状の写真、上司は目をつぶる"
+      },
+      "first_comment": "写真で目をつぶる派？ / Do you blink in every photo?",
+      "site_i18n": {
+        "title": {
+          "en": "The New Year card photo",
+          "zh": "賀年卡的照片",
+          "ko": "연하장 사진"
+        },
+        "caption": {
+          "zh": "拍賀年卡的照片。3、2、1，每次閃光課長都閉眼。第三次，吉兒把他的眼睛撐開固定住了。",
+          "ko": "연하장용 사진. 3, 2, 1, 플래시가 터질 때마다 과장님은 눈을 감아요. 세 번째는 질이 눈을 뜬 채로 고정했어요."
+        }
+      },
+      "cta": "Tag the one who blinks in every photo/写真で必ず目をつぶる人に送ろう"
+    },
+    {
+      "date": "2026-12-07",
+      "slot": "18:00",
+      "ep": "advent",
+      "no": 45,
+      "title": "アドベントカレンダー",
+      "caption_ja": "12/1。ジルのアドベントカレンダー、1日1個。席を外した隙に、課長が2から24まで全部開けました。24日分、1日で。",
+      "caption_en": "Dec 1. Jill's advent calendar: one a day. While she's away, the boss opens 2 through 24. Twenty-four days, in one day.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 7.8,
+        "cam": "1.4,550,1096",
+        "hook": "ADVENT: DAY 1/アドベントカレンダー、上司と24日分"
+      },
+      "first_comment": "アドベントカレンダー、ちゃんと1日1個で守れる？ / Can you really open just one a day?",
+      "site_i18n": {
+        "title": {
+          "en": "Advent calendar",
+          "zh": "降臨曆",
+          "ko": "어드벤트 캘린더"
+        },
+        "caption": {
+          "zh": "12/1。吉兒的降臨曆，一天一個。趁她離開座位，課長把2到24全開了。24天的份，一天吃完。",
+          "ko": "12/1. 질의 어드벤트 캘린더, 하루에 하나. 자리를 비운 사이 과장님이 2부터 24까지 전부 열었어요. 24일 치를 하루에."
+        }
+      },
+      "cta": "Send this to the one who can't wait/我慢できない人に送ろう"
+    },
+    {
+      "date": "2026-12-08",
+      "slot": "18:00",
+      "ep": "nengajo",
+      "no": 46,
+      "title": "年賀状100枚",
+      "caption_ja": "年賀状100枚。15:00スタート、17:00にジルは100枚。課長はまだ1枚目。描いていたのは自分の似顔絵でした。",
+      "caption_en": "100 New Year cards. Start at 15:00. By 17:00, Jill is done with 100. The boss is still on card one: a self-portrait.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 7.8,
+        "cam": "1.4,550,1096",
+        "hook": "100 CARDS/年賀状100枚、上司と部下"
+      },
+      "first_comment": "年賀状、今年は何枚書く？ / How many New Year cards are you writing this year?",
+      "site_i18n": {
+        "title": {
+          "en": "100 New Year cards",
+          "zh": "100張賀年卡",
+          "ko": "연하장 100장"
+        },
+        "caption": {
+          "zh": "100張賀年卡。15:00開始，17:00吉兒寫完100張。課長還在第一張：畫的是自己的肖像。",
+          "ko": "연하장 100장. 15:00 시작, 17:00에 질은 100장 완료. 과장님은 아직 첫 장. 그리고 있던 건 자기 초상화였어요."
+        }
+      },
+      "cta": "Tag the one who draws instead of writing/書かずに描く人に送ろう"
     }
   ]
 }
