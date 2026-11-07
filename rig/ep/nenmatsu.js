@@ -69,7 +69,7 @@ var EP = {
       { t: 7.1, z: 1.45, cx: 330, cy: 1170, d: .6 },                // もぐもぐのジル
     ], t);
     // 状況とオチの字幕（各1回）
-    let ui = (t > 1.0 && t < 2.6 ? CHIP(L, 'THE FORMS KEEP GOING...', '読んでも読んでも終わらない', 1380, seg(t, 1.0, 1.3)) : '')
+    let ui = (t > 1.8 && t < 3.4 ? CHIP(L, 'THE FORMS KEEP GOING...', '読んでも読んでも終わらない', 1380, seg(t, 1.8, 2.1)) : '')
       + (t > 5.2 && t < 6.9 ? CHIP(L, 'JILL: DONE IN 3 SECONDS', 'ジル、3秒で終わらせる', 1380, seg(t, 5.2, 5.5)) : '');
     if (t > 8.6) { fx = ''; ui = ''; }
     L.mount({ bg, fx, ui, cam, t, shake: SS.some(s => t > s && t < s + .12) ? 9 : 0 });
