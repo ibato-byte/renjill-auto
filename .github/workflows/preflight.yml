@@ -48,6 +48,9 @@ jobs:
       - id: qa
         if: steps.hub.outputs.paused != 'true'
         run: python auto/preflight.py
+        env:
+          # main 以外（新作の PR）では 14 日先まで描画・QAする（投稿の 3 日前に初めて落ちるのを防ぐ。2026-11-08）
+          PREFLIGHT_DAYS: ${{ github.ref == 'refs/heads/main' && '3' || '14' }}
         continue-on-error: true
       - id: tests
         name: 全テストの実行（1件でも落ちたら失敗にして「あなたの番」に出す。Hub 依頼 #125）
@@ -59,7 +62,8 @@ jobs:
         if: steps.hub.outputs.paused != 'true'
         run: python auto/driftcheck.py || true
       - name: commit renders and QA reports
-        if: steps.hub.outputs.paused != 'true'
+        # main で動いたときだけ保存する（push_main.sh は HEAD を main に push するので、作業ブランチの内容が PR の前に main へ落ちていた。2026-11-08）
+        if: steps.hub.outputs.paused != 'true' && github.ref == 'refs/heads/main'
         run: |
           git config user.name renjill-bot; git config user.email bot@renjill.local
           git add -A dist/ || true
