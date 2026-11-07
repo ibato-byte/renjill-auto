@@ -15,8 +15,11 @@ def ffprobe(path):
     return v, a, float(j["format"]["duration"])
 
 def audio_stats(path):
-    raw = subprocess.check_output(["ffmpeg", "-v", "error", "-i", str(path), "-f", "f32le", "-ac", "1", "-ar", "24000", "-"])
+    # ステレオは左右の平均で測る（-ac 1 は -3dB で足し合わせるので、真ん中の音のピークを 1.41 倍に見積もり「クリップ」と誤判定する。2026-11-08）
+    ch = int((subprocess.check_output(["ffprobe", "-v", "error", "-select_streams", "a:0", "-show_entries", "stream=channels", "-of", "csv=p=0", str(path)]).decode().strip() or "1").split(",")[0])
+    raw = subprocess.check_output(["ffmpeg", "-v", "error", "-i", str(path), "-f", "f32le", "-ac", str(ch), "-ar", "24000", "-"])
     x = np.frombuffer(raw, dtype=np.float32)
+    if ch > 1: x = x[: len(x) // ch * ch].reshape(-1, ch).mean(1)
     peak = float(np.abs(x).max()) if x.size else 0.0
     rms = float(np.sqrt(np.mean(x ** 2))) if x.size else 0.0
     # 1秒ごとの無音区間（BGMがあるので完全無音は異常。ただし意図した「間」は1秒程度）
