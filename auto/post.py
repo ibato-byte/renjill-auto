@@ -96,6 +96,9 @@ def tags(p, d):
 
 def caption(p, d, with_tags=True):
     base = f'{p["caption_en"]}\n{p["caption_ja"]}'
+    # 中国語（繁体字）の一行も足す（中国語圏の視聴者向け。訳は schedule.json の site_i18n.caption.zh。2026-11）
+    zh = ((p.get("site_i18n") or {}).get("caption") or {}).get("zh")
+    if zh: base += "\n" + zh
     # 毎日の振り返り（daily_review.py）が割り当てた「最後の一言」の打ち手（英語/日本語）
     if p.get("cta"): base += "\n" + p["cta"].replace("/", "\n", 1)
     # 末尾に英語の一言を必ず入れる（海外の人がフォローしやすいように。依頼 #38）

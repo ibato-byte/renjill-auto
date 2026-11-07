@@ -1,55 +1,70 @@
-// 「年末調整」（約9.5秒・セリフなし）v2 絵
-// 書類を読むレン → 書類がどんどん伸びて床まで → レン、目が回ってとける → ジルが無言でハンコ3回、書類はシュッと1枚に
-// → 生き返ったレンがお礼に牧草を1本 → ジル、無表情のまま…もぐもぐ（ちょっとうれしい）
+// 「年末調整」（約9.5秒・セリフなし・文字なし）v2 演出／キャラは本番の rig.js
+// 書類を読むレン → 書類がどんどん伸びて机から床まで垂れる → レン、伸びて倒れる → ジルが跳ねて来て無言でハンコ3回、書類はシュッと1枚に
+// → 生き返ったレン（跳ねる）がお礼に牧草を1本 → ジル、無表情のまま…もぐもぐ（ちょっとうれしい）
 document.write('<script src="v2/lib.js"><\/script>');
 var EP = {
   dur: 9.5,
   bgmHolds: '2.6-3.3',
-  sfx: [{ t: 0.1, type: 'pop' }, { t: 0.5, type: 'swish' }, { t: 1.2, type: 'swish' }, { t: 1.9, type: 'swish' }, { t: 2.3, type: 'boing' }, { t: 2.8, type: 'flop' },
-    { t: 3.4, type: 'whoosh' }, { t: 3.9, type: 'thump' }, { t: 4.3, type: 'thump' }, { t: 4.7, type: 'thump' }, { t: 4.95, type: 'whoosh' }, { t: 5.4, type: 'chime' },
-    { t: 6.3, type: 'pon' }, { t: 7.4, type: 'tap' }, { t: 7.7, type: 'tap' }, { t: 8.0, type: 'tap' }],
+  sfx: [{ t: 0.12, type: 'pop' }, { t: 0.5, type: 'swish' }, { t: 1.1, type: 'swish' }, { t: 1.7, type: 'swish' }, { t: 2.25, type: 'boing' }, { t: 2.75, type: 'flop' },
+    { t: 3.35, type: 'tap' }, { t: 3.6, type: 'tap' }, { t: 3.95, type: 'thump' }, { t: 4.35, type: 'thump' }, { t: 4.75, type: 'thump' }, { t: 5.0, type: 'whoosh' }, { t: 5.3, type: 'chime' },
+    { t: 5.75, type: 'boing' }, { t: 6.4, type: 'pon' }, { t: 7.4, type: 'tap' }, { t: 7.65, type: 'tap' }, { t: 7.9, type: 'tap' }, { t: 8.15, type: 'tap' }],
   frame(t) {
-    const L = window.L; if (!L) return;
-    const { seg, ease, lerp, outBack } = L;
-    const DESK = 1360;
-    const bg = L.office({ sky: 'day', clock: [15, 0], month: '11月' });
-    // 書類の長さ：0.3〜2.4 で伸びる、4.95 で一瞬で戻る
-    const grow = t < 4.95 ? ease(seg(t, .3, 2.4)) : 1 - ease(seg(t, 4.95, 5.15));
-    const len = 120 + grow * 640;
-    const lines = Array.from({ length: Math.floor(len / 34) }, (_, i) => `<rect x="${-80}" y="${20 + i * 34}" width="${i % 3 ? 160 : 110}" height="10" rx="5" fill="#C9D3E0"/><rect x="60" y="${16 + i * 34}" width="20" height="18" rx="3" fill="none" stroke="#C9D3E0" stroke-width="3"/>`).join('');
-    const stamps = [3.9, 4.3, 4.7].filter(s => t >= s && (t < 4.95 || s === 3.9)).map((s, i) => `<g transform="translate(${t < 4.95 ? -40 + i * 40 : 70} ${t < 4.95 ? 60 + i * 150 : 75}) rotate(-12) scale(${outBack(seg(t, s, s + .15))})"><circle r="36" fill="none" stroke="#E8473A" stroke-width="6"/><text y="13" font-size="34" font-weight="900" text-anchor="middle" fill="#E8473A" font-family="Noto Sans CJK JP">済</text></g>`).join('');
-    const form = `<g transform="translate(540 ${DESK - 20})"><rect x="-120" y="0" width="240" height="${len}" rx="6" fill="#FFFDF8" stroke="#D7CCBB" stroke-width="3"/><rect x="-120" y="0" width="240" height="44" rx="6" fill="#7FA6D6"/><text x="0" y="31" font-size="26" font-weight="900" text-anchor="middle" fill="#fff" font-family="Noto Sans CJK JP">年末調整</text>${lines}${stamps}</g>`;
-    // レン（机の向こう）
-    const melt = t > 2.8 && t < 5.3 ? seg(t, 2.8, 3.1) * .45 * (1 - seg(t, 5.2, 5.5)) : 0;
-    const rface = t < 2.2 ? { eye: 'tiny', mouth: 'flat', look: [0, 1] } : t < 5.3 ? { eye: 'dead', mouth: 'wobble' } : t < 6.2 ? { eye: 'wide', mouth: 'grin' } : { eye: 'happy', mouth: 'smile' };
-    const rArm = t > 6.2 && t < 7.2 ? 95 * outBack(seg(t, 6.2, 6.5)) : 10;
-    const hayStrand = t > 6.2 && t < 7.0 ? `<path d="M-215 -270 q-30 -80 -110 -130" stroke="#A8B84E" stroke-width="10" fill="none" stroke-linecap="round"/>` : '';
-    const ren = L.bunny('ren', { x: 560, y: 1420 + melt * 120, s: 1.0, face: rface, ear: t > 2.2 && t < 2.8 ? 1 : -.2, squash: melt, gloom: t > 2.9 && t < 5.2 ? .8 : 0, armL: rArm, armR: 10, item: hayStrand, flip: true, t, tilt: t < 2.2 ? Math.sin(t * 3) * 4 : 0 });
-    // ジル（左から入る）
-    const jin = outBack(seg(t, 3.4, 3.8));
-    const jx = lerp(-300, 230, jin);
-    const stampArm = [3.9, 4.3, 4.7].some(s => t > s - .12 && t < s + .1) ? 140 : 70;
-    const jface = t < 7.3 ? { eye: 'half', mouth: 'flat', brow: t < 5.4 ? 'angry' : null } : { eye: 'happy', mouth: 'cat' };
-    const munch = t > 7.3 ? Math.sin(t * 22) * 3 : 0;
-    const jHay = t > 6.9 ? `<path d="M${t > 7.3 ? 40 : 160} ${-370 + munch} l${t > 7.3 ? Math.max(0, 160 - (t - 7.3) * 120) : 150} -40" stroke="#A8B84E" stroke-width="10" fill="none" stroke-linecap="round"/>` : '';
-    const stampItem = t > 3.4 && t < 5.2 ? `<g transform="translate(${stampArm > 100 ? 190 : 170} ${stampArm > 100 ? -300 : -230})"><rect x="-22" y="-80" width="44" height="80" rx="14" fill="#8C5A3C"/><rect x="-34" y="-6" width="68" height="26" rx="6" fill="#C0392B"/></g>` : '';
-    const jil = jin > 0 ? L.bunny('jil', { x: jx, y: 1760, s: 1.0, face: jface, ear: t > 7.3 ? .5 : 0, armR: stampArm, item: stampItem + jHay, blush: t > 7.3 ? 1.2 : .6, t, squash: t > 7.3 ? Math.abs(Math.sin(t * 11)) * .05 : 0 }) : '';
-    const front = L.desk(DESK, { x: 260, w: 620, h: 300 }) + form + L.papers(800, DESK, 4);
-    let fx = '';
-    if (t > 2.2 && t < 2.8) fx += L.mark(760, 860, '!!', 1.1);
-    if (t > 3.9 && t < 5.0) fx += [3.9, 4.3, 4.7].filter(s => t > s && t < s + .3).map(s => L.label(380 + (s - 3.9) * 300, 1120, 'ポン', { fs: 80, rot: -8, fill: '#E8473A', s: outBack(seg(t, s, s + .12)) })).join('');
-    if (t > 5.2 && t < 6.1) fx += L.label(560, 860, 'できた！', { fs: 96, fill: '#F2A33A', s: outBack(seg(t, 5.2, 5.45)) });
-    if (t > 7.4 && t < 8.6) fx += L.label(330, 1150, 'もぐもぐ', { fs: 64, rot: -6, fill: '#6C9A4A' });
+    const L = window.L; if (!L || !window.RIG) return;
+    const { seg, ease, lerp, outBack, pulse } = L;
+    const DESK = 1400, FX = 640;                                   // 書類の位置（机の上・x）
+    const bg = L.office({ sky: 'day', clock: [15, 0] });
+    // 書類：0.3〜2.4 で伸びる（机の前に垂れて床まで）、5.0 で一瞬で戻る
+    const grow = t < 5.0 ? ease(seg(t, .3, 2.4)) : 1 - ease(seg(t, 5.0, 5.2));
+    const len = 110 + grow * 780;
+    const rows = Math.floor(len / 30);
+    const lines = Array.from({ length: rows }, (_, i) => `<rect x="-78" y="${54 + i * 30}" width="${i % 3 ? 120 : 90}" height="9" rx="4" fill="#C9D3E0"/><rect x="58" y="${50 + i * 30}" width="18" height="16" rx="3" fill="none" stroke="#C9D3E0" stroke-width="3"/>`).join('');
+    const SS = [3.95, 4.35, 4.75];
+    const stamps = SS.filter(s => t >= s && (t < 5.0 || s === SS[0])).map((s, i) => t < 5.0 ? L.stamp(-30 + i * 34, 120 + i * 170, outBack(seg(t, s, s + .15))) : L.stamp(40, 80, 1)).join('');
+    const curl = Math.min(len, 230);
+    const form = `<g transform="translate(${FX} ${DESK - 6})"><rect x="-110" y="0" width="220" height="${len}" rx="6" fill="#FFFDF8" stroke="#D7CCBB" stroke-width="3"/><rect x="-110" y="0" width="220" height="40" rx="6" fill="#7FA6D6"/><g fill="#fff"><rect x="-80" y="14" width="70" height="12" rx="6"/><rect x="0" y="14" width="40" height="12" rx="6"/></g>${lines}${stamps}${len > 700 ? `<ellipse cx="0" cy="${len}" rx="${110 + (len - 700) * .3}" ry="26" fill="#FFFDF8" stroke="#D7CCBB" stroke-width="3"/>` : ''}</g>`;
+    // レン（机の上）：読む → 2.25 驚く → 2.75 伸びて倒れる → 5.6 生き返って跳ねる → 6.3 牧草を差し出す
+    const down = t > 2.75 && t < 5.6;
+    let rp;
+    if (t < 2.25) rp = Object.assign({}, RIG.POSES.loaf, RIG.FACES.think, { question: 0, eyeLook: -.4, headNod: 18 });
+    else if (t < 2.75) rp = Object.assign({}, RIG.POSES.sit, RIG.FACES.surprised);
+    else if (down) rp = Object.assign({}, RIG.POSES.stretch, RIG.FACES.sleepy, { zzz: 0, sweat: 1, eyeOpen: .05 });
+    else if (t < 6.3) rp = Object.assign({}, RIG.POSES.binky, RIG.FACES.smile, { sparkle: 1 });
+    else rp = Object.assign({}, RIG.POSES.nudge, RIG.FACES.smile);
+    const rs = 1.5, jump = t > 5.6 && t < 6.2 ? -Math.sin(Math.PI * seg(t, 5.6, 6.2)) * 90 : 0;
+    Object.assign(rp, { x: 470, y: DESK - 413 * rs + jump, scale: rs, flip: true });
+    const hay = t > 6.3 && t < 7.15 ? L.hayStrand(560 - 60 * outBack(seg(t, 6.3, 6.6)), DESK - 190, 170, 180) : '';
+    L.char('ren', rp, t, '', {});
+    // ジル（左から跳ねて来る 3.2〜3.8）
+    const h = RIG.hop(t, 3.2, 3.8, -420, 40, { hops: 2, height: 50 });
+    const js = 1.3;
+    let jp = null;
+    if (t > 3.2) {
+      const hit = SS.some(s => t > s - .12 && t < s + .08);
+      const face = t < 7.2 ? Object.assign({}, RIG.FACES.sharp) : Object.assign({}, RIG.FACES.smile, { blush: 1 });
+      jp = Object.assign({}, RIG.POSES.sit, face, { x: h.x, y: DESK - 413 * js + h.yOff, scale: js, bodySquash: h.squash + (hit ? -.25 : 0) + (t > 7.2 ? .06 * Math.sin(t * 22) : 0), eyeLook: t < 7.2 ? .6 : 0 });
+    }
+    const stamper = t > 3.6 && t < 5.3 ? L.stamper(FX - 120, DESK - 40 - (SS.some(s => t > s - .15 && t < s + .05) ? 0 : 60), 1.1) : '';
+    const jhay = t > 7.0 ? L.hayStrand(h.x + 250 * js - Math.min(120, (t - 7.2) * 90), DESK - 250, Math.max(20, 150 - Math.max(0, t - 7.2) * 90), -170) : '';
+    L.char('jil', jp, t, '', { vx: h.vx });
+    // 手前（机の前板・書類・効果）
+    let fx = `<rect x="-500" y="${DESK + 28}" width="2080" height="900" fill="url(#v2desk)"/><rect x="-500" y="${DESK}" width="2080" height="34" rx="10" fill="${L.PAL.woodTop}"/>`
+      + [60, 560].map(x => `<rect x="${x}" y="${DESK + 90}" width="460" height="170" rx="14" fill="none" stroke="${L.PAL.wood2}" stroke-width="6" opacity=".55"/><rect x="${x + 190}" y="${DESK + 160}" width="80" height="16" rx="8" fill="#E9D2A8"/>`).join('');
+    fx += form + stamper + jhay + hay;
+    fx += SS.map(s => L.impact(FX - 20, DESK + 110 + SS.indexOf(s) * 170, seg(t, s, s + .3), 1.1)).join('');
+    if (t > 2.25 && t < 2.75) fx += L.emark(820, DESK - 640, 1.1);
+    fx += L.check(FX, DESK + 150, seg(t, 5.25, 5.5) * (t < 6.3 ? 1 : 0), 1);
+    if (t > 5.6 && t < 6.6) fx += L.sparkles(760, DESK - 380, t, 1.4);
+    if (t > 7.25 && t < 8.6) fx += L.munch(240, DESK - 300, t, 1.3);
     const cam = L.camAt([
-      { t: 0, z: 1.35, cx: 560, cy: 1080 },
-      { t: 1.0, z: 1.05, cx: 540, cy: 1250, d: 1.4 },          // 伸びる書類を追って引く
-      { t: 2.9, z: 1.3, cx: 560, cy: 1100, d: .5 },
-      { t: 3.4, z: 1.05, cx: 460, cy: 1250, d: .5 },
-      { t: 6.2, z: 1.2, cx: 420, cy: 1200, d: .6 },
-      { t: 7.2, z: 1.55, cx: 260, cy: 1240, d: .6 },          // もぐもぐのジル
+      { t: 0, z: 1.35, cx: 640, cy: 1150 },
+      { t: .8, z: 1.0, cx: 560, cy: 1300, d: 1.5 },                 // 伸びる書類を追って引く
+      { t: 2.6, z: 1.25, cx: 640, cy: 1180, d: .5 },
+      { t: 3.3, z: 1.0, cx: 480, cy: 1250, d: .5 },
+      { t: 5.6, z: 1.15, cx: 560, cy: 1150, d: .5 },
+      { t: 7.1, z: 1.45, cx: 330, cy: 1170, d: .6 },                // もぐもぐのジル
     ], t);
     if (t > 8.6) fx = '';
-    L.mount({ bg, back: '', ren, jil: front + jil, fx, ui: '', cam });
+    L.mount({ bg, fx, ui: '', cam, t, shake: SS.some(s => t > s && t < s + .12) ? 9 : 0 });
     if (typeof endcard === 'function') endcard(t, EP.dur);
   }
 };
