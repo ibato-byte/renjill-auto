@@ -416,6 +416,90 @@
         "value": "Which one is your boss?/あなたの職場のレンは誰？",
         "why": "最後の一言を足して、送る・保存する人が増えるか比べる"
       }
+    },
+    {
+      "date": "2026-11-15",
+      "slot": "18:00",
+      "ep": "meeting",
+      "no": 20,
+      "title": "10分の会議",
+      "caption_ja": "「10分だけ」の会議、2時間後。ジルはコーヒー3杯目で寝落ちです。",
+      "caption_en": "\"Just 10 minutes,\" the boss said. Two hours later, Jill is asleep on her third coffee.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 7.6,
+        "cam": "1.15,600,1200",
+        "hook": "\"JUST 10 MIN\"/10分だけの会議"
+      },
+      "first_comment": "一番長かった会議は何時間？ / Longest meeting you have survived?",
+      "site_i18n": {
+        "title": {
+          "en": "Just 10 minutes",
+          "zh": "只要10分鐘",
+          "ko": "딱 10분만"
+        },
+        "caption": {
+          "zh": "「只要10分鐘」的會議，兩小時後。吉兒喝到第三杯咖啡就睡著了。",
+          "ko": "\"딱 10분만\"이라던 회의, 두 시간 뒤. 질은 세 잔째 커피에서 잠들었어요."
+        }
+      },
+      "cta": "Tag the coworker who always says \"just 10 minutes\"/「10分だけ」が口ぐせの人に送ろう"
+    },
+    {
+      "date": "2026-11-16",
+      "slot": "12:00",
+      "ep": "monday",
+      "no": 21,
+      "title": "月曜の朝",
+      "caption_ja": "月曜7:00の目覚まし。3回止めて、8:59。ジルはもう席にいます。",
+      "caption_en": "Monday, 7:00 AM alarm. Snoozed three times. 8:59, and Jill is already at her desk.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 6,
+        "cam": "1.25,540,1150",
+        "hook": "MONDAY 7:00 AM/月曜の朝、上司の目覚まし"
+      },
+      "first_comment": "月曜のスヌーズ、何回まで？ / How many snoozes on a Monday?",
+      "site_i18n": {
+        "title": {
+          "en": "Monday morning",
+          "zh": "星期一早上",
+          "ko": "월요일 아침"
+        },
+        "caption": {
+          "zh": "星期一7:00的鬧鐘。按了三次貪睡，8:59。吉兒已經在座位上了。",
+          "ko": "월요일 7:00 알람. 세 번 끄고, 8:59. 질은 벌써 자리에 있어요."
+        }
+      },
+      "cta": "Send this to the one who is always late on Mondays/月曜にいつも遅れる人に送ろう"
+    },
+    {
+      "date": "2026-12-10",
+      "slot": "18:00",
+      "ep": "bonus",
+      "no": 22,
+      "title": "ボーナスの日",
+      "caption_ja": "ボーナスの封筒。課長は牧草3本、ジルは30本でした。",
+      "caption_en": "Bonus day. The boss gets 3 strands of hay. Jill gets 30.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 6.6,
+        "cam": "1.1,500,1180",
+        "hook": "BONUS DAY/ボーナスの日、上司と部下"
+      },
+      "first_comment": "ボーナス、何に使う？ / What is your bonus going to?",
+      "site_i18n": {
+        "title": {
+          "en": "Bonus day",
+          "zh": "獎金日",
+          "ko": "보너스 날"
+        },
+        "caption": {
+          "zh": "獎金信封。課長拿到3根牧草，吉兒拿到30根。",
+          "ko": "보너스 봉투. 과장님은 건초 3가닥, 질은 30가닥이었어요."
+        }
+      },
+      "cta": "Send this to whoever got the bigger bonus/ボーナスが多かった人に送ろう"
     }
   ]
 }

@@ -23,3 +23,6 @@ window.PACE_ALL.watercooler = { start: 0.0, speed: 1.0, hook: 'WATER COOLER/水�
 // v2 絵（rig/v2/lib.js）の回。冒頭の一言は英語を大きく・日本語を小さく。「誰が・どんな状況か」を必ず書く（ラベルだけにしない。docs/CLARITY.md）
 window.PACE_ALL.nenmatsu = { start: 0.0, speed: 1.0, hook: 'BOSS VS. TAXES/年末調整の書類を前にした上司' };
 window.PACE_ALL.teiji = { start: 0.0, speed: 1.0, hook: 'BOSS AT 17:59/定時1分前に仕事を持ってくる上司' };
+window.PACE_ALL.bonus = { start: 0.0, speed: 1.0, hook: 'BONUS DAY/ボーナスの日、上司と部下' };
+window.PACE_ALL.monday = { start: 0.0, speed: 1.0, hook: 'MONDAY 7:00 AM/月曜の朝、上司の目覚まし' };
+window.PACE_ALL.meeting = { start: 0.0, speed: 1.0, hook: '"JUST 10 MIN"/10分だけの会議' };
