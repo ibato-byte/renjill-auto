@@ -500,6 +500,62 @@
         }
       },
       "cta": "Send this to whoever got the bigger bonus/ボーナスが多かった人に送ろう"
+    },
+    {
+      "date": "2026-11-17",
+      "slot": "18:00",
+      "ep": "elevator",
+      "no": 23,
+      "title": "エレベーターで上司と2人",
+      "caption_ja": "エレベーターで上司と2人きり。12階に着いた瞬間、ジルは0.1秒で退場。",
+      "caption_en": "Alone in the elevator with the boss. Doors open on 12. Jill is gone in 0.1 seconds.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 4,
+        "cam": "1.05,540,1000",
+        "hook": "BOSS. ELEVATOR./エレベーターで上司と2人きり"
+      },
+      "first_comment": "エレベーターで上司と2人、何を話す？ / What do you say to your boss in the elevator?",
+      "site_i18n": {
+        "title": {
+          "en": "Elevator with the boss",
+          "zh": "和主管單獨搭電梯",
+          "ko": "상사와 단둘이 엘리베이터"
+        },
+        "caption": {
+          "zh": "和課長單獨搭電梯。到12樓的瞬間，吉兒0.1秒退場。",
+          "ko": "과장님과 단둘이 엘리베이터. 12층에 도착한 순간, 질은 0.1초 만에 퇴장."
+        }
+      },
+      "cta": "Send this to someone who takes the stairs to avoid this/これを避けて階段を使う人に送ろう"
+    },
+    {
+      "date": "2026-11-18",
+      "slot": "18:00",
+      "ep": "printer",
+      "no": 24,
+      "title": "1枚だけ印刷",
+      "caption_ja": "「1枚だけ」のはずが40枚。ジルはボタン1回で止めました。",
+      "caption_en": "\"Just one page.\" Forty pages later, Jill stops it with one button.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 4.4,
+        "cam": "1.0,720,1220",
+        "hook": "PRINT: 1 PAGE/「1枚だけ印刷」の上司"
+      },
+      "first_comment": "プリンターに一番やられた経験は？ / Worst printer moment?",
+      "site_i18n": {
+        "title": {
+          "en": "Just one page",
+          "zh": "只印一張",
+          "ko": "딱 한 장만"
+        },
+        "caption": {
+          "zh": "「只印一張」結果印了40張。吉兒按一下按鈕就停了。",
+          "ko": "\"딱 한 장만\"이 40장. 질은 버튼 한 번으로 멈췄어요."
+        }
+      },
+      "cta": "Tag the coworker who always fixes the printer/いつもプリンターを直してくれる人に送ろう"
     }
   ]
 }
