@@ -1,15 +1,15 @@
 {
  "ep": "nenmatsu",
  "en": {
-  "width": 854,
-  "height": 218,
-  "top": 420
+  "width": 859,
+  "height": 156,
+  "top": 428
  },
- "chipTop": 718,
+ "chipTop": 647,
  "busy": {
-  "en": 0.3,
-  "ja": 0,
-  "chip": 0.1
+  "en": 0.2,
+  "ja": 0.5,
+  "chip": 0
  },
- "made": "2026-11-07T16:06:44.957Z"
+ "made": "2026-11-07T17:16:13.709Z"
 }
