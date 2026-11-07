@@ -640,6 +640,90 @@
         }
       },
       "cta": "Send this to this year's party planner/今年の幹事に送ろう"
+    },
+    {
+      "date": "2026-11-21",
+      "slot": "18:00",
+      "ep": "lunchbox",
+      "no": 28,
+      "title": "お弁当が入れ替わった",
+      "caption_ja": "12:00、お弁当が入れ替わっていた。取り替えたら、課長は3秒で完食。次はジルのサラダを見ています。",
+      "caption_en": "Lunch boxes got swapped. Swapped back, the boss finished his in 3 seconds. Now he's eyeing Jill's salad.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 4.0,
+        "cam": "1.15,540,1150",
+        "hook": "LUNCH SWAP/お弁当が入れ替わった"
+      },
+      "first_comment": "お弁当、他人のを開けたことある？ / Ever opened someone else's lunch by mistake?",
+      "site_i18n": {
+        "title": {
+          "en": "Lunch swap",
+          "zh": "便當換錯了",
+          "ko": "도시락이 바뀜었다"
+        },
+        "caption": {
+          "zh": "12:00，便當換錯了。換回來之後，課長三秒吃完，現在盯著吉兒的沙拉。",
+          "ko": "12:00, 도시락이 바뀜어 있었어요. 다시 바꾸자 과장님은 3초 만에 완식. 이제 질의 샐러드를 보고 있어요."
+        }
+      },
+      "cta": "Send this to the fastest eater in your office/会社で一番食べるのが速い人に送ろう"
+    },
+    {
+      "date": "2026-11-22",
+      "slot": "18:00",
+      "ep": "aircon",
+      "no": 29,
+      "title": "エアコン戦争",
+      "caption_ja": "課長は18度、ジルは28度。同時に押したらエアコンが止まった。決着は、窓。",
+      "caption_en": "The boss wants 18. Jill wants 28. They press at the same time and the A/C gives up. The window wins.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 5.7,
+        "cam": "1.15,540,1050",
+        "hook": "AIRCON WAR/エアコンの温度、上司と部下"
+      },
+      "first_comment": "オフィスの適温、何度？ / What's the right office temperature?",
+      "site_i18n": {
+        "title": {
+          "en": "A/C war",
+          "zh": "冷氣大戰",
+          "ko": "에어컨 전쟁"
+        },
+        "caption": {
+          "zh": "課長要18度，吉兒要28度。同時按下去，冷氣停了。最後靠窗戶解決。",
+          "ko": "과장님은 18도, 질은 28도. 동시에 눌러서 에어컨이 멈췄어요. 결론은 창문."
+        }
+      },
+      "cta": "Tag your office's remote control hog/リモコンを独占する人に送ろう"
+    },
+    {
+      "date": "2026-11-23",
+      "slot": "12:00",
+      "ep": "holiday",
+      "no": 30,
+      "title": "祝日に出社",
+      "caption_ja": "11月23日、勤労感謝の日。課長だけ出社していました。ジルも来ました（牧草つき）。",
+      "caption_en": "Nov 23, a national holiday. The boss came to work anyway. So did Jill, with hay.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 4.5,
+        "cam": "1.2,540,900",
+        "hook": "DAY OFF. 9:00/祝日に出社した上司"
+      },
+      "first_comment": "祝日だと気づかずに出社したことある？ / Ever shown up to work on a holiday by mistake?",
+      "site_i18n": {
+        "title": {
+          "en": "Working on a holiday",
+          "zh": "假日上班",
+          "ko": "공휴일 출근"
+        },
+        "caption": {
+          "zh": "11月23日，勞動感謝日。只有課長來上班。吉兒也來了（還帶了牧草）。",
+          "ko": "11월 23일, 근로감사의 날. 과장님만 출근했어요. 질도 왔어요(건초 들고)."
+        }
+      },
+      "cta": "Send this to the one who never takes a day off/休みを取らない人に送ろう"
     }
   ]
 }
