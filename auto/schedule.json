@@ -362,12 +362,12 @@
       "no": 19,
       "title": "定時1分前",
       "caption_ja": "金曜17:59、書類の山を抱えた課長が来た。ジルは18:00ちょうどに消えました。",
-      "caption_en": "Friday, 5:59 PM. The boss shows up with a stack of papers. Jill was gone at 6:00 sharp.",
+      "caption_en": "Friday, 17:59. The boss shows up with a stack of papers. Jill was gone at 18:00 sharp.",
       "tag_set": "C",
       "thumb": {
         "t": 3.4,
         "cam": "1.25,420,1080",
-        "hook": "FRIDAY 5:59 PM/金曜17:59に来る上司"
+        "hook": "FRIDAY 17:59/金曜17:59に来る上司"
       },
       "first_comment": "定時直前の「ちょっといい？」どうする？ ①聞く ②消える / Stay or vanish?",
       "site_i18n": {
