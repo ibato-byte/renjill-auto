@@ -339,7 +339,7 @@
       "thumb": {
         "t": 2.6,
         "cam": "1.05,540,1250",
-        "hook": "TAX FORMS/年末調整する上司"
+        "hook": "BOSS VS. TAX FORMS/年末調整の書類を前にした上司"
       },
       "first_comment": "年末調整、もう出しました？ ①出した ②まだ… / Done with yours yet?",
       "site_i18n": {
@@ -367,7 +367,7 @@
       "thumb": {
         "t": 3.4,
         "cam": "1.25,420,1080",
-        "hook": "FRIDAY 17:59/金曜17:59に来る上司"
+        "hook": "BOSS AT 17:59/定時1分前に仕事を持ってくる上司"
       },
       "first_comment": "定時直前の「ちょっといい？」どうする？ ①聞く ②消える / Stay or vanish?",
       "site_i18n": {
