@@ -584,6 +584,34 @@
         }
       },
       "cta": "Send this to the coworker with the messiest desk/机が一番散らかっている人に送ろう"
+    },
+    {
+      "date": "2026-11-19",
+      "slot": "18:00",
+      "ep": "wifi",
+      "no": 26,
+      "title": "オンライン会議で固まる上司",
+      "caption_ja": "オンライン会議、Wi-Fiが切れて課長の顔が固まった。ジルはその顔を保存しました。",
+      "caption_en": "Online meeting. The Wi-Fi drops and the boss's face freezes. Jill saved a screenshot.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 3.2,
+        "cam": "1.3,620,950",
+        "hook": "WI-FI: OFF/オンライン会議で上司が固まった"
+      },
+      "first_comment": "固まった顔、保存したことある？ / Ever saved a frozen-face screenshot?",
+      "site_i18n": {
+        "title": {
+          "en": "Frozen boss",
+          "zh": "當機的課長",
+          "ko": "멈춘 과장님"
+        },
+        "caption": {
+          "zh": "線上會議，Wi-Fi斷線，課長的臉定格了。吉兒把那張臉存了下來。",
+          "ko": "온라인 회의, 와이파이가 끊겨 과장님 얼굴이 멈췄어요. 질은 그 얼굴을 저장했어요."
+        }
+      },
+      "cta": "Send this to the coworker who always freezes mid-sentence/会議中によく固まる人に送ろう"
     }
   ]
 }
