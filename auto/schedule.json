@@ -333,13 +333,13 @@
       "ep": "nenmatsu",
       "no": 18,
       "title": "年末調整",
-      "caption_ja": "年末調整の書類、読むほど長くなる気がする。レン課長、とけました。",
+      "caption_ja": "年末調整の書類、読むほど長くなる気がする。レン課長、倒れました。",
       "caption_en": "Year-end tax forms. The more the boss reads, the longer they get.",
       "tag_set": "C",
       "thumb": {
         "t": 2.6,
         "cam": "1.05,540,1250",
-        "hook": "年末調整する上司/YEAR-END TAX FORMS"
+        "hook": "TAX FORMS/年末調整する上司"
       },
       "first_comment": "年末調整、もう出しました？ ①出した ②まだ… / Done with yours yet?",
       "site_i18n": {
@@ -361,13 +361,13 @@
       "ep": "teiji",
       "no": 19,
       "title": "定時1分前",
-      "caption_ja": "金曜17:59の「ちょっといい？」。ジルは18:00ちょうどに消えました。",
-      "caption_en": "Friday, 5:59 PM: \"Got a minute?\" Jill was gone at 6:00 sharp.",
+      "caption_ja": "金曜17:59、書類の山を抱えた課長が来た。ジルは18:00ちょうどに消えました。",
+      "caption_en": "Friday, 5:59 PM. The boss shows up with a stack of papers. Jill was gone at 6:00 sharp.",
       "tag_set": "C",
       "thumb": {
         "t": 3.4,
         "cam": "1.25,420,1080",
-        "hook": "17:59に来る上司/FRIDAY, 5:59 PM"
+        "hook": "FRIDAY 5:59 PM/金曜17:59に来る上司"
       },
       "first_comment": "定時直前の「ちょっといい？」どうする？ ①聞く ②消える / Stay or vanish?",
       "site_i18n": {
@@ -377,8 +377,8 @@
           "ko": "퇴근 1분 전"
         },
         "caption": {
-          "zh": "星期五17:59的「有空嗎？」。吉兒在18:00準時消失了。",
-          "ko": "금요일 17:59의 \"잠깐 괜찮아?\". 질은 18:00 정각에 사라졌어요."
+          "zh": "星期五17:59，課長抱著一疊文件走過來。吉兒在18:00準時消失了。",
+          "ko": "금요일 17:59, 과장님이 서류 더미를 안고 왔어요. 질은 18:00 정각에 사라졌어요."
         }
       },
       "cta": "Tag the coworker who vanishes at 6/定時で消える同僚に送ろう"
