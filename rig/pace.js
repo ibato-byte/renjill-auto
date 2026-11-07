@@ -26,3 +26,5 @@ window.PACE_ALL.teiji = { start: 0.0, speed: 1.0, hook: 'BOSS AT 17:59/定時1�
 window.PACE_ALL.bonus = { start: 0.0, speed: 1.0, hook: 'BONUS DAY/ボーナスの日、上司と部下' };
 window.PACE_ALL.monday = { start: 0.0, speed: 1.0, hook: 'MONDAY 7:00 AM/月曜の朝、上司の目覚まし' };
 window.PACE_ALL.meeting = { start: 0.0, speed: 1.0, hook: '"JUST 10 MIN"/10分だけの会議' };
+window.PACE_ALL.elevator = { start: 0.0, speed: 1.0, hook: 'BOSS. ELEVATOR./エレベーターで上司と2人きり' };
+window.PACE_ALL.printer = { start: 0.0, speed: 1.0, hook: 'PRINT: 1 PAGE/「1枚だけ印刷」の上司' };
