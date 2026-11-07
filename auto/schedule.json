@@ -556,6 +556,34 @@
         }
       },
       "cta": "Tag the coworker who always fixes the printer/いつもプリンターを直してくれる人に送ろう"
+    },
+    {
+      "date": "2026-12-28",
+      "slot": "18:00",
+      "ep": "osouji",
+      "no": 25,
+      "title": "大掃除",
+      "caption_ja": "12月28日、大掃除。課長の机の山から、去年のおにぎりが出てきました。",
+      "caption_en": "Dec 28, cleaning day. From the boss’s pile of papers: last year’s lunch.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 5.6,
+        "cam": "1.5,800,1150",
+        "hook": "CLEANING DAY/大掃除、上司の机"
+      },
+      "first_comment": "大掃除で出てきた一番すごいもの、何？ / Weirdest thing you found while cleaning your desk?",
+      "site_i18n": {
+        "title": {
+          "en": "Cleaning day",
+          "zh": "大掃除",
+          "ko": "대청소"
+        },
+        "caption": {
+          "zh": "12月28日大掃除。課長桌上的文件山裡，挖出了去年的飯糰。",
+          "ko": "12월 28일 대청소. 과장님 책상 서류 더미에서 작년 주먹밥이 나왔어요."
+        }
+      },
+      "cta": "Send this to the coworker with the messiest desk/机が一番散らかっている人に送ろう"
     }
   ]
 }
