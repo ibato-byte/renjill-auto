@@ -12,7 +12,8 @@
     ],
     "tag_sets": {
       "A": "#うさぎのいる生活 #ホーランドロップ #会社あるある #lopbunny #officelife",
-      "B": "#うさぎのいる暮らし #ネザーランドドワーフ #社畜あるある #bunnytok #cuteanimals"
+      "B": "#うさぎのいる暮らし #ネザーランドドワーフ #社畜あるある #bunnytok #cuteanimals",
+      "C": "#会社員あるある #上司と部下 #うさぎ"
     },
     "fb_cta": "Who in your office does this? Tell us in the comments.\nあなたの職場にもいますか？コメントで教えてください\n\n▶ 無料ゲーム / Free game: https://hay-dash.coana.co.jp/",
     "fb_tag_sets": {
@@ -325,6 +326,62 @@
         "value": "B",
         "why": "ハッシュタグの組み合わせを変えて、見つかり方を比べる"
       }
+    },
+    {
+      "date": "2026-11-11",
+      "slot": "18:00",
+      "ep": "nenmatsu",
+      "no": 18,
+      "title": "年末調整",
+      "caption_ja": "年末調整の書類、読むほど長くなる気がする。レン課長、とけました。",
+      "caption_en": "Year-end tax forms. The more the boss reads, the longer they get.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 2.6,
+        "cam": "1.05,540,1250",
+        "hook": "年末調整する上司/YEAR-END TAX FORMS"
+      },
+      "first_comment": "年末調整、もう出しました？ ①出した ②まだ… / Done with yours yet?",
+      "site_i18n": {
+        "title": {
+          "en": "Year-end tax forms",
+          "zh": "年末調整",
+          "ko": "연말정산"
+        },
+        "caption": {
+          "zh": "年末調整的表格，越看越長。課長融化了。",
+          "ko": "연말정산 서류, 읽을수록 길어지는 기분. 과장님이 녹았어요."
+        }
+      },
+      "cta": "Send this to whoever does yours/あなたの年末調整を手伝ってくれる人に送ろう"
+    },
+    {
+      "date": "2026-11-13",
+      "slot": "18:00",
+      "ep": "teiji",
+      "no": 19,
+      "title": "定時1分前",
+      "caption_ja": "金曜17:59の「ちょっといい？」。ジルは18:00ちょうどに消えました。",
+      "caption_en": "Friday, 5:59 PM: \"Got a minute?\" Jill was gone at 6:00 sharp.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 3.4,
+        "cam": "1.25,420,1080",
+        "hook": "17:59に来る上司/FRIDAY, 5:59 PM"
+      },
+      "first_comment": "定時直前の「ちょっといい？」どうする？ ①聞く ②消える / Stay or vanish?",
+      "site_i18n": {
+        "title": {
+          "en": "One minute to six",
+          "zh": "下班前一分鐘",
+          "ko": "퇴근 1분 전"
+        },
+        "caption": {
+          "zh": "星期五17:59的「有空嗎？」。吉兒在18:00準時消失了。",
+          "ko": "금요일 17:59의 \"잠깐 괜찮아?\". 질은 18:00 정각에 사라졌어요."
+        }
+      },
+      "cta": "Tag the coworker who vanishes at 6/定時で消える同僚に送ろう"
     },
     {
       "date": "2026-11-14",
