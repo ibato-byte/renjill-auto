@@ -366,7 +366,7 @@
       "tag_set": "C",
       "thumb": {
         "t": 3.4,
-        "cam": "1.25,420,1080",
+        "cam": "1.4,611,1150",
         "hook": "BOSS AT 17:59/定時1分前に仕事を持ってくる上司"
       },
       "first_comment": "定時直前の「ちょっといい？」どうする？ ①聞く ②消える / Stay or vanish?",
@@ -428,7 +428,7 @@
       "tag_set": "C",
       "thumb": {
         "t": 7.6,
-        "cam": "1.15,600,1200",
+        "cam": "1.4,665,1040",
         "hook": "\"JUST 10 MIN\"/10分だけの会議"
       },
       "first_comment": "一番長かった会議は何時間？ / Longest meeting you have survived?",
@@ -484,7 +484,7 @@
       "tag_set": "C",
       "thumb": {
         "t": 6.6,
-        "cam": "1.1,500,1180",
+        "cam": "1.3,705,1100",
         "hook": "BONUS DAY/ボーナスの日、上司と部下"
       },
       "first_comment": "ボーナス、何に使う？ / What is your bonus going to?",
@@ -512,7 +512,7 @@
       "tag_set": "C",
       "thumb": {
         "t": 4,
-        "cam": "1.05,540,1000",
+        "cam": "1.4,651,1116",
         "hook": "BOSS. ELEVATOR./エレベーターで上司と2人きり"
       },
       "first_comment": "エレベーターで上司と2人、何を話す？ / What do you say to your boss in the elevator?",
@@ -540,7 +540,7 @@
       "tag_set": "C",
       "thumb": {
         "t": 4.4,
-        "cam": "1.0,720,1220",
+        "cam": "1.5,760,1147",
         "hook": "PRINT: 1 PAGE/「1枚だけ印刷」の上司"
       },
       "first_comment": "プリンターに一番やられた経験は？ / Worst printer moment?",
@@ -568,7 +568,7 @@
       "tag_set": "C",
       "thumb": {
         "t": 5.6,
-        "cam": "1.5,800,1150",
+        "cam": "1.4,650,1096",
         "hook": "CLEANING DAY/大掃除、上司の机"
       },
       "first_comment": "大掃除で出てきた一番すごいもの、何？ / Weirdest thing you found while cleaning your desk?",
@@ -596,7 +596,7 @@
       "tag_set": "C",
       "thumb": {
         "t": 3.2,
-        "cam": "1.3,620,950",
+        "cam": "1.4,480,960",
         "hook": "WI-FI: OFF/オンライン会議で上司が固まった"
       },
       "first_comment": "固まった顔、保存したことある？ / Ever saved a frozen-face screenshot?",
@@ -652,7 +652,7 @@
       "tag_set": "C",
       "thumb": {
         "t": 4.0,
-        "cam": "1.15,540,1150",
+        "cam": "1.4,580,1096",
         "hook": "LUNCH SWAP/お弁当が入れ替わった"
       },
       "first_comment": "お弁当、他人のを開けたことある？ / Ever opened someone else's lunch by mistake?",
@@ -680,7 +680,7 @@
       "tag_set": "C",
       "thumb": {
         "t": 5.7,
-        "cam": "1.15,540,1050",
+        "cam": "1.4,580,1096",
         "hook": "AIRCON WAR/エアコンの温度、上司と部下"
       },
       "first_comment": "オフィスの適温、何度？ / What's the right office temperature?",
@@ -708,7 +708,7 @@
       "tag_set": "C",
       "thumb": {
         "t": 4.5,
-        "cam": "1.2,540,900",
+        "cam": "1.5,760,1095",
         "hook": "DAY OFF. 9:00/祝日に出社した上司"
       },
       "first_comment": "祝日だと気づかずに出社したことある？ / Ever shown up to work on a holiday by mistake?",
@@ -736,8 +736,8 @@
       "tag_set": "C",
       "thumb": {
         "t": 6.6,
-        "cam": "1.2,600,1200",
-        "hook": "8 STAMPS/ハンコ8個、朱肉が切れた"
+        "cam": "1.4,546,1100",
+        "hook": "STAMP 8: NO INK/ハンコ8個、朱肉が切れた"
       },
       "first_comment": "ハンコ、一番多く押した書類は何個？ / Most stamps you've ever needed on one form?\n【あいことば】ゲームの「あいことば」に「にくきゅう」を入れると牧草300本（11/30まで）/ Secret word for the game: にくきゅう (300 hay, until Nov 30)",
       "site_i18n": {
@@ -792,7 +792,7 @@
       "tag_set": "C",
       "thumb": {
         "t": 5.8,
-        "cam": "1.05,540,1050",
+        "cam": "1.4,570,1100",
         "hook": "RAINY DAY/傘を忘れた上司"
       },
       "first_comment": "雨の日、傘を忘れたらどうする？ / Forgot your umbrella. What do you do?\n【あいことば】ゲームの「あいことば」に「ぶるぶる」を入れると牧草300本（12/10まで）/ Secret word for the game: ぶるぶる (300 hay, until Dec 10)",
@@ -820,7 +820,7 @@
       "tag_set": "C",
       "thumb": {
         "t": 7.5,
-        "cam": "1.5,820,1120",
+        "cam": "1.4,558,1096",
         "hook": "6 DONUTS/差し入れのドーナツ、上司と2秒"
       },
       "first_comment": "差し入れが一番早く消えるのはだれ？ / Who empties the snack box fastest in your office?",
@@ -848,7 +848,7 @@
       "tag_set": "C",
       "thumb": {
         "t": 4.7,
-        "cam": "1.3,540,700",
+        "cam": "1.4,560,1080",
         "hook": "LEAVE: APPROVED/有給、見ずに承認した上司"
       },
       "first_comment": "有給、取りやすい職場？ / Is it easy to take a day off where you work?",
@@ -876,7 +876,7 @@
       "tag_set": "C",
       "thumb": {
         "t": 8,
-        "cam": "1.3,680,1180",
+        "cam": "1.4,570,1100",
         "hook": "OVERTIME 21:00/残業の夜食、上司の3分"
       },
       "first_comment": "残業の夜食、何派？ / Go-to overtime snack?",
@@ -904,7 +904,7 @@
       "tag_set": "C",
       "thumb": {
         "t": 6,
-        "cam": "1.2,600,1150",
+        "cam": "1.5,480,1100",
         "hook": "DESK PLANT/上司の植物、水やりはコーヒー"
       },
       "first_comment": "オフィスの植物、だれが世話してる？ / Who actually waters the office plants?",
@@ -932,7 +932,7 @@
       "tag_set": "C",
       "thumb": {
         "t": 7.3,
-        "cam": "1.3,360,1200",
+        "cam": "1.4,560,1096",
         "hook": "DEADLINE 9:00/締め切り前夜、上司と部下"
       },
       "first_comment": "締め切り前夜、何時までやる？ / Night before a deadline: how late do you go?",
