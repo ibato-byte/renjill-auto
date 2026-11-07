@@ -31,3 +31,6 @@ window.PACE_ALL.printer = { start: 0.0, speed: 1.0, hook: 'PRINT: 1 PAGE/「1枚
 window.PACE_ALL.osouji = { start: 0.0, speed: 1.0, hook: 'CLEANING DAY/大掃除、上司の机' };
 window.PACE_ALL.wifi = { start: 0.0, speed: 1.0, hook: 'WI-FI: OFF/オンライン会議で上司が固まった' };
 window.PACE_ALL.bonenkai = { start: 0.0, speed: 1.0, hook: 'PARTY PLANNER/忘年会の幹事はジル' };
+window.PACE_ALL.lunchbox = { start: 0.0, speed: 1.0, hook: 'LUNCH SWAP/お弁当が入れ替わった' };
+window.PACE_ALL.aircon = { start: 0.0, speed: 1.0, hook: 'AIRCON WAR/エアコンの温度、上司と部下' };
+window.PACE_ALL.holiday = { start: 0.0, speed: 1.0, hook: 'DAY OFF. 9:00/祝日に出社した上司' };
