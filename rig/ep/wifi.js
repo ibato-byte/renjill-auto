@@ -30,14 +30,14 @@ var EP = {
     let fx = `<rect x="-500" y="${DESK + 28}" width="2080" height="900" fill="url(#v2desk)"/><rect x="-500" y="${DESK}" width="2080" height="34" rx="10" fill="${L.PAL.woodTop}"/>`
       + [60, 560].map(x => `<rect x="${x}" y="${DESK + 90}" width="460" height="170" rx="14" fill="none" stroke="${L.PAL.wood2}" stroke-width="6" opacity=".55"/><rect x="${x + 190}" y="${DESK + 160}" width="80" height="16" rx="8" fill="#E9D2A8"/>`).join('');
     // 画面の枠（レンの周り）：切れている間は少し灰色に
-    fx += `<g><rect x="370" y="${DESK - 800}" width="620" height="560" rx="22" fill="none" stroke="#3B4252" stroke-width="22"/><rect x="370" y="${DESK - 800}" width="620" height="560" rx="22" fill="${cut ? 'rgba(120,120,120,.28)' : 'rgba(0,0,0,0)'}"/><rect x="400" y="${DESK - 290}" width="560" height="44" rx="10" fill="#3B4252"/><path d="M490 ${DESK - 246} L870 ${DESK - 246} L900 ${DESK - 214} L460 ${DESK - 214}Z" fill="#C9CFD8"/></g>`;
+    fx += `<g><rect x="370" y="${DESK - 800}" width="620" height="560" rx="22" fill="none" stroke="#3B4252" stroke-width="22"/><rect x="370" y="${DESK - 800}" width="620" height="560" rx="22" fill="${cut ? 'rgba(120,120,120,.28)' : 'rgba(0,0,0,0)'}" pointer-events="none"/><rect x="400" y="${DESK - 290}" width="560" height="44" rx="10" fill="#3B4252"/><path d="M490 ${DESK - 246} L870 ${DESK - 246} L900 ${DESK - 214} L460 ${DESK - 214}Z" fill="#C9CFD8"/></g>`;
     fx += WIFI(930, DESK - 740, !cut, .9);
     if (cut && t < 3.4) fx += L.emark(680, DESK - 860, 1.0, '!?');
     if (cut) fx += `<g transform="translate(680 ${DESK - 330})">${Array.from({ length: 3 }, (_, i) => `<circle cx="${-40 + i * 40}" cy="0" r="${12 + 6 * Math.max(0, Math.sin(t * 6 - i * 1.2))}" fill="#fff" opacity=".9"/>`).join('')}</g>`;   // つながるのを待つ点々
     // スクショ：5.2 に白いフラッシュ → ジルの手元に紙（固まった顔の小さな絵）
-    if (t > 5.2 && t < 5.45) fx += `<rect x="370" y="${DESK - 800}" width="620" height="560" rx="22" fill="#fff" opacity="${1 - seg(t, 5.2, 5.45)}"/>`;
-    if (t > 5.3) { const k = outBack(seg(t, 5.3, 5.7)); fx += `<g transform="translate(${250} ${DESK - 150}) rotate(-8) scale(${k})"><rect x="-120" y="-150" width="240" height="190" rx="10" fill="#fff" stroke="#D7CCBB" stroke-width="5"/><ellipse cx="0" cy="-70" rx="56" ry="48" fill="#DEC9A8"/><path d="M-28 -78 q8 -10 16 0 M12 -84 L34 -74" stroke="#3A2414" stroke-width="5" fill="none" stroke-linecap="round"/><ellipse cx="0" cy="-48" rx="10" ry="7" fill="#C88D85"/><path d="M-8 -36 q8 6 16 0" stroke="#5A3826" stroke-width="4" fill="none"/><rect x="-100" y="0" width="200" height="12" rx="6" fill="#E2D8C8"/></g>`; }
-    if (t > 5.2 && t < 5.6) fx += L.impact(250, DESK - 240, seg(t, 5.2, 5.6), .9, '#F2A33A');
+    if (t > 5.2 && t < 5.45) fx += `<rect x="370" y="${DESK - 800}" width="620" height="560" rx="22" fill="#fff" opacity="${1 - seg(t, 5.2, 5.45)}" pointer-events="none"/>`;
+    if (t > 5.3) { const k = outBack(seg(t, 5.3, 5.7)); fx += `<g transform="translate(${210} ${DESK - 40}) rotate(-8) scale(${k})"><rect x="-120" y="-150" width="240" height="190" rx="10" fill="#fff" stroke="#D7CCBB" stroke-width="5"/><ellipse cx="0" cy="-70" rx="56" ry="48" fill="#DEC9A8"/><path d="M-28 -78 q8 -10 16 0 M12 -84 L34 -74" stroke="#3A2414" stroke-width="5" fill="none" stroke-linecap="round"/><ellipse cx="0" cy="-48" rx="10" ry="7" fill="#C88D85"/><path d="M-8 -36 q8 6 16 0" stroke="#5A3826" stroke-width="4" fill="none"/><rect x="-100" y="0" width="200" height="12" rx="6" fill="#E2D8C8"/></g>`; }
+    if (t > 5.2 && t < 5.6) fx += L.impact(210, DESK - 150, seg(t, 5.2, 5.6), .9, '#F2A33A');
     let ui = (t > 1.8 && t < 3.4 ? CHIP(L, 'ONLINE MEETING', 'オンライン会議。上司は画面の中', 1380, seg(t, 1.8, 2.1)) : '')
       + (t > 5.6 && t < 8.6 ? CHIP(L, 'FROZEN FACE: SAVED', '固まった顔、ジルが保存', 1380, seg(t, 5.6, 5.9)) : '');
     const cam = L.camAt([
@@ -45,9 +45,9 @@ var EP = {
       { t: 0.01, z: 1.05, cx: 540, cy: 1060, d: .9 },
       { t: 2.6, z: 1.5, cx: 680, cy: 900, d: .4 },                  // 固まった顔に寄る
       { t: 3.6, z: 1.15, cx: 480, cy: 1050, d: .5 },
-      { t: 5.1, z: 1.4, cx: 300, cy: 1180, d: .4 },                 // スクショの紙
+      { t: 5.1, z: 1.4, cx: 300, cy: 1230, d: .4 },                 // スクショの紙
       { t: 6.4, z: 1.05, cx: 540, cy: 1060, d: .5 },
-      { t: 7.6, z: 1.35, cx: 320, cy: 1150, d: .6 },
+      { t: 7.6, z: 1.35, cx: 320, cy: 1200, d: .6 },
     ], t);
     if (t > 8.6) { fx = ''; ui = ''; }
     L.mount({ bg, fx, ui, cam, t, shake: t > 5.2 && t < 5.3 ? 6 : 0 });
