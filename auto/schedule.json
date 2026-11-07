@@ -724,6 +724,90 @@
         }
       },
       "cta": "Send this to the one who never takes a day off/休みを取らない人に送ろう"
+    },
+    {
+      "date": "2026-11-12",
+      "slot": "18:00",
+      "ep": "hanko",
+      "no": 31,
+      "title": "ハンコ8個",
+      "caption_ja": "書類にハンコが8個。課長が押していく、7個目で朱肉が切れた。8個目はにくきゅう。受理されました。",
+      "caption_en": "The form needs 8 stamps. The boss runs out of ink at 7. Stamp 8 is a paw print. Approved.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 6.6,
+        "cam": "1.2,600,1200",
+        "hook": "8 STAMPS/ハンコ8個、朱肉が切れた"
+      },
+      "first_comment": "ハンコ、一番多く押した書類は何個？ / Most stamps you've ever needed on one form?",
+      "site_i18n": {
+        "title": {
+          "en": "Eight stamps",
+          "zh": "八個印章",
+          "ko": "도장 8개"
+        },
+        "caption": {
+          "zh": "文件要蓋8個章。課長蓋到第7個沒印泵了。第8個是肉球。通過。",
+          "ko": "서류에 도장 8개. 과장님이 찍다가 7개째에 인주가 떨어졌어요. 8개째는 발바닥. 접수 완료."
+        }
+      },
+      "cta": "Send this to whoever approves your forms/書類を承認してくれる人に送ろう"
+    },
+    {
+      "date": "2026-11-24",
+      "slot": "18:00",
+      "ep": "mute",
+      "no": 32,
+      "title": "ミュートのまま",
+      "caption_ja": "オンライン会議。課長はミュートのまま2分間熱弁。解除した瞬間に、あくび。",
+      "caption_en": "Online meeting. The boss gives a passionate speech on mute for 2 minutes. The moment he unmutes: a yawn.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 2.5,
+        "cam": "1.15,540,1000",
+        "hook": "STILL MUTED/ミュートのまま熱弁する上司"
+      },
+      "first_comment": "ミュートのまま話した最長記録は？ / Longest you've talked on mute?",
+      "site_i18n": {
+        "title": {
+          "en": "Still muted",
+          "zh": "還在靜音",
+          "ko": "아직 음소거"
+        },
+        "caption": {
+          "zh": "線上會議。課長靜音著激昂發言了兩分鐘。解除靜音的瞬間，打了個呵欠。",
+          "ko": "온라인 회의. 과장님은 음소거 상태로 2분간 열변. 해제한 순간, 하품."
+        }
+      },
+      "cta": "Tag the coworker who is always on mute/いつもミュートのままの人に送ろう"
+    },
+    {
+      "date": "2026-11-25",
+      "slot": "18:00",
+      "ep": "rain",
+      "no": 33,
+      "title": "雨の日の上司",
+      "caption_ja": "雨の朝、傘を忘れた課長がびしょ濡れで到着。タオルの前にぶるぶる。ジルも濡れました。",
+      "caption_en": "Rainy morning. The boss forgot his umbrella and arrives soaked. Before the towel: a big shake. Now Jill is wet too.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 5.8,
+        "cam": "1.05,540,1050",
+        "hook": "RAINY DAY/傘を忘れた上司"
+      },
+      "first_comment": "雨の日、傘を忘れたらどうする？ / Forgot your umbrella. What do you do?",
+      "site_i18n": {
+        "title": {
+          "en": "Rainy day boss",
+          "zh": "雨天的課長",
+          "ko": "비 오는 날의 과장님"
+        },
+        "caption": {
+          "zh": "雨天的早上，忘了帶傘的課長濕透著到公司。拿毛巾之前先用力一抖。吉兒也濕了。",
+          "ko": "비 오는 아침, 우산을 잊은 과장님이 흓므 젖어 도착. 수건 전에 부르르. 질도 젖었어요."
+        }
+      },
+      "cta": "Send this to the one who never carries an umbrella/傘を持たない人に送ろう"
     }
   ]
 }
