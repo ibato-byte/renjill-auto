@@ -6,8 +6,8 @@ document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
 // 大きな書類（8つの枠）。stamps=押した数、paw=肉球（0/1）、faint=かすれ（0〜1）
 const SHEET = (x, y, stamps, paw, faint) => {
-  let s = `<g transform="translate(${x} ${y})"><rect x="-300" y="-200" width="600" height="400" rx="10" fill="#fff" stroke="#D7CCBB" stroke-width="6"/>`;
-  for (let i = 0; i < 4; i++) s += `<rect x="-240" y="${-150 + i * 40}" width="${300 - i * 30}" height="14" rx="7" fill="#E2D8C8"/>`;
+  let s = `<g transform="translate(${x} ${y})"><rect x="-300" y="-170" width="600" height="370" rx="10" fill="#fff" stroke="#D7CCBB" stroke-width="6"/>`;
+  for (let i = 0; i < 3; i++) s += `<rect x="-240" y="${-130 + i * 40}" width="${300 - i * 30}" height="14" rx="7" fill="#E2D8C8"/>`;
   for (let i = 0; i < 8; i++) {
     const cx = -220 + (i % 4) * 150, cy = 60 + Math.floor(i / 4) * 110;
     s += `<rect x="${cx - 42}" y="${cy - 42}" width="84" height="84" rx="8" fill="none" stroke="#C9C2B6" stroke-width="4" stroke-dasharray="8 8"/>`;
@@ -44,15 +44,15 @@ var EP = {
     let fx = `<rect x="-500" y="${DESK + 28}" width="2080" height="900" fill="url(#v2desk)"/><rect x="-500" y="${DESK}" width="2080" height="34" rx="10" fill="${L.PAL.woodTop}"/>`
       + [60, 560].map(x => `<rect x="${x}" y="${DESK + 90}" width="460" height="170" rx="14" fill="none" stroke="${L.PAL.wood2}" stroke-width="6" opacity=".55"/><rect x="${x + 190}" y="${DESK + 160}" width="80" height="16" rx="8" fill="#E9D2A8"/>`).join('');
     // 書類（机の手前に立てて見せる）とハンコ
-    fx += SHEET(540, DESK - 60, stamps, paw, faint);
-    const cell = i => [540 - 220 + (i % 4) * 150, DESK - 60 + 60 + Math.floor(i / 4) * 110];
+    fx += SHEET(540, DESK - 30, stamps, paw, faint);
+    const cell = i => [540 - 220 + (i % 4) * 150, DESK - 30 + 60 + Math.floor(i / 4) * 110];
     if (t > 0.8 && t < 3.9) { const i = Math.min(7, Math.floor((t - 0.6) / 0.4)), [cx, cy] = cell(Math.min(i, 7)); const ph = ((t - 0.6) / 0.4) % 1; fx += L.stamper(cx, cy - 70 - 90 * Math.abs(Math.sin(ph * Math.PI)), 1.1); }
     if (t >= 3.9 && t < 5.6) { const [cx, cy] = cell(7); fx += L.stamper(cx, cy - 70 - (t < 4.6 ? Math.abs(Math.sin(t * 20)) * 30 : 0), 1.1); }
     for (let i = 1; i <= 7; i++) { const at = 0.6 + i * 0.4; if (t > at && t < at + .25) { const [cx, cy] = cell(i - 1); fx += L.impact(cx, cy, seg(t, at, at + .25), .5, '#E8473A'); } }
     if (t > 4.6 && t < 5.6) fx += L.emark(900, DESK - 700, 1.0, '!');     // ひらめき
     if (pawDown > 0) { const [cx, cy] = cell(7); fx += `<g transform="translate(${cx} ${cy - 160 + 150 * ease(pawDown)})"><ellipse cx="0" cy="0" rx="52" ry="40" fill="#D9B48C" stroke="#B88A5C" stroke-width="5"/><circle cx="-26" cy="-26" r="12" fill="#D9B48C" stroke="#B88A5C" stroke-width="5"/><circle cx="-9" cy="-36" r="12" fill="#D9B48C" stroke="#B88A5C" stroke-width="5"/><circle cx="9" cy="-36" r="12" fill="#D9B48C" stroke="#B88A5C" stroke-width="5"/><circle cx="26" cy="-26" r="12" fill="#D9B48C" stroke="#B88A5C" stroke-width="5"/></g>`; }
     if (t > 6.1 && t < 6.5) { const [cx, cy] = cell(7); fx += L.impact(cx, cy, seg(t, 6.1, 6.5), .8, '#E8473A'); }
-    if (ok) fx += L.check(540, DESK - 60, outBack(seg(t, 7.5, 7.9)), 2.2);
+    if (ok) fx += L.check(540, DESK - 30, outBack(seg(t, 7.5, 7.9)), 2.2);
     if (ok) fx += L.sparkles(540, DESK - 120, t, 1.0, 6);
     let ui = (t > 1.8 && t < 3.4 ? CHIP(L, 'STAMPS NEEDED: 8', '書類にハンコ、8個。上司が押していく', 1380, seg(t, 1.8, 2.1)) : '')
       + (t > 4.2 && t < 5.4 ? CHIP(L, 'NO INK LEFT', '8個目で、朱肉が切れた', 1380, seg(t, 4.2, 4.5)) : '')
