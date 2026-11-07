@@ -2,6 +2,9 @@
 // 書類を読むレン → 書類がどんどん伸びて机から床まで垂れる → レン、伸びて倒れる → ジルが跳ねて来て無言でハンコ3回、書類はシュッと1枚に
 // → 生き返ったレン（跳ねる）がお礼に牧草を1本 → ジル、無表情のまま…もぐもぐ（ちょっとうれしい）
 document.write('<script src="v2/lib.js"><\/script>');
+// 分かりやすさの決まり（docs/CLARITY.md）：キャラはしゃべらない。そのかわり「状況」と「オチ」を短い字幕（英＋日）で1回ずつ出す
+const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
+const DIZZY = (x, y, t) => `<g transform="translate(${x} ${y})" fill="none" stroke="#8C6BB1" stroke-width="7" stroke-linecap="round">${[0, 1, 2].map(i => `<path transform="rotate(${t * 220 + i * 120}) translate(70 0)" d="M0 0 a14 14 0 1 1 -14 -14"/>`).join('')}</g>`;
 var EP = {
   dur: 9.5,
   bgmHolds: '2.6-3.3',
@@ -25,14 +28,14 @@ var EP = {
     // レン（机の上）：読む → 2.25 驚く → 2.75 伸びて倒れる → 5.6 生き返って跳ねる → 6.3 牧草を差し出す
     const down = t > 2.75 && t < 5.6;
     let rp;
-    if (t < 2.25) rp = Object.assign({}, RIG.POSES.loaf, RIG.FACES.think, { question: 0, eyeLook: -.4, headNod: 18 });
+    if (t < 2.25) rp = Object.assign({}, RIG.POSES.loaf, RIG.FACES.think, { question: 0, eyeLook: -.4, headNod: 18 + 10 * grow });
     else if (t < 2.75) rp = Object.assign({}, RIG.POSES.sit, RIG.FACES.surprised);
-    else if (down) rp = Object.assign({}, RIG.POSES.stretch, RIG.FACES.sleepy, { zzz: 0, sweat: 1, eyeOpen: .05 });
+    else if (down) rp = Object.assign({}, RIG.POSES.stretch, RIG.FACES.oops, { sweat: 1, eyeOpen: .5, excl: 0 });
     else if (t < 6.3) rp = Object.assign({}, RIG.POSES.binky, RIG.FACES.smile, { sparkle: 1 });
     else rp = Object.assign({}, RIG.POSES.nudge, RIG.FACES.smile);
     const rs = 1.5, jump = t > 5.6 && t < 6.2 ? -Math.sin(Math.PI * seg(t, 5.6, 6.2)) * 90 : 0;
     Object.assign(rp, { x: 470, y: DESK - 413 * rs + jump, scale: rs, flip: true });
-    const hay = t > 6.3 && t < 7.15 ? L.hayStrand(560 - 60 * outBack(seg(t, 6.3, 6.6)), DESK - 190, 170, 180) : '';
+    const hay = t > 6.3 && t < 7.15 ? `<g transform="translate(${560 - 80 * outBack(seg(t, 6.3, 6.6))} ${DESK - 200}) scale(1.6)">${L.hayStrand(0, 0, 150, 180)}</g>` : '';
     L.char('ren', rp, t, '', {});
     // ジル（左から跳ねて来る 3.2〜3.8）
     const h = RIG.hop(t, 3.2, 3.8, -420, 40, { hops: 2, height: 50 });
@@ -52,6 +55,7 @@ var EP = {
     fx += form + stamper + jhay + hay;
     fx += SS.map(s => L.impact(FX - 20, DESK + 110 + SS.indexOf(s) * 170, seg(t, s, s + .3), 1.1)).join('');
     if (t > 2.25 && t < 2.75) fx += L.emark(820, DESK - 640, 1.1);
+    if (down) fx += DIZZY(760, DESK - 420, t);
     fx += L.check(FX, DESK + 150, seg(t, 5.25, 5.5) * (t < 6.3 ? 1 : 0), 1);
     if (t > 5.6 && t < 6.6) fx += L.sparkles(760, DESK - 380, t, 1.4);
     if (t > 7.25 && t < 8.6) fx += L.munch(240, DESK - 300, t, 1.3);
@@ -63,8 +67,11 @@ var EP = {
       { t: 5.6, z: 1.15, cx: 560, cy: 1150, d: .5 },
       { t: 7.1, z: 1.45, cx: 330, cy: 1170, d: .6 },                // もぐもぐのジル
     ], t);
-    if (t > 8.6) fx = '';
-    L.mount({ bg, fx, ui: '', cam, t, shake: SS.some(s => t > s && t < s + .12) ? 9 : 0 });
+    // 状況とオチの字幕（各1回）
+    let ui = (t > 1.0 && t < 2.6 ? CHIP(L, 'THE FORMS KEEP GOING...', '読んでも読んでも終わらない', 1380, seg(t, 1.0, 1.3)) : '')
+      + (t > 5.2 && t < 6.9 ? CHIP(L, 'JILL: DONE IN 3 SECONDS', 'ジル、3秒で終わらせる', 1380, seg(t, 5.2, 5.5)) : '');
+    if (t > 8.6) { fx = ''; ui = ''; }
+    L.mount({ bg, fx, ui, cam, t, shake: SS.some(s => t > s && t < s + .12) ? 9 : 0 });
     if (typeof endcard === 'function') endcard(t, EP.dur);
   }
 };
