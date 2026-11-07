@@ -67,7 +67,9 @@ jobs:
         if: steps.hub.outputs.paused != 'true' && contains('compile all', steps.task.outputs.task) && (github.event.schedule == '30 11 * * 0' || github.event_name == 'workflow_dispatch')
         run: |
           for i in 1 2 3; do
-            timeout 300 bash -c 'sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg fonts-noto-cjk' && break
+            # 2026-11-07：取得が止まり15分枠で打ち切られたため、2回目からは別のミラーで取り直す（枠は20分）
+            if [ "$i" -ge 2 ]; then sudo sed -i 's|http://azure.archive.ubuntu.com|http://archive.ubuntu.com|g' /etc/apt/sources.list /etc/apt/sources.list.d/*.sources 2>/dev/null || true; fi
+            timeout 300 bash -c 'sudo apt-get update -qq && sudo apt-get install -y -qq --no-install-recommends ffmpeg fonts-noto-cjk' && break
             echo "準備をやり直す（$i回目）"; sleep 10
             [ "$i" = 3 ] && exit 1
           done
