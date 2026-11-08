@@ -2,8 +2,8 @@ name: preflight
 on:
   schedule:
     - cron: "0 21 * * *"  # 06:00 JST 毎日：3日以内に投稿する回を先に描画・QA
-  push:
-    paths: ["rig/**", "auto/schedule.json"]
+  # push での自動実行はしない（2026-11-08：作業中の push のたびに約9分ずつ動き、11/7 だけで500分超、GitHub Actions の無料枠2,000分を使い切った）。
+  # 新作の PR は、作業する Claude のセッションで python auto/preflight.py（PREFLIGHT_DAYS=14）と全テストを手元で通してからマージする。
   workflow_dispatch:
 permissions:
   contents: write
