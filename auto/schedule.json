@@ -1963,6 +1963,62 @@
         }
       },
       "cta": "Send this to the friend who always peeks/いつもこっそり見る友だちに送ろう"
+    },
+    {
+      "date": "2027-01-08",
+      "slot": "18:00",
+      "ep": "seidenki",
+      "no": 75,
+      "title": "静電気",
+      "caption_ja": "乾いた冬のオフィス。ジルが書類をわたそうとしたら、パチッ。課長の毛がパチパチして、ふせん・書類・クリップが次々くっつきます。さがしていたジルのペンも、課長にくっついていました。",
+      "caption_en": "A dry winter office. Jill hands the boss a paper and ZAP. Now his fur crackles, and sticky notes, papers and clips fly onto him. Jill's missing pen? Stuck to the boss too.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 5.0,
+        "cam": "1.2,640,1000",
+        "hook": "STATIC SHOCK/静電気で、上司に"
+      },
+      "first_comment": "冬の静電気、パチッとくるのはどこが多い？ / Where do you get the most static shocks in winter?",
+      "site_i18n": {
+        "title": {
+          "en": "Static shock",
+          "zh": "靜電",
+          "ko": "정전기"
+        },
+        "caption": {
+          "zh": "乾燥的冬天辦公室。吉兒要把文件遞給課長，啪！課長的毛劈啪作響，便利貼、文件、迴紋針一個接一個黏上去。吉兒在找的筆，也黏在課長身上。",
+          "ko": "건조한 겨울 사무실. 질이 서류를 건네려는 순간 찌릿! 과장님 털이 파직파직, 포스트잇·서류·클립이 줄줄이 달라붙어요. 질이 찾던 펜도 과장님한테 붙어 있었어요."
+        }
+      },
+      "cta": "Send this to someone who always gets zapped/静電気によくやられる人に送ろう"
+    },
+    {
+      "date": "2027-01-09",
+      "slot": "12:00",
+      "ep": "otoshidama",
+      "no": 76,
+      "title": "お年玉",
+      "caption_ja": "課長がにこにこ、ポチ袋をジルの机へ。ジルはうれしくて中をあけると、手作りの「かたたたき券」。ただし「※課長の肩を」。課長は背中を向けて待っています。",
+      "caption_en": "The boss slides Jill a little red New Year envelope. Inside: a handmade massage ticket. Fine print: the boss's shoulders. He is already waiting.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 2.0,
+        "cam": "1.2,540,1050",
+        "hook": "NEW YEAR GIFT/お年玉、中身は"
+      },
+      "first_comment": "もらってうれしいお年玉、お金以外なら何？ / Best New Year gift that isn't money?",
+      "site_i18n": {
+        "title": {
+          "en": "New Year envelope",
+          "zh": "紅包",
+          "ko": "세뱃돈 봉투"
+        },
+        "caption": {
+          "zh": "課長笑咪咪地把紅包推到吉兒桌上。吉兒開心地打開，裡面是手作的「按摩券」。但寫著「※按課長的肩」。課長已經轉過身等著了。",
+          "ko": "과장님이 싱글벙글 봉투를 질의 책상으로 밀어요. 질이 기쁘게 열어 보니 손수 만든 '어깨 안마권'. 단, '※과장님 어깨를'. 과장님은 벌써 등을 돌리고 기다려요."
+        }
+      },
+      "cta": "Send this to someone who owes you a massage/肩たたきしてほしい人に送ろう"
     }
   ]
 }
