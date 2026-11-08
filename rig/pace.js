@@ -67,3 +67,4 @@ window.PACE_ALL.kutsushita = { start: 0.0, speed: 1.0, hook: 'XXL STOCKING/く�
 window.PACE_ALL.tonakai = { start: 0.0, speed: 1.0, hook: 'SANTA & REINDEER/サンタは上司、トナカイは' };
 window.PACE_ALL.korokoro = { start: 0.0, speed: 1.0, hook: 'LINT ROLLER/コロコロ、上司の毛で' };
 window.PACE_ALL.kagami = { start: 0.0, speed: 1.0, hook: 'KAGAMI MOCHI/鏡もち、上司のは牧草製' };
+window.PACE_ALL.fukubiki = { start: 0.0, speed: 1.0, hook: 'LUCKY DRAW/福引き、上司は金の玉' };
