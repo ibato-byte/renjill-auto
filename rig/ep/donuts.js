@@ -1,12 +1,13 @@
-// 「差し入れのドーナツ」（約9.5秒・セリフなし）v2 演出／キャラは本番の rig.js
-// 状況：ジルが差し入れのドーナツ（箱に6個）を机に置く。レンの目がきらっ
+// 「差し入れの牧草リング」（約9.5秒・セリフなし）v2 演出／キャラは本番の rig.js
+// （2026-11-08：うさぎに甘いドーナツは良くないので、中身をドーナツ形の牧草リングに変更。オーナー了承）
+// 状況：ジルが差し入れの牧草リング（ドーナツ形・箱に6個）を机に置く。レンの目がきらっ
 // ひっくり返し：ジルが後ろを向く（棚の方）2秒 → 向き直ると箱は空。レンは「知らない顔」
-// オチ：口のまわりに粉砂糖。字幕「証拠：口のまわりの粉」
+// オチ：口のまわりに牧草のかけら。字幕「証拠：口のまわりの牧草」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
-const DONUT = (x, y, s = 1, col = '#F2B8C6') => `<g transform="translate(${x} ${y}) scale(${s})"><circle r="44" fill="#E2A96B"/><circle r="40" fill="${col}"/><circle r="12" fill="#F4ECE0"/><circle cx="-14" cy="-10" r="4" fill="#fff"/><circle cx="12" cy="-16" r="4" fill="#5DBB63"/><circle cx="16" cy="12" r="4" fill="#4A90D9"/></g>`;
-// 箱：open=ふたの開き、n=中のドーナツの数（6→0）
-const BOX = (x, y, open, n) => { let s = `<g transform="translate(${x} ${y})"><rect x="-200" y="-70" width="400" height="110" rx="14" fill="#F7E7D0" stroke="#D9B98E" stroke-width="6"/>`; const cols = ['#F2B8C6', '#F6D7A3', '#C9A0DC', '#F2B8C6', '#9FD3C7', '#F6D7A3']; for (let i = 0; i < n; i++) s += DONUT(-160 + (i % 3) * 80 + (i >= 3 ? 40 : 0) + 60, -20 + (i >= 3 ? 0 : -10), .62, cols[i]); s += `<g transform="translate(0 ${-70 - open * 22}) scale(1 ${1 - open * .85})"><rect x="-204" y="-60" width="408" height="64" rx="14" fill="#FFF4E6" stroke="#D9B98E" stroke-width="6"/><rect x="-30" y="-40" width="60" height="24" rx="8" fill="#E86C5A"/></g></g>`; return s; };
+const DONUT = (x, y, s = 1, col = '#C9C46A') => `<g transform="translate(${x} ${y}) scale(${s})"><circle r="44" fill="${col}" stroke="#9AA04A" stroke-width="5"/><circle r="14" fill="#F4ECE0" stroke="#9AA04A" stroke-width="4"/>${[0, 1, 2, 3, 4, 5, 6, 7].map(i => { const a = i * Math.PI / 4; return `<path d="M${Math.cos(a) * 18} ${Math.sin(a) * 18} q${Math.cos(a + .8) * 14} ${Math.sin(a + .8) * 14} ${Math.cos(a) * 24} ${Math.sin(a) * 24}" stroke="${i % 2 ? '#A8B84E' : '#E0D58A'}" stroke-width="5" fill="none" stroke-linecap="round"/>`; }).join('')}</g>`;   // ドーナツ形の牧草リング
+// 箱：open=ふたの開き、n=中の牧草リングの数（6→0）
+const BOX = (x, y, open, n) => { let s = `<g transform="translate(${x} ${y})"><rect x="-200" y="-70" width="400" height="110" rx="14" fill="#F7E7D0" stroke="#D9B98E" stroke-width="6"/>`; const cols = ['#C9C46A', '#D2CC74', '#BFBA60', '#C9C46A', '#D2CC74', '#BFBA60']; for (let i = 0; i < n; i++) s += DONUT(-160 + (i % 3) * 80 + (i >= 3 ? 40 : 0) + 60, -20 + (i >= 3 ? 0 : -10), .62, cols[i]); s += `<g transform="translate(0 ${-70 - open * 22}) scale(1 ${1 - open * .85})"><rect x="-204" y="-60" width="408" height="64" rx="14" fill="#FFF4E6" stroke="#D9B98E" stroke-width="6"/><rect x="-30" y="-40" width="60" height="24" rx="8" fill="#E86C5A"/></g></g>`; return s; };
 var EP = {
   dur: 9.5,
   bgmHolds: '5.9-6.5',
@@ -25,7 +26,7 @@ var EP = {
     const jface = t < 3.4 ? RIG.FACES.smile : away ? RIG.FACES.neutral : t < 7.2 ? Object.assign({}, RIG.FACES.surprised, { excl: 1 }) : RIG.FACES.annoyed;
     const jp = Object.assign({}, RIG.POSES.sit, jface, { x: 40, y: DESK - 413 * 1.3, scale: 1.3, flip: away, eyeLook: away ? -.9 : .8, headTilt: t >= 7.2 ? -10 : 0, bodyTilt: away ? -6 : 0 });
     L.char('jil', jp, t, '', {});
-    // レン（右）：ドーナツにきらきら → ジルが向こうを向いたら、頭を下げてもぐもぐ（6回）→ 何食わぬ顔（口のまわりに粉）→ 7.8 ばれて照れ
+    // レン（右）：牧草リングにきらきら → ジルが向こうを向いたら、頭を下げてもぐもぐ（6回）→ 何食わぬ顔（口のまわりに粉）→ 7.8 ばれて照れ
     const eating = t >= 3.9 && t < 5.6;
     const rface = t < 2.0 ? RIG.FACES.neutral : t < 3.4 ? RIG.FACES.shy : eating ? RIG.FACES.smile : t < 7.8 ? Object.assign({}, RIG.FACES.neutral, { eyeLook: -.6 }) : Object.assign({}, RIG.FACES.shy, { heart: 0 });
     const chomp = eating ? Math.abs(Math.sin((t - 3.6) / 0.3 * Math.PI)) : 0;
@@ -39,19 +40,19 @@ var EP = {
     if (t > 1.0 && t < 1.5) fx += L.dust(540, DESK, seg(t, 1.0, 1.5));
     if (t > 2.0 && t < 3.4) fx += L.sparkles(540, DESK - 150, t, 1.0, 6);
     if (eating) fx += L.munch(760, DESK - 160, t, 1.0);
-    // 口のまわりの粉砂糖（レンの口元に白い点々）
-    if (t >= 5.6) fx += `<g fill="#fff" opacity=".95">${[0, 1, 2, 3, 4, 5].map(i => `<circle cx="${905 + Math.cos(i * 1.05) * 42}" cy="${DESK - 235 + Math.sin(i * 1.05) * 20}" r="${6 + (i % 3) * 2}"/>`).join('')}</g>`;
+    // 口のまわりの牧草のかけら（レンの口元に緑の点々）
+    if (t >= 5.6) fx += `<g fill="#A8B84E" opacity=".95">${[0, 1, 2, 3, 4, 5].map(i => `<circle cx="${905 + Math.cos(i * 1.05) * 42}" cy="${DESK - 235 + Math.sin(i * 1.05) * 20}" r="${6 + (i % 3) * 2}"/>`).join('')}</g>`;
     if (t > 7.2 && t < 7.7) fx += L.impact(905, DESK - 235, seg(t, 7.2, 7.7), .8, '#F2A33A');
     if (t > 5.9 && t < 7.2) fx += L.emark(230, DESK - 650, 1.0);
-    let ui = (t > 1.8 && t < 3.4 ? CHIP(L, 'DONUTS: 6', '差し入れのドーナツ、6個', 1380, seg(t, 1.8, 2.1)) : '')
+    let ui = (t > 1.8 && t < 3.4 ? CHIP(L, 'HAY RINGS: 6', '差し入れの牧草リング、6個', 1380, seg(t, 1.8, 2.1)) : '')
       + (t > 3.6 && t < 5.8 ? CHIP(L, 'JILL LOOKS AWAY: 2 SEC', 'ジルが後ろを向いた2秒間', 1380, seg(t, 3.6, 3.9)) : '')
-      + (t > 7.3 && t < 8.6 ? CHIP(L, 'EVIDENCE: SUGAR', '証拠：口のまわりの粉', 1380, seg(t, 7.3, 7.6)) : '');
+      + (t > 7.3 && t < 8.6 ? CHIP(L, 'EVIDENCE: HAY BITS', '証拠：口のまわりの牧草', 1380, seg(t, 7.3, 7.6)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.35, cx: 540, cy: 1150 },
       { t: 0.01, z: 1.05, cx: 540, cy: 1120, d: .9 },
       { t: 3.4, z: 1.25, cx: 640, cy: 1150, d: .5 },                // レンともぐもぐ
       { t: 5.9, z: 1.05, cx: 540, cy: 1100, d: .4 },
-      { t: 7.2, z: 1.5, cx: 820, cy: 1120, d: .4 },                 // 口のまわりの粉
+      { t: 7.2, z: 1.5, cx: 820, cy: 1120, d: .4 },                 // 口のまわりの牧草
       { t: 8.2, z: 1.1, cx: 540, cy: 1100, d: .4 },
     ], t);
     if (t > 8.6) { fx = ''; ui = ''; }
