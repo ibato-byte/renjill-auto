@@ -71,3 +71,5 @@ window.PACE_ALL.fukubiki = { start: 0.0, speed: 1.0, hook: 'LUCKY DRAW/福引き
 window.PACE_ALL.osechi = { start: 0.0, speed: 1.0, hook: 'OSECHI: HAY x3/おせち、上司の重箱は' };
 window.PACE_ALL.nimotsu = { start: 0.0, speed: 1.0, hook: 'PACKING/帰省の荷造り、上司は牧草だけ' };
 window.PACE_ALL.countdown = { start: 0.0, speed: 1.0, hook: 'COUNTDOWN/年越し、上司は寝てた' };
+window.PACE_ALL.aisatsu = { start: 0.0, speed: 1.0, hook: 'NEW YEAR BOW/新年のごあいさつ、上司は' };
+window.PACE_ALL.omikuji = { start: 0.0, speed: 1.0, hook: 'NEW YEAR FORTUNE/おみくじ、上司は' };
