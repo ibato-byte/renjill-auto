@@ -52,3 +52,4 @@ window.PACE_ALL.advent = { start: 0.0, speed: 1.0, hook: 'ADVENT: DAY 1/アド�
 window.PACE_ALL.nengajo = { start: 0.0, speed: 1.0, hook: '100 CARDS/年賀状100枚、上司と部下' };
 window.PACE_ALL.mikan = { start: 0.0, speed: 1.0, hook: 'MIKAN: 5 TO 0/みかん5個、上司のほっぺに' };
 window.PACE_ALL.kairo = { start: 0.0, speed: 1.0, hook: '10 HEAT PACKS/カイロ10個、上司が全部' };
+window.PACE_ALL.oseibo = { start: 0.0, speed: 1.0, hook: 'GIFT BOX x5/お歳暮の箱、中身は' };
