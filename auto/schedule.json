@@ -1543,6 +1543,34 @@
         }
       },
       "cta": "Send this to the worst hider you know/かくれるのが下手な人に送ろう"
+    },
+    {
+      "date": "2026-12-24",
+      "slot": "18:00",
+      "ep": "kutsushita",
+      "no": 60,
+      "title": "くつした",
+      "caption_ja": "クリスマスイブ。ジルは小さなくつした、課長は床まで届く特大のくつした。次の朝、課長が頭から潜って見つけたのは牧草1本。それでもご満悦です。",
+      "caption_en": "Christmas Eve. Jill hangs a small stocking. The boss hangs one that reaches the floor. Next morning he dives in headfirst and finds one blade of hay. He's thrilled anyway.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 7.5,
+        "cam": "1.2,640,1150",
+        "hook": "XXL STOCKING/くつした特大、中身は"
+      },
+      "first_comment": "サンタからのプレゼント、何がほしい？ / What do you want from Santa this year?",
+      "site_i18n": {
+        "title": {
+          "en": "The stocking",
+          "zh": "聖誕襪",
+          "ko": "크리스마스 양말"
+        },
+        "caption": {
+          "zh": "平安夜。吉兒掛上小小的襪子，課長掛上拖到地板的特大襪子。隔天早上，課長一頭鑽進去，找到的是一根牧草。他還是很開心。",
+          "ko": "크리스마스이브. 질은 작은 양말, 과장님은 바닥까지 닿는 특대 양말. 다음 날 아침 과장님이 머리부터 들어가 찾은 건 건초 한 가닥. 그래도 대만족이에요."
+        }
+      },
+      "cta": "Send this to the one who wants it all/欲ばりな人に送ろう"
     }
   ]
 }
