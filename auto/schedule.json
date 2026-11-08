@@ -1487,6 +1487,62 @@
         }
       },
       "cta": "Send this to the one who sparkles/キラキラしている人に送ろう"
+    },
+    {
+      "date": "2026-12-21",
+      "slot": "18:00",
+      "ep": "hat",
+      "no": 58,
+      "title": "サンタ帽",
+      "caption_ja": "クリスマスの週。ジルは小さなサンタ帽をちょこん。課長の帽子は特大で、全身すっぽり。よちよち歩いてごつん。持ち上げたら、中で寝ていました。",
+      "caption_en": "Christmas week. Jill wears a tiny Santa hat. The boss's hat is XXL and covers him completely. He waddles into Jill. She lifts it: he's asleep inside.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 7.2,
+        "cam": "1.4,600,1050",
+        "hook": "SANTA HAT XXL/サンタ帽、上司は特大"
+      },
+      "first_comment": "クリスマスの帽子、かぶる派？ / Do you wear a Santa hat at Christmas?",
+      "site_i18n": {
+        "title": {
+          "en": "The Santa hat",
+          "zh": "聖誕帽",
+          "ko": "산타 모자"
+        },
+        "caption": {
+          "zh": "聖誕週。吉兒戴著小小的聖誕帽。課長的帽子是特大號，整個人都被蓋住，搖搖晃晃撞上吉兒。掀起來一看，他在裡面睡著了。",
+          "ko": "크리스마스 주간. 질은 작은 산타 모자를 쏙. 과장님 모자는 특대라 온몸이 쏙. 뒤뚱뒤뚱 걷다 쿵. 들어 보니 안에서 자고 있었어요."
+        }
+      },
+      "cta": "Send this to the one who naps anywhere/どこでも寝られる人に送ろう"
+    },
+    {
+      "date": "2026-12-22",
+      "slot": "18:00",
+      "ep": "kakurenbo",
+      "no": 59,
+      "title": "かくれんぼ",
+      "caption_ja": "昼休みのかくれんぼ。ジルが3つ数える間に、課長はティッシュの箱を頭にかぶっただけ。体はまる見え。1秒で発見されました。",
+      "caption_en": "Hide and seek at lunch. While Jill counts to three, the boss puts a tissue box on his head. The rest of him is in plain sight. Found in one second.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 4.8,
+        "cam": "1.2,620,1050",
+        "hook": "HIDE AND SEEK/かくれんぼ、上司は頭だけ"
+      },
+      "first_comment": "うさぎを飼っている人、頭だけかくれますか？ / Bunny owners: does yours hide just its head?",
+      "site_i18n": {
+        "title": {
+          "en": "Hide and seek",
+          "zh": "捉迷藏",
+          "ko": "숨바꼭질"
+        },
+        "caption": {
+          "zh": "午休時間玩捉迷藏。吉兒數到三的時候，課長只把面紙盒套在頭上，身體全都露在外面。一秒就被找到了。",
+          "ko": "점심시간 숨바꼭질. 질이 셋을 세는 동안 과장님은 티슈 상자를 머리에만 썼어요. 몸은 다 보여요. 1초 만에 발견."
+        }
+      },
+      "cta": "Send this to the worst hider you know/かくれるのが下手な人に送ろう"
     }
   ]
 }
