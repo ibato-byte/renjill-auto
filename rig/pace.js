@@ -82,3 +82,5 @@ window.PACE_ALL.seidenki = { start: 0.0, speed: 1.0, hook: 'STATIC SHOCK/静電�
 window.PACE_ALL.otoshidama = { start: 0.0, speed: 1.0, hook: 'NEW YEAR GIFT/お年玉、中身は' };
 window.PACE_ALL.taiso = { start: 0.0, speed: 1.0, hook: 'STRETCH TIME/朝の体操、上司は' };
 window.PACE_ALL.shukujitsu = { start: 0.0, speed: 1.0, hook: 'MONDAY?/月曜日の朝、ふたりは' };
+window.PACE_ALL.hinata = { start: 0.0, speed: 1.0, hook: 'SUNNY SPOT/日なたの上司' };
+window.PACE_ALL.isu = { start: 0.0, speed: 1.0, hook: 'NEW CHAIR/新しいイス、上司は' };
