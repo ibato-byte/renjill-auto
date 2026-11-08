@@ -2019,6 +2019,62 @@
         }
       },
       "cta": "Send this to someone who owes you a massage/肩たたきしてほしい人に送ろう"
+    },
+    {
+      "date": "2027-01-10",
+      "slot": "12:00",
+      "ep": "taiso",
+      "no": 77,
+      "title": "朝の体操",
+      "caption_ja": "朝の体操。ジルは1・2・3・4でせのび。課長もまねして、ぐーっと「のび」。……そのまま香箱すわりで、おやすみなさい。",
+      "caption_en": "Morning stretches. Jill counts 1, 2, 3, 4. The boss joins in with one long, long stretch... and settles into a loaf. Nap time.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 4.2,
+        "cam": "1.2,640,1050",
+        "hook": "STRETCH TIME/朝の体操、上司は"
+      },
+      "first_comment": "朝の体操、続いてる？ / Do you stretch in the morning?",
+      "site_i18n": {
+        "title": {
+          "en": "Morning stretch",
+          "zh": "早操",
+          "ko": "아침 체조"
+        },
+        "caption": {
+          "zh": "早操時間。吉兒喊著1、2、3、4伸展。課長也跟著用力「伸～」……然後就那樣縮成一團，睡著了。",
+          "ko": "아침 체조. 질은 하나, 둘, 셋, 넷 기지개. 과장님도 따라서 쭉~ 기지개…… 그대로 식빵 자세로 쿨쿨."
+        }
+      },
+      "cta": "Send this to someone who stretches, then naps/のびたら寝ちゃう人に送ろう"
+    },
+    {
+      "date": "2027-01-11",
+      "slot": "12:00",
+      "ep": "shukujitsu",
+      "no": 78,
+      "title": "祝日出社",
+      "caption_ja": "月曜日の朝。ジルが出社すると、課長はもう席に。早い！……と思ったら、カレンダーは赤い11。今日は成人の日でした。ふたりとも、祝日に出社。",
+      "caption_en": "Monday morning. Jill arrives and the boss is already at his desk. So early! Then the calendar: a red 11. It's a public holiday. They both came in.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 2.0,
+        "cam": "1.2,540,1050",
+        "hook": "MONDAY?/月曜日の朝、ふたりは"
+      },
+      "first_comment": "祝日なのを忘れて、出かけたことある？ / Ever forgotten it was a holiday?",
+      "site_i18n": {
+        "title": {
+          "en": "Holiday at the office",
+          "zh": "假日上班",
+          "ko": "공휴일 출근"
+        },
+        "caption": {
+          "zh": "星期一早上。吉兒進辦公室，課長已經坐在位子上。好早！……結果月曆是紅色的11。今天是成人之日（國定假日）。兩個人都在假日來上班了。",
+          "ko": "월요일 아침. 질이 출근하니 과장님은 벌써 자리에. 빠르다! ……했는데 달력은 빨간 11. 오늘은 성인의 날(공휴일)이었어요. 둘 다 공휴일에 출근."
+        }
+      },
+      "cta": "Send this to someone who forgot it was a holiday/祝日を忘れていそうな人に送ろう"
     }
   ]
 }
