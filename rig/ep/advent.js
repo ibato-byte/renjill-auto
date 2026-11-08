@@ -1,11 +1,12 @@
 // 「アドベントカレンダー」（約9.5秒・セリフなし）v2 演出／キャラは本番の rig.js
-// 状況：12/1。ジルの机にアドベントカレンダー（24の小窓）。ジルが「1」を開けてチョコを1つ（きらっ）
-// ひっくり返し：ジルが席を外した隙に、レンが 2・3・4…24 を全部開ける（高速）→ 口のまわりにチョコ
-// オチ：ジルが戻る。窓は全部開いていて中は空。レンの前にチョコの包み紙の山。字幕「24日分、1日で」
+// （2026-11-08：うさぎにチョコは毒なので、中身を牧草キューブに変更）
+// 状況：12/1。ジルの机にアドベントカレンダー（24の小窓）。ジルが「1」を開けて牧草キューブを1つ（きらっ）
+// ひっくり返し：ジルが席を外した隙に、レンが 2・3・4…24 を全部開ける（高速）→ 口のまわりに牧草のかけら
+// オチ：ジルが戻る。窓は全部開いていて中は空。レンの前に包み紙の山。字幕「24日分、1日で」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
-// カレンダー：opened=開いた窓の数（1〜24）。窓は 6×4、開いた窓は暗い穴＋小さなチョコ（食べたら空）
-const ADVENT = (x, y, opened, eaten) => { let s = `<g transform="translate(${x} ${y})"><rect x="-300" y="-210" width="600" height="420" rx="16" fill="#1F6B45" stroke="#145034" stroke-width="6"/>`; for (let i = 0; i < 24; i++) { const cx = -250 + (i % 6) * 100, cy = -160 + Math.floor(i / 6) * 100; const op = i < opened, ea = i < eaten; s += `<rect x="${cx - 38}" y="${cy - 38}" width="76" height="76" rx="8" fill="${op ? '#0E3A26' : '#E8473A'}" stroke="#F2B544" stroke-width="3"/>`; if (!op) s += `<text x="${cx}" y="${cy + 12}" text-anchor="middle" font-family="Noto Sans CJK JP" font-weight="900" font-size="30" fill="#FFF7E8">${i + 1}</text>`; else if (!ea) s += `<circle cx="${cx}" cy="${cy}" r="18" fill="#6B4A2E"/><circle cx="${cx - 5}" cy="${cy - 6}" r="4" fill="#fff" opacity=".6"/>`; } return s + '</g>'; };
+// カレンダー：opened=開いた窓の数（1〜24）。窓は 6×4、開いた窓は暗い穴＋小さな牧草キューブ（食べたら空）
+const ADVENT = (x, y, opened, eaten) => { let s = `<g transform="translate(${x} ${y})"><rect x="-300" y="-210" width="600" height="420" rx="16" fill="#1F6B45" stroke="#145034" stroke-width="6"/>`; for (let i = 0; i < 24; i++) { const cx = -250 + (i % 6) * 100, cy = -160 + Math.floor(i / 6) * 100; const op = i < opened, ea = i < eaten; s += `<rect x="${cx - 38}" y="${cy - 38}" width="76" height="76" rx="8" fill="${op ? '#0E3A26' : '#E8473A'}" stroke="#F2B544" stroke-width="3"/>`; if (!op) s += `<text x="${cx}" y="${cy + 12}" text-anchor="middle" font-family="Noto Sans CJK JP" font-weight="900" font-size="30" fill="#FFF7E8">${i + 1}</text>`; else if (!ea) s += `<rect x="${cx - 18}" y="${cy - 18}" width="36" height="36" rx="8" fill="#B9C46A" stroke="#8C9A3E" stroke-width="3"/><path d="M${cx - 10} ${cy - 6} l20 -4 M${cx - 10} ${cy + 4} l20 -4" stroke="#7E8E36" stroke-width="3" stroke-linecap="round"/>`; } return s + '</g>'; };
 const WRAPPERS = (x, y, n) => { let s = ''; for (let i = 0; i < n; i++) s += `<path d="M${x - 80 + (i * 37) % 160} ${y - (i * 13) % 50} l14 -10 l12 12 l-10 12 Z" fill="${i % 3 ? '#F2B544' : '#E86C5A'}" stroke="#C98A12" stroke-width="2"/>`; return s; };
 var EP = {
   dur: 9.5,
@@ -25,7 +26,7 @@ var EP = {
     const jface = t < 2.6 ? RIG.FACES.smile : t < 7.6 ? Object.assign({}, RIG.FACES.surprised, { excl: 0 }) : RIG.FACES.annoyed;
     const jp = Object.assign({}, away ? RIG.POSES.stand : RIG.POSES.sit, jface, { x: jh.x, y: DESK - 413 * 1.3 + jh.yOff, scale: 1.3, bodySquash: jh.squash, eyeLook: .7, headNod: t > 1.2 && t < 2.2 ? Math.abs(Math.sin(t * 14)) * 6 : 0 });
     L.char('jil', jp, t, '', { vx: t >= 2.6 && t < 3.0 ? -1400 : t >= 6.6 && t < 7.0 ? 1400 : 0 });
-    // レン（右）：見ている → ジルがいなくなった瞬間、目がきらっ → 高速で開ける（頭が小刻み）→ 食べる（もぐもぐ）→ 何食わぬ顔（口のまわりにチョコ）
+    // レン（右）：見ている → ジルがいなくなった瞬間、目がきらっ → 高速で開ける（頭が小刻み）→ 食べる（もぐもぐ）→ 何食わぬ顔（口のまわりに牧草のかけら）
     const rface = t < 2.6 ? RIG.FACES.neutral : t < 3.2 ? RIG.FACES.shy : t < 6.2 ? RIG.FACES.smile : t < 7.6 ? Object.assign({}, RIG.FACES.neutral, { eyeLook: -.6 }) : Object.assign({}, RIG.FACES.shy, { heart: 0 });
     const busy = t >= 3.2 && t < 5.0, eating = t >= 5.3 && t < 6.2;
     const rp = Object.assign({}, busy ? RIG.POSES.lean : RIG.POSES.sit, rface, { x: 540, y: DESK - 413 * 1.35, scale: 1.35, flip: true, eyeLook: t < 2.6 ? .8 : busy ? .4 : -.6, bodyTilt: busy ? -10 + Math.sin(t * 40) * 3 : 0, headNod: eating ? Math.abs(Math.sin(t * 18)) * 12 : 0, bodySquash: eating ? Math.sin(t * 18) * .12 : 0 });
@@ -38,7 +39,7 @@ var EP = {
     if (busy) fx += L.speed(760, DESK - 100, .35, 18);
     if (t > 5.3 && t < 6.2) fx += L.munch(800, DESK - 150, t, 1.0);
     if (t >= 6.2) fx += WRAPPERS(820, DESK - 10, Math.min(24, Math.floor((t - 5.3) / .04)));
-    if (t >= 6.0) fx += `<g fill="#6B4A2E" opacity=".9">${[0, 1, 2, 3, 4].map(i => `<circle cx="${905 + Math.cos(i * 1.25) * 42}" cy="${DESK - 235 + Math.sin(i * 1.25) * 18}" r="${6 + (i % 2) * 3}"/>`).join('')}</g>`;   // 口のまわりのチョコ
+    if (t >= 6.0) fx += `<g fill="#9CB04E" opacity=".95">${[0, 1, 2, 3, 4].map(i => `<circle cx="${905 + Math.cos(i * 1.25) * 42}" cy="${DESK - 235 + Math.sin(i * 1.25) * 18}" r="${6 + (i % 2) * 3}"/>`).join('')}</g>`;   // 口のまわりの牧草のかけら
     if (t > 7.0 && t < 7.6) fx += L.emark(230, DESK - 650, 1.0);
     if (t > 7.6 && t < 8.1) fx += L.impact(905, DESK - 235, seg(t, 7.6, 8.1), .8, '#F2A33A');
     let ui = (t > 1.8 && t < 3.0 ? CHIP(L, 'DEC 1: ADVENT CALENDAR', '12/1。ジルのアドベントカレンダー、1日1個', 1380, seg(t, 1.8, 2.1)) : '')
@@ -49,7 +50,7 @@ var EP = {
       { t: 0.01, z: 1.05, cx: 540, cy: 1150, d: .9 },
       { t: 3.1, z: 1.25, cx: 620, cy: 1250, d: .4 },                // 高速で開ける
       { t: 6.5, z: 1.05, cx: 540, cy: 1150, d: .4 },
-      { t: 7.5, z: 1.3, cx: 760, cy: 1150, d: .5 },                 // 口のまわりのチョコ
+      { t: 7.5, z: 1.3, cx: 760, cy: 1150, d: .5 },                 // 口のまわりの牧草のかけら
     ], t);
     if (t > 8.6) { fx = ''; ui = ''; }
     L.mount({ bg, fx, ui, cam, t, shake: t > 7.6 && t < 7.7 ? 4 : 0 });
