@@ -86,3 +86,5 @@ window.PACE_ALL.hinata = { start: 0.0, speed: 1.0, hook: 'SUNNY SPOT/日なた�
 window.PACE_ALL.isu = { start: 0.0, speed: 1.0, hook: 'NEW CHAIR/新しいイス、上司は' };
 window.PACE_ALL.whiteboard = { start: 0.0, speed: 1.0, hook: 'SALES CHART/売上グラフに、上司が' };
 window.PACE_ALL.kushami = { start: 0.0, speed: 1.0, hook: 'BIG SNEEZE/くしゃみ、そのとき書類は' };
+window.PACE_ALL.shincho = { start: 0.0, speed: 1.0, hook: 'HEIGHT CHECK/身長測定、上司は' };
+window.PACE_ALL.penmawashi = { start: 0.0, speed: 1.0, hook: 'PEN SPIN/ペン回し、上司がやると' };
