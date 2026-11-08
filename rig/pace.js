@@ -66,3 +66,4 @@ window.PACE_ALL.kakurenbo = { start: 0.0, speed: 1.0, hook: 'HIDE AND SEEK/か�
 window.PACE_ALL.kutsushita = { start: 0.0, speed: 1.0, hook: 'XXL STOCKING/くつした特大、中身は' };
 window.PACE_ALL.tonakai = { start: 0.0, speed: 1.0, hook: 'SANTA & REINDEER/サンタは上司、トナカイは' };
 window.PACE_ALL.korokoro = { start: 0.0, speed: 1.0, hook: 'LINT ROLLER/コロコロ、上司の毛で' };
+window.PACE_ALL.kagami = { start: 0.0, speed: 1.0, hook: 'KAGAMI MOCHI/鏡もち、上司のは牧草製' };
