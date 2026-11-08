@@ -51,3 +51,4 @@ window.PACE_ALL.photo = { start: 0.0, speed: 1.0, hook: 'SAY CHEESE/年賀状の
 window.PACE_ALL.advent = { start: 0.0, speed: 1.0, hook: 'ADVENT: DAY 1/アドベントカレンダー、上司と24日分' };
 window.PACE_ALL.nengajo = { start: 0.0, speed: 1.0, hook: '100 CARDS/年賀状100枚、上司と部下' };
 window.PACE_ALL.mikan = { start: 0.0, speed: 1.0, hook: 'MIKAN: 5 TO 0/みかん5個、上司のほっぺに' };
+window.PACE_ALL.kairo = { start: 0.0, speed: 1.0, hook: '10 HEAT PACKS/カイロ10個、上司が全部' };
