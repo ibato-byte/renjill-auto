@@ -1627,6 +1627,34 @@
         }
       },
       "cta": "Send this to a bunny owner with a lint roller/コロコロが手放せない人に送ろう"
+    },
+    {
+      "date": "2026-12-26",
+      "slot": "12:00",
+      "ep": "kagami",
+      "no": 63,
+      "title": "鏡もち",
+      "caption_ja": "年末の飾りつけ。ジルは小さな鏡もち。課長は牧草の束を2段重ねて、牧草の鏡もち。目を離したすきに下の段から食べはじめ、上の段がころん。",
+      "caption_en": "Year-end decorations. Jill sets out a small kagami mochi. The boss stacks two bundles of hay into his own. The moment she looks away, he eats the bottom one and the top rolls off.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 4,
+        "cam": "1.25,540,1000",
+        "hook": "KAGAMI MOCHI/鏡もち、上司のは牧草製"
+      },
+      "first_comment": "鏡もち、いつ飾りますか？ / When do you put up your New Year decorations?",
+      "site_i18n": {
+        "title": {
+          "en": "Kagami mochi",
+          "zh": "鏡餅",
+          "ko": "가가미모치"
+        },
+        "caption": {
+          "zh": "年末布置。吉兒擺上小小的鏡餅。課長把兩捆牧草疊起來，做成牧草鏡餅。一不注意，他就從下層開始吃，上層咕嚄滾了下來。",
+          "ko": "연말 장식. 질은 작은 가가미모치. 과장님은 건초 다발을 두 단으로 쌓아 건초 가가미모치. 한눈판 사이 아랫단부터 먹기 시작해서 윗단이 데굴."
+        }
+      },
+      "cta": "Send this to the one who can't wait for New Year/お正月が待ちきれない人に送ろう"
     }
   ]
 }
