@@ -64,3 +64,4 @@ window.PACE_ALL.lights = { start: 0.0, speed: 1.0, hook: 'XMAS LIGHTS/電飾、�
 window.PACE_ALL.hat = { start: 0.0, speed: 1.0, hook: 'SANTA HAT XXL/サンタ帽、上司は特大' };
 window.PACE_ALL.kakurenbo = { start: 0.0, speed: 1.0, hook: 'HIDE AND SEEK/かくれんぼ、上司は頭だけ' };
 window.PACE_ALL.kutsushita = { start: 0.0, speed: 1.0, hook: 'XXL STOCKING/くつした特大、中身は' };
+window.PACE_ALL.tonakai = { start: 0.0, speed: 1.0, hook: 'SANTA & REINDEER/サンタは上司、トナカイは' };
