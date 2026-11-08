@@ -1683,6 +1683,90 @@
         }
       },
       "cta": "Send this to the luckiest person you know/くじ運がいい人に送ろう"
+    },
+    {
+      "date": "2026-12-29",
+      "slot": "18:00",
+      "ep": "osechi",
+      "no": 65,
+      "title": "おせちの重箱",
+      "caption_ja": "お正月の重箱。ジルのは色とりどりのおせち。課長のは、1段目も2段目も3段目も牧草。ジルが自分の3段目を開けたら、牧草が1本入っていました。",
+      "caption_en": "New Year boxes. Jill's is full of colorful osechi. The boss's: hay, hay, and hay, all three tiers. Then Jill opens her own third tier: one blade of hay, with a ribbon.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 5,
+        "cam": "1.25,540,1000",
+        "hook": "OSECHI: HAY x3/おせち、上司の重箱は"
+      },
+      "first_comment": "おせちで好きなものは？ / What's your favorite New Year dish?",
+      "site_i18n": {
+        "title": {
+          "en": "New Year boxes",
+          "zh": "年菜重箱",
+          "ko": "오세치 찬합"
+        },
+        "caption": {
+          "zh": "新年的重箱。吉兒的是五顏六色的年菜。課長的第一層、第二層、第三層全都是牧草。吉兒打開自己的第三層，裡面有一根牧草。",
+          "ko": "설날 찬합. 질의 것은 알록달록한 오세치. 과장님 것은 1단도 2단도 3단도 건초. 질이 자기 3단째를 열어 보니 건초가 한 가닥 들어 있었어요."
+        }
+      },
+      "cta": "Send this to the one who shares their favorite things/好きな物を分けてくれる人に送ろう"
+    },
+    {
+      "date": "2026-12-30",
+      "slot": "18:00",
+      "ep": "nimotsu",
+      "no": 66,
+      "title": "帰省の荷造り",
+      "caption_ja": "帰省の荷造り。ジルの小さなスーツケースはパチンと閉まりました。課長のは牧草だけで、あふれてふたが閉まらない。上に乗ってぎゅっぎゅっ…ばーん。",
+      "caption_en": "Packing to go home. Jill's small suitcase clicks shut. The boss packs nothing but hay, and the lid won't close. He sits on it, presses, presses... and it bursts open.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 7.6,
+        "cam": "1.3,503,900",
+        "hook": "PACKING/帰省の荷造り、上司は牧草だけ"
+      },
+      "first_comment": "帰省の荷物、いつも多くなる派？ / Do you always overpack?",
+      "site_i18n": {
+        "title": {
+          "en": "Packing to go home",
+          "zh": "返鄉打包",
+          "ko": "귀성 짐 싸기"
+        },
+        "caption": {
+          "zh": "返鄉打包。吉兒的小行李箱啪地關上了。課長的只裝了牧草，滿出來蓋不上。他坐上去用力壓……砰地彈開了。",
+          "ko": "귀성 짐 싸기. 질의 작은 캐리어는 딸깍 닫혔어요. 과장님 것은 건초뿐이라 넘쳐서 뚜껑이 안 닫혀요. 위에 앉아 꾹꾹… 펑."
+        }
+      },
+      "cta": "Send this to the one who always overpacks/荷物が多い人に送ろう"
+    },
+    {
+      "date": "2026-12-31",
+      "slot": "18:00",
+      "ep": "countdown",
+      "no": 67,
+      "title": "カウントダウン",
+      "caption_ja": "大みそか。ジルはクラッカーを持って3・2・1、パーン。課長は横でぐっすり。0:01、課長がはっと起きて、1人でパーン。1分遅れて新年です。よいお年を。",
+      "caption_en": "New Year's Eve. Jill counts down 3, 2, 1 and pops her party popper. The boss sleeps right through it. At 0:01 he wakes up and pops his alone. One minute late. Happy New Year!",
+      "tag_set": "C",
+      "thumb": {
+        "t": 4.9,
+        "cam": "1.3,503,950",
+        "hook": "COUNTDOWN/年越し、上司は寝てた"
+      },
+      "first_comment": "今年もありがとうございました。年越しは起きている派？ / Thank you for this year! Do you stay up for midnight?",
+      "site_i18n": {
+        "title": {
+          "en": "The countdown",
+          "zh": "跨年倒數",
+          "ko": "카운트다운"
+        },
+        "caption": {
+          "zh": "除夕。吉兒拿著拉炮倒數三、二、一，砰！課長在旁邊睡得正熟。0:01，課長猛然醒來，一個人拉了拉炮。晚了一分鐘的新年。祝大家新年快樂。",
+          "ko": "섣달그믐. 질은 폭죽을 들고 3, 2, 1, 펑. 과장님은 옆에서 쿨쿨. 0시 1분, 과장님이 퍼뜩 깨서 혼자 펑. 1분 늦은 새해예요. 새해 복 많이 받으세요."
+        }
+      },
+      "cta": "Send this to the one who always falls asleep before midnight/年越しまで起きていられない人に送ろう"
     }
   ]
 }
