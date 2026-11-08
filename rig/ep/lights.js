@@ -52,7 +52,7 @@ var EP = {
       const pts = head.slice(); for (let k = 1; k <= 14; k++) { const u = k / 14, tx = ax + (RX - ax) * u, ty = ay + (RY - 120 - ay) * u + Math.sin(u * Math.PI) * 120; const ox = tail[Math.min(tail.length - 1, k)] || [ax, ay]; pts.push([ox[0] + (tx - ox[0]) * grab, ox[1] + (ty - ox[1]) * grab]); }
       fx += WIRE(pts, on, t, 64);
       if (wrap > 0) { // 体に巻いたひも（らせん）
-        const coil = []; const turns = 3.2 * wrap; for (let a = 0; a <= turns * Math.PI * 2; a += .25) { const k = a / (3.2 * Math.PI * 2); coil.push([RX + Math.cos(a) * 175, RY + 10 + k * 240 + Math.sin(a) * 30]); }
+        const coil = []; const turns = 3.2 * wrap; for (let a = 0; a <= turns * Math.PI * 2; a += .25) { const k = a / (3.2 * Math.PI * 2); coil.push([RX + Math.cos(a) * 185, RY + 140 + k * 190 + Math.sin(a) * 26]); }
         if (coil.length > 1) fx += WIRE(coil, on, t, 70);
       }
     } else fx += WIRE(left, on, t, 64);

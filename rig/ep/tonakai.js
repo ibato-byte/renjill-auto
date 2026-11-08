@@ -17,7 +17,7 @@ var EP = {
   frame(t) {
     const L = window.L; if (!L || !window.RIG) return;
     const { seg, ease, outBack } = L;
-    const DESK = 1400, swap = t >= 5.8;
+    const DESK = 1400, swap = t >= 5.8, hid = t > 5.7 && t < 5.95;   // 入れかわる瞬間は白く光らせて、二人とも見せない（瞬間移動に見えないように）
     const bg = L.office({ sky: 'day', clock: [10, 0] });
     let fx = `<rect x="-500" y="${DESK + 28}" width="2080" height="900" fill="url(#v2desk)"/><rect x="-500" y="${DESK}" width="2080" height="34" rx="10" fill="${L.PAL.woodTop}"/>`
       + [60, 560].map(x => `<rect x="${x}" y="${DESK + 90}" width="460" height="170" rx="14" fill="none" stroke="${L.PAL.wood2}" stroke-width="6" opacity=".55"/><rect x="${x + 190}" y="${DESK + 160}" width="80" height="16" rx="8" fill="#E9D2A8"/>`).join('');
@@ -25,12 +25,12 @@ var EP = {
       // ジル（左・トナカイ）：にこ → 引く（lean・ぷるぷる・汗）→ ひらめき「！」→ 牧草の棒
       const pull = t >= 2.0 && t < 4.2;
       const jface = t < 2.0 ? Object.assign({}, RIG.FACES.smile, { sparkle: t > .8 && t < 1.6 ? 1 : 0 }) : t < 4.2 ? RIG.FACES.oops : t < 4.7 ? Object.assign({}, RIG.FACES.surprised, { excl: 1 }) : RIG.FACES.smug;
-      L.char('jil', Object.assign({}, pull ? RIG.POSES.lean : RIG.POSES.sit, jface, { x: -20, y: DESK - 413 * 1.3, scale: 1.3, eyeLook: -.6, bodyTilt: pull ? -16 + Math.sin(t * 40) * 3 : 0, flip: true }), t,
+      L.char('jil', hid ? null : Object.assign({}, pull ? RIG.POSES.lean : RIG.POSES.sit, jface, { x: -20, y: DESK - 413 * 1.3, scale: 1.3, eyeLook: -.6, bodyTilt: pull ? -16 + Math.sin(t * 40) * 3 : 0, flip: true }), t,
         t >= .8 ? ANTLERS(210, 960, outBack(seg(t, .8, 1.1)) * .9) : '', {});
       // レン（そりの中・サンタ帽）：ご満悦 → 牧草を見て目がきらっ → 飛び出す
       const out = ease(seg(t, 5.4, 5.8));
       const rface = t < 4.8 ? RIG.FACES.smug : Object.assign({}, RIG.FACES.smile, { sparkle: 1 });
-      L.char('ren', Object.assign({}, t >= 5.4 ? RIG.POSES.binky : RIG.POSES.sit, rface, { x: 520 - out * 300, y: DESK - 413 * 1.35 - 60 - out * 120, scale: 1.35, flip: true, eyeLook: t >= 4.8 ? -.8 : 0 }), t,
+      L.char('ren', hid ? null : Object.assign({}, t >= 5.4 ? RIG.POSES.binky : RIG.POSES.sit, rface, { x: 520 - out * 300, y: DESK - 413 * 1.35 - 60 - out * 120, scale: 1.35, flip: true, eyeLook: t >= 4.8 ? -.8 : 0 }), t,
         SHAT(830 - out * 300, 990 - out * 120, 1, 14), {});
       fx += SLED(500);
       // ひも
@@ -41,16 +41,16 @@ var EP = {
     } else {
       // 交代：課長が引く（lean・ご機嫌・スピード線）／ジルはそりで牧草の棒を持つ（にこ）
       const run = t >= 6.0;
-      L.char('ren', Object.assign({}, RIG.POSES.lean, Object.assign({}, RIG.FACES.smile, { sparkle: 1 }), { x: -80, y: DESK - 413 * 1.35 - 20, scale: 1.35, flip: true, eyeLook: -.8, bodyTilt: -18 + (run ? Math.sin(t * 20) * 4 : 0), headNod: run ? Math.abs(Math.sin(t * 20)) * 8 : 0 }), t,
+      L.char('ren', hid ? null : Object.assign({}, RIG.POSES.lean, Object.assign({}, RIG.FACES.smile, { sparkle: 1 }), { x: -80, y: DESK - 413 * 1.35 - 20, scale: 1.35, flip: true, eyeLook: -.8, bodyTilt: -18 + (run ? Math.sin(t * 20) * 4 : 0), headNod: run ? Math.abs(Math.sin(t * 20)) * 8 : 0 }), t,
         SHAT(220, 1010, 1, -10), {});
-      L.char('jil', Object.assign({}, RIG.POSES.sit, RIG.FACES.smile, { x: 560, y: DESK - 413 * 1.3 - 60, scale: 1.3, eyeLook: -.6, flip: true }), t, ANTLERS(800, 960, .9), {});
+      L.char('jil', hid ? null : Object.assign({}, RIG.POSES.sit, RIG.FACES.smile, { x: 560, y: DESK - 413 * 1.3 - 60, scale: 1.3, eyeLook: -.6, flip: true }), t, ANTLERS(800, 960, .9), {});
       fx += SLED(500);
       fx += `<path d="M320 1270 C400 1310 450 1310 505 1270" stroke="#7A5634" stroke-width="7" fill="none"/>`;
       // ジルが持つ棒の先に牧草（課長の鼻先）
       fx += `<line x1="700" y1="1100" x2="40" y2="760" stroke="#8C5A3C" stroke-width="9" stroke-linecap="round"/><line x1="40" y1="760" x2="40" y2="930" stroke="#7A5634" stroke-width="3"/>` + L.hayStrand(0, 940, 90, -60);
       if (run) fx += L.speed(540, 1150, .35, 36);
     }
-    const flash = t > 5.6 && t < 6.0 ? Math.sin(seg(t, 5.6, 6.0) * Math.PI) * .9 : 0;
+    const flash = t > 5.55 && t < 6.1 ? Math.sin(seg(t, 5.55, 6.1) * Math.PI) * .95 : 0;
     let ui = (t > 1.0 && t < 2.6 ? CHIP(L, 'SANTA & REINDEER', 'サンタは上司、トナカイは部下', 1640, seg(t, 1.0, 1.3)) : '')
       + (t > 2.8 && t < 4.2 ? CHIP(L, "WON'T MOVE", 'びくともしない', 1640, seg(t, 2.8, 3.1)) : '')
       + (t > 6.6 && t < 8.6 ? CHIP(L, 'REINDEER: SWAPPED', 'トナカイ交代（牧草つき）', 1640, seg(t, 6.6, 6.9)) : '');

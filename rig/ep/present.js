@@ -29,7 +29,7 @@ var EP = {
     const bg = L.office({ sky: 'day', clock: [15, 0] });
     const bx = 1300 - 600 * ease(seg(t, 2.0, 2.8));          // 箱がすべってくる
     const untie = seg(t, 4.4, 5.3), lid = ease(seg(t, 5.5, 6.3));
-    const pop = outBack(seg(t, 5.6, 6.1));
+    const pop = (u => 1 - (1 - u) * (1 - u))(seg(t, 5.6, 6.6));   // 速すぎると瞬間移動に見えるので、1秒かけて出てくる
     // ジル（左）：小さな箱を用意（にこ）→ 大きな箱に「？」→ 札を見てうれしい → リボンをほどく（lean）→ びっくり → ジト目
     const jface = t < 2.0 ? RIG.FACES.smile : t < 3.4 ? Object.assign({}, RIG.FACES.surprised, { excl: 0 }) : t < 5.6 ? Object.assign({}, RIG.FACES.smile, { sparkle: t > 3.4 && t < 4.2 ? 1 : 0 }) : t < 7.0 ? Object.assign({}, RIG.FACES.surprised, { excl: 1 }) : RIG.FACES.annoyed;
     const reach = t >= 4.2 && t < 5.4;
