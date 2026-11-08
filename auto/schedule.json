@@ -821,25 +821,25 @@
       "slot": "18:00",
       "ep": "donuts",
       "no": 34,
-      "title": "差し入れのドーナツ",
-      "caption_ja": "差し入れのドーナツ、6個。ジルが後ろを向いた2秒で箱は空。課長の口のまわりに、粉砂糖。",
-      "caption_en": "Six donuts for the team. Jill looks away for two seconds. Box: empty. Boss: powdered sugar on his face.",
+      "title": "差し入れの牧草リング",
+      "caption_ja": "差し入れの牧草リング（ドーナツ形）、6個。ジルが後ろを向いた2秒で箱は空。課長の口のまわりに、牧草のかけら。",
+      "caption_en": "Six donut-shaped hay rings for the team. Jill looks away for two seconds. Box: empty. Boss: hay bits on his face.",
       "tag_set": "C",
       "thumb": {
         "t": 7.5,
         "cam": "1.4,558,1096",
-        "hook": "6 DONUTS/差し入れのドーナツ、上司と2秒"
+        "hook": "6 HAY RINGS/差し入れの牧草リング、上司と2秒"
       },
       "first_comment": "差し入れが一番早く消えるのはだれ？ / Who empties the snack box fastest in your office?",
       "site_i18n": {
         "title": {
-          "en": "Six donuts",
-          "zh": "六個甜甜圈",
-          "ko": "도넛 6개"
+          "en": "Six hay rings",
+          "zh": "六個牧草圈",
+          "ko": "건초 링 6개"
         },
         "caption": {
-          "zh": "同事送的甜甜圈，六個。吉兒轉過身的兩秒，盒子空了。課長嘴邊全是糖粉。",
-          "ko": "직원들 간식으로 도넛 6개. 질이 뒤돌아선 2초 만에 상자는 빈 것. 과장님 입가에 설탕 가루."
+          "zh": "同事送的甜甜圈造型牧草圈，六個。吉兒轉過身的兩秒，盒子空了。課長嘴邊全是牧草屑。",
+          "ko": "직원들 간식으로 도넛 모양 건초 링 6개. 질이 뒤돌아선 2초 만에 상자는 텅. 과장님 입가에 건초 부스러기."
         }
       },
       "cta": "Send this to the office snack thief/おやつを持っていく人に送ろう"
