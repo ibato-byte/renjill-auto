@@ -1879,6 +1879,62 @@
         }
       },
       "cta": "Send this to the one who misses the holidays/休みが恋しい人に送ろう"
+    },
+    {
+      "date": "2027-01-05",
+      "slot": "18:00",
+      "ep": "kakizome",
+      "no": 72,
+      "title": "書き初め",
+      "caption_ja": "書き初め。ジルは「努力」と書いて壁にはります。課長も大きな筆でぶんぶん。はり出された今年の抱負は……「牧草」。",
+      "caption_en": "New Year calligraphy. Jill writes \"effort\" and pins it on the wall. The boss grabs a giant brush. His goal for the year: \"HAY.\"",
+      "tag_set": "C",
+      "thumb": {
+        "t": 4.6,
+        "cam": "1.2,640,1100",
+        "hook": "CALLIGRAPHY/書き初め、上司の抱負は"
+      },
+      "first_comment": "今年の抱負を漢字ふた文字で書くなら？ / Your goal for this year in one word?",
+      "site_i18n": {
+        "title": {
+          "en": "New Year calligraphy",
+          "zh": "新春試筆",
+          "ko": "새해 첫 붓글씨"
+        },
+        "caption": {
+          "zh": "新春試筆。吉兒寫下「努力」貼在牆上。課長也拿起大毛筆揮來揮去。貼出來的今年目標是……「牧草」。",
+          "ko": "새해 첫 붓글씨. 질은 '노력'이라고 써서 벽에 붙여요. 과장님도 큰 붓을 휘두릅니다. 붙여진 올해의 목표는…… '목초'."
+        }
+      },
+      "cta": "Send this to someone with a clear New Year goal/今年の目標が決まっている人に送ろう"
+    },
+    {
+      "date": "2027-01-06",
+      "slot": "18:00",
+      "ep": "nenga2",
+      "no": 73,
+      "title": "年賀状の仕分け",
+      "caption_ja": "届いた年賀状を仕分けるジル。課長あての山がどんどん高くなって、課長はご満悦。でも1枚めくると差出人は「課長」。もう1枚も「課長」。",
+      "caption_en": "Jill sorts the New Year cards. The boss's pile keeps growing and he looks very pleased. She flips one over: from the boss. Another: also from the boss.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 4.0,
+        "cam": "1.2,600,1000",
+        "hook": "NEW YEAR CARDS/年賀状、差出人は"
+      },
+      "first_comment": "今年、年賀状は何枚届いた？ / How many New Year cards did you get this year?",
+      "site_i18n": {
+        "title": {
+          "en": "Sorting New Year cards",
+          "zh": "整理賀年卡",
+          "ko": "연하장 정리"
+        },
+        "caption": {
+          "zh": "吉兒在整理收到的賀年卡。課長的那疊越來越高，課長得意洋洋。可是翻開一張，寄件人是「課長」。再翻一張，還是「課長」。",
+          "ko": "받은 연하장을 정리하는 질. 과장님 앞으로 온 더미가 점점 높아져서 과장님은 흐뭇해요. 그런데 한 장을 뒤집어 보니 보낸 사람은 '과장'. 또 한 장도 '과장'."
+        }
+      },
+      "cta": "Send this to someone who sends cards to themselves/自分あてに手紙を出しそうな人に送ろう"
     }
   ]
 }
