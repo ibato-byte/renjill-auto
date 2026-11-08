@@ -2243,6 +2243,146 @@
         }
       },
       "cta": "Send this to your pen-spinning friend/ペン回しが得意な人に送ろう"
+    },
+    {
+      "date": "2027-01-18",
+      "slot": "18:00",
+      "ep": "fusen",
+      "no": 85,
+      "title": "付箋",
+      "caption_ja": "ジルは付箋に「TODO」と書いて、パソコンのふちに1枚。課長も付箋の束を持って、ぺた、ぺた、ぺた……ぜんぶ自分に貼りました。どこに貼ったか、きょろきょろ。",
+      "caption_en": "Jill writes TODO on one sticky note and puts it on her laptop. The boss grabs a whole pad. Stick, stick, stick… all on himself. Now he can't find them.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 5.6,
+        "cam": "1.2,586,960",
+        "hook": "STICKY NOTES/付箋、上司が貼ると"
+      },
+      "first_comment": "付箋、どこに貼る派？ / Where do your sticky notes go?",
+      "site_i18n": {
+        "title": {
+          "en": "Sticky notes",
+          "zh": "便利貼",
+          "ko": "포스트잇"
+        },
+        "caption": {
+          "zh": "吉兒在便利貼上寫了「TODO」，貼在筆電邊上一張。課長也拿起一整疊便利貼，啪、啪、啪……全部貼在自己身上。貼在哪裡了呢？東張西望。",
+          "ko": "질은 포스트잇에 'TODO'라고 써서 노트북 가장자리에 한 장. 과장님도 포스트잇 묶음을 들고 착, 착, 착…… 전부 자기 몸에 붙였어요. 어디에 붙였는지 두리번두리번."
+        }
+      },
+      "cta": "Send this to someone covered in sticky notes/付箋だらけの人に送ろう"
+    },
+    {
+      "date": "2027-01-19",
+      "slot": "18:00",
+      "ep": "kamihikoki",
+      "no": 86,
+      "title": "紙飛行機",
+      "caption_ja": "ジルの紙飛行機は、すーっと飛んでごみ箱にストン。課長も大きな紙飛行機を投げると、ぐるっと宙返りして……課長の頭の上に着陸。なぜかご満悦です。",
+      "caption_en": "Jill's paper plane glides right into the bin. The boss throws a big one. It loops all the way around… and lands on his own head. He looks proud anyway.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 6.4,
+        "cam": "1.2,586,940",
+        "hook": "PAPER PLANE/紙飛行機、上司が投げると"
+      },
+      "first_comment": "紙飛行機、遠くまで飛ばせる？ / How far can your paper plane fly?",
+      "site_i18n": {
+        "title": {
+          "en": "Paper plane",
+          "zh": "紙飛機",
+          "ko": "종이비행기"
+        },
+        "caption": {
+          "zh": "吉兒的紙飛機咻地飛進了垃圾桶。課長也丟出一架大紙飛機，結果繞了一圈……降落在課長自己的頭上。不知為何一臉得意。",
+          "ko": "질의 종이비행기는 슝 날아가 쓰레기통에 쏙. 과장님도 큰 종이비행기를 던졌더니 빙글 한 바퀴 돌아서…… 과장님 머리 위에 착륙. 왠지 뿌듯한 얼굴이에요."
+        }
+      },
+      "cta": "Send this to someone whose plans come back to them/投げたら戻ってくる人に送ろう"
+    },
+    {
+      "date": "2027-01-20",
+      "slot": "18:00",
+      "ep": "keyboard",
+      "no": 87,
+      "title": "キーボード",
+      "caption_ja": "ジルは資料をカタカタ。課長もタイピング……と思ったら、キーボードの上に香箱すわり。画面は「あああああ」でいっぱい、ページはどんどん増えます。課長はそのままお昼寝。",
+      "caption_en": "Jill types up her report. The boss tries too… by sitting on the keyboard. The screen fills with letters and the pages keep growing. He falls asleep right there.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 5.0,
+        "cam": "1.2,586,960",
+        "hook": "FAST TYPING/タイピング、上司は"
+      },
+      "first_comment": "キーボードの上に乗るペット、いる？ / Does your pet sit on your keyboard?",
+      "site_i18n": {
+        "title": {
+          "en": "Keyboard",
+          "zh": "鍵盤",
+          "ko": "키보드"
+        },
+        "caption": {
+          "zh": "吉兒喀噠喀噠地打著資料。課長也要打字……結果卻在鍵盤上縮成一團坐著。螢幕上滿滿的「啊啊啊啊」，頁數一直增加。課長就這樣睡著了。",
+          "ko": "질은 자료를 타닥타닥. 과장님도 타이핑을…… 하나 했더니 키보드 위에 식빵 자세로 앉았어요. 화면은 '아아아아'로 가득, 페이지는 계속 늘어나요. 과장님은 그대로 낮잠."
+        }
+      },
+      "cta": "Send this to someone whose pet types for them/パソコンに乗るペットがいる人に送ろう"
+    },
+    {
+      "date": "2027-01-21",
+      "slot": "18:00",
+      "ep": "kumori",
+      "no": 88,
+      "title": "窓のくもり",
+      "caption_ja": "寒い朝、窓が白くくもっています。ジルは指で小さなハート。課長も窓へ行って「はぁ〜」と息をかけ、大きく大きく……窓いっぱいに課長の自画像ができました。",
+      "caption_en": "A cold morning, and the windows are foggy. Jill draws a tiny heart. The boss breathes on the other window and draws big… a self-portrait that fills the whole window.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 5.6,
+        "cam": "1.2,586,960",
+        "hook": "FOGGY WINDOW/窓のくもり、上司がかくと"
+      },
+      "first_comment": "くもった窓に、何かきますか？ / What do you draw on a foggy window?",
+      "site_i18n": {
+        "title": {
+          "en": "Foggy window",
+          "zh": "起霧的窗戶",
+          "ko": "김 서린 창문"
+        },
+        "caption": {
+          "zh": "寒冷的早晨，窗戶起了白白的霧。吉兒用手指畫了一個小愛心。課長也走到窗邊「哈～」地呵氣，畫得大大的……整面窗戶都是課長的自畫像。",
+          "ko": "추운 아침, 창문에 하얗게 김이 서렸어요. 질은 손가락으로 작은 하트. 과장님도 창가로 가서 '하아~' 입김을 불고 크게 크게…… 창문 가득 과장님 자화상이 생겼어요."
+        }
+      },
+      "cta": "Send this to someone who doodles on windows/窓にらくがきする人に送ろう"
+    },
+    {
+      "date": "2027-01-22",
+      "slot": "18:00",
+      "ep": "blind",
+      "no": 89,
+      "title": "ブラインド",
+      "caption_ja": "朝、ジルがひもを引くと、ブラインドがすーっと上がって光が入ります。課長も右の窓のひもを引くと……ブラインドは上がらず、課長のほうが上がっていきました。手をはなすとストン。",
+      "caption_en": "Jill pulls the cord and the blinds go up. Morning light. The boss pulls the other cord… the blinds stay put, and he goes up instead. He lets go. Thud.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 4.4,
+        "cam": "1.2,586,840",
+        "hook": "BLINDS UP/ブラインド、上司が引くと"
+      },
+      "first_comment": "ブラインド、うまく上げられる？ / Are you good with window blinds?",
+      "site_i18n": {
+        "title": {
+          "en": "Window blinds",
+          "zh": "百葉窗",
+          "ko": "블라인드"
+        },
+        "caption": {
+          "zh": "早上，吉兒一拉繩子，百葉窗就順順地升起，陽光照了進來。課長也拉了右邊窗戶的繩子……百葉窗沒升起來，升起來的是課長自己。一放手，咚。",
+          "ko": "아침에 질이 줄을 당기자 블라인드가 스르르 올라가고 햇빛이 들어와요. 과장님도 오른쪽 창문의 줄을 당겼더니…… 블라인드는 그대로, 과장님이 올라갔어요. 손을 놓자 쿵."
+        }
+      },
+      "cta": "Send this to someone who loses to the blinds every morning/ブラインドに負ける人に送ろう"
     }
   ]
 }
