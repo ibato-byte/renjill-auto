@@ -821,25 +821,25 @@
       "slot": "18:00",
       "ep": "donuts",
       "no": 34,
-      "title": "差し入れのドーナツ",
-      "caption_ja": "差し入れのドーナツ、6個。ジルが後ろを向いた2秒で箱は空。課長の口のまわりに、粉砂糖。",
-      "caption_en": "Six donuts for the team. Jill looks away for two seconds. Box: empty. Boss: powdered sugar on his face.",
+      "title": "差し入れの牧草リング",
+      "caption_ja": "差し入れの牧草リング（ドーナツ形）、6個。ジルが後ろを向いた2秒で箱は空。課長の口のまわりに、牧草のかけら。",
+      "caption_en": "Six donut-shaped hay rings for the team. Jill looks away for two seconds. Box: empty. Boss: hay bits on his face.",
       "tag_set": "C",
       "thumb": {
         "t": 7.5,
         "cam": "1.4,558,1096",
-        "hook": "6 DONUTS/差し入れのドーナツ、上司と2秒"
+        "hook": "6 HAY RINGS/差し入れの牧草リング、上司と2秒"
       },
       "first_comment": "差し入れが一番早く消えるのはだれ？ / Who empties the snack box fastest in your office?",
       "site_i18n": {
         "title": {
-          "en": "Six donuts",
-          "zh": "六個甜甜圈",
-          "ko": "도넛 6개"
+          "en": "Six hay rings",
+          "zh": "六個牧草圈",
+          "ko": "건초 링 6개"
         },
         "caption": {
-          "zh": "同事送的甜甜圈，六個。吉兒轉過身的兩秒，盒子空了。課長嘴邊全是糖粉。",
-          "ko": "직원들 간식으로 도넛 6개. 질이 뒤돌아선 2초 만에 상자는 빈 것. 과장님 입가에 설탕 가루."
+          "zh": "同事送的甜甜圈造型牧草圈，六個。吉兒轉過身的兩秒，盒子空了。課長嘴邊全是牧草屑。",
+          "ko": "직원들 간식으로 도넛 모양 건초 링 6개. 질이 뒤돌아선 2초 만에 상자는 텅. 과장님 입가에 건초 부스러기."
         }
       },
       "cta": "Send this to the office snack thief/おやつを持っていく人に送ろう"
@@ -1291,6 +1291,538 @@
         }
       },
       "cta": "Send this to the one who blasts the humidifier/加湿器を全開にする人に送ろう"
+    },
+    {
+      "date": "2026-12-14",
+      "slot": "18:00",
+      "ep": "shred",
+      "no": 51,
+      "title": "シュレッダーの紙くず",
+      "caption_ja": "年末の書類整理。ジルがシュレッダーにかけた紙くずが山盛りになったら、課長が飛び込んで寝ました。紙くず＝上司の巣。",
+      "caption_en": "Year-end shredding. Jill fills the bin with paper strips. The boss jumps in and falls asleep. Shredded paper = boss nest.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 6.2,
+        "cam": "1.4,600,1140",
+        "hook": "SHREDDER DAY/シュレッダーの紙くず、上司が"
+      },
+      "first_comment": "うさぎを飼っている人、紙くずに潜りますか？ / Bunny owners: does yours dive into paper?",
+      "site_i18n": {
+        "title": {
+          "en": "Shredder day",
+          "zh": "碎紙機的紙屑",
+          "ko": "파쇄기 종이"
+        },
+        "caption": {
+          "zh": "年末整理文件。吉兒碎的紙屑堆成一座山，課長跳進去睡著了。紙屑＝上司的窩。",
+          "ko": "연말 서류 정리. 질이 파쇄한 종이가 수북해지자 과장님이 뛰어들어 잠들었어요. 파쇄 종이 = 상사의 둥지."
+        }
+      },
+      "cta": "Send this to a bunny owner/うさぎを飼っている人に送ろう"
+    },
+    {
+      "date": "2026-12-15",
+      "slot": "18:00",
+      "ep": "himekuri",
+      "no": 52,
+      "title": "日めくり",
+      "caption_ja": "今日は12/15。課長が日めくりをめくり始めたら止まらず、28（仕事納め）まで。ジルが15を貼り直しました。",
+      "caption_en": "Today is Dec 15. The boss tears one page off the calendar, then keeps going to Dec 28, the last workday. Jill tapes 15 back on.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 6.0,
+        "cam": "1.4,600,1140",
+        "hook": "DEC 15 TO 28/日めくり、上司だけ仕事納め"
+      },
+      "first_comment": "仕事納めまで、あと何日？ / How many workdays left this year?",
+      "site_i18n": {
+        "title": {
+          "en": "The tear-off calendar",
+          "zh": "撕頁日曆",
+          "ko": "일력"
+        },
+        "caption": {
+          "zh": "今天是12/15。課長撕了一頁日曆就停不下來，一路撕到28號（年終最後上班日）。吉兒把15貼了回去。",
+          "ko": "오늘은 12/15. 과장님이 일력을 한 장 넘기더니 멈추지 않고 28일(종무일)까지. 질이 15를 다시 붙였어요."
+        }
+      },
+      "cta": "Send this to the one counting down to the holidays/冬休みを数えている人に送ろう"
+    },
+    {
+      "date": "2026-12-16",
+      "slot": "18:00",
+      "ep": "wreath",
+      "no": 53,
+      "title": "クリスマスリース",
+      "caption_ja": "ジルが飾った、緑のクリスマスリース。仕事をしている間に、課長が横から少しずつ。残ったのは赤いリボンだけでした。",
+      "caption_en": "Jill sets up a green Christmas wreath. While she works, the boss nibbles it from the side. All that's left: the red ribbon.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 7.4,
+        "cam": "1.4,600,1140",
+        "hook": "XMAS WREATH/クリスマスリース、上司が"
+      },
+      "first_comment": "クリスマスの飾り、もう出した？ / Have you put up your Christmas decorations yet?",
+      "site_i18n": {
+        "title": {
+          "en": "The Christmas wreath",
+          "zh": "聖誕花圈",
+          "ko": "크리스마스 리스"
+        },
+        "caption": {
+          "zh": "吉兒擺上綠色的聖誕花圈。她工作的時候，課長從旁邊一點一點地吃。最後只剩下紅色的蝴蝶結。",
+          "ko": "질이 장식한 초록 크리스마스 리스. 일하는 사이 과장님이 옆에서 조금씩. 남은 건 빨간 리본뿐이었어요."
+        }
+      },
+      "cta": "Send this to the one who snacks on everything/何でも食べちゃう人に送ろう"
+    },
+    {
+      "date": "2026-12-17",
+      "slot": "18:00",
+      "ep": "katazuke",
+      "no": 54,
+      "title": "机の片付け",
+      "caption_ja": "年末の片付け。書類の山だった課長の机が、3秒でピカピカに。ジルが引き出しを開けたら、書類が雪崩のように出てきました。",
+      "caption_en": "Year-end cleanup. The boss's desk goes from paper mountain to spotless in three seconds. Then Jill opens his drawer.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 7.6,
+        "cam": "1.4,600,1140",
+        "hook": "CLEAN DESK/年末の片付け、上司は3秒"
+      },
+      "first_comment": "引き出しに押し込む派？ / Do you hide the mess in a drawer too?",
+      "site_i18n": {
+        "title": {
+          "en": "The clean desk",
+          "zh": "整理桌面",
+          "ko": "책상 정리"
+        },
+        "caption": {
+          "zh": "年末大整理。課長堆滿文件的桌子，三秒就變得亮晶晶。吉兒一拉開抽屜，文件像雪崩一樣湧了出來。",
+          "ko": "연말 정리. 서류 산이던 과장님 책상이 3초 만에 반짝반짝. 질이 서랍을 열자 서류가 눈사태처럼 쏟아졌어요."
+        }
+      },
+      "cta": "Send this to the one with the messy drawer/引き出しがパンパンな人に送ろう"
+    },
+    {
+      "date": "2026-12-18",
+      "slot": "18:00",
+      "ep": "tegami",
+      "no": 55,
+      "title": "サンタへの手紙",
+      "caption_ja": "サンタへの手紙。ジルは小さなカードに1行。課長の手紙は机からはみ出して、床を3メートル。書いてあるのは、ほぼ牧草。",
+      "caption_en": "Letters to Santa. Jill writes one line on a small card. The boss's letter runs off the desk and three meters across the floor. Mostly hay.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 7.2,
+        "cam": "1.4,560,1096",
+        "hook": "DEAR SANTA/サンタへの手紙、上司は3メートル"
+      },
+      "first_comment": "サンタにお願いするなら、何を1つ？ / If you could ask Santa for one thing?",
+      "site_i18n": {
+        "title": {
+          "en": "Dear Santa",
+          "zh": "給聖誕老人的信",
+          "ko": "산타에게 쓰는 편지"
+        },
+        "caption": {
+          "zh": "給聖誕老人的信。吉兒在小卡片上寫了一行。課長的信超出桌子，在地上拖了三公尺。寫的幾乎都是牧草。",
+          "ko": "산타에게 쓰는 편지. 질은 작은 카드에 한 줄. 과장님 편지는 책상을 넘어 바닥에 3미터. 적힌 건 거의 건초."
+        }
+      },
+      "cta": "Send this to the one with a long wish list/ほしい物リストが長い人に送ろう"
+    },
+    {
+      "date": "2026-12-19",
+      "slot": "12:00",
+      "ep": "present",
+      "no": 56,
+      "title": "プレゼント交換",
+      "caption_ja": "プレゼント交換。ジルあての大きな箱が届きました。リボンをほどいたら、中から課長。プレゼントは、上司本人でした。",
+      "caption_en": "Gift exchange. A big box arrives for Jill. She unties the ribbon, and out pops the boss. The gift is the boss himself.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 7.6,
+        "cam": "1.4,600,1000",
+        "hook": "GIFT EXCHANGE/プレゼント交換、中身は"
+      },
+      "first_comment": "プレゼント交換で、いちばんうれしかった物は？ / Best thing you ever got in a gift exchange?",
+      "site_i18n": {
+        "title": {
+          "en": "Gift exchange",
+          "zh": "交換禮物",
+          "ko": "선물 교환"
+        },
+        "caption": {
+          "zh": "交換禮物。一個寫著給吉兒的大箱子送到了。解開緞帶，課長從裡面跳了出來。禮物就是上司本人。",
+          "ko": "선물 교환. 질 앞으로 커다란 상자가 도착했어요. 리본을 풀자 안에서 과장님이. 선물은 상사 본인이었어요."
+        }
+      },
+      "cta": "Send this to the one who's the gift/自分がプレゼントな人に送ろう"
+    },
+    {
+      "date": "2026-12-20",
+      "slot": "12:00",
+      "ep": "lights",
+      "no": 57,
+      "title": "電飾",
+      "caption_ja": "ジルが窓に電飾をかざりました。課長がひもの端に飛びついて、くるくる。スイッチを入れたら、光ったのは課長でした。",
+      "caption_en": "Jill hangs Christmas lights by the window. The boss jumps at the end of the string and spins. She flips the switch: the boss lights up.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 7.0,
+        "cam": "1.25,620,1150",
+        "hook": "XMAS LIGHTS/電飾、光ったのは上司"
+      },
+      "first_comment": "クリスマスの電飾、何色が好き？ / What color Christmas lights do you like best?",
+      "site_i18n": {
+        "title": {
+          "en": "Christmas lights",
+          "zh": "聖誕燈飾",
+          "ko": "크리스마스 전구"
+        },
+        "caption": {
+          "zh": "吉兒在窗邊掛上聖誕燈飾。課長撲向燈串的尾端，轉啊轉。打開開關，亮起來的是課長。",
+          "ko": "질이 창가에 크리스마스 전구를 달았어요. 과장님이 줄 끝에 달려들어 빙글빙글. 스위치를 켜니 빛난 건 과장님이었어요."
+        }
+      },
+      "cta": "Send this to the one who sparkles/キラキラしている人に送ろう"
+    },
+    {
+      "date": "2026-12-21",
+      "slot": "18:00",
+      "ep": "hat",
+      "no": 58,
+      "title": "サンタ帽",
+      "caption_ja": "クリスマスの週。ジルは小さなサンタ帽をちょこん。課長の帽子は特大で、全身すっぽり。よちよち歩いてごつん。持ち上げたら、中で寝ていました。",
+      "caption_en": "Christmas week. Jill wears a tiny Santa hat. The boss's hat is XXL and covers him completely. He waddles into Jill. She lifts it: he's asleep inside.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 7.2,
+        "cam": "1.4,600,1050",
+        "hook": "SANTA HAT XXL/サンタ帽、上司は特大"
+      },
+      "first_comment": "クリスマスの帽子、かぶる派？ / Do you wear a Santa hat at Christmas?",
+      "site_i18n": {
+        "title": {
+          "en": "The Santa hat",
+          "zh": "聖誕帽",
+          "ko": "산타 모자"
+        },
+        "caption": {
+          "zh": "聖誕週。吉兒戴著小小的聖誕帽。課長的帽子是特大號，整個人都被蓋住，搖搖晃晃撞上吉兒。掀起來一看，他在裡面睡著了。",
+          "ko": "크리스마스 주간. 질은 작은 산타 모자를 쏙. 과장님 모자는 특대라 온몸이 쏙. 뒤뚱뒤뚱 걷다 쿵. 들어 보니 안에서 자고 있었어요."
+        }
+      },
+      "cta": "Send this to the one who naps anywhere/どこでも寝られる人に送ろう"
+    },
+    {
+      "date": "2026-12-22",
+      "slot": "18:00",
+      "ep": "kakurenbo",
+      "no": 59,
+      "title": "かくれんぼ",
+      "caption_ja": "昼休みのかくれんぼ。ジルが3つ数える間に、課長はペンを1本、顔の前に立てただけ。本人はかくれたつもり。1秒で発見されました。",
+      "caption_en": "Hide and seek at lunch. While Jill counts to three, the boss stands one pen in front of his face and closes his eyes. Hidden, he thinks. Found in one second.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 4.8,
+        "cam": "1.2,620,1050",
+        "hook": "HIDE AND SEEK/かくれんぼ、上司はペンの後ろ"
+      },
+      "first_comment": "うさぎを飼っている人、かくれたつもりの姿、見たことある？ / Bunny owners: does yours ever \"hide\" in plain sight?",
+      "site_i18n": {
+        "title": {
+          "en": "Hide and seek",
+          "zh": "捉迷藏",
+          "ko": "숨바꼭질"
+        },
+        "caption": {
+          "zh": "午休時間玩捉迷藏。吉兒數到三的時候，課長只在臉前立了一支筆，自以為躲好了。一秒就被找到了。",
+          "ko": "점심시간 숨바꼭질. 질이 셋을 세는 동안 과장님은 얼굴 앞에 펜 한 자루를 세웠을 뿐. 본인은 숨었다고 생각해요. 1초 만에 발견."
+        }
+      },
+      "cta": "Send this to the worst hider you know/かくれるのが下手な人に送ろう"
+    },
+    {
+      "date": "2026-12-24",
+      "slot": "18:00",
+      "ep": "kutsushita",
+      "no": 60,
+      "title": "くつした",
+      "caption_ja": "クリスマスイブ。ジルは小さなくつした、課長は床まで届く特大のくつした。次の朝、課長が頭から潜って見つけたのは牧草1本。それでもご満悦です。",
+      "caption_en": "Christmas Eve. Jill hangs a small stocking. The boss hangs one that reaches the floor. Next morning he dives in headfirst and finds one blade of hay. He's thrilled anyway.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 7.5,
+        "cam": "1.2,640,1150",
+        "hook": "XXL STOCKING/くつした特大、中身は"
+      },
+      "first_comment": "サンタからのプレゼント、何がほしい？ / What do you want from Santa this year?",
+      "site_i18n": {
+        "title": {
+          "en": "The stocking",
+          "zh": "聖誕襪",
+          "ko": "크리스마스 양말"
+        },
+        "caption": {
+          "zh": "平安夜。吉兒掛上小小的襪子，課長掛上拖到地板的特大襪子。隔天早上，課長一頭鑽進去，找到的是一根牧草。他還是很開心。",
+          "ko": "크리스마스이브. 질은 작은 양말, 과장님은 바닥까지 닿는 특대 양말. 다음 날 아침 과장님이 머리부터 들어가 찾은 건 건초 한 가닥. 그래도 대만족이에요."
+        }
+      },
+      "cta": "Send this to the one who wants it all/欲ばりな人に送ろう"
+    },
+    {
+      "date": "2026-12-25",
+      "slot": "18:00",
+      "ep": "tonakai",
+      "no": 61,
+      "title": "サンタとトナカイ",
+      "caption_ja": "クリスマス。サンタは課長、トナカイはジル。そりはびくともしません。ジルが棒の先に牧草をつるしたら、トナカイ交代。課長がご機嫌で引いています。",
+      "caption_en": "Christmas Day. The boss is Santa, Jill is the reindeer. The sled won't budge. Jill hangs hay on a stick, and the roles swap. Now the boss pulls, happily.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 7.2,
+        "cam": "1.15,460,1150",
+        "hook": "REINDEER/サンタは上司、トナカイは"
+      },
+      "first_comment": "メリークリスマス！あなたはサンタ派？トナカイ派？ / Merry Christmas! Are you Santa or the reindeer?",
+      "site_i18n": {
+        "title": {
+          "en": "Santa and the reindeer",
+          "zh": "聖誕老人與馴鹿",
+          "ko": "산타와 순록"
+        },
+        "caption": {
+          "zh": "聖誕節。聖誕老人是課長，馴鹿是吉兒。雪橇動也不動。吉兒在棒子前端掛上牧草，馴鹿換人了。課長開開心心地拉著。",
+          "ko": "크리스마스. 산타는 과장님, 순록은 질. 썰매는 꿈쩍도 안 해요. 질이 막대 끝에 건초를 매달자 순록 교대. 과장님이 신나게 끌고 있어요."
+        }
+      },
+      "cta": "Send this to the one who does all the pulling/いつも引っぱってくれる人に送ろう"
+    },
+    {
+      "date": "2026-12-23",
+      "slot": "18:00",
+      "ep": "korokoro",
+      "no": 62,
+      "title": "コロコロ",
+      "caption_ja": "年末の大そうじ。ジルが粘着ローラーで机をコロコロ。ついでに課長もコロコロしたら、取れた毛で、もう1匹分の山ができました。",
+      "caption_en": "Year-end cleaning. Jill runs a lint roller over her desk, then over the boss. The fur that comes off makes a pile the size of a second boss.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 6.8,
+        "cam": "1.3,560,1050",
+        "hook": "LINT ROLLER/コロコロ、上司の毛で"
+      },
+      "first_comment": "うさぎを飼っている人、換毛期の毛はどれくらい取れますか？ / Bunny owners: how much fur comes off in shedding season?",
+      "site_i18n": {
+        "title": {
+          "en": "The lint roller",
+          "zh": "黏毛滾筒",
+          "ko": "돌돌이"
+        },
+        "caption": {
+          "zh": "年末大掃除。吉兒用黏毛滾筒滾桌子，順便也幫課長滾一滾，結果掉下來的毛堆成了另一隻課長。",
+          "ko": "연말 대청소. 질이 돌돌이로 책상을 돌돌. 내친김에 과장님도 돌돌했더니, 빠진 털로 과장님이 한 마리 더 생겼어요."
+        }
+      },
+      "cta": "Send this to a bunny owner with a lint roller/コロコロが手放せない人に送ろう"
+    },
+    {
+      "date": "2026-12-26",
+      "slot": "12:00",
+      "ep": "kagami",
+      "no": 63,
+      "title": "鏡もち",
+      "caption_ja": "年末の飾りつけ。ジルは小さな鏡もち。課長は牧草の束を2段重ねて、牧草の鏡もち。目を離したすきに下の段から食べはじめ、上の段がころん。",
+      "caption_en": "Year-end decorations. Jill sets out a small kagami mochi. The boss stacks two bundles of hay into his own. The moment she looks away, he eats the bottom one and the top rolls off.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 4,
+        "cam": "1.25,540,1000",
+        "hook": "KAGAMI MOCHI/鏡もち、上司のは牧草製"
+      },
+      "first_comment": "鏡もち、いつ飾りますか？ / When do you put up your New Year decorations?",
+      "site_i18n": {
+        "title": {
+          "en": "Kagami mochi",
+          "zh": "鏡餅",
+          "ko": "가가미모치"
+        },
+        "caption": {
+          "zh": "年末布置。吉兒擺上小小的鏡餅。課長把兩捆牧草疊起來，做成牧草鏡餅。一不注意，他就從下層開始吃，上層咕嚄滾了下來。",
+          "ko": "연말 장식. 질은 작은 가가미모치. 과장님은 건초 다발을 두 단으로 쌓아 건초 가가미모치. 한눈판 사이 아랫단부터 먹기 시작해서 윗단이 데굴."
+        }
+      },
+      "cta": "Send this to the one who can't wait for New Year/お正月が待ちきれない人に送ろう"
+    },
+    {
+      "date": "2026-12-27",
+      "slot": "12:00",
+      "ep": "fukubiki",
+      "no": 64,
+      "title": "福引き",
+      "caption_ja": "年末の福引き。ジルが回したら白い玉で、ティッシュ1個。課長が勢いよく回したら金の玉で、牧草1年分。課長は牧草の山にうもれてご満悦です。",
+      "caption_en": "The year-end lucky draw. Jill spins: a white ball, one pack of tissues. The boss spins hard: the gold ball, a year's supply of hay. He's buried in it and loving it.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 4.6,
+        "cam": "1.25,540,1000",
+        "hook": "LUCKY DRAW/福引き、上司は金の玉"
+      },
+      "first_comment": "福引きで当たったこと、ありますか？ / Have you ever won a lucky draw?",
+      "site_i18n": {
+        "title": {
+          "en": "The lucky draw",
+          "zh": "抽獎",
+          "ko": "경품 추첨"
+        },
+        "caption": {
+          "zh": "年末抽獎。吉兒轉出白球，得到一包面紙。課長用力一轉，轉出金球，得到一年份的牧草。他被牧草山埋住，開心極了。",
+          "ko": "연말 경품 추첨. 질이 돌리니 흰 공, 티슈 한 개. 과장님이 힘차게 돌리니 금색 공, 건초 1년 치. 과장님은 건초 산에 파묻혀 대만족이에요."
+        }
+      },
+      "cta": "Send this to the luckiest person you know/くじ運がいい人に送ろう"
+    },
+    {
+      "date": "2026-12-29",
+      "slot": "18:00",
+      "ep": "osechi",
+      "no": 65,
+      "title": "おせちの重箱",
+      "caption_ja": "お正月の重箱。ジルのは色とりどりのおせち。課長のは、1段目も2段目も3段目も牧草。ジルが自分の3段目を開けたら、牧草が1本入っていました。",
+      "caption_en": "New Year boxes. Jill's is full of colorful osechi. The boss's: hay, hay, and hay, all three tiers. Then Jill opens her own third tier: one blade of hay, with a ribbon.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 5,
+        "cam": "1.25,540,1000",
+        "hook": "OSECHI: HAY x3/おせち、上司の重箱は"
+      },
+      "first_comment": "おせちで好きなものは？ / What's your favorite New Year dish?",
+      "site_i18n": {
+        "title": {
+          "en": "New Year boxes",
+          "zh": "年菜重箱",
+          "ko": "오세치 찬합"
+        },
+        "caption": {
+          "zh": "新年的重箱。吉兒的是五顏六色的年菜。課長的第一層、第二層、第三層全都是牧草。吉兒打開自己的第三層，裡面有一根牧草。",
+          "ko": "설날 찬합. 질의 것은 알록달록한 오세치. 과장님 것은 1단도 2단도 3단도 건초. 질이 자기 3단째를 열어 보니 건초가 한 가닥 들어 있었어요."
+        }
+      },
+      "cta": "Send this to the one who shares their favorite things/好きな物を分けてくれる人に送ろう"
+    },
+    {
+      "date": "2026-12-30",
+      "slot": "18:00",
+      "ep": "nimotsu",
+      "no": 66,
+      "title": "帰省の荷造り",
+      "caption_ja": "帰省の荷造り。ジルの小さなスーツケースはパチンと閉まりました。課長のは牧草だけで、あふれてふたが閉まらない。上に乗ってぎゅっぎゅっ…ばーん。",
+      "caption_en": "Packing to go home. Jill's small suitcase clicks shut. The boss packs nothing but hay, and the lid won't close. He sits on it, presses, presses... and it bursts open.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 7.6,
+        "cam": "1.3,503,900",
+        "hook": "PACKING/帰省の荷造り、上司は牧草だけ"
+      },
+      "first_comment": "帰省の荷物、いつも多くなる派？ / Do you always overpack?",
+      "site_i18n": {
+        "title": {
+          "en": "Packing to go home",
+          "zh": "返鄉打包",
+          "ko": "귀성 짐 싸기"
+        },
+        "caption": {
+          "zh": "返鄉打包。吉兒的小行李箱啪地關上了。課長的只裝了牧草，滿出來蓋不上。他坐上去用力壓……砰地彈開了。",
+          "ko": "귀성 짐 싸기. 질의 작은 캐리어는 딸깍 닫혔어요. 과장님 것은 건초뿐이라 넘쳐서 뚜껑이 안 닫혀요. 위에 앉아 꾹꾹… 펑."
+        }
+      },
+      "cta": "Send this to the one who always overpacks/荷物が多い人に送ろう"
+    },
+    {
+      "date": "2026-12-31",
+      "slot": "18:00",
+      "ep": "countdown",
+      "no": 67,
+      "title": "カウントダウン",
+      "caption_ja": "大みそか。ジルはクラッカーを持って3・2・1、パーン。課長は横でぐっすり。0:01、課長がはっと起きて、1人でパーン。1分遅れて新年です。よいお年を。",
+      "caption_en": "New Year's Eve. Jill counts down 3, 2, 1 and pops her party popper. The boss sleeps right through it. At 0:01 he wakes up and pops his alone. One minute late. Happy New Year!",
+      "tag_set": "C",
+      "thumb": {
+        "t": 4.9,
+        "cam": "1.3,503,950",
+        "hook": "COUNTDOWN/年越し、上司は寝てた"
+      },
+      "first_comment": "今年もありがとうございました。年越しは起きている派？ / Thank you for this year! Do you stay up for midnight?",
+      "site_i18n": {
+        "title": {
+          "en": "The countdown",
+          "zh": "跨年倒數",
+          "ko": "카운트다운"
+        },
+        "caption": {
+          "zh": "除夕。吉兒拿著拉炮倒數三、二、一，砰！課長在旁邊睡得正熟。0:01，課長猛然醒來，一個人拉了拉炮。晚了一分鐘的新年。祝大家新年快樂。",
+          "ko": "섣달그믐. 질은 폭죽을 들고 3, 2, 1, 펑. 과장님은 옆에서 쿨쿨. 0시 1분, 과장님이 퍼뜩 깨서 혼자 펑. 1분 늦은 새해예요. 새해 복 많이 받으세요."
+        }
+      },
+      "cta": "Send this to the one who always falls asleep before midnight/年越しまで起きていられない人に送ろう"
+    },
+    {
+      "date": "2027-01-01",
+      "slot": "12:00",
+      "ep": "aisatsu",
+      "no": 68,
+      "title": "新年のごあいさつ",
+      "caption_ja": "あけましておめでとうございます。ジルはきちんとおじぎ。課長もおじぎ…深く、もっと深く、そのまま前にころん。今年もよろしくお願いします。",
+      "caption_en": "Happy New Year! Jill gives a neat bow. The boss bows too... deeper, deeper, and rolls right over. Here's to another year together.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 5.15,
+        "cam": "1.25,520,720",
+        "hook": "NEW YEAR BOW/新年のごあいさつ、上司は"
+      },
+      "first_comment": "あけましておめでとうございます！今年の目標は？ / Happy New Year! What's your goal this year?",
+      "site_i18n": {
+        "title": {
+          "en": "The New Year bow",
+          "zh": "新年問候",
+          "ko": "새해 인사"
+        },
+        "caption": {
+          "zh": "新年快樂。吉兒規規矩矩地鞠躬。課長也鞠躬……越來越深，然後直接往前滾了一圈。今年也請多多指教。",
+          "ko": "새해 복 많이 받으세요. 질은 반듯하게 인사. 과장님도 인사… 깊게, 더 깊게, 그대로 앞으로 데굴. 올해도 잘 부탁드려요."
+        }
+      },
+      "cta": "Send this to someone you want to say Happy New Year to/新年のあいさつをしたい人に送ろう"
+    },
+    {
+      "date": "2027-01-02",
+      "slot": "12:00",
+      "ep": "omikuji",
+      "no": 69,
+      "title": "おみくじ",
+      "caption_ja": "お正月のおみくじ。ジルは大吉。課長が勢いよくふったら、棒がばらばら。出てきた紙は「牧草吉」。課長は大喜びです。",
+      "caption_en": "New Year fortunes. Jill draws great luck. The boss shakes so hard the sticks fly everywhere. His slip says: hay luck. He's overjoyed.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 6.9,
+        "cam": "1.25,560,1000",
+        "hook": "FORTUNE/おみくじ、上司は"
+      },
+      "first_comment": "今年のおみくじ、何でしたか？ / What did your New Year fortune say?",
+      "site_i18n": {
+        "title": {
+          "en": "The New Year fortune",
+          "zh": "新年抽籤",
+          "ko": "새해 운세 뽑기"
+        },
+        "caption": {
+          "zh": "新年抽籤。吉兒抽到大吉。課長用力一搖，籤條散了一地。抽出來的紙寫著「牧草吉」。課長開心極了。",
+          "ko": "새해 운세 뽑기. 질은 대길. 과장님이 힘차게 흔들자 막대가 와르르. 나온 종이에는 '건초길'. 과장님은 크게 기뻐해요."
+        }
+      },
+      "cta": "Send this to the luckiest person you know/運がいい人に送ろう"
     }
   ]
 }
