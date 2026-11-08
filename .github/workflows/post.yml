@@ -38,6 +38,8 @@ jobs:
           bash "$RUNNER_TEMP/hub/scripts/gha.sh" check renjill-post
       - uses: actions/checkout@v5
         if: steps.hub.outputs.paused != 'true'
+        # 待たされた実行（concurrency）が、起動した時点の古い posted.json を見て二重投稿しないよう、常に最新の main を取る（2026-11-08 12:18・12:25 に Instagram・YouTube へ二重投稿）
+        with: { ref: main }
       - uses: actions/setup-node@v5
         if: steps.hub.outputs.paused != 'true'
         with: { node-version: 22 }
