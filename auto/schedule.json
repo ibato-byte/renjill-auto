@@ -1291,6 +1291,146 @@
         }
       },
       "cta": "Send this to the one who blasts the humidifier/加湿器を全開にする人に送ろう"
+    },
+    {
+      "date": "2026-12-14",
+      "slot": "18:00",
+      "ep": "shred",
+      "no": 51,
+      "title": "シュレッダーの紙くず",
+      "caption_ja": "年末の書類整理。ジルがシュレッダーにかけた紙くずが山盛りになったら、課長が飛び込んで寝ました。紙くず＝上司の巣。",
+      "caption_en": "Year-end shredding. Jill fills the bin with paper strips. The boss jumps in and falls asleep. Shredded paper = boss nest.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 6.2,
+        "cam": "1.4,600,1140",
+        "hook": "SHREDDER DAY/シュレッダーの紙くず、上司が"
+      },
+      "first_comment": "うさぎを飼っている人、紙くずに潜りますか？ / Bunny owners: does yours dive into paper?",
+      "site_i18n": {
+        "title": {
+          "en": "Shredder day",
+          "zh": "碎紙機的紙屑",
+          "ko": "파쇄기 종이"
+        },
+        "caption": {
+          "zh": "年末整理文件。吉兒碎的紙屑堆成一座山，課長跳進去睡著了。紙屑＝上司的窩。",
+          "ko": "연말 서류 정리. 질이 파쇄한 종이가 수북해지자 과장님이 뛰어들어 잠들었어요. 파쇄 종이 = 상사의 둥지."
+        }
+      },
+      "cta": "Send this to a bunny owner/うさぎを飼っている人に送ろう"
+    },
+    {
+      "date": "2026-12-15",
+      "slot": "18:00",
+      "ep": "himekuri",
+      "no": 52,
+      "title": "日めくり",
+      "caption_ja": "今日は12/15。課長が日めくりをめくり始めたら止まらず、28（仕事納め）まで。ジルが15を貼り直しました。",
+      "caption_en": "Today is Dec 15. The boss tears one page off the calendar, then keeps going to Dec 28, the last workday. Jill tapes 15 back on.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 6.0,
+        "cam": "1.4,600,1140",
+        "hook": "DEC 15 TO 28/日めくり、上司だけ仕事納め"
+      },
+      "first_comment": "仕事納めまで、あと何日？ / How many workdays left this year?",
+      "site_i18n": {
+        "title": {
+          "en": "The tear-off calendar",
+          "zh": "撕頁日曆",
+          "ko": "일력"
+        },
+        "caption": {
+          "zh": "今天是12/15。課長撕了一頁日曆就停不下來，一路撕到28號（年終最後上班日）。吉兒把15貼了回去。",
+          "ko": "오늘은 12/15. 과장님이 일력을 한 장 넘기더니 멈추지 않고 28일(종무일)까지. 질이 15를 다시 붙였어요."
+        }
+      },
+      "cta": "Send this to the one counting down to the holidays/冬休みを数えている人に送ろう"
+    },
+    {
+      "date": "2026-12-16",
+      "slot": "18:00",
+      "ep": "wreath",
+      "no": 53,
+      "title": "クリスマスリース",
+      "caption_ja": "ジルが飾った、緑のクリスマスリース。仕事をしている間に、課長が横から少しずつ。残ったのは赤いリボンだけでした。",
+      "caption_en": "Jill sets up a green Christmas wreath. While she works, the boss nibbles it from the side. All that's left: the red ribbon.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 7.4,
+        "cam": "1.4,600,1140",
+        "hook": "XMAS WREATH/クリスマスリース、上司が"
+      },
+      "first_comment": "クリスマスの飾り、もう出した？ / Have you put up your Christmas decorations yet?",
+      "site_i18n": {
+        "title": {
+          "en": "The Christmas wreath",
+          "zh": "聖誕花圈",
+          "ko": "크리스마스 리스"
+        },
+        "caption": {
+          "zh": "吉兒擺上綠色的聖誕花圈。她工作的時候，課長從旁邊一點一點地吃。最後只剩下紅色的蝴蝶結。",
+          "ko": "질이 장식한 초록 크리스마스 리스. 일하는 사이 과장님이 옆에서 조금씩. 남은 건 빨간 리본뿐이었어요."
+        }
+      },
+      "cta": "Send this to the one who snacks on everything/何でも食べちゃう人に送ろう"
+    },
+    {
+      "date": "2026-12-17",
+      "slot": "18:00",
+      "ep": "katazuke",
+      "no": 54,
+      "title": "机の片付け",
+      "caption_ja": "年末の片付け。書類の山だった課長の机が、3秒でピカピカに。ジルが引き出しを開けたら、書類が雪崩のように出てきました。",
+      "caption_en": "Year-end cleanup. The boss's desk goes from paper mountain to spotless in three seconds. Then Jill opens his drawer.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 7.6,
+        "cam": "1.4,600,1140",
+        "hook": "CLEAN DESK/年末の片付け、上司は3秒"
+      },
+      "first_comment": "引き出しに押し込む派？ / Do you hide the mess in a drawer too?",
+      "site_i18n": {
+        "title": {
+          "en": "The clean desk",
+          "zh": "整理桌面",
+          "ko": "책상 정리"
+        },
+        "caption": {
+          "zh": "年末大整理。課長堆滿文件的桌子，三秒就變得亮晶晶。吉兒一拉開抽屜，文件像雪崩一樣湧了出來。",
+          "ko": "연말 정리. 서류 산이던 과장님 책상이 3초 만에 반짝반짝. 질이 서랍을 열자 서류가 눈사태처럼 쏟아졌어요."
+        }
+      },
+      "cta": "Send this to the one with the messy drawer/引き出しがパンパンな人に送ろう"
+    },
+    {
+      "date": "2026-12-18",
+      "slot": "18:00",
+      "ep": "tegami",
+      "no": 55,
+      "title": "サンタへの手紙",
+      "caption_ja": "サンタへの手紙。ジルは小さなカードに1行。課長の手紙は机からはみ出して、床を3メートル。書いてあるのは、ほぼ牧草。",
+      "caption_en": "Letters to Santa. Jill writes one line on a small card. The boss's letter runs off the desk and three meters across the floor. Mostly hay.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 7.2,
+        "cam": "1.4,560,1096",
+        "hook": "DEAR SANTA/サンタへの手紙、上司は3メートル"
+      },
+      "first_comment": "サンタにお願いするなら、何を1つ？ / If you could ask Santa for one thing?",
+      "site_i18n": {
+        "title": {
+          "en": "Dear Santa",
+          "zh": "給聖誕老人的信",
+          "ko": "산타에게 쓰는 편지"
+        },
+        "caption": {
+          "zh": "給聖誕老人的信。吉兒在小卡片上寫了一行。課長的信超出桌子，在地上拖了三公尺。寫的幾乎都是牧草。",
+          "ko": "산타에게 쓰는 편지. 질은 작은 카드에 한 줄. 과장님 편지는 책상을 넘어 바닥에 3미터. 적힌 건 거의 건초."
+        }
+      },
+      "cta": "Send this to the one with a long wish list/ほしい物リストが長い人に送ろう"
     }
   ]
 }
