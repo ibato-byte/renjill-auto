@@ -1207,6 +1207,34 @@
         }
       },
       "cta": "Send this to the one who hides snacks/お菓子を隠し持つ人に送ろう"
+    },
+    {
+      "date": "2026-12-11",
+      "slot": "18:00",
+      "ep": "kairo",
+      "no": 48,
+      "title": "カイロ10個",
+      "caption_ja": "寒い朝。ジルが課長にカイロを1個。課長は引き出しから残りを出して体じゅうに10個。汗だく。ジルは0個でぶるぶる。",
+      "caption_en": "A cold morning. Jill gives the boss one heat pack. He finds nine more in his drawer and sticks on all ten. He's sweating. Jill has zero.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 5.8,
+        "cam": "1.4,560,1096",
+        "hook": "10 HEAT PACKS/カイロ10個、上司が全部"
+      },
+      "first_comment": "カイロ、何個までなら貼る？ / How many heat packs is too many?",
+      "site_i18n": {
+        "title": {
+          "en": "Ten heat packs",
+          "zh": "十個暖暖包",
+          "ko": "핫팩 10개"
+        },
+        "caption": {
+          "zh": "寒冷的早晨。吉兒給了課長一個暖暖包。課長從抽屜拿出剩下的，全身貼了十個，滿頭大汗。吉兒一個都沒有，冷得發抖。",
+          "ko": "추운 아침. 질이 과장님께 핫팩을 하나. 과장님은 서랍에서 나머지를 꺼내 온몸에 10개. 땀범벅. 질은 0개로 발발."
+        }
+      },
+      "cta": "Send this to the one who's always cold/寒がりな人に送ろう"
     }
   ]
 }
