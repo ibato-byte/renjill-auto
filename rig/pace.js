@@ -77,3 +77,4 @@ window.PACE_ALL.tako = { start: 0.0, speed: 1.0, hook: 'FLYING KITES/凧あげ�
 window.PACE_ALL.hajime = { start: 0.0, speed: 1.0, hook: 'BACK TO WORK/仕事始め、上司はまだ12月' };
 window.PACE_ALL.kakizome = { start: 0.0, speed: 1.0, hook: 'CALLIGRAPHY/書き初め、上司の抱負は' };
 window.PACE_ALL.nenga2 = { start: 0.0, speed: 1.0, hook: 'NEW YEAR CARDS/年賀状、差出人は' };
+window.PACE_ALL.fukuwarai = { start: 0.0, speed: 1.0, hook: 'BLINDFOLD GAME/福笑い、上司の番' };

@@ -1935,6 +1935,34 @@
         }
       },
       "cta": "Send this to someone who sends cards to themselves/自分あてに手紙を出しそうな人に送ろう"
+    },
+    {
+      "date": "2027-01-07",
+      "slot": "18:00",
+      "ep": "fukuwarai",
+      "no": 74,
+      "title": "福笑い",
+      "caption_ja": "お正月の福笑い。目かくしのジルが置いた顔は、ばらばら。課長は大笑い。次は課長の番。できた顔は完ぺき……目かくしは、おでこの上でした。",
+      "caption_en": "A New Year blindfold game: place the eyes, nose and mouth on a face. Jill's face is a mess, and the boss laughs. His turn: a perfect face. His blindfold? On his forehead.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 5.9,
+        "cam": "1.2,640,1000",
+        "hook": "BLINDFOLD GAME/福笑い、上司の番"
+      },
+      "first_comment": "福笑い、目かくしでうまくできる自信ある？ / Could you place a face perfectly while blindfolded?",
+      "site_i18n": {
+        "title": {
+          "en": "Blindfold face game",
+          "zh": "矇眼拼臉",
+          "ko": "눈 가리고 얼굴 만들기"
+        },
+        "caption": {
+          "zh": "新年的矇眼拼臉遊戲。矇著眼的吉兒拼出來的臉亂七八糟，課長大笑。輪到課長，拼出來的臉完美無缺……原來眼罩綁在額頭上。",
+          "ko": "새해 눈 가리고 얼굴 만들기 놀이. 눈을 가린 질이 만든 얼굴은 엉망이고, 과장님은 크게 웃어요. 과장님 차례, 완벽한 얼굴…… 안대는 이마 위에 있었어요."
+        }
+      },
+      "cta": "Send this to the friend who always peeks/いつもこっそり見る友だちに送ろう"
     }
   ]
 }
