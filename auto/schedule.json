@@ -1655,6 +1655,34 @@
         }
       },
       "cta": "Send this to the one who can't wait for New Year/お正月が待ちきれない人に送ろう"
+    },
+    {
+      "date": "2026-12-27",
+      "slot": "12:00",
+      "ep": "fukubiki",
+      "no": 64,
+      "title": "福引き",
+      "caption_ja": "年末の福引き。ジルが回したら白い玉で、ティッシュ1個。課長が勢いよく回したら金の玉で、牧草1年分。課長は牧草の山にうもれてご満悦です。",
+      "caption_en": "The year-end lucky draw. Jill spins: a white ball, one pack of tissues. The boss spins hard: the gold ball, a year's supply of hay. He's buried in it and loving it.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 4.6,
+        "cam": "1.25,540,1000",
+        "hook": "LUCKY DRAW/福引き、上司は金の玉"
+      },
+      "first_comment": "福引きで当たったこと、ありますか？ / Have you ever won a lucky draw?",
+      "site_i18n": {
+        "title": {
+          "en": "The lucky draw",
+          "zh": "抽獎",
+          "ko": "경품 추첨"
+        },
+        "caption": {
+          "zh": "年末抽獎。吉兒轉出白球，得到一包面紙。課長用力一轉，轉出金球，得到一年份的牧草。他被牧草山埋住，開心極了。",
+          "ko": "연말 경품 추첨. 질이 돌리니 흰 공, 티슈 한 개. 과장님이 힘차게 돌리니 금색 공, 건초 1년 치. 과장님은 건초 산에 파묻혀 대만족이에요."
+        }
+      },
+      "cta": "Send this to the luckiest person you know/くじ運がいい人に送ろう"
     }
   ]
 }
