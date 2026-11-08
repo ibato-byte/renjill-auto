@@ -1,0 +1,9 @@
+日付,タスク,番号,区分,内容,対象,根拠や出典
+2026-11-08,renjill-growth-research,1,プレイブック,現在地（フォロワー合計10・IG再生120〜170台）を更新,docs/GROWTH_PLAYBOOK.md 第9章,content/followers.csv・metrics.csv
+2026-11-08,renjill-growth-research,2,プレイブック,YouTubeの再生数の数え方の変更（2026-08-24）と比較時の注意を追記,docs/GROWTH_PLAYBOOK.md 第9章,https://www.gigazine.net/gsc_news/en/20260818-youtube-count-public-view
+2026-11-08,renjill-growth-research,3,プレイブック,Instagram Your Algorithm の広がりと話題語を入れる方針を追記,docs/GROWTH_PLAYBOOK.md 第9章,https://www.socialpilot.co/de/blog/instagram-reels-algorithm
+2026-11-08,renjill-growth-research,4,プレイブック,裏づけの取れないTikTok個別変更を採用しないと明記,docs/GROWTH_PLAYBOOK.md 第9章,複数解説の不一致
+2026-11-08,renjill-growth-research,5,プレイブック,次週のハッシュタグ・キャプション試し候補3つ（質問形／3個固定／固定コメント）,docs/GROWTH_PLAYBOOK.md 第9章,依頼#99の方針
+2026-11-08,renjill-growth-research,6,ネタ,季節ネタ候補5つ（勤労感謝・BF・ボーナス・忘年会・仕事納め）,docs/GROWTH_PLAYBOOK.md 第9章,一般的な暦
+2026-11-08,renjill-growth-research,7,点検,schedule.json 76本を点検（ハッシュタグ過多なし・2027-01-13まで）,auto/schedule.json,ローカル点検
+2026-11-08,renjill-growth-research,8,記録,改善記録ファイルを新規作成,content/improvements.csv,2026-11-04の方針
