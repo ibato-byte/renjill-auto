@@ -84,3 +84,5 @@ window.PACE_ALL.taiso = { start: 0.0, speed: 1.0, hook: 'STRETCH TIME/朝の体�
 window.PACE_ALL.shukujitsu = { start: 0.0, speed: 1.0, hook: 'MONDAY?/月曜日の朝、ふたりは' };
 window.PACE_ALL.hinata = { start: 0.0, speed: 1.0, hook: 'SUNNY SPOT/日なたの上司' };
 window.PACE_ALL.isu = { start: 0.0, speed: 1.0, hook: 'NEW CHAIR/新しいイス、上司は' };
+window.PACE_ALL.whiteboard = { start: 0.0, speed: 1.0, hook: 'SALES CHART/売上グラフに、上司が' };
+window.PACE_ALL.kushami = { start: 0.0, speed: 1.0, hook: 'BIG SNEEZE/くしゃみ、そのとき書類は' };
