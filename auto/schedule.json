@@ -2187,6 +2187,62 @@
         }
       },
       "cta": "Send this to someone who sneezes loudly/くしゃみが大きい人に送ろう"
+    },
+    {
+      "date": "2027-01-16",
+      "slot": "12:00",
+      "ep": "shincho",
+      "no": 83,
+      "title": "身長測定",
+      "caption_ja": "健康診断の身長測定。ジルはぴしっと立って、目もりに印。課長の番はせのびしても低め……と思ったら、足もとに箱を置いて、すっと乗りました。記録は「課長（箱こみ）」。",
+      "caption_en": "Height check day. Jill stands straight and gets her mark. The boss stretches but comes up short... so he slides a box under his feet. Record: the boss (box included).",
+      "tag_set": "C",
+      "thumb": {
+        "t": 3.4,
+        "cam": "1.2,540,1300",
+        "hook": "HEIGHT CHECK/身長測定、上司は"
+      },
+      "first_comment": "身長測定で、ついせのびしたことある？ / Ever stood on tiptoe for a height check?",
+      "site_i18n": {
+        "title": {
+          "en": "Height check",
+          "zh": "量身高",
+          "ko": "키 재기"
+        },
+        "caption": {
+          "zh": "健康檢查量身高。吉兒站得筆直，在刻度上留下記號。輪到課長，踮起腳還是矮一點……結果在腳下放了個箱子，輕輕站上去。紀錄是「課長（含箱子）」。",
+          "ko": "건강검진 키 재기. 질은 똑바로 서서 눈금에 표시. 과장님 차례, 까치발을 해도 좀 작아요…… 그러더니 발밑에 상자를 놓고 쓱 올라섰어요. 기록은 '과장(상자 포함)'."
+        }
+      },
+      "cta": "Send this to someone who always rounds up their height/身長をちょっと盛る人に送ろう"
+    },
+    {
+      "date": "2027-01-17",
+      "slot": "12:00",
+      "ep": "penmawashi",
+      "no": 84,
+      "title": "ペン回し",
+      "caption_ja": "考えごと中のジルは、指先でペンをくるくる。課長もまねしてみると、ペンは机に立ったまま、課長のほうがくるくる回りました。目が回って、ふらふら。",
+      "caption_en": "Jill spins her pen while she thinks. The boss tries it too. The pen stays still; the boss spins instead. Now he's dizzy.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 4.4,
+        "cam": "1.2,640,1050",
+        "hook": "PEN SPIN/ペン回し、上司がやると"
+      },
+      "first_comment": "ペン回し、できる？ / Can you spin a pen?",
+      "site_i18n": {
+        "title": {
+          "en": "Pen spinning",
+          "zh": "轉筆",
+          "ko": "펜 돌리기"
+        },
+        "caption": {
+          "zh": "吉兒想事情的時候，用指尖轉著筆。課長也學著試試，結果筆立在桌上一動也不動，轉起來的是課長本人。轉到頭暈，搖搖晃晃。",
+          "ko": "생각에 잠긴 질은 손끝으로 펜을 빙글빙글. 과장님도 따라 해 보니 펜은 책상에 선 채로, 과장님이 빙글빙글 돌았어요. 어지러워서 비틀비틀."
+        }
+      },
+      "cta": "Send this to your pen-spinning friend/ペン回しが得意な人に送ろう"
     }
   ]
 }
