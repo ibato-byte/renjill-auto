@@ -1179,6 +1179,118 @@
         }
       },
       "cta": "Tag the one who draws instead of writing/書かずに描く人に送ろう"
+    },
+    {
+      "date": "2026-12-09",
+      "slot": "18:00",
+      "ep": "mikan",
+      "no": 47,
+      "title": "みかん5個",
+      "caption_ja": "冬のみかん5個。ジルが1個の皮をきれいにむいている間に、課長が残りを全部。ほっぺをつついたら1個出てきました。",
+      "caption_en": "Five winter mikan. While Jill carefully peels one, the boss takes the rest. A poke on the cheek: one pops out.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 6.5,
+        "cam": "1.4,560,1096",
+        "hook": "MIKAN: 5 TO 0/みかん5個、上司のほっぺに"
+      },
+      "first_comment": "みかんの皮、つなげてむける派？ / Can you peel a mikan in one piece?",
+      "site_i18n": {
+        "title": {
+          "en": "Five mikan",
+          "zh": "五顆橘子",
+          "ko": "귤 다섯 개"
+        },
+        "caption": {
+          "zh": "冬天的五顆橘子。吉兒仔細剝一顆的時候，課長把剩下的全拿走了。戳一下臉頰，掉出來一顆。",
+          "ko": "겨울 귤 다섯 개. 질이 하나를 정성껏 까는 사이 과장님이 나머지를 전부. 볼을 콕 찌르니 하나가 톡 나왔어요."
+        }
+      },
+      "cta": "Send this to the one who hides snacks/お菓子を隠し持つ人に送ろう"
+    },
+    {
+      "date": "2026-12-11",
+      "slot": "18:00",
+      "ep": "kairo",
+      "no": 48,
+      "title": "カイロ10個",
+      "caption_ja": "寒い朝。ジルが課長にカイロを1個。課長は引き出しから残りを出して体じゅうに10個。汗だく。ジルは0個でぶるぶる。",
+      "caption_en": "A cold morning. Jill gives the boss one heat pack. He finds nine more in his drawer and sticks on all ten. He's sweating. Jill has zero.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 5.8,
+        "cam": "1.4,560,1096",
+        "hook": "10 HEAT PACKS/カイロ10個、上司が全部"
+      },
+      "first_comment": "カイロ、何個までなら貼る？ / How many heat packs is too many?",
+      "site_i18n": {
+        "title": {
+          "en": "Ten heat packs",
+          "zh": "十個暖暖包",
+          "ko": "핫팩 10개"
+        },
+        "caption": {
+          "zh": "寒冷的早晨。吉兒給了課長一個暖暖包。課長從抽屜拿出剩下的，全身貼了十個，滿頭大汗。吉兒一個都沒有，冷得發抖。",
+          "ko": "추운 아침. 질이 과장님께 핫팩을 하나. 과장님은 서랍에서 나머지를 꺼내 온몸에 10개. 땀범벅. 질은 0개로 발발."
+        }
+      },
+      "cta": "Send this to the one who's always cold/寒がりな人に送ろう"
+    },
+    {
+      "date": "2026-12-12",
+      "slot": "12:00",
+      "ep": "oseibo",
+      "no": 49,
+      "title": "お歳暮の箱",
+      "caption_ja": "お歳暮が届いた。開けたら箱、また箱、また箱。箱5個の中身は、牧草1本。課長は大喜びです。",
+      "caption_en": "A year-end gift arrives. Open it: a box. Then a box. Then a box. Five boxes, and inside: one blade of hay. The boss is thrilled.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 6.8,
+        "cam": "1.4,560,1096",
+        "hook": "GIFT BOX x5/お歳暮の箱、中身は"
+      },
+      "first_comment": "もらってうれしかったお歳暮は？ / Best year-end gift you ever got?",
+      "site_i18n": {
+        "title": {
+          "en": "The year-end gift",
+          "zh": "年末的禮盒",
+          "ko": "연말 선물 상자"
+        },
+        "caption": {
+          "zh": "收到年末禮品。打開是盒子，又是盒子，還是盒子。五個盒子裡只有一根牧草。課長開心極了。",
+          "ko": "연말 선물이 도착. 열어 보니 상자, 또 상자, 또 상자. 상자 5개 안에는 건초 한 가닥. 과장님은 대만족입니다."
+        }
+      },
+      "cta": "Send this to the one who loves unboxing/開封が好きな人に送ろう"
+    },
+    {
+      "date": "2026-12-13",
+      "slot": "12:00",
+      "ep": "kashitsu",
+      "no": 50,
+      "title": "加湿器MAX",
+      "caption_ja": "冬のオフィスは乾燥。課長が加湿器をMAXにしたら、湿度99%。ジルのメガネは真っ白、課長のお肌はつやつや。",
+      "caption_en": "Dry winter air. The boss turns the humidifier to MAX. Humidity: 99%. Jill's glasses fog up. The boss is glowing.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 7.6,
+        "cam": "1.4,560,1096",
+        "hook": "HUMIDIFIER: MAX/加湿器MAX、上司と部下"
+      },
+      "first_comment": "冬の乾燥対策、何してる？ / How do you fight dry winter air?",
+      "site_i18n": {
+        "title": {
+          "en": "Humidifier on MAX",
+          "zh": "加濕器開到最大",
+          "ko": "가습기 MAX"
+        },
+        "caption": {
+          "zh": "冬天的辦公室很乾燥。課長把加濕器開到最大，濕度99%。吉兒的眼鏡一片白，課長的皮膚水潤發亮。",
+          "ko": "겨울 사무실은 건조. 과장님이 가습기를 MAX로 했더니 습도 99%. 질의 안경은 새하얗고, 과장님 피부는 촉촉."
+        }
+      },
+      "cta": "Send this to the one who blasts the humidifier/加湿器を全開にする人に送ろう"
     }
   ]
 }
