@@ -1599,6 +1599,34 @@
         }
       },
       "cta": "Send this to the one who does all the pulling/いつも引っぱってくれる人に送ろう"
+    },
+    {
+      "date": "2026-12-23",
+      "slot": "18:00",
+      "ep": "korokoro",
+      "no": 62,
+      "title": "コロコロ",
+      "caption_ja": "年末の大そうじ。ジルが粘着ローラーで机をコロコロ。ついでに課長もコロコロしたら、取れた毛で、もう1匹分の山ができました。",
+      "caption_en": "Year-end cleaning. Jill runs a lint roller over her desk, then over the boss. The fur that comes off makes a pile the size of a second boss.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 6.8,
+        "cam": "1.3,560,1050",
+        "hook": "LINT ROLLER/コロコロ、上司の毛で"
+      },
+      "first_comment": "うさぎを飼っている人、換毛期の毛はどれくらい取れますか？ / Bunny owners: how much fur comes off in shedding season?",
+      "site_i18n": {
+        "title": {
+          "en": "The lint roller",
+          "zh": "黏毛滾筒",
+          "ko": "돌돌이"
+        },
+        "caption": {
+          "zh": "年末大掃除。吉兒用黏毛滾筒滾桌子，順便也幫課長滾一滾，結果掉下來的毛堆成了另一隻課長。",
+          "ko": "연말 대청소. 질이 돌돌이로 책상을 돌돌. 내친김에 과장님도 돌돌했더니, 빠진 털로 과장님이 한 마리 더 생겼어요."
+        }
+      },
+      "cta": "Send this to a bunny owner with a lint roller/コロコロが手放せない人に送ろう"
     }
   ]
 }
