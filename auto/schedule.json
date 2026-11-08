@@ -1179,6 +1179,34 @@
         }
       },
       "cta": "Tag the one who draws instead of writing/書かずに描く人に送ろう"
+    },
+    {
+      "date": "2026-12-09",
+      "slot": "18:00",
+      "ep": "mikan",
+      "no": 47,
+      "title": "みかん5個",
+      "caption_ja": "冬のみかん5個。ジルが1個の皮をきれいにむいている間に、課長が残りを全部。ほっぺをつついたら1個出てきました。",
+      "caption_en": "Five winter mikan. While Jill carefully peels one, the boss takes the rest. A poke on the cheek: one pops out.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 6.5,
+        "cam": "1.4,560,1096",
+        "hook": "MIKAN: 5 TO 0/みかん5個、上司のほっぺに"
+      },
+      "first_comment": "みかんの皮、つなげてむける派？ / Can you peel a mikan in one piece?",
+      "site_i18n": {
+        "title": {
+          "en": "Five mikan",
+          "zh": "五顆橘子",
+          "ko": "귤 다섯 개"
+        },
+        "caption": {
+          "zh": "冬天的五顆橘子。吉兒仔細剝一顆的時候，課長把剩下的全拿走了。戳一下臉頰，掉出來一顆。",
+          "ko": "겨울 귤 다섯 개. 질이 하나를 정성껏 까는 사이 과장님이 나머지를 전부. 볼을 콕 찌르니 하나가 톡 나왔어요."
+        }
+      },
+      "cta": "Send this to the one who hides snacks/お菓子を隠し持つ人に送ろう"
     }
   ]
 }
