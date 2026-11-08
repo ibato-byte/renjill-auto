@@ -61,3 +61,5 @@ window.PACE_ALL.katazuke = { start: 0.0, speed: 1.0, hook: 'CLEAN DESK/年末の
 window.PACE_ALL.tegami = { start: 0.0, speed: 1.0, hook: 'DEAR SANTA/サンタへの手紙、上司は3メートル' };
 window.PACE_ALL.present = { start: 0.0, speed: 1.0, hook: 'GIFT EXCHANGE/プレゼント交換、中身は' };
 window.PACE_ALL.lights = { start: 0.0, speed: 1.0, hook: 'XMAS LIGHTS/電飾、光ったのは上司' };
+window.PACE_ALL.hat = { start: 0.0, speed: 1.0, hook: 'SANTA HAT XXL/サンタ帽、上司は特大' };
+window.PACE_ALL.kakurenbo = { start: 0.0, speed: 1.0, hook: 'HIDE AND SEEK/かくれんぼ、上司は頭だけ' };
