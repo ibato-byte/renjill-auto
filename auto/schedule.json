@@ -1522,15 +1522,15 @@
       "ep": "kakurenbo",
       "no": 59,
       "title": "かくれんぼ",
-      "caption_ja": "昼休みのかくれんぼ。ジルが3つ数える間に、課長はティッシュの箱を頭にかぶっただけ。体はまる見え。1秒で発見されました。",
-      "caption_en": "Hide and seek at lunch. While Jill counts to three, the boss puts a tissue box on his head. The rest of him is in plain sight. Found in one second.",
+      "caption_ja": "昼休みのかくれんぼ。ジルが3つ数える間に、課長はペンを1本、顔の前に立てただけ。本人はかくれたつもり。1秒で発見されました。",
+      "caption_en": "Hide and seek at lunch. While Jill counts to three, the boss stands one pen in front of his face and closes his eyes. Hidden, he thinks. Found in one second.",
       "tag_set": "C",
       "thumb": {
         "t": 4.8,
         "cam": "1.2,620,1050",
-        "hook": "HIDE AND SEEK/かくれんぼ、上司は頭だけ"
+        "hook": "HIDE AND SEEK/かくれんぼ、上司はペンの後ろ"
       },
-      "first_comment": "うさぎを飼っている人、頭だけかくれますか？ / Bunny owners: does yours hide just its head?",
+      "first_comment": "うさぎを飼っている人、かくれたつもりの姿、見たことある？ / Bunny owners: does yours ever \"hide\" in plain sight?",
       "site_i18n": {
         "title": {
           "en": "Hide and seek",
@@ -1538,8 +1538,8 @@
           "ko": "숨바꼭질"
         },
         "caption": {
-          "zh": "午休時間玩捉迷藏。吉兒數到三的時候，課長只把面紙盒套在頭上，身體全都露在外面。一秒就被找到了。",
-          "ko": "점심시간 숨바꼭질. 질이 셋을 세는 동안 과장님은 티슈 상자를 머리에만 썼어요. 몸은 다 보여요. 1초 만에 발견."
+          "zh": "午休時間玩捉迷藏。吉兒數到三的時候，課長只在臉前立了一支筆，自以為躲好了。一秒就被找到了。",
+          "ko": "점심시간 숨바꼭질. 질이 셋을 세는 동안 과장님은 얼굴 앞에 펜 한 자루를 세웠을 뿐. 본인은 숨었다고 생각해요. 1초 만에 발견."
         }
       },
       "cta": "Send this to the worst hider you know/かくれるのが下手な人に送ろう"
@@ -1584,7 +1584,7 @@
       "thumb": {
         "t": 7.2,
         "cam": "1.15,460,1150",
-        "hook": "SANTA & REINDEER/サンタは上司、トナカイは"
+        "hook": "REINDEER/サンタは上司、トナカイは"
       },
       "first_comment": "メリークリスマス！あなたはサンタ派？トナカイ派？ / Merry Christmas! Are you Santa or the reindeer?",
       "site_i18n": {
@@ -1808,7 +1808,7 @@
       "thumb": {
         "t": 6.9,
         "cam": "1.25,560,1000",
-        "hook": "NEW YEAR FORTUNE/おみくじ、上司は"
+        "hook": "FORTUNE/おみくじ、上司は"
       },
       "first_comment": "今年のおみくじ、何でしたか？ / What did your New Year fortune say?",
       "site_i18n": {
