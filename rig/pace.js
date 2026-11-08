@@ -75,3 +75,5 @@ window.PACE_ALL.aisatsu = { start: 0.0, speed: 1.0, hook: 'NEW YEAR BOW/新年�
 window.PACE_ALL.omikuji = { start: 0.0, speed: 1.0, hook: 'FORTUNE/おみくじ、上司は' };
 window.PACE_ALL.tako = { start: 0.0, speed: 1.0, hook: 'FLYING KITES/凧あげ、あがったのは上司' };
 window.PACE_ALL.hajime = { start: 0.0, speed: 1.0, hook: 'BACK TO WORK/仕事始め、上司はまだ12月' };
+window.PACE_ALL.kakizome = { start: 0.0, speed: 1.0, hook: 'CALLIGRAPHY/書き初め、上司の抱負は' };
+window.PACE_ALL.nenga2 = { start: 0.0, speed: 1.0, hook: 'NEW YEAR CARDS/年賀状、差出人は' };
