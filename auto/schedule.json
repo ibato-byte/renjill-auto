@@ -1823,6 +1823,62 @@
         }
       },
       "cta": "Send this to the luckiest person you know/運がいい人に送ろう"
+    },
+    {
+      "date": "2027-01-03",
+      "slot": "12:00",
+      "ep": "tako",
+      "no": 70,
+      "title": "凧あげ",
+      "caption_ja": "お正月の凧あげ。ジルの小さな凧はすいすい。強い風が吹いて、課長のたれ耳がばたばた…課長がふわっと浮きました。いちばんよくあがる凧は、上司でした。",
+      "caption_en": "Kite flying for New Year. Jill's little kite sails up. Then a strong gust flaps the boss's floppy ears, and up he floats. The best kite of all: the boss.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 4.8,
+        "cam": "1.25,540,740",
+        "hook": "FLYING KITES/凧あげ、あがったのは上司"
+      },
+      "first_comment": "凧あげ、したことある？ / Have you ever flown a kite?",
+      "site_i18n": {
+        "title": {
+          "en": "Flying kites",
+          "zh": "放風箏",
+          "ko": "연날리기"
+        },
+        "caption": {
+          "zh": "新年放風箏。吉兒的小風箏飛得很順。一陣強風吹來，課長的垂耳啪噠啪噠……課長輕飄飄地浮起來了。飛得最高的風箏，是上司。",
+          "ko": "설날 연날리기. 질의 작은 연은 술술. 강한 바람이 불자 과장님의 처진 귀가 펄럭펄럭… 과장님이 둥실 떠올랐어요. 가장 잘 나는 연은 상사였어요."
+        }
+      },
+      "cta": "Send this to the one who gets carried away/すぐ舞い上がる人に送ろう"
+    },
+    {
+      "date": "2027-01-04",
+      "slot": "18:00",
+      "ep": "hajime",
+      "no": 71,
+      "title": "仕事始め",
+      "caption_ja": "1月4日、仕事始め。ジルがカレンダーを1月にすると、課長がこっそり12月31日に戻します。何度も。最後はテープで固定。上司の心は、まだ12月です。",
+      "caption_en": "January 4, back to work. Jill turns the calendar to January; the boss quietly flips it back to December 31. Again and again. Finally: tape. His heart is still in December.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 4.6,
+        "cam": "1.2,540,600",
+        "hook": "BACK TO WORK/仕事始め、上司はまだ12月"
+      },
+      "first_comment": "お休みあけ、いつもの調子に戻るまで何日かかる？ / How many days does it take you to get back into work mode?",
+      "site_i18n": {
+        "title": {
+          "en": "Back to work",
+          "zh": "新年開工",
+          "ko": "새해 첫 출근"
+        },
+        "caption": {
+          "zh": "1月4日，新年開工。吉兒把月曆翻到1月，課長就偷偷翻回12月31日。一次又一次。最後用膠帶固定。上司的心，還在12月。",
+          "ko": "1월 4일, 새해 첫 출근. 질이 달력을 1월로 넘기면 과장님이 몰래 12월 31일로 돌려놓아요. 몇 번이고. 마지막엔 테이프로 고정. 상사의 마음은 아직 12월이에요."
+        }
+      },
+      "cta": "Send this to the one who misses the holidays/休みが恋しい人に送ろう"
     }
   ]
 }
