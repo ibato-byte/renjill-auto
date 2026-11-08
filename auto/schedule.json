@@ -1767,6 +1767,62 @@
         }
       },
       "cta": "Send this to the one who always falls asleep before midnight/年越しまで起きていられない人に送ろう"
+    },
+    {
+      "date": "2027-01-01",
+      "slot": "12:00",
+      "ep": "aisatsu",
+      "no": 68,
+      "title": "新年のごあいさつ",
+      "caption_ja": "あけましておめでとうございます。ジルはきちんとおじぎ。課長もおじぎ…深く、もっと深く、そのまま前にころん。今年もよろしくお願いします。",
+      "caption_en": "Happy New Year! Jill gives a neat bow. The boss bows too... deeper, deeper, and rolls right over. Here's to another year together.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 5.15,
+        "cam": "1.25,520,720",
+        "hook": "NEW YEAR BOW/新年のごあいさつ、上司は"
+      },
+      "first_comment": "あけましておめでとうございます！今年の目標は？ / Happy New Year! What's your goal this year?",
+      "site_i18n": {
+        "title": {
+          "en": "The New Year bow",
+          "zh": "新年問候",
+          "ko": "새해 인사"
+        },
+        "caption": {
+          "zh": "新年快樂。吉兒規規矩矩地鞠躬。課長也鞠躬……越來越深，然後直接往前滾了一圈。今年也請多多指教。",
+          "ko": "새해 복 많이 받으세요. 질은 반듯하게 인사. 과장님도 인사… 깊게, 더 깊게, 그대로 앞으로 데굴. 올해도 잘 부탁드려요."
+        }
+      },
+      "cta": "Send this to someone you want to say Happy New Year to/新年のあいさつをしたい人に送ろう"
+    },
+    {
+      "date": "2027-01-02",
+      "slot": "12:00",
+      "ep": "omikuji",
+      "no": 69,
+      "title": "おみくじ",
+      "caption_ja": "お正月のおみくじ。ジルは大吉。課長が勢いよくふったら、棒がばらばら。出てきた紙は「牧草吉」。課長は大喜びです。",
+      "caption_en": "New Year fortunes. Jill draws great luck. The boss shakes so hard the sticks fly everywhere. His slip says: hay luck. He's overjoyed.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 6.9,
+        "cam": "1.25,560,1000",
+        "hook": "NEW YEAR FORTUNE/おみくじ、上司は"
+      },
+      "first_comment": "今年のおみくじ、何でしたか？ / What did your New Year fortune say?",
+      "site_i18n": {
+        "title": {
+          "en": "The New Year fortune",
+          "zh": "新年抽籤",
+          "ko": "새해 운세 뽑기"
+        },
+        "caption": {
+          "zh": "新年抽籤。吉兒抽到大吉。課長用力一搖，籤條散了一地。抽出來的紙寫著「牧草吉」。課長開心極了。",
+          "ko": "새해 운세 뽑기. 질은 대길. 과장님이 힘차게 흔들자 막대가 와르르. 나온 종이에는 '건초길'. 과장님은 크게 기뻐해요."
+        }
+      },
+      "cta": "Send this to the luckiest person you know/運がいい人に送ろう"
     }
   ]
 }
