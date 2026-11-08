@@ -1235,6 +1235,34 @@
         }
       },
       "cta": "Send this to the one who's always cold/寒がりな人に送ろう"
+    },
+    {
+      "date": "2026-12-12",
+      "slot": "12:00",
+      "ep": "oseibo",
+      "no": 49,
+      "title": "お歳暮の箱",
+      "caption_ja": "お歳暮が届いた。開けたら箱、また箱、また箱。箱5個の中身は、牧草1本。課長は大喜びです。",
+      "caption_en": "A year-end gift arrives. Open it: a box. Then a box. Then a box. Five boxes, and inside: one blade of hay. The boss is thrilled.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 6.8,
+        "cam": "1.4,560,1096",
+        "hook": "GIFT BOX x5/お歳暮の箱、中身は"
+      },
+      "first_comment": "もらってうれしかったお歳暮は？ / Best year-end gift you ever got?",
+      "site_i18n": {
+        "title": {
+          "en": "The year-end gift",
+          "zh": "年末的禮盒",
+          "ko": "연말 선물 상자"
+        },
+        "caption": {
+          "zh": "收到年末禮品。打開是盒子，又是盒子，還是盒子。五個盒子裡只有一根牧草。課長開心極了。",
+          "ko": "연말 선물이 도착. 열어 보니 상자, 또 상자, 또 상자. 상자 5개 안에는 건초 한 가닥. 과장님은 대만족입니다."
+        }
+      },
+      "cta": "Send this to the one who loves unboxing/開封が好きな人に送ろう"
     }
   ]
 }
