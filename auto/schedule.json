@@ -1571,6 +1571,34 @@
         }
       },
       "cta": "Send this to the one who wants it all/欲ばりな人に送ろう"
+    },
+    {
+      "date": "2026-12-25",
+      "slot": "18:00",
+      "ep": "tonakai",
+      "no": 61,
+      "title": "サンタとトナカイ",
+      "caption_ja": "クリスマス。サンタは課長、トナカイはジル。そりはびくともしません。ジルが棒の先に牧草をつるしたら、トナカイ交代。課長がご機嫌で引いています。",
+      "caption_en": "Christmas Day. The boss is Santa, Jill is the reindeer. The sled won't budge. Jill hangs hay on a stick, and the roles swap. Now the boss pulls, happily.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 7.2,
+        "cam": "1.15,460,1150",
+        "hook": "SANTA & REINDEER/サンタは上司、トナカイは"
+      },
+      "first_comment": "メリークリスマス！あなたはサンタ派？トナカイ派？ / Merry Christmas! Are you Santa or the reindeer?",
+      "site_i18n": {
+        "title": {
+          "en": "Santa and the reindeer",
+          "zh": "聖誕老人與馴鹿",
+          "ko": "산타와 순록"
+        },
+        "caption": {
+          "zh": "聖誕節。聖誕老人是課長，馴鹿是吉兒。雪橇動也不動。吉兒在棒子前端掛上牧草，馴鹿換人了。課長開開心心地拉著。",
+          "ko": "크리스마스. 산타는 과장님, 순록은 질. 썰매는 꿈쩍도 안 해요. 질이 막대 끝에 건초를 매달자 순록 교대. 과장님이 신나게 끌고 있어요."
+        }
+      },
+      "cta": "Send this to the one who does all the pulling/いつも引っぱってくれる人に送ろう"
     }
   ]
 }
