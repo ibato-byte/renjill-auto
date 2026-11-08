@@ -1,4 +1,4 @@
-"""投稿するワークフローは、常に最新の main を checkout する（2026-11-08 の二重投稿の再発防止）。
+"""投稿の記録を共有して書き戻すワークフロー（concurrency: post で記録を commit するもの）は、常に最新の main を checkout する（2026-11-08 の二重投稿の再発防止）。
 
 concurrency: post で待たされた実行は、起動した時点のコミットを checkout すると
 先の実行が書いた auto/posted.json を見られず、同じ回を二重に投稿してしまう。
@@ -14,7 +14,7 @@ def _posting_workflows():
     out = []
     for p in sorted(WF.glob("*.yml")):
         s = p.read_text(encoding="utf-8")
-        if re.search(r"^concurrency:\s*post\b", s, re.M) and "posted.json" in s:
+        if re.search(r"^concurrency:\s*post\b", s, re.M) and re.search(r"git commit|push_main", s):
             out.append((p.name, s))
     return out
 

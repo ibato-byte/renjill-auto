@@ -47,6 +47,7 @@ jobs:
           bash "$RUNNER_TEMP/hub/scripts/gha.sh" check renjill-growth
       - uses: actions/checkout@v5
         if: steps.hub.outputs.paused != 'true'
+        with: { ref: main }  # 待たされた実行が古い記録で上書きしないよう最新の main を取る（11/8 の二重投稿の再発防止）
       - uses: actions/setup-python@v6
         if: steps.hub.outputs.paused != 'true'
         with: { python-version: "3.12" }
