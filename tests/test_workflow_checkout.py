@@ -5,6 +5,7 @@ concurrency: post で待たされた実行は、起動した時点のコミッ�
 """
 import pathlib
 import re
+import unittest
 
 WF = pathlib.Path(__file__).resolve().parent.parent / ".github" / "workflows"
 
@@ -18,18 +19,23 @@ def _posting_workflows():
     return out
 
 
-def test_posting_workflows_found():
-    names = [n for n, _ in _posting_workflows()]
-    assert "post.yml" in names and "promo.yml" in names
+class PostingWorkflowsCheckoutLatestMain(unittest.TestCase):
+    def test_posting_workflows_found(self):
+        names = [n for n, _ in _posting_workflows()]
+        self.assertIn("post.yml", names)
+        self.assertIn("promo.yml", names)
+
+    def test_checkout_uses_latest_main(self):
+        bad = []
+        for name, s in _posting_workflows():
+            for m in re.finditer(r"uses:\s*actions/checkout@\S+", s):
+                after = s[m.end():m.end() + 400]
+                nxt = re.search(r"\n\s*- ", after)
+                block = after[: nxt.start()] if nxt else after
+                if not re.search(r"ref:\s*main\b", block):
+                    bad.append(name)
+        self.assertEqual(bad, [], f"checkout に ref: main がない: {bad}")
 
 
-def test_checkout_uses_latest_main():
-    bad = []
-    for name, s in _posting_workflows():
-        for m in re.finditer(r"uses:\s*actions/checkout@\S+", s):
-            after = s[m.end():m.end() + 400]
-            nxt = re.search(r"\n\s*- ", after)
-            block = after[: nxt.start()] if nxt else after
-            if not re.search(r"ref:\s*main\b", block):
-                bad.append(name)
-    assert not bad, f"checkout に ref: main がない: {bad}"
+if __name__ == "__main__":
+    unittest.main()
