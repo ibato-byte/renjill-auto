@@ -2131,6 +2131,62 @@
         }
       },
       "cta": "Send this to someone whose pet loves boxes/箱が大好きな子がいる人に送ろう"
+    },
+    {
+      "date": "2027-01-14",
+      "slot": "18:00",
+      "ep": "whiteboard",
+      "no": 81,
+      "title": "売上グラフ",
+      "caption_ja": "ジルがホワイトボードに売上のグラフ。右肩上がりです。課長が「ちょっと足すね」とペンを持ち、山のてっぺんに耳を2本、目と鼻と口。売上グラフが、うさぎになりました。",
+      "caption_en": "Jill draws the sales chart on the whiteboard. Up and to the right. The boss adds a little: two ears on the peak, then eyes, a nose and a mouth. The chart is now a bunny.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 5.8,
+        "cam": "1.2,560,1250",
+        "hook": "SALES CHART/売上グラフに、上司が"
+      },
+      "first_comment": "会議の資料に、つい落書きしたことある？ / Ever doodled on a work chart?",
+      "site_i18n": {
+        "title": {
+          "en": "Sales chart",
+          "zh": "業績圖表",
+          "ko": "매출 그래프"
+        },
+        "caption": {
+          "zh": "吉兒在白板上畫業績圖表，一路往上。課長拿起筆說「我加一點」，在山頂畫上兩隻耳朵，再加眼睛、鼻子和嘴巴。業績圖表變成了兔子。",
+          "ko": "질이 화이트보드에 매출 그래프를 그려요. 쭉쭉 올라가요. 과장님이 '조금만 보탤게' 하며 펜을 들고 봉우리 위에 귀 두 개, 눈과 코와 입. 매출 그래프가 토끼가 됐어요."
+        }
+      },
+      "cta": "Send this to your favorite meeting doodler/会議で落書きしがちな人に送ろう"
+    },
+    {
+      "date": "2027-01-15",
+      "slot": "18:00",
+      "ep": "kushami",
+      "no": 82,
+      "title": "くしゃみ",
+      "caption_ja": "ジルが書類をきれいに積み上げました。課長の鼻がむずむず……「へっ、へっ」……大きなくしゃみ！ 書類が全部まい上がって、ジルの頭に1枚ふわり。",
+      "caption_en": "Jill stacks her papers neatly. The boss's nose twitches... ah... ah... ACHOO! Every sheet flies, and one lands gently on Jill's head.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 3.6,
+        "cam": "1.25,600,1050",
+        "hook": "BIG SNEEZE/くしゃみ、そのとき書類は"
+      },
+      "first_comment": "くしゃみで何かを飛ばしたこと、ある？ / Ever sneezed something across the room?",
+      "site_i18n": {
+        "title": {
+          "en": "Big sneeze",
+          "zh": "打噴嚏",
+          "ko": "재채기"
+        },
+        "caption": {
+          "zh": "吉兒把文件疊得整整齊齊。課長的鼻子癢癢的……「哈、哈」……一個大噴嚏！文件全部飛起來，有一張輕輕落在吉兒頭上。",
+          "ko": "질이 서류를 가지런히 쌓았어요. 과장님 코가 간질간질…… '에, 에'…… 큰 재채기! 서류가 전부 날아오르고, 한 장이 질의 머리 위에 사뿐."
+        }
+      },
+      "cta": "Send this to someone who sneezes loudly/くしゃみが大きい人に送ろう"
     }
   ]
 }
