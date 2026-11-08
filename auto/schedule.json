@@ -2075,6 +2075,62 @@
         }
       },
       "cta": "Send this to someone who forgot it was a holiday/祝日を忘れていそうな人に送ろう"
+    },
+    {
+      "date": "2027-01-12",
+      "slot": "18:00",
+      "ep": "hinata",
+      "no": 79,
+      "title": "日なた",
+      "caption_ja": "冬の朝。窓からの日なたで、課長は香箱すわり。時間がたつと日なたが動いて、課長もすーっと移動。夕方、日なたはジルの席へ。課長もジルの横にぴったり。",
+      "caption_en": "A winter morning. The boss loafs in a patch of sunlight. As the hours pass, the sunny spot drifts, and so does he. By evening it reaches Jill's desk. So does the boss.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 4.6,
+        "cam": "1.2,560,1050",
+        "hook": "SUNNY SPOT/日なたの上司"
+      },
+      "first_comment": "冬の日なた、どこがお気に入り？ / Where's your favorite sunny spot in winter?",
+      "site_i18n": {
+        "title": {
+          "en": "Sunny spot",
+          "zh": "曬太陽",
+          "ko": "양지"
+        },
+        "caption": {
+          "zh": "冬天的早晨。課長在窗邊的陽光裡縮成一團。時間一過，陽光移動，課長也跟著慢慢移動。到了傍晚，陽光照到吉兒的位子，課長也緊緊貼在吉兒旁邊。",
+          "ko": "겨울 아침. 창가 햇볕 속에서 과장님은 식빵 자세. 시간이 지나 햇볕이 움직이자 과장님도 스르륵 이동. 저녁 무렵, 햇볕은 질의 자리로. 과장님도 질 옆에 딱 붙었어요."
+        }
+      },
+      "cta": "Send this to someone who follows the sun/日なたを追いかけそうな人に送ろう"
+    },
+    {
+      "date": "2027-01-13",
+      "slot": "18:00",
+      "ep": "isu",
+      "no": 80,
+      "title": "新しいイス",
+      "caption_ja": "新しいオフィスチェアが届きました。ジルはうれしそう。でも課長は、イスには目もくれず、届いた段ボール箱の中へ。新しいイスより、箱のほうが人気です。",
+      "caption_en": "A brand-new office chair arrives. Jill is thrilled. The boss ignores the chair and climbs into the cardboard box it came in. The box wins.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 4.0,
+        "cam": "1.25,600,1000",
+        "hook": "NEW CHAIR/新しいイス、上司は"
+      },
+      "first_comment": "新しい物より箱がうれしい、わかる？ / Do you get why the box is better than the chair?",
+      "site_i18n": {
+        "title": {
+          "en": "New chair",
+          "zh": "新椅子",
+          "ko": "새 의자"
+        },
+        "caption": {
+          "zh": "新的辦公椅送來了。吉兒很開心。可是課長看都不看椅子，直接鑽進送來的紙箱裡。比起新椅子，箱子更受歡迎。",
+          "ko": "새 사무용 의자가 도착했어요. 질은 신났어요. 그런데 과장님은 의자는 거들떠보지도 않고 배달 온 상자 속으로. 새 의자보다 상자가 인기예요."
+        }
+      },
+      "cta": "Send this to someone whose pet loves boxes/箱が大好きな子がいる人に送ろう"
     }
   ]
 }
