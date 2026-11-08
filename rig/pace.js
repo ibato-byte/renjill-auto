@@ -78,3 +78,5 @@ window.PACE_ALL.hajime = { start: 0.0, speed: 1.0, hook: 'BACK TO WORK/仕事始
 window.PACE_ALL.kakizome = { start: 0.0, speed: 1.0, hook: 'CALLIGRAPHY/書き初め、上司の抱負は' };
 window.PACE_ALL.nenga2 = { start: 0.0, speed: 1.0, hook: 'NEW YEAR CARDS/年賀状、差出人は' };
 window.PACE_ALL.fukuwarai = { start: 0.0, speed: 1.0, hook: 'BLINDFOLD GAME/福笑い、上司の番' };
+window.PACE_ALL.seidenki = { start: 0.0, speed: 1.0, hook: 'STATIC SHOCK/静電気で、上司に' };
+window.PACE_ALL.otoshidama = { start: 0.0, speed: 1.0, hook: 'NEW YEAR GIFT/お年玉、中身は' };
