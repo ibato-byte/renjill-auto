@@ -1263,6 +1263,34 @@
         }
       },
       "cta": "Send this to the one who loves unboxing/開封が好きな人に送ろう"
+    },
+    {
+      "date": "2026-12-13",
+      "slot": "12:00",
+      "ep": "kashitsu",
+      "no": 50,
+      "title": "加湿器MAX",
+      "caption_ja": "冬のオフィスは乾燥。課長が加湿器をMAXにしたら、湿度99%。ジルのメガネは真っ白、課長のお肌はつやつや。",
+      "caption_en": "Dry winter air. The boss turns the humidifier to MAX. Humidity: 99%. Jill's glasses fog up. The boss is glowing.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 7.6,
+        "cam": "1.4,560,1096",
+        "hook": "HUMIDIFIER: MAX/加湿器MAX、上司と部下"
+      },
+      "first_comment": "冬の乾燥対策、何してる？ / How do you fight dry winter air?",
+      "site_i18n": {
+        "title": {
+          "en": "Humidifier on MAX",
+          "zh": "加濕器開到最大",
+          "ko": "가습기 MAX"
+        },
+        "caption": {
+          "zh": "冬天的辦公室很乾燥。課長把加濕器開到最大，濕度99%。吉兒的眼鏡一片白，課長的皮膚水潤發亮。",
+          "ko": "겨울 사무실은 건조. 과장님이 가습기를 MAX로 했더니 습도 99%. 질의 안경은 새하얗고, 과장님 피부는 촉촉."
+        }
+      },
+      "cta": "Send this to the one who blasts the humidifier/加湿器を全開にする人に送ろう"
     }
   ]
 }
