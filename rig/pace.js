@@ -68,3 +68,6 @@ window.PACE_ALL.tonakai = { start: 0.0, speed: 1.0, hook: 'SANTA & REINDEER/サ�
 window.PACE_ALL.korokoro = { start: 0.0, speed: 1.0, hook: 'LINT ROLLER/コロコロ、上司の毛で' };
 window.PACE_ALL.kagami = { start: 0.0, speed: 1.0, hook: 'KAGAMI MOCHI/鏡もち、上司のは牧草製' };
 window.PACE_ALL.fukubiki = { start: 0.0, speed: 1.0, hook: 'LUCKY DRAW/福引き、上司は金の玉' };
+window.PACE_ALL.osechi = { start: 0.0, speed: 1.0, hook: 'OSECHI: HAY x3/おせち、上司の重箱は' };
+window.PACE_ALL.nimotsu = { start: 0.0, speed: 1.0, hook: 'PACKING/帰省の荷造り、上司は牧草だけ' };
+window.PACE_ALL.countdown = { start: 0.0, speed: 1.0, hook: 'COUNTDOWN/年越し、上司は寝てた' };
