@@ -80,3 +80,5 @@ window.PACE_ALL.nenga2 = { start: 0.0, speed: 1.0, hook: 'NEW YEAR CARDS/年賀�
 window.PACE_ALL.fukuwarai = { start: 0.0, speed: 1.0, hook: 'BLINDFOLD GAME/福笑い、上司の番' };
 window.PACE_ALL.seidenki = { start: 0.0, speed: 1.0, hook: 'STATIC SHOCK/静電気で、上司に' };
 window.PACE_ALL.otoshidama = { start: 0.0, speed: 1.0, hook: 'NEW YEAR GIFT/お年玉、中身は' };
+window.PACE_ALL.taiso = { start: 0.0, speed: 1.0, hook: 'STRETCH TIME/朝の体操、上司は' };
+window.PACE_ALL.shukujitsu = { start: 0.0, speed: 1.0, hook: 'MONDAY?/月曜日の朝、ふたりは' };
