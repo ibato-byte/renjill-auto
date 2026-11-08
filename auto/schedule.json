@@ -339,7 +339,8 @@
       "thumb": {
         "t": 2.6,
         "cam": "1.05,540,1250",
-        "hook": "BOSS VS. TAXES/年末調整の書類を前にした上司"
+        "hook": "BOSS VS. TAXES/年末調整の書類を前にした上司",
+        "variant": "B"
       },
       "first_comment": "年末調整、もう出しました？ ①出した ②まだ… / Done with yours yet?",
       "site_i18n": {
@@ -353,7 +354,13 @@
           "ko": "연말정산 서류, 읽을수록 길어지는 기분. 과장님이 녹았어요."
         }
       },
-      "cta": "Send this to whoever does yours/あなたの年末調整を手伝ってくれる人に送ろう"
+      "cta": "Send this to whoever does yours/あなたの年末調整を手伝ってくれる人に送ろう",
+      "experiment": {
+        "var": "thumb_variant",
+        "std": "A",
+        "value": "B",
+        "why": "サムネの文字の位置（上と下）を変えて、プロフィール一覧からの見られ方を比べる"
+      }
     },
     {
       "date": "2026-11-13",
