@@ -740,7 +740,7 @@
       "title": "ハンコ8個",
       "caption_ja": "書類にハンコが8個。課長が押していく、7個目で朱肉が切れた。8個目はにくきゅう。受理されました。",
       "caption_en": "The form needs 8 stamps. The boss runs out of ink at 7. Stamp 8 is a paw print. Approved.",
-      "tag_set": "C",
+      "tag_set": "B",
       "thumb": {
         "t": 6.6,
         "cam": "1.4,546,1100",
@@ -758,7 +758,13 @@
           "ko": "서류에 도장 8개. 과장님이 찍다가 7개째에 인주가 떨어졌어요. 8개째는 발바닥. 접수 완료."
         }
       },
-      "cta": "Send this to whoever approves your forms/書類を承認してくれる人に送ろう"
+      "cta": "Send this to whoever approves your forms/書類を承認してくれる人に送ろう",
+      "experiment": {
+        "var": "tag_set",
+        "std": "A",
+        "value": "B",
+        "why": "ハッシュタグの組み合わせを変えて、見つかり方を比べる"
+      }
     },
     {
       "date": "2026-11-24",
