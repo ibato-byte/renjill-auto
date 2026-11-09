@@ -1,0 +1,17 @@
+{
+  "ep": "hanko",
+  "pass": true,
+  "issues": [],
+  "warns": [
+    "エンドカード直前にfx要素が9個残っている"
+  ],
+  "render": {
+    "ep": "hanko",
+    "dur": 9.5,
+    "pass": true,
+    "issues": [],
+    "warns": [
+      "エンドカード直前にfx要素が9個残っている"
+    ]
+  }
+}
