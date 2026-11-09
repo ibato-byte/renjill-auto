@@ -2389,6 +2389,146 @@
         }
       },
       "cta": "Send this to someone who loses to the blinds every morning/ブラインドに負ける人に送ろう"
+    },
+    {
+      "date": "2027-01-23",
+      "slot": "12:00",
+      "ep": "balance",
+      "no": 90,
+      "title": "バランスボール",
+      "caption_ja": "健康のためにバランスボール。ジルはぴしっと座って、ゆらゆら。課長も座ってみると……ぽよん、ぽよん、どんどん高くはずんで、最後は目が回りました。",
+      "caption_en": "Jill sits on a balance ball, steady as can be. The boss tries it. Boing, boing, higher and higher... until he's dizzy.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 4.4,
+        "cam": "1.2,586,940",
+        "hook": "BALANCE BALL/バランスボール、上司は"
+      },
+      "first_comment": "バランスボール、使ってる？ / Do you use a balance ball?",
+      "site_i18n": {
+        "title": {
+          "en": "Balance ball",
+          "zh": "平衡球",
+          "ko": "밸런스 볼"
+        },
+        "caption": {
+          "zh": "為了健康坐平衡球。吉兒坐得穩穩的，輕輕搖晃。課長也坐上去……噗咚、噗咚，越彈越高，最後頭都暈了。",
+          "ko": "건강을 위해 밸런스 볼. 질은 반듯하게 앉아 살랑살랑. 과장님도 앉아 보니…… 통, 통, 점점 높이 튀어 올라 결국 어지러워졌어요."
+        }
+      },
+      "cta": "Send this to someone who bounces off the walls/元気がありあまってる人に送ろう"
+    },
+    {
+      "date": "2027-01-24",
+      "slot": "12:00",
+      "ep": "neguse",
+      "no": 91,
+      "title": "寝ぐせ",
+      "caption_ja": "朝、ジルの頭に寝ぐせが1本。くしでさっと直しました。課長もブラシで毛並みを整えると……ブラシをかけるほど、毛がふくらんでいきます。最後はまんまる。",
+      "caption_en": "Jill has one stray hair this morning. A quick comb, done. The boss brushes his fur too... and the more he brushes, the fluffier he gets.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 5.8,
+        "cam": "1.2,586,960",
+        "hook": "BEDHEAD/寝ぐせ、上司が直すと"
+      },
+      "first_comment": "寝ぐせ、毎朝どうしてる？ / How do you fix your bedhead?",
+      "site_i18n": {
+        "title": {
+          "en": "Bedhead",
+          "zh": "睡亂的頭髮",
+          "ko": "까치집 머리"
+        },
+        "caption": {
+          "zh": "早上，吉兒頭上翹起一撮頭髮，用梳子一梳就好了。課長也用刷子整理毛……越刷毛越蓬，最後變成圓滾滾的一團。",
+          "ko": "아침, 질의 머리에 삐친 머리 한 가닥. 빗으로 쓱 정리했어요. 과장님도 브러시로 털을 정리하니…… 빗을수록 털이 부풀어 올라요. 마지막엔 동글동글."
+        }
+      },
+      "cta": "Send this to someone with fluffy morning hair/朝の髪がふわふわな人に送ろう"
+    },
+    {
+      "date": "2027-01-25",
+      "slot": "18:00",
+      "ep": "mouse",
+      "no": 92,
+      "title": "マウス",
+      "caption_ja": "ジルはマウスで、画面の矢印をすいすい動かしてクリック。課長は画面の矢印が気になって、目で追いかけて……えいっ。画面に肉球のあとが残りました。",
+      "caption_en": "Jill zips the cursor around and clicks. The boss can't stop watching the little arrow... then he pounces. A paw print on the screen.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 4.6,
+        "cam": "1.2,586,960",
+        "hook": "THE CURSOR/マウスの矢印、上司は"
+      },
+      "first_comment": "画面の矢印を追いかけるペット、いる？ / Does your pet chase the cursor?",
+      "site_i18n": {
+        "title": {
+          "en": "Mouse",
+          "zh": "滑鼠",
+          "ko": "마우스"
+        },
+        "caption": {
+          "zh": "吉兒用滑鼠把畫面上的游標移來移去點擊。課長很在意那個游標，用眼睛一直追……嘿！螢幕上留下了肉球的印子。",
+          "ko": "질은 마우스로 화면의 화살표를 쓱쓱 움직여 클릭. 과장님은 화면 속 화살표가 신경 쓰여 눈으로 쫓다가…… 얍! 화면에 발바닥 자국이 남았어요."
+        }
+      },
+      "cta": "Send this to someone whose cat attacks the screen/画面にとびつくペットがいる人に送ろう"
+    },
+    {
+      "date": "2027-01-26",
+      "slot": "18:00",
+      "ep": "nekutai",
+      "no": 93,
+      "title": "ネクタイ",
+      "caption_ja": "ジルはプレゼントの箱にリボンをきゅっ。課長もネクタイを結び直してみると、くるくる、くるくる……ネクタイはそのまま、頭の上に大きなリボンができました。",
+      "caption_en": "Jill ties a neat ribbon on a gift box. The boss tries to redo his tie. Twist, twist... the tie hasn't changed, but now there's a big bow on his head.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 6.2,
+        "cam": "1.2,586,960",
+        "hook": "TIE A TIE/ネクタイ、上司が結ぶと"
+      },
+      "first_comment": "ネクタイ、ちゃんと結べる？ / Can you tie a tie?",
+      "site_i18n": {
+        "title": {
+          "en": "Necktie",
+          "zh": "領帶",
+          "ko": "넥타이"
+        },
+        "caption": {
+          "zh": "吉兒在禮物盒上綁好蝴蝶結。課長也想重新打領帶，轉啊轉、轉啊轉……領帶沒變，頭上卻多了一個大蝴蝶結。",
+          "ko": "질은 선물 상자에 리본을 꼭. 과장님도 넥타이를 다시 매 보는데, 빙글빙글, 빙글빙글…… 넥타이는 그대로, 머리 위에 커다란 리본이 생겼어요."
+        }
+      },
+      "cta": "Send this to someone who can't tie a tie/ネクタイが苦手な人に送ろう"
+    },
+    {
+      "date": "2027-01-27",
+      "slot": "18:00",
+      "ep": "mezamashi",
+      "no": 94,
+      "title": "目覚まし時計",
+      "caption_ja": "昼休みの10分仮眠。ジルの小さな目覚ましが「ピピッ」と鳴って、ぱっと起きました。課長の大きなベルの目覚ましは「ジリリリリ！」……飛び起きたのはジル。課長はぐっすりです。",
+      "caption_en": "A ten-minute nap at lunch. Jill's little alarm beeps and she's up. The boss's big bell alarm rings like crazy... Jill jumps. The boss sleeps right through it.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 6.6,
+        "cam": "1.2,586,960",
+        "hook": "ALARM CLOCK/目覚まし、上司のは"
+      },
+      "first_comment": "目覚まし、何回で起きる？ / How many alarms do you need?",
+      "site_i18n": {
+        "title": {
+          "en": "Alarm clock",
+          "zh": "鬧鐘",
+          "ko": "알람 시계"
+        },
+        "caption": {
+          "zh": "午休小睡10分鐘。吉兒的小鬧鐘「嗶嗶」一響，她立刻起來了。課長的大鈴鐺鬧鐘「鈴鈴鈴鈴！」……跳起來的是吉兒，課長睡得正香。",
+          "ko": "점심시간 10분 낮잠. 질의 작은 알람이 '삐삐' 울리자 번쩍 일어났어요. 과장님의 커다란 벨 알람은 '따르르릉!'…… 벌떡 일어난 건 질. 과장님은 쿨쿨 자고 있어요."
+        }
+      },
+      "cta": "Send this to someone who sleeps through every alarm/目覚ましで起きられない人に送ろう"
     }
   ]
 }
