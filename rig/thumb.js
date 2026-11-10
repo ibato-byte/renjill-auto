@@ -85,6 +85,16 @@ const [ep, t, cam, hook, no, out, variant = 'A'] = process.argv.slice(2);
     document.querySelectorAll('.th,.chip,.frame').forEach(e => { e.style.visibility = 'hidden'; });
     return out;
   });
+  // (d) 文字に記号・効果が重ならない（2026-11-10：年末調整の表紙で「！」が日本語の文字にかかっていた。オーナー「サムネがおかしくなることは絶対に起こさない」）
+  //     文字（英語・日本語・チップ）の範囲に、効果のレイヤー（#fx）の図形や、キャラの記号（！？・汗・Zz などの text）が少しでも入ったら NG
+  { const hit = await p.evaluate(z => {
+      const zs = Object.entries(z).filter(([, v]) => v).map(([k, v]) => ({ k, l: v.x - 6, t: v.y - 6, r: v.x + v.w + 6, b: v.y + v.h + 6 }));
+      const els = [...document.querySelectorAll('#fx *, #ren text, #jil text, #back text')].filter(e => !e.closest('defs') && e.tagName !== 'g' && e.tagName !== 'defs');
+      const out = [];
+      for (const e of els) { const r = e.getBoundingClientRect(); if (r.width < 2 || r.height < 2 || r.width > 700 || r.height > 700) continue; /* 机の前板など背景の大きな図形は除く */ const op = parseFloat(getComputedStyle(e).opacity || 1); if (op < 0.05) continue;
+        for (const q of zs) if (r.right > q.l && r.left < q.r && r.bottom > q.t && r.top < q.b) out.push(q.k + ':' + e.tagName + (e.textContent ? '「' + e.textContent.trim().slice(0, 4) + '」' : '')); }
+      return [...new Set(out)].slice(0, 6); }, zones);
+    if (hit.length) { console.error('THUMB_FX_OVER_TEXT', JSON.stringify(hit)); await b.close(); process.exit(8); } }
   const busy = {};
   for (const [k, z] of Object.entries(zones)) {
     if (!z) continue;
