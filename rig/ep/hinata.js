@@ -4,6 +4,7 @@
 // オチ：夕方、日なたはジルの席へ。課長もジルの横にぴったり。字幕「上司の席：日なたのある所」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
+const CHIP_OFF = () => ''; // 総見直し（2026-11-10）：字幕は2回まで。3回目以降（オチの説明）は出さず、絵で見せる
 var EP = {
   dur: 9.5,
   bgmHolds: '5.6-6.2',
@@ -35,7 +36,7 @@ var EP = {
     if (t > 6.2 && t < 7.4) fx += L.sparkles(rx + 260, 1150, t, 1.2, 6);
     let ui = (t > 0.6 && t < 2.2 ? CHIP(L, 'SUNNY SPOT', '冬の日なた、ぬくぬく', 1600, seg(t, .6, .9)) : '')
       + (t > 2.4 && t < 5.4 ? CHIP(L, 'THE SUN MOVES…', '日なたが動くと、課長も', 1600, seg(t, 2.4, 2.7)) : '')
-      + (t > 6.2 && t < 8.6 ? CHIP(L, "BOSS'S SEAT: THE SUN", '上司の席：日なたのある所', 1600, seg(t, 6.2, 6.5)) : '');
+      + (t > 6.2 && t < 8.6 ? CHIP_OFF(L, "BOSS'S SEAT: THE SUN", '上司の席：日なたのある所', 1600, seg(t, 6.2, 6.5)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.3, cx: 780, cy: 1150 },
       { t: 0.01, z: 1.05, cx: 600, cy: 1100, d: .9 },

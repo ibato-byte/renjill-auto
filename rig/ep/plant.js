@@ -4,6 +4,7 @@
 // オチ：レンは気づかず、翌日もコーヒーをかける。字幕「造花。それでも水やり」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
+const CHIP_OFF = () => ''; // 総見直し（2026-11-10）：字幕は2回まで。3回目以降（オチの説明）は出さず、絵で見せる
 // 鉢植え：droop=しおれ具合（0 ピン〜1 だらん）、fake=造花（タグと光沢）
 const POT = (x, y, droop, fake, s = 1) => { let g = `<g transform="translate(${x} ${y}) scale(${s})"><path d="M-70 0 L70 0 L56 90 L-56 90 Z" fill="#C9744A"/><rect x="-78" y="-14" width="156" height="22" rx="6" fill="#D98B5E"/>`; for (let i = 0; i < 5; i++) { const a = -60 + i * 30, len = 120 + (i % 2) * 30, bend = droop * (80 + i * 10); g += `<path d="M0 -10 q${Math.sin(a * Math.PI / 180) * len * .6} ${-len * .7 + bend * .6} ${Math.sin(a * Math.PI / 180) * len + bend * Math.sign(Math.sin(a * Math.PI / 180) || 1) * .3} ${-len * (1 - droop * .9) + bend}" fill="none" stroke="${fake ? '#4CB86A' : droop > .5 ? '#9DAE6E' : '#5DBB63'}" stroke-width="${26 - droop * 6}" stroke-linecap="round"/>`; } if (fake) g += `<g transform="translate(70 -40) rotate(20)"><rect x="-26" y="-16" width="52" height="32" rx="6" fill="#fff" stroke="#B9B2A6" stroke-width="4"/><circle cx="-16" cy="0" r="4" fill="#B9B2A6"/><rect x="-6" y="-4" width="24" height="8" rx="4" fill="#B9B2A6"/></g><circle cx="-30" cy="-120" r="6" fill="#fff" opacity=".9"/><circle cx="20" cy="-150" r="5" fill="#fff" opacity=".9"/>`; return g + '</g>'; };
 const MUG = (x, y, rot, s = 1) => `<g transform="translate(${x} ${y}) rotate(${rot}) scale(${s})"><rect x="-40" y="-50" width="80" height="90" rx="12" fill="#F4ECE0" stroke="#CDBFA8" stroke-width="6"/><rect x="40" y="-30" width="24" height="46" rx="12" fill="none" stroke="#CDBFA8" stroke-width="8"/><rect x="-32" y="-42" width="64" height="20" rx="6" fill="#6B4A2E"/></g>`;
@@ -44,7 +45,7 @@ var EP = {
     if (day2) fx += `<rect x="-500" y="-500" width="2080" height="1400" fill="#FFF0C8" opacity="${(.18 * Math.min(1, (t - 6.6) * 2)).toFixed(2)}" pointer-events="none"/>`;
     let ui = (t > 1.8 && t < 3.4 ? CHIP(L, 'DESK PLANT: WILTING', '上司の机の植物。水やりはコーヒー', 1580, seg(t, 1.8, 2.1)) : '')
       + (t > 5.0 && t < 6.4 ? CHIP(L, 'JILL: SWAP. PLASTIC.', 'ジルがそっと造花に', 1580, seg(t, 5.0, 5.3)) : '')
-      + (t > 7.4 && t < 8.6 ? CHIP(L, 'NEXT DAY: COFFEE AGAIN', '翌日。それでも水やり（コーヒー）', 1580, seg(t, 7.4, 7.7)) : '');
+      + (t > 7.4 && t < 8.6 ? CHIP_OFF(L, 'NEXT DAY: COFFEE AGAIN', '翌日。それでも水やり（コーヒー）', 1580, seg(t, 7.4, 7.7)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.35, cx: 640, cy: 1150 },
       { t: 0.01, z: 1.1, cx: 600, cy: 1120, d: .9 },

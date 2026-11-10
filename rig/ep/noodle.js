@@ -3,6 +3,7 @@
 // ひっくり返し：待っているうちに寝落ち → 時計がぐるぐる回って 23:00 → オチ：ジルが起こす。麺はのびのび（カップから麺があふれる）。字幕「3分のつもりが2時間」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
+const CHIP_OFF = () => ''; // 総見直し（2026-11-10）：字幕は2回まで。3回目以降（オチの説明）は出さず、絵で見せる
 // カップ麺：lid=ふた（0 閉じる〜1 開く）、steam=湯気、over=のびた麺（0〜1）
 const CUP = (x, y, lid, steam, over, t) => { let s = `<g transform="translate(${x} ${y})"><path d="M-80 -120 L80 -120 L62 60 L-62 60 Z" fill="#F4ECE0" stroke="#D7CCBB" stroke-width="6"/><rect x="-80" y="-120" width="160" height="30" rx="6" fill="#E86C5A"/><rect x="-60" y="-40" width="120" height="14" rx="7" fill="#E86C5A" opacity=".5"/>`; if (over > 0) for (let i = 0; i < 7; i++) s += `<path d="M${-60 + i * 20} -120 q${10 * Math.sin(i)} ${-60 * over} ${20 * Math.sin(i * 1.3)} ${-110 * over}" fill="none" stroke="#F2D27A" stroke-width="9" stroke-linecap="round"/>`; if (steam > 0) for (let i = 0; i < 3; i++) { const ph = (t * .6 + i * .33) % 1; s += `<path d="M${-30 + i * 30} ${-130 - ph * 90} q14 -16 0 -32 q-14 -16 0 -32" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" opacity="${(steam * (1 - ph)).toFixed(2)}"/>`; } s += `<g transform="translate(0 -120) rotate(${-lid * 70}) translate(0 0)"><ellipse rx="86" ry="18" fill="#FFF4E6" stroke="#D7CCBB" stroke-width="6"/><rect x="-16" y="-10" width="32" height="8" rx="4" fill="#E86C5A"/></g></g>`; return s; };
 var EP = {
@@ -46,7 +47,7 @@ var EP = {
     if (t > 7.4 && t < 8.0) fx += L.emark(900, DESK - 700, 1.0);
     let ui = (t > 1.8 && t < 3.4 ? CHIP(L, 'OVERTIME: 3 MIN WAIT', '残業の夜食、できるまで3分', 1380, seg(t, 1.8, 2.1)) : '')
       + (t > 4.6 && t < 6.4 ? CHIP(L, '21:00 → 23:00', '待っているうちに2時間', 1380, seg(t, 4.6, 4.9)) : '')
-      + (t > 7.6 && t < 8.6 ? CHIP(L, 'NOODLES: OVERGROWN', '麺、のびのび', 1380, seg(t, 7.6, 7.9)) : '');
+      + (t > 7.6 && t < 8.6 ? CHIP_OFF(L, 'NOODLES: OVERGROWN', '麺、のびのび', 1380, seg(t, 7.6, 7.9)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.35, cx: 640, cy: 1150 },
       { t: 0.01, z: 1.1, cx: 600, cy: 1120, d: .9 },

@@ -4,6 +4,7 @@
 // オチ：3回目、ジルがレンの目を指で開けたまま撮影。できた写真：ジルは完璧、レンは白目気味の変顔。字幕「3回目：目を開けたまま固定」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
+const CHIP_OFF = () => ''; // 総見直し（2026-11-10）：字幕は2回まで。3回目以降（オチの説明）は出さず、絵で見せる
 const CAMERA = (x, y, s = 1) => `<g transform="translate(${x} ${y}) scale(${s})"><line x1="0" y1="40" x2="-70" y2="260" stroke="#3B4252" stroke-width="10" stroke-linecap="round"/><line x1="0" y1="40" x2="70" y2="260" stroke="#3B4252" stroke-width="10" stroke-linecap="round"/><line x1="0" y1="40" x2="0" y2="270" stroke="#3B4252" stroke-width="10" stroke-linecap="round"/><rect x="-80" y="-50" width="160" height="100" rx="18" fill="#3B4252"/><circle r="34" fill="#1F2630" stroke="#C9CFD8" stroke-width="6"/><circle r="14" fill="#5A6B8C"/><rect x="40" y="-70" width="34" height="24" rx="6" fill="#C9CFD8"/></g>`;
 const COUNT = (x, y, n) => `<g transform="translate(${x} ${y})"><circle r="60" fill="#fff" stroke="#5A3A1E" stroke-width="8"/><text y="22" text-anchor="middle" font-family="Noto Sans CJK JP" font-weight="900" font-size="60" fill="#5A3A1E">${n}</text></g>`;
 // できた写真（ジルは完璧・レンは…）
@@ -48,7 +49,7 @@ var EP = {
     if (t > 5.4 && t < 6.2) fx += L.emark(230, DESK - 650, 1.0, '…');
     let ui = (t > 1.8 && t < 3.0 ? CHIP(L, 'NEW YEAR CARD PHOTO', '年賀状の写真。3・2・1', 1380, seg(t, 1.8, 2.1)) : '')
       + (t > 5.2 && t < 6.4 ? CHIP(L, 'TAKE 2: EYES CLOSED', '2回目も、目をつぶった', 1380, seg(t, 5.2, 5.5)) : '')
-      + (t > 7.9 && t < 8.6 ? CHIP(L, 'TAKE 3: EYES HELD OPEN', '3回目：目を開けたまま固定', 1380, seg(t, 7.9, 8.2)) : '');
+      + (t > 7.9 && t < 8.6 ? CHIP_OFF(L, 'TAKE 3: EYES HELD OPEN', '3回目：目を開けたまま固定', 1380, seg(t, 7.9, 8.2)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.35, cx: 540, cy: 1100 },
       { t: 0.01, z: 1.05, cx: 540, cy: 1050, d: .9 },

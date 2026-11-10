@@ -4,6 +4,7 @@
 // オチ：ジルが星の代わりに、てっぺんに「✓」のスタンプ。字幕「飾り：締め切りの書類」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
+const CHIP_OFF = () => ''; // 総見直し（2026-11-10）：字幕は2回まで。3回目以降（オチの説明）は出さず、絵で見せる
 // ツリー：balls=玉の数（0〜4）、papers=書類の数（0〜5）、star=てっぺん（0 なし／1 ✓）
 const TREE = (x, y, balls, papers, star, t) => {
   let s = `<g transform="translate(${x} ${y})"><rect x="-30" y="-20" width="60" height="70" fill="#8C5A3C"/><path d="M-200 -20 L0 -300 L200 -20 Z" fill="#3F8F4E"/><path d="M-160 -170 L0 -400 L160 -170 Z" fill="#4CA35A"/><path d="M-110 -320 L0 -520 L110 -320 Z" fill="#5DB868"/>`;
@@ -45,7 +46,7 @@ var EP = {
     if (t > 7.6) fx += L.sparkles(540, DESK - 560, t, 1.0, 6);
     let ui = (t > 1.8 && t < 3.2 ? CHIP(L, 'OFFICE TREE: DAY 1', 'オフィスのツリー。ジルが飾る', 1380, seg(t, 1.8, 2.1)) : '')
       + (t > 4.0 && t < 5.6 ? CHIP(L, 'ORNAMENTS: DEADLINES', '上司の飾り：締め切りの書類', 1380, seg(t, 4.0, 4.3)) : '')
-      + (t > 7.8 && t < 8.6 ? CHIP(L, 'TOP OF THE TREE: DONE', 'てっぺんは「済」', 1380, seg(t, 7.8, 8.1)) : '');
+      + (t > 7.8 && t < 8.6 ? CHIP_OFF(L, 'TOP OF THE TREE: DONE', 'てっぺんは「済」', 1380, seg(t, 7.8, 8.1)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.35, cx: 540, cy: 1000 },
       { t: 0.01, z: 1.05, cx: 540, cy: 1050, d: .9 },

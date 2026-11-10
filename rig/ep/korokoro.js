@@ -5,6 +5,7 @@
 // （うさぎは毛が生えかわる。ブラッシングで取れる毛が多いのは本当）
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
+const CHIP_OFF = () => ''; // 総見直し（2026-11-10）：字幕は2回まで。3回目以降（オチの説明）は出さず、絵で見せる
 // コロコロ（ローラーの中心 x,y・回転 r・毛の量 fur 0〜1）
 const ROLLER = (x, y, r, fur) => `<g transform="translate(${x} ${y}) rotate(${r})"><line x1="0" y1="0" x2="0" y2="-170" stroke="#5BA6D6" stroke-width="22" stroke-linecap="round"/><path d="M-40 -30 L0 -40 L40 -30" stroke="#9AA3AE" stroke-width="8" fill="none"/>`
   + `<rect x="-70" y="-28" width="140" height="56" rx="26" fill="#FFFDF7" stroke="#D7CCBB" stroke-width="5"/>`
@@ -50,7 +51,7 @@ var EP = {
     if (t > 7.0 && t < 8.6) fx += L.emark(200, DESK - 650, 1.0, '…');
     let ui = (t > 0.6 && t < 2.2 ? CHIP(L, 'YEAR-END CLEANING', '年末の大そうじ、コロコロ', 1640, seg(t, .6, .9)) : '')
       + (t > 3.2 && t < 5.2 ? CHIP(L, 'THE BOSS: FLUFFY', '上司もコロコロ', 1640, seg(t, 3.2, 3.5)) : '')
-      + (t > 6.4 && t < 8.6 ? CHIP(L, 'FUR: ONE MORE BOSS', '毛だけで、上司もう1匹', 1640, seg(t, 6.4, 6.7)) : '');
+      + (t > 6.4 && t < 8.6 ? CHIP_OFF(L, 'FUR: ONE MORE BOSS', '毛だけで、上司もう1匹', 1640, seg(t, 6.4, 6.7)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.3, cx: 340, cy: 1200 },
       { t: 0.01, z: 1.05, cx: 520, cy: 1200, d: .9 },

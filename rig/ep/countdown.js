@@ -4,6 +4,7 @@
 // オチ：0:01、課長がはっと起きて、1人でクラッカーをパーン（ジルの頭に紙テープ）。字幕「上司、1分遅れて新年」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
+const CHIP_OFF = () => ''; // 総見直し（2026-11-10）：字幕は2回まで。3回目以降（オチの説明）は出さず、絵で見せる
 // クラッカー（先 x,y・向き r）
 const POPPER = (x, y, r) => `<g transform="translate(${x} ${y}) rotate(${r}) scale(1.4)"><path d="M0 0 L-26 90 L26 90 Z" fill="#F2C230" stroke="#C9A24A" stroke-width="4"/><path d="M-12 40 l24 -6 M-18 64 l36 -8" stroke="#E8473A" stroke-width="6"/></g>`;
 const CONFETTI = (x, y, k, seed) => { if (k <= 0 || k >= 1) return ''; const C = ['#E8473A', '#F2C230', '#5BC0F0', '#7EDB6A', '#FF8FC8']; let s = '';
@@ -41,7 +42,7 @@ var EP = {
     if (t > 4.6 && t < 5.5) fx += L.emark(220, DESK - 650, 1.0, '…');
     let ui = (t > 0.4 && t < 1.0 ? CHIP(L, "NEW YEAR'S EVE 23:59", '大みそか 23:59', 1640, seg(t, .4, .6)) : '')
       + (t > 4.6 && t < 5.5 ? CHIP(L, 'THE BOSS: ASLEEP', '上司：寝てた', 1640, seg(t, 4.6, 4.9)) : '')
-      + (t > 6.6 && t < 8.6 ? CHIP(L, 'BOSS: 1 MIN LATE', '上司、1分遅れて新年', 1640, seg(t, 6.6, 6.9)) : '');
+      + (t > 6.6 && t < 8.6 ? CHIP_OFF(L, 'BOSS: 1 MIN LATE', '上司、1分遅れて新年', 1640, seg(t, 6.6, 6.9)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.3, cx: 540, cy: 1250 },
       { t: 0.01, z: 1.05, cx: 520, cy: 1200, d: .9 },

@@ -4,6 +4,7 @@
 // オチ：そのまま交換して、同じ牧草をもぐもぐ。字幕「交換：牧草 ⇄ 牧草」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
+const CHIP_OFF = () => ''; // 総見直し（2026-11-10）：字幕は2回まで。3回目以降（オチの説明）は出さず、絵で見せる
 const HAYB = (x, y, s = 1, rot = 0) => `<g transform="translate(${x} ${y}) rotate(${rot}) scale(${s})"><path d="M-110 20 Q-50 -70 0 -80 Q50 -70 110 20 Z" fill="#E6C97E"/>${[0, 1, 2, 3, 4, 5].map(i => `<line x1="${-80 + i * 32}" y1="10" x2="${-70 + i * 32 + Math.sin(i * 2) * 18}" y2="${-80 - Math.cos(i) * 18}" stroke="#C9A24E" stroke-width="7" stroke-linecap="round"/>`).join('')}<rect x="-36" y="-14" width="72" height="22" rx="11" fill="#E86CB0"/></g>`;
 // 箱：open=0 閉じる〜1 開く（ふたが上に飛ぶ）、inner=中身
 const GIFT = (x, y, ribbon, open, inner) => `<g transform="translate(${x} ${y})"><rect x="-120" y="-110" width="240" height="130" rx="12" fill="#F7E7D0" stroke="#D9B98E" stroke-width="6"/><rect x="-18" y="-110" width="36" height="130" fill="${ribbon}"/>${open > 0 ? `<g transform="translate(0 ${-110 - open * 40})">${inner}</g>` : ''}<g transform="translate(${open * 160} ${-110 - open * 300}) rotate(${open * 40})" opacity="${(1 - open).toFixed(2)}"><rect x="-130" y="-50" width="260" height="56" rx="12" fill="#FFF4E6" stroke="#D9B98E" stroke-width="6"/><rect x="-18" y="-50" width="36" height="56" fill="${ribbon}"/><path d="M-40 -50 q40 -50 40 0 q0 -50 40 0" fill="none" stroke="${ribbon}" stroke-width="12"/></g></g>`;
@@ -42,7 +43,7 @@ var EP = {
     if (eat) { fx += L.munch(300, DESK - 160, t, .9); fx += L.munch(780, DESK - 160, t + .4, .9); }
     let ui = (t > 1.8 && t < 3.3 ? CHIP(L, 'SECRET SANTA', 'プレゼント交換。箱が2つ', 1380, seg(t, 1.8, 2.1)) : '')
       + (t > 4.5 && t < 5.7 ? CHIP(L, 'HAY. AND HAY.', '中身：牧草と、牧草', 1380, seg(t, 4.5, 4.8)) : '')
-      + (t > 6.5 && t < 8.6 ? CHIP(L, 'SWAP: HAY ⇄ HAY', '交換：牧草 ⇄ 牧草。両方うれしい', 1380, seg(t, 6.5, 6.8)) : '');
+      + (t > 6.5 && t < 8.6 ? CHIP_OFF(L, 'SWAP: HAY ⇄ HAY', '交換：牧草 ⇄ 牧草。両方うれしい', 1380, seg(t, 6.5, 6.8)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.35, cx: 540, cy: 1150 },
       { t: 0.01, z: 1.05, cx: 540, cy: 1120, d: .9 },

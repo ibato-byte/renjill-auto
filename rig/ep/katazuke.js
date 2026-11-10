@@ -4,6 +4,7 @@
 // オチ：ジルが引き出しを開けると、書類がどさーっと雪崩。字幕「片付け：3秒。行き先：引き出し」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
+const CHIP_OFF = () => ''; // 総見直し（2026-11-10）：字幕は2回まで。3回目以降（オチの説明）は出さず、絵で見せる
 const SHEET = (x, y, r, s = 1) => `<g transform="translate(${x} ${y}) rotate(${r}) scale(${s})"><rect x="-60" y="-42" width="120" height="84" rx="4" fill="#fff" stroke="#D7CCBB" stroke-width="3"/><path d="M-40 -20 h80 M-40 0 h80 M-40 20 h50" stroke="#C9BBA6" stroke-width="5" stroke-linecap="round"/></g>`;
 var EP = {
   dur: 9.5,
@@ -45,7 +46,7 @@ var EP = {
     if (t > 5.4 && t < 6.0) fx += L.emark(230, DESK - 650, 1.0, '♡');
     let ui = (t > 1.4 && t < 2.6 ? CHIP(L, 'YEAR-END CLEANUP', '年末。上司の机は書類の山', 1580, seg(t, 1.4, 1.7)) : '')
       + (t > 4.4 && t < 5.9 ? CHIP(L, 'CLEAN IN 3 SEC', '3秒でピカピカ', 1580, seg(t, 4.4, 4.7)) : '')
-      + (t > 7.4 && t < 8.6 ? CHIP(L, 'ALL IN THE DRAWER', '行き先：引き出し', 1580, seg(t, 7.4, 7.7)) : '');
+      + (t > 7.4 && t < 8.6 ? CHIP_OFF(L, 'ALL IN THE DRAWER', '行き先：引き出し', 1580, seg(t, 7.4, 7.7)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.35, cx: 540, cy: 1150 },
       { t: 0.01, z: 1.05, cx: 540, cy: 1150, d: .9 },

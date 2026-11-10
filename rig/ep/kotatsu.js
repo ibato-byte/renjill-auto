@@ -4,6 +4,7 @@
 // オチ：定時。ジルが布団をめくるとレンは寝ている。字幕「上司、行方不明。発見：こたつ」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
+const CHIP_OFF = () => ''; // 総見直し（2026-11-10）：字幕は2回まで。3回目以降（オチの説明）は出さず、絵で見せる
 // こたつ：天板＋布団（手前にかかる）。lift=布団をめくる（0〜1）
 const KOTATSU = (x, y, lift = 0) => `<g transform="translate(${x} ${y})"><path d="M-260 -60 Q0 -40 260 -60 L300 140 Q0 180 -300 140 Z" fill="#C8463C"/><path d="M-260 -60 Q0 -40 260 -60 L300 140 Q0 180 -300 140 Z" fill="url(#v2desk)" opacity=".0"/>${[0, 1, 2, 3].map(i => `<circle cx="${-180 + i * 120}" cy="60" r="18" fill="#F2D27A" opacity=".9"/>`).join('')}<g transform="translate(0 ${-lift * 120}) rotate(${-lift * 25})"><path d="M-240 -60 Q0 -40 240 -60 L240 -20 Q0 0 -240 -20 Z" fill="#E86C5A"/></g><rect x="-220" y="-100" width="440" height="40" rx="10" fill="#8C5A3C"/><rect x="-210" y="-108" width="420" height="16" rx="6" fill="#A66E4A"/></g>`;
 var EP = {
@@ -43,7 +44,7 @@ var EP = {
     if (t > 7.6 && t < 8.6) fx += L.emark(230, DESK - 650, 1.0);
     let ui = (t > 1.8 && t < 3.4 ? CHIP(L, 'DEC 1: KOTATSU AT WORK', '12月。ジルが会社にこたつを持ち込んだ', 1380, seg(t, 1.8, 2.1)) : '')
       + (t > 4.8 && t < 6.4 ? CHIP(L, '14:00 → 18:00', '上司、こたつから出てこない', 1380, seg(t, 4.8, 5.1)) : '')
-      + (t > 7.6 && t < 8.6 ? CHIP(L, 'BOSS: FOUND. ASLEEP.', '上司、発見。寝ていた', 1380, seg(t, 7.6, 7.9)) : '');
+      + (t > 7.6 && t < 8.6 ? CHIP_OFF(L, 'BOSS: FOUND. ASLEEP.', '上司、発見。寝ていた', 1380, seg(t, 7.6, 7.9)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.35, cx: 540, cy: 1150 },
       { t: 0.01, z: 1.05, cx: 540, cy: 1120, d: .9 },

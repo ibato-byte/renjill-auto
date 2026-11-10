@@ -4,6 +4,7 @@
 // オチ：そのまま寝る（zzz）。ジルは体操を続ける。字幕「上司の体操：のびて、ねる」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
+const CHIP_OFF = () => ''; // 総見直し（2026-11-10）：字幕は2回まで。3回目以降（オチの説明）は出さず、絵で見せる
 var EP = {
   dur: 9.5,
   bgmHolds: '5.2-5.8',
@@ -32,7 +33,7 @@ var EP = {
     if (t > 5.2 && t < 5.6) fx += L.dust(820, DESK, seg(t, 5.2, 5.6));
     let ui = (t > 0.8 && t < 2.8 ? CHIP(L, 'MORNING STRETCH', '朝の体操', 1600, seg(t, .8, 1.1)) : '')
       + (t > 3.6 && t < 5.2 ? CHIP(L, 'BOSS JOINS IN', '課長もまねして、のび〜', 1600, seg(t, 3.6, 3.9)) : '')
-      + (t > 6.2 && t < 8.6 ? CHIP(L, 'BOSS: STRETCH, THEN NAP', '上司の体操：のびて、ねる', 1600, seg(t, 6.2, 6.5)) : '');
+      + (t > 6.2 && t < 8.6 ? CHIP_OFF(L, 'BOSS: STRETCH, THEN NAP', '上司の体操：のびて、ねる', 1600, seg(t, 6.2, 6.5)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.3, cx: 360, cy: 1100 },
       { t: 0.01, z: 1.05, cx: 540, cy: 1100, d: .9 },

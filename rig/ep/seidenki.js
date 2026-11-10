@@ -4,6 +4,7 @@
 // オチ：ジルがさがしていたペンも課長にくっついていた。課長はご満悦。字幕「なくし物：ぜんぶ上司に」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
+const CHIP_OFF = () => ''; // 総見直し（2026-11-10）：字幕は2回まで。3回目以降（オチの説明）は出さず、絵で見せる
 const ZAP = (x, y, k, s = 1) => k <= 0 || k >= 1 ? '' : `<g transform="translate(${x} ${y}) scale(${s * (.7 + k * .5)})" opacity="${1 - k}" stroke="#FFD24A" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none">${[0, 1, 2, 3, 4, 5].map(i => { const a = i / 6 * Math.PI * 2 + .3; return `<path d="M${Math.cos(a) * 30} ${Math.sin(a) * 30} L${Math.cos(a + .2) * 60} ${Math.sin(a + .2) * 60} L${Math.cos(a - .1) * 80} ${Math.sin(a - .1) * 80} L${Math.cos(a + .15) * 110} ${Math.sin(a + .15) * 110}"/>`; }).join('')}</g>`;
 // くっつく物（種類 k）
 const THING = (k, x, y, r) => `<g transform="translate(${x} ${y}) rotate(${r})">` + (
@@ -47,7 +48,7 @@ var EP = {
     if (t > 7.2 && t < 8.6) fx += L.emark(220, DESK - 650, 1.0, '…');
     let ui = (t > 1.2 && t < 2.9 ? CHIP(L, 'STATIC SHOCK', '冬の静電気、パチッ', 1600, seg(t, 1.2, 1.5)) : '')
       + (t > 3.4 && t < 5.4 ? CHIP(L, 'EVERYTHING STICKS', '課長に、なんでもくっつく', 1600, seg(t, 3.4, 3.7)) : '')
-      + (t > 6.4 && t < 8.6 ? CHIP(L, 'LOST ITEMS: ON THE BOSS', 'なくし物：ぜんぶ上司に', 1600, seg(t, 6.4, 6.7)) : '');
+      + (t > 6.4 && t < 8.6 ? CHIP_OFF(L, 'LOST ITEMS: ON THE BOSS', 'なくし物：ぜんぶ上司に', 1600, seg(t, 6.4, 6.7)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.3, cx: 420, cy: 1100 },
       { t: 0.01, z: 1.1, cx: 520, cy: 1150, d: .9 },

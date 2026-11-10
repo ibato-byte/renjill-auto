@@ -3,6 +3,7 @@
 // ひっくり返し：ジルが画面のマイク印を指でとんとん → レンが気づいてミュート解除（印が緑）→ オチ：解除した瞬間に大あくび。字幕「解除した瞬間、あくび」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
+const CHIP_OFF = () => ''; // 総見直し（2026-11-10）：字幕は2回まで。3回目以降（オチの説明）は出さず、絵で見せる
 // マイクの印：on=赤い斜線（ミュート）／緑（話せる）
 const MIC = (x, y, muted, s = 1, pulse = 0) => `<g transform="translate(${x} ${y}) scale(${s * (1 + pulse * .15)})"><circle r="46" fill="${muted ? '#E8473A' : '#5DBB63'}"/><rect x="-12" y="-30" width="24" height="40" rx="12" fill="#fff"/><path d="M-22 -4 a22 22 0 0 0 44 0 M0 18 l0 14 M-12 32 l24 0" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round"/>${muted ? '<path d="M-28 -28 L28 28" stroke="#fff" stroke-width="8" stroke-linecap="round"/>' : ''}</g>`;
 var EP = {
@@ -45,7 +46,7 @@ var EP = {
     if (yawn && t < 7.6) fx += `<g stroke="#5DBB63" stroke-width="10" stroke-linecap="round" fill="none" opacity=".9">${[0, 1, 2].map(i => `<path d="M${540 - i * 36} ${DESK - 440} q-30 30 0 60 q30 30 0 60" transform="translate(${Math.sin(t * 10 + i) * 4} 0)"/>`).join('')}</g>`;
     let ui = (t > 1.8 && t < 3.4 ? CHIP(L, 'ONLINE MEETING: MUTED', 'オンライン会議。上司、ミュートのまま熱弁', 1380, seg(t, 1.8, 2.1)) : '')
       + (t > 4.4 && t < 5.4 ? CHIP(L, 'MUTED FOR 2 MINUTES', '2分間、だれにも聞こえていない', 1380, seg(t, 4.4, 4.7)) : '')
-      + (t > 7.0 && t < 8.6 ? CHIP(L, 'UNMUTED: YAWN', '解除した瞬間、あくび', 1380, seg(t, 7.0, 7.3)) : '');
+      + (t > 7.0 && t < 8.6 ? CHIP_OFF(L, 'UNMUTED: YAWN', '解除した瞬間、あくび', 1380, seg(t, 7.0, 7.3)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.35, cx: 560, cy: 1000 },
       { t: 0.01, z: 1.05, cx: 540, cy: 1060, d: .9 },
