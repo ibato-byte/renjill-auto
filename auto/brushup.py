@@ -66,6 +66,7 @@ def follow_check(ep, loop):
     if L["show"] < 2.0: issues.append(f"表示が{L['show']}秒（2秒以上にする）")
     if L["fontsize"] < h * 0.06: issues.append("文字が小さい（画面の高さの6%以上にする）")
     if L["text_bottom"] > h * 0.80: issues.append("文字が下すぎる（下から20%より上にする。下のボタンや説明文に隠れる）")
+    if L["start"] < total - 0.01: issues.append(f"文字が本編の最後の{total - L['start']:.1f}秒にかぶる（本編が終わってから出す）")
     if real >= 30: issues.append(f"動画が{real:.1f}秒で30秒以上")
     if abs(real - L["total"]) > 0.3: issues.append(f"動画の長さが想定（{L['total']}秒）とずれている（{real:.2f}秒）")
     ts = [L["start"] - 0.3, L["start"] + 0.1, L["start"] + 1.0, L["end"] - 0.1, real - 0.05]
