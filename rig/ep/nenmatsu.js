@@ -4,6 +4,7 @@
 document.write('<script src="v2/lib.js"><\/script>');
 // 分かりやすさの決まり（docs/CLARITY.md）：キャラはしゃべらない。そのかわり「状況」と「オチ」を短い字幕（英＋日）で1回ずつ出す
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
+const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
 const DIZZY = (x, y, t) => `<g transform="translate(${x} ${y})" fill="none" stroke="#8C6BB1" stroke-width="7" stroke-linecap="round">${[0, 1, 2].map(i => `<path transform="rotate(${t * 220 + i * 120}) translate(70 0)" d="M0 0 a14 14 0 1 1 -14 -14"/>`).join('')}</g>`;
 var EP = {
   dur: 9.5,
@@ -70,7 +71,7 @@ var EP = {
     ], t);
     // 状況とオチの字幕（各1回）
     let ui = (t > 1.8 && t < 3.4 ? CHIP(L, 'THE FORMS KEEP GOING...', '読んでも読んでも終わらない', 1380, seg(t, 1.8, 2.1)) : '')
-      + (t > 5.2 && t < 6.9 ? CHIP(L, 'JILL: DONE IN 3 SECONDS', 'ジル、3秒で終わらせる', 1380, seg(t, 5.2, 5.5)) : '');
+      + (t > 5.2 && t < 6.9 ? CHIP_OFF(L, 'JILL: DONE IN 3 SECONDS', 'ジル、3秒で終わらせる', 1380, seg(t, 5.2, 5.5)) : '');
     if (t > 8.6) { fx = ''; ui = ''; }
     L.mount({ bg, fx, ui, cam, t, shake: SS.some(s => t > s && t < s + .12) ? 9 : 0 });
     if (typeof endcard === 'function') endcard(t, EP.dur);

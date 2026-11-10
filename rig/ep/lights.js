@@ -5,6 +5,7 @@
 // （コードをかじる場面は出さない：うさぎには危ないので）
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
+const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
 const COLS = ['#FF5A4E', '#FFD24A', '#5BC0F0', '#7EDB6A', '#FF8FC8'];
 const BULB = (x, y, i, on, t) => { const c = COLS[i % COLS.length], blink = on ? .75 + .25 * Math.sin(t * 9 + i * 1.7) : 0;
   return (on ? `<circle cx="${x}" cy="${y + 10}" r="30" fill="${c}" opacity="${(.35 * blink).toFixed(2)}"/>` : '')
@@ -60,7 +61,7 @@ var EP = {
     if (t > 2.1 && t < 2.5) fx += L.impact(RX, RY - 260, seg(t, 2.1, 2.5), .7, '#FFD24A');
     if (t > 7.2 && t < 8.6) fx += L.emark(220, DESK - 650, 1.0, '…');
     let ui = (t > 1.0 && t < 2.4 ? CHIP(L, 'XMAS LIGHTS', 'ジル、電飾をかざる', 1580, seg(t, 1.0, 1.3)) : '')
-      + (t > 6.4 && t < 8.6 ? CHIP(L, 'LIGHTS ON: THE BOSS', '電飾：上司に点灯', 1580, seg(t, 6.4, 6.7)) : '');
+      + (t > 6.4 && t < 8.6 ? CHIP_OFF(L, 'LIGHTS ON: THE BOSS', '電飾：上司に点灯', 1580, seg(t, 6.4, 6.7)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.3, cx: 400, cy: 1000 },
       { t: 0.01, z: 1.0, cx: 540, cy: 1060, d: .9 },

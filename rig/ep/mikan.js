@@ -4,7 +4,7 @@
 // オチ：ジルが顔を上げると空っぽ。レンは何食わぬ顔（ほっぺぱんぱん）。ジルがほっぺをつつくと、みかんが1個ぽん。字幕「発見：上司のほっぺ」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
-const CHIP_OFF = () => ''; // 総見直し（2026-11-10）：字幕は2回まで。3回目以降（オチの説明）は出さず、絵で見せる
+const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
 const MIKAN = (x, y, s = 1) => `<g transform="translate(${x} ${y}) scale(${s})"><circle r="40" fill="#F5A02A" stroke="#D97C12" stroke-width="4"/><circle cx="-12" cy="-12" r="9" fill="#fff" opacity=".35"/><ellipse cx="6" cy="-38" rx="16" ry="8" fill="#5E9E4A" transform="rotate(-25 6 -38)"/></g>`;
 // 器（木の皿）と残りのみかん n 個
 const BOWL = (x, y, n) => { let s = `<ellipse cx="${x}" cy="${y}" rx="150" ry="36" fill="#C98A5A" stroke="#9A6238" stroke-width="5"/>`; const pos = [[-80, -30], [0, -34], [80, -30], [-40, -70], [40, -70]]; for (let i = 0; i < n; i++) s += MIKAN(x + pos[i][0], y + pos[i][1], .9); return s; };
@@ -53,7 +53,7 @@ var EP = {
     if (t >= 7.6) { const k = ease(seg(t, 7.6, 8.0)); fx += MIKAN(760 - 180 * k, DESK - 200 + Math.sin(k * Math.PI) * -120 + k * 160, 1); }   // ぽんと出て机へ
     if (t > 8.0) fx += L.sparkles(580, DESK - 100, t, .8, 4);
     let ui = (t > 1.8 && t < 3.0 ? CHIP(L, 'WINTER MIKAN: 5', 'ジルのみかん、5個', 1380, seg(t, 1.8, 2.1)) : '')
-      + (t > 4.9 && t < 6.2 ? CHIP(L, '4 SECONDS: 0', '4秒で、0個', 1380, seg(t, 4.9, 5.2)) : '')
+      + (t > 4.9 && t < 6.2 ? CHIP_OFF(L, '4 SECONDS: 0', '4秒で、0個', 1380, seg(t, 4.9, 5.2)) : '')
       + (t > 7.4 && t < 8.6 ? CHIP_OFF(L, 'FOUND: THE CHEEKS', '発見：上司のほっぺ', 1380, seg(t, 7.4, 7.7)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.35, cx: 540, cy: 1150 },

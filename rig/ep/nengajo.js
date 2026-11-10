@@ -4,7 +4,7 @@
 // オチ：レンの1枚目は、自分の似顔絵（うさぎの顔）だけ。ジルが見て「…」→ でも悪くない（♥）。字幕「ジル：100枚。上司：1枚（自画像）」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
-const CHIP_OFF = () => ''; // 総見直し（2026-11-10）：字幕は2回まで。3回目以降（オチの説明）は出さず、絵で見せる
+const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
 const STACK = (x, y, n, done) => { let s = ''; for (let i = 0; i < n; i++) s += `<rect x="${x - 90 + Math.sin(i * 9.1) * 4}" y="${y - (i + 1) * 5}" width="180" height="6" rx="2" fill="${done ? '#FFF4E6' : '#fff'}" stroke="${done ? '#E8B4A0' : '#D7CCBB'}" stroke-width="1.5"/>`; if (done && n > 0) s += `<circle cx="${x + 60}" cy="${y - n * 5 - 30}" r="22" fill="#5DBB63"/><path d="M${x + 50} ${y - n * 5 - 30} L${x + 57} ${y - n * 5 - 22} L${x + 72} ${y - n * 5 - 40}" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>`; return s; };
 // レンの1枚：自画像（たれ耳のうさぎ）。k=描き進み（0〜1）
 const CARD = (x, y, k, s = 1) => { let g = `<g transform="translate(${x} ${y}) rotate(-6) scale(${s})"><rect x="-110" y="-150" width="220" height="300" rx="8" fill="#fff" stroke="#D7CCBB" stroke-width="5"/><rect x="-70" y="-130" width="60" height="70" rx="4" fill="none" stroke="#E8473A" stroke-width="3"/>`; if (k > .1) g += `<ellipse cx="0" cy="20" rx="${50 * Math.min(1, k * 2)}" ry="${44 * Math.min(1, k * 2)}" fill="none" stroke="#5A3A1E" stroke-width="5"/>`; if (k > .4) g += `<path d="M-40 -10 q-30 40 -10 80 M40 -10 q30 40 10 80" fill="none" stroke="#5A3A1E" stroke-width="5" stroke-linecap="round"/>`; if (k > .6) g += `<circle cx="-18" cy="14" r="5" fill="#5A3A1E"/><circle cx="18" cy="14" r="5" fill="#5A3A1E"/>`; if (k > .8) g += `<path d="M-10 36 q10 8 20 0" stroke="#5A3A1E" stroke-width="4" fill="none"/><path d="M-12 56 l24 0 l-12 20 Z" fill="#F2B544"/>`; return g + '</g>'; };
@@ -41,7 +41,7 @@ var EP = {
     if (t > 7.4 && t < 7.9) fx += L.impact(790, DESK - 110, seg(t, 7.4, 7.9), .8, '#F2A33A');
     if (t > 7.4) fx += L.sparkles(790, DESK - 200, t, .9, 5);
     let ui = (t > 1.8 && t < 3.2 ? CHIP(L, 'NEW YEAR CARDS: 100', '年賀状100枚。15:00スタート', 1380, seg(t, 1.8, 2.1)) : '')
-      + (t > 5.3 && t < 6.6 ? CHIP(L, '17:00. JILL: 100. BOSS: 1', '17:00。ジル100枚、上司1枚目', 1380, seg(t, 5.3, 5.6)) : '')
+      + (t > 5.3 && t < 6.6 ? CHIP_OFF(L, '17:00. JILL: 100. BOSS: 1', '17:00。ジル100枚、上司1枚目', 1380, seg(t, 5.3, 5.6)) : '')
       + (t > 7.6 && t < 8.6 ? CHIP_OFF(L, 'BOSS: 1 SELF-PORTRAIT', '上司の1枚：自画像', 1380, seg(t, 7.6, 7.9)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.35, cx: 540, cy: 1150 },

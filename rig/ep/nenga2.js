@@ -4,7 +4,7 @@
 // オチ：課長はあせあせ。ジルはジト目。字幕「差出人：ぜんぶ本人」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
-const CHIP_OFF = () => ''; // 総見直し（2026-11-10）：字幕は2回まで。3回目以降（オチの説明）は出さず、絵で見せる
+const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
 // 小さな年賀状（中心 x,y・回転 r）
 const CARD = (x, y, r) => `<g transform="translate(${x} ${y}) rotate(${r})"><rect x="-44" y="-62" width="88" height="124" rx="6" fill="#FFFDF7" stroke="#CFC3B0" stroke-width="3"/><circle cx="0" cy="-14" r="20" fill="#E8473A"/><text y="-6" text-anchor="middle" font-family="Noto Sans CJK JP" font-weight="900" font-size="24" fill="#FFF7E8">賀</text><rect x="-26" y="22" width="52" height="6" rx="3" fill="#CFC3B0"/><rect x="-20" y="36" width="40" height="6" rx="3" fill="#CFC3B0"/></g>`;
 // 大きく見せる年賀状（めくり f：0=表、1=裏）
@@ -50,7 +50,7 @@ var EP = {
       fx += BIG(440 + (second ? 40 * (1 - seg(t, 5.8, 6.0)) : 0), 760, .9 * s, f, second ? 2 : 1); }
     if (t > 7.2 && t < 8.6) fx += L.emark(220, DESK - 650, 1.0, '…');
     let ui = (t > 0.8 && t < 2.8 ? CHIP(L, 'SORTING CARDS', '年賀状の仕分け', 1600, seg(t, .8, 1.1)) : '')
-      + (t > 3.2 && t < 4.4 ? CHIP(L, 'BOSS: SO POPULAR?', '課長あてが山ほど', 1600, seg(t, 3.2, 3.5)) : '')
+      + (t > 3.2 && t < 4.4 ? CHIP_OFF(L, 'BOSS: SO POPULAR?', '課長あてが山ほど', 1600, seg(t, 3.2, 3.5)) : '')
       + (t > 6.6 && t < 8.6 ? CHIP_OFF(L, 'ALL FROM: THE BOSS', '差出人：ぜんぶ本人', 1600, seg(t, 6.6, 6.9)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.3, cx: 420, cy: 1150 },

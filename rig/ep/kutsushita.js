@@ -4,7 +4,7 @@
 // オチ：出てきた課長の口に、牧草1本。それでもご満悦。字幕「プレゼントは同じ大きさ」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
-const CHIP_OFF = () => ''; // 総見直し（2026-11-10）：字幕は2回まで。3回目以降（オチの説明）は出さず、絵で見せる
+const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
 // くつした（口の左上 x,y・幅 w・長さ h・ふくらみ bulge）
 const SOCK = (x, y, w, h, bulge, sw) => { const b = bulge || 0;
   return `<g transform="translate(${x} ${y}) rotate(${sw || 0})"><path d="M0 0 L${w} 0 L${w + b * .2} ${h * .72} C${w + b * .3} ${h * .95} ${w * .9} ${h} ${w * .55} ${h} L${-w * .35} ${h} C${-w * .7} ${h} ${-w * .72} ${h * .7} ${-w * .4} ${h * .66} L${-b * .2} ${h * .62} Z" fill="#D9372E" stroke="#A92820" stroke-width="${Math.max(3, w * .03)}"/>`
@@ -51,7 +51,7 @@ var EP = {
     // 夜→朝の切りかえ（少し暗く）
     const dim = t > 3.1 && t < 3.7 ? Math.sin(seg(t, 3.1, 3.7) * Math.PI) * .7 : 0;
     let ui = (t > 0.8 && t < 2.2 ? CHIP(L, 'CHRISTMAS EVE', 'イブの夜、くつしたを', 1640, seg(t, .8, 1.1)) : '')
-      + (t > 2.6 && t < 3.3 ? CHIP(L, "BOSS'S: XXL", '上司のは特大', 1640, seg(t, 2.6, 2.9)) : '')
+      + (t > 2.6 && t < 3.3 ? CHIP_OFF(L, "BOSS'S: XXL", '上司のは特大', 1640, seg(t, 2.6, 2.9)) : '')
       + (t > 3.7 && t < 4.6 ? CHIP_OFF(L, 'NEXT MORNING', '次の朝', 1640, seg(t, 3.7, 4.0)) : '')
       + (t > 7.2 && t < 8.6 ? CHIP_OFF(L, 'GIFT: SAME SIZE', 'プレゼントは同じ大きさ', 1640, seg(t, 7.2, 7.5)) : '');
     const cam = L.camAt([

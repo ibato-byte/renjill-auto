@@ -4,7 +4,7 @@
 // オチ：ばーんと開いて牧草が舞う。課長は牧草の上でご満悦。字幕「上司の荷物：牧草だけ」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
-const CHIP_OFF = () => ''; // 総見直し（2026-11-10）：字幕は2回まで。3回目以降（オチの説明）は出さず、絵で見せる
+const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
 // スーツケース（底の中心 x,y・幅 w・高さ h・色 c・ふたの開き open 0〜1・中身 fill）
 const CASE = (x, y, w, h, c, open, fill) => { const top = y - h; let g = `<g><rect x="${x - w / 2}" y="${top}" width="${w}" height="${h}" rx="16" fill="${c}" stroke="rgba(0,0,0,.25)" stroke-width="5"/><rect x="${x - w / 2 + 14}" y="${top + 14}" width="${w - 28}" height="${h - 28}" rx="10" fill="rgba(255,255,255,.18)"/>`;
   g += fill || '';
@@ -51,7 +51,7 @@ var EP = {
     if (t > 5.8 && t < 6.2) fx += L.impact(RX, DESK - 200, seg(t, 5.8, 6.2), 1.0, '#D8D07A');
     if (t > 7.2 && t < 8.6) fx += L.emark(200, DESK - 650, 1.0, '…');
     let ui = (t > 0.6 && t < 2.6 ? CHIP(L, 'PACKING FOR HOME', '帰省の荷造り', 1640, seg(t, .6, .9)) : '')
-      + (t > 4.4 && t < 5.8 ? CHIP(L, "LID WON'T CLOSE", 'ふたが閉まらない', 1640, seg(t, 4.4, 4.7)) : '')
+      + (t > 4.4 && t < 5.8 ? CHIP_OFF(L, "LID WON'T CLOSE", 'ふたが閉まらない', 1640, seg(t, 4.4, 4.7)) : '')
       + (t > 6.8 && t < 8.6 ? CHIP_OFF(L, "BOSS'S BAG: HAY ONLY", '上司の荷物：牧草だけ', 1640, seg(t, 6.8, 7.1)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.3, cx: 340, cy: 1200 },

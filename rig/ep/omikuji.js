@@ -4,6 +4,7 @@
 // オチ：課長は大喜びで紙を高くかかげる。ジルは「…それ、ある？」の顔。字幕「上司のおみくじ：牧草吉」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
+const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
 // おみくじの箱（中心 x,y・ふり rot）
 const BOX = (x, y, rot) => `<g transform="translate(${x} ${y}) rotate(${rot})"><rect x="-56" y="-120" width="112" height="240" rx="18" fill="#C9483C" stroke="#8E2E26" stroke-width="6"/><rect x="-40" y="-80" width="80" height="150" rx="8" fill="#FFF7E8"/>`
   + `<text x="0" y="-26" text-anchor="middle" font-family="Noto Sans CJK JP" font-weight="900" font-size="46" fill="#C9483C">お</text><text x="0" y="24" text-anchor="middle" font-family="Noto Sans CJK JP" font-weight="900" font-size="46" fill="#C9483C">み</text>`
@@ -45,7 +46,7 @@ var EP = {
     if (t > 6.6 && t < 8.6) fx += L.emark(200, DESK - 650, 1.0, '…');
     let ui = (t > 0.5 && t < 2.6 ? CHIP(L, 'NEW YEAR FORTUNE', 'お正月のおみくじ', 1640, seg(t, .5, .8)) : '')
       + (t > 2.1 && t < 2.9 ? '' : '')
-      + (t > 6.0 && t < 8.6 ? CHIP(L, "BOSS'S LUCK: HAY", '上司のおみくじ：牧草吉', 1640, seg(t, 6.0, 6.3)) : '');
+      + (t > 6.0 && t < 8.6 ? CHIP_OFF(L, "BOSS'S LUCK: HAY", '上司のおみくじ：牧草吉', 1640, seg(t, 6.0, 6.3)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.3, cx: 360, cy: 1200 },
       { t: 0.01, z: 1.05, cx: 520, cy: 1150, d: .9 },

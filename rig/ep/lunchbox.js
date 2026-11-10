@@ -3,7 +3,7 @@
 // ひっくり返し：取り替える → レンは3秒で完食、ジルのサラダまで見る → オチ：ジルがサラダを抱えて後ろを向く。字幕「3秒で完食」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
-const CHIP_OFF = () => ''; // 総見直し（2026-11-10）：字幕は2回まで。3回目以降（オチの説明）は出さず、絵で見せる
+const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
 // お弁当箱：open=ふたの開き具合（0〜1）、inner=中身、ribbon=目印の色
 const BENTO = (x, y, open, inner, ribbon, s = 1) => `<g transform="translate(${x} ${y}) scale(${s})"><rect x="-130" y="-70" width="260" height="90" rx="16" fill="#F4EFE6" stroke="#CDBFA8" stroke-width="6"/><rect x="-118" y="-62" width="236" height="60" rx="10" fill="#E8DFCF"/>${inner}<g transform="translate(0 ${-70 - open * 26}) scale(1 ${1 - open * .82})"><rect x="-134" y="-36" width="268" height="40" rx="14" fill="#FFF9F0" stroke="#CDBFA8" stroke-width="6"/><rect x="-30" y="-30" width="60" height="28" rx="8" fill="${ribbon}"/></g></g>`;
 const HAYIN = (k) => { let s = `<g transform="translate(0 -40) scale(${.6 + .4 * k} ${k}) translate(0 40)"><path d="M-150 -40 Q-90 -230 0 -250 Q90 -230 150 -40 Z" fill="#E6C97E"/><path d="M-150 -40 Q-60 -120 0 -110 Q60 -120 150 -40 Z" fill="#D9B86A"/>`; for (let i = 0; i < 11; i++) s += `<line x1="${-100 + i * 20}" y1="${-70}" x2="${-90 + i * 20 + Math.sin(i * 2.1) * 30}" y2="${-200 - Math.cos(i * 1.3) * 35}" stroke="#C9A24E" stroke-width="7" stroke-linecap="round"/>`; return s + '</g>'; };
@@ -43,7 +43,7 @@ var EP = {
     if (eat && t < 7.2) fx += L.munch(800, DESK - 120, t, 1.0);
     if (t > 7.2 && t < 7.7) fx += L.impact(800, DESK - 120, seg(t, 7.2, 7.7), .7, '#F2B544');
     let ui = (t > 1.8 && t < 3.4 ? CHIP(L, 'LUNCH TIME: 12:00', 'お弁当、ふたを開けると…', 1380, seg(t, 1.8, 2.1)) : '')
-      + (t > 4.2 && t < 5.6 ? CHIP(L, 'SWAPPED', '入れ替わってる', 1380, seg(t, 4.2, 4.5)) : '')
+      + (t > 4.2 && t < 5.6 ? CHIP_OFF(L, 'SWAPPED', '入れ替わってる', 1380, seg(t, 4.2, 4.5)) : '')
       + (t > 7.4 && t < 8.6 ? CHIP_OFF(L, 'GONE IN 3 SECONDS', '3秒で完食。次はジルのサラダ', 1380, seg(t, 7.4, 7.7)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.4, cx: 540, cy: 1150 },

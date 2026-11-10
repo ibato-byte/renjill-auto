@@ -4,6 +4,7 @@
 // オチ：画面は「あああああ」でいっぱい、ページ数はどんどん増える。課長はそのままお昼寝。字幕「上司のタイピング：座ると速い」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
+const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
 const DESKFX = (L, DESK) => `<rect x="-500" y="${DESK + 28}" width="2080" height="900" fill="url(#v2desk)"/><rect x="-500" y="${DESK}" width="2080" height="34" rx="10" fill="${L.PAL.woodTop}"/>`
   + [60, 560].map(x => `<rect x="${x}" y="${DESK + 90}" width="460" height="170" rx="14" fill="none" stroke="${L.PAL.wood2}" stroke-width="6" opacity=".55"/><rect x="${x + 190}" y="${DESK + 160}" width="80" height="16" rx="8" fill="#E9D2A8"/>`).join('');
 const KB = (x, y, w, t, hot) => { let s = `<g transform="translate(${x} ${y})"><rect x="${-w / 2}" y="-18" width="${w}" height="30" rx="8" fill="#D5DAE2" stroke="#9AA3AE" stroke-width="3"/>`;
@@ -43,7 +44,7 @@ var EP = {
     if (t > 4.2 && t < 5.6) fx += `<text x="${MX}" y="${MY - 330}" text-anchor="middle" font-family="Noto Sans CJK JP" font-weight="900" font-size="64" fill="#E8473A" stroke="#FFF7E8" stroke-width="10" paint-order="stroke" transform="rotate(${Math.sin(t * 9) * 5} ${MX} ${MY - 330})">カタカタカタ</text>`;
     if (t > 7.2 && t < 8.6) fx += L.emark(220, DESK - 660, 1.0, '…');
     let ui = (t > 0.8 && t < 2.6 ? CHIP(L, 'FAST TYPING', 'ジル、資料をカタカタ', 1650, seg(t, .8, 1.1)) : '')
-      + (t > 6.0 && t < 8.6 ? CHIP(L, 'BOSS TYPES BY SITTING', '上司のタイピング：座ると速い', 1650, seg(t, 6.0, 6.3)) : '');
+      + (t > 6.0 && t < 8.6 ? CHIP_OFF(L, 'BOSS TYPES BY SITTING', '上司のタイピング：座ると速い', 1650, seg(t, 6.0, 6.3)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.3, cx: 380, cy: 1150 },
       { t: 0.01, z: 1.1, cx: 440, cy: 1120, d: .9 },

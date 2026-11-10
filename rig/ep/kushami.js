@@ -4,6 +4,7 @@
 // オチ：書類が全部まい上がって、ジルの頭に1枚ふわり。課長は「…すまん」のあせ。字幕「上司のくしゃみ：書類が全部とぶ」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
+const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
 const SHEET = (x, y, r) => `<g transform="translate(${x} ${y}) rotate(${r})"><rect x="-56" y="-40" width="112" height="80" rx="4" fill="#FFFDF7" stroke="#CFC3B0" stroke-width="3"/><g fill="#CFC3B0">${[0, 1, 2].map(i => `<rect x="-40" y="${-22 + i * 16}" width="${i === 2 ? 44 : 80}" height="5"/>`).join('')}</g></g>`;
 var EP = {
   dur: 9.5,
@@ -39,7 +40,7 @@ var EP = {
       + L.impact(640, 1230, seg(t, 4.6, 5.0), .8, '#BFD6EA');
     if (t > 7.0 && t < 8.6) fx += L.emark(240, DESK - 720, 1.0, '…');
     let ui = (t > 0.8 && t < 2.6 ? CHIP(L, 'NEAT STACK', 'ジル、書類をきれいに', 1600, seg(t, .8, 1.1)) : '')
-      + (t > 6.4 && t < 8.6 ? CHIP(L, 'ACHOO! PAPERS FLY', '上司のくしゃみ：書類が全部とぶ', 1600, seg(t, 6.4, 6.7)) : '');
+      + (t > 6.4 && t < 8.6 ? CHIP_OFF(L, 'ACHOO! PAPERS FLY', '上司のくしゃみ：書類が全部とぶ', 1600, seg(t, 6.4, 6.7)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.3, cx: 380, cy: 1150 },
       { t: 0.01, z: 1.05, cx: 520, cy: 1120, d: .9 },

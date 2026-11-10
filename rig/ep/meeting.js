@@ -3,6 +3,7 @@
 // ひっくり返し：時計の針がぐるぐる回る（14:00→16:00）→ オチ：ジルはコーヒー3杯目で寝落ち、レンはまだ話している。字幕「2時間後」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
+const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
 const BOARD = (txt) => `<g transform="translate(540 520)"><rect x="-330" y="-170" width="660" height="340" rx="12" fill="#fff" stroke="#B8B2A8" stroke-width="12"/><text x="0" y="24" text-anchor="middle" font-size="110" font-weight="900" font-family="Noto Sans CJK JP" fill="#2F6FB5">${txt}</text></g>`;
 const CUP = (x, y, s, full) => `<g transform="translate(${x} ${y}) scale(${s})"><path d="M-40 0 L-48 -90 L48 -90 L40 0Z" fill="#fff" stroke="#C9A87E" stroke-width="5"/><path d="M48 -75 q40 0 40 32 q0 32 -40 32" fill="none" stroke="#C9A87E" stroke-width="7"/>${full ? '<path d="M-42 -70 L42 -70 L38 -20 L-38 -20Z" fill="#6B4A2E" opacity=".8"/>' : ''}</g>`;
 var EP = {
@@ -38,7 +39,7 @@ var EP = {
     if (asleep) fx += `<text x="300" y="${DESK - 560}" font-size="${80 + Math.sin(t * 4) * 8}" font-weight="900" font-family="Noto Sans CJK JP" fill="#5F6B8C" opacity=".9">Zz</text>`;
     if (spin > 0 && spin < 1) fx += L.speed(880, 300, .6 * Math.sin(Math.PI * spin), 30);
     let ui = (t > 1.8 && t < 3.4 ? CHIP(L, 'MEETING: "JUST 10 MIN"', '「10分だけ」の会議、話すのは上司', 1380, seg(t, 1.8, 2.1)) : '')
-      + (t > 6.0 && t < 8.6 ? CHIP(L, '2 HOURS LATER', '2時間後。部下は3杯目で寝落ち', 1380, seg(t, 6.0, 6.3)) : '');
+      + (t > 6.0 && t < 8.6 ? CHIP_OFF(L, '2 HOURS LATER', '2時間後。部下は3杯目で寝落ち', 1380, seg(t, 6.0, 6.3)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.2, cx: 640, cy: 1050 },
       { t: 0.01, z: .95, cx: 660, cy: 1100, d: .8 },

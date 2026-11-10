@@ -4,6 +4,7 @@
 // オチ：画面に肉球のあと、矢印は逃げていく。字幕「上司とマウス：矢印を追いかける」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
+const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
 const DESKFX = (L, DESK) => `<rect x="-500" y="${DESK + 28}" width="2080" height="900" fill="url(#v2desk)"/><rect x="-500" y="${DESK}" width="2080" height="34" rx="10" fill="${L.PAL.woodTop}"/>`
   + [60, 560].map(x => `<rect x="${x}" y="${DESK + 90}" width="460" height="170" rx="14" fill="none" stroke="${L.PAL.wood2}" stroke-width="6" opacity=".55"/><rect x="${x + 190}" y="${DESK + 160}" width="80" height="16" rx="8" fill="#E9D2A8"/>`).join('');
 const CURSOR = (x, y, s) => `<path transform="translate(${x} ${y}) scale(${s})" d="M0 0 L0 34 L9 26 L15 40 L21 37 L15 24 L27 24 Z" fill="#fff" stroke="#2E3440" stroke-width="3" stroke-linejoin="round"/>`;
@@ -44,7 +45,7 @@ var EP = {
     fx += L.impact(SX0 + 128, SY0 + 140, seg(t, 5.4, 5.8), .7, '#E8473A');
     if (t > 7.2 && t < 8.6) fx += L.emark(220, DESK - 660, 1.0, '…');
     let ui = (t > 0.8 && t < 2.6 ? CHIP(L, 'MOUSE CLICK', 'ジル、マウスですいすい', 1650, seg(t, .8, 1.1)) : '')
-      + (t > 6.0 && t < 8.6 ? CHIP(L, 'BOSS VS. THE CURSOR', '上司とマウス：矢印を追いかける', 1650, seg(t, 6.0, 6.3)) : '');
+      + (t > 6.0 && t < 8.6 ? CHIP_OFF(L, 'BOSS VS. THE CURSOR', '上司とマウス：矢印を追いかける', 1650, seg(t, 6.0, 6.3)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.3, cx: 400, cy: 1120 },
       { t: 0.01, z: 1.1, cx: 450, cy: 1100, d: .9 },

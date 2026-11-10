@@ -4,6 +4,7 @@
 // オチ：課長はまんまるの毛玉に（ご満悦）。字幕「上司の寝ぐせ直し：ふくらむ」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
+const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
 const DESKFX = (L, DESK) => `<rect x="-500" y="${DESK + 28}" width="2080" height="900" fill="url(#v2desk)"/><rect x="-500" y="${DESK}" width="2080" height="34" rx="10" fill="${L.PAL.woodTop}"/>`
   + [60, 560].map(x => `<rect x="${x}" y="${DESK + 90}" width="460" height="170" rx="14" fill="none" stroke="${L.PAL.wood2}" stroke-width="6" opacity=".55"/><rect x="${x + 190}" y="${DESK + 160}" width="80" height="16" rx="8" fill="#E9D2A8"/>`).join('');
 const COMB = (x, y, r) => `<g transform="translate(${x} ${y}) rotate(${r})"><rect x="-60" y="-12" width="120" height="22" rx="6" fill="#E9A23B"/>${Array.from({ length: 10 }, (_, i) => `<rect x="${-56 + i * 12}" y="8" width="6" height="22" rx="2" fill="#E9A23B"/>`).join('')}</g>`;
@@ -39,7 +40,7 @@ var EP = {
     if (t > 5.7 && t < 7.0) fx += L.sparkles(RN[0], RN[1] - 60, t, 2.2, 8);
     if (t > 7.0 && t < 8.6) fx += L.emark(220, DESK - 660, 1.0, '…');
     let ui = (t > 0.8 && t < 2.6 ? CHIP(L, 'BEDHEAD', 'ジル、寝ぐせをさっと', 1650, seg(t, .8, 1.1)) : '')
-      + (t > 6.0 && t < 8.6 ? CHIP(L, 'BOSS BRUSHES: MORE FLUFF', '上司の寝ぐせ直し：ふくらむ', 1650, seg(t, 6.0, 6.3)) : '');
+      + (t > 6.0 && t < 8.6 ? CHIP_OFF(L, 'BOSS BRUSHES: MORE FLUFF', '上司の寝ぐせ直し：ふくらむ', 1650, seg(t, 6.0, 6.3)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.3, cx: 340, cy: 1080 },
       { t: 0.01, z: 1.15, cx: 380, cy: 1080, d: .9 },
