@@ -94,7 +94,7 @@ c.appendChild(el('text', { x: PCX, y: 1460, 'font-size': 30, 'font-weight': 900,
 };
 // 手の位置（紙の左端・右端）
 let paperL = pcx - pw / 2, paperR = pcx + pw / 2;
-const gripY = pTop + 70;
+const gripY = pTop + 150; // 紙の下の方を持つ（上のふちを持つと、腕が体から遠くまで伸びた）
 // 肩（キャラの位置から）
 const RSH = { x: Rq.x + 330, y: 1555 }, JSH = { x: Jq.x + 190, y: 1555 };
 
@@ -133,7 +133,7 @@ let hl = { x: lerp(PCX - 20, 520, ease(seg(t, 6.35, 6.7))), y: lerp(1350, 1330, 
 let hr = { x: lerp(PCX + 20, 740, ease(seg(t, 6.35, 6.7))), y: lerp(1350, 1330, settleU), r: 14 - 10 * settleU };
 // 提出：二人とも同じ方向（画面の上＝上司）へ高く掲げる
 const up = ease(seg(t, 7.7, 8.3));
-hl.x = lerp(hl.x, 585, up); hl.y = lerp(hl.y, 1130, up); hr.x = lerp(hr.x, 675, up); hr.y = lerp(hr.y, 1130, up);
+hl.x = lerp(hl.x, 560, up); hl.y = lerp(hl.y, 1250, up); hr.x = lerp(hr.x, 700, up); hr.y = lerp(hr.y, 1250, up); // 掲げる高さは手が届く所まで（腕が長く伸びないように）
 halfL = hl; halfR = hr;
 }
 const half = (c, side, a, scale) => {
@@ -164,12 +164,6 @@ drawTray();
 }
 
 // ---------- 手と腕（キャラの上に重ねる）
-const arm = (layer, a, b, bend, col) => {
-const mx = (a.x + b.x) / 2, my = (a.y + b.y) / 2 + bend;
-layer.appendChild(el('path', { d: `M${a.x} ${a.y} Q${mx} ${my} ${b.x} ${b.y}`, fill: 'none', stroke: col, 'stroke-width': 38, 'stroke-linecap': 'round' }));
-layer.appendChild(el('path', { d: `M${a.x} ${a.y} Q${mx} ${my} ${b.x} ${b.y}`, fill: 'none', stroke: 'rgba(255,255,255,0.12)', 'stroke-width': 14, 'stroke-linecap': 'round' }));
-layer.appendChild(el('ellipse', { cx: b.x, cy: b.y, rx: 25, ry: 22, fill: col }));
-};
 const ARMCOL = '#C7A077', ARMCOL2 = '#CFA174';
 // 手の目標位置
 const rest = (sh, dir) => ({ x: sh.x + dir * 20, y: sh.y + 80 });
@@ -192,11 +186,11 @@ const retract = ease(seg(t, 9.3, 9.7));
 if (t >= 9.3) { handR = { x: lerp(handR.x, rest(RSH, 1).x, retract), y: lerp(handR.y, rest(RSH, 1).y, retract) }; handJ = { x: lerp(handJ.x, rest(JSH, -1).x, retract), y: lerp(handJ.y, rest(JSH, -1).y, retract) }; }
 // 最後：もう一度トレイへ手が伸びる（冒頭につながる）
 const again = ease(seg(t, 10.45, 11.0));
-if (t >= 10.45) { handR = { x: lerp(rest(RSH, 1).x, gR.x - 8, again), y: lerp(rest(RSH, 1).y, 1090, again) }; handJ = { x: lerp(rest(JSH, -1).x, gJ.x + 8, again), y: lerp(rest(JSH, -1).y, 1090, again) }; }
+if (t >= 10.45) { handR = { x: lerp(rest(RSH, 1).x, gR.x - 8, again), y: lerp(rest(RSH, 1).y, gripY, again) }; handJ = { x: lerp(rest(JSH, -1).x, gJ.x + 8, again), y: lerp(rest(JSH, -1).y, gripY, again) }; /* トレイの紙へ（机の上の高さまで腕を伸ばしていた） */ }
 const showArms = true;
 if (showArms) {
-arm(f, RSH, handR, 24, ARMCOL);
-arm(f, JSH, handJ, 24, ARMCOL2);
+limb(f, 'ren', handR, { col: ARMCOL, bend: 10, max: 210 }); // 体のふちから短い腕（肩を体の下の方に固定していたので、長い腕が体の後ろから生えて見えた）
+limb(f, 'jil', handJ, { col: ARMCOL2, bend: 10, max: 210 });
 }
 
 // 半分（腕より前に：手が紙のふちを握る）
@@ -261,7 +255,7 @@ const shots = [
 { t: 10.2, cx: PCX, cy: 1320, z: 1.2 }               // I 中：トレイに戻る→また手が伸びる
 ];
 // 画面の外の上司（影の手だけが降りてくる）：二人の半分を受け取ろうと待つ
-{ const dn = ease(seg(t, 7.75, 8.25)) * (1 - ease(seg(t, 8.6, 8.95))); if (dn > 0) {
+{ const dn = 0 * ease(seg(t, 7.75, 8.25)) * (1 - ease(seg(t, 8.6, 8.95))); if (dn > 0) { /* 2026-11-10：天井から大きな影の腕が降りてくるのは「変なところから腕が生える」ので出さない */
 const ty = -300 + 1010 * dn + 8 * Math.sin(t * 9) * dn;
 ui.appendChild(el('g', { opacity: 0.5 }, [el('rect', { x: 430, y: ty - 800, width: 220, height: 800, rx: 90, fill: '#2B2118' }),
 el('ellipse', { cx: 540, cy: ty, rx: 118, ry: 90, fill: '#2B2118' }),

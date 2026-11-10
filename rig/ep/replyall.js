@@ -193,16 +193,14 @@ window.EP = {
     if (t >= 3.9 && t < 5.4) Object.assign(J, RIG.FACES.annoyed, { eyeShape: 'half', eyeOpen: 0.7, sweat: 0, earL: -14 * lk, earR: 14 * lk, headNod: 6 * lk });
     // 画面を閉じる：立ち上がって片手を伸ばす
     const reach = goBack(t, 4.3, 4.68, 4.9, 5.25);
-    if (t >= 4.3 && t < 5.3) Object.assign(J, RIG.POSES.stretch, RIG.FACES.annoyed, { eyeShape: 'half', eyeOpen: 0.7, sweat: 0, scale: 1.25, flip: true, x: JX, y: JY, bodySquash: 0.75 * reach, headNod: 14 * reach, headTilt: 6 * reach, earL: -14, earR: 14 });
+    if (t >= 4.25 && t < 5.7) Object.assign(J, RIG.POSES.stretch, RIG.FACES.annoyed, { eyeShape: 'half', eyeOpen: 0.7, sweat: 0, scale: 1.25, flip: true, x: JX, y: JY - 330 * ease(goBack(t, 4.25, 4.66, 4.95, 5.7)), bodySquash: 0.75 * reach, headNod: 14 * reach, headTilt: 6 * reach, earL: -14, earR: 14 });
     if (t >= 5.3 && t < 8.0) Object.assign(J, RIG.FACES.annoyed, { eyeShape: 'half', eyeOpen: 0.7, sweat: 0, earL: -14, earR: 14, eyeLook: 0.9 });
     if (t >= 8.0 && t < 9.9) Object.assign(J, RIG.FACES.annoyed, { eyeOpen: 0.5, sweat: 0, earL: -6, earR: 6 });
     if (t >= 9.9) Object.assign(J, RIG.FACES.smug, { sparkle: 0, mouth: 'smile', eyeOpen: 0.5, eyeLook: 0.9 });
     const Jq = draw('jil', 'jil', J, t, { blink: !(t >= 2.5 && t < 8.0) });
     if (reach > 0) {  // 手を伸ばしてキーを押す（腕は体の後ろから、顔の前側＝左を通る）
-      const px = 778, py = lerp(1640, 1180, ease(reach)), sx = 880, sy = 1620, mx = lerp(850, 735, reach), my = lerp(1620, 1420, reach);
-      const jil = document.getElementById('jil');
-      jil.insertBefore(el('path', { d: `M${sx} ${sy} Q${mx} ${my} ${px} ${py}`, fill: 'none', stroke: '#CFA174', 'stroke-width': 38, 'stroke-linecap': 'round' }), jil.firstChild);
-      jil.appendChild(el('ellipse', { cx: px, cy: py - 4, rx: 26, ry: 21, fill: '#F6EBDC', stroke: '#B08155', 'stroke-width': 3 }));
+      const px = 778, py = lerp(1500, 1180, ease(reach));
+      limb(document.getElementById('jil'), 'jil', { x: px, y: py }, { col: '#CFA174', paw: '#F6EBDC', w: 36, behind: true }); // 体のふちから短い腕（2026-11-10）
     }
 
         const FACE_REN2 = { x: 400, y: 960 };

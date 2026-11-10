@@ -140,3 +140,22 @@ function goBack(t, a, b, c, d) { return ease(seg(t, a, b)) * (1 - ease(seg(t, c,
 // 標準の締め：ズームパンチ・集中線・フラッシュ
 function impactAt(ui, t, t0) { speedLines(ui, t > t0 - 0.05 && t < t0 + 0.5 ? 1 - seg(t, t0 - 0.05, t0 + 0.5) : 0); impactFlash(ui, Math.max(0, 1 - Math.abs(t - t0 - 0.02) / 0.12)); return Math.max(0, 1 - Math.abs(t - t0) / 0.25); }
 const FACE_REN = { x: 360, y: 900 }, FACE_JIL = { x: 860, y: 1470 };
+
+// ---------- 腕（手）：体のふちから、手の位置まで。短い腕だけ（2026-11-10 の報告「変なところから腕が生える」）
+// レンとジルは元のデザインに腕がない。紙などを持つときだけ、体のいちばん近いふちから短い腕を出す。
+// 肩＝体（キャラの絵の四角）を楕円とみなし、手の方向のふち。長さは LIMB_MAX まで（qa で見張る：window.__LIMB に最長を記録）
+const LIMB_MAX = 170;
+function limb(layer, id, hand, o) {
+  o = o || {}; const node = document.getElementById(id); if (!node) return null;
+  const b = node.getBBox(); const cx = b.x + b.width / 2, cy = b.y + b.height * (o.cy != null ? o.cy : 0.58), rx = b.width * 0.40, ry = b.height * 0.40;
+  const dx = hand.x - cx, dy = hand.y - cy, k = 1 / Math.max(1e-6, Math.hypot(dx / rx, dy / ry)), inset = 0.82;
+  const sh = { x: cx + dx * k * inset, y: cy + dy * k * inset };
+  let len = Math.hypot(hand.x - sh.x, hand.y - sh.y); const max = o.max || LIMB_MAX;
+  if (len > max) { window.__LIMBCUT = Math.max(window.__LIMBCUT || 0, len); hand = { x: sh.x + (hand.x - sh.x) * max / len, y: sh.y + (hand.y - sh.y) * max / len }; len = max; } // 届かないときは伸ばさない（手は届く所まで）
+  window.__LIMB = Math.max(window.__LIMB || 0, len); window.__LIMBS = (window.__LIMBS || 0) + 1;
+  const col = o.col || '#C7A077', w = o.w || 34;
+  const mx = (sh.x + hand.x) / 2, my = (sh.y + hand.y) / 2 + (o.bend || 0);
+  const kids = [el('path', { d: `M${sh.x} ${sh.y} Q${mx} ${my} ${hand.x} ${hand.y}`, fill: 'none', stroke: col, 'stroke-width': w, 'stroke-linecap': 'round' }),
+    el('ellipse', { cx: hand.x, cy: hand.y, rx: w * 0.68, ry: w * 0.58, fill: o.paw || col })];
+  const g = el('g', {}, kids); if (o.behind) layer.insertBefore(g, layer.firstChild); else layer.appendChild(g); return { sh, len };
+}
