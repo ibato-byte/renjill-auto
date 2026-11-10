@@ -374,7 +374,8 @@
       "thumb": {
         "t": 3.4,
         "cam": "1.4,611,1150",
-        "hook": "BOSS AT 17:59/定時1分前に仕事を持ってくる上司"
+        "hook": "BOSS AT 17:59/定時1分前に仕事を持ってくる上司",
+        "variant": "B"
       },
       "first_comment": "定時直前の「ちょっといい？」どうする？ ①聞く ②消える / Stay or vanish?",
       "site_i18n": {
@@ -388,7 +389,13 @@
           "ko": "금요일 17:59, 과장님이 서류 더미를 안고 왔어요. 질은 18:00 정각에 사라졌어요."
         }
       },
-      "cta": "Tag the coworker who vanishes at 6/定時で消える同僚に送ろう"
+      "cta": "Tag the coworker who vanishes at 6/定時で消える同僚に送ろう",
+      "experiment": {
+        "var": "thumb_variant",
+        "std": "A",
+        "value": "B",
+        "why": "サムネの文字の位置（上と下）を変えて、プロフィール一覧からの見られ方を比べる"
+      }
     },
     {
       "date": "2026-11-14",

@@ -15,11 +15,11 @@
   },
   {
    "key": "2026-11-02_update99",
-   "ratio": 0.488
+   "ratio": 0.486
   }
  ],
- "schedule_days_ahead": 74,
+ "schedule_days_ahead": 78,
  "schedule_target_days": 14,
  "same_day_twice": [],
- "date": "2026-11-09"
+ "date": "2026-11-10"
 }
