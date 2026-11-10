@@ -1,5 +1,19 @@
 [
  {
+  "ep": "lastsheet",
+  "date": "2026-11-10",
+  "title": {
+   "ja": "最後の1枚"
+  },
+  "caption": {
+   "ja": "最後の1枚をレンもジルも譲らない。結局ポムがテープで貼って「1枚」。",
+   "en": "One sheet left. Two bunnies. Zero compromise. Pom tapes it all back together."
+  },
+  "cover": "20261110_lastsheet_cover.jpg",
+  "video": "20261110_lastsheet.mp4",
+  "youtube_id": "0vmSNpJNgMM"
+ },
+ {
   "ep": "thumbsup",
   "date": "2026-11-08",
   "title": {
@@ -11,7 +25,7 @@
   },
   "cover": "20261108_thumbsup_cover.jpg",
   "video": "20261108_thumbsup.mp4",
-  "youtube_id": "nZMvTk10N9k"
+  "youtube_id": "lc9nIK9SNY4"
  },
  {
   "ep": "replyall",
