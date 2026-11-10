@@ -27,6 +27,9 @@ const STEP = 0.125, W = 1080, H = 1920;
     if (thick.length) issues.push(`腕のような太い線を直接描いている（${thick.length}か所）：腕は limb() で、体のふちから短く`); } catch (e) { }
   if (!(dur >= 8 && dur <= 20)) issues.push(`尺が範囲外: ${dur.toFixed(1)}s（8〜20s。目安は7〜12s、最後まで見られる長さに）`);
   else if (dur > 17) warns.push(`尺が長め: ${dur.toFixed(1)}s（目安は7〜12s）`);
+  // ---- 最初のコマ＝表紙（TikTok などは最初のコマが表紙になる）：冒頭の一言が薄くないこと（2026-11-10 の報告「サムネが薄い」）
+  { await p.evaluate(() => window.setOut(0)); const f0 = await p.evaluate(() => { const h = document.getElementById('hook'); return h && h.textContent.trim() ? parseFloat(getComputedStyle(h).opacity) : null; });
+    if (f0 !== null && f0 < 0.98) issues.push(`最初のコマで冒頭の一言が薄い（濃さ ${f0.toFixed(2)}）：表紙が薄くなる。最初のコマから濃さ100%で出す`); }
   // ---- つかみの検査（依頼 #97）：①最初の1秒で絵が動く ②冒頭の英語の文字が十分大きく、安全域（上下の隠れる範囲の内側）に収まる
   {
     const sig = async o => { await p.evaluate(t => window.setOut(t), o); return p.evaluate(() => {
@@ -134,7 +137,7 @@ const STEP = 0.125, W = 1080, H = 1920;
   await p.evaluate(t => window.setOut(t), dur - 0.05);
   const endOp = await p.evaluate(() => parseFloat(getComputedStyle(document.getElementById('end')).opacity));
   if (endOp < 0.9) issues.push(`エンドカードが出ていない（opacity ${endOp}）`);
-  { const cut = await p.evaluate(() => window.__LIMBCUT || 0); if (cut > 0) warns.push(`腕が届かず短く切った所がある（必要な長さ ${Math.round(cut)}px）：持ち物を体に近づける`); }
+  { const cut = await p.evaluate(() => window.__LIMBCUT || 0); if (cut > 0) issues.push(`腕を長く伸ばす所がある（必要な長さ ${Math.round(cut)}px）：レンとジルには腕がない。持ち物は体のすぐ前に置き、前足だけで持つ`); }
   await b.close();
   if (errors.length) issues.push(...[...new Set(errors)].slice(0, 5));
   // コンタクトシート（4x3）

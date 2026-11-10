@@ -51,7 +51,7 @@ if(PACE.hook){const [l1,l2]=PACE.hook.split('/');hookEl.innerHTML='<span></span>
   const sm=hookEl.querySelector('small');if(sm){sm.style.display='inline-block';fit(sm,540,66,40);sm.style.display='block'}
   hookEl.style.opacity=0}
 window.drawHook=o=>{ if(!PACE.hook){hookEl.style.opacity=0;return}
-  const a=(0.6+0.4*Math.min(1,o/0.12))*(1-Math.min(1,Math.max(0,(o-(HOOK_END-0.3))/0.3)));   // 最初のコマから見え（サムネと同じ）、0.12秒で全部の濃さに、最後の0.3秒で消える
+  const a=1*(1-Math.min(1,Math.max(0,(o-(HOOK_END-0.3))/0.3)));   // 最初のコマから見え（サムネと同じ）、0.12秒で全部の濃さに、最後の0.3秒で消える
   const sc=1+0.16*Math.max(0,1-o/0.28);                                            // 出るとき少し大きく→元の大きさ（最初のコマから動く）
   hookEl.style.opacity=o>=HOOK_END?0:Math.max(0.001,a);hookEl.style.transform='scale('+sc+')';hookEl.style.transformOrigin='50% 40%'};
 window.setOut=o=>{window.setFrame(PACE.start+o*PACE.speed);window.drawHook(o)};
