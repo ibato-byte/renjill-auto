@@ -51,6 +51,7 @@ const STEP = 0.125, W = 1080, H = 1920;
       if (hk.top < 280 || hk.bottom > 1640 || hk.w > 1040) issues.push(`冒頭の一言が安全域をはみ出す（上${Math.round(hk.top)}・下${Math.round(hk.bottom)}・幅${Math.round(hk.w)}）`);
     }
   }
+  const capSet = new Set(), cutT = {}, sizeSum = {}, sizeN = {};
   let prevHash = null, stillSince = 0, noFace = 0, prevFaces = {}, prevTx = 0, prevTy = 0, prevZ = 1; const occl = {}, prevD = {};
   // 瞬間カット禁止（24fpsで確認）：1フレームで倍率が35%以上、または中心が画面幅の30%以上跳んだらNG。0.4秒のカメラ移動は通る
   {
@@ -98,7 +99,10 @@ const STEP = 0.125, W = 1080, H = 1920;
         if (d.left > 0.5) g.push('左'); if (d.right < W - 0.5) g.push('右'); if (d.top > 0.5) g.push('上'); if (d.bottom < H - 0.5) g.push('下');
         dimGap = g;
       }
-      return { dimGap, faces, z, tx, ty, fx: document.querySelectorAll('#fx > *').length, end: parseFloat(getComputedStyle(document.getElementById('end')).opacity), dim: parseFloat(getComputedStyle(document.getElementById('dim')).opacity) };
+      // 総見直し（2026-11-10）：体の外接矩形と、出ている字幕（CHIP：幅940の帯）の文字
+      const bodies = { ren: box('ren'), jil: box('jil') };
+      const caps = [...document.querySelectorAll('#ui rect[width="940"]')].map(r => (r.parentNode.textContent || '').trim()).filter(Boolean);
+      return { bodies, caps, dimGap, faces, z, tx, ty, fx: document.querySelectorAll('#fx > *').length, end: parseFloat(getComputedStyle(document.getElementById('end')).opacity), dim: parseFloat(getComputedStyle(document.getElementById('dim')).opacity) };
     });
     // 画面に顔が1つもない（両方とも60%未満）が2.6秒以上続いたらNG（モニターなど小道具への寄りは2.5秒以内の演出として許容）。片方だけ見切れは寄りの演出なのでOK。
     const visList = Object.values(r.faces).map(f => f.vis);
@@ -124,7 +128,14 @@ const STEP = 0.125, W = 1080, H = 1920;
     // 止まり検出：縮小スクショのハッシュ比較
     const buf = await p.screenshot({ type: 'jpeg', quality: 40, clip: { x: 0, y: 0, width: W, height: H }, scale: 'css' });
     const hash = require('crypto').createHash('md5').update(buf).digest('hex');
-    if (hash === prevHash) { stillSince += STEP; if (stillSince >= 2.5 && Math.abs(stillSince - 2.5) < 1e-6 && r.end < 0.5) issues.push(`2.5秒以上動きなし t=${(t - stillSince).toFixed(2)}〜`); }
+    { // 総見直し（2026-11-10）の新しい見張り：まずは「知らせる」（警告）。在庫の回を直し終えたら不合格に上げる
+      for (const c of r.caps || []) if (r.end < 0.5) capSet.add(c.slice(0, 40));
+      for (const id of ['ren', 'jil']) { const b = r.bodies && r.bodies[id]; if (!b || r.end >= 0.5) continue; const w = b[2] - b[0], h = b[3] - b[1]; if (w < 5 || h < 5) continue;
+        const vis = Math.max(0, Math.min(b[2], W) - Math.max(b[0], 0)) * Math.max(0, Math.min(b[3], H) - Math.max(b[1], 0)) / (w * h);
+        if (vis < 0.6 && r.z < 1.6) cutT[id] = (cutT[id] || 0) + STEP; // 寄り（z≥1.6）は演出として除く
+        if (vis > 0.95) sizeSum[id] = (sizeSum[id] || 0) + h / H, sizeN[id] = (sizeN[id] || 0) + 1; }
+    }
+    if (hash === prevHash) { stillSince += STEP; if (stillSince >= 1.5 && Math.abs(stillSince - 1.5) < 1e-6 && r.end < 0.5) warns.push(`1.5秒以上止まっている t=${(t - stillSince).toFixed(2)}〜（オチ前の間は0.7秒まで）`); if (stillSince >= 2.5 && Math.abs(stillSince - 2.5) < 1e-6 && r.end < 0.5) issues.push(`2.5秒以上動きなし t=${(t - stillSince).toFixed(2)}〜`); }
     else stillSince = 0;
     prevHash = hash;
     // 白飛び／黒つぶれ：ごく小さいJPEGは単色
@@ -138,6 +149,9 @@ const STEP = 0.125, W = 1080, H = 1920;
   const endOp = await p.evaluate(() => parseFloat(getComputedStyle(document.getElementById('end')).opacity));
   if (endOp < 0.9) issues.push(`エンドカードが出ていない（opacity ${endOp}）`);
   { const cut = await p.evaluate(() => window.__LIMBCUT || 0); if (cut > 0) issues.push(`腕を長く伸ばす所がある（必要な長さ ${Math.round(cut)}px）：レンとジルには腕がない。持ち物は体のすぐ前に置き、前足だけで持つ`); }
+  if (capSet.size > 2) warns.push(`字幕が${capSet.size}種類（決まりは2回まで。オチは絵で見せる）：${[...capSet].map(x => x.split(/\s+/)[0]).join('／')}`);
+  for (const id of ['ren', 'jil']) { if ((cutT[id] || 0) >= 1) warns.push(`${id === 'ren' ? 'レン' : 'ジル'}の体が画面から4割以上切れている時間が${cutT[id].toFixed(1)}秒（寄りの演出を除く）`);
+    if (sizeN[id] >= 8 && sizeSum[id] / sizeN[id] < 0.2) warns.push(`${id === 'ren' ? 'レン' : 'ジル'}が小さい（画面の高さの平均${Math.round(100 * sizeSum[id] / sizeN[id])}%。35%以上が目安）`); }
   await b.close();
   if (errors.length) issues.push(...[...new Set(errors)].slice(0, 5));
   // コンタクトシート（4x3）
