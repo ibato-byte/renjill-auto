@@ -4,6 +4,7 @@
 // オチ：ジルが帽子を持ち上げると、中で課長がぐっすり。字幕「中で寝てた」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
+const CHIP_OFF = () => ''; // 総見直し（2026-11-10）：字幕は2回まで。3回目以降（オチの説明）は出さず、絵で見せる
 // サンタ帽（下の中心 x,y・幅 w・高さ h・先の曲がり bend）
 const HAT = (x, y, w, h, bend, rot) => `<g transform="translate(${x} ${y}) rotate(${rot || 0})">`
   + `<path d="M${-w / 2} 0 C${-w * .38} ${-h * .55} ${-w * .1 + bend * .3} ${-h * .9} ${bend} ${-h} C${w * .12 + bend * .4} ${-h * .82} ${w * .4} ${-h * .5} ${w / 2} 0 Z" fill="#D9372E"/>`
@@ -52,7 +53,7 @@ var EP = {
     if (t > 6.6 && t < 8.6) fx += L.emark(220, DESK - 650, 1.0, '…');
     let ui = (t > 1.0 && t < 2.3 ? CHIP(L, 'SANTA HATS', 'サンタ帽、ジルはちょこん', 1580, seg(t, 1.0, 1.3)) : '')
       + (t > 2.9 && t < 4.6 ? CHIP(L, "BOSS'S HAT: XXL", '上司の帽子：特大', 1580, seg(t, 2.9, 3.2)) : '')
-      + (t > 6.3 && t < 8.6 ? CHIP(L, 'INSIDE: ASLEEP', '中で寝てた', 1580, seg(t, 6.3, 6.6)) : '');
+      + (t > 6.3 && t < 8.6 ? CHIP_OFF(L, 'INSIDE: ASLEEP', '中で寝てた', 1580, seg(t, 6.3, 6.6)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.4, cx: 300, cy: 1050 },
       { t: 0.01, z: 1.05, cx: 540, cy: 1100, d: .9 },

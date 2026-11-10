@@ -4,6 +4,7 @@
 // オチ：レンは机の雪で小さな雪うさぎを作ってご満悦。字幕「換気：3秒。雪うさぎ：1羽」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
+const CHIP_OFF = () => ''; // 総見直し（2026-11-10）：字幕は2回まで。3回目以降（オチの説明）は出さず、絵で見せる
 const FLAKES = (t, n, x0, x1, y0, y1, op) => { let s = `<g fill="#fff" opacity="${op}">`; for (let i = 0; i < n; i++) { const u = (i * 0.618) % 1, ph = (t * (.35 + (i % 5) * .08) + u) % 1; const x = x0 + (x1 - x0) * ((u * 7 + Math.sin(t * 1.3 + i) * .04 + 1) % 1), y = y0 + (y1 - y0) * ph; s += `<circle cx="${x}" cy="${y}" r="${6 + (i % 3) * 3}"/>`; } return s + '</g>'; };
 const DRIFT = (x, y, w, h) => h <= 0 ? '' : `<path d="M${x - w / 2} ${y} Q${x - w / 4} ${y - h} ${x} ${y - h * .8} Q${x + w / 4} ${y - h * 1.1} ${x + w / 2} ${y} Z" fill="#fff" stroke="#DCE9F5" stroke-width="4"/>`;
 const SNOWBUNNY = (x, y, k) => k <= 0 ? '' : `<g transform="translate(${x} ${y}) scale(${k})"><ellipse cx="0" cy="0" rx="70" ry="48" fill="#fff" stroke="#DCE9F5" stroke-width="4"/><ellipse cx="-30" cy="-60" rx="12" ry="34" fill="#7FB37A" transform="rotate(-18 -30 -60)"/><ellipse cx="-6" cy="-64" rx="12" ry="34" fill="#7FB37A" transform="rotate(10 -6 -64)"/><circle cx="-34" cy="-14" r="5" fill="#E8473A"/><circle cx="-12" cy="-14" r="5" fill="#E8473A"/></g>`;
@@ -43,7 +44,7 @@ var EP = {
     if (t > 4.4 && t < 5.6) fx += L.emark(230, DESK - 650, 1.0);
     let ui = (t > 1.8 && t < 3.3 ? CHIP(L, 'FRESH AIR: 3 SECONDS', '上司の換気。3秒だけ', 1380, seg(t, 1.8, 2.1)) : '')
       + (t > 4.6 && t < 6.0 ? CHIP(L, 'SNOW: INSIDE', '雪、部屋の中に', 1380, seg(t, 4.6, 4.9)) : '')
-      + (t > 7.6 && t < 8.6 ? CHIP(L, 'RESULT: 1 SNOW BUNNY', '結果：雪うさぎ1羽', 1380, seg(t, 7.6, 7.9)) : '');
+      + (t > 7.6 && t < 8.6 ? CHIP_OFF(L, 'RESULT: 1 SNOW BUNNY', '結果：雪うさぎ1羽', 1380, seg(t, 7.6, 7.9)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.35, cx: 540, cy: 1100 },
       { t: 0.01, z: 1.05, cx: 540, cy: 1050, d: .9 },

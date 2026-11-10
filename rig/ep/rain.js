@@ -3,6 +3,7 @@
 // ひっくり返し：レンがタオルの前に犬みたいに「ぶるぶる」→ しずくが飛ぶ → オチ：ジルも濡れた。字幕「ジルも濡れた」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
+const CHIP_OFF = () => ''; // 総見直し（2026-11-10）：字幕は2回まで。3回目以降（オチの説明）は出さず、絵で見せる
 const RAIN = (t) => { let s = '<g stroke="#9BB8D8" stroke-width="5" stroke-linecap="round" opacity=".8">'; for (let i = 0; i < 40; i++) { const x = 70 + (i * 173) % 940, y = 230 + ((i * 97 + t * 700) % 420); if ((x > 390 && x < 690)) continue; s += `<line x1="${x}" y1="${y}" x2="${x - 6}" y2="${y + 28}"/>`; } return s + '</g>'; };
 const DROP = (x, y, s = 1) => `<path d="M${x} ${y - 22 * s} q${14 * s} ${22 * s} 0 ${30 * s} q${-14 * s} ${-8 * s} 0 ${-30 * s}Z" fill="#6FA8DC"/>`;
 const TOWEL = (x, y, rot = 0) => `<g transform="translate(${x} ${y}) rotate(${rot})"><rect x="-90" y="-50" width="180" height="100" rx="14" fill="#FFF3C4" stroke="#E6C96A" stroke-width="5"/><rect x="-90" y="-20" width="180" height="12" fill="#E6C96A" opacity=".6"/><rect x="-90" y="8" width="180" height="12" fill="#E6C96A" opacity=".6"/></g>`;
@@ -40,7 +41,7 @@ var EP = {
     if (t >= 6.3) fx += L.sparkles(h.x + 360, DESK - 500, t, .9, 5);  // すっきりしたレン
     let ui = (t > 1.8 && t < 3.4 ? CHIP(L, 'RAIN. NO UMBRELLA.', '雨の朝、傘を忘れた上司が到着', 1380, seg(t, 1.8, 2.1)) : '')
       + (t > 3.8 && t < 5.2 ? CHIP(L, 'TOWEL, PLEASE', 'ジルがタオルを差し出す', 1380, seg(t, 3.8, 4.1)) : '')
-      + (t > 6.5 && t < 8.6 ? CHIP(L, 'SHAKE. JILL: ALSO WET', 'ぶるぶる。ジルも濡れた', 1380, seg(t, 6.5, 6.8)) : '');
+      + (t > 6.5 && t < 8.6 ? CHIP_OFF(L, 'SHAKE. JILL: ALSO WET', 'ぶるぶる。ジルも濡れた', 1380, seg(t, 6.5, 6.8)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.4, cx: 700, cy: 1100 },
       { t: 0.01, z: 1.05, cx: 600, cy: 1100, d: .9 },

@@ -4,6 +4,7 @@
 // オチ：ジルの凧糸の先は、浮いた課長（ネクタイに結ばれている）。課長はご満悦。字幕「よくあがる凧：上司」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
+const CHIP_OFF = () => ''; // 総見直し（2026-11-10）：字幕は2回まで。3回目以降（オチの説明）は出さず、絵で見せる
 const KITE = (x, y, r) => `<g transform="translate(${x} ${y}) rotate(${r})"><path d="M0 -70 L56 0 L0 70 L-56 0 Z" fill="#E8473A" stroke="#B8302A" stroke-width="5"/><path d="M0 -70 L0 70 M-56 0 L56 0" stroke="#F2D3A8" stroke-width="4"/><text y="18" text-anchor="middle" font-family="Noto Sans CJK JP" font-weight="900" font-size="44" fill="#FFF7E8">福</text>`
   + `<path d="M0 70 q-20 30 0 60 q20 30 0 60" stroke="#F2C230" stroke-width="6" fill="none"/></g>`;
 const WIND = (t, k) => k <= 0 ? '' : `<g stroke="#FFFFFF" stroke-width="8" stroke-linecap="round" fill="none" opacity="${(.7 * k).toFixed(2)}">${[0, 1, 2, 3, 4].map(i => { const u = (t * 1.4 + i / 5) % 1, x = -200 + u * 1500, y = 760 + i * 110 + Math.sin(u * 6 + i) * 20; return `<path d="M${x} ${y} q60 -24 120 0 q40 16 70 -6"/>`; }).join('')}</g>`;
@@ -40,7 +41,7 @@ var EP = {
     if (t > 6.0 && t < 7.0) fx += L.sparkles(rx + 300, ry + 100, t, 1.0, 6);
     let ui = (t > 0.5 && t < 2.6 ? CHIP(L, 'NEW YEAR KITE', 'お正月の凧あげ', 1640, seg(t, .5, .8)) : '')
       + (t > 2.8 && t < 4.2 ? CHIP(L, 'STRONG WIND', '強い風、たれ耳がばたばた', 1640, seg(t, 2.8, 3.1)) : '')
-      + (t > 6.2 && t < 8.6 ? CHIP(L, 'BEST KITE: THE BOSS', 'よくあがる凧：上司', 1640, seg(t, 6.2, 6.5)) : '');
+      + (t > 6.2 && t < 8.6 ? CHIP_OFF(L, 'BEST KITE: THE BOSS', 'よくあがる凧：上司', 1640, seg(t, 6.2, 6.5)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.2, cx: 420, cy: 1000 },
       { t: 0.01, z: 1.0, cx: 520, cy: 1050, d: .9 },

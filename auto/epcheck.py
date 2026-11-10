@@ -1,0 +1,108 @@
+#!/usr/bin/env python3
+"""台本（rig/ep/*.js）と予定（schedule.json）の決まりの検査（総見直し 2026-11-10・OVERHAUL の A/D/E/F/G）。
+
+  python3 auto/epcheck.py [--days 14]   … 今日以降の予定の回を検査。不合格があれば終了コード 2
+
+検査すること（ISSUE＝不合格／WARN＝知らせる）
+- 字幕（CHIP）の数：3回以上は ISSUE（決まりは2回まで。オチは絵で見せる）  … 156・157・174
+- 字幕の長さ：英語 24 文字・日本語 18 文字を超えたら WARN                    … 38・159
+- 冒頭の一言（pace.js の hook）：英語 5 語以上は WARN（3〜4 語）            … 136
+- 尺：画面に出る長さが 7〜12 秒の外なら WARN                               … 5・143
+- 同じ効果音の組み合わせ：「目立つ音」（pon/boing/chime/thump/flop）が3日続けて同じなら WARN … 127
+- 同じ部屋：前の3話と同じ見た目（rig/v2/looks.js）なら ISSUE                … 179
+- 小物の名前（L.xxx の小物）が3日続けて同じなら WARN                        … 15・180
+- 字幕でオチを言う言葉（DONE / FINALLY / 結局 / オチ など）が2回目の字幕にあれば WARN … 26・157
+"""
+import datetime as dt, json, pathlib, re, sys
+
+ROOT = pathlib.Path(__file__).resolve().parent.parent
+EP = ROOT / "rig" / "ep"
+JST = dt.timezone(dt.timedelta(hours=9))
+LOUD = {"pon", "boing", "chime", "thump", "flop"}
+PROPS = {"laptop", "papers", "bag", "chair", "hayStrand", "stamp", "stamper", "digital", "clock"}
+PUNCH = re.compile(r"\b(DONE|FINALLY|SOLVED|THE END)\b|結局|オチ|解決|おわり", re.I)
+_CHIP = re.compile(r"CHIP\(L,\s*(['\"])(.*?)(?<!\\)\1\s*,\s*(['\"])(.*?)(?<!\\)\3")
+
+
+def captions(src):
+    return [(m.group(2), m.group(4)) for m in _CHIP.finditer(src)]
+
+
+def pace():
+    src = (ROOT / "rig" / "pace.js").read_text(encoding="utf-8")
+    out = {}
+    for m in re.finditer(r"(?:PACE_ALL\.(\w+)\s*=\s*|^\s*(\w+):\s*)\{\s*start:\s*([\d.]+),\s*speed:\s*([\d.]+),\s*hook:\s*'([^']*)'", src, re.M):
+        out[m.group(1) or m.group(2)] = {"start": float(m.group(3)), "speed": float(m.group(4)), "hook": m.group(5)}
+    return out
+
+
+def info(ep, pc):
+    f = EP / f"{ep}.js"
+    if not f.exists():
+        return None
+    src = f.read_text(encoding="utf-8")
+    m = re.search(r"dur:\s*([\d.]+)", src)
+    dur = float(m.group(1)) if m else None
+    p = pc.get(ep, {"start": 0, "speed": 1, "hook": ""})
+    return {
+        "caps": captions(src),
+        "out": (dur - p["start"]) / p["speed"] if dur else None,
+        "hook": p["hook"],
+        "loud": frozenset(re.findall(r"type:\s*'([a-z]+)'", src)) & LOUD,
+        "props": frozenset(re.findall(r"L\.(\w+)\(", src)) & PROPS,
+    }
+
+
+def looks():
+    f = ROOT / "rig" / "v2" / "looks.js"
+    return {k: int(v) for k, v in re.findall(r'"(\w+)":\s*(\d)', f.read_text())} if f.exists() else {}
+
+
+def check(posts, today, days=14, pc=None, lk=None):
+    pc = pace() if pc is None else pc
+    lk = looks() if lk is None else lk
+    rows = sorted([p for p in posts if p.get("ep")], key=lambda p: (p["date"], p.get("slot", "")))
+    end = (today + dt.timedelta(days=days)).isoformat()
+    issues, warns, hist = [], [], []
+    for p in rows:
+        ep, d = p["ep"], p["date"]
+        i = info(ep, pc)
+        if i is None:
+            continue
+        cur = d >= today.isoformat() and d < end
+        tag = f"{d} {ep}"
+        if cur:
+            if len(i["caps"]) > 2:
+                issues.append(f"{tag}: 字幕が{len(i['caps'])}回（2回まで。オチは絵で見せる）")
+            for en, ja in i["caps"]:
+                if len(en) > 24: warns.append(f"{tag}: 字幕の英語が長い（{len(en)}文字）「{en}」")
+                if len(ja) > 18: warns.append(f"{tag}: 字幕の日本語が長い（{len(ja)}文字）「{ja}」")
+            if len(i["caps"]) >= 2 and PUNCH.search(" ".join(i["caps"][-1])):
+                warns.append(f"{tag}: 最後の字幕がオチを言っている「{i['caps'][-1][0]}」")
+            en = i["hook"].split("/")[0]
+            if len(en.split()) > 4: warns.append(f"{tag}: 冒頭の英語が{len(en.split())}語（3〜4語に）")
+            if i["out"] and not (7 <= i["out"] <= 12): warns.append(f"{tag}: 尺 {i['out']:.1f}秒（7〜12秒に）")
+            if ep in lk and any(lk.get(h) == lk[ep] for h in hist[-3:]):
+                issues.append(f"{tag}: 前の3話と同じ部屋（rig/v2/looks.js を作り直す：python3 auto/looks.py）")
+            prev = [info(h, pc) for h in hist[-2:]]
+            if len(prev) == 2 and all(x and x["loud"] and x["loud"] == i["loud"] for x in prev) and i["loud"]:
+                warns.append(f"{tag}: 目立つ効果音が3話続けて同じ（{'・'.join(sorted(i['loud']))}）")
+            if len(prev) == 2 and i["props"] and all(x and (x["props"] & i["props"]) for x in prev):
+                common = i["props"] & prev[0]["props"] & prev[1]["props"]
+                if common: warns.append(f"{tag}: 同じ小物が3話続く（{'・'.join(sorted(common))}）")
+        hist.append(ep)
+    return {"issues": issues, "warns": warns}
+
+
+def main(argv):
+    days = int(argv[argv.index("--days") + 1]) if "--days" in argv else 14
+    posts = json.loads((ROOT / "auto" / "schedule.json").read_text())["posts"]
+    r = check(posts, dt.datetime.now(JST).date(), days)
+    for x in r["issues"]: print("ISSUE", x)
+    for x in r["warns"]: print("WARN ", x)
+    print(f"issues {len(r['issues'])} warns {len(r['warns'])}")
+    return 2 if r["issues"] else 0
+
+
+if __name__ == "__main__":
+    sys.exit(main(sys.argv[1:]))

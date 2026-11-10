@@ -4,6 +4,7 @@
 // オチ：レンはお肌つやつや（きらきら・ご満悦）。ジルはメガネを拭いてジト目。字幕「湿度99%。上司：つやつや」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
+const CHIP_OFF = () => ''; // 総見直し（2026-11-10）：字幕は2回まで。3回目以降（オチの説明）は出さず、絵で見せる
 // 加湿器（底の中央 x,y）。knob=つまみの角度（0〜1）
 const HUMID = (x, y, knob) => `<g transform="translate(${x} ${y})"><path d="M-80 0 L-70 -170 Q0 -200 70 -170 L80 0 Z" fill="#EAF4FF" stroke="#9BB8D8" stroke-width="6"/><ellipse cx="0" cy="-178" rx="36" ry="10" fill="#9BB8D8"/><circle cx="0" cy="-70" r="30" fill="#fff" stroke="#9BB8D8" stroke-width="5"/><line x1="0" y1="-70" x2="${Math.cos(Math.PI * (1.25 - knob * 1.5)) * 22}" y2="${-70 - Math.sin(Math.PI * (1.25 - knob * 1.5)) * 22}" stroke="#E8473A" stroke-width="6" stroke-linecap="round"/><text x="0" y="-22" text-anchor="middle" font-family="Noto Sans" font-weight="900" font-size="22" fill="${knob > .9 ? '#E8473A' : '#7A8FA8'}">${knob > .9 ? 'MAX' : 'LOW'}</text></g>`;
 // 湯気（強さ k）
@@ -47,7 +48,7 @@ var EP = {
     if (t > 5.8 && t < 6.6) fx += L.emark(230, DESK - 650, 1.0, '…');
     let ui = (t > 1.8 && t < 3.2 ? CHIP(L, 'DRY AIR: 20%', '乾燥。上司が加湿器をMAXに', 1580, seg(t, 1.8, 2.1)) : '')
       + (t > 4.8 && t < 6.2 ? CHIP(L, 'HUMIDITY: 99%', '湿度99%。ジルのメガネ、真っ白', 1580, seg(t, 4.8, 5.1)) : '')
-      + (t > 7.2 && t < 8.6 ? CHIP(L, 'BOSS: GLOWING', '上司：お肌つやつや', 1580, seg(t, 7.2, 7.5)) : '');
+      + (t > 7.2 && t < 8.6 ? CHIP_OFF(L, 'BOSS: GLOWING', '上司：お肌つやつや', 1580, seg(t, 7.2, 7.5)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.35, cx: 540, cy: 1150 },
       { t: 0.01, z: 1.05, cx: 540, cy: 1150, d: .9 },

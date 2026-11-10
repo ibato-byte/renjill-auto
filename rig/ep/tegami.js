@@ -4,6 +4,7 @@
 // オチ：ジルが拾って読む → 全部「牧草」。字幕「ジル：1行。上司：3メートル（ほぼ牧草）」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
+const CHIP_OFF = () => ''; // 総見直し（2026-11-10）：字幕は2回まで。3回目以降（オチの説明）は出さず、絵で見せる
 const HAY = (x, y) => `<g transform="translate(${x} ${y})"><path d="M-14 12 q2 -20 -2 -30 M-4 12 q0 -24 4 -32 M6 12 q2 -22 8 -28" stroke="#9CC46A" stroke-width="5" fill="none" stroke-linecap="round"/><rect x="-16" y="6" width="32" height="8" rx="3" fill="#C9A24A"/></g>`;
 const CARROT = (x, y) => `<g transform="translate(${x} ${y}) rotate(30)"><path d="M0 -24 L9 14 L-9 14 Z" fill="#F27B3A"/><path d="M0 -24 l-6 -10 M0 -24 l6 -10" stroke="#5E9E4A" stroke-width="5" stroke-linecap="round"/></g>`;
 // 長い紙（道のり）：机の上 → 机の前面を下へ → 床を左へ。len=0〜1
@@ -51,7 +52,7 @@ var EP = {
     if (t > 7.0 && t < 8.0) fx += L.emark(230, DESK - 650, 1.0, '…');
     let ui = (t > 1.6 && t < 3.0 ? CHIP(L, 'DEAR SANTA', 'サンタへの手紙。ジルは1行', 1580, seg(t, 1.6, 1.9)) : '')
       + (t > 4.2 && t < 5.8 ? CHIP(L, "BOSS: STILL WRITING", '上司、まだ書いている', 1580, seg(t, 4.2, 4.5)) : '')
-      + (t > 6.8 && t < 8.6 ? CHIP(L, 'JILL: 1 LINE. BOSS: 3 M', 'ジル1行。上司3メートル（ほぼ牧草）', 1580, seg(t, 6.8, 7.1)) : '');
+      + (t > 6.8 && t < 8.6 ? CHIP_OFF(L, 'JILL: 1 LINE. BOSS: 3 M', 'ジル1行。上司3メートル（ほぼ牧草）', 1580, seg(t, 6.8, 7.1)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.35, cx: 540, cy: 1150 },
       { t: 0.01, z: 1.05, cx: 540, cy: 1150, d: .9 },
