@@ -26,7 +26,8 @@ const STEP = 0.125, W = 1080, H = 1920;
     const thick = (src.match(/'stroke-width':\s*(2[8-9]|[3-9]\d)\b[^)]*'stroke-linecap':\s*'round'|'stroke-linecap':\s*'round'[^)]*'stroke-width':\s*(2[8-9]|[3-9]\d)\b/g) || []);
     if (thick.length) issues.push(`腕のような太い線を直接描いている（${thick.length}か所）：腕は limb() で、体のふちから短く`); } catch (e) { }
   if (!(dur >= 8 && dur <= 20)) issues.push(`尺が範囲外: ${dur.toFixed(1)}s（8〜20s。目安は7〜12s、最後まで見られる長さに）`);
-  else if (dur > 17) warns.push(`尺が長め: ${dur.toFixed(1)}s（目安は7〜12s）`);
+  else if (dur > 17) warns.push(`尺が長め: ${dur.toFixed(1)}s（目安は7〜10s）`);
+  else if (dur > 12) warns.push(`尺が目安より長い: ${dur.toFixed(1)}s（総見直しの目安は7〜10s。頭の何も起きない所を削る）`);
   // ---- 最初のコマ＝表紙（TikTok などは最初のコマが表紙になる）：冒頭の一言が薄くないこと（2026-11-10 の報告「サムネが薄い」）
   { await p.evaluate(() => window.setOut(0)); const f0 = await p.evaluate(() => { const h = document.getElementById('hook'); return h && h.textContent.trim() ? parseFloat(getComputedStyle(h).opacity) : null; });
     if (f0 !== null && f0 < 0.98) issues.push(`最初のコマで冒頭の一言が薄い（濃さ ${f0.toFixed(2)}）：表紙が薄くなる。最初のコマから濃さ100%で出す`); }
