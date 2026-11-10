@@ -430,6 +430,8 @@ def main(argv=None):
         yt_path, loop_path = render(p["ep"])
         story_src = loop_path  # ストーリーズの見どころは元のループ版から切り出す
         if not qa_gate(p["ep"], yt_path, loop_path):
+            if posted.get(f'{p["date"]}_{p["ep"]}', {}).get("ig") or posted.get(f'{p["date"]}_{p["ep"]}', {}).get("yt"):
+                log("QA不合格だが本編は投稿済み。残りのおまけだけ見送り", key); results["QA"] = "投稿済みの回。おまけだけ見送り"; continue  # 2026-11-10 Hub #246：出した回の再判定で「どの SNS にも出していない」と出さない
             failed.append(f"{key}:QA"); results["QA"] = "不合格で見送り"
             actions.append(f'「{p["title"]}」（{p["date"]} {p["slot"]}）が投稿前の QA に不合格で、どの SNS にも出していない（理由は dist/{p["ep"]}_qa.json）。Claude に「{p["ep"]} の QA を直して出し直して」と伝える')
             continue
