@@ -4,7 +4,7 @@
 // オチ：二人で一本のマフラーをぐるぐる。字幕「長さ：5メートル。二人用」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
-const CHIP_OFF = () => ''; // 総見直し（2026-11-10）：字幕は2回まで。3回目以降（オチの説明）は出さず、絵で見せる
+const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
 // マフラーの巻き（首に n 周）＋ 余りの帯
 const WRAP = (x, y, n, w = 300) => { let s = ''; for (let i = 0; i < n; i++) { const ww = w + i * 24; s += `<path d="M${x - ww / 2} ${y + i * 24} q${ww / 2} ${34} ${ww} 0" fill="none" stroke="${i % 2 ? '#E8473A' : '#F2B544'}" stroke-width="30" stroke-linecap="round"/>`; } return s; };
 const BAND = (pts) => `<path d="M${pts.map(p => p.join(' ')).join(' L')}" fill="none" stroke="#E8473A" stroke-width="30" stroke-linecap="round" stroke-linejoin="round"/><path d="M${pts.map(p => p.join(' ')).join(' L')}" fill="none" stroke="#F2B544" stroke-width="30" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="40 40"/>`;
@@ -44,7 +44,7 @@ var EP = {
     if (t > 6.2 && t < 6.8) fx += L.speed(300, DESK - 100, (1 - seg(t, 6.2, 6.8)) * .5, 16);
     if (t > 7.9) fx += L.sparkles(540, DESK - 420, t, 1.0, 6);
     let ui = (t > 1.8 && t < 3.3 ? CHIP(L, 'A SCARF FROM JILL', 'ジルの手編みのマフラー。上司へ', 1380, seg(t, 1.8, 2.1)) : '')
-      + (t > 4.8 && t < 6.2 ? CHIP(L, '5 WRAPS. STILL GOING.', '5周巻いても、まだ余る', 1380, seg(t, 4.8, 5.1)) : '')
+      + (t > 4.8 && t < 6.2 ? CHIP_OFF(L, '5 WRAPS. STILL GOING.', '5周巻いても、まだ余る', 1380, seg(t, 4.8, 5.1)) : '')
       + (t > 7.4 && t < 8.6 ? CHIP_OFF(L, 'LENGTH: 5 M. FOR TWO.', '長さ：5メートル。二人用', 1380, seg(t, 7.4, 7.7)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.35, cx: 540, cy: 1150 },

@@ -4,7 +4,7 @@
 // オチ：ジルが見ると、残っているのは赤いリボンだけ。レンの口のまわりに緑のかけら。字幕「リース：完食。残り：リボン」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
-const CHIP_OFF = () => ''; // 総見直し（2026-11-10）：字幕は2回まで。3回目以降（オチの説明）は出さず、絵で見せる
+const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
 // リース（中心 x,y）。eaten=食べられた割合（右側＝レン側から減る）
 const WREATH = (x, y, eaten) => { const N = 28; let s = `<g transform="translate(${x} ${y})"><line x1="0" y1="110" x2="0" y2="240" stroke="#8C5A3C" stroke-width="12"/><rect x="-70" y="232" width="140" height="18" rx="8" fill="#8C5A3C"/>`;
   for (let i = 0; i < N; i++) { const a = -Math.PI / 2 + (i / N) * Math.PI * 2; const order = (Math.cos(a) + 1) / 2;   // 右側ほど先に食べられる
@@ -46,7 +46,7 @@ var EP = {
     if (t > 6.1 && t < 7.2) fx += L.emark(230, DESK - 650, 1.0, '…');
     if (t > 7.2 && t < 7.7) fx += L.impact(WX, WY + 100, seg(t, 7.2, 7.7), .7, '#E8473A');
     let ui = (t > 1.4 && t < 2.8 ? CHIP(L, 'CHRISTMAS WREATH', 'ジルが飾った、クリスマスリース', 1580, seg(t, 1.4, 1.7)) : '')
-      + (t > 3.4 && t < 5.2 ? CHIP(L, 'MADE OF GREENS', 'リースは、緑の葉っぱ製', 1580, seg(t, 3.4, 3.7)) : '')
+      + (t > 3.4 && t < 5.2 ? CHIP_OFF(L, 'MADE OF GREENS', 'リースは、緑の葉っぱ製', 1580, seg(t, 3.4, 3.7)) : '')
       + (t > 6.4 && t < 8.6 ? CHIP_OFF(L, 'LEFT: THE RIBBON', 'リース：完食。残り：リボン', 1580, seg(t, 6.4, 6.7)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.35, cx: 540, cy: 1150 },

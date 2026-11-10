@@ -4,7 +4,7 @@
 // オチ：課長は箱の中でご満悦。ジルはジト目「…」。字幕「中身：上司」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
-const CHIP_OFF = () => ''; // 総見直し（2026-11-10）：字幕は2回まで。3回目以降（オチの説明）は出さず、絵で見せる
+const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
 // 大きな箱（下の中心 x、底 y）。open=0〜1 でリボンがほどける、lid=ふたの飛び（0〜1）
 const BOX = (x, y, untie, lid) => { const w = 380, h = 300, top = y - h;
   let s = `<g><rect x="${x - w / 2}" y="${top}" width="${w}" height="${h}" rx="16" fill="#3E8A55"/><rect x="${x - w / 2}" y="${top}" width="${w}" height="${h}" rx="16" fill="none" stroke="#2D6A40" stroke-width="6"/>`
@@ -52,7 +52,7 @@ var EP = {
     if (t > 5.6 && t < 6.6) fx += L.sparkles(bx, DESK - 520, t, 1.4, 10);
     if (t > 7.4 && t < 8.6) fx += L.emark(220, DESK - 650, 1.0, '…');
     let ui = (t > 0.8 && t < 2.2 ? CHIP(L, 'GIFT EXCHANGE', 'プレゼント交換', 1580, seg(t, .8, 1.1)) : '')
-      + (t > 3.4 && t < 4.6 ? CHIP(L, 'TO: JILL', '大きな箱、ジルあて', 1580, seg(t, 3.4, 3.7)) : '')
+      + (t > 3.4 && t < 4.6 ? CHIP_OFF(L, 'TO: JILL', '大きな箱、ジルあて', 1580, seg(t, 3.4, 3.7)) : '')
       + (t > 6.6 && t < 8.6 ? CHIP_OFF(L, 'INSIDE: THE BOSS', '中身：上司', 1580, seg(t, 6.6, 6.9)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.35, cx: 380, cy: 1180 },

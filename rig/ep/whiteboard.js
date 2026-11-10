@@ -4,7 +4,7 @@
 // オチ：グラフがうさぎの顔に。課長はご満悦、ジルはジト目。字幕「売上グラフ：うさぎになった」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
-const CHIP_OFF = () => ''; // 総見直し（2026-11-10）：字幕は2回まで。3回目以降（オチの説明）は出さず、絵で見せる
+const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
 // 線を k（0〜1）まで描く：path の長さを使わず、点の列を途中まで
 const PART = (pts, k) => { const n = pts.length - 1, m = Math.max(0, Math.min(n, k * n)), i = Math.floor(m), f = m - i; const out = pts.slice(0, i + 1); if (i < n) out.push([pts[i][0] + (pts[i + 1][0] - pts[i][0]) * f, pts[i][1] + (pts[i + 1][1] - pts[i][1]) * f]); return out.length > 1 ? 'M' + out.map(p => p.join(' ')).join(' L') : ''; };
 // ボード（左上が 140,300・幅 800・高さ 520）
@@ -48,7 +48,7 @@ var EP = {
     if (t > 5.8 && t < 7.0) fx += L.sparkles(px, py + 60, t, 1.6, 8);
     if (t > 7.0 && t < 8.6) fx += L.emark(220, DESK - 640, 1.0, '…');
     let ui = (t > 0.8 && t < 2.6 ? CHIP(L, 'SALES ARE UP', 'ジル、売上のグラフ', 1600, seg(t, .8, 1.1)) : '')
-      + (t > 3.8 && t < 5.6 ? CHIP(L, 'BOSS ADDS A LITTLE…', '課長が少し書き足す', 1600, seg(t, 3.8, 4.1)) : '')
+      + (t > 3.8 && t < 5.6 ? CHIP_OFF(L, 'BOSS ADDS A LITTLE…', '課長が少し書き足す', 1600, seg(t, 3.8, 4.1)) : '')
       + (t > 6.2 && t < 8.6 ? CHIP_OFF(L, 'THE CHART: A BUNNY', '売上グラフ：うさぎになった', 1600, seg(t, 6.2, 6.5)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.25, cx: 400, cy: 900 },

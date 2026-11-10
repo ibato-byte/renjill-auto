@@ -4,6 +4,7 @@
 // オチ：課長は背中を向けて待つ。ジルがしぶしぶトントン。課長はうっとり。字幕「お年玉：たたく券（上司の肩を）」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
+const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
 // ポチ袋（中心 x,y・回転 r・ふたが開く o）
 const POCHI = (x, y, r, o) => `<g transform="translate(${x} ${y}) rotate(${r})"><rect x="-46" y="-66" width="92" height="132" rx="8" fill="#E8473A" stroke="#B8302A" stroke-width="4"/><path d="M-46 -66 L0 ${-66 + 46 * (1 - 2 * o)} L46 -66" fill="#D63D31" stroke="#B8302A" stroke-width="4"/>`
   + `<circle cy="10" r="24" fill="#FFF7E8"/><text y="22" text-anchor="middle" font-family="Noto Sans CJK JP" font-weight="900" font-size="32" fill="#E8473A">福</text><path d="M-30 46 Q0 34 30 46" stroke="#F2C230" stroke-width="6" fill="none"/></g>`;
@@ -39,7 +40,7 @@ var EP = {
     if (tapping) { const k = ((t - 5.8) % .3) / .3; fx += L.impact(700, 1150, k, .35, '#F2C230'); }
     if (t > 7.4 && t < 8.6) fx += L.emark(220, DESK - 650, 1.0, '…');
     let ui = (t > 1.0 && t < 2.8 ? CHIP(L, 'A NEW YEAR GIFT?', '課長からポチ袋', 1600, seg(t, 1.0, 1.3)) : '')
-      + (t > 6.2 && t < 8.6 ? CHIP(L, 'GIFT: A MASSAGE TICKET', 'お年玉：肩たたき券（課長の肩を）', 1600, seg(t, 6.2, 6.5)) : '');
+      + (t > 6.2 && t < 8.6 ? CHIP_OFF(L, 'GIFT: A MASSAGE TICKET', 'お年玉：肩たたき券（課長の肩を）', 1600, seg(t, 6.2, 6.5)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.3, cx: 700, cy: 1150 },
       { t: 0.01, z: 1.05, cx: 540, cy: 1150, d: .9 },

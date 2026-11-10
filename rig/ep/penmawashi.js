@@ -4,6 +4,7 @@
 // オチ：目が回ってふらふら、ペンは机に立ったまま。字幕「上司のペン回し：本人が回る」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
+const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
 const PEN = (x, y, r, c) => `<g transform="translate(${x} ${y}) rotate(${r})"><rect x="-80" y="-9" width="160" height="18" rx="8" fill="${c}" stroke="#2B5E8A" stroke-width="3"/><rect x="-86" y="-10" width="26" height="20" rx="6" fill="#2B5E8A"/><path d="M80 -9 L102 0 L80 9 Z" fill="#F2D3A8"/></g>`;
 var EP = {
   dur: 9.5,
@@ -37,7 +38,7 @@ var EP = {
     if (dizzy && t < 7.6) fx += `<g transform="translate(${RN[0] - 10} ${RN[1] - 290}) rotate(${t * 200})"><path d="M0 -30 A30 30 0 1 1 -30 0 A20 20 0 1 1 0 -20 A10 10 0 1 1 -10 0" stroke="#8C7B66" stroke-width="7" fill="none" stroke-linecap="round"/></g>`;
     if (t > 7.4 && t < 8.6) fx += L.emark(220, DESK - 650, 1.0, '…');
     let ui = (t > 0.8 && t < 2.6 ? CHIP(L, 'PEN SPINNING', 'ジルのペン回し', 1600, seg(t, .8, 1.1)) : '')
-      + (t > 6.0 && t < 8.6 ? CHIP(L, 'BOSS: HE SPINS INSTEAD', '上司のペン回し：本人が回る', 1600, seg(t, 6.0, 6.3)) : '');
+      + (t > 6.0 && t < 8.6 ? CHIP_OFF(L, 'BOSS: HE SPINS INSTEAD', '上司のペン回し：本人が回る', 1600, seg(t, 6.0, 6.3)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.3, cx: 380, cy: 1080 },
       { t: 0.01, z: 1.1, cx: 420, cy: 1080, d: .9 },

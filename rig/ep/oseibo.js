@@ -4,7 +4,7 @@
 // オチ：最後の小さな箱に、牧草が1本。レンは大喜び（照れ・♥）、ジルはジト目。字幕「箱5個。中身：牧草1本」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
-const CHIP_OFF = () => ''; // 総見直し（2026-11-10）：字幕は2回まで。3回目以降（オチの説明）は出さず、絵で見せる
+const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
 const SIZES = [1, .8, .63, .48, .34];
 const OPEN = [2.4, 3.1, 3.8, 4.5, 5.2];          // i 番目の箱を開ける時刻
 // 箱（底の中央 x,y）。s=大きさ、lid=ふたの持ち上がり（0〜1）、noshi=のし紙
@@ -60,7 +60,7 @@ var EP = {
     if (t >= 2.4 && t < 5.8) fx += `<g transform="translate(540 760)"><circle r="70" fill="#fff" stroke="#C9A97E" stroke-width="10"/><text y="26" text-anchor="middle" font-family="Noto Sans CJK JP" font-weight="900" font-size="72" fill="#8C5A3C">${Math.min(5, opened)}</text></g>`;
     if (t > 6.0 && t < 7.2) fx += L.emark(230, DESK - 650, 1.0, '…');
     let ui = (t > 1.4 && t < 2.6 ? CHIP(L, 'A YEAR-END GIFT', '12月。お歳暮が届いた', 1580, seg(t, 1.4, 1.7)) : '')
-      + (t > 4.0 && t < 5.4 ? CHIP(L, 'BOX. BOX. BOX.', '箱の中に、箱', 1580, seg(t, 4.0, 4.3)) : '')
+      + (t > 4.0 && t < 5.4 ? CHIP_OFF(L, 'BOX. BOX. BOX.', '箱の中に、箱', 1580, seg(t, 4.0, 4.3)) : '')
       + (t > 6.6 && t < 8.6 ? CHIP_OFF(L, '5 BOXES. 1 HAY.', '箱5個。中身：牧草1本', 1580, seg(t, 6.6, 6.9)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.35, cx: 540, cy: 1150 },

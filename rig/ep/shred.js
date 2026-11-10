@@ -4,7 +4,7 @@
 // オチ：紙くずの巣でレンがすやすや（顔だけ出して zzz）。ジルは手を止めてジト目 → でもそっと書類を追加（♥）。字幕「紙くず：上司の巣」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
-const CHIP_OFF = () => ''; // 総見直し（2026-11-10）：字幕は2回まで。3回目以降（オチの説明）は出さず、絵で見せる
+const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
 // 紙くず（細長い紙）を n 本、中心 x,y・幅 w の範囲に
 const STRIPS = (x, y, w, n, t, wob = 0) => { let s = ''; for (let i = 0; i < n; i++) { const u = (i * .618) % 1, v = (i * .382) % 1; const px = x - w / 2 + u * w, py = y - v * 60 + Math.sin(t * 6 + i) * wob; s += `<rect x="${px}" y="${py}" width="8" height="${40 + (i % 4) * 8}" rx="3" fill="${i % 3 ? '#fff' : '#F2EEE6'}" stroke="#D7CCBB" stroke-width="2" transform="rotate(${(i * 47) % 90 - 45} ${px} ${py})"/>`; } return s; };
 const SHREDDER = (x, y, on) => `<g transform="translate(${x} ${y})"><rect x="-110" y="-120" width="220" height="120" rx="14" fill="#5A6578" stroke="#3B4252" stroke-width="5"/><rect x="-80" y="-128" width="160" height="14" rx="5" fill="#2A303B"/><circle cx="80" cy="-60" r="10" fill="${on ? '#5DBB63' : '#9AA3B0'}"/></g>`;
@@ -46,7 +46,7 @@ var EP = {
     if (t > 5.1 && t < 5.5) fx += L.impact(BX, BT - 40, seg(t, 5.1, 5.5), .9, '#fff');
     if (t > 5.7 && t < 7.0) fx += L.emark(230, DESK - 650, 1.0, '…');
     let ui = (t > 1.6 && t < 3.0 ? CHIP(L, 'YEAR-END SHREDDING', '年末の書類を、シュレッダーへ', 1580, seg(t, 1.6, 1.9)) : '')
-      + (t > 5.4 && t < 6.8 ? CHIP(L, 'BOSS: IN THE BIN', '上司、ごみ箱の中', 1580, seg(t, 5.4, 5.7)) : '')
+      + (t > 5.4 && t < 6.8 ? CHIP_OFF(L, 'BOSS: IN THE BIN', '上司、ごみ箱の中', 1580, seg(t, 5.4, 5.7)) : '')
       + (t > 7.4 && t < 8.6 ? CHIP_OFF(L, 'PAPER = BOSS NEST', '紙くず：上司の巣', 1580, seg(t, 7.4, 7.7)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.35, cx: 540, cy: 1150 },

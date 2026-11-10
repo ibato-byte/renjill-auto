@@ -4,7 +4,7 @@
 // オチ：交代。課長が牧草を追いかけて引く（ご機嫌）、ジルはそりで牧草の棒を持つ（にこ）。字幕「トナカイ交代」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
-const CHIP_OFF = () => ''; // 総見直し（2026-11-10）：字幕は2回まで。3回目以降（オチの説明）は出さず、絵で見せる
+const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
 const ANTLERS = (x, y, s) => `<g transform="translate(${x} ${y}) scale(${s})" stroke="#8C5A3C" stroke-width="12" stroke-linecap="round" fill="none"><path d="M-60 0 C-90 -50 -100 -90 -90 -130 M-80 -60 l-40 -20 M-92 -100 l-30 -30"/><path d="M60 0 C90 -50 100 -90 90 -130 M80 -60 l40 -20 M92 -100 l30 -30"/><path d="M-70 10 C-30 -12 30 -12 70 10" stroke="#C9A24A" stroke-width="10"/></g>`;
 const SHAT = (x, y, s, r) => `<g transform="translate(${x} ${y}) rotate(${r || 0}) scale(${s})"><path d="M-70 0 C-60 -60 -10 -110 50 -120 C30 -80 50 -40 70 0 Z" fill="#D9372E"/><rect x="-80" y="-14" width="160" height="28" rx="14" fill="#FFF7EE"/><circle cx="50" cy="-120" r="16" fill="#FFF7EE"/></g>`;
 // そり（左下 x・底 y）
@@ -53,7 +53,7 @@ var EP = {
     }
     const flash = t > 5.55 && t < 6.1 ? Math.sin(seg(t, 5.55, 6.1) * Math.PI) * .95 : 0;
     let ui = (t > 1.0 && t < 2.6 ? CHIP(L, 'SANTA & REINDEER', 'サンタは上司、トナカイは部下', 1640, seg(t, 1.0, 1.3)) : '')
-      + (t > 2.8 && t < 4.2 ? CHIP(L, "WON'T MOVE", 'びくともしない', 1640, seg(t, 2.8, 3.1)) : '')
+      + (t > 2.8 && t < 4.2 ? CHIP_OFF(L, "WON'T MOVE", 'びくともしない', 1640, seg(t, 2.8, 3.1)) : '')
       + (t > 6.6 && t < 8.6 ? CHIP_OFF(L, 'REINDEER: SWAPPED', 'トナカイ交代（牧草つき）', 1640, seg(t, 6.6, 6.9)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.3, cx: 360, cy: 1150 },

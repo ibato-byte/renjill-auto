@@ -3,6 +3,7 @@
 // ひっくり返し：ジルが来て、ボタンを1回押す → オチ：ぴたっと止まる。レンは紙の山から顔だけ。字幕「ジル、ボタン1回」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
+const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
 const PRINTER = (x, y, n, lamp) => `<g transform="translate(${x} ${y})"><rect x="-230" y="-200" width="460" height="200" rx="22" fill="#DDE1E6" stroke="#9AA3AE" stroke-width="6"/><rect x="-200" y="-230" width="400" height="60" rx="12" fill="#C9D0D8"/><rect x="-170" y="-120" width="140" height="70" rx="10" fill="#2E3440"/><text x="-100" y="-70" text-anchor="middle" font-size="48" font-weight="900" font-family="Noto Sans Mono, monospace" fill="#7CF0A8">×${n}</text><circle cx="150" cy="-100" r="34" fill="${lamp}"/><circle cx="150" cy="-100" r="34" fill="none" stroke="#6B7580" stroke-width="5"/><rect x="-180" y="-12" width="360" height="12" fill="#9AA3AE"/></g>`;
 var EP = {
   dur: 9.5,
@@ -43,7 +44,7 @@ var EP = {
     if (press) fx += L.impact(PX + 150, DESK - 110, seg(t, 5.75, 6.05), 1.0, '#E8473A');
     if (t > 6.1 && t < 7.0) fx += L.check(PX + 150, DESK - 330, seg(t, 6.1, 6.4), .9);
     let ui = (t > 1.8 && t < 3.4 ? CHIP(L, 'PRINT: 1 PAGE', '上司「1枚だけ印刷」', 1380, seg(t, 1.8, 2.1)) : '')
-      + (t > 6.2 && t < 8.6 ? CHIP(L, 'JILL: ONE BUTTON', 'ジル、ボタン1回で止める', 1380, seg(t, 6.2, 6.5)) : '');
+      + (t > 6.2 && t < 8.6 ? CHIP_OFF(L, 'JILL: ONE BUTTON', 'ジル、ボタン1回で止める', 1380, seg(t, 6.2, 6.5)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.4, cx: 700, cy: 1200 },
       { t: 0.01, z: 1.1, cx: 700, cy: 1200, d: .9 },

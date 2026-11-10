@@ -4,7 +4,7 @@
 // オチ：ふたりとも気づいて「！」→ 顔を見合わせ、そのままのんびり（課長は香箱、ジルはにが笑い）。字幕「祝日に出社：ふたりとも」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
-const CHIP_OFF = () => ''; // 総見直し（2026-11-10）：字幕は2回まで。3回目以降（オチの説明）は出さず、絵で見せる
+const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
 // カレンダー（中心 x,y・強調 k）
 const CAL = (x, y, k) => `<g transform="translate(${x} ${y}) scale(${1 + .12 * k})" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-150" y="-170" width="300" height="340" rx="16" fill="#FFFDF7" stroke="#D7CCBB" stroke-width="6"/><rect x="-150" y="-170" width="300" height="70" rx="16" fill="#C9483C"/>`
   + `<text y="-120" font-size="46" fill="#FFF7E8">1月</text><text y="70" font-size="170" fill="#E8473A">11</text><text y="140" font-size="40" fill="#E8473A">成人の日</text>`
@@ -34,7 +34,7 @@ var EP = {
     if (shock) fx += L.impact(540, 640, seg(t, 3.8, 4.3), 1.6, '#E8473A');
     if (t > 6.6 && t < 8.0) fx += L.sparkles(540, 1000, t, 1.4, 6);
     let ui = (t > 0.6 && t < 2.6 ? CHIP(L, 'MONDAY MORNING', '月曜日、出社', 1600, seg(t, .6, .9)) : '')
-      + (t > 3.4 && t < 5.4 ? CHIP(L, "TODAY'S A HOLIDAY", '今日は祝日（成人の日）', 1600, seg(t, 3.4, 3.7)) : '')
+      + (t > 3.4 && t < 5.4 ? CHIP_OFF(L, "TODAY'S A HOLIDAY", '今日は祝日（成人の日）', 1600, seg(t, 3.4, 3.7)) : '')
       + (t > 6.2 && t < 8.6 ? CHIP_OFF(L, 'HOLIDAY. BOTH CAME IN.', '祝日に出社：ふたりとも', 1600, seg(t, 6.2, 6.5)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.15, cx: 400, cy: 1100 },

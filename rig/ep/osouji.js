@@ -3,6 +3,7 @@
 // ひっくり返し：レンが山を動かす → 山の中から去年のおにぎり（食べかけ）が出てくる → オチ：ジル、無言で距離を取る（ジルの机の方へ後ずさり）。字幕「去年のおにぎり発見」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
+const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
 const CAL = (x, y) => `<g transform="translate(${x} ${y})"><rect x="-90" y="-110" width="180" height="220" rx="12" fill="#fff" stroke="#E2D2BC" stroke-width="5"/><rect x="-90" y="-110" width="180" height="56" rx="12" fill="#E86C5A"/><text x="0" y="-70" text-anchor="middle" font-size="34" font-weight="900" font-family="Noto Sans CJK JP" fill="#fff">12</text><text x="0" y="50" text-anchor="middle" font-size="96" font-weight="900" font-family="Noto Sans CJK JP" fill="#3A2414">28</text></g>`;
 const PILE = (x, y, k) => { let s = ''; for (let i = 0; i < 16; i++) { const j = Math.sin(i * 12.9) * 40, h = i * 15 * (1 - k * .3); s += `<rect x="${x - 110 + j}" y="${y - h - 14}" width="220" height="15" rx="3" fill="${i % 2 ? '#fff' : '#F4EFE6'}" stroke="#D7CCBB" stroke-width="2" transform="rotate(${Math.sin(i * 7.1) * 3} ${x} ${y - h})"/>`; } s += `<g transform="translate(${x + 150} ${y - 190 * (1 - k * .3)})"><path d="M-36 0 L-44 -70 L44 -70 L36 0Z" fill="#fff" stroke="#C9A87E" stroke-width="5"/><path d="M44 -58 q36 0 36 26 q0 26 -36 26" fill="none" stroke="#C9A87E" stroke-width="7"/></g>`; return s; };
 const ONIGIRI = (x, y, s, mold) => `<g transform="translate(${x} ${y}) scale(${s})"><path d="M-70 40 L0 -70 L70 40 Z" fill="#FFFDF8" stroke="#D7CCBB" stroke-width="5" stroke-linejoin="round"/><rect x="-30" y="0" width="60" height="40" fill="#2E4A2E"/><path d="M40 20 a22 22 0 1 1 -1 -1Z" fill="#F4ECE0"/>${mold ? `<g fill="#7FB37A" opacity=".9"><circle cx="-20" cy="-5" r="12"/><circle cx="12" cy="-28" r="9"/><circle cx="-38" cy="20" r="8"/></g><path d="M-60 -70 q10 -30 0 -50 M-30 -80 q10 -30 0 -50" stroke="#9BB59B" stroke-width="5" fill="none" stroke-linecap="round" opacity=".7"/>` : ''}</g>`;
@@ -38,7 +39,7 @@ var EP = {
     if (t > 5.3 && t < 5.9) fx += L.impact(820, DESK - 320, seg(t, 5.3, 5.9), 1.0, '#7FB37A');
     if (t > 5.6 && t < 6.6) fx += L.emark(220, DESK - 620, 1.0);
     let ui = (t > 1.8 && t < 3.4 ? CHIP(L, 'DEC 28. CLEANING DAY.', '12月28日、大掃除。上司の机だけ山', 1380, seg(t, 1.8, 2.1)) : '')
-      + (t > 5.9 && t < 8.6 ? CHIP(L, "FOUND: LAST YEAR'S LUNCH", '去年のおにぎり、発見', 1380, seg(t, 5.9, 6.2)) : '');
+      + (t > 5.9 && t < 8.6 ? CHIP_OFF(L, "FOUND: LAST YEAR'S LUNCH", '去年のおにぎり、発見', 1380, seg(t, 5.9, 6.2)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.4, cx: 640, cy: 1100 },
       { t: 0.01, z: 1.05, cx: 560, cy: 1150, d: .9 },

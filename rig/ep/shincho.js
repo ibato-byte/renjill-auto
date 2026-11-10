@@ -4,6 +4,7 @@
 // オチ：目もりの印は、ずっと上に「課長（箱こみ）」。字幕「身長：箱こみ」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
+const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
 // 身長計（壁の目もり。x のところに縦の板）
 const RULER = (x) => { let s = `<g><rect x="${x - 40}" y="420" width="80" height="1000" rx="10" fill="#FFF8E6" stroke="#D9C49A" stroke-width="5"/>`;
   for (let i = 0; i <= 20; i++) { const y = 1400 - i * 48; s += `<rect x="${x - 40}" y="${y - 2}" width="${i % 5 ? 26 : 48}" height="4" fill="#B89A62"/>`; if (i % 5 === 0 && i) s += `<text x="${x + 16}" y="${y + 12}" font-family="Noto Sans" font-weight="900" font-size="28" fill="#B89A62">${i * 5}</text>`; }
@@ -40,7 +41,7 @@ var EP = {
     if (t > 5.6 && t < 6.8) fx += L.sparkles(RX + 200, 1400 - 15.5 * 48, t, 1.2, 6);
     if (t > 7.2 && t < 8.6) fx += L.emark(260, FLOOR - 650, 1.0, '…');
     let ui = (t > 0.6 && t < 2.4 ? CHIP(L, 'HEIGHT CHECK', '健康診断の身長測定', 1820, seg(t, .6, .9)) : '')
-      + (t > 6.2 && t < 8.6 ? CHIP(L, 'HEIGHT: BOX INCLUDED', '身長：箱こみ', 1820, seg(t, 6.2, 6.5)) : '');
+      + (t > 6.2 && t < 8.6 ? CHIP_OFF(L, 'HEIGHT: BOX INCLUDED', '身長：箱こみ', 1820, seg(t, 6.2, 6.5)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.1, cx: 600, cy: 1250 },
       { t: 0.01, z: .95, cx: 600, cy: 1200, d: .9 },

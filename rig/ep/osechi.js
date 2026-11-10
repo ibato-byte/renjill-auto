@@ -5,7 +5,7 @@
 // （おせちは人の食べ物。課長が食べるのは牧草だけ）
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
-const CHIP_OFF = () => ''; // 総見直し（2026-11-10）：字幕は2回まで。3回目以降（オチの説明）は出さず、絵で見せる
+const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
 // 重箱の段（中心 x,y・中身 kind：'food'｜'hay'｜'one'｜'closed'）
 const TIER = (x, y, kind, s) => { let g = `<g transform="translate(${x} ${y}) scale(${s || 1})"><rect x="-110" y="-46" width="220" height="92" rx="10" fill="#2B2220" stroke="#C9A24A" stroke-width="4"/>`;
   if (kind === 'closed') return g + `<rect x="-110" y="-50" width="220" height="24" rx="8" fill="#3A2E2A" stroke="#C9A24A" stroke-width="4"/><circle r="10" cy="-38" fill="#C9A24A"/></g>`;
@@ -45,7 +45,7 @@ var EP = {
     if (n > 0 && t < 5.4) fx += L.sparkles(800, DESK - 160, t, .6 + n * .25, 4 + n * 2);
     if (t > 5.9 && t < 6.6) fx += L.sparkles(330, DESK - 70, t, .9, 6);
     let ui = (t > 0.6 && t < 2.6 ? CHIP(L, 'NEW YEAR OSECHI', 'お正月の重箱', 1640, seg(t, .6, .9)) : '')
-      + (t > 4.4 && t < 5.8 ? CHIP(L, "BOSS'S: HAY ×3", '上司の重箱：3段とも牧草', 1640, seg(t, 4.4, 4.7)) : '')
+      + (t > 4.4 && t < 5.8 ? CHIP_OFF(L, "BOSS'S: HAY ×3", '上司の重箱：3段とも牧草', 1640, seg(t, 4.4, 4.7)) : '')
       + (t > 6.6 && t < 8.6 ? CHIP_OFF(L, "JILL'S TIER 3: ONE HAY", 'ジルの3段目にも、牧草1本', 1640, seg(t, 6.6, 6.9)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.3, cx: 360, cy: 1200 },

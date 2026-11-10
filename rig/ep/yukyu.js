@@ -4,7 +4,7 @@
 // オチ：ジルはもう帽子とかばんで出発済み（0.5秒）。字幕「承認の0.5秒後、出発済み」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
-const CHIP_OFF = () => ''; // 総見直し（2026-11-10）：字幕は2回まで。3回目以降（オチの説明）は出さず、絵で見せる
+const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
 // 申請書：小さなカレンダー（11月）に「27」の赤丸、下にハンコ枠
 const FORM = (x, y, s, stamped) => `<g transform="translate(${x} ${y}) scale(${s})"><rect x="-150" y="-190" width="300" height="380" rx="10" fill="#fff" stroke="#D7CCBB" stroke-width="6"/><rect x="-110" y="-160" width="220" height="40" rx="8" fill="#E86C5A"/><text x="0" y="-130" text-anchor="middle" font-family="Noto Sans CJK JP" font-weight="900" font-size="30" fill="#fff">11</text>${[0, 1, 2, 3, 4].map(r => [0, 1, 2, 3, 4, 5, 6].map(c => `<rect x="${-105 + c * 30}" y="${-100 + r * 30}" width="24" height="24" rx="4" fill="${r === 3 && c === 5 ? '#FFE0E0' : '#F1EBE2'}"/>`).join('')).join('')}<circle cx="${-105 + 5 * 30 + 12}" cy="${-100 + 3 * 30 + 12}" r="18" fill="none" stroke="#E8473A" stroke-width="5"/><text x="${-105 + 5 * 30 + 12}" y="${-100 + 3 * 30 + 20}" text-anchor="middle" font-family="Noto Sans CJK JP" font-weight="900" font-size="22" fill="#E8473A">27</text><rect x="-60" y="90" width="120" height="80" rx="8" fill="none" stroke="#C9C2B6" stroke-width="4" stroke-dasharray="8 8"/>${stamped ? `<g transform="translate(0 130) rotate(-8)"><circle r="30" fill="none" stroke="#E8473A" stroke-width="6"/><path d="M-14 0 L-4 11 L16 -12" fill="none" stroke="#E8473A" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></g>` : ''}</g>`;
 // 壁のカレンダー：27 に赤い丸と「会議」の絵（吹き出しの人型ではなく、机と3つの椅子の記号）
@@ -47,7 +47,7 @@ var EP = {
     if (gone && t < 7.2) fx += L.dust(-40, DESK, Math.min(1, (t - 6.0) * 2));
     if (t >= 7.2) fx += L.qmark(900, DESK - 700, 1.0);
     let ui = (t > 1.8 && t < 3.4 ? CHIP(L, 'PAID LEAVE: NOV 27', 'ジルの有給申請（11/27）。上司は見ずに承認', 1380, seg(t, 1.8, 2.1)) : '')
-      + (t > 4.6 && t < 5.6 ? CHIP(L, 'NOV 27: THE BIG MEETING', '11/27は大事な会議の日', 1380, seg(t, 4.6, 4.9)) : '')
+      + (t > 4.6 && t < 5.6 ? CHIP_OFF(L, 'NOV 27: THE BIG MEETING', '11/27は大事な会議の日', 1380, seg(t, 4.6, 4.9)) : '')
       + (t > 6.2 && t < 8.6 ? CHIP_OFF(L, 'APPROVED. 0.5 SEC LATER:', '承認の0.5秒後、ジルは出発済み', 1380, seg(t, 6.2, 6.5)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.35, cx: 540, cy: 1150 },
