@@ -35,6 +35,7 @@ class GrowthTest(unittest.TestCase):
             self.assertLessEqual(L["text_bottom"], 1920 * 0.80)  # 下から20%より上
             self.assertLess(L["total"], 30)
             self.assertLessEqual(L["start"] + L["show"], L["total"] + 1e-6)
+            if total <= 27: self.assertGreaterEqual(L["start"], total - 1e-6)  # 本編の最後のシーンにかぶらない（2026-11-10）
 
     def test_topics(self):
         self.assertIn("month_end", [k for k, _ in topics.calendar_topics(dt.date(2026, 10, 30))])
