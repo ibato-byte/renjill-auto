@@ -4,7 +4,7 @@
 // オチ：上から牧草の山がどさっ → 課長は山にうもれてご満悦。ジルはティッシュを持ってジト目。字幕「ジル：ティッシュ」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
-const CHIP_OFF = () => ''; // 総見直し（2026-11-10）：字幕は2回まで。3回目以降（オチの説明）は出さず、絵で見せる
+const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
 // ガラガラ（中心 x,y・回転 a）
 const DRUM = (x, y, a) => { const P = Array.from({ length: 8 }, (_, i) => { const t = a + i * Math.PI / 4; return [x + Math.cos(t) * 110, y + Math.sin(t) * 110]; });
   return `<g><path d="M${x - 120} ${y + 170} L${x - 70} ${y} M${x + 120} ${y + 170} L${x + 70} ${y}" stroke="#8C5A3C" stroke-width="16" stroke-linecap="round"/>`
@@ -52,7 +52,7 @@ var EP = {
     if (t > 5.4 && t < 5.8) fx += L.impact(800, DESK - 60, seg(t, 5.4, 5.8), 1.0, '#C9C46A');
     if (t > 7.0 && t < 8.6) fx += L.emark(180, DESK - 650, 1.0, '…');
     let ui = (t > 0.6 && t < 2.6 ? CHIP(L, 'YEAR-END LUCKY DRAW', '年末の福引き', 1640, seg(t, .6, .9)) : '')
-      + (t > 4.2 && t < 5.4 ? CHIP(L, 'GOLD: 1 YEAR OF HAY', '金の玉：牧草1年分', 1640, seg(t, 4.2, 4.5)) : '')
+      + (t > 4.2 && t < 5.4 ? CHIP_OFF(L, 'GOLD: 1 YEAR OF HAY', '金の玉：牧草1年分', 1640, seg(t, 4.2, 4.5)) : '')
       + (t > 6.6 && t < 8.6 ? CHIP_OFF(L, 'JILL: TISSUES', 'ジル：ティッシュ', 1640, seg(t, 6.6, 6.9)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.3, cx: 460, cy: 1150 },

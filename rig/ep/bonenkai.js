@@ -4,7 +4,7 @@
 // オチ：レンが机に牧草の山とジョッキを置き、電飾が灯る。会場はこの机。字幕「会場、ここ」。乾杯の音、ジルは呆れ顔
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
-const CHIP_OFF = () => ''; // 総見直し（2026-11-10）：字幕は2回まで。3回目以降（オチの説明）は出さず、絵で見せる
+const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
 // 受話器（ジルの耳元）
 const PHONE = (x, y, s = 1, rot = -30) => `<g transform="translate(${x} ${y}) rotate(${rot}) scale(${s})"><path d="M-70 -20 q0 -40 40 -40 l10 0 l14 34 l-22 14 q10 40 50 50 l14 -22 l34 14 l0 10 q0 40 -40 40 q-100 -10 -100 -100 Z" fill="#3B4252" stroke="#1F2630" stroke-width="5" stroke-linejoin="round"/></g>`;
 // お店のカード（看板の絵：器＋湯気 ／ ジョッキ ／ フォーク）と×
@@ -59,7 +59,7 @@ var EP = {
     // 電飾（背景の上、キャラの後ろではなく手前に。灯る前も線だけ見える＝会社の中とわかる）
     fx = LIGHTS(t, lit) + fx;
     let ui = (t > 1.8 && t < 3.4 ? CHIP(L, 'YEAR-END PARTY: 12/26', '忘年会の幹事はジル。お店を探し中', 1380, seg(t, 1.8, 2.1)) : '')
-      + (t > 4.9 && t < 5.6 ? CHIP(L, 'ALL FULL', '全部、満席', 1380, seg(t, 4.9, 5.2)) : '')
+      + (t > 4.9 && t < 5.6 ? CHIP_OFF(L, 'ALL FULL', '全部、満席', 1380, seg(t, 4.9, 5.2)) : '')
       + (t > 6.9 && t < 8.6 ? CHIP_OFF(L, 'VENUE: THIS DESK', '会場、この机', 1380, seg(t, 6.9, 7.2)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.4, cx: 300, cy: 1050 },

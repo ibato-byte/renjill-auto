@@ -4,7 +4,7 @@
 // オチ：8:59、ジルが✓の束を出す。レンは1枚目のまま、机の上で寝ている。字幕「ジル：完了。上司：1枚目」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
-const CHIP_OFF = () => ''; // 総見直し（2026-11-10）：字幕は2回まで。3回目以降（オチの説明）は出さず、絵で見せる
+const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
 const PILE = (x, y, n, done) => { let s = ''; for (let i = 0; i < n; i++) s += `<rect x="${x - 110 + Math.sin(i * 12.9) * 6}" y="${y - (i + 1) * 10}" width="220" height="11" rx="3" fill="${i % 2 ? '#fff' : '#F4EFE6'}" stroke="#D7CCBB" stroke-width="2"/>`; if (done > 0) { s += `<rect x="${x - 110}" y="${y - done * 10 - 2}" width="220" height="${done * 10}" rx="4" fill="#E8F5E9" stroke="#5DBB63" stroke-width="3"/>`; s += `<g transform="translate(${x} ${y - done * 10 - 36})"><circle r="26" fill="#5DBB63"/><path d="M-12 0 L-3 10 L14 -10" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></g>`; } return s; };
 var EP = {
   dur: 9.5,
@@ -42,7 +42,7 @@ var EP = {
     if (t > 7.0 && t < 7.5) fx += L.impact(300, DESK - 170, seg(t, 7.0, 7.5), .9, '#5DBB63');
     if (t > 7.6 && t < 8.2) fx += L.emark(900, DESK - 700, 1.0);
     let ui = (t > 1.8 && t < 3.4 ? CHIP(L, 'DEADLINE: 9:00 AM', '締め切り前夜、22:00。山は同じ高さ', 1380, seg(t, 1.8, 2.1)) : '')
-      + (t > 4.2 && t < 6.0 ? CHIP(L, '22:00 → 8:59', 'ジルの山は減る。上司の山は、寝ている', 1380, seg(t, 4.2, 4.5)) : '')
+      + (t > 4.2 && t < 6.0 ? CHIP_OFF(L, '22:00 → 8:59', 'ジルの山は減る。上司の山は、寝ている', 1380, seg(t, 4.2, 4.5)) : '')
       + (t > 7.2 && t < 8.6 ? CHIP_OFF(L, 'JILL: DONE. BOSS: PAGE 1', 'ジル：完了。上司：1枚目', 1380, seg(t, 7.2, 7.5)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.35, cx: 540, cy: 1150 },

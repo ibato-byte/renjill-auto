@@ -5,7 +5,7 @@
 // オチ：ジルが戻る。窓は全部開いていて中は空。レンの前に包み紙の山。字幕「24日分、1日で」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
-const CHIP_OFF = () => ''; // 総見直し（2026-11-10）：字幕は2回まで。3回目以降（オチの説明）は出さず、絵で見せる
+const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
 // カレンダー：opened=開いた窓の数（1〜24）。窓は 6×4、開いた窓は暗い穴＋小さな牧草キューブ（食べたら空）
 const ADVENT = (x, y, opened, eaten) => { let s = `<g transform="translate(${x} ${y})"><rect x="-300" y="-210" width="600" height="420" rx="16" fill="#1F6B45" stroke="#145034" stroke-width="6"/>`; for (let i = 0; i < 24; i++) { const cx = -250 + (i % 6) * 100, cy = -160 + Math.floor(i / 6) * 100; const op = i < opened, ea = i < eaten; s += `<rect x="${cx - 38}" y="${cy - 38}" width="76" height="76" rx="8" fill="${op ? '#0E3A26' : '#E8473A'}" stroke="#F2B544" stroke-width="3"/>`; if (!op) s += `<text x="${cx}" y="${cy + 12}" text-anchor="middle" font-family="Noto Sans CJK JP" font-weight="900" font-size="30" fill="#FFF7E8">${i + 1}</text>`; else if (!ea) s += `<rect x="${cx - 18}" y="${cy - 18}" width="36" height="36" rx="8" fill="#B9C46A" stroke="#8C9A3E" stroke-width="3"/><path d="M${cx - 10} ${cy - 6} l20 -4 M${cx - 10} ${cy + 4} l20 -4" stroke="#7E8E36" stroke-width="3" stroke-linecap="round"/>`; } return s + '</g>'; };
 const WRAPPERS = (x, y, n) => { let s = ''; for (let i = 0; i < n; i++) s += `<path d="M${x - 80 + (i * 37) % 160} ${y - (i * 13) % 50} l14 -10 l12 12 l-10 12 Z" fill="${i % 3 ? '#F2B544' : '#E86C5A'}" stroke="#C98A12" stroke-width="2"/>`; return s; };
@@ -44,7 +44,7 @@ var EP = {
     if (t > 7.0 && t < 7.6) fx += L.emark(230, DESK - 650, 1.0);
     if (t > 7.6 && t < 8.1) fx += L.impact(905, DESK - 235, seg(t, 7.6, 8.1), .8, '#F2A33A');
     let ui = (t > 1.8 && t < 3.0 ? CHIP(L, 'DEC 1: ADVENT CALENDAR', '12/1。ジルのアドベントカレンダー、1日1個', 1380, seg(t, 1.8, 2.1)) : '')
-      + (t > 3.4 && t < 5.2 ? CHIP(L, 'JILL IS AWAY: 2 → 24', 'ジルがいない間に、2から24まで', 1380, seg(t, 3.4, 3.7)) : '')
+      + (t > 3.4 && t < 5.2 ? CHIP_OFF(L, 'JILL IS AWAY: 2 → 24', 'ジルがいない間に、2から24まで', 1380, seg(t, 3.4, 3.7)) : '')
       + (t > 7.2 && t < 8.6 ? CHIP_OFF(L, '24 DAYS. IN ONE DAY.', '24日分、1日で', 1380, seg(t, 7.2, 7.5)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.35, cx: 540, cy: 1150 },

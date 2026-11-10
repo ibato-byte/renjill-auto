@@ -3,7 +3,7 @@
 // ひっくり返し：二人が同時にボタンを押して、表示が「－－」（壊れた／止まった）→ オチ：二人そろって窓を開ける。字幕「決着：窓」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
-const CHIP_OFF = () => ''; // 総見直し（2026-11-10）：字幕は2回まで。3回目以降（オチの説明）は出さず、絵で見せる
+const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
 // 壁のエアコン：表示（数字か「--」）、風の色（冷＝青／暖＝赤）
 const AC = (x, y, txt, col, k) => `<g transform="translate(${x} ${y})"><rect x="-230" y="-70" width="460" height="140" rx="30" fill="#F7F4EE" stroke="#D7CFC2" stroke-width="6"/><rect x="-200" y="40" width="400" height="14" rx="7" fill="#C9C2B6"/><rect x="60" y="-40" width="140" height="70" rx="12" fill="#2B2F38"/><text x="130" y="12" text-anchor="middle" font-family="Noto Sans CJK JP" font-weight="900" font-size="52" fill="${col}">${txt}</text>${k > 0 ? [0, 1, 2].map(i => `<path d="M${-170 + i * 120} 70 q30 ${60 + i * 10} 0 ${150}" fill="none" stroke="${col}" stroke-width="10" stroke-linecap="round" opacity="${(.6 * k).toFixed(2)}"/>`).join('') : ''}</g>`;
 const REMOTE = (x, y, rot, s = 1) => `<g transform="translate(${x} ${y}) rotate(${rot}) scale(${s})"><rect x="-32" y="-90" width="64" height="180" rx="14" fill="#F2F2F2" stroke="#B9B2A6" stroke-width="5"/><rect x="-20" y="-72" width="40" height="28" rx="5" fill="#2B2F38"/><circle cx="0" cy="-16" r="11" fill="#E8473A"/><circle cx="0" cy="20" r="11" fill="#4A90D9"/><rect x="-18" y="46" width="36" height="10" rx="5" fill="#CFC8BC"/></g>`;
@@ -50,7 +50,7 @@ var EP = {
     // 背景の上にエアコン（壁の高いところ）
     fx = AC(540, 660, txt, col, windK) + fx;
     let ui = (t > 1.8 && t < 3.2 ? CHIP(L, 'A/C: 26 → 18', '上司がリモコンで18度に', 1380, seg(t, 1.8, 2.1)) : '')
-      + (t > 3.4 && t < 4.6 ? CHIP(L, '→ 28', 'ジルが28度に戻す', 1380, seg(t, 3.4, 3.7)) : '')
+      + (t > 3.4 && t < 4.6 ? CHIP_OFF(L, '→ 28', 'ジルが28度に戻す', 1380, seg(t, 3.4, 3.7)) : '')
       + (t > 6.4 && t < 7.2 ? CHIP_OFF(L, 'A/C: --', '同時押しで、止まった', 1380, seg(t, 6.4, 6.7)) : '')
       + (t > 7.6 && t < 8.6 ? CHIP_OFF(L, 'SOLVED: WINDOW', '決着：窓を開ける', 1380, seg(t, 7.6, 7.9)) : '');
     const cam = L.camAt([

@@ -5,7 +5,7 @@
 // オチ：ジルが箱をトン → 課長「見つかった？」の顔。字幕「1秒で発見」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
-const CHIP_OFF = () => ''; // 総見直し（2026-11-10）：字幕は2回まで。3回目以降（オチの説明）は出さず、絵で見せる
+const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
 // ペン（下の中心 x,y・回転 r）
 const PEN = (x, y, r) => `<g transform="translate(${x} ${y}) rotate(${r})"><rect x="-16" y="-430" width="32" height="400" rx="14" fill="#5BA6D6" stroke="#3E7FAE" stroke-width="5"/><rect x="-18" y="-470" width="36" height="60" rx="12" fill="#2B5E8A"/><path d="M-16 -30 L16 -30 L0 10 Z" fill="#F2D3A8" stroke="#C9A06A" stroke-width="4"/><path d="M-4 0 L4 0 L0 10 Z" fill="#3A2414"/></g>`;
   + `<g fill="#F5B8C4">${[[-90, -40], [-20, 30], [60, -50], [100, 50], [-110, 60]].map(([a, b]) => `<circle cx="${a}" cy="${b}" r="14"/><circle cx="${a + 14}" cy="${b + 10}" r="9" fill="#F7D36A"/>`).join('')}</g>`
@@ -44,7 +44,7 @@ var EP = {
     if (t > 5.9 && t < 6.3) fx += L.impact(HX, HY, seg(t, 5.9, 6.3), .8, '#F2C230');
     if (t > 4.6 && t < 5.4) fx += L.emark(220, DESK - 650, 1.0, '…');
     let ui = (t > 0.6 && t < 2.6 ? CHIP(L, 'HIDE AND SEEK', 'かくれんぼ。ジルが数える', 1580, seg(t, .6, .9)) : '')
-      + (t > 3.9 && t < 5.6 ? CHIP(L, 'BOSS: HIDDEN (?)', '上司：ペンの後ろにかくれた', 1580, seg(t, 3.9, 4.2)) : '')
+      + (t > 3.9 && t < 5.6 ? CHIP_OFF(L, 'BOSS: HIDDEN (?)', '上司：ペンの後ろにかくれた', 1580, seg(t, 3.9, 4.2)) : '')
       + (t > 6.6 && t < 8.6 ? CHIP_OFF(L, 'FOUND IN 1 SEC', '1秒で発見', 1580, seg(t, 6.6, 6.9)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.4, cx: 300, cy: 1100 },

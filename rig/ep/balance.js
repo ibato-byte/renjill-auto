@@ -4,6 +4,7 @@
 // オチ：はずみすぎて目が回り、ボールはぺちゃんこ。字幕「上司のバランスボール：はずみすぎる」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
+const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
 const DESKFX = (L, DESK) => `<rect x="-500" y="${DESK + 28}" width="2080" height="900" fill="url(#v2desk)"/><rect x="-500" y="${DESK}" width="2080" height="34" rx="10" fill="${L.PAL.woodTop}"/>`
   + [60, 560].map(x => `<rect x="${x}" y="${DESK + 90}" width="460" height="170" rx="14" fill="none" stroke="${L.PAL.wood2}" stroke-width="6" opacity=".55"/><rect x="${x + 190}" y="${DESK + 160}" width="80" height="16" rx="8" fill="#E9D2A8"/>`).join('');
 const BALL = (x, y, r, sq, c) => `<g transform="translate(${x} ${y})"><ellipse cx="0" cy="${r * sq * .5}" rx="${r * (1 + sq * .35)}" ry="${r * (1 - sq * .5)}" fill="${c}"/><ellipse cx="${-r * .35}" cy="${-r * .25 + r * sq * .5}" rx="${r * .28}" ry="${r * .16}" fill="#fff" opacity=".35" transform="rotate(-25 ${-r * .35} ${-r * .25})"/></g>`;
@@ -33,7 +34,7 @@ var EP = {
     if (t > 6.1 && t < 7.8) fx += `<g transform="translate(848 ${FLOOR - 800}) rotate(${t * 200})"><path d="M0 -30 A30 30 0 1 1 -30 0 A20 20 0 1 1 0 -20 A10 10 0 1 1 -10 0" stroke="#8C7B66" stroke-width="7" fill="none" stroke-linecap="round"/></g>`;
     if (t > 7.4 && t < 8.6) fx += L.emark(240, FLOOR - 860, 1.0, '…');
     let ui = (t > 0.6 && t < 2.4 ? CHIP(L, 'BALANCE BALL', 'ジル、バランスボール', 1820, seg(t, .6, .9)) : '')
-      + (t > 6.2 && t < 8.6 ? CHIP(L, 'BOSS ON A BALL: BOING', '上司のバランスボール：はずみすぎる', 1820, seg(t, 6.2, 6.5)) : '');
+      + (t > 6.2 && t < 8.6 ? CHIP_OFF(L, 'BOSS ON A BALL: BOING', '上司のバランスボール：はずみすぎる', 1820, seg(t, 6.2, 6.5)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.2, cx: 360, cy: 1150 },
       { t: 0.01, z: 1.0, cx: 480, cy: 1120, d: .9 },

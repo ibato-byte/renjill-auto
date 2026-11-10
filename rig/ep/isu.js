@@ -4,6 +4,7 @@
 // オチ：箱の中でご満悦。イスはからっぽ。字幕「新しいイス：箱のほうが人気」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
+const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
 // オフィスチェア（下の中心 x,y・回転 spin）
 const CHAIR = (x, y, spin) => { const w = Math.abs(Math.cos(spin)) * 1 + .25;
   return `<g transform="translate(${x} ${y})"><path d="M-110 0 L110 0 M0 0 L0 -18" stroke="#3E4650" stroke-width="12" stroke-linecap="round"/><circle cx="-110" cy="6" r="12" fill="#2B3138"/><circle cx="110" cy="6" r="12" fill="#2B3138"/><circle cx="0" cy="6" r="12" fill="#2B3138"/>`
@@ -43,7 +44,7 @@ var EP = {
     if (t > 5.2 && t < 6.6) fx += L.sparkles(780, FLOOR - 220, t, 1.2, 6);
     if (t > 7.0 && t < 8.6) fx += L.emark(240, DESK - 690, 1.0, '…');
     let ui = (t > 0.8 && t < 2.6 ? CHIP(L, 'NEW CHAIR!', '新しいイスが届いた', 1760, seg(t, .8, 1.1)) : '')
-      + (t > 6.0 && t < 8.6 ? CHIP(L, 'THE BOX WINS', '新しいイス：箱のほうが人気', 1760, seg(t, 6.0, 6.3)) : '');
+      + (t > 6.0 && t < 8.6 ? CHIP_OFF(L, 'THE BOX WINS', '新しいイス：箱のほうが人気', 1760, seg(t, 6.0, 6.3)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.2, cx: 540, cy: 1300 },
       { t: 0.01, z: 1.0, cx: 540, cy: 1200, d: .9 },

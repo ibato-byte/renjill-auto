@@ -3,6 +3,7 @@
 // ひっくり返し：数字が 12 でチン → オチ：ドアが開いた瞬間、ジルは最速で退場。レンの吹き出しは出しかけのまま。字幕「12階、部下は0.1秒で退場」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
+const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
 // エレベーターの箱：open=0..1 でドアが左右に開く
 const ELEV = (open) => `<rect x="-500" y="-500" width="2080" height="2920" fill="#B9B4AC"/><rect x="120" y="400" width="840" height="1080" rx="10" fill="#8E8880"/><rect x="140" y="420" width="800" height="1040" fill="#FFF4D6"/><g><rect x="${140 - open * 400}" y="420" width="400" height="1040" fill="#C9C4BC" stroke="#9E9890" stroke-width="6"/><rect x="${540 + open * 400}" y="420" width="400" height="1040" fill="#C9C4BC" stroke="#9E9890" stroke-width="6"/></g><rect x="120" y="1460" width="840" height="30" fill="#6E6861"/>`;
 const FLOOR = (n, s = 1) => `<g transform="translate(540 290) scale(${s})"><rect x="-150" y="-60" width="300" height="120" rx="18" fill="#2E3440"/><text x="0" y="30" text-anchor="middle" font-size="84" font-weight="900" font-family="Noto Sans Mono, monospace" fill="#FF8A5B">${n}</text><path d="M-110 -20 L-90 -44 L-70 -20Z" fill="#7CF0A8"/></g>`;
@@ -32,7 +33,7 @@ var EP = {
     if (t > 7.2) fx += L.bubble(760, GROUND - 640, `<text y="20" text-anchor="middle" font-size="70" font-weight="900" font-family="Noto Sans CJK JP" fill="#3A2414">・</text>`, { w: 150, h: 120, tail: 40, s: 1 });
     if (t > 7.0 && t < 7.6) fx += L.speed(540, 1000, 1 - seg(t, 7.0, 7.6), 30);
     let ui = (t > 1.8 && t < 3.4 ? CHIP(L, 'ELEVATOR. BOSS. SILENCE.', 'エレベーターで上司と2人きり', 1500, seg(t, 1.8, 2.1)) : '')
-      + (t > 7.3 && t < 8.6 ? CHIP(L, '12F. JILL: OUT IN 0.1 SEC', '12階、部下は0.1秒で退場', 1500, seg(t, 7.3, 7.6)) : '');
+      + (t > 7.3 && t < 8.6 ? CHIP_OFF(L, '12F. JILL: OUT IN 0.1 SEC', '12階、部下は0.1秒で退場', 1500, seg(t, 7.3, 7.6)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.3, cx: 540, cy: 1050 },
       { t: 0.01, z: 1.05, cx: 540, cy: 1000, d: 1.0 },

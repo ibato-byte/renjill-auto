@@ -4,6 +4,7 @@
 // オチ：手をはなすとストン。ブラインドもバタンと全部しまる。字幕「上司のブラインド：本人が上がる」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
+const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
 const DESKFX = (L, DESK) => `<rect x="-500" y="${DESK + 28}" width="2080" height="900" fill="url(#v2desk)"/><rect x="-500" y="${DESK}" width="2080" height="34" rx="10" fill="${L.PAL.woodTop}"/>`
   + [60, 560].map(x => `<rect x="${x}" y="${DESK + 90}" width="460" height="170" rx="14" fill="none" stroke="${L.PAL.wood2}" stroke-width="6" opacity=".55"/><rect x="${x + 190}" y="${DESK + 160}" width="80" height="16" rx="8" fill="#E9D2A8"/>`).join('');
 const WY = 230, WW = 320, WH = 420;
@@ -46,7 +47,7 @@ var EP = {
     if (t > 3.8 && t < 5.0) fx += `<text x="${400}" y="${820}" text-anchor="middle" font-family="Noto Sans CJK JP" font-weight="900" font-size="64" fill="#E8473A" stroke="#FFF7E8" stroke-width="10" paint-order="stroke" transform="rotate(${Math.sin(t * 8) * 6} 400 820)">ぷらーん</text>`;
     if (t > 7.2 && t < 8.6) fx += L.emark(220, DESK - 660, 1.0, '…');
     let ui = (t > 0.8 && t < 2.6 ? CHIP(L, 'BLINDS UP', 'ジル、朝の光を入れる', 1650, seg(t, .8, 1.1)) : '')
-      + (t > 6.0 && t < 8.6 ? CHIP(L, 'BOSS PULLS: HE RISES', '上司のブラインド：本人が上がる', 1650, seg(t, 6.0, 6.3)) : '');
+      + (t > 6.0 && t < 8.6 ? CHIP_OFF(L, 'BOSS PULLS: HE RISES', '上司のブラインド：本人が上がる', 1650, seg(t, 6.0, 6.3)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.2, cx: 330, cy: 900 },
       { t: 0.01, z: 1.0, cx: 420, cy: 920, d: .9 },

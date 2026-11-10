@@ -4,7 +4,7 @@
 // オチ：ジルが「15」の紙を拾って、カレンダーにぺたっと貼り直す。レン、がーん。字幕「今日：12/15。上司の気分：12/28」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
-const CHIP_OFF = () => ''; // 総見直し（2026-11-10）：字幕は2回まで。3回目以降（オチの説明）は出さず、絵で見せる
+const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
 // 日めくり（底の中央 x,y）
 const PAGE = (day, red) => `<rect x="-120" y="-250" width="240" height="250" rx="10" fill="#fff" stroke="#D7CCBB" stroke-width="5"/><rect x="-120" y="-250" width="240" height="56" rx="10" fill="${red ? '#E8473A' : '#355F86'}"/><text y="-210" text-anchor="middle" font-family="Noto Sans" font-weight="900" font-size="34" fill="#fff">DEC</text><text y="-50" text-anchor="middle" font-family="Noto Sans" font-weight="900" font-size="130" fill="${red ? '#E8473A' : '#3A2414'}">${day}</text>`;
 const CAL = (x, y, day) => `<g transform="translate(${x} ${y})"><rect x="-130" y="-12" width="260" height="20" rx="6" fill="#8C5A3C"/>${PAGE(day, day >= 28)}${day >= 28 ? `<text y="-150" text-anchor="middle" font-family="Noto Sans CJK JP" font-weight="900" font-size="30" fill="#E8473A">仕事納め</text>` : ''}</g>`;
@@ -48,7 +48,7 @@ var EP = {
     if (t > 5.0 && t < 7.0) fx += L.sparkles(837, 1060, t, 1.0, 5);
     if (t > 7.3 && t < 7.8) fx += L.impact(CX, CY - 140, seg(t, 7.3, 7.8), .7, '#355F86');
     let ui = (t > 1.4 && t < 2.6 ? CHIP(L, 'TODAY: DEC 15', '今日は12/15', 1580, seg(t, 1.4, 1.7)) : '')
-      + (t > 5.0 && t < 6.6 ? CHIP(L, 'BOSS: DEC 28', '上司だけ、仕事納め', 1580, seg(t, 5.0, 5.3)) : '')
+      + (t > 5.0 && t < 6.6 ? CHIP_OFF(L, 'BOSS: DEC 28', '上司だけ、仕事納め', 1580, seg(t, 5.0, 5.3)) : '')
       + (t > 7.4 && t < 8.6 ? CHIP_OFF(L, 'BACK TO DEC 15', '今日は、12/15です', 1580, seg(t, 7.4, 7.7)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.35, cx: 540, cy: 1150 },

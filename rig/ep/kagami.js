@@ -5,7 +5,7 @@
 // （うさぎにおもちは食べさせない。もちは飾りだけ、課長が食べるのは牧草）
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
-const CHIP_OFF = () => ''; // 総見直し（2026-11-10）：字幕は2回まで。3回目以降（オチの説明）は出さず、絵で見せる
+const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
 // ジルの鏡もち（飾り）：台＋白いもち2段＋だいだい（オレンジの丸）
 const MOCHI = (x, y, s) => `<g transform="translate(${x} ${y}) scale(${s})"><path d="M-80 0 L80 0 L64 -40 L-64 -40 Z" fill="#E9D2A8" stroke="#C9A06A" stroke-width="4"/><rect x="-74" y="-48" width="148" height="12" rx="4" fill="#FFFDF7" stroke="#E3D6C6" stroke-width="3"/>`
   + `<ellipse cx="0" cy="-74" rx="66" ry="30" fill="#FFFDF7" stroke="#E3D6C6" stroke-width="4"/><ellipse cx="0" cy="-110" rx="48" ry="24" fill="#FFFDF7" stroke="#E3D6C6" stroke-width="4"/><circle cx="0" cy="-140" r="20" fill="#F29A3A"/><path d="M0 -158 l10 -10" stroke="#5E9E4A" stroke-width="5" stroke-linecap="round"/></g>`;
@@ -50,7 +50,7 @@ var EP = {
     if (t > 6.5 && t < 6.9) fx += L.impact(BX + 130, DESK - 30, seg(t, 6.5, 6.9), .7, '#C9C46A');
     if (t > 7.2 && t < 8.6) fx += L.emark(200, DESK - 650, 1.0, '…');
     let ui = (t > 1.0 && t < 2.3 ? CHIP(L, 'KAGAMI MOCHI', '年末の鏡もち', 1640, seg(t, 1.0, 1.3)) : '')
-      + (t > 3.3 && t < 4.6 ? CHIP(L, "BOSS'S: MADE OF HAY", '上司の鏡もち：牧草製', 1640, seg(t, 3.3, 3.6)) : '')
+      + (t > 3.3 && t < 4.6 ? CHIP_OFF(L, "BOSS'S: MADE OF HAY", '上司の鏡もち：牧草製', 1640, seg(t, 3.3, 3.6)) : '')
       + (t > 6.8 && t < 8.6 ? CHIP_OFF(L, 'EATEN BEFORE NEW YEAR', '飾る前に、食べはじめ', 1640, seg(t, 6.8, 7.1)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.3, cx: 320, cy: 1200 },

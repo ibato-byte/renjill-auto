@@ -4,7 +4,7 @@
 // オチ：レンが1個はがしてジルに返す → ジルぽかぽか（♥）。字幕「上司10個、ジル1個」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
-const CHIP_OFF = () => ''; // 総見直し（2026-11-10）：字幕は2回まで。3回目以降（オチの説明）は出さず、絵で見せる
+const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
 const KAIRO = (x, y, s = 1, rot = 0) => `<g transform="translate(${x} ${y}) rotate(${rot}) scale(${s})"><rect x="-34" y="-44" width="68" height="88" rx="10" fill="#FFF7EE" stroke="#E8A070" stroke-width="4"/><rect x="-22" y="-26" width="44" height="30" rx="6" fill="#F27B3A"/><text y="-4" text-anchor="middle" font-family="Noto Sans" font-weight="900" font-size="18" fill="#fff">HOT</text><path d="M-16 20 h32" stroke="#E8A070" stroke-width="4" stroke-linecap="round"/></g>`;
 // レンの体に貼る位置（顔＝鼻 world 837,1155 のまわりは避ける）
 const SPOTS = [[760, 1290, -12], [900, 1300, 10], [700, 1360, -20], [960, 1360, 16], [830, 1350, 0], [640, 1290, -24], [1010, 1280, 22], [760, 1380, 8], [900, 1380, -8], [1040, 1340, 30]];
@@ -51,7 +51,7 @@ var EP = {
     if (t > 7.3 && t < 7.8) fx += L.impact(300, DESK - 140, seg(t, 7.3, 7.8), .8, '#F27B3A');
     if (t > 7.4) fx += L.sparkles(300, DESK - 220, t, .9, 5);
     let ui = (t > 1.8 && t < 2.9 ? CHIP(L, 'COLD MORNING', '寒い朝。ジルからカイロ1個', 1580, seg(t, 1.8, 2.1)) : '')
-      + (t > 5.6 && t < 6.8 ? CHIP(L, 'BOSS: 10. JILL: 0', '上司10個、ジル0個', 1580, seg(t, 5.6, 5.9)) : '')
+      + (t > 5.6 && t < 6.8 ? CHIP_OFF(L, 'BOSS: 10. JILL: 0', '上司10個、ジル0個', 1580, seg(t, 5.6, 5.9)) : '')
       + (t > 7.6 && t < 8.6 ? CHIP_OFF(L, 'ONE FOR JILL', '1個、ジルに返した', 1580, seg(t, 7.6, 7.9)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.35, cx: 540, cy: 1150 },

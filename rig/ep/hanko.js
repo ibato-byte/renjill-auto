@@ -4,7 +4,7 @@
 // オチ：ジルがチェック（✓）して受理。字幕「8個目：にくきゅう。受理」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
-const CHIP_OFF = () => ''; // 総見直し（2026-11-10）：字幕は2回まで。3回目以降（オチの説明）は出さず、絵で見せる
+const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
 // 大きな書類（8つの枠）。stamps=押した数、paw=肉球（0/1）、faint=かすれ（0〜1）
 const SHEET = (x, y, stamps, paw, faint) => {
   let s = `<g transform="translate(${x} ${y})"><rect x="-300" y="-170" width="600" height="370" rx="10" fill="#fff" stroke="#D7CCBB" stroke-width="6"/>`;
@@ -56,7 +56,7 @@ var EP = {
     if (ok) fx += L.check(540, DESK - 30, outBack(seg(t, 7.5, 7.9)), 2.2);
     if (ok) fx += L.sparkles(540, DESK - 120, t, 1.0, 6);
     let ui = (t > 1.8 && t < 3.4 ? CHIP(L, 'STAMPS NEEDED: 8', '書類にハンコ、8個。上司が押していく', 1380, seg(t, 1.8, 2.1)) : '')
-      + (t > 4.2 && t < 5.4 ? CHIP(L, 'NO INK LEFT', '8個目で、朱肉が切れた', 1380, seg(t, 4.2, 4.5)) : '')
+      + (t > 4.2 && t < 5.4 ? CHIP_OFF(L, 'NO INK LEFT', '8個目で、朱肉が切れた', 1380, seg(t, 4.2, 4.5)) : '')
       + (t > 7.6 && t < 8.6 ? CHIP_OFF(L, 'STAMP 8/8: PAW. APPROVED', '8個目はにくきゅう。受理', 1380, seg(t, 7.6, 7.9)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.35, cx: 620, cy: 1150 },

@@ -3,6 +3,7 @@
 // ひっくり返し：ジルも開ける → 「牧草 ×30」の山 → オチ：レン固まる。ジルは無表情でもぐもぐ（字幕「部下のほうが多い」）
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
+const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
 // 封筒：open=0..1 でふたが開く。inner＝中身（開いた分だけ上に出る）
 const ENV = (L, x, y, open, inner, s = 1) => `<g transform="translate(${x} ${y}) scale(${s})"><g transform="translate(0 ${-140 * open})">${inner}</g><rect x="-150" y="-100" width="300" height="200" rx="14" fill="#F3E2C4" stroke="#C9A87E" stroke-width="5"/><path d="M-150 -100 L0 20 L150 -100" fill="none" stroke="#C9A87E" stroke-width="5"/><g transform="rotate(${-170 * open} 0 -100)"><path d="M-150 -100 L0 -210 L150 -100Z" fill="#E9D3AE" stroke="#C9A87E" stroke-width="5"/></g><circle cx="0" cy="-20" r="22" fill="#E8473A"/></g>`;
 const HAYPILE = (x, y, s) => `<g transform="translate(${x} ${y}) scale(${s})"><path d="M-120 0 Q-100 -110 0 -130 Q100 -110 120 0Z" fill="#B9C46A"/>${Array.from({ length: 22 }, (_, i) => `<path d="M${-100 + i * 9} 0 q${Math.sin(i) * 20} -60 ${(-80 + i * 7.6) * .6} ${-90 - (i % 5) * 10}" stroke="${i % 3 ? '#9FAE4E' : '#D4D98A'}" stroke-width="6" fill="none" stroke-linecap="round"/>`).join('')}</g>`;
@@ -43,7 +44,7 @@ var EP = {
     if (t > 5.3 && t < 6.6) fx += L.sparkles(300, DESK - 360, t, 1.6, 7);
     if (t > 6.2 && t < 8.6) fx += L.munch(200, DESK - 320, t, 1.3);
     let ui = (t > 1.8 && t < 3.4 ? CHIP(L, 'BONUS DAY', 'ボーナスの日。上司と部下に封筒が1通ずつ', 1380, seg(t, 1.8, 2.1)) : '')
-      + (t > 5.8 && t < 8.6 ? CHIP(L, "JILL'S IS 10× BIGGER", '部下のほうが10倍多い', 1380, seg(t, 5.8, 6.1)) : '');
+      + (t > 5.8 && t < 8.6 ? CHIP_OFF(L, "JILL'S IS 10× BIGGER", '部下のほうが10倍多い', 1380, seg(t, 5.8, 6.1)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.5, cx: 700, cy: 1150 },
       { t: 0.01, z: 1.25, cx: 620, cy: 1200, d: .8 },

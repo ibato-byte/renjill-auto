@@ -4,7 +4,7 @@
 // オチ：カメラが寄ると、課長の目かくしはおでこの上。目はぱっちり。字幕「目かくし：おでこ」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
-const CHIP_OFF = () => ''; // 総見直し（2026-11-10）：字幕は2回まで。3回目以降（オチの説明）は出さず、絵で見せる
+const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
 // 部品：目（左右）・鼻・口。正しい位置と、ジルが置いたばらばらの位置
 const GOOD = [[-38, 0, 0], [38, 0, 0], [0, 34, 0], [0, 62, 0]];
 const MESS = [[-74, -70, 0], [64, 92, 0], [78, -24, 70], [-66, 58, 90]];
@@ -49,7 +49,7 @@ var EP = {
     if (t > 5.8 && t < 6.8) fx += L.sparkles(RP[0], RP[1], t, 1.5, 8);
     if (t > 7.2 && t < 8.6) fx += L.emark(220, DESK - 650, 1.0, '…');
     let ui = (t > 0.8 && t < 2.6 ? CHIP(L, 'FUKUWARAI', '福笑い：目かくしで顔を作る', 1600, seg(t, .8, 1.1)) : '')
-      + (t > 4.2 && t < 5.7 ? CHIP(L, "BOSS'S TURN", '課長の番', 1600, seg(t, 4.2, 4.5)) : '')
+      + (t > 4.2 && t < 5.7 ? CHIP_OFF(L, "BOSS'S TURN", '課長の番', 1600, seg(t, 4.2, 4.5)) : '')
       + (t > 6.6 && t < 8.6 ? CHIP_OFF(L, 'BLINDFOLD: FOREHEAD', '目かくし：おでこ', 1600, seg(t, 6.6, 6.9)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.3, cx: 360, cy: 900 },

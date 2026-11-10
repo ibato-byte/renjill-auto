@@ -4,7 +4,7 @@
 // オチ：ジルの横で起き上がり、ご満悦。ジルは思わず笑う。字幕「上司のおじぎ、深すぎ」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
-const CHIP_OFF = () => ''; // 総見直し（2026-11-10）：字幕は2回まで。3回目以降（オチの説明）は出さず、絵で見せる
+const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
 var EP = {
   dur: 9.5,
   bgmHolds: '4.6-5.2',
@@ -34,7 +34,7 @@ var EP = {
     if (t > 5.6 && t < 6.0) fx += L.impact(rx + 300, DESK - 60, seg(t, 5.6, 6.0), .7, '#F2C230');
     if (t > 6.2 && t < 7.4) fx += L.sparkles(rx + 300, DESK - 420, t, 1.0, 6);
     let ui = (t > 0.6 && t < 2.6 ? CHIP(L, 'HAPPY NEW YEAR', 'あけましておめでとうございます', 1640, seg(t, .6, .9)) : '')
-      + (t > 3.6 && t < 4.9 ? CHIP(L, 'THE BOSS BOWS…', '上司もおじぎ…', 1640, seg(t, 3.6, 3.9)) : '')
+      + (t > 3.6 && t < 4.9 ? CHIP_OFF(L, 'THE BOSS BOWS…', '上司もおじぎ…', 1640, seg(t, 3.6, 3.9)) : '')
       + (t > 6.2 && t < 8.6 ? CHIP_OFF(L, 'BOW: TOO DEEP', '上司のおじぎ、深すぎ', 1640, seg(t, 6.2, 6.5)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.2, cx: 540, cy: 900 },

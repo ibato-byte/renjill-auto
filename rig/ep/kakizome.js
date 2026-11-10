@@ -4,7 +4,7 @@
 // オチ：課長の抱負は「牧草」。課長はご満悦、ジルはジト目。字幕「今年の抱負：牧草」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
-const CHIP_OFF = () => ''; // 総見直し（2026-11-10）：字幕は2回まで。3回目以降（オチの説明）は出さず、絵で見せる
+const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
 // 壁の半紙（中心 x,y・幅 w・高さ h）。字は上から順に、k（0〜1）で1文字ずつ出る
 const SHEET = (x, y, w, h, chars, k, s) => s <= 0 ? '' : `<g transform="translate(${x} ${y}) scale(${s})"><rect x="${-w / 2}" y="${-h / 2}" width="${w}" height="${h}" fill="#FFFDF7" stroke="#D7CCBB" stroke-width="5"/><rect x="${-w / 2 - 10}" y="${-h / 2 - 14}" width="${w + 20}" height="20" rx="8" fill="#8C5A3C"/>`
   + chars.map((c, i) => `<text y="${-h / 2 + h * (i + .5) / chars.length + h * .17 / chars.length}" text-anchor="middle" font-family="Noto Serif CJK JP, Noto Sans CJK JP" font-weight="900" font-size="${Math.min(w * .8, h / chars.length * .8)}" fill="#1E1A17" opacity="${Math.max(0, Math.min(1, k * chars.length - i))}">${c}</text>`).join('')
@@ -45,7 +45,7 @@ var EP = {
     if (t > 6.0 && t < 7.2) fx += L.sparkles(800, 470, t, 1.6, 8);
     if (t > 7.0 && t < 8.6) fx += L.emark(380, DESK - 640, 1.0, '…');
     let ui = (t > 0.9 && t < 2.6 ? CHIP(L, 'CALLIGRAPHY', '書き初め', 1600, seg(t, .9, 1.2)) : '')
-      + (t > 3.4 && t < 5.2 ? CHIP(L, 'BOSS: BIG BRUSH', '上司も大きな筆で', 1600, seg(t, 3.4, 3.7)) : '')
+      + (t > 3.4 && t < 5.2 ? CHIP_OFF(L, 'BOSS: BIG BRUSH', '上司も大きな筆で', 1600, seg(t, 3.4, 3.7)) : '')
       + (t > 6.4 && t < 8.6 ? CHIP_OFF(L, 'NEW YEAR GOAL: HAY', '今年の抱負：牧草', 1600, seg(t, 6.4, 6.7)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.3, cx: 360, cy: 1050 },

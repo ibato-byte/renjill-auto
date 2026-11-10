@@ -3,7 +3,7 @@
 // ひっくり返し：カレンダーの 23（赤）に気づく → 汗 → オチ：ジルも来た（牧草の束つき）。字幕「ジルも来た。牧草つき」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
-const CHIP_OFF = () => ''; // 総見直し（2026-11-10）：字幕は2回まで。3回目以降（オチの説明）は出さず、絵で見せる
+const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
 const CAL = (x, y, s = 1, ring = 0) => `<g transform="translate(${x} ${y}) scale(${s})"><rect x="-90" y="-110" width="180" height="220" rx="12" fill="#fff" stroke="#E2D2BC" stroke-width="5"/><rect x="-90" y="-110" width="180" height="56" rx="12" fill="#E86C5A"/><text x="0" y="-70" text-anchor="middle" font-size="34" font-weight="900" font-family="Noto Sans CJK JP" fill="#fff">11</text><text x="0" y="50" text-anchor="middle" font-size="96" font-weight="900" font-family="Noto Sans CJK JP" fill="#E8473A">23</text>${ring > 0 ? `<circle cx="0" cy="18" r="${70 * ring}" fill="none" stroke="#E8473A" stroke-width="10" opacity="${Math.min(1, ring * 2)}"/>` : ''}</g>`;
 const HAYBUNDLE = (x, y, rot, s = 1) => `<g transform="translate(${x} ${y}) rotate(${rot}) scale(${s})"><path d="M-120 20 Q-60 -60 0 -70 Q60 -60 120 20 Z" fill="#E6C97E"/>${[0, 1, 2, 3, 4, 5].map(i => `<line x1="${-90 + i * 36}" y1="10" x2="${-80 + i * 36 + Math.sin(i * 2) * 20}" y2="${-70 - Math.cos(i) * 20}" stroke="#C9A24E" stroke-width="7" stroke-linecap="round"/>`).join('')}<rect x="-40" y="-20" width="80" height="24" rx="12" fill="#E86CB0"/></g>`;
 var EP = {
@@ -40,7 +40,7 @@ var EP = {
     if (t > 7.6 && t < 8.1) fx += L.impact(760, DESK - 140, seg(t, 7.6, 8.1), .8, '#F2B544');
     if (t > 7.6) fx += L.sparkles(760, DESK - 200, t, .9, 5);
     let ui = (t > 1.8 && t < 3.4 ? CHIP(L, 'NOV 23: HOLIDAY. 9:00 AM', '祝日の朝9時、上司だけ出社', 1380, seg(t, 1.8, 2.1)) : '')
-      + (t > 4.7 && t < 6.2 ? CHIP(L, 'NOBODY IS COMING', 'だれも来ない日だった', 1380, seg(t, 4.7, 5.0)) : '')
+      + (t > 4.7 && t < 6.2 ? CHIP_OFF(L, 'NOBODY IS COMING', 'だれも来ない日だった', 1380, seg(t, 4.7, 5.0)) : '')
       + (t > 7.7 && t < 8.6 ? CHIP_OFF(L, 'JILL CAME ANYWAY', 'ジルも来た。牧草つき', 1380, seg(t, 7.7, 8.0)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.4, cx: 760, cy: 1100 },

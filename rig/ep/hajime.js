@@ -4,7 +4,7 @@
 // オチ：ジルがカレンダーをテープでぺたぺた固定。課長はしょんぼり。字幕「上司の心は、まだ12月」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
-const CHIP_OFF = () => ''; // 総見直し（2026-11-10）：字幕は2回まで。3回目以降（オチの説明）は出さず、絵で見せる
+const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
 // カレンダー（中心 x,y）：jan=1 なら 1/4、0 なら 12/31。flip=めくり中（0〜1）
 const CAL = (x, y, jan, flip, tape) => { const m = jan ? '1' : '12', d = jan ? '4' : '31', col = jan ? '#3A2414' : '#E8473A', sub = jan ? '仕事始め' : '大みそか';
   let s = `<g transform="translate(${x} ${y})"><rect x="-150" y="-170" width="300" height="340" rx="16" fill="#FFFDF7" stroke="#D7CCBB" stroke-width="6"/><rect x="-150" y="-170" width="300" height="70" rx="16" fill="#C9483C"/>`
@@ -40,7 +40,7 @@ var EP = {
     fx += CAL(CX, CY, jan, flip, tape);
     if (t > 5.7 && t < 6.9) fx += L.impact(CX, CY, seg(t, 5.7 + Math.floor((t - 5.7) / .3) * .3, 6.0 + Math.floor((t - 5.7) / .3) * .3), .4, '#F2E6B8');
     let ui = (t > 1.2 && t < 2.3 ? CHIP(L, 'JAN 4: BACK TO WORK', '1月4日、仕事始め', 1640, seg(t, 1.2, 1.5)) : '')
-      + (t > 3.4 && t < 5.6 ? CHIP(L, 'BOSS: STILL DEC 31', '上司がこっそり12月に戻す', 1640, seg(t, 3.4, 3.7)) : '')
+      + (t > 3.4 && t < 5.6 ? CHIP_OFF(L, 'BOSS: STILL DEC 31', '上司がこっそり12月に戻す', 1640, seg(t, 3.4, 3.7)) : '')
       + (t > 7.0 && t < 8.6 ? CHIP_OFF(L, 'STILL IN DECEMBER', '上司の心は、まだ12月', 1640, seg(t, 7.0, 7.3)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.25, cx: 540, cy: 850 },

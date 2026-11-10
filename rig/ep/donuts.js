@@ -5,7 +5,7 @@
 // オチ：口のまわりに牧草のかけら。字幕「証拠：口のまわりの牧草」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
-const CHIP_OFF = () => ''; // 総見直し（2026-11-10）：字幕は2回まで。3回目以降（オチの説明）は出さず、絵で見せる
+const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
 const DONUT = (x, y, s = 1, col = '#C9C46A') => `<g transform="translate(${x} ${y}) scale(${s})"><circle r="44" fill="${col}" stroke="#9AA04A" stroke-width="5"/><circle r="14" fill="#F4ECE0" stroke="#9AA04A" stroke-width="4"/>${[0, 1, 2, 3, 4, 5, 6, 7].map(i => { const a = i * Math.PI / 4; return `<path d="M${Math.cos(a) * 18} ${Math.sin(a) * 18} q${Math.cos(a + .8) * 14} ${Math.sin(a + .8) * 14} ${Math.cos(a) * 24} ${Math.sin(a) * 24}" stroke="${i % 2 ? '#A8B84E' : '#E0D58A'}" stroke-width="5" fill="none" stroke-linecap="round"/>`; }).join('')}</g>`;   // ドーナツ形の牧草リング
 // 箱：open=ふたの開き、n=中の牧草リングの数（6→0）
 const BOX = (x, y, open, n) => { let s = `<g transform="translate(${x} ${y})"><rect x="-200" y="-70" width="400" height="110" rx="14" fill="#F7E7D0" stroke="#D9B98E" stroke-width="6"/>`; const cols = ['#C9C46A', '#D2CC74', '#BFBA60', '#C9C46A', '#D2CC74', '#BFBA60']; for (let i = 0; i < n; i++) s += DONUT(-160 + (i % 3) * 80 + (i >= 3 ? 40 : 0) + 60, -20 + (i >= 3 ? 0 : -10), .62, cols[i]); s += `<g transform="translate(0 ${-70 - open * 22}) scale(1 ${1 - open * .85})"><rect x="-204" y="-60" width="408" height="64" rx="14" fill="#FFF4E6" stroke="#D9B98E" stroke-width="6"/><rect x="-30" y="-40" width="60" height="24" rx="8" fill="#E86C5A"/></g></g>`; return s; };
@@ -46,7 +46,7 @@ var EP = {
     if (t > 7.2 && t < 7.7) fx += L.impact(905, DESK - 235, seg(t, 7.2, 7.7), .8, '#F2A33A');
     if (t > 5.9 && t < 7.2) fx += L.emark(230, DESK - 650, 1.0);
     let ui = (t > 1.8 && t < 3.4 ? CHIP(L, 'HAY RINGS: 6', '差し入れの牧草リング、6個', 1380, seg(t, 1.8, 2.1)) : '')
-      + (t > 3.6 && t < 5.8 ? CHIP(L, 'JILL LOOKS AWAY: 2 SEC', 'ジルが後ろを向いた2秒間', 1380, seg(t, 3.6, 3.9)) : '')
+      + (t > 3.6 && t < 5.8 ? CHIP_OFF(L, 'JILL LOOKS AWAY: 2 SEC', 'ジルが後ろを向いた2秒間', 1380, seg(t, 3.6, 3.9)) : '')
       + (t > 7.3 && t < 8.6 ? CHIP_OFF(L, 'EVIDENCE: HAY BITS', '証拠：口のまわりの牧草', 1380, seg(t, 7.3, 7.6)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.35, cx: 540, cy: 1150 },
