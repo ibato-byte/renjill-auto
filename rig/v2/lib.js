@@ -144,6 +144,26 @@
     if (w) w.style.transform = `translate(${(540 - c.cx * c.z + dx).toFixed(2)}px, ${(960 - c.cy * c.z + dy).toFixed(2)}px) scale(${c.z.toFixed(4)})`;
     const d = document.getElementById('dim'); if (d) d.style.opacity = sc.dim || 0;
   };
+  // ---------- 動きの部品（総見直し 2026-11-10・OVERHAUL 43〜49・73・88）----------
+  // どれも「パラメータの上書き」を返す。Object.assign(pose, L.xxx(...)) で使う。y は yOff（上向きが負）
+  // ため：動く前に少し縮む（t0 が動き出し。直前 dur 秒）
+  L.anticip = (t, t0, dur = .18) => { const u = seg(t, t0 - dur, t0); return u > 0 && u < 1 ? { bodySquash: -.28 * Math.sin(Math.PI * u * .5) } : {}; };
+  // 着地のつぶれ（tl が着地の瞬間）
+  L.land = (t, tl, dur = .22) => { const u = seg(t, tl, tl + dur); return u > 0 && u < 1 ? { bodySquash: -.32 * Math.sin(Math.PI * u) } : {}; };
+  // 驚いて飛び上がる（t0 から .5 秒）：ため→跳ぶ→着地。耳がはね、目が丸く
+  L.startle = (t, t0) => { const u = seg(t, t0, t0 + .5); if (u <= 0 || u >= 1) return {}; const up = Math.sin(Math.PI * Math.min(1, u / .8));
+    return { yOff: -110 * up, bodySquash: u < .12 ? -.3 : u > .85 ? -.25 : .2 * up, earL: -18 * up, earR: 18 * up, eyeOpen: 1.15, excl: 1 }; };
+  // がっかり：耳が下がり、体がしぼむ（t0 から .6 秒かけて。以後そのまま）
+  L.droop = (t, t0) => { const k = ease(seg(t, t0, t0 + .6)); return k <= 0 ? {} : { earL: 22 * k, earR: -22 * k, bodySquash: -.12 * k, headNod: 14 * k, headTilt: -6 * k, ...(k > .5 ? { eyeShape: 'half' } : {}) }; };
+  // うれしい：ビンキー（跳んで空中で体をひねる）。t0 から .55 秒
+  L.binky = (t, t0) => { const u = seg(t, t0, t0 + .55); if (u <= 0 || u >= 1) return {}; const up = Math.sin(Math.PI * u);
+    return { yOff: -130 * up, bodyTilt: 26 * Math.sin(Math.PI * 2 * u), headTilt: -18 * Math.sin(Math.PI * 2 * u), bodySquash: u < .1 || u > .9 ? -.25 : .15 * up }; };
+  // 走って入る：x0→x1 を t0〜t1 で（うさぎ跳び＋土ぼこり）。いきなり出ない・消えない
+  L.runIn = (t, t0, t1, x0, x1, groundY) => { const h = RIG.hop(t, t0, t1, x0, x1, { height: 40 }); const k = h.moving ? ((t - t0) * 6) % 1 : -1;
+    return { x: h.x, yOff: h.yOff, bodySquash: h.squash, vx: h.vx, dust: h.moving && groundY != null ? L.dust(h.x + (x1 > x0 ? 80 : 320), groundY, Math.max(0.01, k) * .6) : '' }; };
+  // 待機中の生命感：耳のぴくっ（ランダムな間隔・seed で固定）
+  L.twitch = (t, seed = 1) => { const n = Math.floor(t / 1.3 + seed), on = Math.sin(n * 91.7 + seed) > .55, u = (t / 1.3 + seed) % 1;
+    return on && u < .25 ? { earL: 9 * Math.sin(Math.PI * u / .25 * 2), earR: -6 * Math.sin(Math.PI * u / .25 * 2) } : {}; };
   // 足元の影（総見直し 2026-11-10・OVERHAUL 61/62）：キャラが浮いて見えないよう、いつも足元に影。
   //   跳んでいる間（足が「地面」より上）は影を地面に残したまま小さく・薄くする＝高さが分かる。
   //   地面＝直近の足の位置。0.6秒以上上にいる（机に乗ったなど）ときは、そこを新しい地面にする。
@@ -163,6 +183,8 @@
   // キャラ：本番の RIG で描き、手前の小物（front）を同じ層に重ねる。alive で瞬き・呼吸・耳の揺れ
   L.char = function (id, p, t, front, opt) {
     const svg = document.getElementById(id); if (!svg) return;
+    // 待機中の耳のぴくっ（OVERHAUL 50）：耳の角度に足すだけ（台本の耳の動きは消さない）
+    if (p && !(opt && opt.twitch === false)) { const tw = L.twitch(t, id === 'ren' ? 1 : 2); if (tw.earL) p = Object.assign({}, p, { earL: (p.earL || 0) + tw.earL, earR: (p.earR || 0) + tw.earR }); }
     if (p) { const q = RIG.render(svg, RIG.alive(Object.assign({ char: id }, p), t, opt || {})); if (!(opt && opt.shadow === false)) L.footShadow(svg, id, q, t); }
     else { svg.innerHTML = ''; delete L._ground[id]; }
     if (front) svg.insertAdjacentHTML('beforeend', front);
