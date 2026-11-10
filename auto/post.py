@@ -112,15 +112,24 @@ def thumbnail(p):
     # 毎回作り直す（古いサムネを使い回して見切れ版が出る事故を防ぐ）。はみ出しがあれば thumb.js が終了コード3で止まり、投稿もしない
     th = p.get("thumb") or {"t": 1.0, "cam": "1.6,560,1050", "hook": p["title"]}
     env = dict(os.environ, NODE_PATH=subprocess.check_output(["npm", "root", "-g"]).decode().strip())
-    def gen(v): return subprocess.run(["node", str(RIG / "thumb.js"), p["ep"], str(th["t"]), th["cam"], th["hook"], f'EP.{p["no"]}', str(out), v], env=env).returncode
+    def gen(v, t): return subprocess.run(["node", str(RIG / "thumb.js"), p["ep"], str(t), th["cam"], th["hook"], f'EP.{p["no"]}', str(out), v], env=env).returncode
     v = th.get("variant", "A")
-    rc = gen(v)
-    # 毎日の振り返りが試すサムネの型（B・C）が検査に通らないときは、標準の型（A）で作る（打ち手のせいで投稿が止まらないように）
-    if rc != 0 and v != "A":
-        log(f"thumbnail variant {v} NG → A")
-        rc = gen("A")
-    if rc != 0: raise subprocess.CalledProcessError(rc, "thumb.js")
-    return out
+    # 検査に通らないとき（記号が文字にかかる・背景がごちゃつく など）は、少し前後のコマで作り直す（2026-11-10：おかしな表紙は出さない・でも投稿は止めない）
+    t0 = float(th["t"]); rc = 1
+    for t in thumb_times(t0):
+        for vv in ([v, "A"] if v != "A" else ["A"]):
+            rc = gen(vv, t)
+            if rc == 0:
+                if (t, vv) != (t0, v): log(f"thumbnail {v}@{t0} NG → {vv}@{t}")
+                return out
+    raise subprocess.CalledProcessError(rc, "thumb.js")
+
+def thumb_times(t0):
+    """表紙のコマの候補：指定のコマ → 前後 0.4・0.8・1.2 秒"""
+    out = [t0]
+    for d in (0.4, 0.8, 1.2):
+        out += [round(t0 - d, 2), round(t0 + d, 2)]
+    return [t for t in out if t >= 0.3]
 
 # ---------- YouTube ----------
 def post_youtube(p, d, path):
