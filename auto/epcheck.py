@@ -3,13 +3,17 @@
 
   python3 auto/epcheck.py [--days 14]   … 今日以降の予定の回を検査。不合格があれば終了コード 2
 
-検査すること（ISSUE＝不合格／WARN＝知らせる）
-- 字幕（CHIP）の数：3回以上は ISSUE（決まりは2回まで。オチは絵で見せる）  … 156・157・174
+決まりは目安（オーナー 2026-11-10：「決まりは常に変化していい。大事なのは質と結果。最終的な作品が最高になれば良い」）。
+ここで見つかるのは「見直すきっかけ」。絵で見て良ければ決まりを破ってよいし、数字で効かない決まりは変える・捨てる。
+不合格（ISSUE）にするのは、明らかな不具合だけ（今は該当なし。壊れた絵・表紙は rig/qa.js と rig/thumb.js が止める）。
+
+検査すること（WARN＝知らせる）
+- 途中の字幕（CHIP）の数：2回以上は WARN（目安は1回。冒頭の一言で状況は伝わる。言葉を入れすぎると世界観が崩れる＝オーナー 2026-11-10）… 156・157・174
 - 字幕の長さ：英語 24 文字・日本語 18 文字を超えたら WARN                    … 38・159
 - 冒頭の一言（pace.js の hook）：英語 5 語以上は WARN（3〜4 語）            … 136
 - 尺：画面に出る長さが 7〜12 秒の外なら WARN                               … 5・143
 - 同じ効果音の組み合わせ：「目立つ音」（pon/boing/chime/thump/flop）が3日続けて同じなら WARN … 127
-- 同じ部屋：前の3話と同じ見た目（rig/v2/looks.js）なら ISSUE                … 179
+- 同じ部屋：前の3話と同じ見た目（rig/v2/looks.js）なら WARN                … 179
 - 小物の名前（L.xxx の小物）が3日続けて同じなら WARN                        … 15・180
 - 字幕でオチを言う言葉（DONE / FINALLY / 結局 / オチ など）が2回目の字幕にあれば WARN … 26・157
 """
@@ -72,18 +76,18 @@ def check(posts, today, days=14, pc=None, lk=None):
         cur = d >= today.isoformat() and d < end
         tag = f"{d} {ep}"
         if cur:
-            if len(i["caps"]) > 2:
-                issues.append(f"{tag}: 字幕が{len(i['caps'])}回（2回まで。オチは絵で見せる）")
+            if len(i["caps"]) > 1:
+                warns.append(f"{tag}: 途中の字幕が{len(i['caps'])}回（1回まで。言葉を入れすぎると世界観が崩れる・オチは絵で見せる。2026-11-10 オーナー）")
             for en, ja in i["caps"]:
                 if len(en) > 24: warns.append(f"{tag}: 字幕の英語が長い（{len(en)}文字）「{en}」")
                 if len(ja) > 18: warns.append(f"{tag}: 字幕の日本語が長い（{len(ja)}文字）「{ja}」")
-            if len(i["caps"]) >= 2 and PUNCH.search(" ".join(i["caps"][-1])):
+            if i["caps"] and PUNCH.search(" ".join(i["caps"][-1])):
                 warns.append(f"{tag}: 最後の字幕がオチを言っている「{i['caps'][-1][0]}」")
             en = i["hook"].split("/")[0]
             if len(en.split()) > 4: warns.append(f"{tag}: 冒頭の英語が{len(en.split())}語（3〜4語に）")
             if i["out"] and not (7 <= i["out"] <= 12): warns.append(f"{tag}: 尺 {i['out']:.1f}秒（7〜12秒に）")
             if ep in lk and any(lk.get(h) == lk[ep] for h in hist[-3:]):
-                issues.append(f"{tag}: 前の3話と同じ部屋（rig/v2/looks.js を作り直す：python3 auto/looks.py）")
+                warns.append(f"{tag}: 前の3話と同じ部屋（rig/v2/looks.js を作り直す：python3 auto/looks.py）")
             prev = [info(h, pc) for h in hist[-2:]]
             if len(prev) == 2 and all(x and x["loud"] and x["loud"] == i["loud"] for x in prev) and i["loud"]:
                 warns.append(f"{tag}: 目立つ効果音が3話続けて同じ（{'・'.join(sorted(i['loud']))}）")
