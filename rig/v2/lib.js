@@ -25,28 +25,68 @@
   <linearGradient id="v2night" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2B3A63"/><stop offset="1" stop-color="#4A5A88"/></linearGradient>
   <linearGradient id="v2screen" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#EAF4FF"/><stop offset="1" stop-color="#CFE2F7"/></linearGradient>
   <radialGradient id="v2light" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#FFF6DA" stop-opacity=".85"/><stop offset="1" stop-color="#FFF6DA" stop-opacity="0"/></radialGradient>
+  <radialGradient id="v2vig" cx="50%" cy="45%" r="75%"><stop offset=".6" stop-color="#3B2412" stop-opacity="0"/><stop offset="1" stop-color="#3B2412" stop-opacity=".16"/></radialGradient>
   <radialGradient id="v2shadow" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#5A3A1E" stop-opacity=".28"/><stop offset="1" stop-color="#5A3A1E" stop-opacity="0"/></radialGradient>
   </defs>`;
 
   // ---------- 背景（オフィス） ----------
-  // o: { sky: day|dusk|night, clock:[h,m], noClock, light: 0..1 }
+  // o: { sky: day|dusk|night, clock:[h,m], noClock, light: 0..1, look: 0..3 }
+  // 総見直し（2026-11-10・OVERHAUL 56/57/59/61/87）：毎話同じ絵にならないよう、話ごとに「部屋の見た目」を4種類から選ぶ（壁の色・窓・本棚・ホワイトボード・額）。
+  //   時計の時刻で光の色も変える（朝＝白っぽい・昼＝そのまま・夕方＝あたたかい・夜＝青い）。手前の机・キャラの位置は変えない（台本はそのまま）
+  const LOOKS = [
+    { wall: ['#F8F1E6', '#EADFCF'], name: 'warm' },          // これまでの部屋
+    { wall: ['#EEF3EC', '#DCE5D8'], name: 'mint' },          // ミント：横長の窓＋ブラインド・本棚
+    { wall: ['#EEF1F7', '#DCE1EC'], name: 'blue' },          // 青み：窓＋ホワイトボード
+    { wall: ['#FBF0E4', '#F0DCC6'], name: 'peach' }          // 桃色：額の絵＋窓
+  ];
+  const epName = () => { try { return new URLSearchParams(location.search).get('ep') || ''; } catch (e) { return ''; } };
+  L.lookOf = name => { const T = window.LOOK_ALL || {}; if (T[name] != null) return T[name]; let h = 0; for (const c of String(name || '')) h = (h * 31 + c.charCodeAt(0)) >>> 0; return h % LOOKS.length; };
   L.office = function (o = {}) {
-    const sky = o.sky || 'day', night = sky === 'night';
+    const hr = o.clock ? o.clock[0] + (o.clock[1] || 0) / 60 : 10;
+    // 時刻に合わせた空（台本で 'day' 固定でも、17時以降なら夕方・19時以降なら夜に）
+    let sky = o.sky || 'day';
+    if (sky === 'day' && hr >= 19) sky = 'night'; else if (sky === 'day' && hr >= 17) sky = 'dusk';
+    const night = sky === 'night';
+    const look = o.look != null ? o.look : L.lookOf(epName()), LK = LOOKS[look];
     const win = x => `<g transform="translate(${x} 230)"><rect x="-12" y="-12" width="344" height="444" rx="14" fill="${PAL.frame}"/><rect width="320" height="420" rx="6" fill="url(#v2${sky})"/>
       ${night ? '<circle cx="230" cy="80" r="30" fill="#FFF3C4"/>' : '<g fill="#fff" opacity=".85"><ellipse cx="90" cy="100" rx="64" ry="22"/><ellipse cx="230" cy="160" rx="52" ry="17"/></g>'}
       <path d="M0 300 L48 270 L48 420 L0 420Z M66 420 L66 236 L122 236 L122 420Z M140 420 L140 284 L214 284 L214 420Z M232 420 L232 254 L320 254 L320 420Z" fill="${night ? '#33406B' : '#CADBE6'}" opacity=".9"/>
       ${night ? '<g fill="#FFE9A8" opacity=".85"><rect x="80" y="270" width="12" height="12"/><rect x="160" y="320" width="12" height="12"/><rect x="250" y="300" width="12" height="12"/><rect x="96" y="330" width="12" height="12"/></g>' : ''}
       <rect x="155" width="10" height="420" fill="${PAL.frame}"/><rect y="205" width="320" height="10" fill="${PAL.frame}"/></g>`;
+    const shelf = x => `<g transform="translate(${x} 250)"><rect x="-10" y="-10" width="340" height="420" rx="12" fill="#B98A5E"/><rect width="320" height="400" rx="6" fill="#8C603C"/>`
+      + [0, 1, 2].map(r => `<rect x="0" y="${r * 133 + 125}" width="320" height="12" fill="#B98A5E"/>` + [0, 1, 2, 3, 4, 5, 6].map(i => { const w = 26 + (i * 13 + r * 7) % 18, hh = 70 + (i * 17 + r * 11) % 40, x0 = 14 + i * 43;
+        return `<rect x="${x0}" y="${r * 133 + 125 - hh}" width="${w}" height="${hh}" rx="4" fill="${['#D9734E', '#5E8FB8', '#E8C25A', '#7DB87A', '#C98BB0', '#F2EEE6', '#6C8A9E'][(i + r * 2) % 7]}" transform="rotate(${i === 5 ? -8 : 0} ${x0} ${r * 133 + 125})"/>`; }).join('')).join('')
+      + `<ellipse cx="250" cy="383" rx="40" ry="10" fill="#5A3A1E" opacity=".2"/></g>`;
+    const board = x => `<g transform="translate(${x} 250)"><rect x="-12" y="-12" width="344" height="304" rx="12" fill="#C9CFD8"/><rect width="320" height="280" rx="6" fill="#FFFFFF"/>`
+      + `<path d="M30 60 q40 -30 80 0 t80 0" stroke="#5E8FB8" stroke-width="8" fill="none" stroke-linecap="round"/><rect x="30" y="110" width="110" height="70" rx="10" fill="none" stroke="#E8473A" stroke-width="7"/>`
+      + `<path d="M170 200 L210 130 L250 170 L290 90" stroke="#5DBB63" stroke-width="8" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="60" cy="230" r="14" fill="#E8C25A"/>`
+      + `<rect x="80" y="292" width="160" height="14" rx="6" fill="#9AA3AE"/></g>`;
+    const frames = x => `<g transform="translate(${x} 260)"><rect x="-10" y="-10" width="200" height="250" rx="10" fill="#FFFDF8"/><rect width="180" height="230" rx="4" fill="#BFE0F5"/><path d="M0 170 L60 90 L100 140 L130 110 L180 170 L180 230 L0 230Z" fill="#7DB87A"/><circle cx="130" cy="55" r="22" fill="#F2C14E"/>`
+      + `<g transform="translate(200 70)"><rect x="-10" y="-10" width="140" height="170" rx="10" fill="#FFFDF8"/><rect width="120" height="150" rx="4" fill="#F7D9C4"/><circle cx="60" cy="70" r="34" fill="#E8907A"/><rect x="20" y="118" width="80" height="10" rx="5" fill="#C98B6A"/></g></g>`;
+    const blinds = x => `<g transform="translate(${x} 230)">${Array.from({ length: 9 }, (_, i) => `<rect x="0" y="${i * 22}" width="320" height="12" rx="3" fill="#FFFDF8" opacity=".9"/>`).join('')}</g>`;
     const g = [];
-    g.push(`<rect x="-500" y="-500" width="2080" height="2920" fill="url(#v2wall)"/>`);
+    g.push(`<rect x="-500" y="-500" width="2080" height="2920" fill="url(#v2wall${look})"/>`);
+    g.push(`<linearGradient id="v2wall${look}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${LK.wall[0]}"/><stop offset="1" stop-color="${LK.wall[1]}"/></linearGradient>`);
+    // 腰板（壁の下の帯）で部屋の奥行き
+    g.push(`<rect x="-500" y="860" width="2080" height="140" fill="${LK.wall[1]}" opacity=".9"/><rect x="-500" y="852" width="2080" height="10" fill="#FFFDF8" opacity=".8"/>`);
     g.push(`<g filter="url(#v2dof)">`);
-    g.push(win(70) + win(690));
+    if (look === 0) g.push(win(70) + win(690));
+    else if (look === 1) g.push(win(70) + blinds(70) + shelf(690));
+    else if (look === 2) g.push(win(70) + board(690));
+    else g.push(frames(70) + win(690));
     if (!o.noClock) g.push(L.clock(540, 300, o.clock || [10, 10], .9));
     g.push(plant(985, 1000) + plant(95, 990, .8));
     g.push(`<rect x="-500" y="1000" width="2080" height="1500" fill="url(#v2floor)"/><rect x="-500" y="994" width="2080" height="12" fill="#EFE3D2"/>`);
     g.push(`</g>`);
-    g.push(`<ellipse cx="${night ? 540 : 230}" cy="820" rx="460" ry="560" fill="url(#v2light)" opacity="${night ? .12 : (o.light == null ? .5 : o.light)}"/>`);
+    // 窓からの光（夕方は低く・あたたかい）
+    const lx = look === 3 ? 850 : 230;
+    g.push(`<ellipse cx="${night ? 540 : lx}" cy="${sky === 'dusk' ? 900 : 820}" rx="460" ry="560" fill="url(#v2light)" opacity="${night ? .12 : (o.light == null ? .5 : o.light)}"/>`);
+    // 時間帯の色（朝は少し白く、夕方はあたたかく、夜は青く）
     if (night) g.push(`<rect x="-500" y="-500" width="2080" height="2920" fill="#1B2440" opacity=".18"/>`);
+    else if (sky === 'dusk') g.push(`<rect x="-500" y="-500" width="2080" height="2920" fill="#F2994A" opacity=".10"/>`);
+    else if (hr < 10) g.push(`<rect x="-500" y="-500" width="2080" height="2920" fill="#FFFFFF" opacity=".06"/>`);
+    // 四隅を少し暗く（手前のキャラが目立つ）
+    g.push(`<rect x="-500" y="-500" width="2080" height="2920" fill="url(#v2vig)"/>`);
     return g.join('');
   };
   L.clock = (x, y, [h, m], s = 1) => {
@@ -104,11 +144,27 @@
     if (w) w.style.transform = `translate(${(540 - c.cx * c.z + dx).toFixed(2)}px, ${(960 - c.cy * c.z + dy).toFixed(2)}px) scale(${c.z.toFixed(4)})`;
     const d = document.getElementById('dim'); if (d) d.style.opacity = sc.dim || 0;
   };
+  // 足元の影（総見直し 2026-11-10・OVERHAUL 61/62）：キャラが浮いて見えないよう、いつも足元に影。
+  //   跳んでいる間（足が「地面」より上）は影を地面に残したまま小さく・薄くする＝高さが分かる。
+  //   地面＝直近の足の位置。0.6秒以上上にいる（机に乗ったなど）ときは、そこを新しい地面にする。
+  L._ground = {};
+  L.footShadow = function (svg, id, q, t) {
+    const s = q.scale || 1, fx = q.x + 200 * s, fy = q.y + 410 * s;
+    let g = L._ground[id];
+    if (!g || fy >= g.y - 2 || Math.abs(t - g.t) > 1.5 || (t - (g.up || t)) > 0.6) g = L._ground[id] = { y: fy, t, up: null };
+    else { g.t = t; if (g.up == null) g.up = t; }
+    if (fy >= g.y - 2) g.up = null;
+    const h = Math.max(0, g.y - fy), k = Math.max(0.35, 1 - h / (260 * s));
+    const sh = document.createElementNS('http://www.w3.org/2000/svg', 'ellipse');
+    sh.setAttribute('cx', fx); sh.setAttribute('cy', g.y - 4 * s); sh.setAttribute('rx', 150 * s * k); sh.setAttribute('ry', 20 * s * k);
+    sh.setAttribute('fill', '#5A3A1E'); sh.setAttribute('opacity', (0.2 * k).toFixed(3)); sh.setAttribute('data-shadow', '1');
+    svg.insertBefore(sh, svg.firstChild.nextSibling);
+  };
   // キャラ：本番の RIG で描き、手前の小物（front）を同じ層に重ねる。alive で瞬き・呼吸・耳の揺れ
   L.char = function (id, p, t, front, opt) {
     const svg = document.getElementById(id); if (!svg) return;
-    if (p) RIG.render(svg, RIG.alive(Object.assign({ char: id }, p), t, opt || {}));
-    else svg.innerHTML = '';
+    if (p) { const q = RIG.render(svg, RIG.alive(Object.assign({ char: id }, p), t, opt || {})); if (!(opt && opt.shadow === false)) L.footShadow(svg, id, q, t); }
+    else { svg.innerHTML = ''; delete L._ground[id]; }
     if (front) svg.insertAdjacentHTML('beforeend', front);
   };
   // カメラ：keys=[{t,z,cx,cy,d}]。各キーへ d 秒（既定 .6）でなめらかに

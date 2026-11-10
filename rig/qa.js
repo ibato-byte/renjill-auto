@@ -34,7 +34,7 @@ const STEP = 0.125, W = 1080, H = 1920;
   {
     const sig = async o => { await p.evaluate(t => window.setOut(t), o); return p.evaluate(() => {
       const m = getComputedStyle(document.getElementById('world')).transform; const v = m && m !== 'none' ? m.split('(')[1].split(')')[0].split(',').map(Number) : [1, 0, 0, 1, 0, 0];
-      const bb = id => { const els = [...document.querySelectorAll('#' + id + ' path, #' + id + ' ellipse, #' + id + ' circle, #' + id + ' rect')].filter(e => e.getBoundingClientRect().width > 1); if (!els.length) return [0, 0, 0, 0]; const rs = els.map(e => e.getBoundingClientRect()); return [Math.min(...rs.map(r => r.left)), Math.min(...rs.map(r => r.top)), Math.max(...rs.map(r => r.right)), Math.max(...rs.map(r => r.bottom))]; };
+      const bb = id => { const els = [...document.querySelectorAll('#' + id + ' path, #' + id + ' ellipse:not([data-shadow]), #' + id + ' circle, #' + id + ' rect')].filter(e => e.getBoundingClientRect().width > 1); if (!els.length) return [0, 0, 0, 0]; const rs = els.map(e => e.getBoundingClientRect()); return [Math.min(...rs.map(r => r.left)), Math.min(...rs.map(r => r.top)), Math.max(...rs.map(r => r.right)), Math.max(...rs.map(r => r.bottom))]; };
       return { z: v[0], tx: v[4], ty: v[5], ren: bb('ren'), jil: bb('jil'), fx: document.querySelectorAll('#fx > *').length }; }); };
     const diff = (a, b) => Math.max(Math.abs(a.z - b.z) * 400, Math.abs(a.tx - b.tx), Math.abs(a.ty - b.ty), ...['ren', 'jil'].flatMap(k => a[k].map((x, i) => Math.abs(x - b[k][i]))), Math.abs(a.fx - b.fx) * 40);
     const s0 = await sig(0), s5 = await sig(0.5), s10 = await sig(1.0);
