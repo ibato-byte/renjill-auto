@@ -19,6 +19,12 @@ const STEP = 0.125, W = 1080, H = 1920;
   await p.goto('file://' + __dirname + '/ep.html?ep=' + ep); await p.waitForTimeout(600);
   const dur = await p.evaluate(() => outDur());   // 画面に出る長さ（頭を削り、速くしたあと。依頼 #97）
   const issues = [], warns = [];
+  // ---- 腕（2026-11-10 の報告「変なところから腕が生える」）：レンとジルには元のデザインに腕がない。
+  //   ① エピソードの中で太い丸い線（腕のような物）を直接描かない → common.js の limb()（体のふちから・長さに上限）を使う
+  //   ② limb() で届かず、腕を短く切った所があれば知らせる（手と持ち物が離れて見える）
+  try { const src = fs.readFileSync(path.join(__dirname, 'ep', ep + '.js'), 'utf8');
+    const thick = (src.match(/'stroke-width':\s*(2[8-9]|[3-9]\d)\b[^)]*'stroke-linecap':\s*'round'|'stroke-linecap':\s*'round'[^)]*'stroke-width':\s*(2[8-9]|[3-9]\d)\b/g) || []);
+    if (thick.length) issues.push(`腕のような太い線を直接描いている（${thick.length}か所）：腕は limb() で、体のふちから短く`); } catch (e) { }
   if (!(dur >= 8 && dur <= 20)) issues.push(`尺が範囲外: ${dur.toFixed(1)}s（8〜20s。目安は7〜12s、最後まで見られる長さに）`);
   else if (dur > 17) warns.push(`尺が長め: ${dur.toFixed(1)}s（目安は7〜12s）`);
   // ---- つかみの検査（依頼 #97）：①最初の1秒で絵が動く ②冒頭の英語の文字が十分大きく、安全域（上下の隠れる範囲の内側）に収まる
@@ -128,12 +134,13 @@ const STEP = 0.125, W = 1080, H = 1920;
   await p.evaluate(t => window.setOut(t), dur - 0.05);
   const endOp = await p.evaluate(() => parseFloat(getComputedStyle(document.getElementById('end')).opacity));
   if (endOp < 0.9) issues.push(`エンドカードが出ていない（opacity ${endOp}）`);
+  { const cut = await p.evaluate(() => window.__LIMBCUT || 0); if (cut > 0) warns.push(`腕が届かず短く切った所がある（必要な長さ ${Math.round(cut)}px）：持ち物を体に近づける`); }
   await b.close();
   if (errors.length) issues.push(...[...new Set(errors)].slice(0, 5));
   // コンタクトシート（4x3）
   const tmp = fs.mkdtempSync(path.join(require('os').tmpdir(), 'qa-')); sheet.forEach((s, i) => fs.writeFileSync(`${tmp}/s${String(i).padStart(2, '0')}.jpg`, s.buf));
   require('child_process').execSync(`ffmpeg -y -loglevel error -pattern_type glob -i '${tmp}/s*.jpg' -filter_complex "scale=270:480,tile=4x3" "${sheetPath}"`);
   const report = { ep, dur, pass: issues.length === 0, issues: [...new Set(issues)], warns: [...new Set(warns)] };
-  fs.writeFileSync(reportPath, JSON.stringify(report, null, 2));
+fs.writeFileSync(reportPath, JSON.stringify(report, null, 2));
   console.log(JSON.stringify(report)); process.exit(report.pass ? 0 : 2);
 })();
