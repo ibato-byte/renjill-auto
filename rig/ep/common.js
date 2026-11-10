@@ -144,7 +144,7 @@ const FACE_REN = { x: 360, y: 900 }, FACE_JIL = { x: 860, y: 1470 };
 // ---------- 腕（手）：体のふちから、手の位置まで。短い腕だけ（2026-11-10 の報告「変なところから腕が生える」）
 // レンとジルは元のデザインに腕がない。紙などを持つときだけ、体のいちばん近いふちから短い腕を出す。
 // 肩＝体（キャラの絵の四角）を楕円とみなし、手の方向のふち。長さは LIMB_MAX まで（qa で見張る：window.__LIMB に最長を記録）
-const LIMB_MAX = 170;
+const LIMB_MAX = 70; // 2026-11-10：170 でも「腕が変なところから出ている」と言われた。元のデザインに腕はないので、体のふちの小さな前足（短い）だけ。腕が要るネタは作らない
 function limb(layer, id, hand, o) {
   o = o || {}; const node = document.getElementById(id); if (!node) return null;
   const b = node.getBBox(); const cx = b.x + b.width / 2, cy = b.y + b.height * (o.cy != null ? o.cy : 0.58), rx = b.width * 0.40, ry = b.height * 0.40;

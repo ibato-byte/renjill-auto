@@ -189,8 +189,8 @@ const again = ease(seg(t, 10.45, 11.0));
 if (t >= 10.45) { handR = { x: lerp(rest(RSH, 1).x, gR.x - 8, again), y: lerp(rest(RSH, 1).y, gripY, again) }; handJ = { x: lerp(rest(JSH, -1).x, gJ.x + 8, again), y: lerp(rest(JSH, -1).y, gripY, again) }; /* トレイの紙へ（机の上の高さまで腕を伸ばしていた） */ }
 const showArms = true;
 if (showArms) {
-limb(f, 'ren', handR, { col: ARMCOL, bend: 10, max: 210 }); // 体のふちから短い腕（肩を体の下の方に固定していたので、長い腕が体の後ろから生えて見えた）
-limb(f, 'jil', handJ, { col: ARMCOL2, bend: 10, max: 210 });
+limb(f, 'ren', handR, { col: ARMCOL, bend: 10 }); // 体のふちから短い腕（肩を体の下の方に固定していたので、長い腕が体の後ろから生えて見えた）
+limb(f, 'jil', handJ, { col: ARMCOL2, bend: 10 });
 }
 
 // 半分（腕より前に：手が紙のふちを握る）
