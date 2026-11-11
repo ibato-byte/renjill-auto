@@ -1,15 +1,15 @@
 {
  "ep": "watercooler",
  "en": {
-  "width": 855,
-  "height": 108,
-  "top": 452
+  "width": 859,
+  "height": 160,
+  "top": 427
  },
- "chipTop": 680,
+ "chipTop": 675,
  "busy": {
   "en": 0,
   "ja": 0,
   "chip": 0
  },
- "made": "2026-11-01T22:20:58.471Z"
+ "made": "2026-11-11T01:02:45.972Z"
 }
