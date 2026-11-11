@@ -494,7 +494,7 @@
       "title": "10分の会議",
       "caption_ja": "「10分だけ」の会議、2時間後。ジルはコーヒー3杯目で寝落ちです。",
       "caption_en": "\"Just 10 minutes,\" the boss said. Two hours later, Jill is asleep on her third coffee.",
-      "tag_set": "C",
+      "tag_set": "A",
       "thumb": {
         "t": 7.6,
         "cam": "1.4,665,1040",
@@ -512,7 +512,13 @@
           "ko": "\"딱 10분만\"이라던 회의, 두 시간 뒤. 질은 세 잔째 커피에서 잠들었어요."
         }
       },
-      "cta": "Tag the coworker who always says \"just 10 minutes\"/「10分だけ」が口ぐせの人に送ろう"
+      "cta": "Tag the coworker who always says \"just 10 minutes\"/「10分だけ」が口ぐせの人に送ろう",
+      "experiment": {
+        "var": "tag_set",
+        "std": "B",
+        "value": "A",
+        "why": "ハッシュタグの組み合わせを変えて、見つかり方を比べる"
+      }
     },
     {
       "date": "2026-11-16",

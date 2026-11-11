@@ -1,25 +1,25 @@
 {
  "stage": 1,
  "per_week": 5,
- "why": "直近 2 本が 20%・49%。21% 以上が 2 本続くまで週5本",
+ "why": "直近 2 本が 21%・49%。21% 以上が 2 本続くまで週5本",
  "baseline": 0.16,
  "need": 0.208,
  "recent": [
   {
    "key": "2026-10-26_jil_morning2",
-   "ratio": 0.14
+   "ratio": 0.139
   },
   {
    "key": "2026-11-01_pom_debut",
-   "ratio": 0.202
+   "ratio": 0.206
   },
   {
    "key": "2026-11-02_update99",
    "ratio": 0.486
   }
  ],
- "schedule_days_ahead": 78,
+ "schedule_days_ahead": 77,
  "schedule_target_days": 14,
  "same_day_twice": [],
- "date": "2026-11-10"
+ "date": "2026-11-11"
 }
