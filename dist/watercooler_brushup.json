@@ -5,6 +5,7 @@
   "review_images": [
     "/home/user/renjill-auto/dist/watercooler_review.jpg",
     "/home/user/renjill-auto/dist/watercooler_sheet.jpg",
+    "/home/user/renjill-auto/dist/watercooler_follow.jpg",
     "/home/user/renjill-auto/dist/watercooler_thumb.jpg"
   ],
   "checklist": [
@@ -21,7 +22,7 @@
     "pass": true,
     "issues": [],
     "warns": [
-      "エンドカード直前にfx要素が5個残っている"
+      "エンドカード直前にfx要素が6個残っている"
     ],
     "render": {
       "ep": "watercooler",
@@ -29,16 +30,18 @@
       "pass": true,
       "issues": [],
       "warns": [
-        "エンドカード直前にfx要素が5個残っている"
+        "エンドカード直前にfx要素が6個残っている"
       ]
     }
   },
   "follow": {
-    "pass": false,
-    "issues": [
-      "最後の一言を動画に入れられなかった（日本語フォントや ffmpeg を確認）"
-    ]
+    "pass": true,
+    "issues": [],
+    "show_sec": 2.0,
+    "extend_sec": 2.0,
+    "total_sec": 12.33,
+    "image": "/home/user/renjill-auto/dist/watercooler_follow.jpg"
   },
   "thumb": "/home/user/renjill-auto/dist/watercooler_thumb.jpg",
-  "pass_machine": false
+  "pass_machine": true
 }

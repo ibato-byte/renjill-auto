@@ -13,7 +13,7 @@ const SHEET = (x, y, stamps, paw, faint) => {
     const cx = -220 + (i % 4) * 150, cy = 60 + Math.floor(i / 4) * 110;
     s += `<rect x="${cx - 42}" y="${cy - 42}" width="84" height="84" rx="8" fill="none" stroke="#C9C2B6" stroke-width="4" stroke-dasharray="8 8"/>`;
     if (i < stamps) s += `<g transform="translate(${cx} ${cy}) rotate(${-8 + (i * 37) % 16})"><circle r="32" fill="none" stroke="#E8473A" stroke-width="6"/><path d="M-14 -10 l0 20 M-4 -12 l0 24 M8 -10 l10 0 l-10 20" fill="none" stroke="#E8473A" stroke-width="6" stroke-linecap="round"/></g>`;
-    else if (i === 7 && faint > 0) s += `<g transform="translate(${cx} ${cy})" opacity="${.25 * faint}"><circle r="32" fill="none" stroke="#E8473A" stroke-width="6" stroke-dasharray="6 10"/></g>`;
+    else if (i === 7 && faint > 0) s += `<g transform="translate(${cx} ${cy})" opacity="${.6 * faint}"><circle r="32" fill="none" stroke="#E8473A" stroke-width="7" stroke-dasharray="14 12"/></g>`;
     if (i === 7 && paw) s += `<g transform="translate(${cx} ${cy}) scale(1.35) rotate(-10)" fill="#E8473A" opacity="${paw}"><ellipse cx="0" cy="10" rx="22" ry="18"/><circle cx="-22" cy="-12" r="9"/><circle cx="-8" cy="-22" r="9"/><circle cx="8" cy="-22" r="9"/><circle cx="22" cy="-12" r="9"/></g>`;
   }
   return s + '</g>';

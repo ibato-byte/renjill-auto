@@ -43,3 +43,6 @@
 2026-11-12,renjill-midweek-check,42,多言語化,YouTube の多言語タイトル（ja・ko・zh-Hant・es・pt）を追加,auto/schedule.json nengajo.title_i18n,growth.youtube_localizations。日本語の題・数字が台本と一致するか照合
 2026-11-12,renjill-midweek-check,43,多言語化,YouTube の多言語タイトル（ja・ko・zh-Hant・es・pt）を追加,auto/schedule.json mikan.title_i18n,growth.youtube_localizations。日本語の題・数字が台本と一致するか照合
 2026-11-12,renjill-midweek-check,44,多言語化,YouTube の多言語タイトル（ja・ko・zh-Hant・es・pt）を追加,auto/schedule.json bonus.title_i18n,growth.youtube_localizations。日本語の題・数字が台本と一致するか照合
+2026-11-12,renjill-midweek-check,45,台本,ウォーターサーバー：オチの小さな紙コップがレンの体の後ろ（back の層）に隠れて見えなかった → 前の層に出し、口元で少し傾けて飲む動きに,rig/ep/watercooler.js,別のレビュー役の指摘（blocker）と 7.4・7.9・8.6 秒のコマの目視
+2026-11-12,renjill-midweek-check,46,台本,定時1分前：最後の寄りで時計の「18:00」の「1」が左端で切れて「8:00」に見えた → カメラ cx 800→700,rig/ep/teiji.js,別のレビュー役の指摘と 24コマ表の目視（直した後は 18:00 が全部見える）
+2026-11-12,renjill-midweek-check,47,台本,ハンコ8個：8個目のかすれた判が薄すぎて（濃さ25%）インク切れが伝わらない → 濃さ60%・太い破線に,rig/ep/hanko.js,別のレビュー役の指摘と 4.6・5.2 秒のコマの目視

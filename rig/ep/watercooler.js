@@ -104,8 +104,8 @@ window.EP = {
     if (t >= 7.2 && t < 10.5) {
       const sip = pulse(t, 7.6, 8.4);
       const rtp = headTop(Object.assign({}, RIG.DEFAULTS, { char: 'ren' }, R));
-      const cx = 480 - 40 * sip, cy = 1010 - 90 * sip;
-      back.appendChild(el('g', { transform: `translate(${cx} ${cy}) rotate(${-30 * sip})` }, [
+      const cx = 480 - 10 * sip, cy = 1010 - 24 * sip;  // 口元のまま少し傾けて飲む（前の層に出したら 90px 上がって目にかかった）
+      f.appendChild(el('g', { transform: `translate(${cx} ${cy}) rotate(${-18 * sip})` }, [  // 前の層に（back だとレンの体の後ろに隠れてオチが見えなかった。2026-11-12 再検査）
         el('path', { d: 'M-34 -40 L-28 0 L28 0 L34 -40 Z', fill: '#FFFFFF', stroke: '#6F8296', 'stroke-width': 5 }),
         el('rect', { x: -26, y: -20 * (1 - sip * 0.6), width: 52, height: 18, rx: 3, fill: '#7FB8E8' })]));
     }
