@@ -15,6 +15,22 @@ class Parse(unittest.TestCase):
         self.assertEqual(epcheck.captions("CHIP_OFF(L, 'X', 'y', 1, 1)"), [])
 
 
+class Arms(unittest.TestCase):
+    """腕を描かない（2026-11-11：最後の1枚を口でくわえる形に作り直した。1回の失敗を2度起こさない）"""
+    def test_limb_detected(self):
+        self.assertTrue(epcheck.uses_limb("  limb(f, 'ren', hand, {});"))
+        self.assertFalse(epcheck.uses_limb("// limb() は使わない"))
+        self.assertFalse(epcheck.uses_limb("const x = L.limbo(1);"))
+
+    def test_upcoming_limb_is_issue(self):
+        today = dt.date(2026, 11, 11)
+        r = epcheck.check([{"date": "2026-11-12", "slot": "18:00", "ep": "replyall"}], today, 14, pc={}, lk={})
+        self.assertTrue(any("腕" in x for x in r["issues"]))
+
+    def test_lastsheet_has_no_arms(self):
+        self.assertFalse(epcheck.uses_limb((ROOT / "rig/ep/lastsheet.js").read_text()))
+
+
 class Upcoming(unittest.TestCase):
     def test_next_14_days_have_no_issues(self):
         posts = json.loads((ROOT / "auto/schedule.json").read_text())["posts"]

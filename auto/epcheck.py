@@ -16,6 +16,8 @@
 - 同じ部屋：前の3話と同じ見た目（rig/v2/looks.js）なら WARN                … 179
 - 小物の名前（L.xxx の小物）が3日続けて同じなら WARN                        … 15・180
 - 字幕でオチを言う言葉（DONE / FINALLY / 結局 / オチ など）が2回目の字幕にあれば WARN … 26・157
+- 腕（common.js の limb()）を使う回は ISSUE（レンとジルには元のデザインに腕がない。2026-11-10「変なところから腕が生える」→ 11-11 最後の1枚を口でくわえる形に作り直し。
+  まだ出ていない回で二度と使わない。持つ・運ぶは口でくわえる・頭や体で押す・鼻で押す）… 298
 """
 import datetime as dt, json, pathlib, re, sys
 
@@ -25,6 +27,14 @@ JST = dt.timezone(dt.timedelta(hours=9))
 LOUD = {"pon", "boing", "chime", "thump", "flop"}
 PROPS = {"laptop", "papers", "bag", "chair", "hayStrand", "stamp", "stamper", "digital", "clock"}
 PUNCH = re.compile(r"\b(DONE|FINALLY|SOLVED|THE END)\b|結局|オチ|解決|おわり", re.I)
+_LIMB = re.compile(r"(?<![\w.])limb\(")
+
+
+def uses_limb(src):
+    """コメント（// 以降）を除いて limb( を呼んでいるか"""
+    return any(_LIMB.search(line.split("//", 1)[0]) for line in src.splitlines())
+
+
 _CHIP = re.compile(r"CHIP\(L,\s*(['\"])(.*?)(?<!\\)\1\s*,\s*(['\"])(.*?)(?<!\\)\3")
 
 
@@ -50,6 +60,7 @@ def info(ep, pc):
     p = pc.get(ep, {"start": 0, "speed": 1, "hook": ""})
     return {
         "caps": captions(src),
+        "limb": uses_limb(src),
         "out": (dur - p["start"]) / p["speed"] if dur else None,
         "hook": p["hook"],
         "loud": frozenset(re.findall(r"type:\s*'([a-z]+)'", src)) & LOUD,
@@ -76,6 +87,8 @@ def check(posts, today, days=14, pc=None, lk=None):
         cur = d >= today.isoformat() and d < end
         tag = f"{d} {ep}"
         if cur:
+            if i["limb"]:
+                issues.append(f"{tag}: 腕（limb()）を描いている。レンとジルには腕がない：口でくわえる・頭や体で押す形に作り直す")
             if len(i["caps"]) > 1:
                 warns.append(f"{tag}: 途中の字幕が{len(i['caps'])}回（1回まで。言葉を入れすぎると世界観が崩れる・オチは絵で見せる。2026-11-10 オーナー）")
             for en, ja in i["caps"]:

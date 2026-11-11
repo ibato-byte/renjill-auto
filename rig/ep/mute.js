@@ -44,7 +44,7 @@ var EP = {
     if (t > 6.2 && t < 6.7) fx += L.impact(450, DESK - 330, seg(t, 6.2, 6.7), .8, '#5DBB63');
     // あくびの音（大きな波線が画面から出る）
     if (yawn && t < 7.6) fx += `<g stroke="#5DBB63" stroke-width="10" stroke-linecap="round" fill="none" opacity=".9">${[0, 1, 2].map(i => `<path d="M${540 - i * 36} ${DESK - 440} q-30 30 0 60 q30 30 0 60" transform="translate(${Math.sin(t * 10 + i) * 4} 0)"/>`).join('')}</g>`;
-    let ui = (t > 1.8 && t < 3.4 ? CHIP(L, 'ONLINE MEETING: MUTED', 'オンライン会議。上司、ミュートのまま熱弁', 1380, seg(t, 1.8, 2.1)) : '')
+    let ui = (t > 1.8 && t < 3.4 ? CHIP(L, 'ONLINE MEETING: MUTED', 'オンライン会議。上司はミュートで熱弁', 1380, seg(t, 1.8, 2.1)) : '')
       + (t > 4.4 && t < 5.4 ? CHIP_OFF(L, 'MUTED FOR 2 MINUTES', '2分間、だれにも聞こえていない', 1380, seg(t, 4.4, 4.7)) : '')
       + (t > 7.0 && t < 8.6 ? CHIP_OFF(L, 'UNMUTED: YAWN', '解除した瞬間、あくび', 1380, seg(t, 7.0, 7.3)) : '');
     const cam = L.camAt([
