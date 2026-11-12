@@ -532,7 +532,8 @@
       "thumb": {
         "t": 6,
         "cam": "1.25,540,1150",
-        "hook": "MONDAY 7:00 AM/月曜の朝、上司の目覚まし"
+        "hook": "MONDAY 7:00 AM/月曜の朝、上司の目覚まし",
+        "variant": "B"
       },
       "first_comment": "月曜のスヌーズ、何回まで？ / How many snoozes on a Monday?",
       "site_i18n": {
@@ -546,7 +547,13 @@
           "ko": "월요일 7:00 알람. 세 번 끄고, 8:59. 질은 벌써 자리에 있어요."
         }
       },
-      "cta": "Send this to the one who is always late on Mondays/月曜にいつも遅れる人に送ろう"
+      "cta": "Send this to the one who is always late on Mondays/月曜にいつも遅れる人に送ろう",
+      "experiment": {
+        "var": "thumb_variant",
+        "std": "A",
+        "value": "B",
+        "why": "サムネの文字の位置（上と下）を変えて、プロフィール一覧からの見られ方を比べる"
+      }
     },
     {
       "date": "2026-12-10",
