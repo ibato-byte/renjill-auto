@@ -24,7 +24,8 @@ var EP = {
       const face = t < 2.55 ? RIG.FACES.smile : t < 3.1 ? RIG.FACES.surprised : Object.assign({}, RIG.FACES.oops, { sweat: 1, eyeOpen: 1.1 });
       const squash = t > 3.85 && t < 4.3 ? -.5 * seg(t, 3.85, 4.3) : 0;     // 走り出す前にぎゅっと縮む（ため）
       const dash = RIG.hop(t, 4.3, 5.0, 120, -700, { hops: 3, height: 40 });
-      jp = Object.assign({}, t > 4.3 ? RIG.POSES.stretch : RIG.POSES.sit, t > 4.3 ? RIG.FACES.smile : face, { x: dash.x, y: DESK - 413 * 1.4 + bob + dash.yOff, scale: 1.4, bodySquash: squash, eyeLook: t > 2.55 ? .8 : 0, earL: t > 3.1 ? -18 : 0, earR: t > 3.1 ? 18 : 0, excl: t > 2.55 && t < 3.1 ? 1 : 0 });
+      const st = L.startle(t, 2.55);                                        // 書類の山に気づいて飛び上がる（11/12 総見直し・項目66）
+    jp = Object.assign({}, t > 4.3 ? RIG.POSES.stretch : RIG.POSES.sit, t > 4.3 ? RIG.FACES.smile : face, { x: dash.x, y: DESK - 413 * 1.4 + bob + dash.yOff + (st.yOff || 0), scale: 1.4, bodySquash: squash, eyeLook: t > 2.55 ? .8 : 0, earL: t > 3.1 ? -18 : 0, earR: t > 3.1 ? 18 : 0, excl: t > 2.55 && t < 3.1 ? 1 : 0 }, st.yOff ? { bodySquash: st.bodySquash, earL: st.earL, earR: st.earR, eyeOpen: st.eyeOpen } : {});
     }
     const bagX = t > 4.3 ? RIG.hop(t, 4.3, 5.0, 120, -700, { hops: 3, height: 40 }).x - 30 : 90 + (t < 2.4 ? Math.sin(t * 7) * 3 : 0);
     const bag = gone ? '' : L.bag(bagX, DESK + 4 - (t > 4.3 ? 120 : 0), .75);
@@ -33,7 +34,9 @@ var EP = {
     const h = RIG.hop(t, 1.3, 1.9, 1250, 560, { hops: 2, height: 60 });
     const rface = t < 4.3 ? RIG.FACES.smile : t < 6.4 ? Object.assign({}, RIG.FACES.surprised, { sweat: 1, excl: 0 }) : RIG.FACES.smile;
     const rs = 1.55;
-    const rp = Object.assign({}, RIG.POSES.sit, rface, { x: h.x, y: DESK - 413 * rs + h.yOff, scale: rs, bodySquash: h.squash, eyeLook: t > 4.3 && t < 6.4 ? -1 : 0, question: 0, blush: t > 6.6 ? .8 : (rface.blush || 0) });
+    // 着地のつぶれ（1.9）と、空いた席を見てがっかり（5.3〜6.4：耳が下がる）。11/12 総見直し
+    const rmove = Object.assign({}, L.land(t, 1.9), t > 5.3 && t < 6.4 ? L.droop(t, 5.3) : {});
+    const rp = Object.assign({}, RIG.POSES.sit, rface, { x: h.x, y: DESK - 413 * rs + h.yOff, scale: rs, bodySquash: h.squash, eyeLook: t > 4.3 && t < 6.4 ? -1 : 0, question: 0, blush: t > 6.6 ? .8 : (rface.blush || 0) }, rmove);
     const stack = `<g transform="translate(${h.x + 175 * rs} ${DESK - 4})">${L.papers(0, 0, 14)}</g>`;
     L.char('ren', rp, t, stack, { vx: h.vx });
     // 手前の層（机の前板）は fx の一番下に置く（キャラの足元を隠す）
@@ -52,10 +55,10 @@ var EP = {
       { t: 0, z: 1.5, cx: 380, cy: 1120 },
       { t: 0.01, z: 1.3, cx: 360, cy: 1150, d: .75 },          // 最初の1秒で寄りから引く（qa：0.5秒以内に動き）
       { t: 1.25, z: 1.0, cx: 540, cy: 1120, d: .5 },
-      { t: 2.55, z: 1.5, cx: 360, cy: 1170, d: .5 },
-      { t: 3.55, z: 1.35, cx: 540, cy: 780, d: .45 },          // 壁の時計に寄る
+      { t: 2.55, z: 1.6, cx: 380, cy: 1170, d: .5 },           // ジルの寄り（演出の寄り＝1.6。レンは画面外）
+      { t: 3.55, z: 1.6, cx: 520, cy: 780, d: .45 },           // 壁の時計に寄る（寄り＝1.6）
       { t: 4.2, z: .95, cx: 420, cy: 1120, d: .4 },               // 引き：ジルが走って出ていくのが見える
-      { t: 6.4, z: 1.4, cx: 800, cy: 1180, d: .7 },
+      { t: 6.4, z: 1.2, cx: 770, cy: 1180, d: .7 },             // レンの体も壁の時計も切れない（11/12 直し。前は時計が「8:00」に切れていた）
     ], t);
     if (t > 8.6) { fx = ''; ui = ''; }
     L.mount({ bg, fx, ui, cam, t, shake: t > 4.4 && t < 4.7 ? 10 : 0 });

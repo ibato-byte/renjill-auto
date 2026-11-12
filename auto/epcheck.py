@@ -18,6 +18,10 @@
 - 字幕でオチを言う言葉（DONE / FINALLY / 結局 / オチ など）が2回目の字幕にあれば WARN … 26・157
 - 腕（common.js の limb()）を使う回は ISSUE（レンとジルには元のデザインに腕がない。2026-11-10「変なところから腕が生える」→ 11-11 最後の1枚を口でくわえる形に作り直し。
   まだ出ていない回で二度と使わない。持つ・運ぶは口でくわえる・頭や体で押す・鼻で押す）… 298
+- 冒頭の一言（pace.js）と表紙の文字（schedule.json の thumb.hook）が違えば WARN（2026-11-12）… 138
+- 字幕が画面に出ている時間が 1.2 秒未満なら WARN（読み切れない。画面上の秒＝台本の秒÷速さ。2026-11-12）… 161
+- 「…」を3回以上使う回は WARN（間を文字で埋めない。2026-11-12）… 164
+- 字幕の英語に 11 文字以上の長い単語があれば WARN（海外の人がひと目で読める単語に。2026-11-12）… 166
 """
 import datetime as dt, json, pathlib, re, sys
 
@@ -36,6 +40,13 @@ def uses_limb(src):
 
 
 _CHIP = re.compile(r"CHIP\(L,\s*(['\"])(.*?)(?<!\\)\1\s*,\s*(['\"])(.*?)(?<!\\)\3")
+_CHIPWIN = re.compile(r"t\s*>\s*([\d.]+)\s*&&\s*t\s*<\s*([\d.]+)\s*\?\s*CHIP\(")
+_LONGWORD = re.compile(r"[A-Za-z]{11,}")
+
+
+def chip_windows(src):
+    """字幕（CHIP）の出ている時間（台本の秒）。「t > A && t < B ? CHIP(」の形だけ数える"""
+    return [float(b) - float(a) for a, b in _CHIPWIN.findall(src)]
 
 
 def captions(src):
@@ -60,6 +71,9 @@ def info(ep, pc):
     p = pc.get(ep, {"start": 0, "speed": 1, "hook": ""})
     return {
         "caps": captions(src),
+        "chipwin": chip_windows(src),
+        "ellipsis": sum(line.split("//", 1)[0].count("…") for line in src.splitlines()),
+        "speed": p["speed"],
         "limb": uses_limb(src),
         "out": (dur - p["start"]) / p["speed"] if dur else None,
         "hook": p["hook"],
@@ -74,6 +88,7 @@ def looks():
 
 
 def check(posts, today, days=14, pc=None, lk=None):
+    """posts は schedule.json の posts。thumb.hook があれば冒頭の一言（pace.js）とそろっているかも見る"""
     pc = pace() if pc is None else pc
     lk = looks() if lk is None else lk
     rows = sorted([p for p in posts if p.get("ep")], key=lambda p: (p["date"], p.get("slot", "")))
@@ -96,6 +111,15 @@ def check(posts, today, days=14, pc=None, lk=None):
                 if len(ja) > 18: warns.append(f"{tag}: 字幕の日本語が長い（{len(ja)}文字）「{ja}」")
             if i["caps"] and PUNCH.search(" ".join(i["caps"][-1])):
                 warns.append(f"{tag}: 最後の字幕がオチを言っている「{i['caps'][-1][0]}」")
+            th = (p.get("thumb") or {}).get("hook")
+            if th and i["hook"] and th != i["hook"]:
+                warns.append(f"{tag}: 冒頭の一言と表紙の文字が違う（pace.js「{i['hook']}」／schedule.json「{th}」）")
+            for w in i["chipwin"]:
+                if w / (i["speed"] or 1) < 1.2: warns.append(f"{tag}: 字幕の出ている時間が{w / (i['speed'] or 1):.1f}秒（1.2秒以上に。読み切れない）")
+            if i["ellipsis"] >= 3: warns.append(f"{tag}: 「…」が{i['ellipsis']}回（間を文字で埋めない。絵と動きで）")
+            for en_, _ja in i["caps"]:
+                for w in _LONGWORD.findall(en_):
+                    warns.append(f"{tag}: 字幕の英語に長い単語「{w}」（短い単語に）")
             en = i["hook"].split("/")[0]
             if len(en.split()) > 4: warns.append(f"{tag}: 冒頭の英語が{len(en.split())}語（3〜4語に）")
             if i["out"] and not (7 <= i["out"] <= 12): warns.append(f"{tag}: 尺 {i['out']:.1f}秒（7〜12秒に）")
