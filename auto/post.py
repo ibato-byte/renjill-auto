@@ -16,7 +16,7 @@ Instagram・Facebook のサムネは dist/<ep>_thumb.jpg（Instagram は公開UR
 失敗したSNSはスキップして他を続け、終了コードで知らせる。
 Facebook は権限・設定がなければ飛ばすだけ（失敗にしない）。理由は dist/post_hub_args 経由で Automation Hub の「やること」に出る。
 """
-import datetime as dt, json, os, subprocess, sys, time, pathlib
+import datetime as dt, json, os, re, subprocess, sys, time, pathlib
 import requests
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 import facebook as fb
@@ -132,6 +132,20 @@ def thumb_times(t0):
     return [t for t in out if t >= 0.3]
 
 # ---------- YouTube ----------
+YT_TITLE_MAX = 100  # YouTube のタイトル上限（超える・< > を含むと invalidTitle で失敗する。2026-11-12「ハンコ8個」で発生）
+
+def yt_title(p):
+    """YouTube のタイトル。英語の説明＋「| Ren & Jill「題名」」。100文字を超えるときは英語の説明を単語の切れ目で縮めて「…」を付ける"""
+    tail = f' | Ren & Jill「{p["title"]}」'
+    head = re.sub(r"[<>]", "", p["caption_en"]).strip()
+    tail = re.sub(r"[<>]", "", tail)
+    if len(head) + len(tail) <= YT_TITLE_MAX: return head + tail
+    room = YT_TITLE_MAX - len(tail) - 1
+    cut = head[:room]
+    if " " in cut and not head[room:room + 1] in ("", " "): cut = cut[:cut.rfind(" ")]
+    title = cut.rstrip(" ,.;:") + "…" + tail
+    return title[:YT_TITLE_MAX]
+
 def post_youtube(p, d, path):
     from google.oauth2.credentials import Credentials
     from googleapiclient.discovery import build
@@ -140,7 +154,7 @@ def post_youtube(p, d, path):
                         client_id=os.environ["YT_CLIENT_ID"], client_secret=os.environ["YT_CLIENT_SECRET"])
     yt = build("youtube", "v3", credentials=creds)
     # 説明に公式サイトの行を足す（sns_policy.json の yt_extra_lines。多言語の説明にも同じ行が入る）
-    en_title, en_desc = f'{p["caption_en"]} | Ren & Jill「{p["title"]}」', f'{sns_policy.yt_description(d["yt_description"])}\n\n{tags(p, d)}'
+    en_title, en_desc = yt_title(p), f'{sns_policy.yt_description(d["yt_description"])}\n\n{tags(p, d)}'
     body = {"snippet": {"title": en_title, "description": en_desc, "categoryId": "23", "defaultLanguage": "en"},
             "localizations": growth.youtube_localizations(p, d, en_title, en_desc),  # 英・日・韓・繁体中・西・葡のタイトルと説明（依頼 #38）
             "status": {"privacyStatus": "public", "selfDeclaredMadeForKids": False}}
@@ -277,7 +291,7 @@ def dry_run(targets, d, posted=None):
                 print("    ig: caption:\n      " + caption(p, d).replace("\n", "\n      "))
             elif pl == "threads": print("    threads: VIDEO（Instagram と同じ公開 URL）" + ("" if threads.threads_ready() else "  ※権限・Secrets 未設定のため本番では見送り"))
             elif pl == "yt":
-                print(f'    yt: title: {p["caption_en"]} | Ren & Jill「{p["title"]}」')
+                print(f'    yt: title: {yt_title(p)}')
                 print("    yt: description:\n      " + sns_policy.yt_description(d["yt_description"]).replace("\n", "\n      "))
             elif pl == "tt":
                 print("    tt: FILE_UPLOAD", f'{p["ep"]}_loop.mp4')
