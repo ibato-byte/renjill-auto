@@ -274,7 +274,8 @@
     "cover_style": {
       "ig": "text",
       "facebook": "text",
-      "threads": "text"
+      "threads": "text",
+      "yt": "none"
     },
     "tt": "manual",
     "facebook": "1825120562077287",
@@ -284,6 +285,8 @@
     "ig_story": "18120308243120419",
     "ig_story_at": "2026-11-12T12:06+09:00",
     "fb_story": "2720144188447275",
-    "fb_story_at": "2026-11-12T12:06+09:00"
+    "fb_story_at": "2026-11-12T12:06+09:00",
+    "yt": "AEc7bC8FW1E",
+    "yt_at": "2026-11-12T13:29+09:00"
   }
 }
