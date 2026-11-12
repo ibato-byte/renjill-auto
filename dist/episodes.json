@@ -1,5 +1,23 @@
 [
  {
+  "ep": "hanko",
+  "date": "2026-11-12",
+  "title": {
+   "ja": "ハンコ8個",
+   "en": "Eight stamps",
+   "zh": "八個印章",
+   "ko": "도장 8개"
+  },
+  "caption": {
+   "ja": "書類にハンコが8個。課長が押していく、7個目で朱肉が切れた。8個目はにくきゅう。受理されました。",
+   "en": "The form needs 8 stamps. The boss runs out of ink at 7. Stamp 8 is a paw print. Approved.",
+   "zh": "文件要蓋8個章。課長蓋到第7個沒印泵了。第8個是肉球。通過。",
+   "ko": "서류에 도장 8개. 과장님이 찍다가 7개째에 인주가 떨어졌어요. 8개째는 발바닥. 접수 완료."
+  },
+  "cover": "20261112_hanko_cover.jpg",
+  "video": "20261112_hanko.mp4"
+ },
+ {
   "ep": "nenmatsu",
   "date": "2026-11-11",
   "title": {
