@@ -16,6 +16,15 @@ class Thumb(unittest.TestCase):
         self.assertEqual(post.thumb_times(2.6)[:3], [2.6, 2.2, 3.0])
         self.assertTrue(all(t >= 0.3 for t in post.thumb_times(0.5)))
 
+    def test_no_end_card_frames(self):
+        # 2026-11-12：7.6 が NG → 8.8（尺 9.5 のエンドカード）の薄い表紙になった。エンドカードのコマは候補にしない
+        import post
+        self.assertEqual(post.ep_dur("meeting"), 9.5)
+        ts = post.thumb_times(7.6, 9.5)
+        self.assertTrue(ts and all(t <= 9.5 - post.END_CARD_SEC for t in ts), ts)
+        self.assertIn(7.6, ts)
+        self.assertIsNone(post.ep_dur("__no_such_ep__"))
+
     def test_first_frame_hook_full_opacity(self):
         # 表紙＝最初のコマ（TikTok など）。冒頭の一言は最初のコマから濃さ100%（qa.js が見張る）
         self.assertIn("最初のコマで冒頭の一言が薄い", (ROOT / "rig/qa.js").read_text())

@@ -450,6 +450,13 @@
         "std": "A",
         "value": "B",
         "why": "サムネの文字の位置（上と下）を変えて、プロフィール一覧からの見られ方を比べる"
+      },
+      "title_i18n": {
+        "ja": "定時1分前に仕事を持ってくる上司 | レンとジル「定時1分前」",
+        "ko": "퇴근 1분 전에 일을 들고 온 과장님 | 렌과 질 Ren & Jill",
+        "zh-Hant": "下班前一分鐘拿工作來的課長 | 蓮與吉兒 Ren & Jill",
+        "es": "El jefe trae trabajo a las 17:59 | Ren & Jill",
+        "pt": "O chefe traz trabalho às 17:59 | Ren & Jill"
       }
     },
     {
@@ -484,6 +491,13 @@
         "std": "Send this to the coworker who needs it./あの同僚に送ってあげて",
         "value": "Which one is your boss?/あなたの職場のレンは誰？",
         "why": "最後の一言を足して、送る・保存する人が増えるか比べる"
+      },
+      "title_i18n": {
+        "ja": "「ちょっとだけ」で床が水びたし | レンとジル「ウォーターサーバー」",
+        "ko": "\"조금만\" 했는데 바닥이 물바다 | 렌과 질 Ren & Jill",
+        "zh-Hant": "「只要一點點」，地板變成水池 | 蓮與吉兒 Ren & Jill",
+        "es": "\"Solo un poco de agua\" y la oficina se inunda | Ren & Jill",
+        "pt": "\"Só um pouquinho de água\" e o escritório alaga | Ren & Jill"
       }
     },
     {
@@ -497,7 +511,7 @@
       "tag_set": "A",
       "thumb": {
         "t": 7.6,
-        "cam": "1.4,665,1040",
+        "cam": "1.9,660,1080",
         "hook": "\"JUST 10 MIN\"/10分だけの会議"
       },
       "first_comment": "一番長かった会議は何時間？ / Longest meeting you have survived?",
@@ -518,6 +532,13 @@
         "std": "B",
         "value": "A",
         "why": "ハッシュタグの組み合わせを変えて、見つかり方を比べる"
+      },
+      "title_i18n": {
+        "ja": "「10分だけ」の会議が2時間 | レンとジル「10分の会議」",
+        "ko": "\"딱 10분만\"이라던 회의가 2시간 | 렌과 질 Ren & Jill",
+        "zh-Hant": "「只要10分鐘」的會議開了兩小時 | 蓮與吉兒 Ren & Jill",
+        "es": "\"Solo 10 minutos\": la reunión dura 2 horas | Ren & Jill",
+        "pt": "\"Só 10 minutos\": a reunião dura 2 horas | Ren & Jill"
       }
     },
     {
@@ -548,6 +569,13 @@
         }
       },
       "cta": "Send this to the one who is always late on Mondays/月曜にいつも遅れる人に送ろう",
+      "title_i18n": {
+        "ja": "月曜7:00、目覚ましを3回止めた上司 | レンとジル「月曜の朝」",
+        "ko": "월요일 7시 알람, 세 번 끈 과장님 | 렌과 질 Ren & Jill",
+        "zh-Hant": "星期一7:00的鬧鐘，課長按掉三次 | 蓮與吉兒 Ren & Jill",
+        "es": "Lunes, 7:00: el jefe apaga la alarma 3 veces | Ren & Jill",
+        "pt": "Segunda, 7:00: o chefe adia o alarme 3 vezes | Ren & Jill"
+      },
       "experiment": {
         "var": "thumb_variant",
         "std": "A",
@@ -581,7 +609,14 @@
           "ko": "보너스 봉투. 과장님은 건초 3가닥, 질은 30가닥이었어요."
         }
       },
-      "cta": "Send this to whoever got the bigger bonus/ボーナスが多かった人に送ろう"
+      "cta": "Send this to whoever got the bigger bonus/ボーナスが多かった人に送ろう",
+      "title_i18n": {
+        "ja": "ボーナスの封筒、ジルは課長の10倍だった | レンとジル「ボーナスの日」",
+        "ko": "보너스 봉투, 질은 과장님의 10배였다 | 렌과 질 Ren & Jill",
+        "zh-Hant": "打開獎金袋，吉兒是課長的十倍 | 蓮與吉兒 Ren & Jill",
+        "es": "Día de bono: Jill recibe 10 veces más que el jefe | Ren & Jill",
+        "pt": "Dia do bônus: Jill ganha 10 vezes mais que o chefe | Ren & Jill"
+      }
     },
     {
       "date": "2026-11-17",
@@ -609,7 +644,14 @@
           "ko": "과장님과 단둘이 엘리베이터. 12층에 도착한 순간, 질은 0.1초 만에 퇴장."
         }
       },
-      "cta": "Send this to someone who takes the stairs to avoid this/これを避けて階段を使う人に送ろう"
+      "cta": "Send this to someone who takes the stairs to avoid this/これを避けて階段を使う人に送ろう",
+      "title_i18n": {
+        "ja": "エレベーターで上司と2人きり | レンとジル「エレベーターで上司と2人」",
+        "ko": "엘리베이터에 과장님과 단둘이 | 렌과 질 Ren & Jill",
+        "zh-Hant": "和課長單獨搭電梯 | 蓮與吉兒 Ren & Jill",
+        "es": "Solos en el ascensor con el jefe | Ren & Jill",
+        "pt": "Sozinhos no elevador com o chefe | Ren & Jill"
+      }
     },
     {
       "date": "2026-11-18",
@@ -637,7 +679,14 @@
           "ko": "\"딱 한 장만\"이 40장. 질은 버튼 한 번으로 멈췄어요."
         }
       },
-      "cta": "Tag the coworker who always fixes the printer/いつもプリンターを直してくれる人に送ろう"
+      "cta": "Tag the coworker who always fixes the printer/いつもプリンターを直してくれる人に送ろう",
+      "title_i18n": {
+        "ja": "「1枚だけ」のはずが40枚 | レンとジル「1枚だけ印刷」",
+        "ko": "\"딱 한 장만\"이 40장으로 | 렌과 질 Ren & Jill",
+        "zh-Hant": "「只印一張」結果印了40張 | 蓮與吉兒 Ren & Jill",
+        "es": "\"Solo una hoja\" y salen 40 | Ren & Jill",
+        "pt": "\"Só uma folha\" e saem 40 | Ren & Jill"
+      }
     },
     {
       "date": "2026-12-28",
@@ -693,7 +742,14 @@
           "ko": "온라인 회의, 와이파이가 끊겨 과장님 얼굴이 멈췄어요. 질은 그 얼굴을 저장했어요."
         }
       },
-      "cta": "Send this to the coworker who always freezes mid-sentence/会議中によく固まる人に送ろう"
+      "cta": "Send this to the coworker who always freezes mid-sentence/会議中によく固まる人に送ろう",
+      "title_i18n": {
+        "ja": "オンライン会議で固まる上司 | レンとジル「オンライン会議で固まる上司」",
+        "ko": "화상 회의에서 멈춘 과장님 | 렌과 질 Ren & Jill",
+        "zh-Hant": "線上會議中當機的課長 | 蓮與吉兒 Ren & Jill",
+        "es": "El jefe se congela en la videollamada | Ren & Jill",
+        "pt": "O chefe trava na videochamada | Ren & Jill"
+      }
     },
     {
       "date": "2026-11-20",
@@ -721,7 +777,14 @@
           "ko": "송년회 총무는 질. 가게는 전부 만석. 과장님이 정한 장소는 이 책상이었어요."
         }
       },
-      "cta": "Send this to this year's party planner/今年の幹事に送ろう"
+      "cta": "Send this to this year's party planner/今年の幹事に送ろう",
+      "title_i18n": {
+        "ja": "忘年会の幹事はジル、会場は… | レンとジル「忘年会の幹事」",
+        "ko": "송년회 총무는 질, 장소는… | 렌과 질 Ren & Jill",
+        "zh-Hant": "尾牙主辦人是吉兒，會場是… | 蓮與吉兒 Ren & Jill",
+        "es": "Jill organiza la fiesta de fin de año | Ren & Jill",
+        "pt": "Jill organiza a festa de fim de ano | Ren & Jill"
+      }
     },
     {
       "date": "2026-11-21",
@@ -742,14 +805,21 @@
         "title": {
           "en": "Lunch swap",
           "zh": "便當換錯了",
-          "ko": "도시락이 바뀜었다"
+          "ko": "도시락이 바뀌었다"
         },
         "caption": {
           "zh": "12:00，便當換錯了。換回來之後，課長三秒吃完，現在盯著吉兒的沙拉。",
-          "ko": "12:00, 도시락이 바뀜어 있었어요. 다시 바꾸자 과장님은 3초 만에 완식. 이제 질의 샐러드를 보고 있어요."
+          "ko": "12:00, 도시락이 바뀌어 있었어요. 다시 바꾸자 과장님은 3초 만에 완식. 이제 질의 샐러드를 보고 있어요."
         }
       },
-      "cta": "Send this to the fastest eater in your office/会社で一番食べるのが速い人に送ろう"
+      "cta": "Send this to the fastest eater in your office/会社で一番食べるのが速い人に送ろう",
+      "title_i18n": {
+        "ja": "お弁当が入れ替わった | レンとジル「お弁当が入れ替わった」",
+        "ko": "도시락이 바뀌었다 | 렌과 질 Ren & Jill",
+        "zh-Hant": "便當拿錯了 | 蓮與吉兒 Ren & Jill",
+        "es": "Se cambiaron los almuerzos | Ren & Jill",
+        "pt": "As marmitas foram trocadas | Ren & Jill"
+      }
     },
     {
       "date": "2026-11-22",
@@ -777,7 +847,14 @@
           "ko": "과장님은 18도, 질은 28도. 동시에 눌러서 에어컨이 멈췄어요. 결론은 창문."
         }
       },
-      "cta": "Tag your office's remote control hog/リモコンを独占する人に送ろう"
+      "cta": "Tag your office's remote control hog/リモコンを独占する人に送ろう",
+      "title_i18n": {
+        "ja": "エアコンの温度、上司と部下 | レンとジル「エアコン戦争」",
+        "ko": "에어컨 온도 전쟁, 과장님 vs 질 | 렌과 질 Ren & Jill",
+        "zh-Hant": "冷氣溫度大戰，課長對吉兒 | 蓮與吉兒 Ren & Jill",
+        "es": "Guerra del aire acondicionado | Ren & Jill",
+        "pt": "Guerra do ar-condicionado | Ren & Jill"
+      }
     },
     {
       "date": "2026-11-23",
@@ -805,7 +882,14 @@
           "ko": "11월 23일, 근로감사의 날. 과장님만 출근했어요. 질도 왔어요(건초 들고)."
         }
       },
-      "cta": "Send this to the one who never takes a day off/休みを取らない人に送ろう"
+      "cta": "Send this to the one who never takes a day off/休みを取らない人に送ろう",
+      "title_i18n": {
+        "ja": "祝日なのに出社した上司 | レンとジル「祝日に出社」",
+        "ko": "공휴일인데 출근한 과장님 | 렌과 질 Ren & Jill",
+        "zh-Hant": "國定假日還來上班的課長 | 蓮與吉兒 Ren & Jill",
+        "es": "El jefe va a trabajar en día feriado | Ren & Jill",
+        "pt": "O chefe vai trabalhar no feriado | Ren & Jill"
+      }
     },
     {
       "date": "2026-11-12",
@@ -829,7 +913,7 @@
           "ko": "도장 8개"
         },
         "caption": {
-          "zh": "文件要蓋8個章。課長蓋到第7個沒印泵了。第8個是肉球。通過。",
+          "zh": "文件要蓋8個章。課長蓋到第7個沒印泥了。第8個是肉球。通過。",
           "ko": "서류에 도장 8개. 과장님이 찍다가 7개째에 인주가 떨어졌어요. 8개째는 발바닥. 접수 완료."
         }
       },
@@ -839,6 +923,13 @@
         "std": "A",
         "value": "B",
         "why": "ハッシュタグの組み合わせを変えて、見つかり方を比べる"
+      },
+      "title_i18n": {
+        "ja": "ハンコ8個、7個目で朱肉が切れた上司 | レンとジル「ハンコ8個」",
+        "ko": "도장 8개, 7개째에 인주가 떨어졌다 | 렌과 질 Ren & Jill",
+        "zh-Hant": "八個印章，第七個就沒印泥了 | 蓮與吉兒 Ren & Jill",
+        "es": "8 sellos y la tinta se acaba en el 7 | Ren & Jill",
+        "pt": "8 carimbos e a tinta acaba no 7º | Ren & Jill"
       }
     },
     {
@@ -867,7 +958,14 @@
           "ko": "온라인 회의. 과장님은 음소거 상태로 2분간 열변. 해제한 순간, 하품."
         }
       },
-      "cta": "Tag the coworker who is always on mute/いつもミュートのままの人に送ろう"
+      "cta": "Tag the coworker who is always on mute/いつもミュートのままの人に送ろう",
+      "title_i18n": {
+        "ja": "ミュートのまま熱弁する上司 | レンとジル「ミュートのまま」",
+        "ko": "음소거인 채로 열변하는 과장님 | 렌과 질 Ren & Jill",
+        "zh-Hant": "開著靜音熱烈發言的課長 | 蓮與吉兒 Ren & Jill",
+        "es": "El jefe da un discurso en silencio (mute) | Ren & Jill",
+        "pt": "O chefe discursa no mudo | Ren & Jill"
+      }
     },
     {
       "date": "2026-11-25",
@@ -892,10 +990,17 @@
         },
         "caption": {
           "zh": "雨天的早上，忘了帶傘的課長濕透著到公司。拿毛巾之前先用力一抖。吉兒也濕了。",
-          "ko": "비 오는 아침, 우산을 잊은 과장님이 흓므 젖어 도착. 수건 전에 부르르. 질도 젖었어요."
+          "ko": "비 오는 아침, 우산을 잊은 과장님이 흠뻑 젖어 도착. 수건 전에 부르르. 질도 젖었어요."
         }
       },
-      "cta": "Send this to the one who never carries an umbrella/傘を持たない人に送ろう"
+      "cta": "Send this to the one who never carries an umbrella/傘を持たない人に送ろう",
+      "title_i18n": {
+        "ja": "傘を忘れてずぶぬれの上司 | レンとジル「雨の日の上司」",
+        "ko": "우산을 잊고 흠뻑 젖은 과장님 | 렌과 질 Ren & Jill",
+        "zh-Hant": "忘了帶傘、全身濕透的課長 | 蓮與吉兒 Ren & Jill",
+        "es": "El jefe olvida el paraguas | Ren & Jill",
+        "pt": "O chefe esquece o guarda-chuva | Ren & Jill"
+      }
     },
     {
       "date": "2026-11-26",
@@ -923,7 +1028,14 @@
           "ko": "직원들 간식으로 도넛 모양 건초 링 6개. 질이 뒤돌아선 2초 만에 상자는 텅. 과장님 입가에 건초 부스러기."
         }
       },
-      "cta": "Send this to the office snack thief/おやつを持っていく人に送ろう"
+      "cta": "Send this to the office snack thief/おやつを持っていく人に送ろう",
+      "title_i18n": {
+        "ja": "差し入れの牧草リング6個、2秒で | レンとジル「差し入れの牧草リング」",
+        "ko": "건초 링 6개가 2초 만에 | 렌과 질 Ren & Jill",
+        "zh-Hant": "六個牧草圈，兩秒就沒了 | 蓮與吉兒 Ren & Jill",
+        "es": "6 aros de heno desaparecen en 2 segundos | Ren & Jill",
+        "pt": "6 rosquinhas de feno somem em 2 segundos | Ren & Jill"
+      }
     },
     {
       "date": "2026-11-27",
@@ -943,7 +1055,7 @@
       "site_i18n": {
         "title": {
           "en": "Leave approved",
-          "zh": "假區批了",
+          "zh": "假單批了",
           "ko": "휴가 승인"
         },
         "caption": {
@@ -951,7 +1063,14 @@
           "ko": "질의 휴가 신청. 과장님은 보지도 않고 승인. 그날은 중요한 회의. 알아차린 0.5초 뒤, 질은 이미 출발."
         }
       },
-      "cta": "Tag the boss who approves everything/何でも承認する上司に送ろう"
+      "cta": "Tag the boss who approves everything/何でも承認する上司に送ろう",
+      "title_i18n": {
+        "ja": "見ずに承認した有給、その日は大事な会議 | レンとジル「有給の申請」",
+        "ko": "안 보고 승인한 휴가, 그날은 중요한 회의 | 렌과 질 Ren & Jill",
+        "zh-Hant": "看都沒看就批的假，那天是重要會議 | 蓮與吉兒 Ren & Jill",
+        "es": "Aprobó su permiso sin ver: el día de la gran reunión | Ren & Jill",
+        "pt": "Aprovou a folga sem olhar: era o dia da grande reunião | Ren & Jill"
+      }
     },
     {
       "date": "2026-11-28",
@@ -975,11 +1094,18 @@
           "ko": "야근 라면"
         },
         "caption": {
-          "zh": "21:00，加班的泡麵。本來要等三分鐘，結果睡到23:00。麵，泹爐了。",
-          "ko": "21:00, 야근 라면. 3분만 기다릴 생각이었는데 잠들어 23:00. 면은 평평 불었어요."
+          "zh": "21:00，加班的泡麵。本來要等三分鐘，結果睡到23:00。麵都泡爛了。",
+          "ko": "21:00, 야근 라면. 3분만 기다릴 생각이었는데 잠들어 23:00. 면은 퉁퉁 불었어요."
         }
       },
-      "cta": "Send this to the one who falls asleep at the desk/机で寝落ちする人に送ろう"
+      "cta": "Send this to the one who falls asleep at the desk/机で寝落ちする人に送ろう",
+      "title_i18n": {
+        "ja": "3分待つはずのカップ麺、気づけば23時 | レンとジル「残業の夜食」",
+        "ko": "3분만 기다리려던 컵라면, 눈 떠 보니 23시 | 렌과 질 Ren & Jill",
+        "zh-Hant": "說好等三分鐘的泡麵，醒來已經23點 | 蓮與吉兒 Ren & Jill",
+        "es": "Fideos de 3 minutos… y despertó a las 23:00 | Ren & Jill",
+        "pt": "Era só esperar 3 minutos pelo miojo… e acordou às 23h | Ren & Jill"
+      }
     },
     {
       "date": "2026-11-29",
@@ -999,15 +1125,22 @@
       "site_i18n": {
         "title": {
           "en": "Desk plant",
-          "zh": "桃上的盆栽",
+          "zh": "桌上的盆栽",
           "ko": "책상 위 화분"
         },
         "caption": {
-          "zh": "課長用咖啡給桃上的盆栽澆水。吉兒悄悄換成假花。隔天，課長又澆了咖啡。",
-          "ko": "과장님은 책상 화분에 커피를 줍니다. 질이 조용히 조화로 바꾿어요. 다음 날도 커피."
+          "zh": "課長用咖啡給桌上的盆栽澆水。吉兒悄悄換成假花。隔天，課長又澆了咖啡。",
+          "ko": "과장님은 책상 화분에 커피를 줍니다. 질이 조용히 조화로 바꿨어요. 다음 날도 커피."
         }
       },
-      "cta": "Tag the plant killer in your office/植物を枯らす人に送ろう"
+      "cta": "Tag the plant killer in your office/植物を枯らす人に送ろう",
+      "title_i18n": {
+        "ja": "観葉植物の水やりがコーヒーの上司 | レンとジル「机の観葉植物」",
+        "ko": "화분에 물 대신 커피를 주는 과장님 | 렌과 질 Ren & Jill",
+        "zh-Hant": "課長給盆栽澆的是咖啡 | 蓮與吉兒 Ren & Jill",
+        "es": "El jefe que riega su planta con café | Ren & Jill",
+        "pt": "O chefe que rega a planta com café | Ren & Jill"
+      }
     },
     {
       "date": "2026-11-30",
@@ -1035,7 +1168,14 @@
           "ko": "마감은 내일 9:00. 22:00, 두 사람의 서류 더미는 같은 높이. 8:59, 질은 완료. 과장님은 1페이지에서 잠들었어요."
         }
       },
-      "cta": "Send this to the one who starts the night before/前日に始める人に送ろう"
+      "cta": "Send this to the one who starts the night before/前日に始める人に送ろう",
+      "title_i18n": {
+        "ja": "締め切りは9時、22時の時点で山は同じ高さ | レンとジル「締め切り前夜」",
+        "ko": "마감은 9시, 22시엔 둘의 서류 더미가 같은 높이 | 렌과 질 Ren & Jill",
+        "zh-Hant": "早上9點截止，晚上10點兩人的文件一樣高 | 蓮與吉兒 Ren & Jill",
+        "es": "Entrega a las 9:00 y a las 22:00 van empatados | Ren & Jill",
+        "pt": "Prazo às 9h, e às 22h as pilhas estão empatadas | Ren & Jill"
+      }
     },
     {
       "date": "2026-12-01",
@@ -1063,7 +1203,14 @@
           "ko": "12월. 질이 사무실에 고타쓰를 들여왔어요. 14:00에 들어간 과장님, 18:00이 되어도 안 나옵니다."
         }
       },
-      "cta": "Send this to the one who never leaves the kotatsu/こたつから出ない人に送ろう"
+      "cta": "Send this to the one who never leaves the kotatsu/こたつから出ない人に送ろう",
+      "title_i18n": {
+        "ja": "14時にこたつに入った上司、18時になっても… | レンとジル「会社にこたつ」",
+        "ko": "14시에 고타쓰에 들어간 과장님, 18시가 되어도… | 렌과 질 Ren & Jill",
+        "zh-Hant": "課長下午2點鑽進暖桌，到了6點還是… | 蓮與吉兒 Ren & Jill",
+        "es": "Entró al kotatsu a las 14:00 y a las 18:00 sigue ahí | Ren & Jill",
+        "pt": "Entrou no kotatsu às 14h e às 18h ainda está lá | Ren & Jill"
+      }
     },
     {
       "date": "2026-12-02",
@@ -1091,7 +1238,14 @@
           "ko": "사무실 트리. 질은 빨강과 금색 공을, 과장님은 마감 서류를 걸었어요. 꼭대기는 커다란 체크."
         }
       },
-      "cta": "Tag the coworker who turns everything into work/何でも仕事にしてしまう人に送ろう"
+      "cta": "Tag the coworker who turns everything into work/何でも仕事にしてしまう人に送ろう",
+      "title_i18n": {
+        "ja": "ツリーに締め切りの書類を吊るす上司 | レンとジル「ツリーの飾り」",
+        "ko": "트리에 마감 서류를 매다는 과장님 | 렌과 질 Ren & Jill",
+        "zh-Hant": "課長在聖誕樹上掛的是截止文件 | 蓮與吉兒 Ren & Jill",
+        "es": "El jefe decora el árbol de Navidad con papeles pendientes | Ren & Jill",
+        "pt": "O chefe enfeita a árvore de Natal com papelada urgente | Ren & Jill"
+      }
     },
     {
       "date": "2026-12-03",
@@ -1119,7 +1273,14 @@
           "ko": "선물 교환. 상자를 열었더니 둘 다 건초. 마주 보다가 그냥 바꾸고, 우물우물."
         }
       },
-      "cta": "Send this to your Secret Santa/プレゼント交換の相手に送ろう"
+      "cta": "Send this to your Secret Santa/プレゼント交換の相手に送ろう",
+      "title_i18n": {
+        "ja": "プレゼント交換、二人とも箱の中身が同じ | レンとジル「シークレットサンタ」",
+        "ko": "선물 교환, 열어 보니 둘 다 똑같은 선물 | 렌과 질 Ren & Jill",
+        "zh-Hant": "交換禮物，打開一看兩人送的一模一樣 | 蓮與吉兒 Ren & Jill",
+        "es": "Amigo secreto: los dos regalaron exactamente lo mismo | Ren & Jill",
+        "pt": "Amigo secreto: os dois deram exatamente o mesmo presente | Ren & Jill"
+      }
     },
     {
       "date": "2026-12-04",
@@ -1147,7 +1308,14 @@
           "ko": "질이 손으로 뜬 목도리. 과장님이 다섯 바퀴 감아도 남아요. 길이 5미터, 두 사람용이었어요."
         }
       },
-      "cta": "Send this to someone who knits/編み物をする人に送ろう"
+      "cta": "Send this to someone who knits/編み物をする人に送ろう",
+      "title_i18n": {
+        "ja": "5周巻いてもまだ余るマフラー | レンとジル「手編みのマフラー」",
+        "ko": "다섯 번 감아도 남는 질의 손뜨개 목도리 | 렌과 질 Ren & Jill",
+        "zh-Hant": "繞了五圈還有剩，吉兒親手織的圍巾 | 蓮與吉兒 Ren & Jill",
+        "es": "La bufanda tejida por Jill: 5 vueltas y aún sobra | Ren & Jill",
+        "pt": "O cachecol de tricô da Jill: 5 voltas e ainda sobra | Ren & Jill"
+      }
     },
     {
       "date": "2026-12-05",
@@ -1175,7 +1343,14 @@
           "ko": "밖은 눈. 과장님이 \"환기 좀\" 하며 창문을 열었어요. 3초 만에 책상도 질의 머리도 눈. 과장님은 그 눈으로 눈토끼를 만들었어요."
         }
       },
-      "cta": "Send this to the one who always opens the window/すぐ窓を開ける人に送ろう"
+      "cta": "Send this to the one who always opens the window/すぐ窓を開ける人に送ろう",
+      "title_i18n": {
+        "ja": "雪の日に「ちょっと換気」と窓を開けた上司 | レンとジル「窓を3秒開けた」",
+        "ko": "눈 오는 날 '잠깐 환기'한다며 창문을 연 과장님 | 렌과 질 Ren & Jill",
+        "zh-Hant": "下雪天，課長說「通通風」就打開窗戶 | 蓮與吉兒 Ren & Jill",
+        "es": "Nieva afuera y el jefe abre la ventana para ventilar | Ren & Jill",
+        "pt": "Neva lá fora e o chefe abre a janela para arejar | Ren & Jill"
+      }
     },
     {
       "date": "2026-12-06",
@@ -1203,7 +1378,14 @@
           "ko": "연하장용 사진. 3, 2, 1, 플래시가 터질 때마다 과장님은 눈을 감아요. 세 번째는 질이 눈을 뜬 채로 고정했어요."
         }
       },
-      "cta": "Tag the one who blinks in every photo/写真で必ず目をつぶる人に送ろう"
+      "cta": "Tag the one who blinks in every photo/写真で必ず目をつぶる人に送ろう",
+      "title_i18n": {
+        "ja": "フラッシュのたびに目をつぶる上司 | レンとジル「年賀状の写真」",
+        "ko": "연하장 사진, 플래시마다 눈을 감는 과장님 | 렌과 질 Ren & Jill",
+        "zh-Hant": "拍賀年卡照片，閃光燈一亮課長就閉眼 | 蓮與吉兒 Ren & Jill",
+        "es": "Foto de Año Nuevo: el jefe parpadea en cada flash | Ren & Jill",
+        "pt": "Foto de Ano-Novo: o chefe pisca a cada flash | Ren & Jill"
+      }
     },
     {
       "date": "2026-12-07",
@@ -1231,7 +1413,14 @@
           "ko": "12/1. 질의 어드벤트 캘린더, 하루에 하나. 자리를 비운 사이 과장님이 2부터 24까지 전부 열었어요. 24일 치를 하루에."
         }
       },
-      "cta": "Send this to the one who can't wait/我慢できない人に送ろう"
+      "cta": "Send this to the one who can't wait/我慢できない人に送ろう",
+      "title_i18n": {
+        "ja": "1日1個のはずが、ジルの留守中に課長が… | レンとジル「アドベントカレンダー」",
+        "ko": "하루에 하나씩인데, 질이 자리 비운 사이 과장님이… | 렌과 질 Ren & Jill",
+        "zh-Hant": "一天只能開一格，課長趁吉兒不在… | 蓮與吉兒 Ren & Jill",
+        "es": "Calendario de Adviento: uno por día, pero el jefe… | Ren & Jill",
+        "pt": "Calendário do Advento: um por dia, mas o chefe… | Ren & Jill"
+      }
     },
     {
       "date": "2026-12-08",
@@ -1259,7 +1448,14 @@
           "ko": "연하장 100장. 15:00 시작, 17:00에 질은 100장 완료. 과장님은 아직 첫 장. 그리고 있던 건 자기 초상화였어요."
         }
       },
-      "cta": "Tag the one who draws instead of writing/書かずに描く人に送ろう"
+      "cta": "Tag the one who draws instead of writing/書かずに描く人に送ろう",
+      "title_i18n": {
+        "ja": "2時間でジルは100枚、課長はまだ1枚目 | レンとジル「年賀状100枚」",
+        "ko": "2시간 만에 질은 100장, 과장님은 아직 1장째 | 렌과 질 Ren & Jill",
+        "zh-Hant": "兩小時吉兒寫完100張，課長還在第一張 | 蓮與吉兒 Ren & Jill",
+        "es": "Jill termina 100 tarjetas; el jefe sigue en la primera | Ren & Jill",
+        "pt": "Jill termina 100 cartões; o chefe ainda está no primeiro | Ren & Jill"
+      }
     },
     {
       "date": "2026-12-09",
@@ -1287,7 +1483,14 @@
           "ko": "겨울 귤 다섯 개. 질이 하나를 정성껏 까는 사이 과장님이 나머지를 전부. 볼을 콕 찌르니 하나가 톡 나왔어요."
         }
       },
-      "cta": "Send this to the one who hides snacks/お菓子を隠し持つ人に送ろう"
+      "cta": "Send this to the one who hides snacks/お菓子を隠し持つ人に送ろう",
+      "title_i18n": {
+        "ja": "ジルが1個むく間に、残りのみかんが消えた | レンとジル「みかん5個」",
+        "ko": "질이 귤 하나 까는 사이, 나머지가 사라졌다 | 렌과 질 Ren & Jill",
+        "zh-Hant": "吉兒剝一顆橘子的時間，其他四顆不見了 | 蓮與吉兒 Ren & Jill",
+        "es": "Jill pela una mandarina y las otras cuatro desaparecen | Ren & Jill",
+        "pt": "Jill descasca uma tangerina e as outras quatro somem | Ren & Jill"
+      }
     },
     {
       "date": "2026-12-11",
@@ -1731,7 +1934,7 @@
           "ko": "가가미모치"
         },
         "caption": {
-          "zh": "年末布置。吉兒擺上小小的鏡餅。課長把兩捆牧草疊起來，做成牧草鏡餅。一不注意，他就從下層開始吃，上層咕嚄滾了下來。",
+          "zh": "年末布置。吉兒擺上小小的鏡餅。課長把兩捆牧草疊起來，做成牧草鏡餅。一不注意，他就從下層開始吃，上層咕嚕滾了下來。",
           "ko": "연말 장식. 질은 작은 가가미모치. 과장님은 건초 다발을 두 단으로 쌓아 건초 가가미모치. 한눈판 사이 아랫단부터 먹기 시작해서 윗단이 데굴."
         }
       },

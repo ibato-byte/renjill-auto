@@ -1,0 +1,48 @@
+日付,タスク,番号,区分,内容,対象,根拠や出典
+2026-11-12,renjill-midweek-check,1,多言語化,YouTube の多言語タイトル（ja・ko・zh-Hant・es・pt）を追加。これまでは全言語で英語のタイトルが出ていた,auto/schedule.json hanko.title_i18n,auto/growth.py youtube_localizations：title_i18n がないと英語のまま
+2026-11-12,renjill-midweek-check,2,多言語化,YouTube の多言語タイトル（ja・ko・zh-Hant・es・pt）を追加。これまでは全言語で英語のタイトルが出ていた,auto/schedule.json teiji.title_i18n,auto/growth.py youtube_localizations：title_i18n がないと英語のまま
+2026-11-12,renjill-midweek-check,3,多言語化,YouTube の多言語タイトル（ja・ko・zh-Hant・es・pt）を追加。これまでは全言語で英語のタイトルが出ていた,auto/schedule.json watercooler.title_i18n,auto/growth.py youtube_localizations：title_i18n がないと英語のまま
+2026-11-12,renjill-midweek-check,4,多言語化,YouTube の多言語タイトル（ja・ko・zh-Hant・es・pt）を追加。これまでは全言語で英語のタイトルが出ていた,auto/schedule.json meeting.title_i18n,auto/growth.py youtube_localizations：title_i18n がないと英語のまま
+2026-11-12,renjill-midweek-check,5,多言語化,YouTube の多言語タイトル（ja・ko・zh-Hant・es・pt）を追加。これまでは全言語で英語のタイトルが出ていた,auto/schedule.json monday.title_i18n,auto/growth.py youtube_localizations：title_i18n がないと英語のまま
+2026-11-12,renjill-midweek-check,6,多言語化,YouTube の多言語タイトル（ja・ko・zh-Hant・es・pt）を追加。これまでは全言語で英語のタイトルが出ていた,auto/schedule.json elevator.title_i18n,auto/growth.py youtube_localizations：title_i18n がないと英語のまま
+2026-11-12,renjill-midweek-check,7,多言語化,YouTube の多言語タイトル（ja・ko・zh-Hant・es・pt）を追加。これまでは全言語で英語のタイトルが出ていた,auto/schedule.json printer.title_i18n,auto/growth.py youtube_localizations：title_i18n がないと英語のまま
+2026-11-12,renjill-midweek-check,8,多言語化,YouTube の多言語タイトル（ja・ko・zh-Hant・es・pt）を追加。これまでは全言語で英語のタイトルが出ていた,auto/schedule.json wifi.title_i18n,auto/growth.py youtube_localizations：title_i18n がないと英語のまま
+2026-11-12,renjill-midweek-check,9,多言語化,YouTube の多言語タイトル（ja・ko・zh-Hant・es・pt）を追加。これまでは全言語で英語のタイトルが出ていた,auto/schedule.json bonenkai.title_i18n,auto/growth.py youtube_localizations：title_i18n がないと英語のまま
+2026-11-12,renjill-midweek-check,10,多言語化,YouTube の多言語タイトル（ja・ko・zh-Hant・es・pt）を追加。これまでは全言語で英語のタイトルが出ていた,auto/schedule.json lunchbox.title_i18n,auto/growth.py youtube_localizations：title_i18n がないと英語のまま
+2026-11-12,renjill-midweek-check,11,多言語化,YouTube の多言語タイトル（ja・ko・zh-Hant・es・pt）を追加。これまでは全言語で英語のタイトルが出ていた,auto/schedule.json aircon.title_i18n,auto/growth.py youtube_localizations：title_i18n がないと英語のまま
+2026-11-12,renjill-midweek-check,12,多言語化,YouTube の多言語タイトル（ja・ko・zh-Hant・es・pt）を追加。これまでは全言語で英語のタイトルが出ていた,auto/schedule.json holiday.title_i18n,auto/growth.py youtube_localizations：title_i18n がないと英語のまま
+2026-11-12,renjill-midweek-check,13,多言語化,YouTube の多言語タイトル（ja・ko・zh-Hant・es・pt）を追加。これまでは全言語で英語のタイトルが出ていた,auto/schedule.json mute.title_i18n,auto/growth.py youtube_localizations：title_i18n がないと英語のまま
+2026-11-12,renjill-midweek-check,14,多言語化,YouTube の多言語タイトル（ja・ko・zh-Hant・es・pt）を追加。これまでは全言語で英語のタイトルが出ていた,auto/schedule.json rain.title_i18n,auto/growth.py youtube_localizations：title_i18n がないと英語のまま
+2026-11-12,renjill-midweek-check,15,多言語化,YouTube の多言語タイトル（ja・ko・zh-Hant・es・pt）を追加。これまでは全言語で英語のタイトルが出ていた,auto/schedule.json donuts.title_i18n,auto/growth.py youtube_localizations：title_i18n がないと英語のまま
+2026-11-12,renjill-midweek-check,16,誤字,公式サイトの訳の誤字を直した：印泵→印泥,auto/schedule.json hanko.site_i18n.caption.zh,別のレビュー役（中国語・韓国語の校正）と目視
+2026-11-12,renjill-midweek-check,17,誤字,公式サイトの訳の誤字を直した：泹爐→泡爛（意味が通らない字）,auto/schedule.json noodle.site_i18n.caption.zh,別のレビュー役（中国語・韓国語の校正）と目視
+2026-11-12,renjill-midweek-check,18,誤字,公式サイトの訳の誤字を直した：평평→퉁퉁,auto/schedule.json noodle.site_i18n.caption.ko,別のレビュー役（中国語・韓国語の校正）と目視
+2026-11-12,renjill-midweek-check,19,誤字,公式サイトの訳の誤字を直した：바뀜었다→바뀌었다,auto/schedule.json lunchbox.site_i18n.title.ko,別のレビュー役（中国語・韓国語の校正）と目視
+2026-11-12,renjill-midweek-check,20,誤字,公式サイトの訳の誤字を直した：바뀜어→바뀌어,auto/schedule.json lunchbox.site_i18n.caption.ko,別のレビュー役（中国語・韓国語の校正）と目視
+2026-11-12,renjill-midweek-check,21,誤字,公式サイトの訳の誤字を直した：흓므→흠뻑,auto/schedule.json rain.site_i18n.caption.ko,別のレビュー役（中国語・韓国語の校正）と目視
+2026-11-12,renjill-midweek-check,22,誤字,公式サイトの訳の誤字を直した：假區→假單,auto/schedule.json yukyu.site_i18n.title.zh,別のレビュー役（中国語・韓国語の校正）と目視
+2026-11-12,renjill-midweek-check,23,誤字,公式サイトの訳の誤字を直した：桃上→桌上,auto/schedule.json plant.site_i18n.title.zh,別のレビュー役（中国語・韓国語の校正）と目視
+2026-11-12,renjill-midweek-check,24,誤字,公式サイトの訳の誤字を直した：桃上→桌上,auto/schedule.json plant.site_i18n.caption.zh,別のレビュー役（中国語・韓国語の校正）と目視
+2026-11-12,renjill-midweek-check,25,誤字,公式サイトの訳の誤字を直した：바꾿어요→바꿨어요,auto/schedule.json plant.site_i18n.caption.ko,別のレビュー役（中国語・韓国語の校正）と目視
+2026-11-12,renjill-midweek-check,26,誤字,公式サイトの訳の誤字を直した：咕嚄→咕嚕,auto/schedule.json kagami.site_i18n.caption.zh,別のレビュー役（中国語・韓国語の校正）と目視
+2026-11-12,renjill-midweek-check,27,テスト,title_i18n の形の検査（言語・100文字・作品名・繁体字に簡体字なし・YouTube に渡る値）,tests/test_title_i18n.py,壊れた多言語タイトルを出さない
+2026-11-12,renjill-midweek-check,28,表紙,"「10分の会議」の表紙を作り直し（指定の 7.6 秒が NG で 8.8 秒＝エンドカードの薄い表紙になっていた → cam 2.0,640,1050 で 7.6 秒のまま合格。寝落ちのジルとコーヒー3杯が見える）",auto/schedule.json meeting.thumb.cam,brushup の thumbnail A@7.6 NG → A@8.8 と目視
+2026-11-12,renjill-midweek-check,29,仕組み,表紙の作り直しの候補から、エンドカードにかかるコマ（尺−1.2秒より後）を外す,auto/post.py thumb_times・ep_dur,同上の事故の再発防止（薄い表紙は必ず止める決まり）
+2026-11-12,renjill-midweek-check,30,テスト,エンドカードのコマを表紙の候補にしないテスト,tests/test_thumb_rules.py,同上
+2026-11-12,renjill-midweek-check,31,多言語化,YouTube の多言語タイトル（ja・ko・zh-Hant・es・pt）を追加,auto/schedule.json yukyu.title_i18n,growth.youtube_localizations。日本語の題・数字が台本と一致するか照合
+2026-11-12,renjill-midweek-check,32,多言語化,YouTube の多言語タイトル（ja・ko・zh-Hant・es・pt）を追加,auto/schedule.json noodle.title_i18n,growth.youtube_localizations。日本語の題・数字が台本と一致するか照合
+2026-11-12,renjill-midweek-check,33,多言語化,YouTube の多言語タイトル（ja・ko・zh-Hant・es・pt）を追加,auto/schedule.json plant.title_i18n,growth.youtube_localizations。日本語の題・数字が台本と一致するか照合
+2026-11-12,renjill-midweek-check,34,多言語化,YouTube の多言語タイトル（ja・ko・zh-Hant・es・pt）を追加,auto/schedule.json deadline.title_i18n,growth.youtube_localizations。日本語の題・数字が台本と一致するか照合
+2026-11-12,renjill-midweek-check,35,多言語化,YouTube の多言語タイトル（ja・ko・zh-Hant・es・pt）を追加,auto/schedule.json kotatsu.title_i18n,growth.youtube_localizations。日本語の題・数字が台本と一致するか照合
+2026-11-12,renjill-midweek-check,36,多言語化,YouTube の多言語タイトル（ja・ko・zh-Hant・es・pt）を追加,auto/schedule.json tree.title_i18n,growth.youtube_localizations。日本語の題・数字が台本と一致するか照合
+2026-11-12,renjill-midweek-check,37,多言語化,YouTube の多言語タイトル（ja・ko・zh-Hant・es・pt）を追加,auto/schedule.json santa.title_i18n,growth.youtube_localizations。日本語の題・数字が台本と一致するか照合
+2026-11-12,renjill-midweek-check,38,多言語化,YouTube の多言語タイトル（ja・ko・zh-Hant・es・pt）を追加,auto/schedule.json scarf.title_i18n,growth.youtube_localizations。日本語の題・数字が台本と一致するか照合
+2026-11-12,renjill-midweek-check,39,多言語化,YouTube の多言語タイトル（ja・ko・zh-Hant・es・pt）を追加,auto/schedule.json snow.title_i18n,growth.youtube_localizations。日本語の題・数字が台本と一致するか照合
+2026-11-12,renjill-midweek-check,40,多言語化,YouTube の多言語タイトル（ja・ko・zh-Hant・es・pt）を追加,auto/schedule.json photo.title_i18n,growth.youtube_localizations。日本語の題・数字が台本と一致するか照合
+2026-11-12,renjill-midweek-check,41,多言語化,YouTube の多言語タイトル（ja・ko・zh-Hant・es・pt）を追加,auto/schedule.json advent.title_i18n,growth.youtube_localizations。日本語の題・数字が台本と一致するか照合
+2026-11-12,renjill-midweek-check,42,多言語化,YouTube の多言語タイトル（ja・ko・zh-Hant・es・pt）を追加,auto/schedule.json nengajo.title_i18n,growth.youtube_localizations。日本語の題・数字が台本と一致するか照合
+2026-11-12,renjill-midweek-check,43,多言語化,YouTube の多言語タイトル（ja・ko・zh-Hant・es・pt）を追加,auto/schedule.json mikan.title_i18n,growth.youtube_localizations。日本語の題・数字が台本と一致するか照合
+2026-11-12,renjill-midweek-check,44,多言語化,YouTube の多言語タイトル（ja・ko・zh-Hant・es・pt）を追加,auto/schedule.json bonus.title_i18n,growth.youtube_localizations。日本語の題・数字が台本と一致するか照合
+2026-11-12,renjill-midweek-check,45,台本,ウォーターサーバー：オチの小さな紙コップがレンの体の後ろ（back の層）に隠れて見えなかった → 前の層に出し、口元で少し傾けて飲む動きに,rig/ep/watercooler.js,別のレビュー役の指摘（blocker）と 7.4・7.9・8.6 秒のコマの目視
+2026-11-12,renjill-midweek-check,46,台本,定時1分前：最後の寄りで時計の「18:00」の「1」が左端で切れて「8:00」に見えた → カメラ cx 800→700,rig/ep/teiji.js,別のレビュー役の指摘と 24コマ表の目視（直した後は 18:00 が全部見える）
+2026-11-12,renjill-midweek-check,47,台本,ハンコ8個：8個目のかすれた判が薄すぎて（濃さ25%）インク切れが伝わらない → 濃さ60%・太い破線に,rig/ep/hanko.js,別のレビュー役の指摘と 4.6・5.2 秒のコマの目視

@@ -116,7 +116,7 @@ def thumbnail(p):
     v = th.get("variant", "A")
     # 検査に通らないとき（記号が文字にかかる・背景がごちゃつく など）は、少し前後のコマで作り直す（2026-11-10：おかしな表紙は出さない・でも投稿は止めない）
     t0 = float(th["t"]); rc = 1
-    for t in thumb_times(t0):
+    for t in thumb_times(t0, ep_dur(p["ep"])):
         for vv in ([v, "A"] if v != "A" else ["A"]):
             rc = gen(vv, t)
             if rc == 0:
@@ -124,12 +124,24 @@ def thumbnail(p):
                 return out
     raise subprocess.CalledProcessError(rc, "thumb.js")
 
-def thumb_times(t0):
-    """表紙のコマの候補：指定のコマ → 前後 0.4・0.8・1.2 秒"""
+END_CARD_SEC = 1.2  # 最後のこの秒数はエンドカード（ロゴが重なって薄くなる）。表紙に使わない（rig/qa.js も dur-1.2 を残骸の検査に使う）
+
+def ep_dur(ep):
+    """台本（rig/ep/<ep>.js）の長さ dur（秒）。読めなければ None"""
+    try:
+        m = re.search(r"\bdur:\s*([\d.]+)", (RIG / "ep" / f"{ep}.js").read_text(encoding="utf-8"))
+        return float(m.group(1)) if m else None
+    except OSError:
+        return None
+
+def thumb_times(t0, dur=None):
+    """表紙のコマの候補：指定のコマ → 前後 0.4・0.8・1.2 秒。
+    エンドカードにかかるコマ（dur - END_CARD_SEC より後）は外す（2026-11-12：10分の会議で 7.6 が NG → 8.8 のエンドカードの薄い表紙になった）"""
     out = [t0]
     for d in (0.4, 0.8, 1.2):
         out += [round(t0 - d, 2), round(t0 + d, 2)]
-    return [t for t in out if t >= 0.3]
+    last = (dur - END_CARD_SEC) if dur else None
+    return [t for t in out if t >= 0.3 and (last is None or t <= last)]
 
 # ---------- YouTube ----------
 YT_TITLE_MAX = 100  # YouTube のタイトル上限（超える・< > を含むと invalidTitle で失敗する。2026-11-12「ハンコ8個」で発生）
