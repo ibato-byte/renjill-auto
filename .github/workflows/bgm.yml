@@ -71,8 +71,8 @@ jobs:
           YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
           YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
         run: |
-          pip install -q requests google-api-python-client google-auth google-auth-httplib2
-          python auto/bgm.py todos || true
+          pip install -q requests numpy google-api-python-client google-auth google-auth-httplib2   # numpy：bgm.py が読み込む検査（bgm_qa）に必要
+          python auto/bgm.py todos
       - name: 準備（ffmpeg・フォント・ブラウザ）
         if: steps.hub.outputs.paused != 'true' && steps.due.outputs.due == 'true'
         timeout-minutes: 20
