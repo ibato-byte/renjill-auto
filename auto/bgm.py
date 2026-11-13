@@ -229,23 +229,31 @@ def upload(date, privacy=None):
     yt = comments.yt_client()
     desc = sns_policy.yt_description(meta["description"]) + "\n\n#lofi #studymusic #作業用BGM"
     loc = {k: {"title": v["title"], "description": (sns_policy.yt_description(v["description"]) + "\n\n#lofi #studymusic #作業用BGM")[:5000]} for k, v in meta["localizations"].items()}
-    body = {"snippet": {"title": meta["title"], "description": desc[:5000], "tags": meta["tags"], "categoryId": "10", "defaultLanguage": "en", "defaultAudioLanguage": "zxx"},
-            "localizations": loc, "status": {"privacyStatus": privacy, "selfDeclaredMadeForKids": False, "embeddable": True}}
-    req = yt.videos().insert(part="snippet,status,localizations", body=body, media_body=MediaFileUpload(str(work / VIDEO_NAME), mimetype="video/quicktime", chunksize=32 * 1024 * 1024, resumable=True))
-    resp, tries = None, 0
-    while resp is None:
+    snippet = {"title": meta["title"], "description": desc[:5000], "tags": meta["tags"], "categoryId": "10", "defaultLanguage": "en"}
+    status = {"privacyStatus": privacy, "selfDeclaredMadeForKids": False, "embeddable": True}
+    # YouTube が題名・説明・タグ・多言語のどれかを受け付けないとき（400 INVALID_REQUEST_METADATA。2026-11-13 の1本目）は、
+    # 疑わしいものから外して出す（多言語 → タグ → 説明を短く）。動画は出し、外したものは記録して次の実行までに直す。
+    # この確認は送信の最初（動画を送る前）に返るので、やり直しても時間はかからない
+    plans = [("全部", {"snippet": snippet, "localizations": loc, "status": status}, "snippet,status,localizations"),
+             ("多言語なし", {"snippet": snippet, "status": status}, "snippet,status"),
+             ("多言語・タグなし", {"snippet": {k: v for k, v in snippet.items() if k != "tags"}, "status": status}, "snippet,status"),
+             ("題名と短い説明だけ", {"snippet": {"title": meta["title"], "description": f'{meta["blurb_en"]}\n{meta["blurb_ja"]}', "categoryId": "10"}, "status": status}, "snippet,status")]
+    resp, used = None, None
+    for name, body, part in plans:
+        req = yt.videos().insert(part=part, body=body, media_body=MediaFileUpload(str(work / VIDEO_NAME), mimetype="video/quicktime", chunksize=32 * 1024 * 1024, resumable=True))
         try:
-            status, resp = req.next_chunk(num_retries=5)
-            if status: log(f"送信 {int(status.progress() * 100)}%")
-        except Exception as e:                      # 途中で切れても、続きから送り直す（最初からやり直さない＝二重に出さない）
-            tries += 1
-            if tries > 8: raise
-            log("送信をやり直す", type(e).__name__); __import__("time").sleep(10 * tries)
+            resp, used = _send(req), name; break
+        except Exception as e:
+            if "INVALID_REQUEST_METADATA" in str(e) or "invalid" in str(e).lower():
+                log(f"YouTube が受け付けない（{name}）→ 次の形で出す", str(e)[:200]); continue
+            raise
+    if resp is None: raise SystemExit("YouTube が題名・説明を受け付けなかった")
     vid = resp["id"]
     rec = {"yt": vid, "privacy": privacy, "title": meta["title"], "theme": meta["theme"], "seed": meta["seed"], "look": meta["look"], "minutes": meta["minutes"],
            "at": dt.datetime.now(JST).isoformat(timespec="minutes"), "track_keys": [f'{t["key"]}|{"-".join(t["prog"])}|{t["bpm"]}' for t in meta["tracks"]]}
     st["episodes"][date] = rec
     (AUTO / "bgm_state.json").write_text(json.dumps(st, ensure_ascii=False, indent=1))     # 出した直後に記録（あとの処理が失敗しても二重に出さない）
+    if used != "全部": rec["todo"] = [f"題名・説明の一部を外して出した（{used}）"]
     for name, fn in (("表紙", lambda: yt.thumbnails().set(videoId=vid, media_body=MediaFileUpload(str(work / "thumb.jpg"), mimetype="image/jpeg")).execute()),
                      ("再生リスト", lambda: stories.add_to_playlist(yt, vid, PLAYLIST))):
         try: fn()
@@ -253,6 +261,27 @@ def upload(date, privacy=None):
     (AUTO / "bgm_state.json").write_text(json.dumps(st, ensure_ascii=False, indent=1))
     log("投稿した", f"https://youtu.be/{vid}", privacy)
     return vid
+
+
+def _send(req):
+    """動画を送る。通信が切れたら続きから送り直す（最初からやり直さない）。YouTube が内容を断った（400 番台）ときは、やり直さずにすぐ返す"""
+    import time
+    from googleapiclient.errors import HttpError
+    resp, tries = None, 0
+    while resp is None:
+        try:
+            status, resp = req.next_chunk(num_retries=5)
+            if status: log(f"送信 {int(status.progress() * 100)}%")
+        except HttpError as e:
+            if 400 <= int(getattr(e.resp, "status", 500)) < 500: raise
+            tries += 1
+            if tries > 8: raise
+            log("送信をやり直す", type(e).__name__); time.sleep(10 * tries)
+        except Exception as e:
+            tries += 1
+            if tries > 8: raise
+            log("送信をやり直す", type(e).__name__); time.sleep(10 * tries)
+    return resp
 
 
 def due(date, cfg, st):

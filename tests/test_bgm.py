@@ -126,6 +126,30 @@ class MusicTest(unittest.TestCase):
         self.assertNotRegex(src, r"requests|urllib|http://|https://|\.mp3|\.ogg")   # 音は全部その場で合成（外の素材を使わない＝権利の申し立てなし）
 
 
+class UploadTest(unittest.TestCase):
+    """YouTube が題名・説明の一部を断っても、形を変えて出す。断られたものを何度もやり直さない（2026-11-13 の1本目）"""
+    def test_client_error_is_not_retried(self):
+        from googleapiclient.errors import HttpError
+        calls = []
+
+        class Resp: status = 400; reason = "bad"
+
+        class Req:
+            def next_chunk(self, num_retries=0):
+                calls.append(1); raise HttpError(Resp(), b'{"error": {"message": "INVALID_REQUEST_METADATA"}}')
+        with self.assertRaises(HttpError): bgm._send(Req())
+        self.assertEqual(len(calls), 1)
+
+    def test_no_audio_language_code_that_youtube_rejects(self):
+        src = (ROOT / "auto" / "bgm.py").read_text(encoding="utf-8")
+        self.assertNotIn('"defaultAudioLanguage"', src)
+        self.assertIn("多言語なし", src); self.assertIn("題名と短い説明だけ", src)
+
+    def test_audio_is_not_aac(self):
+        src = (ROOT / "auto" / "bgm.py").read_text(encoding="utf-8")
+        self.assertIn('"-c:a", "pcm_s16le"', src); self.assertNotIn('"-c:a", "aac"', src)   # ffmpeg の AAC は元の音にない山を作った
+
+
 class WorkflowTest(unittest.TestCase):
     def setUp(self): self.y = (ROOT / ".github" / "workflows" / "bgm.yml").read_text(encoding="utf-8")
 
