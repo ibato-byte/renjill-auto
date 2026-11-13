@@ -3,6 +3,7 @@
 2026-10-21 から Business Suite の週次 CSV（Chrome の Claude が書いていた）は作られないので、ここで代わりに取る。
 - ig_insights：リールのインサイト（再生＝views。古い版の plays にも対応）。まとめて取れなければ1つずつ
 - find_ids：Business Suite・手で予約した回（posted.json の "bs-scheduled"／"manual"）の投稿IDを、予定時刻とキャプションで探す
+- fix_stale_ig：記録の Instagram の番号が最近の投稿の一覧にない（消した二重投稿の番号が残った等）とき、同じ時刻に出た今の投稿に付け替える（Hub 依頼 #244）
 - followers：Instagram・Facebook のフォロワー数
 - write_followers：content/followers.csv に1日1行
 """
@@ -69,12 +70,41 @@ def find_ids(posted, sch, ig_media, fb_reels, now):
     return found
 
 
+def fix_stale_ig(posted, ig_media):
+    """記録の Instagram の番号が、最近の投稿の一覧（ig_media）にないときに付け替える。[(key, 古い番号, 新しい番号)] を返す
+    11/8「了解です」は二重に出て片方を消したため、記録の番号が消した方のままになり、数字が毎日取れなかった（Hub 依頼 #244）。
+    付け替えるのは、記録の投稿時刻（ig_at）が一覧の範囲内で、その時刻の前後3時間に出た「まだどの回の記録にもない投稿」がちょうど1本のときだけ。
+    記録に ig_shortcode（投稿のアドレスの /reel/<ここ>/）があれば、それと同じ投稿に限る。迷うときは付け替えない（推測で埋めない）"""
+    stamped = [(m, _ts(m["timestamp"])) for m in ig_media if m.get("id") and m.get("timestamp")]
+    if not stamped: return []
+    oldest = min(t for _, t in stamped)
+    listed = {str(m["id"]) for m, _ in stamped}
+    used = {str(v.get("ig")) for v in posted.values() if isinstance(v, dict) and v.get("ig")}
+    fixed = []
+    for key, rec in sorted(posted.items()):
+        if not isinstance(rec, dict): continue
+        mid, at = rec.get("ig"), rec.get("ig_at")
+        if not mid or mid in NOT_ID or str(mid) in listed or not at: continue
+        try: when = dt.datetime.fromisoformat(at)
+        except ValueError: continue
+        if when.tzinfo is None: when = when.replace(tzinfo=JST)
+        if when < oldest: continue  # 一覧より古い回は、一覧にないのが当たり前
+        cands = [m for m, t in stamped if str(m["id"]) not in used and abs(t - when) <= WINDOW]
+        sc = rec.get("ig_shortcode")
+        if sc: cands = [m for m in cands if f"/{sc}/" in (m.get("permalink") or "")]
+        if len(cands) != 1: continue
+        new = str(cands[0]["id"])
+        rec["ig_old"], rec["ig"] = str(mid), new
+        used.add(new); fixed.append((key, str(mid), new))
+    return fixed
+
+
 def recent_media(meta, http=requests):
     """Instagram の最近の投稿と Facebook ページの最近のリール（取れなければ空）"""
     ig, fbr = [], []
     tok = meta.get("system_token")
     if meta.get("ig_user_id") and tok:
-        ig = _get(http, f'{fb.G}/{meta["ig_user_id"]}/media', {"fields": "id,caption,timestamp", "limit": 50, "access_token": tok}).get("data") or []
+        ig = _get(http, f'{fb.G}/{meta["ig_user_id"]}/media', {"fields": "id,caption,timestamp,permalink", "limit": 50, "access_token": tok}).get("data") or []
     if meta.get("token"):
         fbr = _get(http, f'{fb.G}/{fb.PAGE_ID}/video_reels', {"fields": "id,description,created_time", "limit": 50, "access_token": meta["token"]}).get("data") or []
     return ig, fbr

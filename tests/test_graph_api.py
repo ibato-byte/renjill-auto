@@ -224,6 +224,28 @@ class MetricsTest(unittest.TestCase):
         self.assertEqual((rec["ig"], rec["ig_via"], rec["facebook"], rec["facebook_via"]), ("i9", "bs-scheduled", "f9", "bs-scheduled"))
         self.assertEqual(posted["2026-10-25_chime2"]["ig"], "bs-scheduled")  # 見つからなければそのまま（API で出さない）
 
+    def test_fix_stale_ig(self):
+        import meta_stats as ms
+        posted = {"2026-11-08_thumbsup": {"ig": "old1", "ig_at": "2026-11-08T12:22+09:00", "ig_shortcode": "DfdxKAlD8Cw"},
+                  "2026-11-10_last": {"ig": "n2", "ig_at": "2026-11-10T12:20+09:00"},
+                  "2026-11-09_gone": {"ig": "old3", "ig_at": "2026-11-09T12:20+09:00"},
+                  "2026-10-01_old": {"ig": "old4", "ig_at": "2026-10-01T12:20+09:00"},
+                  "2026-10-23_mug2": {"ig": "bs-scheduled"}}
+        ig = [{"id": "n2", "timestamp": "2026-11-10T03:20:00+0000", "permalink": "https://www.instagram.com/reel/AAA/"},
+              {"id": "n1", "timestamp": "2026-11-08T03:25:10+0000", "permalink": "https://www.instagram.com/reel/DfdxKAlD8Cw/"},
+              {"id": "x1", "timestamp": "2026-11-08T03:18:00+0000", "permalink": "https://www.instagram.com/reel/OTHER/"},
+              {"id": "n0", "timestamp": "2026-11-01T03:20:00+0000", "permalink": "https://www.instagram.com/reel/BBB/"}]
+        fixed = ms.fix_stale_ig(posted, ig)
+        self.assertEqual(fixed, [("2026-11-08_thumbsup", "old1", "n1")])  # アドレスの印で、もう1本（x1）ではなく残っている方に
+        self.assertEqual((posted["2026-11-08_thumbsup"]["ig"], posted["2026-11-08_thumbsup"]["ig_old"]), ("n1", "old1"))
+        self.assertEqual(posted["2026-11-09_gone"]["ig"], "old3")  # その時刻の投稿がなければ付け替えない
+        self.assertEqual(posted["2026-10-01_old"]["ig"], "old4")  # 一覧より古い回は触らない
+        self.assertEqual(posted["2026-11-10_last"]["ig"], "n2")
+        # 印がなく候補が2本なら迷うので付け替えない
+        p2 = {"k": {"ig": "old1", "ig_at": "2026-11-08T12:22+09:00"}}
+        self.assertEqual(ms.fix_stale_ig(p2, ig), [])
+        self.assertEqual(ms.fix_stale_ig(p2, []), [])
+
     def test_followers_csv(self):
         import meta_stats as ms
         with tempfile.TemporaryDirectory() as d:

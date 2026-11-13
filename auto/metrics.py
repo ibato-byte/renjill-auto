@@ -79,7 +79,9 @@ if {"ig", "facebook"} - MANUAL and os.environ.get("IG_ACCESS_TOKEN"):
         sch = json.loads((ROOT / "auto" / "schedule.json").read_text())
         ig_media, fb_reels = meta_stats.recent_media(META)
         FOUND = meta_stats.find_ids(posted, sch, ig_media, fb_reels, dt.datetime.now(JST))
-        if FOUND:
+        STALE = meta_stats.fix_stale_ig(posted, ig_media)  # 消した投稿の番号が残っていたら今の投稿に付け替える（Hub 依頼 #244）
+        for k, a, b in STALE: print("Instagram の番号を付け替えた：", k, a, "→", b)
+        if FOUND or STALE:
             (ROOT / "auto" / "posted.json").write_text(json.dumps(posted, ensure_ascii=False, indent=2))
             for k, pl in FOUND: print("投稿IDを見つけた：", k, mode.NAMES[pl])
         FOLLOW = meta_stats.followers(META)
