@@ -44,6 +44,14 @@ def in_window(p, now):
     d = (now - now.replace(hour=h, minute=m, second=0, microsecond=0)).total_seconds() / 60
     return -10 <= d <= 120
 
+def same_slot(a, b):
+    """「18:00」と「18:0」「18」を同じ時間として比べる"""
+    def norm(x):
+        h, _, m = str(x).strip().partition(":")
+        return (int(h), int(m or 0))
+    try: return norm(a) == norm(b)
+    except ValueError: return False
+
 def pick_posts(slot_override=None, now=None, ignore_posted=False):
     sch = json.loads((AUTO / "schedule.json").read_text())
     posted = json.loads((AUTO / "posted.json").read_text()) if (AUTO / "posted.json").exists() else {}
@@ -53,6 +61,7 @@ def pick_posts(slot_override=None, now=None, ignore_posted=False):
     for p in sch["posts"]:
         if p["date"] != today: continue
         if slot_override is None and not in_window(p, now): continue
+        if slot_override is not None and not same_slot(p["slot"], slot_override): continue  # 指定した時間の回だけ（12:00 の起動で 18:00 の回を先に出さない。Hub 依頼 #141・2026-11-13）
         key = f'{p["date"]}_{p["ep"]}'
         done = {} if ignore_posted else posted.get(key, {})
         # posted.json に記録がある SNS（投稿ID・"manual"・"bs-scheduled"＝Business Suite で予約済み）は出さない（二重投稿を防ぐ）。
