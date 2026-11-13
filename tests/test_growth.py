@@ -27,6 +27,12 @@ class GrowthTest(unittest.TestCase):
         L = growth.follow_layout(10.0, 1920)
         self.assertAlmostEqual(L["end"], L["total"] - 0.15)  # 最後の0.15秒は表示しない
 
+    def test_follow_band_is_full_width(self):  # Hub 依頼 #90：紺の幕は画面の左端から右端まで
+        f = growth.follow_filter(10.0, "/f.ttf", pathlib.Path("/t"))
+        self.assertIn("drawbox=x=0:", f); self.assertIn(":w=iw:", f)
+        L = growth.follow_layout(10.0, 1920); by, bh = growth.band_rect(L)
+        self.assertLessEqual(by, L["y0"] - L["pad"]); self.assertGreaterEqual(by + bh, L["text_bottom"])
+
     def test_follow_layout_rules(self):
         for total in (10.0, 22.0, 29.5):
             L = growth.follow_layout(total, 1920)
