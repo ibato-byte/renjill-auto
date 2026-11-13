@@ -55,14 +55,24 @@ jobs:
           date = os.environ.get("IN_DATE") or dt.datetime.now(dt.timezone(dt.timedelta(hours=9))).date().isoformat()
           done = bool((st["episodes"].get(date) or {}).get("yt"))
           due = not done and (os.environ.get("IN_FORCE") == "true" or (cfg["enabled"] and dt.date.fromisoformat(date).weekday() in cfg["days"]))
-          print(f"date={date}"); print(f"due={'true' if due else 'false'}")
+          todo = any(r.get("yt") and r.get("todo") for r in st["episodes"].values())   # 前の回のやり残し（再生リストなど）
+          print(f"date={date}"); print(f"due={'true' if due else 'false'}"); print(f"todo={'true' if todo else 'false'}")
           PY
       - uses: actions/setup-node@v5
         if: steps.hub.outputs.paused != 'true' && steps.due.outputs.due == 'true'
         with: { node-version: 22 }
       - uses: actions/setup-python@v6
-        if: steps.hub.outputs.paused != 'true' && steps.due.outputs.due == 'true'
+        if: steps.hub.outputs.paused != 'true' && (steps.due.outputs.due == 'true' || steps.due.outputs.todo == 'true')
         with: { python-version: "3.12" }
+      - name: 前の回のやり残し（表紙・再生リスト）を片付ける
+        if: steps.hub.outputs.paused != 'true' && steps.due.outputs.todo == 'true'
+        env:
+          YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
+          YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
+          YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
+        run: |
+          pip install -q requests google-api-python-client google-auth google-auth-httplib2
+          python auto/bgm.py todos || true
       - name: 準備（ffmpeg・フォント・ブラウザ）
         if: steps.hub.outputs.paused != 'true' && steps.due.outputs.due == 'true'
         timeout-minutes: 20
@@ -104,10 +114,10 @@ jobs:
           retention-days: 30
           if-no-files-found: ignore
       - name: commit results
-        if: always() && steps.hub.outputs.paused != 'true' && steps.due.outputs.due == 'true'
+        if: always() && steps.hub.outputs.paused != 'true' && (steps.due.outputs.due == 'true' || steps.due.outputs.todo == 'true')
         run: |
           git config user.name renjill-bot; git config user.email bot@renjill.local
-          mkdir -p content/bgm && for d in dist/bgm/*/; do n=$(basename "$d"); [ -f "$d/qa.json" ] && cp "$d/qa.json" "content/bgm/${n}_qa.json"; [ -f "$d/sheet.jpg" ] && cp "$d/sheet.jpg" "content/bgm/${n}_sheet.jpg"; done || true
+          mkdir -p content/bgm && for d in dist/bgm/*/; do n=$(basename "$d"); [ -f "$d/qa.json" ] && cp "$d/qa.json" "content/bgm/${n}_qa.json"; [ -f "$d/sheet.jpg" ] && cp "$d/sheet.jpg" "content/bgm/${n}_sheet.jpg"; [ -f "$d/thumb.jpg" ] && cp "$d/thumb.jpg" "content/bgm/${n}_thumb.jpg"; done || true
           git add -A auto/bgm_state.json content/bgm || true
           git diff --cached --quiet || git commit -m "bgm: $(TZ=Asia/Tokyo date '+%Y-%m-%d %H:%M')"
           bash auto/push_main.sh

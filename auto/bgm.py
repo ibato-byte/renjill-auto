@@ -11,6 +11,7 @@
   python auto/bgm.py build [--date …] [--minutes 60]    作る → 検査（dist/bgm/<date>/）。検査に落ちたら終了コード 3
   python auto/bgm.py upload [--date …]                  検査に通ったものだけ出す（auto/bgm_state.json に記録。同じ日は二重に出さない）
   python auto/bgm.py run   [--date …] [--force]         予定の曜日なら build → upload（GitHub Actions の bgm.yml から）
+  python auto/bgm.py todos                              前の回でやり残したこと（表紙・再生リスト）を片付ける
 設定は auto/bgm_config.json（曜日・長さ・公開範囲）。
 """
 import argparse, datetime as dt, json, os, pathlib, shutil, subprocess, sys
@@ -256,11 +257,43 @@ def upload(date, privacy=None):
     if used != "全部": rec["todo"] = [f"題名・説明の一部を外して出した（{used}）"]
     for name, fn in (("表紙", lambda: yt.thumbnails().set(videoId=vid, media_body=MediaFileUpload(str(work / "thumb.jpg"), mimetype="image/jpeg")).execute()),
                      ("再生リスト", lambda: stories.add_to_playlist(yt, vid, PLAYLIST))):
-        try: fn()
-        except Exception as e: log(name, "を付けられず", type(e).__name__, str(e)[:160]); rec.setdefault("todo", []).append(name)
+        if not _try(fn, name): rec.setdefault("todo", []).append(name)      # 付けられなかったものは記録し、次の実行（todos）でやり直す
     (AUTO / "bgm_state.json").write_text(json.dumps(st, ensure_ascii=False, indent=1))
     log("投稿した", f"https://youtu.be/{vid}", privacy)
     return vid
+
+
+def _try(fn, name, tries=3, wait=8):
+    """表紙・再生リストのような後付けの処理。再生リストは作った直後に 409（処理中）が返ることがある（2026-11-13 の1本目）ので、間をあけてやり直す"""
+    import time
+    for i in range(tries):
+        try: fn(); return True
+        except Exception as e:
+            log(name, f"を付けられず（{i + 1}/{tries}）", type(e).__name__, str(e)[:160])
+            if i < tries - 1: time.sleep(wait * (i + 1))
+    return False
+
+
+def todos():
+    """前の回でやり残したこと（表紙・再生リスト）を片付ける。表紙は content/bgm/<日付>_thumb.jpg を使う"""
+    st = state(); left = [(d, r) for d, r in st["episodes"].items() if r.get("yt") and r.get("todo")]
+    if not left: log("やり残しなし"); return 0
+    from googleapiclient.http import MediaFileUpload
+    import comments, stories
+    yt = comments.yt_client()
+    for d, r in left:
+        keep = []
+        for name in r["todo"]:
+            if name == "再生リスト": ok = _try(lambda: stories.add_to_playlist(yt, r["yt"], PLAYLIST), name)
+            elif name == "表紙" and (ROOT / "content" / "bgm" / f"{d}_thumb.jpg").exists():
+                ok = _try(lambda: yt.thumbnails().set(videoId=r["yt"], media_body=MediaFileUpload(str(ROOT / "content" / "bgm" / f"{d}_thumb.jpg"), mimetype="image/jpeg")).execute(), name)
+            else: ok = False
+            if not ok: keep.append(name)
+            else: log(d, name, "を付けた")
+        if keep: r["todo"] = keep
+        else: r.pop("todo", None)
+    (AUTO / "bgm_state.json").write_text(json.dumps(st, ensure_ascii=False, indent=1))
+    return 0
 
 
 def _send(req):
@@ -287,7 +320,7 @@ def due(date, cfg, st):
 
 def main(argv=None):
     ap = argparse.ArgumentParser()
-    ap.add_argument("cmd", choices=["plan", "build", "upload", "run"])
+    ap.add_argument("cmd", choices=["plan", "build", "upload", "run", "todos"])
     ap.add_argument("--date"); ap.add_argument("--minutes", type=int); ap.add_argument("--privacy"); ap.add_argument("--force", action="store_true"); ap.add_argument("--keep", action="store_true"); ap.add_argument("--par", type=int, default=3)
     a = ap.parse_args(argv)
     date = a.date or dt.datetime.now(JST).date().isoformat()
@@ -296,6 +329,7 @@ def main(argv=None):
     if a.cmd == "plan": print(json.dumps(plan(date), ensure_ascii=False, indent=1)); return 0
     if a.cmd == "build": return 0 if build(date, a.minutes, a.keep, a.par)[0] else 3
     if a.cmd == "upload": upload(date, a.privacy); return 0
+    if a.cmd == "todos": return todos()
     cfg, st = config(), state()
     if not a.force and not due(date, cfg, st):
         log(date, "は予定の日ではない／投稿済み"); summary.write_text(f"{date}：出す回なし"); return 0
