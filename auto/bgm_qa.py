@@ -92,7 +92,7 @@ def check_novelty(meta, prev):
 
 def check_all(work, meta, frame_dirs, prev):
     work = pathlib.Path(work); probs, warns, num = [], [], {}
-    out = work / "bgm.mp4"; total = meta["minutes"] * 60
+    out = next((work / n for n in ("bgm.mov", "bgm.mp4") if (work / n).exists()), work / "bgm.mov"); total = meta["minutes"] * 60
     # ---- ファイル ----
     pr = probe(out); st = {s["codec_type"]: s for s in pr.get("streams", [])}
     dur = float(pr.get("format", {}).get("duration", 0)); num["sec"] = round(dur, 1); num["mb"] = round(int(pr.get("format", {}).get("size", 0)) / 1e6)

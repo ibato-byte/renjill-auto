@@ -23,7 +23,8 @@ JST = dt.timezone(dt.timedelta(hours=9))
 PLAYLIST = "Lofi with Ren & Jill / 作業用BGM"
 FPS, LOOP = 24, 60          # 1章の絵は 60 秒のループ
 XF = 4                      # 章の切り替えは 4 秒かけてなめらかに（瞬間カット禁止）
-TARGET_LUFS = -15.5
+TARGET_LUFS = -15.0
+VIDEO_NAME = "bgm.mov"       # H.264 ＋ 圧縮しない音（PCM）。MOV は YouTube が正式に受け付ける形
 
 # テーマ（時間帯×天気）。hours＝4つの章の時刻。ren / jil＝章ごとのようす（rig/bgm/scene.js）
 THEMES = [
@@ -131,9 +132,10 @@ def build_audio(pl, work):
     # 音量をそろえる（-15 LUFS）。全体を同じ倍率で動かすだけ（曲の強弱はそのまま。loudnorm の自動調整は、まれな山があると場所ごとに音量を変えてしまう＝2026-11-13 の1本目でピークが +0.3 dB になった）
     m = bgm_qa.loudness(raw)
     gain = max(-12.0, min(12.0, TARGET_LUFS - m["lufs"]))
-    out = work / "audio.m4a"
-    # 最後に安全のためのリミッター（0.6＝-4.4 dB）。AAC にすると山が 1.5〜3 dB 増える（実測）ので、その分の余裕を持つ
-    run(["ffmpeg", "-y", "-loglevel", "error", "-i", raw, "-af", f"volume={gain:.2f}dB,alimiter=limit=0.6:attack=5:release=60:level=disabled", "-ar", "48000", "-c:a", "aac", "-b:a", "256k", out])
+    out = work / "audio.wav"
+    # 最後に安全のためのリミッター（0.7＝-3.1 dB）。音は圧縮しない（48kHz・16bit の PCM のまま YouTube に渡す）。
+    # ffmpeg の AAC は、1時間の中に1〜2か所、元の音にない大きな山（+0.4 dB）を作った（2026-11-13 に3回再現。場所は毎回違う）ので使わない
+    run(["ffmpeg", "-y", "-loglevel", "error", "-i", raw, "-af", f"volume={gain:.2f}dB,alimiter=limit=0.7:attack=5:release=60:level=disabled", "-ar", "48000", "-c:a", "pcm_s16le", out])
     log("音量", f'{m["lufs"]} LUFS・ピーク {m["peak"]} dB → {gain:+.2f} dB')
     raw.unlink()
     pk = bgm_qa.loudness(out)["peak"]
@@ -189,8 +191,9 @@ def build(date, minutes=None, keep=False, par=3):
     log("計画", json.dumps({k: pl[k] for k in ("no", "theme", "seed", "look", "minutes", "title")}, ensure_ascii=False))
     audio, tracks = build_audio(pl, work)
     video, frames = build_video(pl, work, par)
-    out = work / "bgm.mp4"
+    out = work / VIDEO_NAME
     run(["ffmpeg", "-y", "-loglevel", "error", "-i", video, "-i", audio, "-c", "copy", "-shortest", "-movflags", "+faststart", out])
+    audio.unlink()
     ci, tt = pl["thumb"]
     thumb_full, thumb = work / "thumb_full.jpg", work / "thumb.jpg"
     run(["node", RIG / "render.js", thumb_full, query(pl, ci), "thumb", tt])
@@ -228,7 +231,7 @@ def upload(date, privacy=None):
     loc = {k: {"title": v["title"], "description": (sns_policy.yt_description(v["description"]) + "\n\n#lofi #studymusic #作業用BGM")[:5000]} for k, v in meta["localizations"].items()}
     body = {"snippet": {"title": meta["title"], "description": desc[:5000], "tags": meta["tags"], "categoryId": "10", "defaultLanguage": "en", "defaultAudioLanguage": "zxx"},
             "localizations": loc, "status": {"privacyStatus": privacy, "selfDeclaredMadeForKids": False, "embeddable": True}}
-    req = yt.videos().insert(part="snippet,status,localizations", body=body, media_body=MediaFileUpload(str(work / "bgm.mp4"), chunksize=32 * 1024 * 1024, resumable=True))
+    req = yt.videos().insert(part="snippet,status,localizations", body=body, media_body=MediaFileUpload(str(work / VIDEO_NAME), mimetype="video/quicktime", chunksize=32 * 1024 * 1024, resumable=True))
     resp, tries = None, 0
     while resp is None:
         try:
