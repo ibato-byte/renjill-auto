@@ -26,6 +26,7 @@ try:
     if m["expires_at"] is not None:
         missing = [x for x in fb.ALL_SCOPES if x not in m["scopes"]]
         res("Meta token", True, f"type={m['token_type']} expires_at={m['expires_at']}" + ("（期限なし）" if m["expires_at"] == 0 else ""))
+        print("   Meta の権限一覧:", ", ".join(sorted(m["scopes"])), "／read_insights:", "あり" if "read_insights" in m["scopes"] else "なし", flush=True)
         res("Meta scopes", not missing, "すべてあり：" + ", ".join(fb.ALL_SCOPES) if not missing else "足りない：" + ", ".join(missing))
     res("Facebook page", m["ok"], f"page={m['page_id']} name={m['page_name']}" if m["ok"] else "; ".join(m["reasons"])[:300])
     sec = os.environ.get("FB_PAGE_ID", "").strip()
