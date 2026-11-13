@@ -23,6 +23,7 @@ JST = dt.timezone(dt.timedelta(hours=9))
 PLAYLIST = "Lofi with Ren & Jill / 作業用BGM"
 FPS, LOOP = 24, 60          # 1章の絵は 60 秒のループ
 XF = 4                      # 章の切り替えは 4 秒かけてなめらかに（瞬間カット禁止）
+TARGET_LUFS = -15.5
 
 # テーマ（時間帯×天気）。hours＝4つの章の時刻。ren / jil＝章ごとのようす（rig/bgm/scene.js）
 THEMES = [
@@ -127,15 +128,16 @@ def build_audio(pl, work):
     f += f"[{len(tracks)}:a]volume={amb}[amb];{cur}[amb]amix=inputs=2:duration=first:normalize=0,atrim=0:{total},afade=t=in:d=2,afade=t=out:st={total - 6}:d=6[a]"
     raw = work / "audio_raw.wav"
     run(cmd + ["-filter_complex", f, "-map", "[a]", "-ar", "44100", raw])
-    # 音量をそろえる（-15 LUFS・-1.5 dBTP。2回測る＝全体を同じ倍率で動かすだけ。曲の強弱はそのまま）
-    T = "I=-15:TP=-1.5:LRA=11"
-    r = subprocess.run(["ffmpeg", "-hide_banner", "-nostats", "-i", str(raw), "-af", f"loudnorm={T}:print_format=json", "-f", "null", "-"], capture_output=True, text=True)
-    import re
-    m = json.loads(re.findall(r"\{[^{}]*\}", r.stderr)[-1])
-    af = f"loudnorm={T}:measured_I={m['input_i']}:measured_TP={m['input_tp']}:measured_LRA={m['input_lra']}:measured_thresh={m['input_thresh']}:offset={m['target_offset']}:linear=true"
+    # 音量をそろえる（-15 LUFS）。全体を同じ倍率で動かすだけ（曲の強弱はそのまま。loudnorm の自動調整は、まれな山があると場所ごとに音量を変えてしまう＝2026-11-13 の1本目でピークが +0.3 dB になった）
+    m = bgm_qa.loudness(raw)
+    gain = max(-12.0, min(12.0, TARGET_LUFS - m["lufs"]))
     out = work / "audio.m4a"
-    run(["ffmpeg", "-y", "-loglevel", "error", "-i", raw, "-af", af, "-ar", "48000", "-c:a", "aac", "-b:a", "256k", out])
+    # 最後に安全のためのリミッター（0.6＝-4.4 dB）。AAC にすると山が 1.5〜3 dB 増える（実測）ので、その分の余裕を持つ
+    run(["ffmpeg", "-y", "-loglevel", "error", "-i", raw, "-af", f"volume={gain:.2f}dB,alimiter=limit=0.6:attack=5:release=60:level=disabled", "-ar", "48000", "-c:a", "aac", "-b:a", "256k", out])
+    log("音量", f'{m["lufs"]} LUFS・ピーク {m["peak"]} dB → {gain:+.2f} dB')
     raw.unlink()
+    pk = bgm_qa.loudness(out)["peak"]
+    if pk > -1.0: raise SystemExit(f"音のピークが {pk} dBFS（-1.0 以下のはず）。絵を作る前に止める")
     return out, tracks
 
 

@@ -280,7 +280,7 @@ def make_track(rng, idx):
     # 曲ごとの音量をそろえる（ピークではなく、鳴っている部分の平均の大きさで合わせる。大きすぎる山だけやわらかく抑える）
     body = mix[int(len(mix) * 0.15):int(len(mix) * 0.85)]
     mix = mix * (0.105 / (np.sqrt((body ** 2).mean()) + 1e-9))
-    mix = np.where(np.abs(mix) > 0.6, np.sign(mix) * (0.6 + 0.3 * np.tanh((np.abs(mix) - 0.6) / 0.3)), mix)
+    mix = np.where(np.abs(mix) > 0.32, np.sign(mix) * (0.32 + 0.13 * np.tanh((np.abs(mix) - 0.32) / 0.13)), mix)   # 山は 0.45 まで（平均の約12dB上）。あとで全体を上げてもピークが -1 dB を超えない（2026-11-13 の1本目は +0.3 dB で検査に落ちた）
     name = ['C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B'][key % 12] + (' minor' if mode == 'minor' else ' major')
     info = {'no': idx, 'key': name, 'bpm': bpm, 'bars': nbars, 'sec': round(dur, 2), 'lead': lead if isinstance(lead, str) else lead.__name__, 'prog': [f'{r}{k}' for r, k in prog], 'swing': round(swing / beat, 3)}
     return mix.astype(np.float32), info
