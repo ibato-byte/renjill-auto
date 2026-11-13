@@ -304,8 +304,13 @@ def publish():
     import comments
     yt = comments.yt_client(); bad = 0
     for d, r in todo:
-        yt.videos().update(part="status", body={"id": r["yt"], "status": {"privacyStatus": "public", "selfDeclaredMadeForKids": False, "embeddable": True}}).execute()
-        now = (yt.videos().list(part="status", id=r["yt"]).execute().get("items") or [{}])[0].get("status", {})
+        res = yt.videos().update(part="status", body={"id": r["yt"], "status": {"privacyStatus": "public", "selfDeclaredMadeForKids": False, "embeddable": True}}).execute()
+        log(d, "切り替えの返事", (res.get("status") or {}).get("privacyStatus"))
+        now = {}
+        for i in range(6):                       # 読み直しは反映が少し遅れることがある（2026-11-14：直後は unlisted のままだった）ので、間をあけて確かめる
+            now = (yt.videos().list(part="status", id=r["yt"]).execute().get("items") or [{}])[0].get("status", {})
+            if now.get("privacyStatus") == "public": break
+            __import__("time").sleep(10)
         if now.get("privacyStatus") == "public": r["privacy"] = "public"; log(d, "を公開にした", f'https://youtu.be/{r["yt"]}', "処理:", now.get("uploadStatus"))
         else: bad += 1; log(d, "を公開にできず", now)
     (AUTO / "bgm_state.json").write_text(json.dumps(st, ensure_ascii=False, indent=1))
