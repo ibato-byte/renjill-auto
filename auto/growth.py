@@ -77,6 +77,12 @@ def follow_layout(total, h, extend=FOLLOW_EXTEND):
             "text_bottom": y0 + (n - 1) * pitch + fs + pad, "show": FOLLOW_SHOW}
 
 
+def band_rect(L):
+    """紺の幕（画面の端から端まで）の上端と高さ。検査と共用"""
+    top = max(0, L["y0"] - 2 * L["pad"])
+    return top, L["text_bottom"] + L["pad"] - top
+
+
 def follow_filter(total, fontfile, textdir, h=1920, extend=FOLLOW_EXTEND):
     """最後の一言のフィルタ。最後の絵をのばし、その終わりの約2.3秒に紺の帯＋クリーム色の文字を出す。
     0.2秒でフェードして出て、最後の0.15秒は完全に消える（ループの継ぎ目に残らない）"""
@@ -84,9 +90,12 @@ def follow_filter(total, fontfile, textdir, h=1920, extend=FOLLOW_EXTEND):
     t0, t1 = L["start"], L["end"]
     alpha = f"if(lt(t,{t0}),0,if(lt(t,{t0 + FOLLOW_FADE_IN}),(t-{t0})/{FOLLOW_FADE_IN},if(lt(t,{t1}),1,0)))"
     parts = [f"tpad=stop_mode=clone:stop_duration={L['extend']}"] if L["extend"] > 0 else []
+    # 紺の幕は画面の左端から右端まで全面にかける（文字の幅だけだと左右の端が暗くならない。Hub 依頼 #90。2026-11-13 に再発を確認して戻した）
+    by, bh = band_rect(L)
+    parts.append(f"drawbox=x=0:y={by}:w=iw:h={bh}:color={FOLLOW_BG}@1:t=fill:enable='between(t,{t0},{t1})'")
     for i, _ in enumerate(FOLLOW_LINES):
         parts.append(f"drawtext=fontfile={fontfile}:textfile={textdir / f'l{i}.txt'}:fontsize={L['fontsize']}:fontcolor={FOLLOW_FG}"
-                     f":box=1:boxcolor={FOLLOW_BG}:boxborderw={L['pad']}:x=(w-text_w)/2:y={L['y0'] + i * L['pitch']}:alpha='{alpha}'")
+                     f":x=(w-text_w)/2:y={L['y0'] + i * L['pitch']}:alpha='{alpha}'")
     return ",".join(parts)
 
 

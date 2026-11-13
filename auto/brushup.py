@@ -53,6 +53,20 @@ const [ep, out, rig] = process.argv.slice(1);
     subprocess.run(["node", "-e", js, ep, str(out), str(RIG)], check=True, env=env)
     return out
 
+def band_edges_dark(video, L, h):
+    """最後の一言が出ている間の1コマで、紺の幕の行の左端・右端・左上・右下が紺か（Hub 依頼 #90）"""
+    by, bh = growth.band_rect(L)
+    t = (L["start"] + L["end"]) / 2
+    r = subprocess.run(["ffmpeg", "-loglevel", "error", "-ss", f"{t:.2f}", "-i", str(video), "-frames:v", "1", "-f", "rawvideo", "-pix_fmt", "rgb24", "-"], capture_output=True)
+    w = len(r.stdout) // (3 * h) if h else 0
+    if not w: return {"左": False, "右": False}
+    bg = tuple(int(growth.FOLLOW_BG[i:i + 2], 16) for i in (2, 4, 6))
+    def navy(x, y):
+        o = (y * w + x) * 3; px = r.stdout[o:o + 3]
+        return len(px) == 3 and all(abs(a - b) <= 40 for a, b in zip(px, bg))
+    ys = [by + 3, by + bh // 2, by + bh - 4]
+    return {"左": all(navy(1, y) for y in ys), "右": all(navy(w - 2, y) for y in ys)}
+
 def follow_check(ep, loop):
     """最後の一言（フォローして続きを見てね）の検査：2秒以上・読める大きさ・下のボタンに隠れない・30秒未満。
     作った動画の最後の数コマを dist/<ep>_follow.jpg に書き出す（目視で、顔に重なっていないか見る）"""
@@ -69,6 +83,8 @@ def follow_check(ep, loop):
     if L["start"] < total - 0.01: issues.append(f"文字が本編の最後の{total - L['start']:.1f}秒にかぶる（本編が終わってから出す）")
     if real >= 30: issues.append(f"動画が{real:.1f}秒で30秒以上")
     if abs(real - L["total"]) > 0.3: issues.append(f"動画の長さが想定（{L['total']}秒）とずれている（{real:.2f}秒）")
+    for side, dark in band_edges_dark(out, L, h).items():  # 紺の幕が左右の端まで届いているか（Hub 依頼 #90）
+        if not dark: issues.append(f"紺の幕が画面の{side}端まで届いていない（端から端まで全面にかける）")
     ts = [L["start"] - 0.3, L["start"] + 0.1, L["start"] + 1.0, L["end"] - 0.1, real - 0.05]
     tmp = DIST / f"_{ep}_ff"; tmp.mkdir(exist_ok=True)
     for i, t in enumerate(ts):
