@@ -2366,3 +2366,284 @@
 2026-11-13,threads,2026-11-12_hanko,reposts,0,
 2026-11-13,threads,2026-11-12_hanko,quotes,0,
 2026-11-13,threads,2026-11-12_hanko,shares,0,
+2026-11-14,reel,2026-10-21_papers2,reach,117,
+2026-11-14,reel,2026-10-21_papers2,saved,0,
+2026-11-14,reel,2026-10-21_papers2,shares,0,
+2026-11-14,reel,2026-10-21_papers2,ig_reels_avg_watch_time,3230,
+2026-11-14,reel,2026-10-21_papers2,ig_reels_video_view_total_time,465130,
+2026-11-14,reel,2026-10-21_papers2,total_interactions,1,
+2026-11-14,reel,2026-10-21_papers2,avg_watch_ratio,0.147,平均視聴時間÷動画の長さ（完走率の代わり）
+2026-11-14,reel,2026-10-21_papers2,view_3s_rate,,Instagram の API では3秒視聴率・完走率は取れない（アプリの画面にだけ出る）。代わりに平均視聴時間÷動画の長さを見る
+2026-11-14,reel,2026-10-21_papers2,profile_visits,,リール1本ごとの値は API が対応していない（2026-10-25 に確認）。アカウント全体の profile_views・follows で見る
+2026-11-14,reel,2026-10-21_papers2,follows,,リール1本ごとの値は API が対応していない（2026-10-25 に確認）。アカウント全体の profile_views・follows で見る
+2026-11-14,reel,2026-10-23_mug2,reach,109,
+2026-11-14,reel,2026-10-23_mug2,saved,0,
+2026-11-14,reel,2026-10-23_mug2,shares,0,
+2026-11-14,reel,2026-10-23_mug2,ig_reels_avg_watch_time,3810,
+2026-11-14,reel,2026-10-23_mug2,ig_reels_video_view_total_time,491538,
+2026-11-14,reel,2026-10-23_mug2,total_interactions,1,
+2026-11-14,reel,2026-10-23_mug2,avg_watch_ratio,0.166,平均視聴時間÷動画の長さ（完走率の代わり）
+2026-11-14,reel,2026-10-23_mug2,view_3s_rate,,Instagram の API では3秒視聴率・完走率は取れない（アプリの画面にだけ出る）。代わりに平均視聴時間÷動画の長さを見る
+2026-11-14,reel,2026-10-23_mug2,profile_visits,,リール1本ごとの値は API が対応していない（2026-10-25 に確認）。アカウント全体の profile_views・follows で見る
+2026-11-14,reel,2026-10-23_mug2,follows,,リール1本ごとの値は API が対応していない（2026-10-25 に確認）。アカウント全体の profile_views・follows で見る
+2026-11-14,reel,2026-10-25_chime2,reach,103,
+2026-11-14,reel,2026-10-25_chime2,saved,0,
+2026-11-14,reel,2026-10-25_chime2,shares,0,
+2026-11-14,reel,2026-10-25_chime2,ig_reels_avg_watch_time,4017,
+2026-11-14,reel,2026-10-25_chime2,ig_reels_video_view_total_time,478046,
+2026-11-14,reel,2026-10-25_chime2,total_interactions,1,
+2026-11-14,reel,2026-10-25_chime2,avg_watch_ratio,0.175,平均視聴時間÷動画の長さ（完走率の代わり）
+2026-11-14,reel,2026-10-25_chime2,view_3s_rate,,Instagram の API では3秒視聴率・完走率は取れない（アプリの画面にだけ出る）。代わりに平均視聴時間÷動画の長さを見る
+2026-11-14,reel,2026-10-25_chime2,profile_visits,,リール1本ごとの値は API が対応していない（2026-10-25 に確認）。アカウント全体の profile_views・follows で見る
+2026-11-14,reel,2026-10-25_chime2,follows,,リール1本ごとの値は API が対応していない（2026-10-25 に確認）。アカウント全体の profile_views・follows で見る
+2026-11-14,reel,2026-10-26_jil_morning2,reach,129,
+2026-11-14,reel,2026-10-26_jil_morning2,saved,0,
+2026-11-14,reel,2026-10-26_jil_morning2,shares,0,
+2026-11-14,reel,2026-10-26_jil_morning2,ig_reels_avg_watch_time,2451,
+2026-11-14,reel,2026-10-26_jil_morning2,ig_reels_video_view_total_time,350538,
+2026-11-14,reel,2026-10-26_jil_morning2,total_interactions,1,
+2026-11-14,reel,2026-10-26_jil_morning2,avg_watch_ratio,0.139,平均視聴時間÷動画の長さ（完走率の代わり）
+2026-11-14,reel,2026-10-26_jil_morning2,view_3s_rate,,Instagram の API では3秒視聴率・完走率は取れない（アプリの画面にだけ出る）。代わりに平均視聴時間÷動画の長さを見る
+2026-11-14,reel,2026-10-26_jil_morning2,profile_visits,,リール1本ごとの値は API が対応していない（2026-10-25 に確認）。アカウント全体の profile_views・follows で見る
+2026-11-14,reel,2026-10-26_jil_morning2,follows,,リール1本ごとの値は API が対応していない（2026-10-25 に確認）。アカウント全体の profile_views・follows で見る
+2026-11-14,reel,2026-11-01_pom_debut,reach,105,
+2026-11-14,reel,2026-11-01_pom_debut,saved,0,
+2026-11-14,reel,2026-11-01_pom_debut,shares,0,
+2026-11-14,reel,2026-11-01_pom_debut,ig_reels_avg_watch_time,2969,
+2026-11-14,reel,2026-11-01_pom_debut,ig_reels_video_view_total_time,350426,
+2026-11-14,reel,2026-11-01_pom_debut,total_interactions,1,
+2026-11-14,reel,2026-11-01_pom_debut,avg_watch_ratio,0.206,平均視聴時間÷動画の長さ（完走率の代わり）
+2026-11-14,reel,2026-11-01_pom_debut,view_3s_rate,,Instagram の API では3秒視聴率・完走率は取れない（アプリの画面にだけ出る）。代わりに平均視聴時間÷動画の長さを見る
+2026-11-14,reel,2026-11-01_pom_debut,profile_visits,,リール1本ごとの値は API が対応していない（2026-10-25 に確認）。アカウント全体の profile_views・follows で見る
+2026-11-14,reel,2026-11-01_pom_debut,follows,,リール1本ごとの値は API が対応していない（2026-10-25 に確認）。アカウント全体の profile_views・follows で見る
+2026-11-14,reel,2026-11-02_update99,reach,123,
+2026-11-14,reel,2026-11-02_update99,saved,0,
+2026-11-14,reel,2026-11-02_update99,shares,0,
+2026-11-14,reel,2026-11-02_update99,ig_reels_avg_watch_time,5834,
+2026-11-14,reel,2026-11-02_update99,ig_reels_video_view_total_time,810934,
+2026-11-14,reel,2026-11-02_update99,total_interactions,1,
+2026-11-14,reel,2026-11-02_update99,avg_watch_ratio,0.486,平均視聴時間÷動画の長さ（完走率の代わり）
+2026-11-14,reel,2026-11-02_update99,view_3s_rate,,Instagram の API では3秒視聴率・完走率は取れない（アプリの画面にだけ出る）。代わりに平均視聴時間÷動画の長さを見る
+2026-11-14,reel,2026-11-02_update99,profile_visits,,リール1本ごとの値は API が対応していない（2026-10-25 に確認）。アカウント全体の profile_views・follows で見る
+2026-11-14,reel,2026-11-02_update99,follows,,リール1本ごとの値は API が対応していない（2026-10-25 に確認）。アカウント全体の profile_views・follows で見る
+2026-11-14,reel,2026-11-04_promo_hay_dash,reach,115,
+2026-11-14,reel,2026-11-04_promo_hay_dash,saved,0,
+2026-11-14,reel,2026-11-04_promo_hay_dash,shares,0,
+2026-11-14,reel,2026-11-04_promo_hay_dash,ig_reels_avg_watch_time,5509,
+2026-11-14,reel,2026-11-04_promo_hay_dash,ig_reels_video_view_total_time,732795,
+2026-11-14,reel,2026-11-04_promo_hay_dash,total_interactions,3,
+2026-11-14,reel,2026-11-04_promo_hay_dash,avg_watch_ratio,,平均視聴時間÷動画の長さ（完走率の代わり）
+2026-11-14,reel,2026-11-04_promo_hay_dash,view_3s_rate,,Instagram の API では3秒視聴率・完走率は取れない（アプリの画面にだけ出る）。代わりに平均視聴時間÷動画の長さを見る
+2026-11-14,reel,2026-11-04_promo_hay_dash,profile_visits,,リール1本ごとの値は API が対応していない（2026-10-25 に確認）。アカウント全体の profile_views・follows で見る
+2026-11-14,reel,2026-11-04_promo_hay_dash,follows,,リール1本ごとの値は API が対応していない（2026-10-25 に確認）。アカウント全体の profile_views・follows で見る
+2026-11-14,reel,2026-11-04_vending,reach,144,
+2026-11-14,reel,2026-11-04_vending,saved,0,
+2026-11-14,reel,2026-11-04_vending,shares,0,
+2026-11-14,reel,2026-11-04_vending,ig_reels_avg_watch_time,5589,
+2026-11-14,reel,2026-11-04_vending,ig_reels_video_view_total_time,872033,
+2026-11-14,reel,2026-11-04_vending,total_interactions,0,
+2026-11-14,reel,2026-11-04_vending,avg_watch_ratio,0.486,平均視聴時間÷動画の長さ（完走率の代わり）
+2026-11-14,reel,2026-11-04_vending,view_3s_rate,,Instagram の API では3秒視聴率・完走率は取れない（アプリの画面にだけ出る）。代わりに平均視聴時間÷動画の長さを見る
+2026-11-14,reel,2026-11-04_vending,profile_visits,,リール1本ごとの値は API が対応していない（2026-10-25 に確認）。アカウント全体の profile_views・follows で見る
+2026-11-14,reel,2026-11-04_vending,follows,,リール1本ごとの値は API が対応していない（2026-10-25 に確認）。アカウント全体の profile_views・follows で見る
+2026-11-14,reel,2026-11-06_replyall,reach,110,
+2026-11-14,reel,2026-11-06_replyall,saved,0,
+2026-11-14,reel,2026-11-06_replyall,shares,0,
+2026-11-14,reel,2026-11-06_replyall,ig_reels_avg_watch_time,3523,
+2026-11-14,reel,2026-11-06_replyall,ig_reels_video_view_total_time,436895,
+2026-11-14,reel,2026-11-06_replyall,total_interactions,0,
+2026-11-14,reel,2026-11-06_replyall,avg_watch_ratio,0.309,平均視聴時間÷動画の長さ（完走率の代わり）
+2026-11-14,reel,2026-11-06_replyall,view_3s_rate,,Instagram の API では3秒視聴率・完走率は取れない（アプリの画面にだけ出る）。代わりに平均視聴時間÷動画の長さを見る
+2026-11-14,reel,2026-11-06_replyall,profile_visits,,リール1本ごとの値は API が対応していない（2026-10-25 に確認）。アカウント全体の profile_views・follows で見る
+2026-11-14,reel,2026-11-06_replyall,follows,,リール1本ごとの値は API が対応していない（2026-10-25 に確認）。アカウント全体の profile_views・follows で見る
+2026-11-14,reel,2026-11-08_thumbsup,reach,,"Unsupported get request. Object with ID '18129523333897197' does not exist, cannot be loaded due to missing permissions,"
+2026-11-14,reel,2026-11-08_thumbsup,saved,,"Unsupported get request. Object with ID '18129523333897197' does not exist, cannot be loaded due to missing permissions,"
+2026-11-14,reel,2026-11-08_thumbsup,shares,,"Unsupported get request. Object with ID '18129523333897197' does not exist, cannot be loaded due to missing permissions,"
+2026-11-14,reel,2026-11-08_thumbsup,ig_reels_avg_watch_time,,"Unsupported get request. Object with ID '18129523333897197' does not exist, cannot be loaded due to missing permissions,"
+2026-11-14,reel,2026-11-08_thumbsup,ig_reels_video_view_total_time,,"Unsupported get request. Object with ID '18129523333897197' does not exist, cannot be loaded due to missing permissions,"
+2026-11-14,reel,2026-11-08_thumbsup,total_interactions,,"Unsupported get request. Object with ID '18129523333897197' does not exist, cannot be loaded due to missing permissions,"
+2026-11-14,reel,2026-11-08_thumbsup,avg_watch_ratio,,平均視聴時間÷動画の長さ（完走率の代わり）
+2026-11-14,reel,2026-11-08_thumbsup,view_3s_rate,,Instagram の API では3秒視聴率・完走率は取れない（アプリの画面にだけ出る）。代わりに平均視聴時間÷動画の長さを見る
+2026-11-14,reel,2026-11-08_thumbsup,profile_visits,,リール1本ごとの値は API が対応していない（2026-10-25 に確認）。アカウント全体の profile_views・follows で見る
+2026-11-14,reel,2026-11-08_thumbsup,follows,,リール1本ごとの値は API が対応していない（2026-10-25 に確認）。アカウント全体の profile_views・follows で見る
+2026-11-14,reel,2026-11-10_lastsheet,reach,193,
+2026-11-14,reel,2026-11-10_lastsheet,saved,0,
+2026-11-14,reel,2026-11-10_lastsheet,shares,0,
+2026-11-14,reel,2026-11-10_lastsheet,ig_reels_avg_watch_time,7413,
+2026-11-14,reel,2026-11-10_lastsheet,ig_reels_video_view_total_time,1541987,
+2026-11-14,reel,2026-11-10_lastsheet,total_interactions,4,
+2026-11-14,reel,2026-11-10_lastsheet,avg_watch_ratio,0.639,平均視聴時間÷動画の長さ（完走率の代わり）
+2026-11-14,reel,2026-11-10_lastsheet,view_3s_rate,,Instagram の API では3秒視聴率・完走率は取れない（アプリの画面にだけ出る）。代わりに平均視聴時間÷動画の長さを見る
+2026-11-14,reel,2026-11-10_lastsheet,profile_visits,,リール1本ごとの値は API が対応していない（2026-10-25 に確認）。アカウント全体の profile_views・follows で見る
+2026-11-14,reel,2026-11-10_lastsheet,follows,,リール1本ごとの値は API が対応していない（2026-10-25 に確認）。アカウント全体の profile_views・follows で見る
+2026-11-14,reel,2026-11-11_nenmatsu,reach,125,
+2026-11-14,reel,2026-11-11_nenmatsu,saved,0,
+2026-11-14,reel,2026-11-11_nenmatsu,shares,0,
+2026-11-14,reel,2026-11-11_nenmatsu,ig_reels_avg_watch_time,3892,
+2026-11-14,reel,2026-11-11_nenmatsu,ig_reels_video_view_total_time,509906,
+2026-11-14,reel,2026-11-11_nenmatsu,total_interactions,0,
+2026-11-14,reel,2026-11-11_nenmatsu,avg_watch_ratio,0.41,平均視聴時間÷動画の長さ（完走率の代わり）
+2026-11-14,reel,2026-11-11_nenmatsu,view_3s_rate,,Instagram の API では3秒視聴率・完走率は取れない（アプリの画面にだけ出る）。代わりに平均視聴時間÷動画の長さを見る
+2026-11-14,reel,2026-11-11_nenmatsu,profile_visits,,リール1本ごとの値は API が対応していない（2026-10-25 に確認）。アカウント全体の profile_views・follows で見る
+2026-11-14,reel,2026-11-11_nenmatsu,follows,,リール1本ごとの値は API が対応していない（2026-10-25 に確認）。アカウント全体の profile_views・follows で見る
+2026-11-14,reel,2026-11-12_hanko,reach,128,
+2026-11-14,reel,2026-11-12_hanko,saved,0,
+2026-11-14,reel,2026-11-12_hanko,shares,0,
+2026-11-14,reel,2026-11-12_hanko,ig_reels_avg_watch_time,5245,
+2026-11-14,reel,2026-11-12_hanko,ig_reels_video_view_total_time,713335,
+2026-11-14,reel,2026-11-12_hanko,total_interactions,1,
+2026-11-14,reel,2026-11-12_hanko,avg_watch_ratio,0.552,平均視聴時間÷動画の長さ（完走率の代わり）
+2026-11-14,reel,2026-11-12_hanko,view_3s_rate,,Instagram の API では3秒視聴率・完走率は取れない（アプリの画面にだけ出る）。代わりに平均視聴時間÷動画の長さを見る
+2026-11-14,reel,2026-11-12_hanko,profile_visits,,リール1本ごとの値は API が対応していない（2026-10-25 に確認）。アカウント全体の profile_views・follows で見る
+2026-11-14,reel,2026-11-12_hanko,follows,,リール1本ごとの値は API が対応していない（2026-10-25 に確認）。アカウント全体の profile_views・follows で見る
+2026-11-14,reel,2026-11-13_teiji,reach,134,
+2026-11-14,reel,2026-11-13_teiji,saved,0,
+2026-11-14,reel,2026-11-13_teiji,shares,0,
+2026-11-14,reel,2026-11-13_teiji,ig_reels_avg_watch_time,4396,
+2026-11-14,reel,2026-11-13_teiji,ig_reels_video_view_total_time,589130,
+2026-11-14,reel,2026-11-13_teiji,total_interactions,1,
+2026-11-14,reel,2026-11-13_teiji,avg_watch_ratio,0.463,平均視聴時間÷動画の長さ（完走率の代わり）
+2026-11-14,reel,2026-11-13_teiji,view_3s_rate,,Instagram の API では3秒視聴率・完走率は取れない（アプリの画面にだけ出る）。代わりに平均視聴時間÷動画の長さを見る
+2026-11-14,reel,2026-11-13_teiji,profile_visits,,リール1本ごとの値は API が対応していない（2026-10-25 に確認）。アカウント全体の profile_views・follows で見る
+2026-11-14,reel,2026-11-13_teiji,follows,,リール1本ごとの値は API が対応していない（2026-10-25 に確認）。アカウント全体の profile_views・follows で見る
+2026-11-14,account,17841455420932757,reach,244,
+2026-11-14,account,17841455420932757,profile_views,3,
+2026-11-14,account,17841455420932757,accounts_engaged,2,
+2026-11-14,account,17841455420932757,views,287,
+2026-11-14,account,17841455420932757,follows_and_unfollows,,内訳が返らなかった
+2026-11-14,story,17917926018546438,reach,,(#10) Not enough viewers for the media to show insights
+2026-11-14,story,17917926018546438,replies,,(#10) Not enough viewers for the media to show insights
+2026-11-14,story,17917926018546438,shares,,(#10) Not enough viewers for the media to show insights
+2026-11-14,story,17917926018546438,follows,,(#10) Not enough viewers for the media to show insights
+2026-11-14,story,17917926018546438,profile_visits,,(#10) Not enough viewers for the media to show insights
+2026-11-14,story,17917926018546438,total_interactions,,(#10) Not enough viewers for the media to show insights
+2026-11-14,story,17917926018546438,views,,(#10) Not enough viewers for the media to show insights
+2026-11-14,story,17917926018546438,navigation,,(#10) Not enough viewers for the media to show insights
+2026-11-14,fb_reel,2026-10-21_papers2,plays,14,
+2026-11-14,fb_reel,2026-10-21_papers2,reactions,0,
+2026-11-14,fb_reel,2026-10-21_papers2,comments,0,
+2026-11-14,fb_reel,2026-10-21_papers2,shares,,blue_reels_play_count：(#200) read_insights permission missing (https://developers.facebook.com/docs/permissions/reference/read_insights) / post_video_likes_by_reaction_type：(#200) read_insights permission missing (https://developers.facebook.com/docs/permissions/reference/read_insights) / post_video
+2026-11-14,fb_reel,2026-10-23_mug2,plays,0,
+2026-11-14,fb_reel,2026-10-23_mug2,reactions,0,
+2026-11-14,fb_reel,2026-10-23_mug2,comments,0,
+2026-11-14,fb_reel,2026-10-23_mug2,shares,,blue_reels_play_count：(#200) read_insights permission missing (https://developers.facebook.com/docs/permissions/reference/read_insights) / post_video_likes_by_reaction_type：(#200) read_insights permission missing (https://developers.facebook.com/docs/permissions/reference/read_insights) / post_video
+2026-11-14,fb_reel,2026-10-25_chime2,plays,3,
+2026-11-14,fb_reel,2026-10-25_chime2,reactions,0,
+2026-11-14,fb_reel,2026-10-25_chime2,comments,0,
+2026-11-14,fb_reel,2026-10-25_chime2,shares,,blue_reels_play_count：(#200) read_insights permission missing (https://developers.facebook.com/docs/permissions/reference/read_insights) / post_video_likes_by_reaction_type：(#200) read_insights permission missing (https://developers.facebook.com/docs/permissions/reference/read_insights) / post_video
+2026-11-14,fb_reel,2026-10-26_jil_morning2,plays,2,
+2026-11-14,fb_reel,2026-10-26_jil_morning2,reactions,0,
+2026-11-14,fb_reel,2026-10-26_jil_morning2,comments,0,
+2026-11-14,fb_reel,2026-10-26_jil_morning2,shares,,blue_reels_play_count：(#200) read_insights permission missing (https://developers.facebook.com/docs/permissions/reference/read_insights) / post_video_likes_by_reaction_type：(#200) read_insights permission missing (https://developers.facebook.com/docs/permissions/reference/read_insights) / post_video
+2026-11-14,fb_reel,2026-11-01_pom_debut,plays,0,
+2026-11-14,fb_reel,2026-11-01_pom_debut,reactions,0,
+2026-11-14,fb_reel,2026-11-01_pom_debut,comments,0,
+2026-11-14,fb_reel,2026-11-01_pom_debut,shares,,blue_reels_play_count：(#200) read_insights permission missing (https://developers.facebook.com/docs/permissions/reference/read_insights) / post_video_likes_by_reaction_type：(#200) read_insights permission missing (https://developers.facebook.com/docs/permissions/reference/read_insights) / post_video
+2026-11-14,fb_reel,2026-11-02_update99,plays,0,
+2026-11-14,fb_reel,2026-11-02_update99,reactions,0,
+2026-11-14,fb_reel,2026-11-02_update99,comments,0,
+2026-11-14,fb_reel,2026-11-02_update99,shares,,blue_reels_play_count：(#200) read_insights permission missing (https://developers.facebook.com/docs/permissions/reference/read_insights) / post_video_likes_by_reaction_type：(#200) read_insights permission missing (https://developers.facebook.com/docs/permissions/reference/read_insights) / post_video
+2026-11-14,fb_reel,2026-11-04_promo_hay_dash,plays,0,
+2026-11-14,fb_reel,2026-11-04_promo_hay_dash,reactions,0,
+2026-11-14,fb_reel,2026-11-04_promo_hay_dash,comments,0,
+2026-11-14,fb_reel,2026-11-04_promo_hay_dash,shares,,blue_reels_play_count：(#200) read_insights permission missing (https://developers.facebook.com/docs/permissions/reference/read_insights) / post_video_likes_by_reaction_type：(#200) read_insights permission missing (https://developers.facebook.com/docs/permissions/reference/read_insights) / post_video
+2026-11-14,fb_reel,2026-11-04_vending,plays,0,
+2026-11-14,fb_reel,2026-11-04_vending,reactions,0,
+2026-11-14,fb_reel,2026-11-04_vending,comments,0,
+2026-11-14,fb_reel,2026-11-04_vending,shares,,blue_reels_play_count：(#200) read_insights permission missing (https://developers.facebook.com/docs/permissions/reference/read_insights) / post_video_likes_by_reaction_type：(#200) read_insights permission missing (https://developers.facebook.com/docs/permissions/reference/read_insights) / post_video
+2026-11-14,fb_reel,2026-11-06_replyall,plays,0,
+2026-11-14,fb_reel,2026-11-06_replyall,reactions,0,
+2026-11-14,fb_reel,2026-11-06_replyall,comments,0,
+2026-11-14,fb_reel,2026-11-06_replyall,shares,,blue_reels_play_count：(#200) read_insights permission missing (https://developers.facebook.com/docs/permissions/reference/read_insights) / post_video_likes_by_reaction_type：(#200) read_insights permission missing (https://developers.facebook.com/docs/permissions/reference/read_insights) / post_video
+2026-11-14,fb_reel,2026-11-08_thumbsup,plays,0,
+2026-11-14,fb_reel,2026-11-08_thumbsup,reactions,0,
+2026-11-14,fb_reel,2026-11-08_thumbsup,comments,0,
+2026-11-14,fb_reel,2026-11-08_thumbsup,shares,,blue_reels_play_count：(#200) read_insights permission missing (https://developers.facebook.com/docs/permissions/reference/read_insights) / post_video_likes_by_reaction_type：(#200) read_insights permission missing (https://developers.facebook.com/docs/permissions/reference/read_insights) / post_video
+2026-11-14,fb_reel,2026-11-10_lastsheet,plays,0,
+2026-11-14,fb_reel,2026-11-10_lastsheet,reactions,0,
+2026-11-14,fb_reel,2026-11-10_lastsheet,comments,0,
+2026-11-14,fb_reel,2026-11-10_lastsheet,shares,,blue_reels_play_count：(#200) read_insights permission missing (https://developers.facebook.com/docs/permissions/reference/read_insights) / post_video_likes_by_reaction_type：(#200) read_insights permission missing (https://developers.facebook.com/docs/permissions/reference/read_insights) / post_video
+2026-11-14,fb_reel,2026-11-11_nenmatsu,plays,0,
+2026-11-14,fb_reel,2026-11-11_nenmatsu,reactions,0,
+2026-11-14,fb_reel,2026-11-11_nenmatsu,comments,0,
+2026-11-14,fb_reel,2026-11-11_nenmatsu,shares,,blue_reels_play_count：(#200) read_insights permission missing (https://developers.facebook.com/docs/permissions/reference/read_insights) / post_video_likes_by_reaction_type：(#200) read_insights permission missing (https://developers.facebook.com/docs/permissions/reference/read_insights) / post_video
+2026-11-14,fb_reel,2026-11-12_hanko,plays,0,
+2026-11-14,fb_reel,2026-11-12_hanko,reactions,0,
+2026-11-14,fb_reel,2026-11-12_hanko,comments,0,
+2026-11-14,fb_reel,2026-11-12_hanko,shares,,blue_reels_play_count：(#200) read_insights permission missing (https://developers.facebook.com/docs/permissions/reference/read_insights) / post_video_likes_by_reaction_type：(#200) read_insights permission missing (https://developers.facebook.com/docs/permissions/reference/read_insights) / post_video
+2026-11-14,fb_reel,2026-11-13_teiji,plays,0,
+2026-11-14,fb_reel,2026-11-13_teiji,reactions,0,
+2026-11-14,fb_reel,2026-11-13_teiji,comments,0,
+2026-11-14,fb_reel,2026-11-13_teiji,shares,,blue_reels_play_count：(#200) read_insights permission missing (https://developers.facebook.com/docs/permissions/reference/read_insights) / post_video_likes_by_reaction_type：(#200) read_insights permission missing (https://developers.facebook.com/docs/permissions/reference/read_insights) / post_video
+2026-11-14,threads,2026-10-23_mug2,views,6,
+2026-11-14,threads,2026-10-23_mug2,likes,0,
+2026-11-14,threads,2026-10-23_mug2,replies,0,
+2026-11-14,threads,2026-10-23_mug2,reposts,0,
+2026-11-14,threads,2026-10-23_mug2,quotes,0,
+2026-11-14,threads,2026-10-23_mug2,shares,0,
+2026-11-14,threads,2026-10-25_chime2,views,5,
+2026-11-14,threads,2026-10-25_chime2,likes,0,
+2026-11-14,threads,2026-10-25_chime2,replies,0,
+2026-11-14,threads,2026-10-25_chime2,reposts,0,
+2026-11-14,threads,2026-10-25_chime2,quotes,0,
+2026-11-14,threads,2026-10-25_chime2,shares,0,
+2026-11-14,threads,2026-10-26_jil_morning2,views,3,
+2026-11-14,threads,2026-10-26_jil_morning2,likes,0,
+2026-11-14,threads,2026-10-26_jil_morning2,replies,0,
+2026-11-14,threads,2026-10-26_jil_morning2,reposts,0,
+2026-11-14,threads,2026-10-26_jil_morning2,quotes,0,
+2026-11-14,threads,2026-10-26_jil_morning2,shares,0,
+2026-11-14,threads,2026-11-01_pom_debut,views,4,
+2026-11-14,threads,2026-11-01_pom_debut,likes,0,
+2026-11-14,threads,2026-11-01_pom_debut,replies,0,
+2026-11-14,threads,2026-11-01_pom_debut,reposts,0,
+2026-11-14,threads,2026-11-01_pom_debut,quotes,0,
+2026-11-14,threads,2026-11-01_pom_debut,shares,0,
+2026-11-14,threads,2026-11-02_update99,views,10,
+2026-11-14,threads,2026-11-02_update99,likes,0,
+2026-11-14,threads,2026-11-02_update99,replies,0,
+2026-11-14,threads,2026-11-02_update99,reposts,0,
+2026-11-14,threads,2026-11-02_update99,quotes,0,
+2026-11-14,threads,2026-11-02_update99,shares,0,
+2026-11-14,threads,2026-11-04_vending,views,10,
+2026-11-14,threads,2026-11-04_vending,likes,0,
+2026-11-14,threads,2026-11-04_vending,replies,0,
+2026-11-14,threads,2026-11-04_vending,reposts,0,
+2026-11-14,threads,2026-11-04_vending,quotes,0,
+2026-11-14,threads,2026-11-04_vending,shares,0,
+2026-11-14,threads,2026-11-06_replyall,views,4,
+2026-11-14,threads,2026-11-06_replyall,likes,0,
+2026-11-14,threads,2026-11-06_replyall,replies,0,
+2026-11-14,threads,2026-11-06_replyall,reposts,0,
+2026-11-14,threads,2026-11-06_replyall,quotes,0,
+2026-11-14,threads,2026-11-06_replyall,shares,0,
+2026-11-14,threads,2026-11-08_thumbsup,views,2,
+2026-11-14,threads,2026-11-08_thumbsup,likes,0,
+2026-11-14,threads,2026-11-08_thumbsup,replies,0,
+2026-11-14,threads,2026-11-08_thumbsup,reposts,0,
+2026-11-14,threads,2026-11-08_thumbsup,quotes,0,
+2026-11-14,threads,2026-11-08_thumbsup,shares,0,
+2026-11-14,threads,2026-11-10_lastsheet,views,8,
+2026-11-14,threads,2026-11-10_lastsheet,likes,0,
+2026-11-14,threads,2026-11-10_lastsheet,replies,0,
+2026-11-14,threads,2026-11-10_lastsheet,reposts,0,
+2026-11-14,threads,2026-11-10_lastsheet,quotes,0,
+2026-11-14,threads,2026-11-10_lastsheet,shares,0,
+2026-11-14,threads,2026-11-11_nenmatsu,views,12,
+2026-11-14,threads,2026-11-11_nenmatsu,likes,0,
+2026-11-14,threads,2026-11-11_nenmatsu,replies,0,
+2026-11-14,threads,2026-11-11_nenmatsu,reposts,0,
+2026-11-14,threads,2026-11-11_nenmatsu,quotes,0,
+2026-11-14,threads,2026-11-11_nenmatsu,shares,0,
+2026-11-14,threads,2026-11-12_hanko,views,10,
+2026-11-14,threads,2026-11-12_hanko,likes,0,
+2026-11-14,threads,2026-11-12_hanko,replies,0,
+2026-11-14,threads,2026-11-12_hanko,reposts,0,
+2026-11-14,threads,2026-11-12_hanko,quotes,0,
+2026-11-14,threads,2026-11-12_hanko,shares,0,
+2026-11-14,threads,2026-11-13_teiji,views,2,
+2026-11-14,threads,2026-11-13_teiji,likes,0,
+2026-11-14,threads,2026-11-13_teiji,replies,0,
+2026-11-14,threads,2026-11-13_teiji,reposts,0,
+2026-11-14,threads,2026-11-13_teiji,quotes,0,
+2026-11-14,threads,2026-11-13_teiji,shares,0,
