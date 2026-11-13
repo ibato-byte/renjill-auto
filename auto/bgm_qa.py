@@ -105,7 +105,7 @@ def check_all(work, meta, frame_dirs, prev):
     if num["mb"] > 8000: probs.append("ファイルが大きすぎる")
     # ---- 音 ----
     L = loudness(out); num.update({"lufs": L["lufs"], "lra": L["lra"], "peak": L["peak"]})
-    if not -16.5 <= L["lufs"] <= -13.5: probs.append(f'音量 {L["lufs"]} LUFS（目安 -15）')
+    if not -16.5 <= L["lufs"] <= -13.0: probs.append(f'音量 {L["lufs"]} LUFS（目安 -15。あげあげの回は -14）')
     if L["peak"] > -1.0: probs.append(f'ピーク {L["peak"]} dBFS（-1.0 以下にする）')
     if L["lra"] > 9: warns.append(f'音量の幅が広い（LRA {L["lra"]}）。作業用には静かと大きいの差が大きすぎるかも')
     sil = [s for s in silences(out) if 3 < s < total - 8]
@@ -118,7 +118,7 @@ def check_all(work, meta, frame_dirs, prev):
     if sp:
         avg = {k: round(float(np.mean([s[k] for s in sp])), 2) for k in sp[0]}; num["spectrum"] = avg
         if avg["mid"] + avg["hi"] < 2.0: probs.append(f'音がこもりすぎ（1kHz より上が {avg["mid"] + avg["hi"]:.1f}%）')
-        if avg["hi"] > 10: probs.append(f'高い音が強すぎて耳に刺さる（4kHz より上が {avg["hi"]:.1f}%）')
+        if avg["hi"] > (20 if meta.get("style") == "club" else 10): probs.append(f'高い音が強すぎて耳に刺さる（4kHz より上が {avg["hi"]:.1f}%）')
         if avg["sub"] > 30: probs.append(f'低い音が強すぎる（60Hz より下が {avg["sub"]:.1f}%）')
         if min(s["corr"] for s in sp) < 0.2: probs.append("左右の音がばらばら（片耳・スマホのスピーカーで音が消える）")
         if avg["corr"] > 0.995: warns.append("ほぼモノラル（広がりがない）")

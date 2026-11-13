@@ -104,5 +104,9 @@
 - **検査**（`auto/bgm_qa.py`。1つでも NG なら出さない）：音（長さ・音量 -15 LUFS・ピーク・無音・こもり／きんきん・左右）／曲のかぶり（回の中・前の回）／絵（大きさ・ループのつなぎ目・ちらつき・止まっていないか・明るさ・章ごとの違い）／表紙／題名・説明・チャプター／前の回と同じテーマでないか。結果は `content/bgm/<日付>_qa.json`、一覧の絵は `content/bgm/<日付>_sheet.jpg`。
 - **機械で測れないこと**：「曲として心地よいか」は耳でしか分からない。1本目はオーナーが聞いて OK を出した（2026-11-14）ので、`privacy: public`（公開）で出す。限定公開で出した回を公開にするのは Actions → bgm → Run workflow の `publish=true`。週次PDCAは `content/bgm/` の一覧の絵と YouTube の数字（視聴維持・平均再生時間）を見て、`music.py`・`scene.js`・テーマを直す。
 - **手で動かす**：Actions → bgm → Run workflow（`date`・`force=true`・`privacy`・`minutes`）。手元で試す：`python auto/bgm.py build --date 2026-11-14 --minutes 8 --keep`。
+- **曲調（2026-11-14 追加。オーナー依頼：海・和・あげあげ・バラードなど、いろんなパターンを）**：テーマごとに `style` を持つ。lofi（ゆったり）／sea（海辺：ギターとマリンバ・波の音）／wa（和：琴・尺八ふう・平調子）／club（あげあげ：4つ打ち）／ballad（しっとり：ピアノとストリングス）。
+  音楽（`music.py` の STYLES）だけでなく、絵も同じ曲調に合わせる（`scene.js`）：窓の外（海とヨット／もみじの庭と障子／ネオンの街／星空・冬は雪）、小物（トロピカルドリンク／湯のみと行灯／スピーカーとネオン／ろうそく）、衣装（麦わら帽子と花／鉢巻きとかんざし／ヘッドホンとサングラス／マフラー）、動き（ノリノリ・窓の外を見る）。
+  キャラの顔と体つきは変えない（付け足すだけ）。あげあげの回も、光は強く点滅させない（色をゆっくり変える）。新しい曲調の1本目は限定公開で出し、オーナーが聞いてから公開にする（`new_style_privacy`）。新しい曲調を足すときは `music.py`・`scene.js`・`bgm.py`（THEMES・GENRE など）の3か所。試作：`python auto/bgm.py build --date 2026-11-21 --minutes 8 --keep --theme dance_night`。
+- 公式サイト：公開した回は `renjill-media/bgm.json` と表紙 `bgm_<日付>_thumb.jpg` に書き出す（`media_sync`）。サイト側の表示の変更は `docs/pending/renjill-site-long-videos.patch`（2026-11-14 時点で renjill-site に入れられていない。Claude の GitHub 連携に renjill-site が入っていないため）。
 - 記録：`auto/bgm_state.json`（出した回・YouTube の ID・曲の指紋。同じ日は二重に出さない）。Hub の id は `renjill-bgm`。
 

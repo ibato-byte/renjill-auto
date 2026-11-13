@@ -44,7 +44,8 @@ class PlanTest(unittest.TestCase):
         for th in bgm.THEMES:
             self.assertEqual(len(th["hours"]), 4); self.assertEqual(len(th["ren"]), 4); self.assertEqual(len(th["jil"]), 4)
             self.assertEqual(th["hours"], sorted(th["hours"]))                       # 時計は進む
-            self.assertTrue(set(th["ren"]) <= {"type", "hay", "sleepy", "asleep"}); self.assertTrue(set(th["jil"]) <= {"type", "glance", "happy", "asleep"})
+            self.assertTrue(set(th["ren"]) <= {"type", "hay", "sleepy", "asleep", "dance", "gaze"}); self.assertTrue(set(th["jil"]) <= {"type", "glance", "happy", "asleep", "dance", "gaze"})
+            self.assertIn(th.get("style", "lofi"), bgm.GENRE)
             pairs = list(zip(th["ren"], th["jil"]))
             for a, b in zip(pairs, pairs[1:]): self.assertNotEqual(a, b)             # となりの章は2匹のようすが変わる
         self.assertGreaterEqual(len(bgm.TRACK_NAMES), 30); self.assertEqual(len(set(bgm.TRACK_NAMES)), len(bgm.TRACK_NAMES))
@@ -155,6 +156,36 @@ class UploadTest(unittest.TestCase):
     def test_audio_is_not_aac(self):
         src = (ROOT / "auto" / "bgm.py").read_text(encoding="utf-8")
         self.assertIn('"-c:a", "pcm_s16le"', src); self.assertNotIn('"-c:a", "aac"', src)   # ffmpeg の AAC は元の音にない山を作った
+
+
+class StyleTest(unittest.TestCase):
+    """曲調（海・和・あげあげ・バラード）：音楽・絵・題名がそろって切り替わる（オーナー依頼 2026-11-14）"""
+    def test_every_style_exists_in_music_and_scene(self):
+        import music
+        scene = (ROOT / "rig" / "bgm" / "scene.js").read_text(encoding="utf-8")
+        styles = {th.get("style", "lofi") for th in bgm.THEMES}
+        self.assertTrue({"lofi", "sea", "wa", "club", "ballad"} <= styles)
+        for st in styles:
+            self.assertIn(st, music.STYLES); self.assertIn(st, bgm.GENRE_I18N); self.assertIn(st, bgm.STYLE_TAGS); self.assertIn(st, bgm.STYLE_HASH)
+            if st != "lofi": self.assertIn(f"ST === '{st}'", scene)        # 絵（窓の外・小物・衣装）も曲調で変わる
+        for mode in ("dance", "gaze"): self.assertIn(f"=== '{mode}'", scene)
+
+    def test_style_reaches_music_and_scene(self):
+        st = {"episodes": {"2026-11-13": {"yt": "x", "privacy": "public", "theme": "rain_night"}}}
+        pl = bgm.plan("2026-11-14", st, CFG)
+        self.assertEqual(pl["style"], "sea"); self.assertIn("style=sea", bgm.query(pl, 0)); self.assertIn("month=11", bgm.query(pl, 0))
+        self.assertNotIn("Lofi", pl["title"])                             # 海の回を「Lofi」と名乗らない
+
+    def test_each_style_track_is_made(self):
+        import music, numpy as np
+        for st in music.STYLES:
+            x, info = music.make_track(np.random.default_rng(3), 1, st)
+            self.assertEqual(info["style"], st); self.assertGreater(info["sec"], 90); self.assertLess(info["sec"], 330)
+            self.assertLessEqual(float(np.abs(x).max()), 0.46); self.assertFalse(np.isnan(x).any())
+
+    def test_no_strobe_in_club_scene(self):
+        scene = (ROOT / "rig" / "bgm" / "scene.js").read_text(encoding="utf-8")
+        self.assertIn("強い点滅はさせない", scene)                          # 光の点滅で気分が悪くなる人がいる。色はゆっくり変える
 
 
 class SiteListTest(unittest.TestCase):
