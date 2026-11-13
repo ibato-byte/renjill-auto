@@ -1,0 +1,17 @@
+{
+  "ep": "monday",
+  "pass": true,
+  "issues": [],
+  "warns": [
+    "エンドカード直前にfx要素が10個残っている"
+  ],
+  "render": {
+    "ep": "monday",
+    "dur": 9.5,
+    "pass": true,
+    "issues": [],
+    "warns": [
+      "エンドカード直前にfx要素が10個残っている"
+    ]
+  }
+}
