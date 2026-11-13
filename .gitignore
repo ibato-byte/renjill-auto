@@ -5,3 +5,5 @@ dist/*.mp4
 dist/alerts.jsonl
 dist/*_args
 dist/*_yt.nohook
+dist/bgm/
+dist/bgm_hub_summary

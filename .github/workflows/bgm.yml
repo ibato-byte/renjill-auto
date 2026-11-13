@@ -1,0 +1,129 @@
+name: bgm
+# 作業用BGM（長尺・横長）を作って YouTube に出す（オーナー依頼 2026-11-13）。AI を使わない・無料。
+# 水・土の 20:23（日本時間）。曜日・長さ・公開範囲は auto/bgm_config.json。検査（auto/bgm_qa.py）に落ちた回は出さない。
+# 重い処理（描画＋1時間の動画づくりで 20〜30 分）なので、push では動かさない。
+on:
+  schedule:
+    - cron: "23 11 * * 3,6"   # 水・土 20:23 JST（毎日の投稿 12:00・18:00・19:00 と重ならない時刻）
+  workflow_dispatch:
+    inputs:
+      date:
+        description: "作る日（例 2026-11-14）。空なら今日"
+        required: false
+      force:
+        description: "予定の曜日でなくても作って出す（true）"
+        required: false
+        default: "false"
+      privacy:
+        description: "公開範囲（public / unlisted / private）。空なら auto/bgm_config.json のとおり"
+        required: false
+      minutes:
+        description: "長さ（分。4の倍数）。空なら auto/bgm_config.json のとおり"
+        required: false
+permissions:
+  contents: write
+concurrency: bgm   # 同じ回を二重に作らない（毎日の投稿を待たせないよう、post とは別の列にする）
+jobs:
+  bgm:
+    if: vars.AUTO_POST_ENABLED == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 75
+    steps:
+      - name: Automation Hub：一時停止の確認
+        id: hub
+        env:
+          HUB_TOKEN: ${{ secrets.HUB_TOKEN }}
+        run: |
+          if [ -z "$HUB_TOKEN" ] || ! git clone -q --depth 1 "https://x-access-token:${HUB_TOKEN}@github.com/ibato-byte/automation-hub.git" "$RUNNER_TEMP/hub"; then
+            echo "paused=false" >> "$GITHUB_OUTPUT"; echo "Automation Hub を使わずに続ける"; exit 0
+          fi
+          bash "$RUNNER_TEMP/hub/scripts/gha.sh" check renjill-bgm
+      - uses: actions/checkout@v5
+        if: steps.hub.outputs.paused != 'true'
+        with: { ref: main }  # 常に最新の記録（auto/bgm_state.json）を見る＝同じ回を二重に出さない
+      - name: 出す回があるか（なければ準備をせずに終わる）
+        id: due
+        if: steps.hub.outputs.paused != 'true'
+        env:
+          IN_DATE: ${{ github.event.inputs.date }}
+          IN_FORCE: ${{ github.event.inputs.force }}
+        run: |
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import datetime as dt, json, os, pathlib
+          cfg = {"days": [2, 5], "enabled": True, **(json.loads(pathlib.Path("auto/bgm_config.json").read_text()) if pathlib.Path("auto/bgm_config.json").exists() else {})}
+          st = json.loads(pathlib.Path("auto/bgm_state.json").read_text()) if pathlib.Path("auto/bgm_state.json").exists() else {"episodes": {}}
+          date = os.environ.get("IN_DATE") or dt.datetime.now(dt.timezone(dt.timedelta(hours=9))).date().isoformat()
+          done = bool((st["episodes"].get(date) or {}).get("yt"))
+          due = not done and (os.environ.get("IN_FORCE") == "true" or (cfg["enabled"] and dt.date.fromisoformat(date).weekday() in cfg["days"]))
+          print(f"date={date}"); print(f"due={'true' if due else 'false'}")
+          PY
+      - uses: actions/setup-node@v5
+        if: steps.hub.outputs.paused != 'true' && steps.due.outputs.due == 'true'
+        with: { node-version: 22 }
+      - uses: actions/setup-python@v6
+        if: steps.hub.outputs.paused != 'true' && steps.due.outputs.due == 'true'
+        with: { python-version: "3.12" }
+      - name: 準備（ffmpeg・フォント・ブラウザ）
+        if: steps.hub.outputs.paused != 'true' && steps.due.outputs.due == 'true'
+        timeout-minutes: 20
+        run: |
+          for i in 1 2 3; do
+            if [ "$i" -ge 2 ]; then sudo sed -i 's|http://azure.archive.ubuntu.com|http://archive.ubuntu.com|g' /etc/apt/sources.list /etc/apt/sources.list.d/*.sources 2>/dev/null || true; fi
+            timeout 300 bash -c 'sudo apt-get update -qq && sudo apt-get install -y -qq --no-install-recommends ffmpeg fonts-noto-cjk' && break
+            echo "準備をやり直す（$i回目）"; sleep 10
+            [ "$i" = 3 ] && exit 1
+          done
+          npm i -g playwright && npx playwright install --with-deps chromium
+          echo "NODE_PATH=$(npm root -g)" >> "$GITHUB_ENV"
+          pip install -q requests numpy scipy google-api-python-client google-auth google-auth-httplib2
+      - name: 作る → 検査 → 出す
+        if: steps.hub.outputs.paused != 'true' && steps.due.outputs.due == 'true'
+        env:
+          YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
+          YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
+          YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
+          DATE: ${{ steps.due.outputs.date }}
+          IN_PRIVACY: ${{ github.event.inputs.privacy }}
+          IN_MINUTES: ${{ github.event.inputs.minutes }}
+        run: |
+          rm -f dist/bgm_hub_summary
+          args=(run --date "$DATE" --force --par 4)
+          [ -n "$IN_PRIVACY" ] && args+=(--privacy "$IN_PRIVACY")
+          [ -n "$IN_MINUTES" ] && args+=(--minutes "$IN_MINUTES")
+          python auto/bgm.py "${args[@]}"
+      - name: 検査の結果と一覧の絵を残す（あとで見直せるように）
+        if: always() && steps.hub.outputs.paused != 'true' && steps.due.outputs.due == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: bgm-${{ steps.due.outputs.date }}
+          path: |
+            dist/bgm/*/qa.json
+            dist/bgm/*/meta.json
+            dist/bgm/*/sheet.jpg
+            dist/bgm/*/thumb.jpg
+          retention-days: 30
+          if-no-files-found: ignore
+      - name: commit results
+        if: always() && steps.hub.outputs.paused != 'true' && steps.due.outputs.due == 'true'
+        run: |
+          git config user.name renjill-bot; git config user.email bot@renjill.local
+          mkdir -p content/bgm && for d in dist/bgm/*/; do n=$(basename "$d"); [ -f "$d/qa.json" ] && cp "$d/qa.json" "content/bgm/${n}_qa.json"; [ -f "$d/sheet.jpg" ] && cp "$d/sheet.jpg" "content/bgm/${n}_sheet.jpg"; done || true
+          git add -A auto/bgm_state.json content/bgm || true
+          git diff --cached --quiet || git commit -m "bgm: $(TZ=Asia/Tokyo date '+%Y-%m-%d %H:%M')"
+          bash auto/push_main.sh
+      - name: Automation Hub に記録
+        if: always()
+        env:
+          HUB_TOKEN: ${{ secrets.HUB_TOKEN }}
+          JOB_STATUS: ${{ job.status }}
+          PAUSED: ${{ steps.hub.outputs.paused }}
+          DUE: ${{ steps.due.outputs.due }}
+        run: |
+          [ -d "$RUNNER_TEMP/hub" ] || exit 0
+          summary="出す回なし（予定の曜日でない・投稿済み）"; outcome=idle
+          [ "$DUE" = true ] && { summary="今回の結果のファイルがない（途中で止まった）"; outcome=done; }
+          [ -f dist/bgm_hub_summary ] && summary="$(cat dist/bgm_hub_summary)"
+          # 次の予定：水・土 11:23 UTC のうち近いほう
+          next=$(python3 -c "import datetime as d;n=d.datetime.now(d.timezone.utc);c=[(n+d.timedelta(days=i)).replace(hour=11,minute=23,second=0,microsecond=0) for i in range(8)];print(min(x for x in c if x>n and x.weekday() in (2,5)).strftime('%Y-%m-%dT%H:%M:00Z'))")
+          bash "$RUNNER_TEMP/hub/scripts/gha.sh" report renjill-bgm "$JOB_STATUS" "$PAUSED" "$summary" --outcome "$outcome" \
+            --does "水・土の夜に、レンとジルの作業用BGM（1時間・横長）を作って検査し、YouTube に出す" --next-run-at "$next"
