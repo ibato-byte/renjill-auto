@@ -107,6 +107,6 @@
 - **曲調（2026-11-14 追加。オーナー依頼：海・和・あげあげ・バラードなど、いろんなパターンを）**：テーマごとに `style` を持つ。lofi（ゆったり）／sea（海辺：ギターとマリンバ・波の音）／wa（和：琴・尺八ふう・平調子）／club（あげあげ：4つ打ち）／ballad（しっとり：ピアノとストリングス）。
   音楽（`music.py` の STYLES）だけでなく、絵も同じ曲調に合わせる（`scene.js`）：窓の外（海とヨット／もみじの庭と障子／ネオンの街／星空・冬は雪）、小物（トロピカルドリンク／湯のみと行灯／スピーカーとネオン／ろうそく）、衣装（麦わら帽子と花／鉢巻きとかんざし／ヘッドホンとサングラス／マフラー）、動き（ノリノリ・窓の外を見る）。
   キャラの顔と体つきは変えない（付け足すだけ）。あげあげの回も、光は強く点滅させない（色をゆっくり変える）。新しい曲調の1本目も、そのまま公開で出す（オーナー指示 2026-11-14。`new_style_privacy: public`。unlisted にすると1本目だけ限定公開になる）。新しい曲調を足すときは `music.py`・`scene.js`・`bgm.py`（THEMES・GENRE など）の3か所。試作：`python auto/bgm.py build --date 2026-11-21 --minutes 8 --keep --theme dance_night`。
-- 公式サイト：公開した回は `renjill-media/bgm.json` と表紙 `bgm_<日付>_thumb.jpg` に書き出す（`media_sync`）。サイト側の表示の変更は `docs/pending/renjill-site-long-videos.patch`（2026-11-14 時点で renjill-site に入れられていない。Claude の GitHub 連携に renjill-site が入っていないため）。
+- 公式サイト：公開した回は `renjill-media/bgm.json` と表紙 `bgm_<日付>_thumb.jpg` に書き出す（`media_sync`）。サイト側は 03 エピソードの下の「作業用BGMも、あります。」の欄に新しい順で4本まで出る（renjill-site PR #6、2026-11-14 反映）。
 - 記録：`auto/bgm_state.json`（出した回・YouTube の ID・曲の指紋。同じ日は二重に出さない）。Hub の id は `renjill-bgm`。
 
