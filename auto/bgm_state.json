@@ -1,0 +1,41 @@
+{
+ "episodes": {
+  "2026-11-13": {
+   "yt": "gb0SAEwlNtw",
+   "privacy": "unlisted",
+   "title": "Rainy Night Overtime – 1 Hour Lofi for Work & Study with Ren & Jill | 作業用BGM 雨の夜の残業",
+   "theme": "rain_night",
+   "seed": 20261113,
+   "look": 0,
+   "minutes": 60,
+   "at": "2026-11-14T00:55+09:00",
+   "track_keys": [
+    "A minor|0m7-5m7-107-3maj7|83.0",
+    "Eb major|2m7-77-0maj7-9m7|74.0",
+    "G major|0maj7-9m7-2m7-77|80.0",
+    "D minor|0m7-107-8maj7-7m7|66.0",
+    "G major|0maj7-4m7-5maj7-5m6|81.0",
+    "A minor|0m7-107-8maj7-7m7|84.0",
+    "C major|0maj7-4m7-5maj7-5m6|80.0",
+    "Eb minor|0m7-5m7-107-3maj7|81.0",
+    "D major|0maj7-4m7-5maj7-5m6|81.0",
+    "C major|2m7-77-0maj7-9m7|79.0",
+    "G minor|0m7-5m7-107-3maj7|83.0",
+    "D major|2m7-77-0maj7-9m7|83.0",
+    "Eb major|0maj7-9m7-2m7-77|73.0",
+    "F minor|5m7-107-3maj7-0m7|71.0",
+    "G major|0maj7-5maj7-2m7-77|81.0",
+    "D major|5maj7-4m7-9m7-0maj7|76.0",
+    "Eb minor|5m7-107-3maj7-0m7|74.0",
+    "A major|2m7-77-0maj7-9m7|82.0",
+    "C major|0maj7-9m7-2m7-77|83.0",
+    "G major|5maj7-4m7-9m7-0maj7|77.0",
+    "D major|5maj7-77-4m7-9m7|79.0",
+    "F major|0maj7-5maj7-2m7-77|86.0"
+   ],
+   "todo": [
+    "再生リスト"
+   ]
+  }
+ }
+}
