@@ -30,22 +30,22 @@ VIDEO_NAME = "bgm.mov"       # H.264 ＋ 圧縮しない音（PCM）。MOV は Y
 
 # テーマ（時間帯×天気）。hours＝4つの章の時刻。ren / jil＝章ごとのようす（rig/bgm/scene.js）
 THEMES = [
-    {"id": "rain_night", "weather": "rain", "hours": [17.5, 19.5, 21.5, 23.5], "en": "Rainy Night Overtime", "ja": "雨の夜の残業",
+    {"id": "rain_night", "weather": "rain", "hours": [17.5, 19.5, 21.5, 23.5], "en": "Rainy Night Overtime", "ja": "雨の夜の残業", "zh": "下雨夜的加班", "ko": "비 오는 밤의 야근",
      "ren": ["type", "hay", "sleepy", "asleep"], "jil": ["type", "glance", "glance", "happy"], "thumb": [2, 13.5],
      "blurb_en": "It's raining outside. Jill keeps working; Ren… tries his best until he doesn't.", "blurb_ja": "外は雨。ジルは黙々と、課長のレンは…がんばって、やがて寝ます。"},
-    {"id": "morning", "weather": "clear", "hours": [8.5, 9.5, 10.5, 11.5], "en": "Morning Focus", "ja": "朝の集中タイム",
+    {"id": "morning", "weather": "clear", "hours": [8.5, 9.5, 10.5, 11.5], "en": "Morning Focus", "ja": "朝の集中タイム", "zh": "早晨的專注時間", "ko": "아침 집중 타임",
      "ren": ["sleepy", "type", "hay", "type"], "jil": ["type", "happy", "glance", "type"], "thumb": [1, 20.0],
      "blurb_en": "A bright morning at the office. Ren wakes up slowly; Jill is already in the zone.", "blurb_ja": "晴れた朝のオフィス。レンはゆっくり目を覚まし、ジルはもう集中しています。"},
-    {"id": "clear_night", "weather": "clear", "hours": [18.0, 20.0, 22.0, 23.75], "en": "Late Night at the Office", "ja": "夜のオフィス",
+    {"id": "clear_night", "weather": "clear", "hours": [18.0, 20.0, 22.0, 23.75], "en": "Late Night at the Office", "ja": "夜のオフィス", "zh": "夜晚的辦公室", "ko": "밤의 사무실",
      "ren": ["type", "type", "hay", "asleep"], "jil": ["happy", "type", "glance", "type"], "thumb": [2, 14.5],
      "blurb_en": "City lights, a warm desk lamp, and two bunnies finishing the day.", "blurb_ja": "街の明かりとデスクランプ。2匹が一日の仕事を終えるまで。"},
-    {"id": "rain_afternoon", "weather": "rain", "hours": [13.0, 14.0, 15.0, 16.0], "en": "Rainy Afternoon", "ja": "雨の午後",
+    {"id": "rain_afternoon", "weather": "rain", "hours": [13.0, 14.0, 15.0, 16.0], "en": "Rainy Afternoon", "ja": "雨の午後", "zh": "下雨的午後", "ko": "비 오는 오후",
      "ren": ["hay", "sleepy", "type", "type"], "jil": ["type", "glance", "type", "happy"], "thumb": [1, 13.5],
      "blurb_en": "A slow, rainy afternoon. After lunch, staying awake is Ren's biggest task.", "blurb_ja": "雨の午後。お昼のあと、眠気とたたかうのが課長のいちばんの仕事。"},
-    {"id": "sunset", "weather": "clear", "hours": [15.5, 16.5, 17.5, 19.0], "en": "Sunset at the Office", "ja": "夕暮れのオフィス",
+    {"id": "sunset", "weather": "clear", "hours": [15.5, 16.5, 17.5, 19.0], "en": "Sunset at the Office", "ja": "夕暮れのオフィス", "zh": "黃昏的辦公室", "ko": "해 질 녘의 사무실",
      "ren": ["type", "hay", "type", "sleepy"], "jil": ["type", "type", "happy", "glance"], "thumb": [2, 20.0],
      "blurb_en": "The sky turns orange, then blue. One more task before going home.", "blurb_ja": "空がオレンジから青へ。帰る前に、もうひと仕事。"},
-    {"id": "rain_morning", "weather": "rain", "hours": [8.0, 9.0, 10.0, 11.0], "en": "Rainy Morning", "ja": "雨の朝",
+    {"id": "rain_morning", "weather": "rain", "hours": [8.0, 9.0, 10.0, 11.0], "en": "Rainy Morning", "ja": "雨の朝", "zh": "下雨的早晨", "ko": "비 오는 아침",
      "ren": ["sleepy", "sleepy", "type", "hay"], "jil": ["type", "glance", "type", "happy"], "thumb": [2, 5.0],
      "blurb_en": "Rain on the window, coffee on the desk. A quiet start to the day.", "blurb_ja": "窓に雨、机にコーヒー。静かな一日のはじまり。"},
 ]
@@ -261,6 +261,7 @@ def upload(date, privacy=None):
         if not _try(fn, name): rec.setdefault("todo", []).append(name)      # 付けられなかったものは記録し、次の実行（todos）でやり直す
     (AUTO / "bgm_state.json").write_text(json.dumps(st, ensure_ascii=False, indent=1))
     log("投稿した", f"https://youtu.be/{vid}", privacy)
+    media_sync()
     return vid
 
 
@@ -314,7 +315,50 @@ def publish():
         if now.get("privacyStatus") == "public": r["privacy"] = "public"; log(d, "を公開にした", f'https://youtu.be/{r["yt"]}', "処理:", now.get("uploadStatus"))
         else: bad += 1; log(d, "を公開にできず", now)
     (AUTO / "bgm_state.json").write_text(json.dumps(st, ensure_ascii=False, indent=1))
+    media_sync()
     return 1 if bad else 0
+
+
+MEDIA_REPO = "ibato-byte/renjill-media"
+
+
+def media_list(st):
+    """公式サイト（renjill.coana.co.jp）の「長い動画」の一覧。公開した回だけ・新しい順。サイトが renjill-media/bgm.json を読む"""
+    th = {t["id"]: t for t in THEMES}; out = []
+    for d, r in st["episodes"].items():
+        if not r.get("yt") or r.get("privacy") != "public": continue
+        t = th.get(r.get("theme")) or {}
+        out.append({"date": (r.get("at") or d)[:10], "youtube_id": r["yt"], "minutes": r.get("minutes"), "thumb": f"bgm_{d}_thumb.jpg",
+                    "title": {"ja": t.get("ja") or r.get("title", ""), "en": t.get("en") or r.get("title", ""), "zh": t.get("zh") or t.get("en", ""), "ko": t.get("ko") or t.get("en", "")}})
+    return sorted(out, key=lambda x: x["date"], reverse=True)
+
+
+def media_sync():
+    """公式サイト用に、表紙（bgm_<日付>_thumb.jpg）と一覧（bgm.json）を公開リポジトリ renjill-media に置く。失敗しても投稿は止めない（次の実行でやり直す）"""
+    tok = os.environ.get("MEDIA_TOKEN")
+    if not tok: log("MEDIA_TOKEN がないので、サイト用の一覧は書かない"); return False
+    import base64, requests
+    H = {"Authorization": f"Bearer {tok}", "Accept": "application/vnd.github+json"}
+    def put(name, data):
+        api = f"https://api.github.com/repos/{MEDIA_REPO}/contents/{name}"
+        cur = requests.get(api, headers=H, timeout=30)
+        if cur.status_code == 200 and base64.b64decode(cur.json().get("content") or "") == data: return        # 同じ中身なら書かない
+        body = {"message": f"bgm: {name}", "content": base64.b64encode(data).decode()}
+        if cur.status_code == 200: body["sha"] = cur.json()["sha"]
+        r = requests.put(api, headers=H, json=body, timeout=60)
+        if r.status_code not in (200, 201): raise RuntimeError(f"{name}: HTTP {r.status_code}")
+        log("サイト用に置いた", name)
+    try:
+        st = state(); items = []
+        for it in media_list(st):
+            d = it["thumb"][4:14]
+            f = next((x for x in (DIST / "bgm" / d / "thumb.jpg", ROOT / "content" / "bgm" / f"{d}_thumb.jpg") if x.exists()), None)
+            if f: put(it["thumb"], f.read_bytes())
+            items.append(it)
+        put("bgm.json", (json.dumps(items, ensure_ascii=False, indent=1) + "\n").encode())
+        return True
+    except Exception as e:
+        log("サイト用の一覧を書けず", type(e).__name__, str(e)[:160]); return False
 
 
 def _send(req):

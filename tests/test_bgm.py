@@ -157,6 +157,23 @@ class UploadTest(unittest.TestCase):
         self.assertIn('"-c:a", "pcm_s16le"', src); self.assertNotIn('"-c:a", "aac"', src)   # ffmpeg の AAC は元の音にない山を作った
 
 
+class SiteListTest(unittest.TestCase):
+    """公式サイトの「長い動画」の一覧（renjill-media/bgm.json）：公開した回だけ・4言語の題・新しい順"""
+    def test_only_public_and_sorted(self):
+        st = {"episodes": {"2026-11-13": {"yt": "aaaaaaaaaaa", "privacy": "public", "theme": "rain_night", "minutes": 60, "at": "2026-11-14T00:55+09:00"},
+                           "2026-11-14": {"yt": "bbbbbbbbbbb", "privacy": "unlisted", "theme": "morning", "minutes": 60, "at": "2026-11-14T20:50+09:00"},
+                           "2026-11-18": {"yt": "ccccccccccc", "privacy": "public", "theme": "clear_night", "minutes": 60, "at": "2026-11-18T20:50+09:00"}}}
+        out = bgm.media_list(st)
+        self.assertEqual([x["youtube_id"] for x in out], ["ccccccccccc", "aaaaaaaaaaa"])
+        self.assertEqual(out[1]["thumb"], "bgm_2026-11-13_thumb.jpg"); self.assertEqual(out[1]["date"], "2026-11-14")
+        for x in out:
+            self.assertEqual(set(x["title"]), {"ja", "en", "zh", "ko"}); self.assertTrue(all(x["title"].values()))
+
+    def test_every_theme_has_four_languages(self):
+        for th in bgm.THEMES:
+            for k in ("ja", "en", "zh", "ko"): self.assertTrue(th.get(k), (th["id"], k))
+
+
 class WorkflowTest(unittest.TestCase):
     def setUp(self): self.y = (ROOT / ".github" / "workflows" / "bgm.yml").read_text(encoding="utf-8")
 

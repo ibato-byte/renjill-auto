@@ -75,6 +75,7 @@ jobs:
           YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
           YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
           YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
+          MEDIA_TOKEN: ${{ secrets.MEDIA_TOKEN }}   # 公式サイト用の一覧（renjill-media/bgm.json）を書く
           IN_PUBLISH: ${{ github.event.inputs.publish }}
         run: |
           pip install -q requests numpy google-api-python-client google-auth google-auth-httplib2   # numpy：bgm.py が読み込む検査（bgm_qa）に必要
@@ -99,6 +100,7 @@ jobs:
           YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
           YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
           YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
+          MEDIA_TOKEN: ${{ secrets.MEDIA_TOKEN }}   # 公式サイト用の一覧（renjill-media/bgm.json）を書く
           DATE: ${{ steps.due.outputs.date }}
           IN_PRIVACY: ${{ github.event.inputs.privacy }}
           IN_MINUTES: ${{ github.event.inputs.minutes }}
