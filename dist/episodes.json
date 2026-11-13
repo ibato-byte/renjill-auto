@@ -1,5 +1,24 @@
 [
  {
+  "ep": "teiji",
+  "date": "2026-11-13",
+  "title": {
+   "ja": "定時1分前",
+   "en": "One minute to six",
+   "zh": "下班前一分鐘",
+   "ko": "퇴근 1분 전"
+  },
+  "caption": {
+   "ja": "金曜17:59、書類の山を抱えた課長が来た。ジルは18:00ちょうどに消えました。",
+   "en": "Friday, 17:59. The boss shows up with a stack of papers. Jill was gone at 18:00 sharp.",
+   "zh": "星期五17:59，課長抱著一疊文件走過來。吉兒在18:00準時消失了。",
+   "ko": "금요일 17:59, 과장님이 서류 더미를 안고 왔어요. 질은 18:00 정각에 사라졌어요."
+  },
+  "cover": "20261113_teiji_cover.jpg",
+  "video": "20261113_teiji.mp4",
+  "youtube_id": "NO7yNGaorco"
+ },
+ {
   "ep": "hanko",
   "date": "2026-11-12",
   "title": {
