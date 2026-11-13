@@ -151,7 +151,8 @@ const STEP = 0.125, W = 1080, H = 1920;
   { const cut = await p.evaluate(() => window.__LIMBCUT || 0); if (cut > 0) issues.push(`腕を長く伸ばす所がある（必要な長さ ${Math.round(cut)}px）：レンとジルには腕がない。持ち物は体のすぐ前に置き、前足だけで持つ`); }
   if (capSet.size > 2) warns.push(`字幕が${capSet.size}種類（決まりは2回まで。オチは絵で見せる）：${[...capSet].map(x => x.split(/\s+/)[0]).join('／')}`);
   for (const id of ['ren', 'jil']) { if ((cutT[id] || 0) >= 1) warns.push(`${id === 'ren' ? 'レン' : 'ジル'}の体が画面から4割以上切れている時間が${cutT[id].toFixed(1)}秒（寄りの演出を除く）`);
-    if (sizeN[id] >= 8 && sizeSum[id] / sizeN[id] < 0.2) warns.push(`${id === 'ren' ? 'レン' : 'ジル'}が小さい（画面の高さの平均${Math.round(100 * sizeSum[id] / sizeN[id])}%。35%以上が目安）`); }
+    // 2026-11-13：在庫76話がすべて20%以上になったので不合格に上げた（wifi・mute を作り直し）
+    if (sizeN[id] >= 8 && sizeSum[id] / sizeN[id] < 0.2) issues.push(`${id === 'ren' ? 'レン' : 'ジル'}が小さい（画面の高さの平均${Math.round(100 * sizeSum[id] / sizeN[id])}%。35%以上が目安・20%未満は不合格）`); }
   await b.close();
   if (errors.length) issues.push(...[...new Set(errors)].slice(0, 5));
   // コンタクトシート（4x3）
