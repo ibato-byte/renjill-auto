@@ -1,8 +1,8 @@
 {
-  "_comment": "作業用BGM（長尺）の設定。days＝出す曜日（0=月 … 6=日。2=水・5=土）。minutes＝長さ（4の倍数）。privacy＝公開範囲（public／unlisted＝限定公開／private）。enabled を false にすると止まる。オーナーが1本目を聞いて OK を出したので public（2026-11-14）。new_style_privacy＝新しい曲調（海・和・あげあげ・バラードなど）の1本目だけの公開範囲。Claude は音を聞けないので、1本目はオーナーが聞いてから公開にする（public にすればこの確認をやめられる）",
+  "_comment": "作業用BGM（長尺）の設定。days＝出す曜日（0=月 … 6=日。2=水・5=土）。minutes＝長さ（4の倍数）。privacy＝公開範囲（public／unlisted＝限定公開／private）。enabled を false にすると止まる。オーナーが1本目を聞いて OK を出したので public（2026-11-14）。new_style_privacy＝新しい曲調（海・和・あげあげ・バラードなど）の1本目だけの公開範囲。オーナーの指示で public（2026-11-14「そのまま公開で」）。unlisted に戻すと、新しい曲調の1本目だけ限定公開になる",
   "days": [2, 5],
   "minutes": 60,
   "privacy": "public",
-  "new_style_privacy": "unlisted",
+  "new_style_privacy": "public",
   "enabled": true
 }
