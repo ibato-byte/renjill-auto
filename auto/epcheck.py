@@ -22,6 +22,8 @@
 - 字幕が画面に出ている時間が 1.2 秒未満なら WARN（読み切れない。画面上の秒＝台本の秒÷速さ。2026-11-12）… 161
 - 「…」を3回以上使う回は WARN（間を文字で埋めない。2026-11-12）… 164
 - 字幕の英語に 11 文字以上の長い単語があれば WARN（海外の人がひと目で読める単語に。2026-11-12）… 166
+- キャラの svg を CSS で 1.2 倍未満に縮めて「画面の中」に置く回は ISSUE（2026-11-13：wifi・mute で画面の中のレンが
+  画面の高さの20%しかなく小さかった → 大きな画面＋pose の scale 1.75 に作り直し。縮めずに pose の x・y・scale で置く）… 112
 """
 import datetime as dt, json, pathlib, re, sys
 
@@ -42,6 +44,14 @@ def uses_limb(src):
 _CHIP = re.compile(r"CHIP\(L,\s*(['\"])(.*?)(?<!\\)\1\s*,\s*(['\"])(.*?)(?<!\\)\3")
 _CHIPWIN = re.compile(r"t\s*>\s*([\d.]+)\s*&&\s*t\s*<\s*([\d.]+)\s*\?\s*CHIP\(")
 _LONGWORD = re.compile(r"[A-Za-z]{11,}")
+
+
+_SHRINK = re.compile(r"style\.transform\s*=\s*`[^`]*scale\(\s*([\d.]+)\s*\)")
+
+
+def shrinks(src):
+    """キャラの svg を CSS の transform で 1.2 倍未満に縮めているか（コメントを除く）"""
+    return any(float(v) < 1.2 for line in src.splitlines() for v in _SHRINK.findall(line.split("//", 1)[0]))
 
 
 def chip_windows(src):
@@ -75,6 +85,7 @@ def info(ep, pc):
         "ellipsis": sum(line.split("//", 1)[0].count("…") for line in src.splitlines()),
         "speed": p["speed"],
         "limb": uses_limb(src),
+        "shrink": shrinks(src),
         "out": (dur - p["start"]) / p["speed"] if dur else None,
         "hook": p["hook"],
         "loud": frozenset(re.findall(r"type:\s*'([a-z]+)'", src)) & LOUD,
@@ -104,6 +115,8 @@ def check(posts, today, days=14, pc=None, lk=None):
         if cur:
             if i["limb"]:
                 issues.append(f"{tag}: 腕（limb()）を描いている。レンとジルには腕がない：口でくわえる・頭や体で押す形に作り直す")
+            if i.get("shrink"):
+                issues.append(f"{tag}: キャラを CSS で縮めて置いている（画面の中のキャラが小さくなる）：pose の x・y・scale で大きく置く（画面の高さの35%以上）")
             if len(i["caps"]) > 1:
                 warns.append(f"{tag}: 途中の字幕が{len(i['caps'])}回（1回まで。言葉を入れすぎると世界観が崩れる・オチは絵で見せる。2026-11-10 オーナー）")
             for en, ja in i["caps"]:
