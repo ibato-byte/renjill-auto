@@ -279,7 +279,7 @@ def _try(fn, name, tries=3, wait=8):
 def todos():
     """前の回でやり残したこと（表紙・再生リスト）を片付ける。表紙は content/bgm/<日付>_thumb.jpg を使う"""
     st = state(); left = [(d, r) for d, r in st["episodes"].items() if r.get("yt") and r.get("todo")]
-    if not left: log("やり残しなし"); return 0
+    if not left: log("やり残しなし"); media_sync(); return 0
     from googleapiclient.http import MediaFileUpload
     import comments, stories
     yt = comments.yt_client()
@@ -295,13 +295,14 @@ def todos():
         if keep: r["todo"] = keep
         else: r.pop("todo", None)
     (AUTO / "bgm_state.json").write_text(json.dumps(st, ensure_ascii=False, indent=1))
+    media_sync()
     return 0
 
 
 def publish():
     """限定公開・非公開で出した回を「公開」に切り替える（オーナーが聞いて OK を出したあとに使う）。YouTube で切り替わったことを読み直して確かめる"""
     st = state(); todo = [(d, r) for d, r in st["episodes"].items() if r.get("yt") and r.get("privacy") != "public"]
-    if not todo: log("公開に切り替える回なし"); return 0
+    if not todo: log("公開に切り替える回なし"); media_sync(); return 0
     import comments
     yt = comments.yt_client(); bad = 0
     for d, r in todo:
