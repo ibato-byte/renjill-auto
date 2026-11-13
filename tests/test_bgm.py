@@ -129,16 +129,23 @@ class MusicTest(unittest.TestCase):
 class UploadTest(unittest.TestCase):
     """YouTube が題名・説明の一部を断っても、形を変えて出す。断られたものを何度もやり直さない（2026-11-13 の1本目）"""
     def test_client_error_is_not_retried(self):
-        from googleapiclient.errors import HttpError
         calls = []
 
-        class Resp: status = 400; reason = "bad"
+        class Rejected(Exception):
+            class resp: status = 400
 
         class Req:
             def next_chunk(self, num_retries=0):
-                calls.append(1); raise HttpError(Resp(), b'{"error": {"message": "INVALID_REQUEST_METADATA"}}')
-        with self.assertRaises(HttpError): bgm._send(Req())
+                calls.append(1); raise Rejected("INVALID_REQUEST_METADATA")
+        with self.assertRaises(Rejected): bgm._send(Req())
         self.assertEqual(len(calls), 1)
+
+    def test_upload_finishes_in_chunks(self):
+        class Req:
+            n = 0
+            def next_chunk(self, num_retries=0):
+                Req.n += 1; return (None, None) if Req.n < 3 else (None, {"id": "abc"})
+        self.assertEqual(bgm._send(Req()), {"id": "abc"})
 
     def test_no_audio_language_code_that_youtube_rejects(self):
         src = (ROOT / "auto" / "bgm.py").read_text(encoding="utf-8")

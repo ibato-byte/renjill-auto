@@ -266,18 +266,14 @@ def upload(date, privacy=None):
 def _send(req):
     """動画を送る。通信が切れたら続きから送り直す（最初からやり直さない）。YouTube が内容を断った（400 番台）ときは、やり直さずにすぐ返す"""
     import time
-    from googleapiclient.errors import HttpError
     resp, tries = None, 0
     while resp is None:
         try:
             status, resp = req.next_chunk(num_retries=5)
             if status: log(f"送信 {int(status.progress() * 100)}%")
-        except HttpError as e:
-            if 400 <= int(getattr(e.resp, "status", 500)) < 500: raise
-            tries += 1
-            if tries > 8: raise
-            log("送信をやり直す", type(e).__name__); time.sleep(10 * tries)
         except Exception as e:
+            code = int(getattr(getattr(e, "resp", None), "status", 0) or 0)
+            if 400 <= code < 500: raise                      # 内容を断られた。同じものを送り直しても通らない
             tries += 1
             if tries > 8: raise
             log("送信をやり直す", type(e).__name__); time.sleep(10 * tries)
