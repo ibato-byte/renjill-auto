@@ -12,6 +12,7 @@
   python auto/bgm.py upload [--date …]                  検査に通ったものだけ出す（auto/bgm_state.json に記録。同じ日は二重に出さない）
   python auto/bgm.py run   [--date …] [--force]         予定の曜日なら build → upload（GitHub Actions の bgm.yml から）
   python auto/bgm.py todos                              前の回でやり残したこと（表紙・再生リスト）を片付ける
+  python auto/bgm.py publish                            限定公開で出した回を公開に切り替える（オーナーの OK のあと）
 設定は auto/bgm_config.json（曜日・長さ・公開範囲）。
 """
 import argparse, datetime as dt, json, os, pathlib, shutil, subprocess, sys
@@ -296,6 +297,21 @@ def todos():
     return 0
 
 
+def publish():
+    """限定公開・非公開で出した回を「公開」に切り替える（オーナーが聞いて OK を出したあとに使う）。YouTube で切り替わったことを読み直して確かめる"""
+    st = state(); todo = [(d, r) for d, r in st["episodes"].items() if r.get("yt") and r.get("privacy") != "public"]
+    if not todo: log("公開に切り替える回なし"); return 0
+    import comments
+    yt = comments.yt_client(); bad = 0
+    for d, r in todo:
+        yt.videos().update(part="status", body={"id": r["yt"], "status": {"privacyStatus": "public", "selfDeclaredMadeForKids": False, "embeddable": True}}).execute()
+        now = (yt.videos().list(part="status", id=r["yt"]).execute().get("items") or [{}])[0].get("status", {})
+        if now.get("privacyStatus") == "public": r["privacy"] = "public"; log(d, "を公開にした", f'https://youtu.be/{r["yt"]}', "処理:", now.get("uploadStatus"))
+        else: bad += 1; log(d, "を公開にできず", now)
+    (AUTO / "bgm_state.json").write_text(json.dumps(st, ensure_ascii=False, indent=1))
+    return 1 if bad else 0
+
+
 def _send(req):
     """動画を送る。通信が切れたら続きから送り直す（最初からやり直さない）。YouTube が内容を断った（400 番台）ときは、やり直さずにすぐ返す"""
     import time
@@ -320,7 +336,7 @@ def due(date, cfg, st):
 
 def main(argv=None):
     ap = argparse.ArgumentParser()
-    ap.add_argument("cmd", choices=["plan", "build", "upload", "run", "todos"])
+    ap.add_argument("cmd", choices=["plan", "build", "upload", "run", "todos", "publish"])
     ap.add_argument("--date"); ap.add_argument("--minutes", type=int); ap.add_argument("--privacy"); ap.add_argument("--force", action="store_true"); ap.add_argument("--keep", action="store_true"); ap.add_argument("--par", type=int, default=3)
     a = ap.parse_args(argv)
     date = a.date or dt.datetime.now(JST).date().isoformat()
@@ -330,6 +346,7 @@ def main(argv=None):
     if a.cmd == "build": return 0 if build(date, a.minutes, a.keep, a.par)[0] else 3
     if a.cmd == "upload": upload(date, a.privacy); return 0
     if a.cmd == "todos": return todos()
+    if a.cmd == "publish": return publish()
     cfg, st = config(), state()
     if not a.force and not due(date, cfg, st):
         log(date, "は予定の日ではない／投稿済み"); summary.write_text(f"{date}：出す回なし"); return 0

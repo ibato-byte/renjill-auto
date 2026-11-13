@@ -102,7 +102,7 @@
   - 絵＝`rig/bgm/scene.js`（キャラは本番の `rig.js`）。テーマ6種（時間帯×天気）を順番に、部屋の色も毎回変える。1時間を4章に分け、15分ごとに時計が進んで2匹のようすが変わる。章の切り替えは4秒かけて溶かす（瞬間カット禁止）。画面に文字は入れない。
   - 題名・説明・曲名の一覧（YouTube のチャプター）もその回のもの。
 - **検査**（`auto/bgm_qa.py`。1つでも NG なら出さない）：音（長さ・音量 -15 LUFS・ピーク・無音・こもり／きんきん・左右）／曲のかぶり（回の中・前の回）／絵（大きさ・ループのつなぎ目・ちらつき・止まっていないか・明るさ・章ごとの違い）／表紙／題名・説明・チャプター／前の回と同じテーマでないか。結果は `content/bgm/<日付>_qa.json`、一覧の絵は `content/bgm/<日付>_sheet.jpg`。
-- **機械で測れないこと**：「曲として心地よいか」は耳でしか分からない。1本目はオーナーが聞いて OK を出すまで限定公開（`privacy: unlisted`）。OK が出たら `public` にする。週次PDCAは `content/bgm/` の一覧の絵と YouTube の数字（視聴維持・平均再生時間）を見て、`music.py`・`scene.js`・テーマを直す。
+- **機械で測れないこと**：「曲として心地よいか」は耳でしか分からない。1本目はオーナーが聞いて OK を出した（2026-11-14）ので、`privacy: public`（公開）で出す。限定公開で出した回を公開にするのは Actions → bgm → Run workflow の `publish=true`。週次PDCAは `content/bgm/` の一覧の絵と YouTube の数字（視聴維持・平均再生時間）を見て、`music.py`・`scene.js`・テーマを直す。
 - **手で動かす**：Actions → bgm → Run workflow（`date`・`force=true`・`privacy`・`minutes`）。手元で試す：`python auto/bgm.py build --date 2026-11-14 --minutes 8 --keep`。
 - 記録：`auto/bgm_state.json`（出した回・YouTube の ID・曲の指紋。同じ日は二重に出さない）。Hub の id は `renjill-bgm`。
 

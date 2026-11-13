@@ -1,7 +1,7 @@
 {
-  "_comment": "作業用BGM（長尺）の設定。days＝出す曜日（0=月 … 6=日。2=水・5=土）。minutes＝長さ（4の倍数）。privacy＝公開範囲（public／unlisted＝限定公開／private）。enabled を false にすると止まる。オーナーが1本目を聞いて OK を出すまでは unlisted（2026-11-13）",
+  "_comment": "作業用BGM（長尺）の設定。days＝出す曜日（0=月 … 6=日。2=水・5=土）。minutes＝長さ（4の倍数）。privacy＝公開範囲（public／unlisted＝限定公開／private）。enabled を false にすると止まる。オーナーが1本目を聞いて OK を出したので public（2026-11-14）",
   "days": [2, 5],
   "minutes": 60,
-  "privacy": "unlisted",
+  "privacy": "public",
   "enabled": true
 }
