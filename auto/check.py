@@ -53,8 +53,6 @@ try:
         f"HTTP {r.status_code} push={(j.get('permissions') or {}).get('push')} public={not j.get('private', True)}")
 except Exception as e: res("renjill-media", False, type(e).__name__)
 
-print("ALL OK" if ok else "SOME NG"); sys.exit(0 if ok else 1)
-
 # 診断（Hub 依頼 #110。main には入れない）：Facebook リールの数字を、記録せずに表示する
 try:
     import json, datetime as _dt, insights as _ins
@@ -63,3 +61,6 @@ try:
     _rows = _ins.fb_rows(_dt.datetime.now().strftime("%Y-%m-%d"), _posted, _m["token"], requests)
     for _r in _rows: print("   FB", _r[2], _r[3], _r[4], (_r[5] or "")[:120], flush=True)
 except Exception as e: print("   FB 診断で失敗", type(e).__name__, flush=True)
+
+print("ALL OK" if ok else "SOME NG"); sys.exit(0 if ok else 1)
+
