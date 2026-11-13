@@ -13,8 +13,10 @@ try:
     from googleapiclient.discovery import build
     creds = Credentials(None, refresh_token=os.environ["YT_REFRESH_TOKEN"], token_uri="https://oauth2.googleapis.com/token",
                         client_id=os.environ["YT_CLIENT_ID"], client_secret=os.environ["YT_CLIENT_SECRET"])
-    r = build("youtube", "v3", credentials=creds).channels().list(part="snippet,statistics", mine=True).execute()
+    r = build("youtube", "v3", credentials=creds).channels().list(part="snippet,statistics,status", mine=True).execute()
     it = r["items"][0]; res("YouTube", True, f'channel={it["snippet"]["title"]} subs={it["statistics"].get("subscriberCount")}')
+    # 15分を超える動画を出せるか（作業用BGMの長尺に必要。allowed 以外なら、オーナーが https://www.youtube.com/verify で電話番号の確認をする）
+    print("   YouTube 15分超の動画:", (it.get("status") or {}).get("longUploadsStatus"), flush=True)
 except Exception as e: res("YouTube", False, repr(e)[:200])
 
 # Meta（システムユーザーのトークン：期限・権限・ページ・Instagram の ID）
