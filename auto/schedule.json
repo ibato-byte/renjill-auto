@@ -644,13 +644,19 @@
           "ko": "과장님과 단둘이 엘리베이터. 12층에 도착한 순간, 질은 0.1초 만에 퇴장."
         }
       },
-      "cta": "Send this to someone who takes the stairs to avoid this/これを避けて階段を使う人に送ろう",
+      "cta": "Save this for your next Monday./月曜の朝のために保存して",
       "title_i18n": {
         "ja": "エレベーターで上司と2人きり | レンとジル「エレベーターで上司と2人」",
         "ko": "엘리베이터에 과장님과 단둘이 | 렌과 질 Ren & Jill",
         "zh-Hant": "和課長單獨搭電梯 | 蓮與吉兒 Ren & Jill",
         "es": "Solos en el ascensor con el jefe | Ren & Jill",
         "pt": "Sozinhos no elevador com o chefe | Ren & Jill"
+      },
+      "experiment": {
+        "var": "cta",
+        "std": "Send this to the coworker who needs it./あの同僚に送ってあげて",
+        "value": "Save this for your next Monday./月曜の朝のために保存して",
+        "why": "最後の一言を足して、送る・保存する人が増えるか比べる"
       }
     },
     {
