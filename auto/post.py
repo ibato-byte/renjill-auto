@@ -144,12 +144,18 @@ def ep_dur(ep):
         return None
 
 def thumb_times(t0, dur=None):
-    """表紙のコマの候補：指定のコマ → 前後 0.4・0.8・1.2 秒。
+    """表紙のコマの候補：指定のコマ → 前後 0.4・0.8・1.2 秒 → （尺が分かるとき）その回のほかのコマを近い順に。
     エンドカードにかかるコマ（dur - END_CARD_SEC より後）は外す（2026-11-12：10分の会議で 7.6 が NG → 8.8 のエンドカードの薄い表紙になった）"""
     out = [t0]
     for d in (0.4, 0.8, 1.2):
         out += [round(t0 - d, 2), round(t0 + d, 2)]
     last = (dur - END_CARD_SEC) if dur else None
+    # 近くのコマが全部 NG のときは、その回のほかのコマ（0.4秒おき・近い順）も試す。
+    # 2026-11-14「エレベーター」：ふきだし「・・・」が 2.0〜6.6 秒ずっと文字の位置にあり、4.0±1.2 秒が全部 NG で、投稿前の動画づくりが止まった。
+    # どのコマも thumb.js の検査（文字に記号がかからない・顔がある・背景がごちゃつかない など）に通ったものしか使わない
+    if dur:
+        far = [round(0.4 + 0.4 * i, 2) for i in range(int((last - 0.4) / 0.4) + 1)]
+        out += sorted((t for t in far if t not in out), key=lambda t: abs(t - t0))
     return [t for t in out if t >= 0.3 and (last is None or t <= last)]
 
 # ---------- YouTube ----------

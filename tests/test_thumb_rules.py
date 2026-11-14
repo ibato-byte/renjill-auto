@@ -25,6 +25,21 @@ class Thumb(unittest.TestCase):
         self.assertIn(7.6, ts)
         self.assertIsNone(post.ep_dur("__no_such_ep__"))
 
+    def test_far_frames_when_nearby_all_ng(self):
+        # 2026-11-14「エレベーター」：ふきだしが 2.0〜6.6 秒ずっと出ていて、4.0±1.2 秒の候補が全部 NG → 投稿前の動画づくりが失敗した。
+        # 近くがだめなら、ふきだしの出ていないコマ（2.0 秒より前・6.6 秒より後）まで候補にする。近いコマが先・エンドカードは外す
+        import post
+        ts = post.thumb_times(4.0, 9.5)
+        self.assertEqual(ts[:7], [4.0, 3.6, 4.4, 3.2, 4.8, 2.8, 5.2])
+        self.assertTrue(any(t < 2.0 for t in ts) and any(6.6 < t for t in ts), ts)
+        self.assertTrue(all(0.3 <= t <= 9.5 - post.END_CARD_SEC for t in ts), ts)
+        self.assertEqual(len(ts), len(set(ts)))
+        # 台本の表紙の指定そのものも、ふきだしの出ていないコマにしてある
+        import json
+        sch = json.loads((ROOT / "auto/schedule.json").read_text(encoding="utf-8"))
+        el = [p for p in sch["posts"] if p["ep"] == "elevator"][0]
+        self.assertFalse(2.0 < el["thumb"]["t"] < 6.6, el["thumb"])
+
     def test_first_frame_hook_full_opacity(self):
         # 表紙＝最初のコマ（TikTok など）。冒頭の一言は最初のコマから濃さ100%（qa.js が見張る）
         self.assertIn("最初のコマで冒頭の一言が薄い", (ROOT / "rig/qa.js").read_text())
