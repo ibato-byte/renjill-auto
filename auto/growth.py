@@ -126,6 +126,8 @@ def add_follow_line(loop_path, out_path):
         cmd += ["-af", f"apad=pad_dur={L['extend']}", "-t", str(L["total"]), "-c:a", "aac", "-b:a", "160k"]
     else:
         cmd += ["-c:a", "copy"]
-    cmd += ["-c:v", "libx264", "-preset", "veryfast", "-crf", "18", "-pix_fmt", "yuv420p", "-movflags", "+faststart", str(out_path)]
+    # 2026-11-15：作り直しで画質を落とさない（veryfast・crf18 → slow・crf16・アニメ向け）。色の印も付け直す
+    cmd += ["-c:v", "libx264", "-preset", "slow", "-crf", "16", "-tune", "animation", "-refs", "4", "-level:v", "4.1", "-flags", "+cgop", "-pix_fmt", "yuv420p",
+            "-colorspace", "bt709", "-color_primaries", "bt709", "-color_trc", "bt709", "-color_range", "tv", "-movflags", "+faststart", str(out_path)]
     r = subprocess.run(cmd, capture_output=True, text=True)
     return pathlib.Path(out_path) if r.returncode == 0 and pathlib.Path(out_path).exists() else None

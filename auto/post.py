@@ -80,7 +80,7 @@ def render(ep):
     mark = DIST / f"{ep}_yt.nohook"  # この印がない yt は一言入りの古い版なので作り直す
     if yt.exists() and loop.exists() and mark.exists(): return yt, loop
     log("render", ep)
-    env = dict(os.environ, NODE_PATH=subprocess.check_output(["npm", "root", "-g"]).decode().strip())
+    env = dict(os.environ, NODE_PATH=os.environ.get("NODE_PATH") or subprocess.check_output(["npm", "root", "-g"]).decode().strip())
     full = DIST / f"{ep}_full.mp4"  # 一言ありの全編（ループ版の元）
     subprocess.run(["node", str(RIG / "render-ep.js"), ep], check=True, env=env)
     subprocess.run(["bash", str(RIG / "build.sh"), ep, str(full)], check=True)
@@ -120,7 +120,7 @@ def thumbnail(p):
     out = DIST / f'{p["ep"]}_thumb.jpg'
     # 毎回作り直す（古いサムネを使い回して見切れ版が出る事故を防ぐ）。はみ出しがあれば thumb.js が終了コード3で止まり、投稿もしない
     th = p.get("thumb") or {"t": 1.0, "cam": "1.6,560,1050", "hook": p["title"]}
-    env = dict(os.environ, NODE_PATH=subprocess.check_output(["npm", "root", "-g"]).decode().strip())
+    env = dict(os.environ, NODE_PATH=os.environ.get("NODE_PATH") or subprocess.check_output(["npm", "root", "-g"]).decode().strip())
     def gen(v, t): return subprocess.run(["node", str(RIG / "thumb.js"), p["ep"], str(t), th["cam"], th["hook"], f'EP.{p["no"]}', str(out), v], env=env).returncode
     v = th.get("variant", "A")
     # 検査に通らないとき（記号が文字にかかる・背景がごちゃつく など）は、少し前後のコマで作り直す（2026-11-10：おかしな表紙は出さない・でも投稿は止めない）

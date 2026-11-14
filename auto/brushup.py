@@ -33,7 +33,7 @@ REVIEW_CHECKLIST = [
 
 def review_sheet(ep):
     """2秒ごと＋終盤を細かく、24コマのシートを書き出す"""
-    env = dict(os.environ, NODE_PATH=subprocess.check_output(["npm", "root", "-g"]).decode().strip())
+    env = dict(os.environ, NODE_PATH=os.environ.get("NODE_PATH") or subprocess.check_output(["npm", "root", "-g"]).decode().strip())
     js = r"""
 const { chromium } = require('playwright'); const fs = require('fs'); const os = require('os'); const path = require('path');
 const [ep, out, rig] = process.argv.slice(1);

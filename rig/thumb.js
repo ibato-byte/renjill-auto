@@ -6,7 +6,7 @@
 const { chromium } = require('playwright');
 const [ep, t, cam, hook, no, out, variant = 'A'] = process.argv.slice(2);
 (async () => {
-  const b = await chromium.launch();
+  const b = await chromium.launch(process.env.PW_EXEC ? { executablePath: process.env.PW_EXEC } : {});
   const p = await b.newPage({ viewport: { width: 1080, height: 1920 } });
   await p.goto(`file://${__dirname}/ep.html?ep=${ep}&cam=${cam}`); await p.waitForTimeout(600);
   await p.evaluate(t => window.setFrame(t), parseFloat(t));

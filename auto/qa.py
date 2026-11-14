@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 """動画QA（投稿前の関門）。すべて通らなければ投稿しない。
   1. 描画QA（rig/qa.js）: JSエラー・見切れ・止まり・残骸・エンドカード・コンタクトシート
-  2. ファイルQA: 1080x1920 / 24fps / 音声あり / 尺 / ピーク（クリップなし）/ 無音でない / 音の途切れ
+  2. ファイルQA: 1080x1920 / コマ数（rig/video.json）/ 色の印 / 音声あり / 尺 / ピーク（クリップなし）/ 無音でない / 音の途切れ
 使い方: python auto/qa.py <ep> <yt.mp4> <loop.mp4>  → dist/<ep>_qa.json, dist/<ep>_sheet.jpg
 """
 import json, os, pathlib, subprocess, sys
 import numpy as np
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 RIG, DIST = ROOT / "rig", ROOT / "dist"
+FPS = json.loads((RIG / "video.json").read_text())["fps"]  # 1秒のコマ数（書き出しと同じ設定を読む。別々に書くと、片方だけ変えて全話が QA 不合格になる）
 
 def ffprobe(path):
     j = json.loads(subprocess.check_output(["ffprobe", "-v", "error", "-print_format", "json", "-show_streams", "-show_format", str(path)]))
@@ -31,7 +32,7 @@ def audio_stats(path):
 def main(ep, yt, loop):
     issues, warns = [], []
     rep, sheet = DIST / f"{ep}_qa.json", DIST / f"{ep}_sheet.jpg"
-    env = dict(os.environ, NODE_PATH=subprocess.check_output(["npm", "root", "-g"]).decode().strip())
+    env = dict(os.environ, NODE_PATH=os.environ.get("NODE_PATH") or subprocess.check_output(["npm", "root", "-g"]).decode().strip())
     r = subprocess.run(["node", str(RIG / "qa.js"), ep, str(rep), str(sheet)], env=env, capture_output=True, text=True)
     try: rj = json.loads(rep.read_text())
     except Exception: rj = {"pass": False, "issues": [f"qa.js が失敗: {r.stderr[-300:]}"], "warns": []}
@@ -41,7 +42,10 @@ def main(ep, yt, loop):
         if not path.exists() or path.stat().st_size < 500_000: issues.append(f"{name}: ファイルがない/小さすぎる"); continue
         v, a, d = ffprobe(path)
         if (v["width"], v["height"]) != (1080, 1920): issues.append(f"{name}: 解像度 {v['width']}x{v['height']}")
-        if abs(eval(v["r_frame_rate"]) - 24) > 0.1: issues.append(f"{name}: fps {v['r_frame_rate']}")
+        if abs(eval(v["r_frame_rate"]) - FPS) > 0.1: issues.append(f"{name}: fps {v['r_frame_rate']}（rig/video.json は {FPS}）")
+        # 色の印（BT.709）と形式（yuv420p）：印がないと、SNS やスマホによって色がずれて見えることがある（2026-11-15）
+        if v.get("pix_fmt") != "yuv420p": issues.append(f"{name}: 画素の形式 {v.get('pix_fmt')}")
+        if v.get("color_space") not in ("bt709",): warns.append(f"{name}: 色の印がない（{v.get('color_space')}）")
         if not a: issues.append(f"{name}: 音声トラックなし"); continue
         if not (8 <= d <= 20): issues.append(f"{name}: 尺 {d:.1f}s")
         peak, rms, longest = audio_stats(path)
