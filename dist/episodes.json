@@ -1,5 +1,24 @@
 [
  {
+  "ep": "watercooler",
+  "date": "2026-11-14",
+  "title": {
+   "ja": "ウォーターサーバー",
+   "en": "Water cooler",
+   "zh": "飲水機",
+   "ko": "정수기"
+  },
+  "caption": {
+   "ja": "紙コップ、マグ、バケツ。課長の「ちょっとだけ」で床が水びたしです。",
+   "en": "A cup, a mug, a bucket. The boss's \"just a little water\" has flooded the floor.",
+   "zh": "紙杯、馬克杯、水桶。課長的「只要一點點」，讓地板變成了水池。",
+   "ko": "종이컵, 머그, 양동이. 과장의 \"조금만\"에 바닥이 물바다가 됐어요."
+  },
+  "cover": "20261114_watercooler_cover.jpg",
+  "video": "20261114_watercooler.mp4",
+  "youtube_id": "tU3WksIcWFQ"
+ },
+ {
   "ep": "teiji",
   "date": "2026-11-13",
   "title": {
