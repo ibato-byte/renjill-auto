@@ -3,7 +3,7 @@ import json, os, pathlib, re, sys, unittest
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "auto")); sys.path.insert(0, str(ROOT / "rig" / "bgm"))
-import bgm, bgm_qa, bgm_names  # noqa: E402
+import bgm, bgm_qa, bgm_names, bgm_themes  # noqa: E402
 
 CFG = {"days": [2, 5], "minutes": 60, "privacy": "unlisted", "enabled": True}
 
@@ -48,7 +48,7 @@ class PlanTest(unittest.TestCase):
             self.assertIn(th.get("style", "lofi"), bgm.GENRE)
             pairs = list(zip(th["ren"], th["jil"]))
             for a, b in zip(pairs, pairs[1:]): self.assertNotEqual(a, b)             # となりの章は2匹のようすが変わる
-            self.assertIn(th["id"], bgm_names.THEME_NAMES)                           # テーマごとに、その回に合った曲名がある
+            self.assertIn(th["id"], bgm_themes.HAND); self.assertGreaterEqual(len(bgm_names.pool(th["id"])), 150)   # テーマごとに、その回に合った曲名がある
 
     def test_due_only_on_configured_days_and_once(self):
         self.assertTrue(bgm.due("2026-11-14", CFG, {"episodes": {}}))    # 土
@@ -364,6 +364,17 @@ class NoRepeatTest(unittest.TestCase):
             for a, b in zip(heads, heads[1:]): self.assertNotEqual(a["key"], b["key"])
             seen_k |= ks; seen_n |= set(names)
 
+    def test_stock_build_compares_with_the_episode_right_before_it(self):
+        # 2026-11-14：12/23（和の夕べ・2回目）を並べて作ったとき、すぐ前の 12/19 がまだ無く、11/18（和の夕べ）を「前の回」と見て不合格にした
+        st = json.loads(json.dumps(self.ST)); st["stock"] = {"2026-11-18": {"code": bgm.code_hash(), "theme": "wa_evening", "title": bgm.plan("2026-11-18", self.ST, CFG, n=2)["title"], "track_keys": [], "track_names": []}}
+        _, _, sims = bgm.history("2026-12-23", st, CFG, today="2026-11-14", with_sims=True)
+        self.assertEqual(sorted(sims)[-1], "2026-12-19"); self.assertNotIn("2026-11-18", sims)
+        pl = bgm.plan("2026-12-23", st, CFG, n=12)
+        self.assertEqual(sims["2026-12-19"]["theme"], bgm.plan("2026-12-19", st, CFG, n=11)["theme"])   # これから作る回も、その回の計画どおりに数える
+        self.assertNotEqual(sims["2026-12-19"]["theme"], pl["theme"]); self.assertNotEqual(sims["2026-12-19"]["title"], pl["title"])
+        src = (ROOT / "auto" / "bgm.py").read_text(encoding="utf-8")
+        self.assertIn("known.update(sims)", src)                                       # 検査の「前の回」に、これから作る回も入れる
+
     def test_day_build_avoids_later_stock_too(self):
         st = json.loads(json.dumps(self.ST)); st["stock"] = {"2026-11-21": {"code": bgm.code_hash(), "track_keys": ["K1"], "track_names": ["N1"]}, "2026-11-25": {"code": "old", "track_keys": ["K2"], "track_names": ["N2"]}}
         keys, names = bgm.history("2026-11-18", st, CFG, today="2026-11-18")
@@ -392,7 +403,7 @@ class NoRepeatTest(unittest.TestCase):
 
     def test_names_never_repeat_even_when_a_theme_runs_out(self):
         used = set()
-        for k in range(12):                                                            # 同じテーマを12回（1テーマ 約100個を使い切る）
+        for k in range(16):                                                            # 同じ言葉の回を16回（約270個を使い切る）
             nm = bgm.pick_names(20270101 + k, 22, used, "seaside")
             self.assertEqual(len(nm), 22); self.assertEqual(len(set(nm)), 22); self.assertFalse(set(nm) & used); used |= set(nm)
         self.assertTrue(any(" II" in x for x in used))                                # 使い切ったら II を付ける（同じ名前にはしない）
@@ -418,22 +429,25 @@ class NoRepeatTest(unittest.TestCase):
 class TracklistTest(unittest.TestCase):
     """説明欄の Tracklist（2026-11-14 オーナーの指摘「Tracklist が意味不明」の再発防止）：その回のテーマに合った名前・日本語つき"""
     def test_every_name_has_english_and_japanese(self):
-        import re
-        for theme, (A, B) in bgm_names.THEME_NAMES.items():
-            self.assertGreaterEqual(len(A) * len(B) + len(B), 80, theme); self.assertEqual(len(set(A)), len(A)); self.assertEqual(len(set(B)), len(B))
-            for en, ja in A:
-                self.assertRegex(en, r"^[A-Za-z][A-Za-z\-' ]*$"); self.assertRegex(ja, "[のな]$", (theme, ja))   # 時間・場面の言葉だけ（「〜の」「〜な」）
-                self.assertNotRegex(ja, "あたたか|ゆっくり|ゆったり|やわらか|音のない|青い|白い|小さな", (theme, ja))   # 色・温度・速さ・大きさの形容は、意味の通らない曲名になる
-            for en, ja in B:
-                self.assertRegex(en, r"^[A-Za-z][A-Za-z\- ]*$"); self.assertRegex(ja, r"^[぀-ヿ一-鿿ー]+$", (theme, ja))
-            names = bgm_names.pool(theme); self.assertEqual(len(set(names)), len(names))
-            for x in names: self.assertEqual(x.count(bgm_names.SEP), 1); self.assertLessEqual(len(x), 60)
+        N, A = bgm_names, []
+        for d in (N.A_ARC, N.A_WEATHER, N.A_STYLE): A += [x for v in d.values() for x in v]
+        B = [x for d in (N.N_VIEW, N.N_STYLE, N.N_ARC, N.N_CLEAR, N.N_WEATHER) for v in d.values() for x in v]
+        for en, ja in A + N.A_COMMON:
+            self.assertRegex(en, r"^[A-Za-z][A-Za-z\-' ]*$"); self.assertRegex(ja, "[のな]$", ja)   # 時間・場面の言葉だけ（「〜の」「〜な」）
+            self.assertNotRegex(ja, "あたたか|ゆっくり|ゆったり|やわらか|音のない|青い|白い|小さな|いつかの", ja)   # 色・温度・速さ・大きさの形容は、意味の通らない曲名になる
+        for en, ja in B:
+            self.assertRegex(en, r"^[A-Za-z][A-Za-z\- ]*$"); self.assertRegex(ja, r"^[぀-ヿ一-鿿ー]+$", ja)
+        for month in (1, 7):
+            for c in bgm_themes.all_combos(month):
+                names = N.pool(bgm_themes.gen_id(*c)); self.assertEqual(len(set(names)), len(names)); self.assertGreaterEqual(len(names), 150, c)
+                for x in names: self.assertEqual(x.count(N.SEP), 1); self.assertLessEqual(len(x), 60)
 
     def test_names_belong_to_the_theme(self):
         # 海の回に雨・残業の曲名、雨の回に海の曲名が出ない
-        sea = " ".join(bgm_names.pick(1, 24, (), "seaside")); self.assertNotRegex(sea, "Rain|Overtime|雨|残業")
-        rain = " ".join(bgm_names.pick(1, 24, (), "rain_night")); self.assertNotRegex(rain, "Tide|Harbor|潮|港")
-        self.assertFalse(set(bgm_names.pool("seaside")) & set(bgm_names.pool("wa_evening")))
+        sea = " ".join(bgm_names.pool("seaside")); self.assertNotRegex(sea, "Rain|Overtime|雨|残業|Snow|雪")
+        rain = " ".join(bgm_names.pool("rain_night")); self.assertNotRegex(rain, "Waves|Harbor|波|港|Blue Sky|青空|Moon｜|Snow|雪")   # 雨の夜に、海・青空・月・雪の曲名は出ない
+        self.assertNotRegex(" ".join(bgm_names.pool("g-wa-mountain-sunset-snow")), "Orange Sky|Raindrops|夕焼け|雨つぶ")
+        self.assertIn("Lake｜湖", bgm_names.pool("g-wa-mountain-sunset-snow")); self.assertIn("Snowy Lake｜雪の日の湖", bgm_names.pool("g-wa-mountain-sunset-snow"))
 
     def test_description_lists_bilingual_names_under_a_bilingual_heading(self):
         import re
@@ -467,6 +481,78 @@ class TracklistTest(unittest.TestCase):
         self.assertIn("IN_RELABEL", y); self.assertIn("bgm.py relabel", y)
 
 
+class NeverTwiceTest(unittest.TestCase):
+    """同じものは二度と出さない（オーナー指示 2026-11-14「2回目っていうのはやめて。同じやつが2度と出ないようにして」「曲も映像も完全な新作だけを出し続けて」）"""
+    ST = {"episodes": {"2026-11-13": {"yt": "a", "theme": "rain_night", "privacy": "public"}, "2026-11-14": {"yt": "b", "theme": "seaside", "privacy": "public"}}}
+
+    def year(self, until="2027-04-30"):
+        return [bgm.plan(x["date"], self.ST, CFG, n=x["n"]) for x in bgm.stock_plan(until, self.ST, CFG, "2026-11-14")]
+
+    def test_no_theme_title_or_picture_ever_repeats(self):
+        pls = self.year(); self.assertGreaterEqual(len(pls), 45)
+        ids = ["rain_night", "seaside"] + [p["theme"] for p in pls]
+        self.assertEqual(len(set(ids)), len(ids))                                                    # テーマ
+        vis = [bgm_themes.visual(i) for i in ids]; self.assertEqual(len(set(vis)), len(vis))         # 映像（景色 × 時間帯 × 天気）。曲調だけ変えた同じ景色も出さない
+        for k in ("title", "en", "ja", "zh", "ko"): self.assertEqual(len({p[k] for p in pls}), len(pls), k)
+        self.assertEqual([p["theme"] for p in pls[:8]], [t["id"] for t in bgm.THEMES[2:]])           # 手で作った 10 本は順番どおり。そのあとは新しい組み合わせ
+        for p in pls: self.assertNotRegex(p["title"] + p["blurb_ja"] + p["blurb_en"], "2回目|二回目|Part 2|Vol|II\\b")
+
+    def test_next_episode_differs_from_the_one_before(self):
+        pls = self.year()
+        for a, b in zip(pls[8:], pls[9:]):
+            self.assertNotEqual(a["style"], b["style"], (a["theme"], b["theme"])); self.assertNotEqual(a["view"], b["view"], (a["theme"], b["theme"]))
+
+    def test_snow_only_in_winter_and_never_at_the_seaside(self):
+        for p in self.year():
+            if p["weather"] == "snow": self.assertIn(p["month"], (12, 1, 2), p["theme"]); self.assertNotEqual(p["view"], "sea")
+        self.assertTrue(any(p["weather"] == "snow" for p in self.year("2027-02-28")))
+
+    def test_generated_theme_is_complete_and_valid(self):
+        for c in bgm_themes.all_combos(1):
+            th = bgm_themes.generated(*c); self.assertEqual(bgm_themes.sig(th["id"]), c)
+            self.assertEqual(len(th["hours"]), 4); self.assertEqual(len(th["ren"]), 4); self.assertEqual(len(th["jil"]), 4)
+            for k in ("en", "ja", "zh", "ko", "blurb_en", "blurb_ja"): self.assertTrue(th[k].strip(), (c, k))
+            self.assertLessEqual(len(bgm.plan("2027-01-06", self.ST, CFG, theme=th["id"])["title"]), 100)
+            if c[0] == "club": self.assertIn(c[1], ("neon", "city")); self.assertIn(c[2], ("sunset", "night"))   # クラブ系は夜だけ
+
+    def test_same_plan_whether_built_ahead_or_on_the_day(self):
+        # 作り置き（先の回を n を指定して作る）と、当日（前の回がぜんぶ出たあと）で、同じテーマになる
+        st = json.loads(json.dumps(self.ST)); ahead = self.year("2027-01-31")
+        for p in ahead:
+            self.assertEqual(bgm.plan(p["date"], st, CFG)["theme"], p["theme"], p["date"])
+            st["episodes"][p["date"]] = {"yt": "x", "theme": p["theme"], "title": p["title"]}
+        self.assertEqual(bgm.plan("2026-12-16", st, CFG)["theme"], ahead[8]["theme"])                # 出した回は、出したときのテーマのまま
+
+    def test_runs_out_instead_of_repeating(self):
+        chain = ["rain_night", "seaside"]; hand = [t["id"] for t in bgm.THEMES]
+        for _ in range(400):
+            nid = bgm_themes.next_id(chain, 1, hand)
+            if nid is None: break
+            chain.append(nid)
+        self.assertIsNone(bgm_themes.next_id(chain, 1, hand)); self.assertEqual(len(set(chain)), len(chain)); self.assertEqual(bgm_themes.left(chain, 1), 0)
+        st = {"episodes": {f"2030-01-{i:02d}" if i < 29 else f"2030-02-{i - 28:02d}" if i < 57 else f"2030-03-{i - 56:02d}": {"yt": "x", "theme": c} for i, c in enumerate(chain, 1)}}
+        with self.assertRaises(SystemExit): bgm.plan("2030-12-25", st, CFG)                          # 使い切ったら止める（同じものを出さない）
+
+    def test_qa_rejects_anything_shown_before(self):
+        pl = bgm.plan("2027-01-06", self.ST, CFG, theme="g-lofi-hills-noon-clear"); tr = tracks(); desc, names = bgm.description(pl, tr)
+        meta = {**pl, "description": desc, "track_names": names, "tracks": tr, "localizations": {}, "tags": []}
+        other = {"theme": "morning", "title": "x"}
+        self.assertEqual(bgm_qa.check_novelty(meta, [other]), [])
+        self.assertTrue(any("同じ（同じものは二度と出さない）" in p for p in bgm_qa.check_novelty(meta, [{"theme": pl["theme"], "title": "old"}, other])))        # 何回前でも
+        self.assertTrue(any("映像の組み合わせ" in p for p in bgm_qa.check_novelty(meta, [{"theme": "g-wa-hills-noon-clear", "title": "old"}, other])))   # 曲調だけ違う同じ景色
+        self.assertTrue(any("同じ題名" in p for p in bgm_qa.check_novelty(meta, [{"theme": "sunset", "title": pl["title"]}, other])))
+
+    def test_scene_draws_every_view_and_snow(self):
+        js = (ROOT / "rig" / "bgm" / "scene.js").read_text(encoding="utf-8")
+        for v in bgm_themes.VIEWS: self.assertRegex(js, r"BASE = \{[^}]*\b" + v + r"\b", v)
+        self.assertIn("function snow(t)", js); self.assertIn("view=", bgm.query(bgm.plan("2026-12-16", self.ST, CFG, n=10), 0))
+        self.assertNotIn("[12, 1, 2].includes(CFG.month)", js)                                         # 雪は天気で決める（月で勝手に降らせない＝同じテーマでも月で絵が変わらない）
+
+    def test_low_stock_of_themes_is_reported(self):
+        self.assertGreater(bgm.themes_left(self.ST, 12), 40); self.assertGreaterEqual(bgm.LOW_THEMES, 6)
+        src = (ROOT / "auto" / "bgm.py").read_text(encoding="utf-8"); self.assertIn("要対応：まだ出していない映像の組み合わせ", src)
+
+
 class StockWorkflowTest(unittest.TestCase):
     def setUp(self):
         self.y = (ROOT / ".github" / "workflows" / "bgm-stock.yml").read_text(encoding="utf-8")
@@ -484,6 +570,10 @@ class StockWorkflowTest(unittest.TestCase):
     def test_only_passed_videos_are_stored(self):
         self.assertIn("steps.build.outputs.code == '0'", self.y); self.assertIn("name: bgm-stock-${{ matrix.ep.date }}", self.y)
         self.assertIn("stock-record", self.y); self.assertIn("fail-fast: false", self.y)
+
+    def test_stock_run_proves_the_video_can_be_fetched_back(self):
+        self.assertIn("bgm.py stock-check", self.y); self.assertIn("actions: read", self.y); self.assertIn("GH_TOKEN", self.y)
+        self.assertLess(self.y.index("push_main.sh"), self.y.index("bgm.py stock-check"))      # 記録を保存してから確かめる（確認が落ちても記録は残る）
 
     def test_day_run_fetches_stock_and_can_read_artifacts(self):
         self.assertIn("actions: read", self.day); self.assertIn("stock-fetch", self.day); self.assertIn("GH_TOKEN", self.day)

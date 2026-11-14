@@ -3,8 +3,12 @@
 // すべての動きは「60秒でちょうど元に戻る」周期で作る（ループの継ぎ目が見えない）。
 (function () {
   const Q = new URLSearchParams(location.search);
-  const CFG = { hour: +(Q.get('hour') || 17.5), ren: Q.get('ren') || 'type', jil: Q.get('jil') || 'type', look: +(Q.get('look') || 0), weather: Q.get('weather') || 'rain', seed: +(Q.get('seed') || 1), style: Q.get('style') || 'lofi', month: +(Q.get('month') || 11) };
+  const CFG = { hour: +(Q.get('hour') || 17.5), ren: Q.get('ren') || 'type', jil: Q.get('jil') || 'type', look: +(Q.get('look') || 0), weather: Q.get('weather') || 'rain', seed: +(Q.get('seed') || 1), style: Q.get('style') || 'lofi', month: +(Q.get('month') || 11), view: Q.get('view') || '' };
   const ST = CFG.style;   // 曲調に合わせて、窓の外・小物・衣装・動きを変える：lofi / sea（海）/ wa（和）/ club（あげあげ）/ ballad（しっとり）
+  // 窓の景色（view）は曲調と別に決められる：city（街）/ sea（海）/ garden（和の庭）/ neon（ネオンの街）/ stars（星空）/ hills（田園）/ mountain（山の湖）。指定がなければ曲調から決まる。
+  // 同じ「景色 × 時間帯 × 天気」は二度と出さない（auto/bgm_themes.py。オーナー指示 2026-11-14「曲も映像も完全な新作だけ」）
+  const VIEW = CFG.view || (ST === 'sea' ? 'sea' : ST === 'wa' ? 'garden' : ST === 'club' ? 'neon' : ST === 'ballad' ? 'stars' : 'city');
+  const SNOW = CFG.weather === 'snow', WET = CFG.weather === 'rain' || SNOW;   // WET＝くもり空（太陽・月・星を出さない）
   const P = 60, W = 1920, H = 1080, DESK = 800;
   const L = window.L, PAL = L.PAL, TAU = Math.PI * 2;
   const w = (t, k, ph = 0) => Math.sin(TAU * k * t / P + ph);            // 60秒に k 回の波（必ず周期が合う）
@@ -27,7 +31,7 @@
     let s = '';
     const B = [[0, 150, 90], [70, 230, 110], [170, 120, 80], [240, 280, 130], [360, 170, 100], [450, 240, 90], [530, 130, 120], [640, 210, 100], [730, 160, 110]];
     B.forEach(([x, h, bw], i) => {
-      s += `<rect x="${x}" y="${470 - h}" width="${bw}" height="${h}" fill="${day > 0 ? mix('C9B7B0', 'C4D3DE', day) : mix('C9B7B0', '27335A', night)}"/>`;
+      s += `<rect x="${x}" y="${470 - h}" width="${bw}" height="${h}" fill="${day > 0 ? mix('C9B7B0', 'C4D3DE', day) : mix('C9B7B0', '27335A', night)}"/>` + (SNOW ? `<rect x="${x - 3}" y="${470 - h - 7}" width="${bw + 6}" height="12" rx="6" fill="${mix('FFFFFF', 'A9B6D6', night)}"/>` : '');
       for (let r = 0; r < Math.floor(h / 34); r++) for (let c = 0; c < Math.floor(bw / 30); c++) {
         const id = i * 97 + r * 13 + c; if (hash(id) < 0.45) continue;
         const on = hash(id + 5) < 0.25 + 0.6 * night - 0.35 * late; if (!on) continue;
@@ -57,7 +61,7 @@
     const top = mix('4FA9D8', '1F3A66', night), deep = mix('2E86C1', '14294D', night);
     let s = `<rect y="300" width="820" height="170" fill="#${top.slice(1)}"/><rect y="360" width="820" height="110" fill="${deep}" opacity=".55"/><rect y="298" width="820" height="4" fill="#fff" opacity="${0.5 - 0.3 * night}"/>`;
     const sx = night > 0.6 ? 650 : 700 - 420 * day;
-    s += `<g opacity="${0.5 - 0.2 * night}">${Array.from({ length: 7 }, (_, i) => `<rect x="${sx - 40 + 10 * w(t, 6, i)}" y="${310 + i * 22}" width="${80 + i * 10}" height="6" rx="3" fill="#FFF3C4" transform="translate(${-i * 5} 0)"/>`).join('')}</g>`;
+    s += `<g opacity="${WET ? 0 : 0.5 - 0.2 * night}">${Array.from({ length: 7 }, (_, i) => `<rect x="${sx - 40 + 10 * w(t, 6, i)}" y="${310 + i * 22}" width="${80 + i * 10}" height="6" rx="3" fill="#FFF3C4" transform="translate(${-i * 5} 0)"/>`).join('')}</g>`;
     for (let i = 0; i < 16; i++) { const y = 318 + (i * 37) % 150, k = (t * (1 + i % 3) / P + hash(i + 900)) % 1;
       s += `<path d="M${-60 + k * 940} ${y} q14 -7 28 0 t28 0" stroke="#fff" stroke-width="${2 + (y - 300) / 60}" fill="none" stroke-linecap="round" opacity="${0.5 * Math.sin(Math.PI * k) * (1 - 0.5 * night)}"/>`; }
     const bx = -80 + (t / P) * 1000;                                       // ヨットが60秒で窓を横切る（出入りは窓の外＝つなぎ目が見えない）
@@ -69,7 +73,11 @@
     let s = `<path d="M0 470 L0 330 Q120 250 250 320 Q380 230 520 310 Q660 240 820 320 L820 470Z" fill="${mix('9DB8A0', '22304F', night)}"/><path d="M0 470 L0 380 Q200 330 420 372 Q640 330 820 366 L820 470Z" fill="${mix('7FA07E', '1A2742', night)}"/>`;
     s += `<g transform="translate(150 470)" fill="${mix('8E8A80', '2B3350', night)}"><rect x="-10" y="-70" width="20" height="70"/><path d="M-34 -70 L34 -70 L22 -92 L-22 -92Z"/><rect x="-18" y="-128" width="36" height="36" rx="4"/><rect x="-9" y="-120" width="18" height="20" fill="#FFD98A" opacity="${0.2 + 0.75 * night + 0.05 * w(t, 20)}"/><path d="M-36 -128 L36 -128 L0 -156Z"/></g>`;
     s += `<g stroke="${mix('5B4636', '171D33', night)}" stroke-width="12" fill="none" stroke-linecap="round"><path d="M820 70 Q700 90 620 60 M700 82 Q680 130 640 150"/></g>` + [[640, 52], [690, 70], [742, 62], [662, 126], [634, 150]].map(([x, y], i) => `<ellipse cx="${x}" cy="${y + 1.5 * w(t, 4, i)}" rx="44" ry="16" fill="${mix('3F7D4E', '1B3540', night)}"/>`).join('');
-    for (let i = 0; i < 14; i++) {                                          // もみじが舞う
+    if (SNOW) s += `<path d="M0 470 L0 392 Q200 346 420 384 Q640 346 820 378 L820 470Z" fill="${mix('FFFFFF', '8E9CC0', night)}" opacity=".85"/><path d="M116 -158 L184 -158 L150 -184Z" transform="translate(0 470)" fill="${mix('FFFFFF', 'A9B6D6', night)}"/>`
+      + [[640, 44], [690, 62], [742, 54], [662, 118]].map(([x, y]) => `<ellipse cx="${x}" cy="${y}" rx="38" ry="9" fill="${mix('FFFFFF', 'A9B6D6', night)}"/>`).join('');
+    const FALL = SNOW ? 0 : [9, 10, 11, 12].includes(CFG.month) ? 14 : [3, 4, 5].includes(CFG.month) ? -14 : 0;   // 秋はもみじ、春は花びら。冬・夏は何も舞わない
+    for (let i = 0; i < Math.abs(FALL); i++) if (FALL < 0) { const sp = 1 + i % 2, u = (t * sp / P + hash(i + 40)) % 1, x = hash(i + 80) * 820 + 40 * Math.sin(u * 9 + i);
+      s += `<ellipse transform="translate(${x} ${u * 520 - 30}) rotate(${u * 540 + i * 40})" rx="7" ry="4.5" fill="#F8C8D8" opacity="${0.9 - 0.4 * night}"/>`; } else {          // もみじが舞う
       const sp = 1 + i % 2, u = (t * sp / P + hash(i + 40)) % 1, x = hash(i + 80) * 820 + 40 * Math.sin(u * 9 + i), y = u * 520 - 30;
       s += `<path transform="translate(${x} ${y}) rotate(${u * 540 + i * 40}) scale(${0.8 + hash(i) * 0.6})" d="M0 -12 L3 -4 L11 -6 L6 1 L10 9 L2 6 L0 13 L-2 6 L-10 9 L-6 1 L-11 -6 L-3 -4Z" fill="${['#D9483B', '#E8873A', '#C8322B'][i % 3]}" opacity="${0.9 - 0.4 * night}"/>`; }
     return s;
@@ -84,13 +92,43 @@
   }
   function quiet(t) {                                                      // しっとり：星。冬（12〜2月）は雪、ほかの月はときどき流れ星
     let s = Array.from({ length: 40 }, (_, i) => `<circle cx="${hash(i + 500) * 820}" cy="${hash(i + 600) * 280}" r="${1.4 + hash(i) * 1.8}" fill="#fff" opacity="${(0.35 + 0.5 * w(t, 2 + i % 4, i)) * Math.max(0.3, night)}"/>`).join('') + city(t);
-    if ([12, 1, 2].includes(CFG.month)) {
-      for (let i = 0; i < 60; i++) { const sp = 1 + i % 3, u = (t * sp / P + hash(i + 40)) % 1, x = hash(i + 80) * 820 + 18 * Math.sin(u * 12 + i);
-        s += `<circle cx="${x}" cy="${u * 500 - 15}" r="${2 + hash(i + 3) * 2.6}" fill="#fff" opacity="${0.55 + 0.35 * hash(i + 7)}"/>`; }
-    } else { const u = ((t % 30) - 8) / 0.9; if (u > 0 && u < 1) s += `<path d="M${640 - u * 300} ${40 + u * 120} l60 -24" stroke="#fff" stroke-width="3.5" stroke-linecap="round" opacity="${Math.sin(Math.PI * u)}"/>`; }
+    if (!WET) { const u = ((t % 30) - 8) / 0.9; if (u > 0 && u < 1) s += `<path d="M${640 - u * 300} ${40 + u * 120} l60 -24" stroke="#fff" stroke-width="3.5" stroke-linecap="round" opacity="${Math.sin(Math.PI * u)}"/>`; }
     return s;
   }
-  const outside = t => ST === 'sea' ? sea(t) : ST === 'wa' ? garden(t) : ST === 'club' ? neon(t) : ST === 'ballad' ? quiet(t) : city(t) + rain(t);
+  function snow(t) {                                                       // 雪（天気が snow の回。どの景色にも降る）
+    if (!SNOW) return '';
+    let s = '';
+    for (let i = 0; i < 60; i++) { const sp = 1 + i % 3, u = (t * sp / P + hash(i + 40)) % 1, x = hash(i + 80) * 820 + 18 * Math.sin(u * 12 + i);
+      s += `<circle cx="${x}" cy="${u * 500 - 15}" r="${2 + hash(i + 3) * 2.6}" fill="#fff" opacity="${0.55 + 0.35 * hash(i + 7)}"/>`; }
+    return s;
+  }
+  function hills(t) {                                                      // 田園：丘と畑、農家、小さな電車が60秒で窓を横切る
+    const far = SNOW ? mix('EEF2F6', '6F7CA6', night) : mix('A9C7A0', '22304F', night), mid = SNOW ? mix('FFFFFF', '8A96BC', night) : mix('8DB57E', '1C2A46', night), near = SNOW ? mix('F6F8FB', '7C89B2', night) : mix('B9CC7A', '1A2742', night);
+    let s = `<path d="M0 470 L0 300 Q140 236 300 290 Q470 220 640 286 Q740 250 820 280 L820 470Z" fill="${far}"/><path d="M0 470 L0 356 Q210 300 430 350 Q640 306 820 340 L820 470Z" fill="${mid}"/>`;
+    [[90, 300, 1], [420, 262, .8], [585, 290, .9], [735, 268, .7]].forEach(([x, y, k], i) => { s += `<g transform="translate(${x} ${y}) scale(${k})"><rect x="-4" y="0" width="8" height="26" fill="${mix('7A5A40', '1A1F33', night)}"/><ellipse cy="${-10 + 1.2 * w(t, 3, i)}" rx="24" ry="28" fill="${SNOW ? mix('E6ECF2', '6A78A2', night) : mix('5E9A5E', '18303A', night)}"/></g>`; });
+    s += `<g transform="translate(250 318)"><rect x="-34" y="-30" width="68" height="34" fill="${mix('F2E4CE', '34406A', night)}"/><path d="M-44 -30 L0 -62 L44 -30Z" fill="${SNOW ? mix('FFFFFF', 'A9B6D6', night) : mix('C8644A', '2A2F52', night)}"/><rect x="-22" y="-20" width="16" height="16" rx="2" fill="#FFD98A" opacity="${0.15 + 0.8 * night}"/><rect x="6" y="-20" width="14" height="24" fill="${mix('8C603C', '1F2540', night)}"/></g>`;
+    s += `<path d="M0 470 L0 412 Q200 384 420 404 Q640 380 820 398 L820 470Z" fill="${near}"/>`;
+    if (!SNOW) for (let i = 0; i < 9; i++) s += `<path d="M${-40 + i * 105} 470 Q${40 + i * 98} 430 ${90 + i * 92} 404" stroke="${mix('9DB862', '16223C', night)}" stroke-width="5" fill="none" opacity=".7"/>`;
+    s += `<rect y="392" width="820" height="4" fill="${mix('8A7A6A', '2A3050', night)}"/>` + Array.from({ length: 28 }, (_, i) => `<rect x="${i * 30 + 6}" y="390" width="5" height="9" fill="${mix('7A6A5A', '232945', night)}"/>`).join('');
+    const tx = -220 + (t / P) * 1280;                                      // 電車（出入りは窓の外＝つなぎ目が見えない）
+    s += `<g transform="translate(${tx} ${364 + 0.8 * w(t, 40)})">` + [0, 74].map(o => `<rect x="${o}" y="0" width="70" height="28" rx="7" fill="${mix('F2A65A', '6A5F8E', night)}"/><rect x="${o}" y="18" width="70" height="6" fill="${mix('FFFDF8', '9AA6C8', night)}"/>` + [8, 30, 52].map(x => `<rect x="${o + x}" y="5" width="14" height="10" rx="2" fill="${night > 0.4 ? '#FFE2A0' : '#DDF0FA'}" opacity="${0.75 + 0.2 * night}"/>`).join('') + [14, 56].map(x => `<circle cx="${o + x}" cy="29" r="5" fill="${mix('5B4636', '171D33', night)}"/>`).join('')).join('') + `</g>`;
+    return s;
+  }
+  function mountain(t) {                                                   // 山の湖：雪をかぶった山、松林、湖にうつる光、ボート
+    const rock = mix('8C9BB5', '202B4E', night), rock2 = mix('A9B6CC', '2A3660', night), cap = mix('FFFFFF', 'B4C0DE', night), pine = SNOW ? mix('CFDAE2', '3A4A70', night) : mix('3F7D5E', '14263A', night);
+    let s = `<path d="M-40 330 L150 96 L300 250 L400 150 L560 330Z" fill="${rock2}"/><path d="M260 330 L520 60 L700 240 L760 190 L880 330Z" fill="${rock}"/>`;
+    s += `<path d="M150 96 L112 143 L138 136 L156 158 L176 138 L199 147Z" fill="${cap}"/><path d="M520 60 L470 112 L500 104 L522 132 L548 106 L578 118Z" fill="${cap}"/>` + (SNOW ? `<path d="M400 150 L372 178 L398 172 L420 190 L440 178Z" fill="${cap}"/><path d="M760 190 L738 212 L760 208 L782 222Z" fill="${cap}"/>` : '');
+    for (let i = 0; i < 20; i++) { const x = i * 43 + hash(i + 700) * 20 - 10, hgt = 44 + hash(i + 720) * 34; s += `<path d="M${x} 336 L${x + 15} ${336 - hgt} L${x + 30} 336Z" fill="${pine}"/>`; }
+    const lake = mix('6FA8C8', '16264C', night);
+    s += `<rect y="332" width="820" height="138" fill="${lake}"/><rect y="332" width="820" height="46" fill="${rock}" opacity=".28"/><rect y="330" width="820" height="4" fill="${SNOW ? cap : mix('E6F3FB', '4A5A88', night)}" opacity=".7"/>`;
+    for (let i = 0; i < 14; i++) { const y = 350 + (i * 29) % 112, k = (t * (1 + i % 2) / P + hash(i + 900)) % 1;
+      s += `<path d="M${-60 + k * 940} ${y} h${30 + (i % 3) * 14}" stroke="#fff" stroke-width="${2 + (y - 340) / 70}" stroke-linecap="round" opacity="${0.38 * Math.sin(Math.PI * k) * (1 - 0.4 * night)}"/>`; }
+    if (!WET) s += `<g opacity="${0.45 - 0.15 * night}">${Array.from({ length: 5 }, (_, i) => `<rect x="${(night > 0.6 ? 650 : 700 - 420 * day) - 26 + 8 * w(t, 6, i)}" y="${346 + i * 22}" width="${52 + i * 8}" height="5" rx="2.5" fill="#FFF3C4"/>`).join('')}</g>`;
+    s += `<g transform="translate(${210 + 26 * w(t, 1)} ${420 + 2 * w(t, 10)}) rotate(${1.5 * w(t, 10, 1)})"><path d="M-34 0 L34 0 L24 12 L-24 12Z" fill="${mix('B5773E', '3A3558', night)}"/><rect x="-2" y="-16" width="4" height="16" fill="${mix('7A5A40', '2A2948', night)}"/><circle cx="0" cy="-20" r="6" fill="#FFD98A" opacity="${0.1 + 0.85 * night}"/></g>`;
+    return s;
+  }
+  const BASE = { city, sea, garden, neon, stars: quiet, hills, mountain };
+  const outside = t => (BASE[VIEW] || city)(t) + rain(t) + snow(t);
   function background(t) {
     const g = [L.defs()];
     g.push(`<defs><linearGradient id="bwall" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${WALLS[0]}"/><stop offset="1" stop-color="${WALLS[1]}"/></linearGradient>
@@ -100,9 +138,9 @@
     g.push(`<rect y="640" width="${W}" height="170" fill="${WALLS[1]}"/><rect y="632" width="${W}" height="10" fill="#FFFDF8" opacity=".8"/>`);
     // 大きな窓（街の景色）
     g.push(`<g transform="translate(240 110)"><rect x="-16" y="-16" width="852" height="502" rx="16" fill="${PAL.frame}"/><g clip-path="url(#bwin)"><rect width="820" height="470" fill="url(#bsky)"/>`
-      + (night > 0.6 ? (CFG.weather === 'rain' ? '' : `<circle cx="650" cy="90" r="38" fill="#FFF3C4" opacity="${0.95 * night}"/>`) : CFG.weather === 'rain' ? '' : `<circle cx="${700 - 420 * day}" cy="${262 + 160 * night - 170 * day}" r="56" fill="${mix('FFD9A0', 'FFF6D8', day)}" opacity="${0.9 - night}"/>`)
-      + (CFG.weather === 'rain' ? `<g fill="${day > 0 ? mix('E9DCD6', 'DDE5EC', day) : mix('E9DCD6', '3A4770', night)}" opacity=".9"><ellipse cx="${200 + 30 * w(t, 1)}" cy="70" rx="210" ry="46"/><ellipse cx="${560 + 24 * w(t, 1, 2)}" cy="120" rx="250" ry="52"/></g>` : `<g fill="#fff" opacity="${0.8 - 0.65 * night}"><ellipse cx="${190 + 26 * w(t, 1)}" cy="90" rx="110" ry="26"/><ellipse cx="${520 + 20 * w(t, 1, 2)}" cy="150" rx="90" ry="20"/></g>`)
-      + (night > 0.5 && CFG.weather !== 'rain' ? Array.from({ length: 26 }, (_, i) => `<circle cx="${hash(i + 500) * 820}" cy="${hash(i + 600) * 250}" r="${1.5 + hash(i) * 1.8}" fill="#fff" opacity="${(0.4 + 0.5 * w(t, 2 + i % 4, i)) * night}"/>`).join('') : '')
+      + (night > 0.6 ? (WET ? '' : `<circle cx="650" cy="90" r="38" fill="#FFF3C4" opacity="${0.95 * night}"/>`) : WET ? '' : `<circle cx="${700 - 420 * day}" cy="${262 + 160 * night - 170 * day}" r="56" fill="${mix('FFD9A0', 'FFF6D8', day)}" opacity="${0.9 - night}"/>`)
+      + (WET ? `<g fill="${day > 0 ? mix('E9DCD6', 'DDE5EC', day) : mix('E9DCD6', '3A4770', night)}" opacity=".9"><ellipse cx="${200 + 30 * w(t, 1)}" cy="70" rx="210" ry="46"/><ellipse cx="${560 + 24 * w(t, 1, 2)}" cy="120" rx="250" ry="52"/></g>` : `<g fill="#fff" opacity="${0.8 - 0.65 * night}"><ellipse cx="${190 + 26 * w(t, 1)}" cy="90" rx="110" ry="26"/><ellipse cx="${520 + 20 * w(t, 1, 2)}" cy="150" rx="90" ry="20"/></g>`)
+      + (night > 0.5 && !WET ? Array.from({ length: 26 }, (_, i) => `<circle cx="${hash(i + 500) * 820}" cy="${hash(i + 600) * 250}" r="${1.5 + hash(i) * 1.8}" fill="#fff" opacity="${(0.4 + 0.5 * w(t, 2 + i % 4, i)) * night}"/>`).join('') : '')
       + outside(t)
       + `</g>` + (ST === 'wa' ? [136, 273, 547, 684].map(x => `<rect x="${x}" width="6" height="470" fill="#B98A5E"/>`).join('') + [114, 342].map(y => `<rect y="${y}" width="820" height="6" fill="#B98A5E"/>`).join('') : '')
       + `<rect x="402" width="16" height="470" fill="${ST === 'wa' ? '#A9784E' : PAL.frame}"/><rect y="228" width="820" height="14" fill="${ST === 'wa' ? '#A9784E' : PAL.frame}"/><rect x="-30" y="476" width="880" height="26" rx="8" fill="${ST === 'wa' ? '#B98A5E' : '#FFFDF8'}"/></g>`);

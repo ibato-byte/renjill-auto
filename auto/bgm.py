@@ -19,11 +19,12 @@
   python auto/bgm.py build --date … --n N               先の日付の回を、回の番号を指定して作る
   python auto/bgm.py stock-record --src DIR --run ID    作った回を並び順に検査し直して auto/bgm_state.json の stock に記録
   python auto/bgm.py stock-fetch [--date …]             その日の作り置きを dist/bgm_stock/<date>/ に取ってくる（なければ何もしない）
+  python auto/bgm.py stock-check [--date …]             作り置きを当日と同じやり方で取り出して確かめる（取り出せなければ終了コード 1）
 設定は auto/bgm_config.json（曜日・長さ・公開範囲）。
 """
 import argparse, datetime as dt, json, os, pathlib, shutil, subprocess, sys
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
-import bgm_qa, bgm_names
+import bgm_qa, bgm_names, bgm_themes
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 AUTO, DIST, RIG = ROOT / "auto", ROOT / "dist", ROOT / "rig" / "bgm"
@@ -100,20 +101,52 @@ def state(): return load(AUTO / "bgm_state.json", {"episodes": {}})
 def run(cmd, **kw): return subprocess.run([str(c) for c in cmd], check=True, **kw)
 
 
+def theme_by_id(tid):
+    """テーマ id → テーマ。手で作った 10 本（THEMES）か、組み合わせから作ったテーマ（bgm_themes）"""
+    sg = bgm_themes.sig(tid)
+    if not sg: raise SystemExit(f"知らないテーマ：{tid}")
+    th = next((x for x in THEMES if x["id"] == tid), None)
+    return {**th, "view": sg[1], "arc": sg[2]} if th else bgm_themes.generated(*sg)
+
+
+def theme_for(date, st, cfg, n):
+    """その回のテーマ id。同じテーマ・同じ映像の組み合わせは二度と出さない（オーナー指示 2026-11-14）。
+    これまでに出した回のテーマを古い順に並べ、その続きを決める。n＝回の番号（0 始まり）。出した本数より先の回（作り置き）は、あいだの回も同じ決まりで先に決める"""
+    eps = sorted((k, v) for k, v in st["episodes"].items() if v.get("yt") and k != date)
+    chain = [v.get("theme") for _, v in eps]; hand = [t["id"] for t in THEMES]
+    k = max(0, n - len(chain))
+    start = (dt.date.fromisoformat(eps[-1][0]) + dt.timedelta(days=1)).isoformat() if eps else date
+    pend = [d for d in slots(start, date, cfg) if d < date and d not in st["episodes"]][-k:] if k else []
+    pend = [date] * (k - len(pend)) + pend                                       # あいだの回の日付が分からないときは、その回と同じ月として決める
+    for d in pend + [date]:
+        nid = bgm_themes.next_id(chain, int(d[5:7]), hand)
+        if nid is None: raise SystemExit(f"{d}：まだ出していないテーマがない（同じものは二度と出さない決まり）。auto/bgm_themes.py の VIEWS に新しい景色を足す")
+        chain.append(nid)
+    return chain[-1]
+
+
+def themes_left(st, month):
+    """まだ出していない映像の組み合わせの数（作り置きの分も使ったものとして数える）"""
+    used = [v.get("theme") for v in list(st["episodes"].values()) + list(st.get("stock", {}).values()) if v.get("theme")]
+    return bgm_themes.left(used, month)
+
+
 def plan(date, st=None, cfg=None, theme=None, n=None):
-    """その日の回の計画。回の番号＝これまでに出した本数＋その日より前の作り置き（同じテーマ・同じ部屋が続かない）。seed は日付。
+    """その日の回の計画。回の番号＝これまでに出した本数＋その日より前の作り置き。seed は日付。
     n＝作り置きで先の日付の回を作るときに、回の番号（0 始まり）を指定する"""
     st, cfg = st or state(), cfg or config()
     done = sorted(k for k, v in st["episodes"].items() if v.get("yt") and k != date)
     if n is None: n = len(done) + sum(1 for k in st.get("stock", {}) if k < date and k not in done)
-    th = next(x for x in THEMES if x["id"] == theme) if theme else THEMES[n % len(THEMES)]   # theme＝手元で特定のテーマを試すとき
+    own = st["episodes"].get(date, {})
+    tid = theme or (own.get("theme") if own.get("yt") else None) or theme_for(date, st, cfg, n)   # theme＝手元で特定のテーマを試すとき。出した回は、出したときのテーマのまま
+    th = theme_by_id(tid)
     seed = int(date.replace("-", ""))
     minutes = cfg["minutes"]
     style = th.get("style", "lofi"); g, use = GENRE[style]
     title = f'{th["en"]} – {_dur_en(minutes)} {g} {use} with Ren & Jill | 作業用BGM {th["ja"]}'
     if len(title) > 100: title = f'{th["en"]} – {_dur_en(minutes)} {g} with Ren & Jill | 作業用BGM {th["ja"]}'
-    return {"date": date, "no": n + 1, "theme": th["id"], "seed": seed, "look": n % 4, "minutes": minutes, "weather": th["weather"], "hours": th["hours"], "style": style, "month": int(date[5:7]),
-            "ren": th["ren"], "jil": th["jil"], "thumb": th["thumb"], "title": title[:100], "en": th["en"], "ja": th["ja"], "blurb_en": th["blurb_en"], "blurb_ja": th["blurb_ja"]}
+    return {"date": date, "no": n + 1, "theme": th["id"], "seed": seed, "look": n % 4, "minutes": minutes, "weather": th["weather"], "hours": th["hours"], "style": style, "view": th["view"], "arc": th["arc"], "month": int(date[5:7]),
+            "ren": th["ren"], "jil": th["jil"], "thumb": th["thumb"], "title": title[:100], "en": th["en"], "ja": th["ja"], "zh": th.get("zh", th["en"]), "ko": th.get("ko", th["en"]), "blurb_en": th["blurb_en"], "blurb_ja": th["blurb_ja"]}
 
 
 TRACKLIST = "Tracklist｜曲目"      # 見出しも日本語を並べる（2026-11-14 オーナーの指摘「Tracklist が意味不明」）
@@ -121,7 +154,7 @@ TRACKLIST = "Tracklist｜曲目"      # 見出しも日本語を並べる（2026
 
 def _dur_en(m): return "1 Hour" if m == 60 else f"{int(m)} Min" if m < 60 else f"{m / 60:g} Hours"
 def _ts(s): s = int(round(s)); return f"{s // 3600}:{s % 3600 // 60:02d}:{s % 60:02d}" if s >= 3600 else f"{s // 60}:{s % 60:02d}"
-def query(pl, i): return f'hour={pl["hours"][i]}&ren={pl["ren"][i]}&jil={pl["jil"][i]}&weather={pl["weather"]}&look={pl["look"]}&seed={pl["seed"] % 97 + i}&style={pl.get("style", "lofi")}&month={pl.get("month", 11)}'
+def query(pl, i): return f'hour={pl["hours"][i]}&ren={pl["ren"][i]}&jil={pl["jil"][i]}&weather={pl["weather"]}&look={pl["look"]}&seed={pl["seed"] % 97 + i}&style={pl.get("style", "lofi")}&month={pl.get("month", 11)}&view={pl.get("view", "")}'
 
 
 def description(pl, tracks, used_names=()):
@@ -146,18 +179,28 @@ def description(pl, tracks, used_names=()):
 def localizations(pl, title, desc):
     out = {}
     for lang, (t, d) in I18N.items():
-        th = next((x for x in THEMES if x["id"] == pl["theme"]), {})
-        out[lang] = {"title": t.format(en=pl["en"], ja=pl["ja"], zh=th.get("zh", pl["en"]), ko=th.get("ko", pl["en"]), g=GENRE_I18N[pl.get("style", "lofi")][lang])[:100], "description": f"{d}\n\n{desc}"[:5000]}
+        out[lang] = {"title": t.format(en=pl["en"], ja=pl["ja"], zh=pl.get("zh", pl["en"]), ko=pl.get("ko", pl["en"]), g=GENRE_I18N[pl.get("style", "lofi")][lang])[:100], "description": f"{d}\n\n{desc}"[:5000]}
     return out
 
 
 # ---------- 音 ----------
+def ambience_for(pl):
+    """環境音と大きさ。クラブ系はなし。雨の回は雨音。海の景色は波、和の庭は水の音。ほかは部屋の音"""
+    style, view, quiet = pl.get("style", "lofi"), pl.get("view"), pl.get("style", "lofi") != "lofi"
+    if style == "club": return None, 0.0
+    if pl["weather"] == "rain": return "rain", 0.20 if quiet else 0.30
+    if view == "sea": return AMBIENCE["sea"]
+    if view == "garden": return AMBIENCE["wa"]
+    return "room", 0.12 if quiet else 0.16
+
+
+
 def build_audio(pl, work, avoid=()):
     """avoid＝これまでの回で使った曲（調|進行|速さ）。同じ曲を作らない"""
     mdir = work / "music"; mdir.mkdir(parents=True, exist_ok=True)
     (work / "avoid.json").write_text(json.dumps(sorted(avoid)))
     style = pl.get("style", "lofi")
-    amb_kind, amb = AMBIENCE.get(style) or (("rain", 0.30) if pl["weather"] == "rain" else ("room", 0.16))
+    amb_kind, amb = ambience_for(pl)
     run([sys.executable, RIG / "music.py", mdir, "--seed", pl["seed"], "--minutes", pl["minutes"] + 0.5, "--ambience", amb_kind or "room", "--style", style, "--avoid", work / "avoid.json"])
     info = json.loads((mdir / "tracks.json").read_text()); tracks = info["tracks"]
     total = pl["minutes"] * 60
@@ -232,7 +275,7 @@ def build(date, minutes=None, keep=False, par=3, theme=None, n=None, redo=False)
     cfg = config()
     if minutes: cfg["minutes"] = minutes
     pl = plan(date, cfg=cfg, theme=theme, n=n)
-    avoid, used_names = history(date, state(), cfg, redo=redo)
+    avoid, used_names, sims = history(date, state(), cfg, redo=redo, with_sims=True)
     work = DIST / "bgm" / date
     if work.exists(): shutil.rmtree(work)
     work.mkdir(parents=True)
@@ -252,7 +295,12 @@ def build(date, minutes=None, keep=False, par=3, theme=None, n=None, redo=False)
             "tags": STYLE_TAGS[pl.get("style", "lofi")] + ["study music", "work music", "作業用BGM", "勉強用BGM", "focus music", "Ren and Jill", "レンとジル", "bunny", "うさぎ", "background music"]}
     (work / "meta.json").write_text(json.dumps(meta, ensure_ascii=False, indent=1))
     st = state()
-    qa = bgm_qa.check_all(work, meta, frames, prev_of(date, st))
+    # 前の回＝出した回＋作り置き＋「これから作る、この回より前の回」（sims）。並べて作る作り置きでは、すぐ前の回がまだ無いことがある。
+    # sims を入れないと、ずっと前の回を「すぐ前の回」と見て「前の回と同じテーマ」で落とす（2026-11-14：12/23 和の夕べ が、11/18 和の夕べ を前の回と見て不合格になった）
+    known = {k: v for k, v in st["episodes"].items() if v.get("yt") and k != date}
+    known.update({k: v for k, v in st.get("stock", {}).items() if k < date and k not in known and k not in sims})
+    known.update(sims)
+    qa = bgm_qa.check_all(work, meta, frames, [v for _, v in sorted(known.items())])
     (work / "qa.json").write_text(json.dumps(qa, ensure_ascii=False, indent=1))
     bgm_qa.contact_sheet(frames, work / "sheet.jpg")
     for p in qa["problems"]: log("NG", p)
@@ -480,6 +528,7 @@ def _send(req):
 # 当日の流れ（run）：作り置きがあり、作り方（code_hash）が作ったときと同じ → 作り置きを出す。
 #                    作り方が変わっていた（週次PDCAが直した）→ 新しい作り方で作り直す。それが検査に落ちたら作り置きを出す。
 #                    作り置きがない・取ってこられない → これまでどおり当日に作る。
+LOW_THEMES = 8          # まだ出していない映像の組み合わせがこれより少なくなったら、bgm の結果（Automation Hub）で知らせる（約1か月分）
 STOCK = DIST / "bgm_stock"
 STOCK_FILES = (VIDEO_NAME, "meta.json", "qa.json", "thumb.jpg")
 
@@ -489,7 +538,7 @@ def code_hash():
     import hashlib
     h = hashlib.sha1()
     files = sorted(p for p in RIG.iterdir() if p.is_file() and p.suffix in (".py", ".js", ".html")) + [ROOT / "rig" / "rig.js", ROOT / "rig" / "v2" / "lib.js"]
-    for p in files + [AUTO / "bgm_names.py"]:
+    for p in files + [AUTO / "bgm_names.py", AUTO / "bgm_themes.py"]:
         if p.exists(): h.update(p.name.encode()); h.update(p.read_bytes())
     h.update(json.dumps([THEMES, GENRE, AMBIENCE, LUFS, TARGET_LUFS, FPS, LOOP, XF, TRACKLIST, I18N, STYLE_TAGS, STYLE_HASH, GENRE_I18N], ensure_ascii=False, sort_keys=True).encode())
     return h.hexdigest()[:12]
@@ -503,7 +552,7 @@ def prev_of(date, st):
     return [v for _, v in sorted(eps.items())]
 
 
-def history(date, st, cfg, today=None, redo=False):
+def history(date, st, cfg, today=None, redo=False, with_sims=False):
     """その回が避ける「これまでの回の曲（調|進行|速さ）」と「曲名」。出した回・ほかの日の作り置きの記録に加えて、
     今日〜その日の前までの、まだ作っていない回の分も先に数える（曲の並びは音を作らなくても決まる＝music.choose）。
     作り置きは並べて同時に作るので、こうしないと作り置きどうしで曲がかぶる。redo＝作り置きを全部作り直すとき（古い記録を数えない）"""
@@ -514,7 +563,7 @@ def history(date, st, cfg, today=None, redo=False):
     keys, names = set(), set()
     for v in list(done.values()) + list(stock.values()):
         keys |= set(v.get("track_keys") or []); names |= set(v.get("track_names") or [])
-    n = len(done)
+    n = len(done); sims = {}
     for d in slots(today, date, cfg):
         if d in done: continue
         if d >= date: break
@@ -523,8 +572,9 @@ def history(date, st, cfg, today=None, redo=False):
             heads = music.choose(pl["seed"], pl["minutes"] + 0.5, pl["style"], keys)
             nm = pick_names(pl["seed"], len(heads), names, pl["theme"])
             keys |= {h["tk"] for h in heads}; names |= set(nm)
+            sims[d] = {"theme": pl["theme"], "title": pl["title"], "seed": pl["seed"], "track_keys": [h["tk"] for h in heads], "track_names": nm}
         n += 1
-    return keys, names
+    return (keys, names, sims) if with_sims else (keys, names)
 
 
 def slots(start, until, cfg):
@@ -645,7 +695,7 @@ def due(date, cfg, st):
 
 def main(argv=None):
     ap = argparse.ArgumentParser()
-    ap.add_argument("cmd", choices=["plan", "build", "upload", "run", "todos", "publish", "relabel", "stock-plan", "stock-record", "stock-fetch"])
+    ap.add_argument("cmd", choices=["plan", "build", "upload", "run", "todos", "publish", "relabel", "stock-plan", "stock-record", "stock-fetch", "stock-check"])
     ap.add_argument("--date"); ap.add_argument("--minutes", type=int); ap.add_argument("--privacy"); ap.add_argument("--force", action="store_true"); ap.add_argument("--keep", action="store_true"); ap.add_argument("--par", type=int, default=3); ap.add_argument("--theme", help="手元の試作用：テーマを指定（build だけ）")
     ap.add_argument("--n", type=int, help="作り置き：回の番号（0 始まり。stock-plan が出す）"); ap.add_argument("--until"); ap.add_argument("--redo", action="store_true"); ap.add_argument("--src"); ap.add_argument("--run", dest="run_id")
     a = ap.parse_args(argv)
@@ -665,13 +715,22 @@ def main(argv=None):
         if bad: log("記録しなかった回（当日に作る）", ", ".join(bad))
         return 3 if bad else 0
     if a.cmd == "stock-fetch": stock_fetch(date); return 0
+    if a.cmd == "stock-check":
+        # 作り置きを当日と同じやり方で取り出せるかの確認（2026-11-14：作って保管しただけでは、当日に取り出せるか分からない）。--date がなければ、いちばん先の日付の作り置き
+        st = state(); d = a.date or max(st.get("stock", {}) or [""])
+        if not d: log("作り置きがない"); return 0
+        probs = stock_problems(d, st) if stock_fetch(d, st) else ["取ってこられなかった"]
+        shutil.rmtree(STOCK / d, ignore_errors=True)
+        log("取り出しの確認", d, "OK" if not probs else "NG：" + " / ".join(probs)); return 1 if probs else 0
     cfg, st = config(), state()
+    left = themes_left(st, int(date[5:7])); warn = f"／要対応：まだ出していない映像の組み合わせが残り {left} 本分（同じものは出さない決まり。auto/bgm_themes.py に新しい景色を足す）" if left < LOW_THEMES else ""
+    if warn: log(warn)
     if not a.force and not due(date, cfg, st):
-        log(date, "は予定の日ではない／投稿済み"); summary.write_text(f"{date}：出す回なし"); return 0
+        log(date, "は予定の日ではない／投稿済み"); summary.write_text(f"{date}：出す回なし{warn}"); return 0
     vid, msg = run_day(date, a.minutes, a.privacy, a.keep, a.par)
     if not vid:
-        summary.write_text(f"{date}：{msg}"); return 3
-    summary.write_text(f'{date}：{msg}（{state()["episodes"][date]["privacy"]}） https://youtu.be/{vid}')
+        summary.write_text(f"{date}：{msg}{warn}"); return 3
+    summary.write_text(f'{date}：{msg}（{state()["episodes"][date]["privacy"]}） https://youtu.be/{vid}{warn}')
     return 0
 
 
