@@ -121,5 +121,63 @@
     "Morning Ocean View｜朝の海の見える窓"
    ]
   }
+ },
+ "stock": {
+  "2026-11-18": {
+   "run": "43570478896",
+   "artifact": "bgm-stock-2026-11-18",
+   "code": "972765432278",
+   "no": 3,
+   "theme": "wa_evening",
+   "style": "wa",
+   "title": "Japanese Garden Evening – 1 Hour Japanese-style Chill Music with Ren & Jill | 作業用BGM 和の夕べ",
+   "seed": 20261118,
+   "look": 2,
+   "minutes": 60,
+   "mb": 1275,
+   "made": "2026-11-14T16:37+09:00",
+   "track_keys": [
+    "G minor|0m7-8maj7-0m7-7m7|76.0",
+    "A minor|0m6-8maj7-5m7-7m7|63.0",
+    "Bb minor|0m7-5m7-8maj7-7m7|66.0",
+    "Eb minor|0m7-5m7-8maj7-7m7|71.0",
+    "G minor|0m7-5m7-8maj7-7m7|67.0",
+    "D minor|5m7-0m7-8maj7-0m7|73.0",
+    "F minor|5m7-0m7-8maj7-0m7|75.0",
+    "D minor|0m7-5m7-8maj7-7m7|67.0",
+    "Bb minor|5m7-0m7-8maj7-0m7|74.0",
+    "D minor|0m7-8maj7-0m7-7m7|76.0",
+    "Eb minor|5m7-0m7-8maj7-0m7|65.0",
+    "Bb minor|0m6-8maj7-5m7-7m7|66.0",
+    "F minor|8maj7-7m7-0m7-0m6|72.0",
+    "Eb minor|0m7-8maj7-0m7-7m7|76.0",
+    "D minor|8maj7-7m7-0m7-0m6|64.0",
+    "Eb minor|8maj7-7m7-0m7-0m6|74.0",
+    "C minor|0m7-5m7-8maj7-7m7|75.0",
+    "Bb minor|8maj7-7m7-0m7-0m6|62.0",
+    "A minor|5m7-0m7-8maj7-0m7|76.0"
+   ],
+   "track_names": [
+    "Moonlit Maple Leaves｜月あかりのもみじ",
+    "Usual Tea Cup｜いつもの湯のみ",
+    "Autumn Koi Pond｜秋の鯉の池",
+    "Autumn Veranda｜秋の縁側",
+    "Moonlit Moss｜月あかりの苔",
+    "Lantern｜行灯",
+    "Quiet Veranda｜静かな縁側",
+    "Autumn Paper Screen｜秋の障子",
+    "Moonlit Stone Path｜月あかりの石だたみ",
+    "Quiet Stone Path｜静かな石だたみ",
+    "Quiet Temple Bell｜静かな鐘の音",
+    "Usual Bamboo｜いつもの竹林",
+    "Quiet Lantern｜静かな行灯",
+    "Tatami Room｜たたみの部屋",
+    "Evening Tatami Room｜夕暮れのたたみの部屋",
+    "Moonlit Tea Cup｜月あかりの湯のみ",
+    "Quiet Paper Screen｜静かな障子",
+    "Quiet Tatami Room｜静かなたたみの部屋",
+    "Evening Moss｜夕暮れの苔"
+   ]
+  }
  }
 }

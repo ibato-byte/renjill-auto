@@ -1,0 +1,55 @@
+{
+ "ok": true,
+ "problems": [],
+ "warnings": [
+  "音量の幅が広い（LRA 12.7）。作業用には静かと大きいの差が大きすぎるかも"
+ ],
+ "numbers": {
+  "sec": 3600.0,
+  "mb": 1275,
+  "lufs": -15.0,
+  "lra": 12.7,
+  "peak": -2.6,
+  "silences": 0,
+  "spectrum": {
+   "sub": 5.87,
+   "bass": 30.92,
+   "lowmid": 46.85,
+   "mid": 14.65,
+   "hi": 1.72,
+   "corr": 0.78
+  },
+  "tracks": 19,
+  "loops": [
+   {
+    "adj_mean": 0.06,
+    "adj_max": 0.28,
+    "seam": 0.06,
+    "luma": 173.01
+   },
+   {
+    "adj_mean": 0.07,
+    "adj_max": 0.92,
+    "seam": 0.05,
+    "luma": 164.41
+   },
+   {
+    "adj_mean": 0.06,
+    "adj_max": 0.18,
+    "seam": 0.06,
+    "luma": 161.4
+   },
+   {
+    "adj_mean": 0.05,
+    "adj_max": 0.32,
+    "seam": 0.04,
+    "luma": 138.03
+   }
+  ],
+  "chapter_diff": [
+   10.5,
+   5.7,
+   25.2
+  ]
+ }
+}
