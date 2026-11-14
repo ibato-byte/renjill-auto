@@ -84,6 +84,15 @@ def check_novelty(meta, prev):
         if last.get("theme") == meta["theme"]: probs.append("前の回と同じテーマ")
         if last.get("title") == meta["title"]: probs.append("前の回と同じ題名")
         if last.get("seed") == meta["seed"]: probs.append("前の回と同じ seed（同じ曲になる）")
+        # 同じテーマ・同じ映像の組み合わせ（景色 × 時間帯 × 天気）・同じ題名は、何回前であっても二度と出さない（オーナー指示 2026-11-14「同じやつが2度と出ないように」「曲も映像も完全な新作だけ」）
+        import bgm_themes
+        vis = bgm_themes.visual(meta["theme"])
+        for p in prev[:-1]:
+            if p.get("theme") == meta["theme"]: probs.append(f'前に出したテーマ（{p.get("title", "")[:20]}…）と同じ（同じものは二度と出さない）'); break
+        for p in prev:
+            if p.get("theme") != meta["theme"] and vis and bgm_themes.visual(p.get("theme")) == vis: probs.append(f'前に出した回（{p.get("title", "")[:20]}…）と映像の組み合わせ（景色・時間帯・天気）が同じ'); break
+        for p in prev[:-1]:
+            if p.get("title") and p.get("title") == meta["title"]: probs.append("前に出した回と同じ題名"); break
         # 回をまたいで同じ曲（調・進行・速さが同じ）・同じ曲名を使わない（オーナー依頼 2026-11-14「曲はできるだけ被らないように」）。
         # 組み合わせを使い切って避けられなかった曲（reused の印）の数だけは見逃す
         allow = sum(1 for t in meta["tracks"] if t.get("reused")); total = 0
