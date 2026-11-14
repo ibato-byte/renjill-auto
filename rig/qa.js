@@ -12,7 +12,7 @@ const { chromium } = require('playwright'); const fs = require('fs'); const path
 const [ep, reportPath, sheetPath] = process.argv.slice(2);
 const STEP = 0.125, W = 1080, H = 1920;
 (async () => {
-  const b = await chromium.launch(); const p = await b.newPage({ viewport: { width: W, height: H } });
+  const b = await chromium.launch(process.env.PW_EXEC ? { executablePath: process.env.PW_EXEC } : {}); const p = await b.newPage({ viewport: { width: W, height: H } });
   const errors = [];
   p.on('pageerror', e => errors.push('pageerror: ' + e.message));
   p.on('console', m => { if (m.type() === 'error') errors.push('console: ' + m.text()); });

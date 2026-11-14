@@ -630,7 +630,7 @@
       "thumb": {
         "t": 1.6,
         "cam": "1.4,651,1116",
-        "hook": "BOSS. ELEVATOR./エレベーターで上司と2人きり"
+        "hook": "BOSS. ELEVATOR./上司とエレベーター"
       },
       "first_comment": "エレベーターで上司と2人、何を話す？ / What do you say to your boss in the elevator?",
       "site_i18n": {
@@ -726,7 +726,14 @@
           "ko": "12월 28일 대청소. 과장님 책상 서류 더미에서 작년 주먹밥이 나왔어요."
         }
       },
-      "cta": "Send this to the coworker with the messiest desk/机が一番散らかっている人に送ろう"
+      "cta": "Send this to the coworker with the messiest desk/机が一番散らかっている人に送ろう",
+      "title_i18n": {
+        "ja": "大掃除で出てきた去年のおにぎり | レンとジル「大掃除」",
+        "ko": "대청소에서 나온 작년 주먹밥 | 렌과 질 Ren & Jill",
+        "zh-Hant": "大掃除挖出去年的飯糰 | 蓮與吉兒 Ren & Jill",
+        "es": "Limpieza de fin de año: aparece el almuerzo del año pasado | Ren & Jill",
+        "pt": "Faxina de fim de ano: aparece o almoço do ano passado | Ren & Jill"
+      }
     },
     {
       "date": "2026-11-19",
@@ -740,7 +747,7 @@
       "thumb": {
         "t": 3.2,
         "cam": "1.4,480,960",
-        "hook": "WI-FI: OFF/オンライン会議で上司が固まった"
+        "hook": "WI-FI: OFF/会議中に上司が固まった"
       },
       "first_comment": "固まった顔、保存したことある？ / Ever saved a frozen-face screenshot?",
       "site_i18n": {
@@ -1026,7 +1033,7 @@
       "thumb": {
         "t": 7.5,
         "cam": "1.4,558,1096",
-        "hook": "6 HAY RINGS/差し入れの牧草リング、上司と2秒"
+        "hook": "6 HAY RINGS/差し入れ、上司が2秒で"
       },
       "first_comment": "差し入れが一番早く消えるのはだれ？ / Who empties the snack box fastest in your office?",
       "site_i18n": {
@@ -1131,7 +1138,7 @@
       "thumb": {
         "t": 6,
         "cam": "1.5,480,1100",
-        "hook": "DESK PLANT/上司の植物、水やりはコーヒー"
+        "hook": "DESK PLANT/上司の水やりはコーヒー"
       },
       "first_comment": "オフィスの植物、だれが世話してる？ / Who actually waters the office plants?",
       "site_i18n": {
@@ -1201,7 +1208,7 @@
       "thumb": {
         "t": 5.0,
         "cam": "1.4,530,1146",
-        "hook": "KOTATSU DAY/会社にこたつ、上司が出てこない"
+        "hook": "KOTATSU DAY/こたつから出ない上司"
       },
       "first_comment": "こたつに入ったら出られる？ / Can you ever leave a kotatsu?",
       "site_i18n": {
@@ -1236,7 +1243,7 @@
       "thumb": {
         "t": 5.0,
         "cam": "1.2,560,900",
-        "hook": "OFFICE TREE/オフィスのツリー、上司の飾り"
+        "hook": "OFFICE TREE/ツリーに上司の飾り"
       },
       "first_comment": "職場のツリー、飾りつけは誰の担当？ / Who decorates the office tree where you work?",
       "site_i18n": {
@@ -1376,7 +1383,7 @@
       "thumb": {
         "t": 5.0,
         "cam": "1.4,560,1096",
-        "hook": "SAY CHEESE/年賀状の写真、上司は目をつぶる"
+        "hook": "SAY CHEESE/写真で目をつぶる上司"
       },
       "first_comment": "写真で目をつぶる派？ / Do you blink in every photo?",
       "site_i18n": {
@@ -1411,7 +1418,7 @@
       "thumb": {
         "t": 7.8,
         "cam": "1.4,550,1096",
-        "hook": "ADVENT: DAY 1/アドベントカレンダー、上司と24日分"
+        "hook": "ADVENT: DAY 1/上司が1日で24日分"
       },
       "first_comment": "アドベントカレンダー、ちゃんと1日1個で守れる？ / Can you really open just one a day?",
       "site_i18n": {
@@ -1530,7 +1537,14 @@
           "ko": "추운 아침. 질이 과장님께 핫팩을 하나. 과장님은 서랍에서 나머지를 꺼내 온몸에 10개. 땀범벅. 질은 0개로 발발."
         }
       },
-      "cta": "Send this to the one who's always cold/寒がりな人に送ろう"
+      "cta": "Send this to the one who's always cold/寒がりな人に送ろう",
+      "title_i18n": {
+        "ja": "カイロ10個、全部自分に貼る上司 | レンとジル「カイロ10個」",
+        "ko": "핫팩 10개를 혼자 다 붙인 과장님 | 렌과 질 Ren & Jill",
+        "zh-Hant": "暖暖包10個，課長全貼在自己身上 | 蓮與吉兒 Ren & Jill",
+        "es": "10 parches de calor, todos para el jefe | Ren & Jill",
+        "pt": "10 bolsas de calor, todas para o chefe | Ren & Jill"
+      }
     },
     {
       "date": "2026-12-12",
@@ -1558,7 +1572,14 @@
           "ko": "연말 선물이 도착. 열어 보니 상자, 또 상자, 또 상자. 상자 5개 안에는 건초 한 가닥. 과장님은 대만족입니다."
         }
       },
-      "cta": "Send this to the one who loves unboxing/開封が好きな人に送ろう"
+      "cta": "Send this to the one who loves unboxing/開封が好きな人に送ろう",
+      "title_i18n": {
+        "ja": "箱の中に箱、また箱…お歳暮の中身は | レンとジル「お歳暮の箱」",
+        "ko": "상자 속에 상자, 또 상자… 연말 선물의 정체 | 렌과 질 Ren & Jill",
+        "zh-Hant": "盒子裡還有盒子…年終禮盒裡是什麼 | 蓮與吉兒 Ren & Jill",
+        "es": "Una caja dentro de otra caja… ¿qué hay en el regalo? | Ren & Jill",
+        "pt": "Uma caixa dentro de outra caixa… o que há no presente? | Ren & Jill"
+      }
     },
     {
       "date": "2026-12-13",
@@ -1586,7 +1607,14 @@
           "ko": "겨울 사무실은 건조. 과장님이 가습기를 MAX로 했더니 습도 99%. 질의 안경은 새하얗고, 과장님 피부는 촉촉."
         }
       },
-      "cta": "Send this to the one who blasts the humidifier/加湿器を全開にする人に送ろう"
+      "cta": "Send this to the one who blasts the humidifier/加湿器を全開にする人に送ろう",
+      "title_i18n": {
+        "ja": "加湿器をMAXにしたら湿度99% | レンとジル「加湿器MAX」",
+        "ko": "가습기를 MAX로 했더니 습도 99% | 렌과 질 Ren & Jill",
+        "zh-Hant": "加濕器開到MAX，濕度99% | 蓮與吉兒 Ren & Jill",
+        "es": "Humidificador al máximo: 99% de humedad | Ren & Jill",
+        "pt": "Umidificador no máximo: 99% de umidade | Ren & Jill"
+      }
     },
     {
       "date": "2026-12-14",
@@ -1600,7 +1628,7 @@
       "thumb": {
         "t": 6.2,
         "cam": "1.4,600,1140",
-        "hook": "SHREDDER DAY/シュレッダーの紙くず、上司が"
+        "hook": "SHREDDER DAY/紙くずの山に上司が"
       },
       "first_comment": "うさぎを飼っている人、紙くずに潜りますか？ / Bunny owners: does yours dive into paper?",
       "site_i18n": {
@@ -1614,7 +1642,14 @@
           "ko": "연말 서류 정리. 질이 파쇄한 종이가 수북해지자 과장님이 뛰어들어 잠들었어요. 파쇄 종이 = 상사의 둥지."
         }
       },
-      "cta": "Send this to a bunny owner/うさぎを飼っている人に送ろう"
+      "cta": "Send this to a bunny owner/うさぎを飼っている人に送ろう",
+      "title_i18n": {
+        "ja": "シュレッダーの紙くずは上司の巣 | レンとジル「シュレッダーの紙くず」",
+        "ko": "파쇄 종이 더미는 과장님의 둥지 | 렌과 질 Ren & Jill",
+        "zh-Hant": "碎紙堆成了課長的窩 | 蓮與吉兒 Ren & Jill",
+        "es": "El papel triturado es el nido del jefe | Ren & Jill",
+        "pt": "O papel picado virou o ninho do chefe | Ren & Jill"
+      }
     },
     {
       "date": "2026-12-15",
@@ -1642,7 +1677,14 @@
           "ko": "오늘은 12/15. 과장님이 일력을 한 장 넘기더니 멈추지 않고 28일(종무일)까지. 질이 15를 다시 붙였어요."
         }
       },
-      "cta": "Send this to the one counting down to the holidays/冬休みを数えている人に送ろう"
+      "cta": "Send this to the one counting down to the holidays/冬休みを数えている人に送ろう",
+      "title_i18n": {
+        "ja": "日めくりを仕事納めまでめくる上司 | レンとジル「日めくり」",
+        "ko": "달력을 종무일까지 넘겨 버린 과장님 | 렌과 질 Ren & Jill",
+        "zh-Hant": "課長把日曆一路撕到最後上班日 | 蓮與吉兒 Ren & Jill",
+        "es": "El jefe arranca el calendario hasta el último día laboral | Ren & Jill",
+        "pt": "O chefe arranca o calendário até o último dia de trabalho | Ren & Jill"
+      }
     },
     {
       "date": "2026-12-16",
@@ -1670,7 +1712,14 @@
           "ko": "질이 장식한 초록 크리스마스 리스. 일하는 사이 과장님이 옆에서 조금씩. 남은 건 빨간 리본뿐이었어요."
         }
       },
-      "cta": "Send this to the one who snacks on everything/何でも食べちゃう人に送ろう"
+      "cta": "Send this to the one who snacks on everything/何でも食べちゃう人に送ろう",
+      "title_i18n": {
+        "ja": "クリスマスリースが少しずつ消える | レンとジル「クリスマスリース」",
+        "ko": "크리스마스 리스가 조금씩 사라진다 | 렌과 질 Ren & Jill",
+        "zh-Hant": "聖誕花圈一點一點不見了 | 蓮與吉兒 Ren & Jill",
+        "es": "La corona de Navidad desaparece poco a poco | Ren & Jill",
+        "pt": "A guirlanda de Natal some aos poucos | Ren & Jill"
+      }
     },
     {
       "date": "2026-12-17",
@@ -1698,7 +1747,14 @@
           "ko": "연말 정리. 서류 산이던 과장님 책상이 3초 만에 반짝반짝. 질이 서랍을 열자 서류가 눈사태처럼 쏟아졌어요."
         }
       },
-      "cta": "Send this to the one with the messy drawer/引き出しがパンパンな人に送ろう"
+      "cta": "Send this to the one with the messy drawer/引き出しがパンパンな人に送ろう",
+      "title_i18n": {
+        "ja": "机が3秒でピカピカ。引き出しを開けたら | レンとジル「机の片付け」",
+        "ko": "책상이 3초 만에 반짝반짝, 서랍을 열어 보니 | 렌과 질 Ren & Jill",
+        "zh-Hant": "桌子3秒變乾淨，打開抽屜卻… | 蓮與吉兒 Ren & Jill",
+        "es": "Escritorio limpio en 3 segundos… hasta abrir el cajón | Ren & Jill",
+        "pt": "Mesa limpa em 3 segundos… até abrir a gaveta | Ren & Jill"
+      }
     },
     {
       "date": "2026-12-18",
@@ -1712,7 +1768,7 @@
       "thumb": {
         "t": 7.2,
         "cam": "1.4,560,1096",
-        "hook": "DEAR SANTA/サンタへの手紙、上司は3メートル"
+        "hook": "DEAR SANTA/上司の手紙は3メートル"
       },
       "first_comment": "サンタにお願いするなら、何を1つ？ / If you could ask Santa for one thing?",
       "site_i18n": {
@@ -1726,7 +1782,14 @@
           "ko": "산타에게 쓰는 편지. 질은 작은 카드에 한 줄. 과장님 편지는 책상을 넘어 바닥에 3미터. 적힌 건 거의 건초."
         }
       },
-      "cta": "Send this to the one with a long wish list/ほしい物リストが長い人に送ろう"
+      "cta": "Send this to the one with a long wish list/ほしい物リストが長い人に送ろう",
+      "title_i18n": {
+        "ja": "サンタへの手紙が3メートル | レンとジル「サンタへの手紙」",
+        "ko": "산타에게 쓴 편지가 3미터 | 렌과 질 Ren & Jill",
+        "zh-Hant": "給聖誕老人的信長達3公尺 | 蓮與吉兒 Ren & Jill",
+        "es": "Una carta a Papá Noel de 3 metros | Ren & Jill",
+        "pt": "Uma carta de 3 metros para o Papai Noel | Ren & Jill"
+      }
     },
     {
       "date": "2026-12-19",
@@ -1754,7 +1817,14 @@
           "ko": "선물 교환. 질 앞으로 커다란 상자가 도착했어요. 리본을 풀자 안에서 과장님이. 선물은 상사 본인이었어요."
         }
       },
-      "cta": "Send this to the one who's the gift/自分がプレゼントな人に送ろう"
+      "cta": "Send this to the one who's the gift/自分がプレゼントな人に送ろう",
+      "title_i18n": {
+        "ja": "プレゼントの箱から出てきたのは上司 | レンとジル「プレゼント交換」",
+        "ko": "선물 상자에서 나온 건 과장님 | 렌과 질 Ren & Jill",
+        "zh-Hant": "禮物盒裡跳出來的是課長 | 蓮與吉兒 Ren & Jill",
+        "es": "Dentro de la caja de regalo: el jefe | Ren & Jill",
+        "pt": "Dentro da caixa de presente: o chefe | Ren & Jill"
+      }
     },
     {
       "date": "2026-12-20",
@@ -1782,7 +1852,14 @@
           "ko": "질이 창가에 크리스마스 전구를 달았어요. 과장님이 줄 끝에 달려들어 빙글빙글. 스위치를 켜니 빛난 건 과장님이었어요."
         }
       },
-      "cta": "Send this to the one who sparkles/キラキラしている人に送ろう"
+      "cta": "Send this to the one who sparkles/キラキラしている人に送ろう",
+      "title_i18n": {
+        "ja": "電飾のスイッチを入れたら上司が光った | レンとジル「電飾」",
+        "ko": "전구 스위치를 켰더니 과장님이 빛났다 | 렌과 질 Ren & Jill",
+        "zh-Hant": "打開燈串開關，發亮的是課長 | 蓮與吉兒 Ren & Jill",
+        "es": "Enciende las luces de Navidad y se ilumina el jefe | Ren & Jill",
+        "pt": "Liga as luzes de Natal e quem acende é o chefe | Ren & Jill"
+      }
     },
     {
       "date": "2026-12-21",
@@ -1810,7 +1887,14 @@
           "ko": "크리스마스 주간. 질은 작은 산타 모자를 쏙. 과장님 모자는 특대라 온몸이 쏙. 뒤뚱뒤뚱 걷다 쿵. 들어 보니 안에서 자고 있었어요."
         }
       },
-      "cta": "Send this to the one who naps anywhere/どこでも寝られる人に送ろう"
+      "cta": "Send this to the one who naps anywhere/どこでも寝られる人に送ろう",
+      "title_i18n": {
+        "ja": "サンタ帽が大きすぎて上司が消えた | レンとジル「サンタ帽」",
+        "ko": "산타 모자가 너무 커서 과장님이 사라졌다 | 렌과 질 Ren & Jill",
+        "zh-Hant": "聖誕帽太大，課長整個不見了 | 蓮與吉兒 Ren & Jill",
+        "es": "Un gorro de Papá Noel tan grande que el jefe desaparece | Ren & Jill",
+        "pt": "Um gorro de Papai Noel tão grande que o chefe some | Ren & Jill"
+      }
     },
     {
       "date": "2026-12-22",
@@ -1824,7 +1908,7 @@
       "thumb": {
         "t": 4.8,
         "cam": "1.2,620,1050",
-        "hook": "HIDE AND SEEK/かくれんぼ、上司はペンの後ろ"
+        "hook": "HIDE AND SEEK/ペン1本でかくれる上司"
       },
       "first_comment": "うさぎを飼っている人、かくれたつもりの姿、見たことある？ / Bunny owners: does yours ever \"hide\" in plain sight?",
       "site_i18n": {
@@ -1838,7 +1922,14 @@
           "ko": "점심시간 숨바꼭질. 질이 셋을 세는 동안 과장님은 얼굴 앞에 펜 한 자루를 세웠을 뿐. 본인은 숨었다고 생각해요. 1초 만에 발견."
         }
       },
-      "cta": "Send this to the worst hider you know/かくれるのが下手な人に送ろう"
+      "cta": "Send this to the worst hider you know/かくれるのが下手な人に送ろう",
+      "title_i18n": {
+        "ja": "ペン1本でかくれたつもりの上司 | レンとジル「かくれんぼ」",
+        "ko": "펜 한 자루 뒤에 숨은 과장님 | 렌과 질 Ren & Jill",
+        "zh-Hant": "課長以為躲在一支筆後面就看不到 | 蓮與吉兒 Ren & Jill",
+        "es": "El jefe se esconde detrás de un bolígrafo | Ren & Jill",
+        "pt": "O chefe se esconde atrás de uma caneta | Ren & Jill"
+      }
     },
     {
       "date": "2026-12-24",
@@ -1866,7 +1957,14 @@
           "ko": "크리스마스이브. 질은 작은 양말, 과장님은 바닥까지 닿는 특대 양말. 다음 날 아침 과장님이 머리부터 들어가 찾은 건 건초 한 가닥. 그래도 대만족이에요."
         }
       },
-      "cta": "Send this to the one who wants it all/欲ばりな人に送ろう"
+      "cta": "Send this to the one who wants it all/欲ばりな人に送ろう",
+      "title_i18n": {
+        "ja": "特大のくつしたに入っていたのは牧草1本 | レンとジル「くつした」",
+        "ko": "특대 양말 속에는 건초 한 가닥 | 렌과 질 Ren & Jill",
+        "zh-Hant": "特大聖誕襪裡只有一根牧草 | 蓮與吉兒 Ren & Jill",
+        "es": "En el calcetín gigante: una sola brizna de heno | Ren & Jill",
+        "pt": "Na meia gigante: um único fio de feno | Ren & Jill"
+      }
     },
     {
       "date": "2026-12-25",
@@ -1894,7 +1992,14 @@
           "ko": "크리스마스. 산타는 과장님, 순록은 질. 썰매는 꿈쩍도 안 해요. 질이 막대 끝에 건초를 매달자 순록 교대. 과장님이 신나게 끌고 있어요."
         }
       },
-      "cta": "Send this to the one who does all the pulling/いつも引っぱってくれる人に送ろう"
+      "cta": "Send this to the one who does all the pulling/いつも引っぱってくれる人に送ろう",
+      "title_i18n": {
+        "ja": "サンタとトナカイが入れ替わった | レンとジル「サンタとトナカイ」",
+        "ko": "산타와 순록이 뒤바뀌었다 | 렌과 질 Ren & Jill",
+        "zh-Hant": "聖誕老人和馴鹿交換了 | 蓮與吉兒 Ren & Jill",
+        "es": "Papá Noel y el reno intercambian papeles | Ren & Jill",
+        "pt": "O Papai Noel e a rena trocam de lugar | Ren & Jill"
+      }
     },
     {
       "date": "2026-12-23",
@@ -1922,7 +2027,14 @@
           "ko": "연말 대청소. 질이 돌돌이로 책상을 돌돌. 내친김에 과장님도 돌돌했더니, 빠진 털로 과장님이 한 마리 더 생겼어요."
         }
       },
-      "cta": "Send this to a bunny owner with a lint roller/コロコロが手放せない人に送ろう"
+      "cta": "Send this to a bunny owner with a lint roller/コロコロが手放せない人に送ろう",
+      "title_i18n": {
+        "ja": "コロコロしたら上司がもう1匹できた | レンとジル「コロコロ」",
+        "ko": "돌돌이를 굴렸더니 과장님이 한 마리 더 | 렌과 질 Ren & Jill",
+        "zh-Hant": "用黏毛滾輪滾一滾，多出一隻課長 | 蓮與吉兒 Ren & Jill",
+        "es": "Pasa el quitapelusas y sale otro jefe | Ren & Jill",
+        "pt": "Passa o rolo tira-pelos e aparece outro chefe | Ren & Jill"
+      }
     },
     {
       "date": "2026-12-26",
@@ -1950,7 +2062,14 @@
           "ko": "연말 장식. 질은 작은 가가미모치. 과장님은 건초 다발을 두 단으로 쌓아 건초 가가미모치. 한눈판 사이 아랫단부터 먹기 시작해서 윗단이 데굴."
         }
       },
-      "cta": "Send this to the one who can't wait for New Year/お正月が待ちきれない人に送ろう"
+      "cta": "Send this to the one who can't wait for New Year/お正月が待ちきれない人に送ろう",
+      "title_i18n": {
+        "ja": "牧草でできた鏡もちを上司が食べた | レンとジル「鏡もち」",
+        "ko": "건초로 만든 가가미모치를 과장님이 먹었다 | 렌과 질 Ren & Jill",
+        "zh-Hant": "牧草做的鏡餅被課長吃掉了 | 蓮與吉兒 Ren & Jill",
+        "es": "El jefe se come su adorno de Año Nuevo hecho de heno | Ren & Jill",
+        "pt": "O chefe come o enfeite de Ano-Novo feito de feno | Ren & Jill"
+      }
     },
     {
       "date": "2026-12-27",
@@ -1978,7 +2097,14 @@
           "ko": "연말 경품 추첨. 질이 돌리니 흰 공, 티슈 한 개. 과장님이 힘차게 돌리니 금색 공, 건초 1년 치. 과장님은 건초 산에 파묻혀 대만족이에요."
         }
       },
-      "cta": "Send this to the luckiest person you know/くじ運がいい人に送ろう"
+      "cta": "Send this to the luckiest person you know/くじ運がいい人に送ろう",
+      "title_i18n": {
+        "ja": "福引きで上司が当てたのは牧草1年分 | レンとジル「福引き」",
+        "ko": "경품 추첨에서 과장님이 뽑은 건 건초 1년 치 | 렌과 질 Ren & Jill",
+        "zh-Hant": "課長抽獎抽中一年份的牧草 | 蓮與吉兒 Ren & Jill",
+        "es": "El jefe gana un año de heno en el sorteo | Ren & Jill",
+        "pt": "O chefe ganha um ano de feno no sorteio | Ren & Jill"
+      }
     },
     {
       "date": "2026-12-29",
@@ -2006,7 +2132,14 @@
           "ko": "설날 찬합. 질의 것은 알록달록한 오세치. 과장님 것은 1단도 2단도 3단도 건초. 질이 자기 3단째를 열어 보니 건초가 한 가닥 들어 있었어요."
         }
       },
-      "cta": "Send this to the one who shares their favorite things/好きな物を分けてくれる人に送ろう"
+      "cta": "Send this to the one who shares their favorite things/好きな物を分けてくれる人に送ろう",
+      "title_i18n": {
+        "ja": "上司のおせちは3段とも牧草 | レンとジル「おせちの重箱」",
+        "ko": "과장님의 오세치는 3단 모두 건초 | 렌과 질 Ren & Jill",
+        "zh-Hant": "課長的年菜三層全是牧草 | 蓮與吉兒 Ren & Jill",
+        "es": "La caja de Año Nuevo del jefe: heno, heno y más heno | Ren & Jill",
+        "pt": "A caixa de Ano-Novo do chefe: feno, feno e mais feno | Ren & Jill"
+      }
     },
     {
       "date": "2026-12-30",
@@ -2020,7 +2153,7 @@
       "thumb": {
         "t": 7.6,
         "cam": "1.3,503,900",
-        "hook": "PACKING/帰省の荷造り、上司は牧草だけ"
+        "hook": "PACKING/上司の荷物は牧草だけ"
       },
       "first_comment": "帰省の荷物、いつも多くなる派？ / Do you always overpack?",
       "site_i18n": {
@@ -2034,7 +2167,14 @@
           "ko": "귀성 짐 싸기. 질의 작은 캐리어는 딸깍 닫혔어요. 과장님 것은 건초뿐이라 넘쳐서 뚜껑이 안 닫혀요. 위에 앉아 꾹꾹… 펑."
         }
       },
-      "cta": "Send this to the one who always overpacks/荷物が多い人に送ろう"
+      "cta": "Send this to the one who always overpacks/荷物が多い人に送ろう",
+      "title_i18n": {
+        "ja": "牧草だけ詰めたスーツケースが閉まらない | レンとジル「帰省の荷造り」",
+        "ko": "건초만 넣은 캐리어가 닫히지 않는다 | 렌과 질 Ren & Jill",
+        "zh-Hant": "只塞牧草的行李箱關不起來 | 蓮與吉兒 Ren & Jill",
+        "es": "Una maleta llena de heno que no cierra | Ren & Jill",
+        "pt": "Uma mala cheia de feno que não fecha | Ren & Jill"
+      }
     },
     {
       "date": "2026-12-31",
@@ -2062,7 +2202,14 @@
           "ko": "섣달그믐. 질은 폭죽을 들고 3, 2, 1, 펑. 과장님은 옆에서 쿨쿨. 0시 1분, 과장님이 퍼뜩 깨서 혼자 펑. 1분 늦은 새해예요. 새해 복 많이 받으세요."
         }
       },
-      "cta": "Send this to the one who always falls asleep before midnight/年越しまで起きていられない人に送ろう"
+      "cta": "Send this to the one who always falls asleep before midnight/年越しまで起きていられない人に送ろう",
+      "title_i18n": {
+        "ja": "年越しを寝すごして1分遅れの新年 | レンとジル「カウントダウン」",
+        "ko": "카운트다운 내내 자다가 1분 늦은 새해 | 렌과 질 Ren & Jill",
+        "zh-Hant": "睡過倒數，晚1分鐘的新年 | 蓮與吉兒 Ren & Jill",
+        "es": "Se duerme en la cuenta atrás: Año Nuevo con 1 minuto de retraso | Ren & Jill",
+        "pt": "Dorme na contagem regressiva: Ano-Novo com 1 minuto de atraso | Ren & Jill"
+      }
     },
     {
       "date": "2027-01-01",
@@ -2090,7 +2237,14 @@
           "ko": "새해 복 많이 받으세요. 질은 반듯하게 인사. 과장님도 인사… 깊게, 더 깊게, 그대로 앞으로 데굴. 올해도 잘 부탁드려요."
         }
       },
-      "cta": "Send this to someone you want to say Happy New Year to/新年のあいさつをしたい人に送ろう"
+      "cta": "Send this to someone you want to say Happy New Year to/新年のあいさつをしたい人に送ろう",
+      "title_i18n": {
+        "ja": "新年のおじぎが深すぎた上司 | レンとジル「新年のごあいさつ」",
+        "ko": "새해 인사를 너무 깊이 한 과장님 | 렌과 질 Ren & Jill",
+        "zh-Hant": "課長新年鞠躬鞠得太深了 | 蓮與吉兒 Ren & Jill",
+        "es": "La reverencia de Año Nuevo del jefe: demasiado profunda | Ren & Jill",
+        "pt": "A reverência de Ano-Novo do chefe: funda demais | Ren & Jill"
+      }
     },
     {
       "date": "2027-01-02",
@@ -2118,7 +2272,14 @@
           "ko": "새해 운세 뽑기. 질은 대길. 과장님이 힘차게 흔들자 막대가 와르르. 나온 종이에는 '건초길'. 과장님은 크게 기뻐해요."
         }
       },
-      "cta": "Send this to the luckiest person you know/運がいい人に送ろう"
+      "cta": "Send this to the luckiest person you know/運がいい人に送ろう",
+      "title_i18n": {
+        "ja": "おみくじを引いたら「牧草吉」 | レンとジル「おみくじ」",
+        "ko": "새해 운세를 뽑았더니 \"건초 길\" | 렌과 질 Ren & Jill",
+        "zh-Hant": "新年抽籤抽到「牧草吉」 | 蓮與吉兒 Ren & Jill",
+        "es": "La suerte de Año Nuevo del jefe: \"suerte de heno\" | Ren & Jill",
+        "pt": "A sorte de Ano-Novo do chefe: \"sorte de feno\" | Ren & Jill"
+      }
     },
     {
       "date": "2027-01-03",
@@ -2146,7 +2307,14 @@
           "ko": "설날 연날리기. 질의 작은 연은 술술. 강한 바람이 불자 과장님의 처진 귀가 펄럭펄럭… 과장님이 둥실 떠올랐어요. 가장 잘 나는 연은 상사였어요."
         }
       },
-      "cta": "Send this to the one who gets carried away/すぐ舞い上がる人に送ろう"
+      "cta": "Send this to the one who gets carried away/すぐ舞い上がる人に送ろう",
+      "title_i18n": {
+        "ja": "凧あげでいちばんあがったのは上司 | レンとジル「凧あげ」",
+        "ko": "연날리기에서 가장 높이 뜬 건 과장님 | 렌과 질 Ren & Jill",
+        "zh-Hant": "放風箏，飛最高的是課長 | 蓮與吉兒 Ren & Jill",
+        "es": "Día de cometas: el que más vuela es el jefe | Ren & Jill",
+        "pt": "Dia de pipas: quem voa mais alto é o chefe | Ren & Jill"
+      }
     },
     {
       "date": "2027-01-04",
@@ -2174,7 +2342,14 @@
           "ko": "1월 4일, 새해 첫 출근. 질이 달력을 1월로 넘기면 과장님이 몰래 12월 31일로 돌려놓아요. 몇 번이고. 마지막엔 테이프로 고정. 상사의 마음은 아직 12월이에요."
         }
       },
-      "cta": "Send this to the one who misses the holidays/休みが恋しい人に送ろう"
+      "cta": "Send this to the one who misses the holidays/休みが恋しい人に送ろう",
+      "title_i18n": {
+        "ja": "仕事始めなのにカレンダーを12月に戻す上司 | レンとジル「仕事始め」",
+        "ko": "새해 첫 출근인데 달력을 12월로 되돌리는 과장님 | 렌과 질 Ren & Jill",
+        "zh-Hant": "開工日，課長偷偷把月曆翻回12月 | 蓮與吉兒 Ren & Jill",
+        "es": "Vuelta al trabajo: el jefe devuelve el calendario a diciembre | Ren & Jill",
+        "pt": "Volta ao trabalho: o chefe volta o calendário para dezembro | Ren & Jill"
+      }
     },
     {
       "date": "2027-01-05",
@@ -2202,7 +2377,14 @@
           "ko": "새해 첫 붓글씨. 질은 '노력'이라고 써서 벽에 붙여요. 과장님도 큰 붓을 휘두릅니다. 붙여진 올해의 목표는…… '목초'."
         }
       },
-      "cta": "Send this to someone with a clear New Year goal/今年の目標が決まっている人に送ろう"
+      "cta": "Send this to someone with a clear New Year goal/今年の目標が決まっている人に送ろう",
+      "title_i18n": {
+        "ja": "書き初めで上司が書いた今年の抱負 | レンとジル「書き初め」",
+        "ko": "새해 붓글씨, 과장님의 올해 목표는 | 렌과 질 Ren & Jill",
+        "zh-Hant": "新年書法，課長寫下的今年目標 | 蓮與吉兒 Ren & Jill",
+        "es": "Caligrafía de Año Nuevo: el propósito del jefe | Ren & Jill",
+        "pt": "Caligrafia de Ano-Novo: a meta do chefe | Ren & Jill"
+      }
     },
     {
       "date": "2027-01-06",
@@ -2230,7 +2412,14 @@
           "ko": "받은 연하장을 정리하는 질. 과장님 앞으로 온 더미가 점점 높아져서 과장님은 흐뭇해요. 그런데 한 장을 뒤집어 보니 보낸 사람은 '과장'. 또 한 장도 '과장'."
         }
       },
-      "cta": "Send this to someone who sends cards to themselves/自分あてに手紙を出しそうな人に送ろう"
+      "cta": "Send this to someone who sends cards to themselves/自分あてに手紙を出しそうな人に送ろう",
+      "title_i18n": {
+        "ja": "上司あての年賀状、差出人は全部上司 | レンとジル「年賀状の仕分け」",
+        "ko": "과장님 앞으로 온 연하장, 보낸 사람은 전부 과장님 | 렌과 질 Ren & Jill",
+        "zh-Hant": "寄給課長的賀年卡，寄件人全是課長 | 蓮與吉兒 Ren & Jill",
+        "es": "Las tarjetas de Año Nuevo del jefe: todas enviadas por él | Ren & Jill",
+        "pt": "Os cartões de Ano-Novo do chefe: todos enviados por ele | Ren & Jill"
+      }
     },
     {
       "date": "2027-01-07",
@@ -2258,7 +2447,14 @@
           "ko": "새해 눈 가리고 얼굴 만들기 놀이. 눈을 가린 질이 만든 얼굴은 엉망이고, 과장님은 크게 웃어요. 과장님 차례, 완벽한 얼굴…… 안대는 이마 위에 있었어요."
         }
       },
-      "cta": "Send this to the friend who always peeks/いつもこっそり見る友だちに送ろう"
+      "cta": "Send this to the friend who always peeks/いつもこっそり見る友だちに送ろう",
+      "title_i18n": {
+        "ja": "福笑いで完ぺきな顔。目かくしはおでこ | レンとジル「福笑い」",
+        "ko": "눈 가리고 완벽한 얼굴? 눈가리개는 이마에 | 렌과 질 Ren & Jill",
+        "zh-Hant": "蒙眼拼出完美的臉？眼罩在額頭上 | 蓮與吉兒 Ren & Jill",
+        "es": "Una cara perfecta con los ojos vendados… ¿o no? | Ren & Jill",
+        "pt": "Um rosto perfeito de olhos vendados… será? | Ren & Jill"
+      }
     },
     {
       "date": "2027-01-08",
@@ -2286,7 +2482,14 @@
           "ko": "건조한 겨울 사무실. 질이 서류를 건네려는 순간 찌릿! 과장님 털이 파직파직, 포스트잇·서류·클립이 줄줄이 달라붙어요. 질이 찾던 펜도 과장님한테 붙어 있었어요."
         }
       },
-      "cta": "Send this to someone who always gets zapped/静電気によくやられる人に送ろう"
+      "cta": "Send this to someone who always gets zapped/静電気によくやられる人に送ろう",
+      "title_i18n": {
+        "ja": "静電気で上司に何でもくっつく | レンとジル「静電気」",
+        "ko": "정전기로 과장님에게 뭐든 달라붙는다 | 렌과 질 Ren & Jill",
+        "zh-Hant": "靜電讓什麼都黏到課長身上 | 蓮與吉兒 Ren & Jill",
+        "es": "Electricidad estática: todo se le pega al jefe | Ren & Jill",
+        "pt": "Eletricidade estática: tudo gruda no chefe | Ren & Jill"
+      }
     },
     {
       "date": "2027-01-09",
@@ -2314,7 +2517,14 @@
           "ko": "과장님이 싱글벙글 봉투를 질의 책상으로 밀어요. 질이 기쁘게 열어 보니 손수 만든 '어깨 안마권'. 단, '※과장님 어깨를'. 과장님은 벌써 등을 돌리고 기다려요."
         }
       },
-      "cta": "Send this to someone who owes you a massage/肩たたきしてほしい人に送ろう"
+      "cta": "Send this to someone who owes you a massage/肩たたきしてほしい人に送ろう",
+      "title_i18n": {
+        "ja": "お年玉の中身は「課長の肩たたき券」 | レンとジル「お年玉」",
+        "ko": "세뱃돈 봉투 속에는 \"과장님 어깨 안마권\" | 렌과 질 Ren & Jill",
+        "zh-Hant": "紅包裡是「幫課長捶背券」 | 蓮與吉兒 Ren & Jill",
+        "es": "El sobre de Año Nuevo: un vale de masaje… para el jefe | Ren & Jill",
+        "pt": "O envelope de Ano-Novo: um vale-massagem… para o chefe | Ren & Jill"
+      }
     },
     {
       "date": "2027-01-10",
@@ -2342,7 +2552,14 @@
           "ko": "아침 체조. 질은 하나, 둘, 셋, 넷 기지개. 과장님도 따라서 쭉~ 기지개…… 그대로 식빵 자세로 쿨쿨."
         }
       },
-      "cta": "Send this to someone who stretches, then naps/のびたら寝ちゃう人に送ろう"
+      "cta": "Send this to someone who stretches, then naps/のびたら寝ちゃう人に送ろう",
+      "title_i18n": {
+        "ja": "朝の体操でそのまま寝る上司 | レンとジル「朝の体操」",
+        "ko": "아침 체조를 하다 그대로 잠든 과장님 | 렌과 질 Ren & Jill",
+        "zh-Hant": "做早操做到直接睡著的課長 | 蓮與吉兒 Ren & Jill",
+        "es": "Estiramientos matutinos: el jefe acaba dormido | Ren & Jill",
+        "pt": "Alongamento matinal: o chefe acaba dormindo | Ren & Jill"
+      }
     },
     {
       "date": "2027-01-11",
@@ -2370,7 +2587,14 @@
           "ko": "월요일 아침. 질이 출근하니 과장님은 벌써 자리에. 빠르다! ……했는데 달력은 빨간 11. 오늘은 성인의 날(공휴일)이었어요. 둘 다 공휴일에 출근."
         }
       },
-      "cta": "Send this to someone who forgot it was a holiday/祝日を忘れていそうな人に送ろう"
+      "cta": "Send this to someone who forgot it was a holiday/祝日を忘れていそうな人に送ろう",
+      "title_i18n": {
+        "ja": "ふたりとも祝日に出社してしまった | レンとジル「祝日出社」",
+        "ko": "둘 다 공휴일에 출근해 버렸다 | 렌과 질 Ren & Jill",
+        "zh-Hant": "兩個都在國定假日來上班了 | 蓮與吉兒 Ren & Jill",
+        "es": "Los dos fueron a trabajar en día festivo | Ren & Jill",
+        "pt": "Os dois foram trabalhar no feriado | Ren & Jill"
+      }
     },
     {
       "date": "2027-01-12",
@@ -2398,7 +2622,14 @@
           "ko": "겨울 아침. 창가 햇볕 속에서 과장님은 식빵 자세. 시간이 지나 햇볕이 움직이자 과장님도 스르륵 이동. 저녁 무렵, 햇볕은 질의 자리로. 과장님도 질 옆에 딱 붙었어요."
         }
       },
-      "cta": "Send this to someone who follows the sun/日なたを追いかけそうな人に送ろう"
+      "cta": "Send this to someone who follows the sun/日なたを追いかけそうな人に送ろう",
+      "title_i18n": {
+        "ja": "日なたを追いかけて移動する上司 | レンとジル「日なた」",
+        "ko": "햇볕을 따라 자리를 옮기는 과장님 | 렌과 질 Ren & Jill",
+        "zh-Hant": "跟著陽光移動的課長 | 蓮與吉兒 Ren & Jill",
+        "es": "El jefe sigue el rayo de sol por toda la oficina | Ren & Jill",
+        "pt": "O chefe segue o raio de sol pelo escritório | Ren & Jill"
+      }
     },
     {
       "date": "2027-01-13",
@@ -2426,7 +2657,14 @@
           "ko": "새 사무용 의자가 도착했어요. 질은 신났어요. 그런데 과장님은 의자는 거들떠보지도 않고 배달 온 상자 속으로. 새 의자보다 상자가 인기예요."
         }
       },
-      "cta": "Send this to someone whose pet loves boxes/箱が大好きな子がいる人に送ろう"
+      "cta": "Send this to someone whose pet loves boxes/箱が大好きな子がいる人に送ろう",
+      "title_i18n": {
+        "ja": "新しいイスより段ボール箱が人気 | レンとジル「新しいイス」",
+        "ko": "새 의자보다 종이 상자가 인기 | 렌과 질 Ren & Jill",
+        "zh-Hant": "比起新椅子，紙箱更受歡迎 | 蓮與吉兒 Ren & Jill",
+        "es": "Silla nueva en la oficina, pero gana la caja de cartón | Ren & Jill",
+        "pt": "Cadeira nova no escritório, mas a caixa de papelão vence | Ren & Jill"
+      }
     },
     {
       "date": "2027-01-14",
@@ -2454,7 +2692,14 @@
           "ko": "질이 화이트보드에 매출 그래프를 그려요. 쭉쭉 올라가요. 과장님이 '조금만 보탤게' 하며 펜을 들고 봉우리 위에 귀 두 개, 눈과 코와 입. 매출 그래프가 토끼가 됐어요."
         }
       },
-      "cta": "Send this to your favorite meeting doodler/会議で落書きしがちな人に送ろう"
+      "cta": "Send this to your favorite meeting doodler/会議で落書きしがちな人に送ろう",
+      "title_i18n": {
+        "ja": "売上グラフがうさぎになった | レンとジル「売上グラフ」",
+        "ko": "매출 그래프가 토끼가 되었다 | 렌과 질 Ren & Jill",
+        "zh-Hant": "業績圖表變成了兔子 | 蓮與吉兒 Ren & Jill",
+        "es": "El gráfico de ventas se convierte en un conejo | Ren & Jill",
+        "pt": "O gráfico de vendas vira um coelho | Ren & Jill"
+      }
     },
     {
       "date": "2027-01-15",
@@ -2482,7 +2727,14 @@
           "ko": "질이 서류를 가지런히 쌓았어요. 과장님 코가 간질간질…… '에, 에'…… 큰 재채기! 서류가 전부 날아오르고, 한 장이 질의 머리 위에 사뿐."
         }
       },
-      "cta": "Send this to someone who sneezes loudly/くしゃみが大きい人に送ろう"
+      "cta": "Send this to someone who sneezes loudly/くしゃみが大きい人に送ろう",
+      "title_i18n": {
+        "ja": "上司のくしゃみで書類が全部まい上がる | レンとジル「くしゃみ」",
+        "ko": "과장님의 재채기에 서류가 전부 날아간다 | 렌과 질 Ren & Jill",
+        "zh-Hant": "課長一個噴嚏，文件全飛起來 | 蓮與吉兒 Ren & Jill",
+        "es": "Un estornudo del jefe y vuelan todos los papeles | Ren & Jill",
+        "pt": "Um espirro do chefe e todos os papéis voam | Ren & Jill"
+      }
     },
     {
       "date": "2027-01-16",
@@ -2510,7 +2762,14 @@
           "ko": "건강검진 키 재기. 질은 똑바로 서서 눈금에 표시. 과장님 차례, 까치발을 해도 좀 작아요…… 그러더니 발밑에 상자를 놓고 쓱 올라섰어요. 기록은 '과장(상자 포함)'."
         }
       },
-      "cta": "Send this to someone who always rounds up their height/身長をちょっと盛る人に送ろう"
+      "cta": "Send this to someone who always rounds up their height/身長をちょっと盛る人に送ろう",
+      "title_i18n": {
+        "ja": "身長測定、上司の記録は「箱こみ」 | レンとジル「身長測定」",
+        "ko": "키 재는 날, 과장님의 기록은 \"상자 포함\" | 렌과 질 Ren & Jill",
+        "zh-Hant": "量身高，課長的紀錄「含箱子」 | 蓮與吉兒 Ren & Jill",
+        "es": "Medición de altura: el récord del jefe incluye la caja | Ren & Jill",
+        "pt": "Medição de altura: o recorde do chefe inclui a caixa | Ren & Jill"
+      }
     },
     {
       "date": "2027-01-17",
@@ -2538,7 +2797,14 @@
           "ko": "생각에 잠긴 질은 손끝으로 펜을 빙글빙글. 과장님도 따라 해 보니 펜은 책상에 선 채로, 과장님이 빙글빙글 돌았어요. 어지러워서 비틀비틀."
         }
       },
-      "cta": "Send this to your pen-spinning friend/ペン回しが得意な人に送ろう"
+      "cta": "Send this to your pen-spinning friend/ペン回しが得意な人に送ろう",
+      "title_i18n": {
+        "ja": "ペン回しで回ったのは上司のほう | レンとジル「ペン回し」",
+        "ko": "펜 돌리기에서 돌아간 건 과장님 쪽 | 렌과 질 Ren & Jill",
+        "zh-Hant": "轉筆，結果轉的是課長自己 | 蓮與吉兒 Ren & Jill",
+        "es": "Girar el boli: el que da vueltas es el jefe | Ren & Jill",
+        "pt": "Girar a caneta: quem gira é o chefe | Ren & Jill"
+      }
     },
     {
       "date": "2027-01-18",
@@ -2566,7 +2832,14 @@
           "ko": "질은 포스트잇에 'TODO'라고 써서 노트북 가장자리에 한 장. 과장님도 포스트잇 묶음을 들고 착, 착, 착…… 전부 자기 몸에 붙였어요. 어디에 붙였는지 두리번두리번."
         }
       },
-      "cta": "Send this to someone covered in sticky notes/付箋だらけの人に送ろう"
+      "cta": "Send this to someone covered in sticky notes/付箋だらけの人に送ろう",
+      "title_i18n": {
+        "ja": "付箋をぜんぶ自分に貼る上司 | レンとジル「付箋」",
+        "ko": "포스트잇을 전부 자기 몸에 붙인 과장님 | 렌과 질 Ren & Jill",
+        "zh-Hant": "課長把便利貼全貼在自己身上 | 蓮與吉兒 Ren & Jill",
+        "es": "El jefe se pega todas las notas adhesivas a sí mismo | Ren & Jill",
+        "pt": "O chefe cola todos os post-its em si mesmo | Ren & Jill"
+      }
     },
     {
       "date": "2027-01-19",
@@ -2594,7 +2867,14 @@
           "ko": "질의 종이비행기는 슝 날아가 쓰레기통에 쏙. 과장님도 큰 종이비행기를 던졌더니 빙글 한 바퀴 돌아서…… 과장님 머리 위에 착륙. 왠지 뿌듯한 얼굴이에요."
         }
       },
-      "cta": "Send this to someone whose plans come back to them/投げたら戻ってくる人に送ろう"
+      "cta": "Send this to someone whose plans come back to them/投げたら戻ってくる人に送ろう",
+      "title_i18n": {
+        "ja": "紙飛行機が上司の頭に着陸 | レンとジル「紙飛行機」",
+        "ko": "종이비행기가 과장님 머리 위에 착륙 | 렌과 질 Ren & Jill",
+        "zh-Hant": "紙飛機降落在課長頭上 | 蓮與吉兒 Ren & Jill",
+        "es": "El avión de papel aterriza en la cabeza del jefe | Ren & Jill",
+        "pt": "O avião de papel pousa na cabeça do chefe | Ren & Jill"
+      }
     },
     {
       "date": "2027-01-20",
@@ -2622,7 +2902,14 @@
           "ko": "질은 자료를 타닥타닥. 과장님도 타이핑을…… 하나 했더니 키보드 위에 식빵 자세로 앉았어요. 화면은 '아아아아'로 가득, 페이지는 계속 늘어나요. 과장님은 그대로 낮잠."
         }
       },
-      "cta": "Send this to someone whose pet types for them/パソコンに乗るペットがいる人に送ろう"
+      "cta": "Send this to someone whose pet types for them/パソコンに乗るペットがいる人に送ろう",
+      "title_i18n": {
+        "ja": "キーボードの上で寝る上司 | レンとジル「キーボード」",
+        "ko": "키보드 위에서 잠든 과장님 | 렌과 질 Ren & Jill",
+        "zh-Hant": "在鍵盤上睡著的課長 | 蓮與吉兒 Ren & Jill",
+        "es": "El jefe se duerme encima del teclado | Ren & Jill",
+        "pt": "O chefe dorme em cima do teclado | Ren & Jill"
+      }
     },
     {
       "date": "2027-01-21",
@@ -2650,7 +2937,14 @@
           "ko": "추운 아침, 창문에 하얗게 김이 서렸어요. 질은 손가락으로 작은 하트. 과장님도 창가로 가서 '하아~' 입김을 불고 크게 크게…… 창문 가득 과장님 자화상이 생겼어요."
         }
       },
-      "cta": "Send this to someone who doodles on windows/窓にらくがきする人に送ろう"
+      "cta": "Send this to someone who doodles on windows/窓にらくがきする人に送ろう",
+      "title_i18n": {
+        "ja": "くもった窓いっぱいに上司の自画像 | レンとジル「窓のくもり」",
+        "ko": "김 서린 창문 가득 과장님의 자화상 | 렌과 질 Ren & Jill",
+        "zh-Hant": "起霧的窗戶上畫滿課長的自畫像 | 蓮與吉兒 Ren & Jill",
+        "es": "Un autorretrato del jefe en toda la ventana empañada | Ren & Jill",
+        "pt": "Um autorretrato do chefe em toda a janela embaçada | Ren & Jill"
+      }
     },
     {
       "date": "2027-01-22",
@@ -2678,7 +2972,14 @@
           "ko": "아침에 질이 줄을 당기자 블라인드가 스르르 올라가고 햇빛이 들어와요. 과장님도 오른쪽 창문의 줄을 당겼더니…… 블라인드는 그대로, 과장님이 올라갔어요. 손을 놓자 쿵."
         }
       },
-      "cta": "Send this to someone who loses to the blinds every morning/ブラインドに負ける人に送ろう"
+      "cta": "Send this to someone who loses to the blinds every morning/ブラインドに負ける人に送ろう",
+      "title_i18n": {
+        "ja": "ブラインドのひもを引いたら上司が上がった | レンとジル「ブラインド」",
+        "ko": "블라인드 줄을 당겼더니 과장님이 올라갔다 | 렌과 질 Ren & Jill",
+        "zh-Hant": "拉百葉窗的繩子，升上去的是課長 | 蓮與吉兒 Ren & Jill",
+        "es": "Tira del cordón de la persiana y el que sube es el jefe | Ren & Jill",
+        "pt": "Puxa a corda da persiana e quem sobe é o chefe | Ren & Jill"
+      }
     },
     {
       "date": "2027-01-23",
@@ -2706,7 +3007,14 @@
           "ko": "건강을 위해 밸런스 볼. 질은 반듯하게 앉아 살랑살랑. 과장님도 앉아 보니…… 통, 통, 점점 높이 튀어 올라 결국 어지러워졌어요."
         }
       },
-      "cta": "Send this to someone who bounces off the walls/元気がありあまってる人に送ろう"
+      "cta": "Send this to someone who bounces off the walls/元気がありあまってる人に送ろう",
+      "title_i18n": {
+        "ja": "バランスボールでどんどんはずむ上司 | レンとジル「バランスボール」",
+        "ko": "밸런스볼 위에서 점점 높이 튀는 과장님 | 렌과 질 Ren & Jill",
+        "zh-Hant": "坐上平衡球越彈越高的課長 | 蓮與吉兒 Ren & Jill",
+        "es": "El jefe rebota cada vez más alto en la pelota de equilibrio | Ren & Jill",
+        "pt": "O chefe quica cada vez mais alto na bola de equilíbrio | Ren & Jill"
+      }
     },
     {
       "date": "2027-01-24",
@@ -2734,7 +3042,14 @@
           "ko": "아침, 질의 머리에 삐친 머리 한 가닥. 빗으로 쓱 정리했어요. 과장님도 브러시로 털을 정리하니…… 빗을수록 털이 부풀어 올라요. 마지막엔 동글동글."
         }
       },
-      "cta": "Send this to someone with fluffy morning hair/朝の髪がふわふわな人に送ろう"
+      "cta": "Send this to someone with fluffy morning hair/朝の髪がふわふわな人に送ろう",
+      "title_i18n": {
+        "ja": "ブラシをかけるほどふくらむ上司 | レンとジル「寝ぐせ」",
+        "ko": "빗을수록 부풀어 오르는 과장님 | 렌과 질 Ren & Jill",
+        "zh-Hant": "越梳越蓬的課長 | 蓮與吉兒 Ren & Jill",
+        "es": "Cuanto más se cepilla el jefe, más esponjoso queda | Ren & Jill",
+        "pt": "Quanto mais o chefe se escova, mais fofo fica | Ren & Jill"
+      }
     },
     {
       "date": "2027-01-25",
@@ -2762,7 +3077,14 @@
           "ko": "질은 마우스로 화면의 화살표를 쓱쓱 움직여 클릭. 과장님은 화면 속 화살표가 신경 쓰여 눈으로 쫓다가…… 얍! 화면에 발바닥 자국이 남았어요."
         }
       },
-      "cta": "Send this to someone whose cat attacks the screen/画面にとびつくペットがいる人に送ろう"
+      "cta": "Send this to someone whose cat attacks the screen/画面にとびつくペットがいる人に送ろう",
+      "title_i18n": {
+        "ja": "マウスの矢印に飛びかかる上司 | レンとジル「マウス」",
+        "ko": "마우스 커서에 달려드는 과장님 | 렌과 질 Ren & Jill",
+        "zh-Hant": "撲向滑鼠游標的課長 | 蓮與吉兒 Ren & Jill",
+        "es": "El jefe se lanza sobre el cursor del ratón | Ren & Jill",
+        "pt": "O chefe pula em cima do cursor do mouse | Ren & Jill"
+      }
     },
     {
       "date": "2027-01-26",
@@ -2790,7 +3112,14 @@
           "ko": "질은 선물 상자에 리본을 꼭. 과장님도 넥타이를 다시 매 보는데, 빙글빙글, 빙글빙글…… 넥타이는 그대로, 머리 위에 커다란 리본이 생겼어요."
         }
       },
-      "cta": "Send this to someone who can't tie a tie/ネクタイが苦手な人に送ろう"
+      "cta": "Send this to someone who can't tie a tie/ネクタイが苦手な人に送ろう",
+      "title_i18n": {
+        "ja": "ネクタイを結んだら頭にリボンができた | レンとジル「ネクタイ」",
+        "ko": "넥타이를 매다가 머리에 리본이 생겼다 | 렌과 질 Ren & Jill",
+        "zh-Hant": "打領帶打到頭上多了蝴蝶結 | 蓮與吉兒 Ren & Jill",
+        "es": "Intenta anudarse la corbata y acaba con un lazo en la cabeza | Ren & Jill",
+        "pt": "Tenta dar o nó na gravata e acaba com um laço na cabeça | Ren & Jill"
+      }
     },
     {
       "date": "2027-01-27",
@@ -2818,7 +3147,14 @@
           "ko": "점심시간 10분 낮잠. 질의 작은 알람이 '삐삐' 울리자 번쩍 일어났어요. 과장님의 커다란 벨 알람은 '따르르릉!'…… 벌떡 일어난 건 질. 과장님은 쿨쿨 자고 있어요."
         }
       },
-      "cta": "Send this to someone who sleeps through every alarm/目覚ましで起きられない人に送ろう"
+      "cta": "Send this to someone who sleeps through every alarm/目覚ましで起きられない人に送ろう",
+      "title_i18n": {
+        "ja": "目覚ましが鳴っても起きない上司 | レンとジル「目覚まし時計」",
+        "ko": "알람이 울려도 일어나지 않는 과장님 | 렌과 질 Ren & Jill",
+        "zh-Hant": "鬧鐘響了也不醒的課長 | 蓮與吉兒 Ren & Jill",
+        "es": "La alarma suena a todo volumen y el jefe sigue dormido | Ren & Jill",
+        "pt": "O alarme toca bem alto e o chefe continua dormindo | Ren & Jill"
+      }
     }
   ]
 }

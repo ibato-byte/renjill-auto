@@ -10,6 +10,7 @@
 検査すること（WARN＝知らせる）
 - 途中の字幕（CHIP）の数：2回以上は WARN（目安は1回。冒頭の一言で状況は伝わる。言葉を入れすぎると世界観が崩れる＝オーナー 2026-11-10）… 156・157・174
 - 字幕の長さ：英語 24 文字・日本語 18 文字を超えたら WARN                    … 38・159
+- 冒頭の一言（pace.js の hook）：日本語 14 文字以上は WARN（13 文字まで。2026-11-15）
 - 冒頭の一言（pace.js の hook）：英語 5 語以上は WARN（3〜4 語）            … 136
 - 尺：画面に出る長さが 7〜12 秒の外なら WARN                               … 5・143
 - 同じ効果音の組み合わせ：「目立つ音」（pon/boing/chime/thump/flop）が3日続けて同じなら WARN … 127
@@ -135,6 +136,9 @@ def check(posts, today, days=14, pc=None, lk=None):
                     warns.append(f"{tag}: 字幕の英語に長い単語「{w}」（短い単語に）")
             en = i["hook"].split("/")[0]
             if len(en.split()) > 4: warns.append(f"{tag}: 冒頭の英語が{len(en.split())}語（3〜4語に）")
+            # 冒頭の日本語は 13 文字まで（2026-11-15：1.7 秒で読める長さ。振り返りで、短い一言の回ほど最後まで見られていた：最後の1枚 0.64／99%で止まる 0.49 ⇔ 長い一言の回 0.41〜0.46）
+            ja_h = i["hook"].split("/")[1] if "/" in i["hook"] else ""
+            if len(ja_h) > 13: warns.append(f"{tag}: 冒頭の日本語が{len(ja_h)}文字（13文字までに。1.7秒で読み切れない）")
             if i["out"] and not (7 <= i["out"] <= 12): warns.append(f"{tag}: 尺 {i['out']:.1f}秒（7〜12秒に）")
             if ep in lk and any(lk.get(h) == lk[ep] for h in hist[-3:]):
                 warns.append(f"{tag}: 前の3話と同じ部屋（rig/v2/looks.js を作り直す：python3 auto/looks.py）")

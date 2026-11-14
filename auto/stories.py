@@ -98,7 +98,7 @@ def build_story_video(p, loop_path, out_path):
         fc += "[v0][v1]concat=n=2:v=1:a=0[v]"
     cmd = ["ffmpeg", "-y", "-loglevel", "error", "-ss", str(start), "-t", str(dur), "-i", str(loop_path), "-f", "lavfi", "-i", card,
            "-filter_complex", fc, "-map", "[v]"] + (["-map", "[a]", "-c:a", "aac", "-b:a", "128k"] if audio else []) + \
-          ["-c:v", "libx264", "-preset", "veryfast", "-crf", "20", "-movflags", "+faststart", str(out_path)]
+          ["-c:v", "libx264", "-preset", "medium", "-crf", "17", "-tune", "animation", "-pix_fmt", "yuv420p", "-colorspace", "bt709", "-color_primaries", "bt709", "-color_trc", "bt709", "-color_range", "tv", "-movflags", "+faststart", str(out_path)]
     subprocess.run(cmd, check=True)
     return out_path
 
