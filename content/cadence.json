@@ -18,8 +18,8 @@
    "ratio": 0.486
   }
  ],
- "schedule_days_ahead": 75,
+ "schedule_days_ahead": 74,
  "schedule_target_days": 14,
  "same_day_twice": [],
- "date": "2026-11-13"
+ "date": "2026-11-14"
 }

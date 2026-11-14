@@ -667,7 +667,7 @@
       "title": "1枚だけ印刷",
       "caption_ja": "「1枚だけ」のはずが40枚。ジルはボタン1回で止めました。",
       "caption_en": "\"Just one page.\" Forty pages later, Jill stops it with one button.",
-      "tag_set": "C",
+      "tag_set": "A",
       "thumb": {
         "t": 4.4,
         "cam": "1.5,760,1147",
@@ -692,6 +692,12 @@
         "zh-Hant": "「只印一張」結果印了40張 | 蓮與吉兒 Ren & Jill",
         "es": "\"Solo una hoja\" y salen 40 | Ren & Jill",
         "pt": "\"Só uma folha\" e saem 40 | Ren & Jill"
+      },
+      "experiment": {
+        "var": "tag_set",
+        "std": "B",
+        "value": "A",
+        "why": "ハッシュタグの組み合わせを変えて、見つかり方を比べる"
       }
     },
     {
