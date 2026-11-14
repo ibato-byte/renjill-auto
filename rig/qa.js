@@ -63,7 +63,7 @@ const STEP = 0.125, W = 1080, H = 1920;
       pz = c.z; ptx = c.tx; pty = c.ty;
     }
   }
-  const sheet = [];
+  const sheet = []; let fxMin = Infinity;
   for (let t = 0; t < dur; t += STEP) {
     await p.evaluate(t => window.setOut(t), t);
     const r = await p.evaluate(() => {
@@ -141,7 +141,10 @@ const STEP = 0.125, W = 1080, H = 1920;
     // 白飛び／黒つぶれ：ごく小さいJPEGは単色
     if (buf.length < 6000 && r.end < 0.5 && r.dim < 0.9) issues.push(`単色フレーム t=${t.toFixed(2)}`);
     // 残骸：エンドカード直前
-    if (t >= dur - 1.2 && t < dur - 1.1 && r.fx > 3) warns.push(`エンドカード直前にfx要素が${r.fx}個残っている`);
+    // 残骸の見張り（総見直し #200・2026-11-14）：机などの背景も fx に描くので、数そのものではなく
+    //   「その回でいちばん少ないときの fx の数（＝背景）」より増えて残っている数を見る。前は全話に出て見張りにならなかった
+    if (r.end < 0.5) fxMin = Math.min(fxMin, r.fx);
+    if (t >= dur - 1.2 && t < dur - 1.1 && r.fx - fxMin > 3) warns.push(`エンドカード直前に、背景より多いfx要素が${r.fx - fxMin}個残っている（全${r.fx}個・背景${fxMin}個）`);
     if (Math.abs((t / dur) * 12 - Math.round((t / dur) * 12)) < STEP / dur * 6 && sheet.length < 12) sheet.push({ t, buf: await p.screenshot({ type: 'jpeg', quality: 70 }) });
   }
   // エンドカードが出ること
