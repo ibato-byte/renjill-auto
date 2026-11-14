@@ -1,0 +1,53 @@
+{
+ "ok": true,
+ "problems": [],
+ "warnings": [],
+ "numbers": {
+  "sec": 3600.0,
+  "mb": 1285,
+  "lufs": -14.0,
+  "lra": 6.4,
+  "peak": -5.3,
+  "silences": 0,
+  "spectrum": {
+   "sub": 19.29,
+   "bass": 28.01,
+   "lowmid": 35.51,
+   "mid": 12.22,
+   "hi": 4.97,
+   "corr": 0.92
+  },
+  "tracks": 18,
+  "loops": [
+   {
+    "adj_mean": 0.17,
+    "adj_max": 0.47,
+    "seam": 0.34,
+    "luma": 70.88
+   },
+   {
+    "adj_mean": 0.33,
+    "adj_max": 0.67,
+    "seam": 0.44,
+    "luma": 72.85
+   },
+   {
+    "adj_mean": 0.18,
+    "adj_max": 0.74,
+    "seam": 0.27,
+    "luma": 73.63
+   },
+   {
+    "adj_mean": 0.41,
+    "adj_max": 0.79,
+    "seam": 0.6,
+    "luma": 77.45
+   }
+  ],
+  "chapter_diff": [
+   3.1,
+   4.2,
+   5.3
+  ]
+ }
+}
