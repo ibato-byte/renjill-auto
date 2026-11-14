@@ -1,15 +1,15 @@
 {
  "ep": "meeting",
  "en": {
-  "width": 853,
-  "height": 124,
-  "top": 453
+  "width": 858,
+  "height": 171,
+  "top": 426
  },
- "chipTop": 698,
+ "chipTop": 690,
  "busy": {
   "en": 0,
-  "ja": 1.7,
+  "ja": 1.4,
   "chip": 1.6
  },
- "made": "2026-11-14T04:37:44.178Z"
+ "made": "2026-11-14T17:46:56.719Z"
 }
