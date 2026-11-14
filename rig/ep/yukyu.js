@@ -46,7 +46,7 @@ var EP = {
     if (gone) { fx += L.chair(300, DESK - 40, 0); fx += L.speed(0, DESK - 400, Math.max(0, 1 - seg(t, 6.0, 6.8)) * .6, 20); }
     if (gone && t < 7.2) fx += L.dust(-40, DESK, Math.min(1, (t - 6.0) * 2));
     if (t >= 7.2) fx += L.qmark(900, DESK - 700, 1.0);
-    let ui = (t > 1.8 && t < 3.4 ? CHIP(L, 'PAID LEAVE: NOV 27', 'ジルの有給申請（11/27）。上司は見ずに承認', 1380, seg(t, 1.8, 2.1)) : '')
+    let ui = (t > 1.8 && t < 3.4 ? CHIP(L, 'PAID LEAVE: NOV 27', '有給11/27。上司は見ずに承認', 1380, seg(t, 1.8, 2.1)) : '')
       + (t > 4.6 && t < 5.6 ? CHIP_OFF(L, 'NOV 27: THE BIG MEETING', '11/27は大事な会議の日', 1380, seg(t, 4.6, 4.9)) : '')
       + (t > 6.2 && t < 8.6 ? CHIP_OFF(L, 'APPROVED. 0.5 SEC LATER:', '承認の0.5秒後、ジルは出発済み', 1380, seg(t, 6.2, 6.5)) : '');
     const cam = L.camAt([

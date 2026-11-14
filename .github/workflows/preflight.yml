@@ -12,7 +12,7 @@ concurrency: post
 jobs:
   preflight:
     runs-on: ubuntu-24.04
-    timeout-minutes: 60
+    timeout-minutes: 90  # 2026-11-15：画質を上げて描画が長くなった（1 本 約 6 分）ので、余裕を持たせる
     steps:
       - name: Automation Hub：一時停止の確認
         id: hub
