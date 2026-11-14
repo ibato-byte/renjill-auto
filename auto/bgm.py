@@ -19,6 +19,7 @@
   python auto/bgm.py build --date … --n N               先の日付の回を、回の番号を指定して作る
   python auto/bgm.py stock-record --src DIR --run ID    作った回を並び順に検査し直して auto/bgm_state.json の stock に記録
   python auto/bgm.py stock-fetch [--date …]             その日の作り置きを dist/bgm_stock/<date>/ に取ってくる（なければ何もしない）
+  python auto/bgm.py stock-check [--date …]             作り置きを当日と同じやり方で取り出して確かめる（取り出せなければ終了コード 1）
 設定は auto/bgm_config.json（曜日・長さ・公開範囲）。
 """
 import argparse, datetime as dt, json, os, pathlib, shutil, subprocess, sys
@@ -645,7 +646,7 @@ def due(date, cfg, st):
 
 def main(argv=None):
     ap = argparse.ArgumentParser()
-    ap.add_argument("cmd", choices=["plan", "build", "upload", "run", "todos", "publish", "relabel", "stock-plan", "stock-record", "stock-fetch"])
+    ap.add_argument("cmd", choices=["plan", "build", "upload", "run", "todos", "publish", "relabel", "stock-plan", "stock-record", "stock-fetch", "stock-check"])
     ap.add_argument("--date"); ap.add_argument("--minutes", type=int); ap.add_argument("--privacy"); ap.add_argument("--force", action="store_true"); ap.add_argument("--keep", action="store_true"); ap.add_argument("--par", type=int, default=3); ap.add_argument("--theme", help="手元の試作用：テーマを指定（build だけ）")
     ap.add_argument("--n", type=int, help="作り置き：回の番号（0 始まり。stock-plan が出す）"); ap.add_argument("--until"); ap.add_argument("--redo", action="store_true"); ap.add_argument("--src"); ap.add_argument("--run", dest="run_id")
     a = ap.parse_args(argv)
@@ -665,6 +666,13 @@ def main(argv=None):
         if bad: log("記録しなかった回（当日に作る）", ", ".join(bad))
         return 3 if bad else 0
     if a.cmd == "stock-fetch": stock_fetch(date); return 0
+    if a.cmd == "stock-check":
+        # 作り置きを当日と同じやり方で取り出せるかの確認（2026-11-14：作って保管しただけでは、当日に取り出せるか分からない）。--date がなければ、いちばん先の日付の作り置き
+        st = state(); d = a.date or max(st.get("stock", {}) or [""])
+        if not d: log("作り置きがない"); return 0
+        probs = stock_problems(d, st) if stock_fetch(d, st) else ["取ってこられなかった"]
+        shutil.rmtree(STOCK / d, ignore_errors=True)
+        log("取り出しの確認", d, "OK" if not probs else "NG：" + " / ".join(probs)); return 1 if probs else 0
     cfg, st = config(), state()
     if not a.force and not due(date, cfg, st):
         log(date, "は予定の日ではない／投稿済み"); summary.write_text(f"{date}：出す回なし"); return 0

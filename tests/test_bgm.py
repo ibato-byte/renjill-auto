@@ -485,6 +485,10 @@ class StockWorkflowTest(unittest.TestCase):
         self.assertIn("steps.build.outputs.code == '0'", self.y); self.assertIn("name: bgm-stock-${{ matrix.ep.date }}", self.y)
         self.assertIn("stock-record", self.y); self.assertIn("fail-fast: false", self.y)
 
+    def test_stock_run_proves_the_video_can_be_fetched_back(self):
+        self.assertIn("bgm.py stock-check", self.y); self.assertIn("actions: read", self.y); self.assertIn("GH_TOKEN", self.y)
+        self.assertLess(self.y.index("push_main.sh"), self.y.index("bgm.py stock-check"))      # 記録を保存してから確かめる（確認が落ちても記録は残る）
+
     def test_day_run_fetches_stock_and_can_read_artifacts(self):
         self.assertIn("actions: read", self.day); self.assertIn("stock-fetch", self.day); self.assertIn("GH_TOKEN", self.day)
         self.assertLess(self.day.index("stock-fetch"), self.day.index('args=(run --date'))
