@@ -88,9 +88,12 @@ jobs:
         env:
           DATE: ${{ matrix.ep.date }}
           N: ${{ matrix.ep.n }}
+          IN_REDO: ${{ github.event.inputs.redo }}
         run: |
           set +e
-          python auto/bgm.py build --date "$DATE" --n "$N" --par 4; code=$?
+          args=(build --date "$DATE" --n "$N" --par 4)
+          [ "$IN_REDO" = "true" ] && args+=(--redo)   # 全部作り直すときは、古い作り置きの曲を「使った曲」に数えない
+          python auto/bgm.py "${args[@]}"; code=$?
           echo "code=$code" >> "$GITHUB_OUTPUT"
           [ "$code" = 0 ] || [ "$code" = 3 ] || exit "$code"   # 3＝検査に落ちた（結果は残して、最後にまとめて知らせる）
       - name: 動画を保管する（検査に通った回だけ）

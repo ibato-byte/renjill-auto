@@ -84,9 +84,15 @@ def check_novelty(meta, prev):
         if last.get("theme") == meta["theme"]: probs.append("前の回と同じテーマ")
         if last.get("title") == meta["title"]: probs.append("前の回と同じ題名")
         if last.get("seed") == meta["seed"]: probs.append("前の回と同じ seed（同じ曲になる）")
+        # 回をまたいで同じ曲（調・進行・速さが同じ）・同じ曲名を使わない（オーナー依頼 2026-11-14「曲はできるだけ被らないように」）。
+        # 組み合わせを使い切って避けられなかった曲（reused の印）の数だけは見逃す
+        allow = sum(1 for t in meta["tracks"] if t.get("reused")); total = 0
         for p in prev:
-            both = set(p.get("track_keys") or []) & set(keys)
+            both = set(p.get("track_keys") or []) & set(keys); total += len(both)
             if len(both) > 2: probs.append(f'前の回（{p.get("title", "")[:20]}…）と同じ曲が {len(both)} 曲ある')
+            same = set(p.get("track_names") or []) & set(meta.get("track_names") or [])
+            if same: probs.append(f'前の回（{p.get("title", "")[:20]}…）と同じ曲名が {len(same)} 個ある（{sorted(same)[0]}）')
+        if total > allow and not any("同じ曲が" in x for x in probs): probs.append(f"これまでの回と同じ曲（調・進行・速さが同じ）が {total} 曲ある")
     return probs
 
 

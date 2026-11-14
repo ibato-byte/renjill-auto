@@ -3,7 +3,7 @@ import json, os, pathlib, re, sys, unittest
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "auto")); sys.path.insert(0, str(ROOT / "rig" / "bgm"))
-import bgm, bgm_qa  # noqa: E402
+import bgm, bgm_qa, bgm_names  # noqa: E402
 
 CFG = {"days": [2, 5], "minutes": 60, "privacy": "unlisted", "enabled": True}
 
@@ -48,7 +48,7 @@ class PlanTest(unittest.TestCase):
             self.assertIn(th.get("style", "lofi"), bgm.GENRE)
             pairs = list(zip(th["ren"], th["jil"]))
             for a, b in zip(pairs, pairs[1:]): self.assertNotEqual(a, b)             # となりの章は2匹のようすが変わる
-        self.assertGreaterEqual(len(bgm.TRACK_NAMES), 30); self.assertEqual(len(set(bgm.TRACK_NAMES)), len(bgm.TRACK_NAMES))
+            self.assertIn(th["id"], bgm_names.THEME_NAMES)                           # テーマごとに、その回に合った曲名がある
 
     def test_due_only_on_configured_days_and_once(self):
         self.assertTrue(bgm.due("2026-11-14", CFG, {"episodes": {}}))    # 土
@@ -235,9 +235,8 @@ class StockTest(unittest.TestCase):
 
     def meta(self, date, n, st=None, keys=None):
         pl = bgm.plan(date, st or self.ST, CFG, n=n); tr = tracks()
-        if keys:
-            for t, k in zip(tr, keys): t["bpm"] = k
-        desc, names = bgm.description(pl, tr)
+        for i, t in enumerate(tr): t["bpm"] = keys[i] if keys else 100.0 * n + i     # 回ごとに別の曲（keys を渡すと、わざと同じ曲にできる）
+        desc, _ = bgm.description(pl, tr); names = [f"{date} {i}" for i in range(len(tr))]
         return {**pl, "code": bgm.code_hash(), "description": desc, "track_names": names, "tracks": tr, "localizations": bgm.localizations(pl, pl["title"], desc), "tags": ["lofi"]}
 
     def put(self, root, date, meta, ok=True, mb=900):
@@ -337,6 +336,135 @@ class StockTest(unittest.TestCase):
         keep = bgm.TARGET_LUFS; bgm.TARGET_LUFS = -14.5
         try: self.assertNotEqual(bgm.code_hash(), a)
         finally: bgm.TARGET_LUFS = keep
+
+
+class NoRepeatTest(unittest.TestCase):
+    """曲は回をまたいでかぶらない（オーナー依頼 2026-11-14「曲はできるだけ被らないようにして」）：調・進行・速さの組み合わせと曲名を二度使わない"""
+    ST = {"episodes": {"2026-11-13": {"yt": "a", "theme": "rain_night", "privacy": "public", "track_keys": ["A minor|0m7-5m7-107-3maj7|83.0"], "track_names": ["Hay Break", "Desk Lamp"]},
+                       "2026-11-14": {"yt": "b", "theme": "seaside", "privacy": "public", "track_keys": ["C major|0maj7-9m7-5maj7-77|80.0"], "track_names": ["Tea Time"]}}}
+
+    def made(self, date, n, st):
+        """その回を作ったときの曲（音は作らない）。作り置きの各ジョブがやることと同じ"""
+        import music
+        keys, names = bgm.history(date, st, CFG, today="2026-11-14")
+        pl = bgm.plan(date, st, CFG, n=n)
+        heads = music.choose(pl["seed"], pl["minutes"] + 0.5, pl["style"], keys)
+        return pl, heads, bgm.pick_names(pl["seed"], len(heads), names, pl["theme"]), keys, names
+
+    def test_whole_year_stock_shares_no_track_and_no_name(self):
+        # 作り置きは並べて同時に作る（おたがいの結果を知らない）。それでも、どの2本も曲・曲名がかぶらない
+        plan = bgm.stock_plan("2026-12-31", self.ST, CFG, "2026-11-14"); self.assertEqual(len(plan), 13)
+        seen_k, seen_n = set(self.ST["episodes"]["2026-11-13"]["track_keys"] + self.ST["episodes"]["2026-11-14"]["track_keys"]), {"Hay Break", "Desk Lamp", "Tea Time"}
+        for x in reversed(plan):                                                       # 作る順番がばらばらでも同じ結果
+            pl, heads, names, _, _ = self.made(x["date"], x["n"], self.ST)
+            ks = {h["tk"] for h in heads}
+            self.assertEqual(len(ks), len(heads)); self.assertEqual(len(set(names)), len(heads)); self.assertGreaterEqual(len(heads), 12)
+            self.assertFalse(ks & seen_k, x["date"]); self.assertFalse(set(names) & seen_n, x["date"])
+            self.assertFalse(any(h.get("reused") for h in heads))
+            for a, b in zip(heads, heads[1:]): self.assertNotEqual(a["key"], b["key"])
+            seen_k |= ks; seen_n |= set(names)
+
+    def test_day_build_avoids_later_stock_too(self):
+        st = json.loads(json.dumps(self.ST)); st["stock"] = {"2026-11-21": {"code": bgm.code_hash(), "track_keys": ["K1"], "track_names": ["N1"]}, "2026-11-25": {"code": "old", "track_keys": ["K2"], "track_names": ["N2"]}}
+        keys, names = bgm.history("2026-11-18", st, CFG, today="2026-11-18")
+        self.assertIn("K1", keys); self.assertIn("N1", names); self.assertNotIn("K2", keys)      # 作り方が古い作り置きは作り直されるので数えない
+        self.assertIn("A minor|0m7-5m7-107-3maj7|83.0", keys); self.assertIn("Tea Time", names)
+        self.assertNotIn("K1", bgm.history("2026-11-18", st, CFG, today="2026-11-18", redo=True)[0])
+
+    def test_choose_is_repeatable_and_obeys_avoid(self):
+        import music
+        for style in music.STYLES:
+            a = music.choose(20261118, 60.5, style); self.assertEqual(a, music.choose(20261118, 60.5, style))
+            b = music.choose(20261118, 60.5, style, [h["tk"] for h in a])
+            self.assertFalse({h["tk"] for h in a} & {h["tk"] for h in b}, style)
+
+    def test_made_track_matches_its_plan(self):
+        import music, numpy as np
+        h = music.choose(7, 4, "wa")[0]
+        x, info = music.make_track(np.random.default_rng([7, 1, h["try"], 7]), 1, "wa", head=json.loads(json.dumps(h)))
+        self.assertEqual(f'{info["key"]}|{"-".join(info["prog"])}|{info["bpm"]}', h["tk"]); self.assertAlmostEqual(len(x) / music.SR, h["sec"], places=1)
+
+    def test_exhausted_pool_is_marked_not_hidden(self):
+        import music
+        every = {music.pick_head(__import__("numpy").random.default_rng([1, i, j]), "wa")["tk"] for i in range(1, 40) for j in range(81)}
+        heads = music.choose(1, 10, "wa", every)
+        self.assertTrue(all(h.get("reused") for h in heads))                          # 使い切ったら印を付ける（検査はその数だけ見逃す）
+
+    def test_names_never_repeat_even_when_a_theme_runs_out(self):
+        used = set()
+        for k in range(12):                                                            # 同じテーマを12回（1テーマ 約100個を使い切る）
+            nm = bgm.pick_names(20270101 + k, 22, used, "seaside")
+            self.assertEqual(len(nm), 22); self.assertEqual(len(set(nm)), 22); self.assertFalse(set(nm) & used); used |= set(nm)
+        self.assertTrue(any(" II" in x for x in used))                                # 使い切ったら II を付ける（同じ名前にはしない）
+        self.assertEqual(bgm.pick_names(5, 22, ["x"], "morning"), bgm.pick_names(5, 22, ["x"], "morning"))
+
+    def test_qa_fails_on_any_shared_track_or_name(self):
+        tr = tracks(); pl = bgm.plan("2026-11-18", self.ST, CFG, n=2); first = bgm.description(pl, tr)[1][0]; desc, names = bgm.description(pl, tr, [first])
+        meta = {**pl, "description": desc, "track_names": names, "tracks": tr, "localizations": {}, "tags": []}
+        self.assertNotIn(first, names)
+        k0 = f'{tr[0]["key"]}|{"-".join(tr[0]["prog"])}|{tr[0]["bpm"]}'
+        self.assertEqual(bgm_qa.check_novelty(meta, [{"theme": "x", "track_keys": ["other"], "track_names": ["Other"]}]), [])
+        self.assertTrue(any("同じ曲" in p for p in bgm_qa.check_novelty(meta, [{"theme": "x", "track_keys": [k0]}])))
+        self.assertTrue(any("同じ曲名" in p for p in bgm_qa.check_novelty(meta, [{"theme": "x", "track_names": [names[3]]}])))
+        tr[0]["reused"] = True
+        self.assertEqual(bgm_qa.check_novelty(meta, [{"theme": "x", "track_keys": [k0]}]), [])
+
+    def test_published_episodes_have_their_names_on_record(self):
+        st = json.loads((ROOT / "auto" / "bgm_state.json").read_text(encoding="utf-8"))
+        for d, r in st["episodes"].items():
+            if r.get("yt"): self.assertEqual(len(r.get("track_names") or []), len(r["track_keys"]), d)
+
+
+class TracklistTest(unittest.TestCase):
+    """説明欄の Tracklist（2026-11-14 オーナーの指摘「Tracklist が意味不明」の再発防止）：その回のテーマに合った名前・日本語つき"""
+    def test_every_name_has_english_and_japanese(self):
+        import re
+        for theme, (A, B) in bgm_names.THEME_NAMES.items():
+            self.assertGreaterEqual(len(A) * len(B) + len(B), 80, theme); self.assertEqual(len(set(A)), len(A)); self.assertEqual(len(set(B)), len(B))
+            for en, ja in A:
+                self.assertRegex(en, r"^[A-Za-z][A-Za-z\-' ]*$"); self.assertRegex(ja, "[のな]$", (theme, ja))   # 時間・場面の言葉だけ（「〜の」「〜な」）
+                self.assertNotRegex(ja, "あたたか|ゆっくり|ゆったり|やわらか|音のない|青い|白い|小さな", (theme, ja))   # 色・温度・速さ・大きさの形容は、意味の通らない曲名になる
+            for en, ja in B:
+                self.assertRegex(en, r"^[A-Za-z][A-Za-z\- ]*$"); self.assertRegex(ja, r"^[぀-ヿ一-鿿ー]+$", (theme, ja))
+            names = bgm_names.pool(theme); self.assertEqual(len(set(names)), len(names))
+            for x in names: self.assertEqual(x.count(bgm_names.SEP), 1); self.assertLessEqual(len(x), 60)
+
+    def test_names_belong_to_the_theme(self):
+        # 海の回に雨・残業の曲名、雨の回に海の曲名が出ない
+        sea = " ".join(bgm_names.pick(1, 24, (), "seaside")); self.assertNotRegex(sea, "Rain|Overtime|雨|残業")
+        rain = " ".join(bgm_names.pick(1, 24, (), "rain_night")); self.assertNotRegex(rain, "Tide|Harbor|潮|港")
+        self.assertFalse(set(bgm_names.pool("seaside")) & set(bgm_names.pool("wa_evening")))
+
+    def test_description_lists_bilingual_names_under_a_bilingual_heading(self):
+        import re
+        pl = bgm.plan("2026-11-14", {"episodes": {"2026-11-13": {"yt": "x"}}}, CFG); desc, names = bgm.description(pl, tracks())
+        self.assertIn("\nTracklist｜曲目\n0:00 ", desc)
+        lines = re.findall(bgm.TS_LINE, desc); self.assertGreaterEqual(len(lines), 12)
+        for (_, nm), want in zip(lines, names): self.assertEqual(nm, want); self.assertIn("｜", nm)
+        self.assertEqual(bgm_qa.check_meta({**pl, "description": desc, "track_names": names, "tracks": tracks(), "localizations": {}, "tags": []}), [])
+
+    def test_relabel_keeps_times_and_everything_else(self):
+        old = "Intro line\n\nTracklist\n0:00 Small Thump\n3:05 Hay Break\n1:02:10 Binky\n\nAll music… 10:30 is not a track\n#tag"
+        new = bgm.relabel_text(old, ["A｜あ", "B｜い", "C｜う", "D｜え"])
+        self.assertEqual(new, "Intro line\n\nTracklist｜曲目\n0:00 A｜あ\n3:05 B｜い\n1:02:10 C｜う\n\nAll music… 10:30 is not a track\n#tag")
+        self.assertEqual(bgm.relabel_text(old, ["A｜あ"]).count("Hay Break"), 1)        # 名前が足りなければ、残りはそのまま（消さない）
+
+    def test_relabel_picks_new_names_for_old_style_episodes_only(self):
+        import tempfile
+        keep = bgm.AUTO; bgm.AUTO = pathlib.Path(tempfile.mkdtemp())
+        try:
+            st = {"episodes": {"2026-11-13": {"yt": "a", "theme": "rain_night", "seed": 20261113, "track_keys": ["k"] * 22, "track_names": ["Nine to Five"] * 22},
+                               "2026-11-14": {"yt": "b", "theme": "seaside", "seed": 20261114, "track_keys": ["k"] * 24, "track_names": bgm_names.pick(1, 24, (), "seaside")}}}
+            (bgm.AUTO / "bgm_state.json").write_text(json.dumps(st))
+            logs = []; keep_log = bgm.log; bgm.log = lambda *a: logs.append(a)
+            try: self.assertEqual(bgm.relabel(dry=True), 0)
+            finally: bgm.log = keep_log
+            self.assertEqual([x[0] for x in logs], ["2026-11-13"])                      # 新しい形の回は触らない
+        finally: bgm.AUTO = keep
+
+    def test_workflow_can_relabel(self):
+        y = (ROOT / ".github" / "workflows" / "bgm.yml").read_text(encoding="utf-8")
+        self.assertIn("IN_RELABEL", y); self.assertIn("bgm.py relabel", y)
 
 
 class StockWorkflowTest(unittest.TestCase):

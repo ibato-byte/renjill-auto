@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """作業用BGM（長尺）の音楽を作る。完全自作（数式で音を合成）なので、著作権の申し立てが来ない。
-使い方: python3 rig/bgm/music.py 出力フォルダ --seed 20261114 --minutes 60 [--ambience rain|room]
+使い方: python3 rig/bgm/music.py 出力フォルダ --seed 20261114 --minutes 60 [--ambience rain|room] [--avoid 使った曲.json]
 出力: track_01.wav …（1曲ごと・ステレオ 44.1kHz）、ambience.wav（つなぎ目のない環境音 60 秒）、tracks.json（曲の一覧：調・速さ・長さ）
 1本ごとに seed が違う＝曲（調・速さ・コード進行・旋律・楽器の組み合わせ）が毎回違う。同じ曲を別の動画で使い回さない。
 """
@@ -294,21 +294,66 @@ LEADS = {'kalimba': (kalimba, False), 'bell': (bell, False), 'guitar': (guitar, 
          'flute': (flute, True), 'shaku': (shaku, True), 'piano': (piano, True)}
 
 
-def make_track(rng, idx, style='lofi'):
+KEYS = [48, 50, 51, 53, 55, 57, 58]                               # C D Eb F G A Bb
+KEY_NAMES = ['C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B']
+
+
+def pick_head(rng, style='lofi'):
+    """1曲の骨組み（調・速さ・進行・旋律の楽器・構成）だけを決める。音は作らないので一瞬で終わる。
+    tk＝「調|進行|速さ」。これが同じ曲は、ほかの回と「同じ曲」に聞こえやすいので、回をまたいで二度使わない（オーナー依頼 2026-11-14「曲はできるだけ被らないように」）"""
     S = STYLES[style]
     mode = 'minor' if rng.random() < S['minor'] else 'major'
-    key = int(rng.choice([48, 50, 51, 53, 55, 57, 58]))            # C D Eb F G A Bb
-    bpm = float(rng.integers(S['bpm'][0], S['bpm'][1] + 1)); beat = 60 / bpm; bar = 4 * beat
-    swing = (S['swing'][0] + (S['swing'][1] - S['swing'][0]) * rng.random()) * beat
+    key = int(rng.choice(KEYS))
+    bpm = float(rng.integers(S['bpm'][0], S['bpm'][1] + 1))
+    swing = S['swing'][0] + (S['swing'][1] - S['swing'][0]) * rng.random()      # 拍に対する割合
     table = (STYLE_PROGS.get(style) or PROGS)
     if mode not in table: mode = next(iter(table))
-    prog = table[mode][rng.integers(len(table[mode]))]
-    lead_name = S['leads'][rng.integers(len(S['leads']))]; lead, sustained = LEADS[lead_name]
+    pi = int(rng.integers(len(table[mode])))
+    lead_name = S['leads'][rng.integers(len(S['leads']))]
     m_ = S['mult']
     # 構成（小節）：前奏 → A → A'（旋律）→ B → 間奏 → A'' → 後奏。クラブ系は小節が短いので倍にする
     sections = [('intro', 4 * m_), ('a', 8 * m_), ('am', 8 * m_), ('b', 8 * m_), ('break', 4 * m_), ('am', 8 * m_), ('b', 8 * m_ if rng.random() < .5 and m_ == 1 else 0), ('am', 8 if m_ == 1 else 16), ('outro', 4 * m_)]
     sections = [x for x in sections if x[1]]
-    nbars = sum(n for _, n in sections); dur = nbars * bar + 3.0
+    nbars = sum(n for _, n in sections); dur = nbars * 4 * 60 / bpm + 3.0
+    name = KEY_NAMES[key % 12] + (' minor' if mode == 'minor' else ' major')
+    prog = [f'{r}{k}' for r, k in table[mode][pi]]
+    return {'mode': mode, 'keynote': key, 'key': name, 'bpm': bpm, 'swing': round(swing, 3), 'pi': pi, 'prog': prog, 'lead': lead_name, 'sections': sections, 'bars': nbars, 'sec': round(dur, 2),
+            'style': style, 'tk': f'{name}|{"-".join(prog)}|{bpm}'}
+
+
+def choose(seed, minutes, style='lofi', avoid=()):
+    """その回の曲の並びを決める（音は作らない）。同じ seed・同じ avoid なら、いつも同じ並びになる。
+    avoid＝これまでの回（出した回・作り置き）で使った tk。必ず守る：前の曲と調を変える。できる限り守る：avoid と同じ曲を使わない・回の中で同じ調×進行を使わない・旋律の楽器を続けない。
+    どうしても avoid を避けられなかった曲には reused を付ける（検査がその数だけ見逃す。組み合わせを使い切ったときだけ起きる）"""
+    avoid, tracks, total, i, used, mine = set(avoid), [], 0.0, 0, set(), set()
+    many_leads = len(STYLES[style]['leads']) >= 3
+    while total < minutes * 60:
+        i += 1; cands = []
+        for j in range(80):
+            h = pick_head(np.random.default_rng([seed, i, j]), style); h['try'] = j
+            if tracks and tracks[-1]['key'] == h['key']: continue                       # 前の曲と同じ調は使わない（続けて聞くと同じ曲に聞こえる）
+            fresh = h['tk'] not in avoid and h['tk'] not in mine
+            soft = (h['key'], tuple(h['prog'])) not in used and not (tracks and many_leads and tracks[-1]['lead'] == h['lead'])
+            cands.append((0 if fresh and soft else 1 if fresh else 2, j, h))
+            if fresh and soft: break
+        if not cands: h = pick_head(np.random.default_rng([seed, i, 80]), style); h['try'] = 80; rank = 2
+        else: rank, _, h = min(cands, key=lambda c: c[:2])
+        if rank == 2: h['reused'] = True
+        h['no'] = i; used.add((h['key'], tuple(h['prog']))); mine.add(h['tk'])
+        tracks.append(h); total += h['sec'] - 3.0                                       # 3秒ずつ重ねてつなぐ
+    return tracks
+
+
+def make_track(rng, idx, style='lofi', head=None):
+    S = STYLES[style]
+    head = head or pick_head(rng, style)
+    mode, key, bpm, lead_name, sections = head['mode'], head['keynote'], head['bpm'], head['lead'], [tuple(x) for x in head['sections']]
+    beat = 60 / bpm; bar = 4 * beat
+    swing = head['swing'] * beat
+    prog = (STYLE_PROGS.get(style) or PROGS)[mode][head['pi']]
+    lead, sustained = LEADS[lead_name]
+    m_ = S['mult']
+    nbars = head['bars']; dur = nbars * bar + 3.0
     comp, mel, bs, dr, pd = Bus(dur), Bus(dur), Bus(dur), Bus(dur), Bus(dur)
     scale = S.get('scale') or PENT[mode]
     rh = RHYTHMS_CLUB if style == 'club' else RHYTHMS_SLOW if style in ('ballad', 'wa') else RHYTHMS
@@ -451,8 +496,8 @@ def make_track(rng, idx, style='lofi'):
     body = mix[int(len(mix) * 0.15):int(len(mix) * 0.85)]
     mix = mix * (0.105 / (np.sqrt((body ** 2).mean()) + 1e-9))
     mix = np.where(np.abs(mix) > 0.32, np.sign(mix) * (0.32 + 0.13 * np.tanh((np.abs(mix) - 0.32) / 0.13)), mix)   # 山は 0.45 まで（平均の約12dB上）。あとで全体を上げてもピークが -1 dB を超えない
-    name = ['C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B'][key % 12] + (' minor' if mode == 'minor' else ' major')
-    info = {'no': idx, 'key': name, 'bpm': bpm, 'bars': nbars, 'sec': round(dur, 2), 'lead': lead_name, 'prog': [f'{r}{k}' for r, k in prog], 'swing': round(swing / beat, 3), 'style': style}
+    info = {'no': idx, 'key': head['key'], 'bpm': bpm, 'bars': nbars, 'sec': round(dur, 2), 'lead': lead_name, 'prog': head['prog'], 'swing': round(swing / beat, 3), 'style': style}
+    if head.get('reused'): info['reused'] = True
     return mix.astype(np.float32), info
 
 
@@ -504,18 +549,17 @@ def write_wav(path, x):
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument('out'); ap.add_argument('--seed', type=int, required=True)
     ap.add_argument('--minutes', type=float, default=60); ap.add_argument('--ambience', default='rain'); ap.add_argument('--style', default='lofi', choices=sorted(STYLES))
+    ap.add_argument('--avoid', help='これまでの回で使った曲（調|進行|速さ）の一覧（JSON のファイル）。同じ曲を作らない'); ap.add_argument('--plan-only', action='store_true', help='曲の並びだけ決めて表示（音は作らない）')
     a = ap.parse_args()
     out = pathlib.Path(a.out); out.mkdir(parents=True, exist_ok=True)
-    rng = np.random.default_rng(a.seed)
-    tracks, total, i = [], 0.0, 0
-    used = set()
-    while total < a.minutes * 60:
-        i += 1
-        for _ in range(20):                                    # 同じ調・同じ進行・同じ旋律楽器が続かないようにやり直す
-            x, info = make_track(rng, i, a.style)
-            sig = (info['key'], tuple(info['prog']))
-            if sig not in used and (not tracks or (tracks[-1]['key'] != info['key'] and (tracks[-1]['lead'] != info['lead'] or len(STYLES[a.style]['leads']) < 3))): break
-        used.add(sig)
+    avoid = json.loads(pathlib.Path(a.avoid).read_text()) if a.avoid else []
+    heads = choose(a.seed, a.minutes, a.style, avoid)
+    if a.plan_only:
+        print(json.dumps(heads, ensure_ascii=False)); return
+    tracks, total = [], 0.0
+    for h in heads:
+        i = h['no']
+        x, info = make_track(np.random.default_rng([a.seed, i, h['try'], 7]), i, a.style, head=h)   # 曲ごとに別の乱数（骨組みと同じ seed・番号から。旋律は曲ごとに新しく作る）
         write_wav(out / f'track_{i:02d}.wav', x); info['file'] = f'track_{i:02d}.wav'
         tracks.append(info); total += info['sec'] - 3.0          # 3秒ずつ重ねてつなぐ
         print('track', i, info['key'], info['bpm'], info['lead'], info['sec'], flush=True)
