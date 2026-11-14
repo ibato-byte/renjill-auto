@@ -32,6 +32,30 @@
     "G major|5maj7-4m7-9m7-0maj7|77.0",
     "D major|5maj7-77-4m7-9m7|79.0",
     "F major|0maj7-5maj7-2m7-77|86.0"
+   ],
+   "track_names": [
+    "Nine to Five",
+    "Last Train",
+    "Quiet Floor",
+    "Timothy Field",
+    "Small Thump",
+    "Clock Out",
+    "Tea Time",
+    "Nose Wiggle",
+    "Warm Mug",
+    "Sticky Note",
+    "Sunbeam Nap",
+    "Spreadsheet Rain",
+    "Carrot Budget",
+    "See You Tomorrow",
+    "After Lunch",
+    "Rainy Commute",
+    "Lop Ear Lullaby",
+    "Pencil Cup",
+    "Fluffy Monday",
+    "Elevator Hum",
+    "Soft Keyboard",
+    "Meeting Ended"
    ]
   },
   "2026-11-14": {
@@ -69,6 +93,32 @@
     "A major|0maj7-9m7-5maj7-77|85.0",
     "Eb major|5maj7-77-0maj7-0maj6|89.0",
     "G major|0maj7-4m7-5maj7-77|81.0"
+   ],
+   "track_names": [
+    "Small Thump",
+    "Hay Break",
+    "Second Coffee",
+    "Soft Keyboard",
+    "Tidy Drawer",
+    "Carrot Budget",
+    "After Lunch",
+    "Lop Ear Lullaby",
+    "Rainy Commute",
+    "Timothy Field",
+    "See You Tomorrow",
+    "Good Job Today",
+    "Corner Office",
+    "Printer Song",
+    "Sticky Note",
+    "Meeting Ended",
+    "Sunbeam Nap",
+    "Nine to Five",
+    "Inbox Zero",
+    "Overtime Snack",
+    "Tea Time",
+    "Fluffy Monday",
+    "Nose Wiggle",
+    "Binky"
    ]
   }
  }

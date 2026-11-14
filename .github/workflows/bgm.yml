@@ -2,6 +2,7 @@ name: bgm
 # 作業用BGM（長尺・横長）を作って YouTube に出す（オーナー依頼 2026-11-13）。AI を使わない・無料。
 # 水・土の 20:23（日本時間）。曜日・長さ・公開範囲は auto/bgm_config.json。検査（auto/bgm_qa.py）に落ちた回は出さない。
 # 重い処理（描画＋1時間の動画づくりで 20〜30 分）なので、push では動かさない。
+# 作り置き（bgm-stock.yml が前もって作った動画）がある日は、それを取ってきて出す。作り方が変わっていたら作り直す（auto/bgm.py の「当日の流れ」）。
 on:
   schedule:
     - cron: "23 11 * * 3,6"   # 水・土 20:23 JST（毎日の投稿 12:00・18:00・19:00 と重ならない時刻）
@@ -24,8 +25,13 @@ on:
         description: "限定公開で出した回を公開に切り替える（true）。オーナーの OK のあとに使う"
         required: false
         default: "false"
+      relabel:
+        description: "出した回の曲名（説明欄の Tracklist）を、いまの決まりに付け直す（true）。動画は変えない"
+        required: false
+        default: "false"
 permissions:
   contents: write
+  actions: read   # 作り置き（bgm-stock.yml が作った動画）を取ってくる
 concurrency: bgm   # 同じ回を二重に作らない（毎日の投稿を待たせないよう、post とは別の列にする）
 jobs:
   bgm:
@@ -52,6 +58,7 @@ jobs:
           IN_DATE: ${{ github.event.inputs.date }}
           IN_FORCE: ${{ github.event.inputs.force }}
           IN_PUBLISH: ${{ github.event.inputs.publish }}
+          IN_RELABEL: ${{ github.event.inputs.relabel }}
         run: |
           python3 - <<'PY' >> "$GITHUB_OUTPUT"
           import datetime as dt, json, os, pathlib
@@ -60,7 +67,7 @@ jobs:
           date = os.environ.get("IN_DATE") or dt.datetime.now(dt.timezone(dt.timedelta(hours=9))).date().isoformat()
           done = bool((st["episodes"].get(date) or {}).get("yt"))
           due = not done and (os.environ.get("IN_FORCE") == "true" or (cfg["enabled"] and dt.date.fromisoformat(date).weekday() in cfg["days"]))
-          todo = any(r.get("yt") and r.get("todo") for r in st["episodes"].values()) or os.environ.get("IN_PUBLISH") == "true"   # 前の回のやり残し（再生リストなど）・公開への切り替え
+          todo = any(r.get("yt") and r.get("todo") for r in st["episodes"].values()) or os.environ.get("IN_PUBLISH") == "true" or os.environ.get("IN_RELABEL") == "true"   # 前の回のやり残し（再生リストなど）・公開への切り替え
           print(f"date={date}"); print(f"due={'true' if due else 'false'}"); print(f"todo={'true' if todo else 'false'}")
           PY
       - uses: actions/setup-node@v5
@@ -77,10 +84,12 @@ jobs:
           YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
           MEDIA_TOKEN: ${{ secrets.MEDIA_TOKEN }}   # 公式サイト用の一覧（renjill-media/bgm.json）を書く
           IN_PUBLISH: ${{ github.event.inputs.publish }}
+          IN_RELABEL: ${{ github.event.inputs.relabel }}
         run: |
           pip install -q requests numpy google-api-python-client google-auth google-auth-httplib2   # numpy：bgm.py が読み込む検査（bgm_qa）に必要
           python auto/bgm.py todos
           if [ "$IN_PUBLISH" = "true" ]; then python auto/bgm.py publish; fi
+          if [ "$IN_RELABEL" = "true" ]; then python auto/bgm.py relabel; fi
       - name: 準備（ffmpeg・フォント・ブラウザ）
         if: steps.hub.outputs.paused != 'true' && steps.due.outputs.due == 'true'
         timeout-minutes: 20
@@ -94,6 +103,12 @@ jobs:
           npm i -g playwright && npx playwright install --with-deps chromium
           echo "NODE_PATH=$(npm root -g)" >> "$GITHUB_ENV"
           pip install -q requests numpy scipy google-api-python-client google-auth google-auth-httplib2
+      - name: 作り置きがあれば取ってくる（なければ何もしない。取れなくても当日に作る）
+        if: steps.hub.outputs.paused != 'true' && steps.due.outputs.due == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          DATE: ${{ steps.due.outputs.date }}
+        run: python auto/bgm.py stock-fetch --date "$DATE" || true
       - name: 作る → 検査 → 出す
         if: steps.hub.outputs.paused != 'true' && steps.due.outputs.due == 'true'
         env:
