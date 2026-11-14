@@ -13,6 +13,11 @@
   python auto/bgm.py run   [--date …] [--force]         予定の曜日なら build → upload（GitHub Actions の bgm.yml から）
   python auto/bgm.py todos                              前の回でやり残したこと（表紙・再生リスト）を片付ける
   python auto/bgm.py publish                            限定公開で出した回を公開に切り替える（オーナーの OK のあと）
+作り置き（オーナー依頼 2026-11-14：先の回の動画を前もって作っておく。出すのは予定の日。bgm-stock.yml から）：
+  python auto/bgm.py stock-plan [--until YYYY-MM-DD]    これから作り置きする回の一覧（日付と回の番号）
+  python auto/bgm.py build --date … --n N               先の日付の回を、回の番号を指定して作る
+  python auto/bgm.py stock-record --src DIR --run ID    作った回を並び順に検査し直して auto/bgm_state.json の stock に記録
+  python auto/bgm.py stock-fetch [--date …]             その日の作り置きを dist/bgm_stock/<date>/ に取ってくる（なければ何もしない）
 設定は auto/bgm_config.json（曜日・長さ・公開範囲）。
 """
 import argparse, datetime as dt, json, os, pathlib, shutil, subprocess, sys
@@ -94,11 +99,12 @@ def state(): return load(AUTO / "bgm_state.json", {"episodes": {}})
 def run(cmd, **kw): return subprocess.run([str(c) for c in cmd], check=True, **kw)
 
 
-def plan(date, st=None, cfg=None, theme=None):
-    """その日の回の計画。回の番号＝これまでに出した本数（同じテーマ・同じ部屋が続かない）。seed は日付"""
+def plan(date, st=None, cfg=None, theme=None, n=None):
+    """その日の回の計画。回の番号＝これまでに出した本数＋その日より前の作り置き（同じテーマ・同じ部屋が続かない）。seed は日付。
+    n＝作り置きで先の日付の回を作るときに、回の番号（0 始まり）を指定する"""
     st, cfg = st or state(), cfg or config()
     done = sorted(k for k, v in st["episodes"].items() if v.get("yt") and k != date)
-    n = len(done)
+    if n is None: n = len(done) + sum(1 for k in st.get("stock", {}) if k < date and k not in done)
     th = next(x for x in THEMES if x["id"] == theme) if theme else THEMES[n % len(THEMES)]   # theme＝手元で特定のテーマを試すとき
     seed = int(date.replace("-", ""))
     minutes = cfg["minutes"]
@@ -218,10 +224,10 @@ def build_video(pl, work, par=3):
     return video, fr
 
 
-def build(date, minutes=None, keep=False, par=3, theme=None):
+def build(date, minutes=None, keep=False, par=3, theme=None, n=None):
     cfg = config()
     if minutes: cfg["minutes"] = minutes
-    pl = plan(date, cfg=cfg, theme=theme)
+    pl = plan(date, cfg=cfg, theme=theme, n=n)
     work = DIST / "bgm" / date
     if work.exists(): shutil.rmtree(work)
     work.mkdir(parents=True)
@@ -236,12 +242,11 @@ def build(date, minutes=None, keep=False, par=3, theme=None):
     run(["node", RIG / "render.js", thumb_full, query(pl, ci), "thumb", tt])
     run(["ffmpeg", "-y", "-loglevel", "error", "-i", thumb_full, "-vf", "crop=1440:810:400:200,scale=1280:720", "-q:v", "2", thumb])   # 2匹とランプに寄る（文字なし。YouTube の表紙は文字なしにそろえる＝2026-10-26 の決定）
     desc, names = description(pl, tracks)
-    meta = {**pl, "description": desc, "track_names": names, "tracks": tracks, "localizations": localizations(pl, pl["title"], desc),
+    meta = {**pl, "code": code_hash(), "description": desc, "track_names": names, "tracks": tracks, "localizations": localizations(pl, pl["title"], desc),
             "tags": STYLE_TAGS[pl.get("style", "lofi")] + ["study music", "work music", "作業用BGM", "勉強用BGM", "focus music", "Ren and Jill", "レンとジル", "bunny", "うさぎ", "background music"]}
     (work / "meta.json").write_text(json.dumps(meta, ensure_ascii=False, indent=1))
     st = state()
-    prev = [v for k, v in sorted(st["episodes"].items()) if v.get("yt") and k != date]
-    qa = bgm_qa.check_all(work, meta, frames, prev)
+    qa = bgm_qa.check_all(work, meta, frames, prev_of(date, st))
     (work / "qa.json").write_text(json.dumps(qa, ensure_ascii=False, indent=1))
     bgm_qa.contact_sheet(frames, work / "sheet.jpg")
     for p in qa["problems"]: log("NG", p)
@@ -293,6 +298,7 @@ def upload(date, privacy=None):
     rec = {"yt": vid, "privacy": privacy, "title": meta["title"], "theme": meta["theme"], "style": style, "seed": meta["seed"], "look": meta["look"], "minutes": meta["minutes"],
            "at": dt.datetime.now(JST).isoformat(timespec="minutes"), "track_keys": [f'{t["key"]}|{"-".join(t["prog"])}|{t["bpm"]}' for t in meta["tracks"]]}
     st["episodes"][date] = rec
+    st.get("stock", {}).pop(date, None)                                                    # 出した回の作り置きは役目を終えた
     (AUTO / "bgm_state.json").write_text(json.dumps(st, ensure_ascii=False, indent=1))     # 出した直後に記録（あとの処理が失敗しても二重に出さない）
     if used != "全部": rec["todo"] = [f"題名・説明の一部を外して出した（{used}）"]
     for name, fn in (("表紙", lambda: yt.thumbnails().set(videoId=vid, media_body=MediaFileUpload(str(work / "thumb.jpg"), mimetype="image/jpeg")).execute()),
@@ -418,6 +424,145 @@ def _send(req):
     return resp
 
 
+# ---------- 作り置き（先の回を前もって作っておく） ----------
+# オーナー依頼 2026-11-14「今年いっぱい分の動画作成まで進めて」。動画は GitHub Actions の保管場所（artifact）に置き、出すのは予定の日（水・土 20:23）のまま。
+# 当日の流れ（run）：作り置きがあり、作り方（code_hash）が作ったときと同じ → 作り置きを出す。
+#                    作り方が変わっていた（週次PDCAが直した）→ 新しい作り方で作り直す。それが検査に落ちたら作り置きを出す。
+#                    作り置きがない・取ってこられない → これまでどおり当日に作る。
+STOCK = DIST / "bgm_stock"
+STOCK_FILES = (VIDEO_NAME, "meta.json", "qa.json", "thumb.jpg")
+
+
+def code_hash():
+    """作り方の指紋。音楽・絵・テーマ・題名の決まりのどれかが変わると変わる（作り置きが古い作り方のままかどうかの判定に使う）"""
+    import hashlib
+    h = hashlib.sha1()
+    files = sorted(p for p in RIG.iterdir() if p.is_file() and p.suffix in (".py", ".js", ".html")) + [ROOT / "rig" / "rig.js", ROOT / "rig" / "v2" / "lib.js"]
+    for p in files:
+        if p.exists(): h.update(p.name.encode()); h.update(p.read_bytes())
+    h.update(json.dumps([THEMES, GENRE, AMBIENCE, LUFS, TARGET_LUFS, FPS, LOOP, XF, TRACK_NAMES, I18N, STYLE_TAGS, STYLE_HASH, GENRE_I18N], ensure_ascii=False, sort_keys=True).encode())
+    return h.hexdigest()[:12]
+
+
+def prev_of(date, st):
+    """その日より前に出た回＋その日より前の作り置き（日付順）。前の回とのかぶりの検査に使う"""
+    eps = {k: v for k, v in st["episodes"].items() if v.get("yt") and k != date}
+    for k, v in st.get("stock", {}).items():
+        if k < date and k not in eps: eps[k] = v
+    return [v for _, v in sorted(eps.items())]
+
+
+def slots(start, until, cfg):
+    d, end, out = dt.date.fromisoformat(start), dt.date.fromisoformat(until), []
+    while d <= end:
+        if d.weekday() in cfg["days"]: out.append(d.isoformat())
+        d += dt.timedelta(days=1)
+    return out
+
+
+def stock_plan(until, st, cfg, today, redo=False):
+    """これから作り置きする回。今日より後〜until の予定の日のうち、まだ出していない・作り置きがない（または作り方が変わった・順番がずれた）回"""
+    done = {k for k, v in st["episodes"].items() if v.get("yt")}
+    stock, code, n, out = st.get("stock", {}), code_hash(), len(done), []
+    for d in slots(today, until, cfg):
+        if d in done: continue
+        s = stock.get(d)
+        if d > today and (redo or not s or s.get("code") != code or s.get("no") != n + 1): out.append({"date": d, "n": n})
+        n += 1
+    return out
+
+
+def stock_record(src, run_id, st=None, now=None):
+    """作った回を日付順に並べ、前の回（出した回＋作り置き）とのかぶりを検査し直してから記録する。
+    作り置きは並べて同時に作るので、作り置きどうしのかぶりはここで初めて分かる。落ちた回は記録しない（当日に作る）"""
+    st = st or state(); stock = st.setdefault("stock", {}); src = pathlib.Path(src); bad = []
+    new = {}
+    for d in sorted(p for p in src.iterdir() if p.is_dir()):
+        date = d.name.replace("bgm-stockmeta-", "")
+        if (d / "meta.json").exists() and (d / "qa.json").exists(): new[date] = d
+    done = {k for k, v in st["episodes"].items() if v.get("yt")}
+    for date in new: stock.pop(date, None)                     # 作り直した回は、古い記録を捨ててから検査する
+    for date in sorted(set(new) | set(stock)):
+        if date in done: stock.pop(date, None); continue
+        if date in new:
+            d = new[date]; meta, qa = json.loads((d / "meta.json").read_text()), json.loads((d / "qa.json").read_text())
+            probs = list(qa.get("problems") or []) if not qa.get("ok") else []
+            probs += [p for p in bgm_qa.check_novelty(meta, prev_of(date, st)) if p not in probs]
+            (ROOT / "content" / "bgm").mkdir(parents=True, exist_ok=True)
+            for name in ("qa.json", "sheet.jpg", "thumb.jpg"):
+                if (d / name).exists(): shutil.copy(d / name, ROOT / "content" / "bgm" / f"{date}_{name}")
+            if probs:
+                bad.append(date); log("NG", date, " / ".join(probs)); continue
+            stock[date] = {"run": str(run_id), "artifact": f"bgm-stock-{date}", "code": meta.get("code"), "no": meta["no"], "theme": meta["theme"], "style": meta.get("style", "lofi"),
+                           "title": meta["title"], "seed": meta["seed"], "look": meta["look"], "minutes": meta["minutes"], "mb": (qa.get("numbers") or {}).get("mb"),
+                           "made": (now or dt.datetime.now(JST)).isoformat(timespec="minutes"), "track_keys": [f'{t["key"]}|{"-".join(t["prog"])}|{t["bpm"]}' for t in meta["tracks"]]}
+            log("作り置きを記録", date, meta["theme"], f'{stock[date]["mb"]}MB')
+    st["stock"] = dict(sorted(stock.items()))
+    (AUTO / "bgm_state.json").write_text(json.dumps(st, ensure_ascii=False, indent=1))
+    return bad
+
+
+def stock_fetch(date, st=None):
+    """その日の作り置きを GitHub Actions の保管場所から取ってくる。取れなくても止めない（当日に作る）"""
+    s = (st or state()).get("stock", {}).get(date)
+    if not s: log(date, "の作り置きはない"); return False
+    out = STOCK / date
+    if out.exists(): shutil.rmtree(out)
+    out.mkdir(parents=True)
+    cmd = ["gh", "run", "download", s["run"], "-n", s["artifact"], "-D", str(out)]
+    if os.environ.get("GITHUB_REPOSITORY"): cmd += ["-R", os.environ["GITHUB_REPOSITORY"]]
+    try:
+        r = subprocess.run(cmd, capture_output=True, text=True, timeout=1500)
+    except Exception as e:
+        log("作り置きを取ってこられず", type(e).__name__); return False
+    if r.returncode != 0 or not all((out / f).exists() for f in STOCK_FILES):
+        log("作り置きを取ってこられず", (r.stderr or "")[:200]); return False
+    log("作り置きを取ってきた", date, f"{(out / VIDEO_NAME).stat().st_size // 1_000_000}MB"); return True
+
+
+def stock_problems(date, st):
+    """取ってきた作り置きを、いま出してよいか。問題の一覧（空なら出せる）。作り方が変わったかどうかは見ない（run が見る）"""
+    d, s = STOCK / date, st.get("stock", {}).get(date)
+    if not s: return ["作り置きの記録がない"]
+    if not all((d / f).exists() for f in STOCK_FILES): return ["作り置きのファイルがそろっていない"]
+    meta, qa = json.loads((d / "meta.json").read_text()), json.loads((d / "qa.json").read_text())
+    probs = []
+    if not qa.get("ok"): probs.append("検査に落ちた回")
+    if meta.get("date") != date or meta.get("seed") != int(date.replace("-", "")): probs.append("別の日の回")
+    mb = (d / VIDEO_NAME).stat().st_size / 1e6
+    if s.get("mb") and abs(mb - s["mb"]) > max(5, s["mb"] * 0.02): probs.append(f'動画の大きさが作ったときと違う（{mb:.0f}MB／{s["mb"]}MB）')
+    done = [v for k, v in sorted(st["episodes"].items()) if v.get("yt") and k != date]
+    return probs + bgm_qa.check_novelty(meta, done)            # 実際に出した回と比べ直す（順番がずれて、前の回と同じテーマになっていないか）
+
+
+def stock_use(date):
+    work = DIST / "bgm" / date
+    if work.exists(): shutil.rmtree(work)
+    work.parent.mkdir(parents=True, exist_ok=True)
+    shutil.move(str(STOCK / date), str(work))
+    return json.loads((work / "meta.json").read_text())
+
+
+def run_day(date, minutes=None, privacy=None, keep=False, par=3):
+    """予定の日の本番。作り置きがあれば使う（上の「当日の流れ」）。戻り値＝（動画のID または None、Hub に出す一言）"""
+    st = state(); s = st.get("stock", {}).get(date)
+    probs = stock_problems(date, st) if s and (STOCK / date).exists() else ["作り置きがない"]
+    same = bool(s) and s.get("code") == code_hash() and not minutes
+    if not probs and same:
+        meta = stock_use(date); log("作り置きを出す", date, meta["theme"])
+        return upload(date, privacy), f'作業用BGM「{meta["en"]}」（作り置き）を出した'
+    if s: log("作り置きをそのまま使わない：", "作り方が変わったので作り直す" if not probs else " / ".join(probs))
+    try:
+        ok, work, meta = build(date, minutes, keep, par)
+    except (Exception, SystemExit) as e:
+        if probs: raise
+        ok = False; log("当日の作り直しが止まった", type(e).__name__, str(e)[:200])
+    if ok: return upload(date, privacy), f'作業用BGM「{meta["en"]}」を出した'
+    if probs: return None, f"検査に落ちたので出さなかった（dist/bgm/{date}/qa.json）"
+    meta = stock_use(date); log("当日の作り直しが検査に落ちたので、作り置きを出す", date)
+    return upload(date, privacy), f'作業用BGM「{meta["en"]}」（作り置き。当日の作り直しは検査に落ちた）を出した'
+
+
 def due(date, cfg, st):
     d = dt.date.fromisoformat(date)
     return cfg["enabled"] and d.weekday() in cfg["days"] and not (st["episodes"].get(date) or {}).get("yt")
@@ -425,25 +570,32 @@ def due(date, cfg, st):
 
 def main(argv=None):
     ap = argparse.ArgumentParser()
-    ap.add_argument("cmd", choices=["plan", "build", "upload", "run", "todos", "publish"])
+    ap.add_argument("cmd", choices=["plan", "build", "upload", "run", "todos", "publish", "stock-plan", "stock-record", "stock-fetch"])
     ap.add_argument("--date"); ap.add_argument("--minutes", type=int); ap.add_argument("--privacy"); ap.add_argument("--force", action="store_true"); ap.add_argument("--keep", action="store_true"); ap.add_argument("--par", type=int, default=3); ap.add_argument("--theme", help="手元の試作用：テーマを指定（build だけ）")
+    ap.add_argument("--n", type=int, help="作り置き：回の番号（0 始まり。stock-plan が出す）"); ap.add_argument("--until"); ap.add_argument("--redo", action="store_true"); ap.add_argument("--src"); ap.add_argument("--run", dest="run_id")
     a = ap.parse_args(argv)
-    date = a.date or dt.datetime.now(JST).date().isoformat()
+    today = dt.datetime.now(JST).date().isoformat()
+    date = a.date or today
     DIST.mkdir(exist_ok=True)
     summary = DIST / "bgm_hub_summary"
-    if a.cmd == "plan": print(json.dumps(plan(date), ensure_ascii=False, indent=1)); return 0
-    if a.cmd == "build": return 0 if build(date, a.minutes, a.keep, a.par, a.theme)[0] else 3
+    if a.cmd == "plan": print(json.dumps(plan(date, n=a.n), ensure_ascii=False, indent=1)); return 0
+    if a.cmd == "build": return 0 if build(date, a.minutes, a.keep, a.par, a.theme, a.n)[0] else 3
     if a.cmd == "upload": upload(date, a.privacy); return 0
     if a.cmd == "todos": return todos()
     if a.cmd == "publish": return publish()
+    if a.cmd == "stock-plan": print(json.dumps(stock_plan(a.until or f"{today[:4]}-12-31", state(), config(), today, a.redo))); return 0
+    if a.cmd == "stock-record":
+        bad = stock_record(a.src, a.run_id)
+        if bad: log("記録しなかった回（当日に作る）", ", ".join(bad))
+        return 3 if bad else 0
+    if a.cmd == "stock-fetch": stock_fetch(date); return 0
     cfg, st = config(), state()
     if not a.force and not due(date, cfg, st):
         log(date, "は予定の日ではない／投稿済み"); summary.write_text(f"{date}：出す回なし"); return 0
-    ok, work, meta = build(date, a.minutes, a.keep, a.par)
-    if not ok:
-        summary.write_text(f"{date}：検査に落ちたので出さなかった（dist/bgm/{date}/qa.json）"); return 3
-    vid = upload(date, a.privacy)
-    summary.write_text(f'{date}：作業用BGM「{meta["en"]}」を出した（{a.privacy or cfg["privacy"]}） https://youtu.be/{vid}')
+    vid, msg = run_day(date, a.minutes, a.privacy, a.keep, a.par)
+    if not vid:
+        summary.write_text(f"{date}：{msg}"); return 3
+    summary.write_text(f'{date}：{msg}（{state()["episodes"][date]["privacy"]}） https://youtu.be/{vid}')
     return 0
 
 

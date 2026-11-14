@@ -229,5 +229,138 @@ class WorkflowTest(unittest.TestCase):
         self.assertIn(cfg["privacy"], ("public", "unlisted", "private")); self.assertEqual(cfg["minutes"] % 4, 0)
 
 
+class StockTest(unittest.TestCase):
+    """作り置き（先の回を前もって作る。オーナー依頼 2026-11-14）：順番・記録・当日の使い方"""
+    ST = {"episodes": {"2026-11-13": {"yt": "a", "theme": "rain_night", "privacy": "public"}, "2026-11-14": {"yt": "b", "theme": "seaside", "privacy": "public"}}}
+
+    def meta(self, date, n, st=None, keys=None):
+        pl = bgm.plan(date, st or self.ST, CFG, n=n); tr = tracks()
+        if keys:
+            for t, k in zip(tr, keys): t["bpm"] = k
+        desc, names = bgm.description(pl, tr)
+        return {**pl, "code": bgm.code_hash(), "description": desc, "track_names": names, "tracks": tr, "localizations": bgm.localizations(pl, pl["title"], desc), "tags": ["lofi"]}
+
+    def put(self, root, date, meta, ok=True, mb=900):
+        d = root / f"bgm-stockmeta-{date}"; d.mkdir(parents=True)
+        (d / "meta.json").write_text(json.dumps(meta)); (d / "qa.json").write_text(json.dumps({"ok": ok, "problems": [] if ok else ["音量"], "numbers": {"mb": mb}}))
+
+    def setUp(self):
+        import tempfile
+        self.tmp = pathlib.Path(tempfile.mkdtemp()); self.keep = (bgm.AUTO, bgm.ROOT, bgm.STOCK, bgm.DIST)
+        bgm.AUTO = self.tmp / "auto"; bgm.AUTO.mkdir(); bgm.DIST = self.tmp / "dist"; bgm.STOCK = bgm.DIST / "bgm_stock"
+
+    def tearDown(self):
+        import shutil
+        bgm.AUTO, bgm.ROOT, bgm.STOCK, bgm.DIST = self.keep; shutil.rmtree(self.tmp, ignore_errors=True)
+        for f in (ROOT / "content" / "bgm").glob("2099-*"): f.unlink()
+
+    def test_plan_lists_every_wed_sat_until_year_end_in_order(self):
+        out = bgm.stock_plan("2026-12-31", self.ST, CFG, "2026-11-14")
+        self.assertEqual([x["date"] for x in out], ["2026-11-18", "2026-11-21", "2026-11-25", "2026-11-28", "2026-12-02", "2026-12-05", "2026-12-09", "2026-12-12", "2026-12-16", "2026-12-19", "2026-12-23", "2026-12-26", "2026-12-30"])
+        self.assertEqual([x["n"] for x in out], list(range(2, 15)))
+        themes = [bgm.plan(x["date"], self.ST, CFG, n=x["n"])["theme"] for x in out]
+        self.assertEqual(themes[0], "wa_evening")                                   # 出した2本（雨の夜・海）の次
+        for a, b in zip(themes, themes[1:]): self.assertNotEqual(a, b)
+
+    def test_plan_skips_stocked_and_remakes_when_recipe_changed(self):
+        st = json.loads(json.dumps(self.ST)); st["stock"] = {"2026-11-18": {"code": bgm.code_hash(), "no": 3}, "2026-11-21": {"code": "old", "no": 4}}
+        out = bgm.stock_plan("2026-11-25", st, CFG, "2026-11-14")
+        self.assertEqual([x["date"] for x in out], ["2026-11-21", "2026-11-25"])
+        self.assertEqual(len(bgm.stock_plan("2026-11-25", st, CFG, "2026-11-14", redo=True)), 3)
+
+    def test_day_plan_counts_stock_before_it(self):
+        # 当日に作り直すときも、作り置きと同じ番号（＝同じテーマの順番）になる
+        st = json.loads(json.dumps(self.ST)); st["stock"] = {"2026-11-18": {}, "2026-11-21": {}}
+        self.assertEqual(bgm.plan("2026-11-21", st, CFG)["no"], 4); self.assertEqual(bgm.plan("2026-11-18", st, CFG)["no"], 3)
+        self.assertEqual(bgm.plan("2026-11-21", st, CFG), bgm.plan("2026-11-21", self.ST, CFG, n=3))
+
+    def test_record_checks_stock_against_each_other(self):
+        st = json.loads(json.dumps(self.ST)); src = self.tmp / "src"
+        same = [70.0 + i for i in range(18)]
+        self.put(src, "2099-01-01", self.meta("2099-01-01", 2, keys=same))
+        self.put(src, "2099-01-04", self.meta("2099-01-04", 3, keys=same))            # 前の作り置きと同じ曲ばかり
+        self.put(src, "2099-01-08", self.meta("2099-01-08", 4), ok=False)             # 検査に落ちた回
+        self.put(src, "2099-01-11", self.meta("2099-01-11", 5))
+        bad = bgm.stock_record(src, 123, st)
+        self.assertEqual(bad, ["2099-01-04", "2099-01-08"]); self.assertEqual(sorted(st["stock"]), ["2099-01-01", "2099-01-11"])
+        s = st["stock"]["2099-01-01"]
+        self.assertEqual((s["run"], s["artifact"], s["no"], s["code"], s["mb"]), ("123", "bgm-stock-2099-01-01", 3, bgm.code_hash(), 900))
+        self.assertEqual(json.loads((bgm.AUTO / "bgm_state.json").read_text())["stock"].keys(), st["stock"].keys())
+
+    def stocked(self, date="2099-01-01", code=None, mb=None):
+        st = json.loads(json.dumps(self.ST)); meta = self.meta(date, 2)
+        import shutil
+        d = bgm.STOCK / date; shutil.rmtree(d, ignore_errors=True); shutil.rmtree(bgm.DIST / "bgm" / date, ignore_errors=True); d.mkdir(parents=True)
+        (d / "meta.json").write_text(json.dumps(meta)); (d / "qa.json").write_text(json.dumps({"ok": True})); (d / "thumb.jpg").write_bytes(b"x"); (d / bgm.VIDEO_NAME).write_bytes(b"x" * 1000)
+        st["stock"] = {date: {"code": code or bgm.code_hash(), "no": 3, "run": "1", "artifact": "a", "mb": mb}}
+        (bgm.AUTO / "bgm_state.json").write_text(json.dumps(st))
+        return st
+
+    def run_day(self, date, build_ok=True):
+        calls = []
+        keep = (bgm.build, bgm.upload)
+        bgm.build = lambda d, *a, **k: (calls.append("build") or (build_ok, None, {"en": "X"}))
+        bgm.upload = lambda d, p=None: (calls.append("upload:" + ("stock" if (bgm.DIST / "bgm" / d / bgm.VIDEO_NAME).exists() else "fresh")) or "vid")
+        try: return bgm.run_day(date), calls
+        finally: bgm.build, bgm.upload = keep
+
+    def test_day_uses_stock_when_recipe_unchanged(self):
+        self.stocked()
+        (vid, msg), calls = self.run_day("2099-01-01")
+        self.assertEqual(calls, ["upload:stock"]); self.assertEqual(vid, "vid"); self.assertIn("作り置き", msg)
+
+    def test_day_rebuilds_when_recipe_changed_and_falls_back_to_stock(self):
+        self.stocked(code="old")
+        (_, msg), calls = self.run_day("2099-01-01")
+        self.assertEqual(calls, ["build", "upload:fresh"]); self.assertNotIn("作り置き", msg)
+        self.stocked(code="old")
+        (vid, msg), calls = self.run_day("2099-01-01", build_ok=False)
+        self.assertEqual(calls, ["build", "upload:stock"]); self.assertEqual(vid, "vid")
+
+    def test_day_without_stock_builds_as_before(self):
+        (bgm.AUTO / "bgm_state.json").write_text(json.dumps(self.ST))
+        (_, _), calls = self.run_day("2099-01-01")
+        self.assertEqual(calls, ["build", "upload:fresh"])
+        (vid, msg), calls = self.run_day("2099-01-01", build_ok=False)
+        self.assertEqual(calls, ["build"]); self.assertIsNone(vid); self.assertIn("出さなかった", msg)
+
+    def test_broken_or_out_of_order_stock_is_not_used(self):
+        st = self.stocked(mb=900)                                                     # 取ってきた動画の大きさが作ったときと違う（途中で切れた）
+        self.assertTrue(any("大きさ" in p for p in bgm.stock_problems("2099-01-01", st)))
+        (_, _), calls = self.run_day("2099-01-01")
+        self.assertEqual(calls, ["build", "upload:fresh"])
+        st = self.stocked(); st["episodes"]["2098-12-30"] = {"yt": "z", "theme": bgm.plan("2099-01-01", self.ST, CFG, n=2)["theme"]}
+        self.assertIn("前の回と同じテーマ", bgm.stock_problems("2099-01-01", st))     # 順番がずれて、前の回と同じテーマになった
+
+    def test_recipe_hash_is_stable_and_follows_the_music(self):
+        a = bgm.code_hash(); bgm.set_crf("club"); self.assertEqual(bgm.code_hash(), a); bgm.set_crf("lofi")
+        keep = bgm.TARGET_LUFS; bgm.TARGET_LUFS = -14.5
+        try: self.assertNotEqual(bgm.code_hash(), a)
+        finally: bgm.TARGET_LUFS = keep
+
+
+class StockWorkflowTest(unittest.TestCase):
+    def setUp(self):
+        self.y = (ROOT / ".github" / "workflows" / "bgm-stock.yml").read_text(encoding="utf-8")
+        self.day = (ROOT / ".github" / "workflows" / "bgm.yml").read_text(encoding="utf-8")
+
+    def test_manual_only_and_never_uploads_to_youtube(self):
+        on = self.y.split("\njobs:")[0]
+        self.assertNotRegex(on, r"\n\s+push:"); self.assertNotRegex(on, r"\n\s+pull_request:"); self.assertNotRegex(on, r"\n\s+schedule:")
+        self.assertNotIn("YT_REFRESH_TOKEN", self.y); self.assertNotRegex(self.y, r"bgm\.py (run|upload|publish)\b")
+
+    def test_does_not_block_posts_or_the_day_run(self):
+        self.assertRegex(self.y, r"(?m)^concurrency:\s*bgm-stock\b"); self.assertIn("ref: main", self.y)
+        self.assertIn("vars.AUTO_POST_ENABLED == 'true'", self.y); self.assertIn('gha.sh" check renjill-bgm', self.y)
+
+    def test_only_passed_videos_are_stored(self):
+        self.assertIn("steps.build.outputs.code == '0'", self.y); self.assertIn("name: bgm-stock-${{ matrix.ep.date }}", self.y)
+        self.assertIn("stock-record", self.y); self.assertIn("fail-fast: false", self.y)
+
+    def test_day_run_fetches_stock_and_can_read_artifacts(self):
+        self.assertIn("actions: read", self.day); self.assertIn("stock-fetch", self.day); self.assertIn("GH_TOKEN", self.day)
+        self.assertLess(self.day.index("stock-fetch"), self.day.index('args=(run --date'))
+
+
 if __name__ == "__main__":
     unittest.main()

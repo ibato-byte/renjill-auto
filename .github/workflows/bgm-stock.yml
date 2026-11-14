@@ -1,0 +1,156 @@
+name: bgm-stock
+# 作業用BGMの作り置き（オーナー依頼 2026-11-14「今年いっぱい分の動画作成まで進めて」）。
+# 先の回（水・土）の動画を前もって作って検査し、GitHub Actions の保管場所（artifact・60日）に置く。YouTube には出さない。出すのは予定の日の bgm.yml。
+# 手動で動かす（Actions → bgm-stock → Run workflow）。until を空にすると今年の 12/31 まで。作り置きが済んでいる回は飛ばす（作り方が変わった回は作り直す）。
+# AI を使わない・無料（公開リポジトリの間は Actions も保管も無料。非公開に戻すと保管は 500MB までで、作り置き（1本 約1GB）は置けない）。
+on:
+  workflow_dispatch:
+    inputs:
+      until:
+        description: "いつの回まで作るか（例 2026-12-31）。空なら今年の 12/31 まで"
+        required: false
+      redo:
+        description: "作り置きが済んでいる回も作り直す（true）"
+        required: false
+        default: "false"
+permissions:
+  contents: write
+concurrency: bgm-stock   # 毎日の投稿（post）・当日の作業用BGM（bgm）を待たせない
+jobs:
+  plan:
+    if: vars.AUTO_POST_ENABLED == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    outputs:
+      matrix: ${{ steps.plan.outputs.matrix }}
+      any: ${{ steps.plan.outputs.any }}
+    steps:
+      - name: Automation Hub：一時停止の確認
+        id: hub
+        env:
+          HUB_TOKEN: ${{ secrets.HUB_TOKEN }}
+        run: |
+          if [ -z "$HUB_TOKEN" ] || ! git clone -q --depth 1 "https://x-access-token:${HUB_TOKEN}@github.com/ibato-byte/automation-hub.git" "$RUNNER_TEMP/hub"; then
+            echo "paused=false" >> "$GITHUB_OUTPUT"; echo "Automation Hub を使わずに続ける"; exit 0
+          fi
+          bash "$RUNNER_TEMP/hub/scripts/gha.sh" check renjill-bgm
+      - uses: actions/checkout@v5
+        with: { ref: main }
+      - uses: actions/setup-python@v6
+        with: { python-version: "3.12" }
+      - name: 作る回を決める
+        id: plan
+        env:
+          IN_UNTIL: ${{ github.event.inputs.until }}
+          IN_REDO: ${{ github.event.inputs.redo }}
+          PAUSED: ${{ steps.hub.outputs.paused }}
+        run: |
+          pip install -q numpy
+          args=(stock-plan)
+          [ -n "$IN_UNTIL" ] && args+=(--until "$IN_UNTIL")
+          [ "$IN_REDO" = "true" ] && args+=(--redo)
+          m=$(python auto/bgm.py "${args[@]}")
+          [ "$PAUSED" = "true" ] && m="[]"
+          echo "作る回：$m"
+          echo "matrix=$m" >> "$GITHUB_OUTPUT"
+          if [ "$m" = "[]" ]; then echo "any=false" >> "$GITHUB_OUTPUT"; else echo "any=true" >> "$GITHUB_OUTPUT"; fi
+  build:
+    needs: plan
+    if: needs.plan.outputs.any == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 75
+    strategy:
+      fail-fast: false      # 1本が落ちても、ほかの回は作る
+      max-parallel: 6
+      matrix:
+        ep: ${{ fromJSON(needs.plan.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@v5
+        with: { ref: main }
+      - uses: actions/setup-node@v5
+        with: { node-version: 22 }
+      - uses: actions/setup-python@v6
+        with: { python-version: "3.12" }
+      - name: 準備（ffmpeg・フォント・ブラウザ）
+        timeout-minutes: 20
+        run: |
+          for i in 1 2 3; do
+            if [ "$i" -ge 2 ]; then sudo sed -i 's|http://azure.archive.ubuntu.com|http://archive.ubuntu.com|g' /etc/apt/sources.list /etc/apt/sources.list.d/*.sources 2>/dev/null || true; fi
+            timeout 300 bash -c 'sudo apt-get update -qq && sudo apt-get install -y -qq --no-install-recommends ffmpeg fonts-noto-cjk' && break
+            echo "準備をやり直す（$i回目）"; sleep 10
+            [ "$i" = 3 ] && exit 1
+          done
+          npm i -g playwright && npx playwright install --with-deps chromium
+          echo "NODE_PATH=$(npm root -g)" >> "$GITHUB_ENV"
+          pip install -q requests numpy scipy
+      - name: 作る → 検査（YouTube には出さない）
+        id: build
+        env:
+          DATE: ${{ matrix.ep.date }}
+          N: ${{ matrix.ep.n }}
+        run: |
+          set +e
+          python auto/bgm.py build --date "$DATE" --n "$N" --par 4; code=$?
+          echo "code=$code" >> "$GITHUB_OUTPUT"
+          [ "$code" = 0 ] || [ "$code" = 3 ] || exit "$code"   # 3＝検査に落ちた（結果は残して、最後にまとめて知らせる）
+      - name: 動画を保管する（検査に通った回だけ）
+        if: steps.build.outputs.code == '0'
+        uses: actions/upload-artifact@v4
+        with:
+          name: bgm-stock-${{ matrix.ep.date }}
+          path: |
+            dist/bgm/${{ matrix.ep.date }}/bgm.mov
+            dist/bgm/${{ matrix.ep.date }}/meta.json
+            dist/bgm/${{ matrix.ep.date }}/qa.json
+            dist/bgm/${{ matrix.ep.date }}/thumb.jpg
+          retention-days: 60
+          compression-level: 0
+          overwrite: true
+          if-no-files-found: error
+      - name: 検査の結果と一覧の絵を残す
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bgm-stockmeta-${{ matrix.ep.date }}
+          path: |
+            dist/bgm/${{ matrix.ep.date }}/meta.json
+            dist/bgm/${{ matrix.ep.date }}/qa.json
+            dist/bgm/${{ matrix.ep.date }}/sheet.jpg
+            dist/bgm/${{ matrix.ep.date }}/thumb.jpg
+          retention-days: 60
+          overwrite: true
+          if-no-files-found: ignore
+  record:
+    needs: [plan, build]
+    if: always() && needs.plan.outputs.any == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v5
+        with: { ref: main }  # 常に最新の記録（auto/bgm_state.json）に書き足す
+      - uses: actions/setup-python@v6
+        with: { python-version: "3.12" }
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: bgm-stockmeta-*
+          path: dist/stockmeta
+      - name: 並び順に検査し直して記録する
+        id: record
+        env:
+          RUN_ID: ${{ github.run_id }}
+        run: |
+          pip install -q numpy
+          mkdir -p dist/stockmeta
+          set +e
+          python auto/bgm.py stock-record --src dist/stockmeta --run "$RUN_ID"; code=$?
+          echo "code=$code" >> "$GITHUB_OUTPUT"
+          [ "$code" = 0 ] || [ "$code" = 3 ] || exit "$code"
+      - name: commit results
+        run: |
+          git config user.name renjill-bot; git config user.email bot@renjill.local
+          git add -A auto/bgm_state.json content/bgm || true
+          git diff --cached --quiet || git commit -m "bgm-stock: $(TZ=Asia/Tokyo date '+%Y-%m-%d %H:%M')"
+          bash auto/push_main.sh
+      - name: 落ちた回があれば失敗にする（その回は当日に作る）
+        if: steps.record.outputs.code == '3' || needs.build.result != 'success'
+        run: echo "作り置きできなかった回がある（上の「並び順に検査し直して記録する」のログ）"; exit 1
