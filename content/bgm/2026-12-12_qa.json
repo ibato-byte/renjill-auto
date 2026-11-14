@@ -4,7 +4,7 @@
  "warnings": [],
  "numbers": {
   "sec": 3600.0,
-  "mb": 1240,
+  "mb": 1437,
   "lufs": -15.1,
   "lra": 5.7,
   "peak": -3.5,
@@ -23,31 +23,31 @@
     "adj_mean": 0.07,
     "adj_max": 0.33,
     "seam": 0.05,
-    "luma": 182.67
+    "luma": 182.75
    },
    {
     "adj_mean": 0.07,
-    "adj_max": 0.34,
+    "adj_max": 0.33,
     "seam": 0.05,
-    "luma": 182.58
+    "luma": 182.65
    },
    {
     "adj_mean": 0.07,
     "adj_max": 0.3,
-    "seam": 0.07,
-    "luma": 182.65
+    "seam": 0.06,
+    "luma": 182.72
    },
    {
     "adj_mean": 0.09,
-    "adj_max": 0.72,
-    "seam": 0.08,
-    "luma": 182.93
+    "adj_max": 0.71,
+    "seam": 0.07,
+    "luma": 183.01
    }
   ],
   "chapter_diff": [
    2.2,
    2.2,
-   2.5
+   2.4
   ]
  }
 }

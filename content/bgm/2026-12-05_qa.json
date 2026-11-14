@@ -4,7 +4,7 @@
  "warnings": [],
  "numbers": {
   "sec": 3600.0,
-  "mb": 1248,
+  "mb": 1446,
   "lufs": -15.0,
   "lra": 5.3,
   "peak": -3.4,
@@ -20,34 +20,34 @@
   "tracks": 21,
   "loops": [
    {
-    "adj_mean": 0.09,
+    "adj_mean": 0.08,
     "adj_max": 0.71,
     "seam": 0.06,
-    "luma": 182.69
+    "luma": 182.75
    },
    {
     "adj_mean": 0.07,
-    "adj_max": 0.34,
+    "adj_max": 0.33,
     "seam": 0.05,
-    "luma": 182.58
+    "luma": 182.65
    },
    {
     "adj_mean": 0.07,
     "adj_max": 0.3,
     "seam": 0.07,
-    "luma": 182.7
+    "luma": 182.76
    },
    {
     "adj_mean": 0.08,
     "adj_max": 0.21,
     "seam": 0.09,
-    "luma": 176.71
+    "luma": 176.76
    }
   ],
   "chapter_diff": [
    2.1,
    2.2,
-   7.8
+   7.9
   ]
  }
 }
