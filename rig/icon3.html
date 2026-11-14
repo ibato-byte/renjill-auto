@@ -1,0 +1,17 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+/* チモシーダッシュのアプリのアイコン（2026-11-15 作り直し）。使い方：tools の説明は rig/icon3.md。A=ふつうのアイコン、M=マスク用（まん中 80% の円の中に顔が入る）、F=小さい表示用（顔を大きく）
+   前のアイコンは、ジルの体が右でまっすぐ切れている・レンの耳が左で切れている、という欠けがあった */
+body{margin:0;background:#888}
+.ic{width:1024px;height:1024px;position:relative;overflow:hidden;background:radial-gradient(circle at 50% 38%,#FFD966 0%,#F6C545 52%,#EDB631 100%);margin-bottom:8px}
+.ic svg{position:absolute}
+.ic::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 108%,rgba(140,84,20,.34) 0%,rgba(140,84,20,0) 46%);pointer-events:none}
+</style></head><body>
+<div class="ic" id="A"><svg id="ar" viewBox="0 0 400 420" style="width:930px;height:977px;left:-52px;top:66px"></svg><svg id="aj" viewBox="0 0 400 420" style="width:700px;height:735px;left:392px;top:368px"></svg></div>
+<div class="ic" id="M"><svg id="mr" viewBox="0 0 400 420" style="width:640px;height:672px;left:96px;top:196px"></svg><svg id="mj" viewBox="0 0 400 420" style="width:490px;height:515px;left:452px;top:406px"></svg></div>
+<div class="ic" id="F"><svg id="fr" viewBox="0 0 400 420" style="width:1180px;height:1239px;left:-78px;top:-30px"></svg></div>
+<script src="rig.js"></script><script>
+for (const [r,j] of [['ar','aj'],['mr','mj']]) {
+RIG.render(document.getElementById(r),Object.assign({char:'ren',id:r},RIG.FACES.smile,{earL:6,earR:6}));
+RIG.render(document.getElementById(j),Object.assign({char:'jil',id:j,flip:false},RIG.FACES.smile,{headTilt:-4}));}
+RIG.render(document.getElementById('fr'),Object.assign({char:'ren',id:'fr'},RIG.FACES.smile,{earL:6,earR:6}));
+</script></body></html>
