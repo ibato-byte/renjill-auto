@@ -1,53 +1,55 @@
 {
  "ok": true,
  "problems": [],
- "warnings": [],
+ "warnings": [
+  "音量の幅が広い（LRA 14.7）。作業用には静かと大きいの差が大きすぎるかも"
+ ],
  "numbers": {
   "sec": 3600.0,
-  "mb": 1250,
+  "mb": 1276,
   "lufs": -15.0,
-  "lra": 5.4,
-  "peak": -3.3,
+  "lra": 14.7,
+  "peak": -3.4,
   "silences": 0,
   "spectrum": {
-   "sub": 6.97,
-   "bass": 25.44,
-   "lowmid": 51.75,
-   "mid": 13.64,
-   "hi": 2.2,
-   "corr": 0.86
+   "sub": 6.13,
+   "bass": 33.62,
+   "lowmid": 43.41,
+   "mid": 15.41,
+   "hi": 1.43,
+   "corr": 0.79
   },
-  "tracks": 20,
+  "tracks": 19,
   "loops": [
    {
-    "adj_mean": 0.08,
+    "adj_mean": 0.06,
+    "adj_max": 0.28,
+    "seam": 0.06,
+    "luma": 172.28
+   },
+   {
+    "adj_mean": 0.07,
+    "adj_max": 0.95,
+    "seam": 0.05,
+    "luma": 166.06
+   },
+   {
+    "adj_mean": 0.06,
+    "adj_max": 0.18,
+    "seam": 0.07,
+    "luma": 164.2
+   },
+   {
+    "adj_mean": 0.06,
     "adj_max": 0.3,
-    "seam": 0.08,
-    "luma": 170.43
-   },
-   {
-    "adj_mean": 0.15,
-    "adj_max": 0.6,
-    "seam": 0.13,
-    "luma": 109.98
-   },
-   {
-    "adj_mean": 0.14,
-    "adj_max": 0.32,
-    "seam": 0.14,
-    "luma": 94.21
-   },
-   {
-    "adj_mean": 0.13,
-    "adj_max": 0.14,
-    "seam": 0.13,
-    "luma": 84.85
+    "seam": 0.04,
+    "luma": 120.25
    }
   ],
   "chapter_diff": [
-   61.7,
-   17.0,
-   11.3
+   8.3,
+   4.7,
+   45.0
   ]
  }
 }
