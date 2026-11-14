@@ -364,6 +364,16 @@ class NoRepeatTest(unittest.TestCase):
             for a, b in zip(heads, heads[1:]): self.assertNotEqual(a["key"], b["key"])
             seen_k |= ks; seen_n |= set(names)
 
+    def test_stock_build_compares_with_the_episode_right_before_it(self):
+        # 2026-11-14：12/23（和の夕べ・2回目）を並べて作ったとき、すぐ前の 12/19 がまだ無く、11/18（和の夕べ）を「前の回」と見て不合格にした
+        st = json.loads(json.dumps(self.ST)); st["stock"] = {"2026-11-18": {"code": bgm.code_hash(), "theme": "wa_evening", "title": bgm.plan("2026-11-18", self.ST, CFG, n=2)["title"], "track_keys": [], "track_names": []}}
+        _, _, sims = bgm.history("2026-12-23", st, CFG, today="2026-11-14", with_sims=True)
+        self.assertEqual(sorted(sims)[-1], "2026-12-19"); self.assertNotIn("2026-11-18", sims)
+        pl = bgm.plan("2026-12-23", st, CFG, n=12); self.assertEqual(pl["theme"], "wa_evening")
+        self.assertNotEqual(sims["2026-12-19"]["theme"], pl["theme"]); self.assertNotEqual(sims["2026-12-19"]["title"], pl["title"])
+        src = (ROOT / "auto" / "bgm.py").read_text(encoding="utf-8")
+        self.assertIn("known.update(sims)", src)                                       # 検査の「前の回」に、これから作る回も入れる
+
     def test_day_build_avoids_later_stock_too(self):
         st = json.loads(json.dumps(self.ST)); st["stock"] = {"2026-11-21": {"code": bgm.code_hash(), "track_keys": ["K1"], "track_names": ["N1"]}, "2026-11-25": {"code": "old", "track_keys": ["K2"], "track_names": ["N2"]}}
         keys, names = bgm.history("2026-11-18", st, CFG, today="2026-11-18")

@@ -233,7 +233,7 @@ def build(date, minutes=None, keep=False, par=3, theme=None, n=None, redo=False)
     cfg = config()
     if minutes: cfg["minutes"] = minutes
     pl = plan(date, cfg=cfg, theme=theme, n=n)
-    avoid, used_names = history(date, state(), cfg, redo=redo)
+    avoid, used_names, sims = history(date, state(), cfg, redo=redo, with_sims=True)
     work = DIST / "bgm" / date
     if work.exists(): shutil.rmtree(work)
     work.mkdir(parents=True)
@@ -253,7 +253,12 @@ def build(date, minutes=None, keep=False, par=3, theme=None, n=None, redo=False)
             "tags": STYLE_TAGS[pl.get("style", "lofi")] + ["study music", "work music", "作業用BGM", "勉強用BGM", "focus music", "Ren and Jill", "レンとジル", "bunny", "うさぎ", "background music"]}
     (work / "meta.json").write_text(json.dumps(meta, ensure_ascii=False, indent=1))
     st = state()
-    qa = bgm_qa.check_all(work, meta, frames, prev_of(date, st))
+    # 前の回＝出した回＋作り置き＋「これから作る、この回より前の回」（sims）。並べて作る作り置きでは、すぐ前の回がまだ無いことがある。
+    # sims を入れないと、ずっと前の回を「すぐ前の回」と見て「前の回と同じテーマ」で落とす（2026-11-14：12/23 和の夕べ が、11/18 和の夕べ を前の回と見て不合格になった）
+    known = {k: v for k, v in st["episodes"].items() if v.get("yt") and k != date}
+    known.update({k: v for k, v in st.get("stock", {}).items() if k < date and k not in known and k not in sims})
+    known.update(sims)
+    qa = bgm_qa.check_all(work, meta, frames, [v for _, v in sorted(known.items())])
     (work / "qa.json").write_text(json.dumps(qa, ensure_ascii=False, indent=1))
     bgm_qa.contact_sheet(frames, work / "sheet.jpg")
     for p in qa["problems"]: log("NG", p)
@@ -504,7 +509,7 @@ def prev_of(date, st):
     return [v for _, v in sorted(eps.items())]
 
 
-def history(date, st, cfg, today=None, redo=False):
+def history(date, st, cfg, today=None, redo=False, with_sims=False):
     """その回が避ける「これまでの回の曲（調|進行|速さ）」と「曲名」。出した回・ほかの日の作り置きの記録に加えて、
     今日〜その日の前までの、まだ作っていない回の分も先に数える（曲の並びは音を作らなくても決まる＝music.choose）。
     作り置きは並べて同時に作るので、こうしないと作り置きどうしで曲がかぶる。redo＝作り置きを全部作り直すとき（古い記録を数えない）"""
@@ -515,7 +520,7 @@ def history(date, st, cfg, today=None, redo=False):
     keys, names = set(), set()
     for v in list(done.values()) + list(stock.values()):
         keys |= set(v.get("track_keys") or []); names |= set(v.get("track_names") or [])
-    n = len(done)
+    n = len(done); sims = {}
     for d in slots(today, date, cfg):
         if d in done: continue
         if d >= date: break
@@ -524,8 +529,9 @@ def history(date, st, cfg, today=None, redo=False):
             heads = music.choose(pl["seed"], pl["minutes"] + 0.5, pl["style"], keys)
             nm = pick_names(pl["seed"], len(heads), names, pl["theme"])
             keys |= {h["tk"] for h in heads}; names |= set(nm)
+            sims[d] = {"theme": pl["theme"], "title": pl["title"], "seed": pl["seed"], "track_keys": [h["tk"] for h in heads], "track_names": nm}
         n += 1
-    return keys, names
+    return (keys, names, sims) if with_sims else (keys, names)
 
 
 def slots(start, until, cfg):
