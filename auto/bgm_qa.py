@@ -11,7 +11,7 @@ def _run(cmd): return subprocess.run([str(c) for c in cmd], capture_output=True,
 
 
 def probe(path):
-    r = _run(["ffprobe", "-v", "error", "-show_entries", "stream=codec_type,width,height,r_frame_rate,duration,sample_rate,channels:format=duration,size", "-of", "json", path])
+    r = _run(["ffprobe", "-v", "error", "-show_entries", "stream=codec_type,width,height,r_frame_rate,duration,sample_rate,channels,color_space,pix_fmt:format=duration,size", "-of", "json", path])
     return json.loads(r.stdout or "{}")
 
 
@@ -113,7 +113,9 @@ def check_all(work, meta, frame_dirs, prev):
     dur = float(pr.get("format", {}).get("duration", 0)); num["sec"] = round(dur, 1); num["mb"] = round(int(pr.get("format", {}).get("size", 0)) / 1e6)
     if abs(dur - total) > 2: probs.append(f"長さが {dur:.1f} 秒（予定 {total} 秒）")
     v, a = st.get("video"), st.get("audio")
-    if not v or (v.get("width"), v.get("height")) != (1920, 1080): probs.append("絵が 1920x1080 でない")
+    if not v or (v.get("width"), v.get("height")) != (2560, 1440): probs.append("絵が 2560x1440 でない")  # 2026-11-15：1440p で上げる（auto/bgm.py の VIDEO_W・VIDEO_H と同じ値。tests/test_bgm_quality.py が見張る）
+    if v and v.get("color_space") != "bt709": probs.append(f'色の印が BT.709 でない（{v.get("color_space")}）')
+    if v and v.get("pix_fmt") != "yuv420p": probs.append(f'色の形式が yuv420p でない（{v.get("pix_fmt")}）')
     if v and v.get("r_frame_rate") != "24/1": probs.append(f'コマ数が 24 でない（{v.get("r_frame_rate")}）')
     if not a or int(a.get("channels", 0)) != 2: probs.append("音がステレオでない")
     if v and a and abs(float(v.get("duration", 0)) - float(a.get("duration", 0))) > 1.0: probs.append("絵と音の長さがずれている")

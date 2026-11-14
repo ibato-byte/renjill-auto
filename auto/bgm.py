@@ -31,6 +31,13 @@ AUTO, DIST, RIG = ROOT / "auto", ROOT / "dist", ROOT / "rig" / "bgm"
 JST = dt.timezone(dt.timedelta(hours=9))
 PLAYLIST = "Lofi with Ren & Jill / 作業用BGM"
 FPS, LOOP = 24, 60          # 1章の絵は 60 秒のループ
+# 2026-11-15：絵は 2560x1440 で描いて、そのまま上げる（前は 1920x1080）。YouTube は 1440p 以上で上げた動画に質の高い圧縮を使うので、
+# 見る人の画面（1080p で見る人も）で、暗い所のグラデーションのにじみ・輪郭のつぶれが減る。表紙は今までどおり 1280x720。
+VIDEO_W, VIDEO_H = 2560, 1440
+RENDER_SCALE = VIDEO_W / 1920   # rig/bgm/scene.js は 1920x1080 の座標で描く。それを何倍の細かさで写すか
+# コマ（JPEG）は「全域・BT.601」の色。動画は「テレビの範囲・BT.709」に直し、その印を付ける（印がないと、端末によって色が少しちがって見える）
+COLOR_VF = "scale=in_color_matrix=bt601:in_range=pc:out_color_matrix=bt709:out_range=tv,format=yuv420p"
+COLOR_TAGS = ["-colorspace", "bt709", "-color_primaries", "bt709", "-color_trc", "bt709", "-color_range", "tv"]
 XF = 4                      # 章の切り替えは 4 秒かけてなめらかに（瞬間カット禁止）
 TARGET_LUFS = -15.0
 VIDEO_NAME = "bgm.mov"       # H.264 ＋ 圧縮しない音（PCM）。MOV は YouTube が正式に受け付ける形
@@ -228,13 +235,13 @@ def build_audio(pl, work, avoid=()):
 
 
 # ---------- 絵 ----------
-ENC = ["-c:v", "libx264", "-preset", "medium", "-crf", "21", "-pix_fmt", "yuv420p", "-r", str(FPS), "-x264-params", f"keyint={FPS * 2}:min-keyint={FPS * 2}:scenecut=0:open-gop=0", "-bf", "0", "-video_track_timescale", "12288"]
+ENC = COLOR_TAGS + ["-c:v", "libx264", "-preset", "medium", "-crf", "21", "-pix_fmt", "yuv420p", "-r", str(FPS), "-x264-params", f"keyint={FPS * 2}:min-keyint={FPS * 2}:scenecut=0:open-gop=0", "-bf", "0", "-video_track_timescale", "12288"]
 
 
 def enc(frames, out, start=0, n=None, vf=None):
     cmd = ["ffmpeg", "-y", "-loglevel", "error", "-framerate", FPS, "-start_number", start, "-i", frames / "f%05d.jpg"]
     if n: cmd += ["-frames:v", n]
-    if vf: cmd += ["-vf", vf]
+    cmd += ["-vf", (vf + "," if vf else "") + COLOR_VF]
     run(cmd + ENC + [out])
 
 
@@ -249,7 +256,7 @@ def build_video(pl, work, par=3):
     assert pl["minutes"] % n == 0 and reps >= 2, "長さは章の数（4）の倍数の分にする"
     fr = [work / f"ch{i}" for i in range(n)]
     for i in range(n):
-        run(["node", RIG / "render.js", fr[i], query(pl, i), FPS, par, LOOP])
+        run(["node", RIG / "render.js", fr[i], query(pl, i), FPS, par, LOOP, f"{RENDER_SCALE:.7f}"])
     seg = work / "seg"; seg.mkdir(exist_ok=True)
     N, X = FPS * LOOP, FPS * XF
     order = []
@@ -260,7 +267,7 @@ def build_video(pl, work, par=3):
         else:
             # 前の章 → この章へ 4 秒かけて溶けるように切り替える。どちらもループの頭（t=0〜4）なので、前後がぴったりつながる
             run(["ffmpeg", "-y", "-loglevel", "error", "-framerate", FPS, "-i", fr[i - 1] / "f%05d.jpg", "-framerate", FPS, "-i", fr[i] / "f%05d.jpg",
-                 "-filter_complex", f"[0:v][1:v]blend=all_expr='A*(1-T/{XF})+B*(T/{XF})'", "-frames:v", X] + ENC + [seg / f"x{i}.mp4"])
+                 "-filter_complex", f"[0:v][1:v]blend=all_expr='A*(1-T/{XF})+B*(T/{XF})',{COLOR_VF}", "-frames:v", X] + ENC + [seg / f"x{i}.mp4"])
             enc(fr[i], seg / f"tail{i}.mp4", start=X, n=N - X)
             order += [f"x{i}.mp4", f"tail{i}.mp4"] + [f"loop{i}.mp4"] * (reps - 1)
     enc(fr[n - 1], seg / "last.mp4", vf=f"fade=t=out:st={LOOP - 5}:d=5")
@@ -540,7 +547,7 @@ def code_hash():
     files = sorted(p for p in RIG.iterdir() if p.is_file() and p.suffix in (".py", ".js", ".html")) + [ROOT / "rig" / "rig.js", ROOT / "rig" / "v2" / "lib.js"]
     for p in files + [AUTO / "bgm_names.py", AUTO / "bgm_themes.py"]:
         if p.exists(): h.update(p.name.encode()); h.update(p.read_bytes())
-    h.update(json.dumps([THEMES, GENRE, AMBIENCE, LUFS, TARGET_LUFS, FPS, LOOP, XF, TRACKLIST, I18N, STYLE_TAGS, STYLE_HASH, GENRE_I18N], ensure_ascii=False, sort_keys=True).encode())
+    h.update(json.dumps([VIDEO_W, VIDEO_H, COLOR_VF, COLOR_TAGS, THEMES, GENRE, AMBIENCE, LUFS, TARGET_LUFS, FPS, LOOP, XF, TRACKLIST, I18N, STYLE_TAGS, STYLE_HASH, GENRE_I18N], ensure_ascii=False, sort_keys=True).encode())
     return h.hexdigest()[:12]
 
 

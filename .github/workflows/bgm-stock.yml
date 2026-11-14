@@ -59,7 +59,7 @@ jobs:
     needs: plan
     if: needs.plan.outputs.any == 'true'
     runs-on: ubuntu-24.04
-    timeout-minutes: 75
+    timeout-minutes: 110  # 2026-11-15：2560x1440 で描くので、1 本にかかる時間が約 2 倍（前は 12〜24 分）
     strategy:
       fail-fast: false      # 1本が落ちても、ほかの回は作る
       max-parallel: 6
