@@ -46,3 +46,31 @@
 2026-11-12,renjill-midweek-check,45,台本,ウォーターサーバー：オチの小さな紙コップがレンの体の後ろ（back の層）に隠れて見えなかった → 前の層に出し、口元で少し傾けて飲む動きに,rig/ep/watercooler.js,別のレビュー役の指摘（blocker）と 7.4・7.9・8.6 秒のコマの目視
 2026-11-12,renjill-midweek-check,46,台本,定時1分前：最後の寄りで時計の「18:00」の「1」が左端で切れて「8:00」に見えた → カメラ cx 800→700,rig/ep/teiji.js,別のレビュー役の指摘と 24コマ表の目視（直した後は 18:00 が全部見える）
 2026-11-12,renjill-midweek-check,47,台本,ハンコ8個：8個目のかすれた判が薄すぎて（濃さ25%）インク切れが伝わらない → 濃さ60%・太い破線に,rig/ep/hanko.js,別のレビュー役の指摘と 4.6・5.2 秒のコマの目視
+2026-11-15,renjill-growth-research,1,プレイブック,第1章：Instagram の Your Algorithm の広がり（リール→発見→フィード）と、英語1行目に話題の言葉を入れる方針を追記,docs/GROWTH_PLAYBOOK.md,https://www.socialpilot.co/?p=563048
+2026-11-15,renjill-growth-research,2,プレイブック,第1章：YouTube の再生数の数え方（再生開始で1回）を追記し、オーナー決定と食い違っていた「カスタムサムネ」を「表紙は文字なし」に直した,docs/GROWTH_PLAYBOOK.md,https://www.gigazine.net/gsc_news/en/20260818-youtube-count-public-view ／ knowledge/_thumbnail_rule.md
+2026-11-15,renjill-growth-research,3,プレイブック,第1章：TikTok の投稿後の「キーワードを管理」（2026-04 下旬〜）と使い方を追記,docs/GROWTH_PLAYBOOK.md,https://www.socialmediatoday.com/news/tiktok-lets-users-add-relevant-keywords-to-metadata/818507/
+2026-11-15,renjill-growth-research,4,古い情報の更新,第3章：ハッシュタグの決まりを実際の tag_sets（A・B・C）に合わせた（書かれていたタグの組み合わせは使われていなかった）,docs/GROWTH_PLAYBOOK.md,auto/schedule.json defaults.tag_sets
+2026-11-15,renjill-growth-research,5,古い情報の更新,第3章：固定コメントの決まりを実際の first_comment（2択の問いかけ）に合わせた,docs/GROWTH_PLAYBOOK.md,auto/schedule.json first_comment
+2026-11-15,renjill-growth-research,6,古い情報の更新,第3章：投稿頻度を「平日5本」から実際の「毎日1本・Threads とストーリーズ込み・TikTok は手動」に直した,docs/GROWTH_PLAYBOOK.md,auto/schedule.json・auto/posted.json
+2026-11-15,renjill-growth-research,7,古い情報の更新,第5章：週次PDCAの本数を実態に、水曜の中間点検を追記,docs/GROWTH_PLAYBOOK.md,automation-hub prompts/renjill-midweek-check.md
+2026-11-15,renjill-growth-research,8,抜けの修正,第5章：10/25・11/1・11/8 の調査が main に入らず週次PDCAに届いていなかったことを注意として明記,docs/GROWTH_PLAYBOOK.md,git ls-remote（claude/trusting-allen-71i46t・odz491・okj8yr）
+2026-11-15,renjill-growth-research,9,抜けの修正,第10章：main に入っていなかった3回分の調査の要点を取り込んだ,docs/GROWTH_PLAYBOOK.md,同上の3ブランチの GROWTH_PLAYBOOK.md
+2026-11-15,renjill-growth-research,10,プレイブック,"第6章：YouTube のショート広告収益の新条件（2027-02-01〜、90日1,000万回）と、収益化の順番の見直しを追記",docs/GROWTH_PLAYBOOK.md,https://www.tubefilter.com/2026/08/10/youtube-partner-program-ad-eligibility-requirements-shorts/
+2026-11-15,renjill-growth-research,11,古い情報の更新,第8章：道のりの「X を開始」を、有料 API を使わない方針に合わせて Threads に直した,docs/GROWTH_PLAYBOOK.md,knowledge/_owner_profile.md 2026-10-22 の決定
+2026-11-15,renjill-growth-research,12,プレイブック,第8章：現在地（2026-11-15 のフォロワー・再生の中央値・計測なしの SNS）を追加,docs/GROWTH_PLAYBOOK.md,content/followers.csv・content/metrics.csv
+2026-11-15,renjill-growth-research,13,プレイブック,第8章ベンチマークにパペットスンスン（言葉なし・真似したくなる動き）を追加,docs/GROWTH_PLAYBOOK.md,https://www.sbbit.jp/article/cont1/185096
+2026-11-15,renjill-growth-research,14,プレイブック,第8章ベンチマークにおぱんちゅうさぎのテレビ3Dアニメ化（2026-04-24 発表）を追加,docs/GROWTH_PLAYBOOK.md,https://eiga.com/news/20260424/7/
+2026-11-15,renjill-growth-research,15,試す型,第9章：ウォーターサーバー（中央値の約10倍）の伸びの仮説と、同じ型の予定回で確かめる手順を追加,docs/GROWTH_PLAYBOOK.md,content/metrics.csv 2026-11-15
+2026-11-15,renjill-growth-research,16,ハッシュタグ・キャプション,次週の試し候補1：TikTok のキーワード管理で検索語を足す,docs/GROWTH_PLAYBOOK.md,https://www.netinfluencer.com/tiktok-adds-post-publish-keyword-management-tool-for-creator-videos/
+2026-11-15,renjill-growth-research,17,ハッシュタグ・キャプション,次週の試し候補2：英語1行目に office／boss を入れる,docs/GROWTH_PLAYBOOK.md,https://www.socialpilot.co/?p=563048
+2026-11-15,renjill-growth-research,18,ハッシュタグ・キャプション,次週の試し候補3：物が増える回は英語1行目を物の並びで始める,docs/GROWTH_PLAYBOOK.md,content/metrics.csv（watercooler）
+2026-11-15,renjill-growth-research,19,ネタ候補,2/3 節分の豆まき（BEAN TOSS）,docs/GROWTH_PLAYBOOK.md,2027年の暦
+2026-11-15,renjill-growth-research,20,ネタ候補,2/14 バレンタインの配りもの（VALENTINE）,docs/GROWTH_PLAYBOOK.md,2027年の暦
+2026-11-15,renjill-growth-research,21,ネタ候補,2/22 猫の日の猫耳カチューシャ（CAT DAY?）,docs/GROWTH_PLAYBOOK.md,2027年の暦
+2026-11-15,renjill-growth-research,22,ネタ候補,年度末の予算消化（BUDGET LEFT）,docs/GROWTH_PLAYBOOK.md,一般的な慣行
+2026-11-15,renjill-growth-research,23,ネタ候補,3/3 ひな祭りのひな壇（TOP SHELF）,docs/GROWTH_PLAYBOOK.md,2027年の暦
+2026-11-15,renjill-growth-research,24,プレイブック,冒頭の最終更新日と第1章の見出しを11月時点に更新,docs/GROWTH_PLAYBOOK.md,本日の調査
+2026-11-15,renjill-growth-research,25,商標,商標プラン：月次の確認の担当を実態（日曜の成長リサーチ・毎月第1日曜）に直し、J-PlatPat を開けないときの代わりの確認を明記,docs/TRADEMARK_PLAN.md,prompts/renjill-growth-research.md
+2026-11-15,renjill-growth-research,26,商標,商標プラン：フォロワーの記録の場所を実態（content/followers.csv・毎日自動）に直した,docs/TRADEMARK_PLAN.md,content/followers.csv
+2026-11-15,renjill-growth-research,27,商標,商標プラン：出願の合図のメール件名を Hub のきまり（【Hub】要対応）に合わせた,docs/TRADEMARK_PLAN.md,automation-hub docs/EMAIL.md
+2026-11-15,renjill-growth-research,28,商標,商標プラン：見張りの記録の表を新設し、11/8・11/15 の結果を記録,docs/TRADEMARK_PLAN.md,本日の検索・content/followers.csv
