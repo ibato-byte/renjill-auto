@@ -33,8 +33,8 @@ var EP = {
     const rface = t < 2.3 ? RIG.FACES.neutral : t < 4.9 ? RIG.FACES.sharp : t < 7.3 ? Object.assign({}, RIG.FACES.smug, { blush: .8 }) : Object.assign({}, RIG.FACES.surprised, { excl: 1 });
     const rp = Object.assign({}, tearing || (t >= 2.0 && t < 2.4) ? RIG.POSES.lean : RIG.POSES.sit, rface, { x: 540, y: DESK - 413 * 1.35, scale: 1.35, flip: true, eyeLook: .5, bodyTilt: tearing ? -12 + Math.sin(t * 40) * 3 : 0, headTilt: t >= 4.9 && t < 7.3 ? Math.sin(t * 2.5) * 8 : 0 });
     L.char('ren', rp, t, '', {});
-    let fx = `<rect x="-500" y="${DESK + 28}" width="2080" height="900" fill="url(#v2desk)"/><rect x="-500" y="${DESK}" width="2080" height="34" rx="10" fill="${L.PAL.woodTop}"/>`
-      + [60, 560].map(x => `<rect x="${x}" y="${DESK + 90}" width="460" height="170" rx="14" fill="none" stroke="${L.PAL.wood2}" stroke-width="6" opacity=".55"/><rect x="${x + 190}" y="${DESK + 160}" width="80" height="16" rx="8" fill="#E9D2A8"/>`).join('');
+    let fx = `${L.deskFront(DESK)}`
+      + [60, 560].map(x => `${L.drawer(x, DESK)}`).join('');
     // 床（机の手前）に散らばった紙
     for (let i = 0; i < Math.min(torn, 12); i++) if (!(back && i === 0)) fx += `<g transform="translate(${CX - 360 + (i * 67) % 720} ${DESK + 200 + (i * 31) % 90}) rotate(${(i * 53) % 70 - 35}) scale(.42)">${PAGE(16 + i, false)}</g>`;
     fx += CAL(CX, CY, day);

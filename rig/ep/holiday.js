@@ -27,8 +27,8 @@ var EP = {
       const jp = Object.assign({}, t < 7.2 ? RIG.POSES.stand : RIG.POSES.sit, t < 7.6 ? RIG.FACES.neutral : RIG.FACES.smile, { x: h.x, y: DESK - 413 * 1.3 + h.yOff, scale: 1.3, bodySquash: h.squash, eyeLook: .6 });
       L.char('jil', jp, t, '', { vx: t < 7.2 ? 900 : 0 });
     } else L.char('jil', null, t, '', {});
-    let fx = `<rect x="-500" y="${DESK + 28}" width="2080" height="900" fill="url(#v2desk)"/><rect x="-500" y="${DESK}" width="2080" height="34" rx="10" fill="${L.PAL.woodTop}"/>`
-      + [60, 560].map(x => `<rect x="${x}" y="${DESK + 90}" width="460" height="170" rx="14" fill="none" stroke="${L.PAL.wood2}" stroke-width="6" opacity=".55"/><rect x="${x + 190}" y="${DESK + 160}" width="80" height="16" rx="8" fill="#E9D2A8"/>`).join('');
+    let fx = `${L.deskFront(DESK)}`
+      + [60, 560].map(x => `${L.drawer(x, DESK)}`).join('');
     // レンの机の書類（めくれる）とジルの空の椅子
     fx += L.papers(700, DESK - 10, 5, {}) + `<g transform="translate(${870} ${DESK - 60}) rotate(${Math.sin(t * 5) * 6})"><rect x="-70" y="-90" width="140" height="100" rx="6" fill="#fff" stroke="#D7CCBB" stroke-width="4"/><rect x="-50" y="-70" width="100" height="8" rx="4" fill="#E2D8C8"/><rect x="-50" y="-50" width="80" height="8" rx="4" fill="#E2D8C8"/></g>`;
     if (!jillIn) fx += L.chair(300, DESK - 40, 0) + L.sparkles(300, DESK - 200, t, .7, 3);

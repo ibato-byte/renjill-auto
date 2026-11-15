@@ -38,8 +38,8 @@ var EP = {
     const rface = t < 2.6 ? RIG.FACES.neutral : t < 5.0 ? RIG.FACES.smile : t < 7.6 ? Object.assign({}, RIG.FACES.oops, { sweat: 1 }) : RIG.FACES.shy;
     const rp = Object.assign({}, grab ? RIG.POSES.lean : RIG.POSES.sit, rface, { x: 540, y: DESK - 413 * 1.35, scale: 1.35, flip: true, eyeLook: t < 2.6 ? .8 : grab ? .4 : t < 7.6 ? -.6 : .6, bodyTilt: grab ? -12 + Math.sin(t * 40) * 3 : 0, bodySquash: Math.min(.18, inMouth * .04) });
     L.char('ren', rp, t, CHEEKS(inMouth, t), {});
-    let fx = `<rect x="-500" y="${DESK + 28}" width="2080" height="900" fill="url(#v2desk)"/><rect x="-500" y="${DESK}" width="2080" height="34" rx="10" fill="${L.PAL.woodTop}"/>`
-      + [60, 560].map(x => `<rect x="${x}" y="${DESK + 90}" width="460" height="170" rx="14" fill="none" stroke="${L.PAL.wood2}" stroke-width="6" opacity=".55"/><rect x="${x + 190}" y="${DESK + 160}" width="80" height="16" rx="8" fill="#E9D2A8"/>`).join('');
+    let fx = `${L.deskFront(DESK)}`
+      + [60, 560].map(x => `${L.drawer(x, DESK)}`).join('');
     fx += BOWL(560, DESK - 10, left);
     fx += PEEL(250, DESK - 60, peel);
     if (grab) fx += L.speed(700, DESK - 120, .35, 18);

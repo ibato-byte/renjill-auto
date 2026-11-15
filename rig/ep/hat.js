@@ -39,8 +39,8 @@ var EP = {
       const rface = t < 2.2 ? Object.assign({}, RIG.FACES.smile, { sparkle: t > 1.6 ? 1 : 0 }) : t < 3 ? Object.assign({}, RIG.FACES.surprised, { excl: 0 }) : RIG.FACES.sleepy;
       L.char('ren', Object.assign({}, t < 3 ? RIG.POSES.sit : RIG.POSES.loaf, rface, { x: rx, y: DESK - 413 * 1.35, scale: 1.35, flip: true, eyeLook: .3 }), t, '', {});
     } else L.char('ren', null, t, '', {});
-    let fx = `<rect x="-500" y="${DESK + 28}" width="2080" height="900" fill="url(#v2desk)"/><rect x="-500" y="${DESK}" width="2080" height="34" rx="10" fill="${L.PAL.woodTop}"/>`
-      + [60, 560].map(x => `<rect x="${x}" y="${DESK + 90}" width="460" height="170" rx="14" fill="none" stroke="${L.PAL.wood2}" stroke-width="6" opacity=".55"/><rect x="${x + 190}" y="${DESK + 160}" width="80" height="16" rx="8" fill="#E9D2A8"/>`).join('');
+    let fx = `${L.deskFront(DESK)}`
+      + [60, 560].map(x => `${L.drawer(x, DESK)}`).join('');
     // 特大の帽子（落ちてくる → かぶさる → 歩く → 持ち上がる）
     if (t >= 2.2) {
       const y = DESK + 10 - (1 - drop) * 1200 - lift * 1400;

@@ -34,8 +34,8 @@ var EP = {
     // レン（右）：見ている → 大笑い（binky）→ 目かくし（でもおでこ）→ 目はぱっちり、ご満悦
     const rface = t < 2.9 ? RIG.FACES.neutral : t < 3.9 ? Object.assign({}, RIG.FACES.smile, { sparkle: 1 }) : t < 5.8 ? Object.assign({}, RIG.FACES.neutral, { eyeLook: Math.sin(t * 6) * .6 }) : Object.assign({}, RIG.FACES.smug, { sparkle: t < 7.0 ? 1 : 0 });
     L.char('ren', Object.assign({}, t >= 3.0 && t < 3.8 ? RIG.POSES.binky : RIG.POSES.sit, rface, { x: 560, y: DESK - 413 * 1.35, scale: 1.35, flip: true, eyeLook: t >= 3.9 && t < 5.8 ? Math.sin(t * 6) * .6 : -.3 }), t, '', {});
-    let fx = `<rect x="-500" y="${DESK + 28}" width="2080" height="900" fill="url(#v2desk)"/><rect x="-500" y="${DESK}" width="2080" height="34" rx="10" fill="${L.PAL.woodTop}"/>`
-      + [60, 560].map(x => `<rect x="${x}" y="${DESK + 90}" width="460" height="170" rx="14" fill="none" stroke="${L.PAL.wood2}" stroke-width="6" opacity=".55"/><rect x="${x + 190}" y="${DESK + 160}" width="80" height="16" rx="8" fill="#E9D2A8"/>`).join('');
+    let fx = `${L.deskFront(DESK)}`
+      + [60, 560].map(x => `${L.drawer(x, DESK)}`).join('');
     // 紙と部品：ジルは 1.3〜2.5、課長は 4.5〜5.4 に 1 つずつ（0.3 秒で飛んでいく）
     const placeAt = (start, step, tgt, hand, P) => i => { const t0 = start + i * step; if (t < t0) return null; const u = ease(Math.min(1, (t - t0) / .3)); const [tx, ty, tr] = tgt[i];
       return [hand[0] - P[0] + (tx - hand[0] + P[0]) * u, hand[1] - P[1] + (ty - hand[1] + P[1]) * u - Math.sin(u * Math.PI) * 60, tr * u]; };

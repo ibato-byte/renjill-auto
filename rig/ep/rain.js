@@ -28,8 +28,8 @@ var EP = {
     const jface = t < 6.3 ? RIG.FACES.sharp : RIG.FACES.annoyed;
     const jp = Object.assign({}, t > 3.6 && t < 6.3 ? RIG.POSES.lean : RIG.POSES.sit, jface, { x: 60, y: DESK - 413 * 1.3, scale: 1.3, eyeLook: .8, bodyTilt: t > 3.6 && t < 6.3 ? -8 : 0, earL: wetJ ? 25 : 0, earR: wetJ ? 25 : 0, eyeOpen: wetJ ? .4 : 1 });
     L.char('jil', jp, t, t > 3.6 && t < 5.4 ? TOWEL(520, DESK - 170, -12) : '', {});
-    let fx = `<rect x="-500" y="${DESK + 28}" width="2080" height="900" fill="url(#v2desk)"/><rect x="-500" y="${DESK}" width="2080" height="34" rx="10" fill="${L.PAL.woodTop}"/>`
-      + [60, 560].map(x => `<rect x="${x}" y="${DESK + 90}" width="460" height="170" rx="14" fill="none" stroke="${L.PAL.wood2}" stroke-width="6" opacity=".55"/><rect x="${x + 190}" y="${DESK + 160}" width="80" height="16" rx="8" fill="#E9D2A8"/>`).join('');
+    let fx = `${L.deskFront(DESK)}`
+      + [60, 560].map(x => `${L.drawer(x, DESK)}`).join('');
     // レンの足元の水たまり（止まってから広がる）と、頭からのしずく
     if (t > 1.2) { const k = Math.min(1, (t - 1.2) / 2.5); fx += `<ellipse cx="${h.x + 360}" cy="${DESK + 20}" rx="${40 + 200 * k}" ry="${8 + 30 * k}" fill="#8FBBE0" opacity=".55"/>`; }
     if (t < 5.4) for (let i = 0; i < 4; i++) { const ph = (t * 1.6 + i * .25) % 1; fx += DROP(h.x + 250 + i * 70, DESK - 620 + ph * 560, .8 * (1 - ph * .3)); }

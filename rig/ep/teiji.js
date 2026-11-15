@@ -40,8 +40,8 @@ var EP = {
     const stack = `<g transform="translate(${h.x + 175 * rs} ${DESK - 4})">${L.papers(0, 0, 14)}</g>`;
     L.char('ren', rp, t, stack, { vx: h.vx });
     // 手前の層（机の前板）は fx の一番下に置く（キャラの足元を隠す）
-    let fx = `<rect x="-500" y="${DESK + 28}" width="2080" height="900" fill="url(#v2desk)"/><rect x="-500" y="${DESK}" width="2080" height="34" rx="10" fill="${L.PAL.woodTop}"/>`
-      + [60, 560].map(x => `<rect x="${x}" y="${DESK + 90}" width="460" height="170" rx="14" fill="none" stroke="${L.PAL.wood2}" stroke-width="6" opacity=".55"/><rect x="${x + 190}" y="${DESK + 160}" width="80" height="16" rx="8" fill="#E9D2A8"/>`).join('');
+    let fx = `${L.deskFront(DESK)}`
+      + [60, 560].map(x => `${L.drawer(x, DESK)}`).join('');
     fx += bag;
     const ask = s => L.bubble(0, 0, `<g transform="translate(-60 30) scale(.45)">${L.papers(0, 0, 9, { mess: 4 })}</g>${L.qmark(66, -6, .8)}`, { w: 280, h: 150, tail: 40, s });
     if (t > 2.0 && t < 3.7) fx += `<g transform="translate(840 ${DESK - 560})">${ask(outBack(seg(t, 2.0, 2.25)))}</g>`;

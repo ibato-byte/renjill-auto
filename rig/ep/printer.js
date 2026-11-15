@@ -47,8 +47,8 @@ var EP = {
       L.anticip(t, 5.6, .2), L.land(t, 5.9, .25), L.land(t, 6.9, .2), h.moving ? { bodySquash: h.squash } : {}) : null;
     L.char('jil', jp, t, '', { vx: h.vx });
     // ---- 机・プリンター
-    let fx = `<rect x="-500" y="${DESK + 28}" width="2080" height="900" fill="url(#v2desk)"/><rect x="-500" y="${DESK}" width="2080" height="34" rx="10" fill="${L.PAL.woodTop}"/>`
-      + [60, 560].map(x => `<rect x="${x}" y="${DESK + 90}" width="460" height="170" rx="14" fill="none" stroke="${L.PAL.wood2}" stroke-width="6" opacity=".55"/><rect x="${x + 190}" y="${DESK + 160}" width="80" height="16" rx="8" fill="#E9D2A8"/>`).join('');
+    let fx = `${L.deskFront(DESK)}`
+      + [60, 560].map(x => `${L.drawer(x, DESK)}`).join('');
     const press = (t > .2 && t < .45) ? 1 : (t > 5.85 && t < 6.6) ? 1 : 0;
     fx += PRINTER(PX, DESK + 6, Math.max(1, n), stopped ? '#5DBB63' : (Math.floor(t * 8) % 2 ? '#E8473A' : '#FFB86B'), press);
     // 紙の山：レンの前（体の下半分だけ。顔は隠さない）。高さは最大 300px

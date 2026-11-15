@@ -31,8 +31,8 @@ var EP = {
     const rface = t < 2.9 ? Object.assign({}, RIG.FACES.smile, { sparkle: t > 2.2 ? 1 : 0 }) : rshake ? RIG.FACES.sharp : t < 5.4 ? Object.assign({}, RIG.FACES.surprised, { excl: 0 }) : Object.assign({}, RIG.FACES.smile, { sparkle: 1, heart: t > 6.4 ? 1 : 0 });
     const rpose = rshake ? RIG.POSES.lean : t >= 5.4 && t < 6.2 ? RIG.POSES.binky : RIG.POSES.sit;
     L.char('ren', Object.assign({}, rpose, rface, { x: 560, y: DESK - 413 * 1.35, scale: 1.35, flip: true, eyeLook: -.3, bodyTilt: rshake ? -14 + Math.sin(t * 34) * 9 : 0 }), t, '', {});
-    let fx = `<rect x="-500" y="${DESK + 28}" width="2080" height="900" fill="url(#v2desk)"/><rect x="-500" y="${DESK}" width="2080" height="34" rx="10" fill="${L.PAL.woodTop}"/>`
-      + [60, 560].map(x => `<rect x="${x}" y="${DESK + 90}" width="460" height="170" rx="14" fill="none" stroke="${L.PAL.wood2}" stroke-width="6" opacity=".55"/><rect x="${x + 190}" y="${DESK + 160}" width="80" height="16" rx="8" fill="#E9D2A8"/>`).join('');
+    let fx = `${L.deskFront(DESK)}`
+      + [60, 560].map(x => `${L.drawer(x, DESK)}`).join('');
     // ジルの箱と紙
     if (t < 2.0) fx += BOX(430, DESK - 120, jshake ? Math.sin(t * 22) * 25 + 160 : 0);
     if (t >= 1.8) fx += SLIP(430, DESK - 190, '大吉', outBack(seg(t, 1.8, 2.1)) * .8, '#C9483C');

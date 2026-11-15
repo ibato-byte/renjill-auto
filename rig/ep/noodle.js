@@ -33,8 +33,8 @@ var EP = {
       const jp = Object.assign({}, t < 7.0 ? RIG.POSES.stand : RIG.POSES.lean, t < 7.9 ? RIG.FACES.sharp : RIG.FACES.annoyed, { x: h.x, y: DESK - 413 * 1.3 + h.yOff, scale: 1.3, bodySquash: h.squash, bodyTilt: t >= 7.0 ? -10 : 0, eyeLook: .8 });
       L.char('jil', jp, t, '', { vx: t < 7.0 ? 900 : 0 });
     } else L.char('jil', null, t, '', {});
-    let fx = `<rect x="-500" y="${DESK + 28}" width="2080" height="900" fill="url(#v2desk)"/><rect x="-500" y="${DESK}" width="2080" height="34" rx="10" fill="${L.PAL.woodTop}"/>`
-      + [60, 560].map(x => `<rect x="${x}" y="${DESK + 90}" width="460" height="170" rx="14" fill="none" stroke="${L.PAL.wood2}" stroke-width="6" opacity=".55"/><rect x="${x + 190}" y="${DESK + 160}" width="80" height="16" rx="8" fill="#E9D2A8"/>`).join('');
+    let fx = `${L.deskFront(DESK)}`
+      + [60, 560].map(x => `${L.drawer(x, DESK)}`).join('');
     fx += L.papers(300, DESK - 10, 4, {});
     // ポット（1.0〜1.4 お湯を注ぐ）
     if (t > 0.6 && t < 2.0) { const k = seg(t, 1.0, 1.4); fx += `<g transform="translate(${760} ${DESK - 300}) rotate(${-30 * Math.sin(seg(t, 0.8, 1.8) * Math.PI)})"><rect x="-50" y="-70" width="100" height="120" rx="20" fill="#3B4252"/><path d="M50 -40 l50 -20 l0 20 l-50 20Z" fill="#3B4252"/><rect x="-30" y="-90" width="60" height="24" rx="10" fill="#1F2630"/></g>`; if (k > 0 && k < 1) fx += `<path d="M850 ${DESK - 330} q10 60 -40 150" fill="none" stroke="#BFE1F7" stroke-width="10" stroke-linecap="round" opacity=".9"/>`; }

@@ -32,8 +32,8 @@ var EP = {
     const jh = t >= 4.0 && t < 4.4 ? RIG.hop(t, 4.0, 4.4, 40, 200, { hops: 1, height: 30 }) : t >= 5.6 && t < 6.0 ? RIG.hop(t, 5.6, 6.0, 200, 40, { hops: 1, height: 30 }) : { x: t >= 4.4 && t < 5.6 ? 200 : 40, yOff: 0, squash: 0 };
     const jp = Object.assign({}, t >= 4.4 && t < 5.6 ? RIG.POSES.lean : RIG.POSES.sit, t < 6.6 ? RIG.FACES.sharp : RIG.FACES.smug, { x: jh.x, y: DESK - 413 * 1.3 + jh.yOff, scale: 1.3, bodySquash: jh.squash, bodyTilt: t >= 4.4 && t < 5.6 ? -12 : 0, eyeLook: .7 });
     L.char('jil', jp, t, '', {});
-    let fx = `<rect x="-500" y="${DESK + 28}" width="2080" height="900" fill="url(#v2desk)"/><rect x="-500" y="${DESK}" width="2080" height="34" rx="10" fill="${L.PAL.woodTop}"/>`
-      + [60, 560].map(x => `<rect x="${x}" y="${DESK + 90}" width="460" height="170" rx="14" fill="none" stroke="${L.PAL.wood2}" stroke-width="6" opacity=".55"/><rect x="${x + 190}" y="${DESK + 160}" width="80" height="16" rx="8" fill="#E9D2A8"/>`).join('');
+    let fx = `${L.deskFront(DESK)}`
+      + [60, 560].map(x => `${L.drawer(x, DESK)}`).join('');
     // 鉢（レンの机の手前・中央寄り）。取り替えの瞬間は上に持ち上がって入れ替わる
     const lift = t > 4.8 && t < 5.0 ? Math.sin(seg(t, 4.8, 5.0) * Math.PI) * 160 : 0;
     fx += POT(640, DESK - 40 - lift, droop, swap, 1.0);

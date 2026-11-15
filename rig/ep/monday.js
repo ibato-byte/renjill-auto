@@ -49,8 +49,8 @@ var EP = {
       bg = L.office({ sky: 'day', noClock: true }) + L.digital(540, 520, '8:59', { s: 1.3, color: '#E8473A' });
       const DESK = 1400, JS = 1.45;
       jp = Object.assign({}, RIG.POSES.sit, RIG.FACES.sharp, { x: 280 - 200 * JS, y: DESK - 413 * JS, scale: JS, eyeLook: t > 5.9 ? .8 : 0, headTilt: t > 6.3 ? -8 : 0 });
-      fx += `<rect x="-500" y="${DESK + 28}" width="2080" height="900" fill="url(#v2desk)"/><rect x="-500" y="${DESK}" width="2080" height="34" rx="10" fill="${L.PAL.woodTop}"/>`
-        + [60, 560].map(x => `<rect x="${x}" y="${DESK + 90}" width="460" height="170" rx="14" fill="none" stroke="${L.PAL.wood2}" stroke-width="6" opacity=".55"/><rect x="${x + 190}" y="${DESK + 160}" width="80" height="16" rx="8" fill="#E9D2A8"/>`).join('');
+      fx += `${L.deskFront(DESK)}`
+        + [60, 560].map(x => `${L.drawer(x, DESK)}`).join('');
       // ジルのコーヒー（体のすぐ前）・空の席（レンのネクタイだけ椅子に）
       const sip = t > 5.4 && t < 5.9 ? -30 : 0;
       fx += `<g transform="translate(470 ${DESK - 10 + sip})"><path d="M-50 0 L-60 -110 L60 -110 L50 0Z" fill="#fff" stroke="#C9A87E" stroke-width="5"/><path d="M60 -90 q50 0 50 40 q0 40 -50 40" fill="none" stroke="#C9A87E" stroke-width="8"/><path d="M-20 -130 q10 -30 0 -50 M10 -130 q10 -30 0 -50" stroke="#C9A87E" stroke-width="5" fill="none" stroke-linecap="round" opacity=".7"/></g>`;

@@ -25,8 +25,8 @@ var EP = {
     const rpose = t < 3.0 ? RIG.POSES.sit : t < 3.6 ? RIG.POSES.stand : t < 5.2 ? RIG.POSES.stretch : RIG.POSES.loaf;
     const rface = t < 3.0 ? RIG.FACES.neutral : t < 3.6 ? Object.assign({}, RIG.FACES.smile, { sparkle: 1 }) : t < 5.2 ? Object.assign({}, RIG.FACES.smile, { eyeOpen: .5 }) : t < 6.0 ? Object.assign({}, RIG.FACES.sleepy, { zzz: 0, eyeOpen: .3 }) : RIG.FACES.sleepy;
     L.char('ren', Object.assign({}, rpose, rface, { x: 560, y: DESK - 413 * 1.35, scale: 1.35, flip: true, eyeLook: -.5 }), t, '', {});
-    let fx = `<rect x="-500" y="${DESK + 28}" width="2080" height="900" fill="url(#v2desk)"/><rect x="-500" y="${DESK}" width="2080" height="34" rx="10" fill="${L.PAL.woodTop}"/>`
-      + [60, 560].map(x => `<rect x="${x}" y="${DESK + 90}" width="460" height="170" rx="14" fill="none" stroke="${L.PAL.wood2}" stroke-width="6" opacity=".55"/><rect x="${x + 190}" y="${DESK + 160}" width="80" height="16" rx="8" fill="#E9D2A8"/>`).join('');
+    let fx = `${L.deskFront(DESK)}`
+      + [60, 560].map(x => `${L.drawer(x, DESK)}`).join('');
     // かけ声の数字（ジルの上）
     if (exercising && t < 8.6) { const n = (beat % 4) + 1, k = ((t - .7) % .5) / .5; fx += `<text x="300" y="${DESK - 640}" text-anchor="middle" font-family="Noto Sans" font-weight="900" font-size="${110 * outBack(Math.min(1, k * 4))}" fill="#E8473A" stroke="#FFF7E8" stroke-width="10" paint-order="stroke" opacity="${1 - k * .6}">${n}</text>`; }
     if (t > 3.6 && t < 4.6) fx += L.sparkles(820, 1000, t, 1.2, 6);

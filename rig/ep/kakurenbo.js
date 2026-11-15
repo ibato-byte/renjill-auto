@@ -31,8 +31,8 @@ var EP = {
     const rface = t < 2.3 ? Object.assign({}, RIG.FACES.smile, { sparkle: t > 1.6 ? 1 : 0 }) : t < 6.0 ? RIG.FACES.smile : t < 7.0 ? Object.assign({}, RIG.FACES.surprised, { excl: 1 }) : RIG.FACES.oops;
     const rp = Object.assign({}, RIG.POSES.sit, rface, { x: 540, y: DESK - 413 * 1.35, scale: 1.35, flip: true, eyeLook: t < 2.3 ? Math.sin(t * 5) * .8 : .5, bodyTilt: boxOn ? Math.sin(t * 30) * 1.5 : 0 });
     L.char('ren', rp, t, '', {});
-    let fx = `<rect x="-500" y="${DESK + 28}" width="2080" height="900" fill="url(#v2desk)"/><rect x="-500" y="${DESK}" width="2080" height="34" rx="10" fill="${L.PAL.woodTop}"/>`
-      + [60, 560].map(x => `<rect x="${x}" y="${DESK + 90}" width="460" height="170" rx="14" fill="none" stroke="${L.PAL.wood2}" stroke-width="6" opacity=".55"/><rect x="${x + 190}" y="${DESK + 160}" width="80" height="16" rx="8" fill="#E9D2A8"/>`).join('');
+    let fx = `${L.deskFront(DESK)}`
+      + [60, 560].map(x => `${L.drawer(x, DESK)}`).join('');
     // 数える 3・2・1
     if (counting) { const n = 3 - Math.min(2, Math.floor(t / .6 - .8)); if (t > .5) fx += `<text x="270" y="${DESK - 640}" text-anchor="middle" font-family="Noto Sans" font-weight="900" font-size="${120 * outBack(Math.min(1, ((t - .5) % .6) * 5))}" fill="#E8473A" stroke="#FFF7E8" stroke-width="10" paint-order="stroke">${n}</text>`; }
     // 箱：机の上 → 頭へ → 頭の上（3.0〜6.0）→ トンで飛ぶ

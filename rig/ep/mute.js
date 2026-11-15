@@ -36,8 +36,8 @@ var EP = {
       + `<g opacity=".8"><rect x="${MX + 40}" y="${MY + 70}" width="170" height="16" rx="6" fill="#A98B6A"/>${[0, 1, 2, 3].map(i => `<rect x="${MX + 52 + i * 34}" y="${MY + 18 - (i % 2) * 10}" width="26" height="${52 + (i % 2) * 10}" rx="4" fill="${['#C96F5A', '#6E9BB8', '#E2B65A', '#7BA77A'][i]}"/>`).join('')}</g>`
       + `<g><rect x="${MX - 16}" y="${MY + MH + 8}" width="${MW + 32}" height="52" rx="12" fill="#3B4252"/><path d="M${MX + 60} ${MY + MH + 60} L${MX + MW - 60} ${MY + MH + 60} L${MX + MW - 20} ${DESK} L${MX + 20} ${DESK}Z" fill="#C9CFD8"/></g>`
       + `<rect x="${MX - 4}" y="${MY - 4}" width="${MW + 8}" height="${MH + 8}" rx="22" fill="none" stroke="#3B4252" stroke-width="24"/>`;
-    let fx = `<rect x="-500" y="${DESK + 28}" width="2080" height="900" fill="url(#v2desk)"/><rect x="-500" y="${DESK}" width="2080" height="34" rx="10" fill="${L.PAL.woodTop}"/>`
-      + [60, 560].map(x => `<rect x="${x}" y="${DESK + 90}" width="460" height="170" rx="14" fill="none" stroke="${L.PAL.wood2}" stroke-width="6" opacity=".55"/><rect x="${x + 190}" y="${DESK + 160}" width="80" height="16" rx="8" fill="#E9D2A8"/>`).join('');
+    let fx = `${L.deskFront(DESK)}`
+      + [60, 560].map(x => `${L.drawer(x, DESK)}`).join('');
     const MCX = MX + 80, MCY = MY + MH - 80;   // マイクの印（画面の左下。ジルの顔のすぐ横＝前足が届く所）
     fx += MIC(MCX, MCY, muted, 1.3, muted && t < 5.4 ? Math.abs(Math.sin(t * 6)) : t > 6.2 && t < 6.6 ? outBack(seg(t, 6.2, 6.6)) : 0);
     // 話しているのに聞こえない：画面の中の「…」と、音の線が消える印（赤い波線の上に×）

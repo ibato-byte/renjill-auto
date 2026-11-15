@@ -30,8 +30,8 @@ var EP = {
     // レン（右）：じっと見る → やる気（stand・きらきら）→ 体ごとぶんぶん → ご満悦
     const rface = t < 2.6 ? RIG.FACES.neutral : t < 3.4 ? Object.assign({}, RIG.FACES.smile, { sparkle: 1 }) : t < 5.3 ? RIG.FACES.sharp : Object.assign({}, RIG.FACES.smug, { sparkle: t < 7.0 ? 1 : 0 });
     L.char('ren', Object.assign({}, t >= 2.8 && t < 5.3 ? RIG.POSES.stand : RIG.POSES.sit, rface, { x: 560, y: DESK - 413 * 1.35, scale: 1.35, flip: true, eyeLook: -.4, bodyTilt: big ? Math.sin(t * 16) * 9 : 0 }), t, '', {});
-    let fx = `<rect x="-500" y="${DESK + 28}" width="2080" height="900" fill="url(#v2desk)"/><rect x="-500" y="${DESK}" width="2080" height="34" rx="10" fill="${L.PAL.woodTop}"/>`
-      + [60, 560].map(x => `<rect x="${x}" y="${DESK + 90}" width="460" height="170" rx="14" fill="none" stroke="${L.PAL.wood2}" stroke-width="6" opacity=".55"/><rect x="${x + 190}" y="${DESK + 160}" width="80" height="16" rx="8" fill="#E9D2A8"/>`).join('');
+    let fx = `${L.deskFront(DESK)}`
+      + [60, 560].map(x => `${L.drawer(x, DESK)}`).join('');
     // 机の上：ジルの小さな半紙と硯、課長の大きな紙
     fx += `<rect x="300" y="${DESK - 14}" width="200" height="16" fill="#FFFDF7" stroke="#D7CCBB" stroke-width="3"/><rect x="190" y="${DESK - 30}" width="80" height="32" rx="8" fill="#2E2A27"/>`;
     fx += `<rect x="640" y="${DESK - 14}" width="380" height="16" fill="#FFFDF7" stroke="#D7CCBB" stroke-width="3"/>`;

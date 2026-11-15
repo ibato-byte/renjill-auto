@@ -31,8 +31,8 @@ var EP = {
     const rl = t > 3.7 && t < 5.7;
     const rface = t < 3.2 ? RIG.FACES.neutral : t < 3.7 ? Object.assign({}, RIG.FACES.smile, { sparkle: 1 }) : t < 5.7 ? RIG.FACES.sharp : Object.assign({}, RIG.FACES.smug, { sparkle: t < 7.2 ? 1 : 0 });
     L.char('ren', Object.assign({}, rl ? RIG.POSES.lean : t > 3.2 && t < 3.7 ? RIG.POSES.stand : RIG.POSES.sit, rface, { x: 560, y: DESK - 413 * 1.35, scale: 1.35, flip: true, eyeLook: -.5, bodyTilt: rl ? 10 : 0 }), t, '', {});
-    let fx = `<rect x="-500" y="${DESK + 28}" width="2080" height="900" fill="url(#v2desk)"/><rect x="-500" y="${DESK}" width="2080" height="34" rx="10" fill="${L.PAL.woodTop}"/>`
-      + [60, 560].map(x => `<rect x="${x}" y="${DESK + 90}" width="460" height="170" rx="14" fill="none" stroke="${L.PAL.wood2}" stroke-width="6" opacity=".55"/><rect x="${x + 190}" y="${DESK + 160}" width="80" height="16" rx="8" fill="#E9D2A8"/>`).join('');
+    let fx = `${L.deskFront(DESK)}`
+      + [60, 560].map(x => `${L.drawer(x, DESK)}`).join('');
     // ホワイトボード（キャラの頭より上）
     fx += `<g><rect x="${BX - 14}" y="${BY - 14}" width="828" height="548" rx="16" fill="#9AA3AE"/><rect x="${BX}" y="${BY}" width="800" height="520" rx="8" fill="#FBFCFD"/>`
       + `<path d="M${BX + 50} ${BY + 30} L${BX + 50} ${BY + 470} L${BX + 780} ${BY + 470}" stroke="#46525E" stroke-width="6" fill="none"/>`

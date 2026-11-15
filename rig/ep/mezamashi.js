@@ -5,8 +5,8 @@
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
 const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
-const DESKFX = (L, DESK) => `<rect x="-500" y="${DESK + 28}" width="2080" height="900" fill="url(#v2desk)"/><rect x="-500" y="${DESK}" width="2080" height="34" rx="10" fill="${L.PAL.woodTop}"/>`
-  + [60, 560].map(x => `<rect x="${x}" y="${DESK + 90}" width="460" height="170" rx="14" fill="none" stroke="${L.PAL.wood2}" stroke-width="6" opacity=".55"/><rect x="${x + 190}" y="${DESK + 160}" width="80" height="16" rx="8" fill="#E9D2A8"/>`).join('');
+const DESKFX = (L, DESK) => `${L.deskFront(DESK)}`
+  + [60, 560].map(x => `${L.drawer(x, DESK)}`).join('');
 const SMALLCLK = (x, y) => `<g transform="translate(${x} ${y})"><rect x="-44" y="-56" width="88" height="56" rx="12" fill="#E9ECEF" stroke="#9AA3AE" stroke-width="4"/><rect x="-34" y="-46" width="68" height="34" rx="6" fill="#2E3440"/><text y="-21" text-anchor="middle" font-family="Noto Sans" font-weight="900" font-size="22" fill="#7CF0A8">12:10</text></g>`;
 const BELLCLK = (x, y, s, sh) => `<g transform="translate(${x} ${y}) rotate(${sh}) scale(${s})"><circle cx="-46" cy="-118" r="26" fill="#E9A23B"/><circle cx="46" cy="-118" r="26" fill="#E9A23B"/><circle cx="0" cy="-60" r="70" fill="#E8473A"/><circle cx="0" cy="-60" r="54" fill="#FFF7E8"/><path d="M0 -60 L0 -96 M0 -60 L24 -48" stroke="#2E3440" stroke-width="7" stroke-linecap="round"/><path d="M-50 0 L-62 16 M50 0 L62 16" stroke="#5E4A3A" stroke-width="10" stroke-linecap="round"/></g>`;
 var EP = {

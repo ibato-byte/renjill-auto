@@ -5,8 +5,8 @@
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
 const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
-const DESKFX = (L, DESK) => `<rect x="-500" y="${DESK + 28}" width="2080" height="900" fill="url(#v2desk)"/><rect x="-500" y="${DESK}" width="2080" height="34" rx="10" fill="${L.PAL.woodTop}"/>`
-  + [60, 560].map(x => `<rect x="${x}" y="${DESK + 90}" width="460" height="170" rx="14" fill="none" stroke="${L.PAL.wood2}" stroke-width="6" opacity=".55"/><rect x="${x + 190}" y="${DESK + 160}" width="80" height="16" rx="8" fill="#E9D2A8"/>`).join('');
+const DESKFX = (L, DESK) => `${L.deskFront(DESK)}`
+  + [60, 560].map(x => `${L.drawer(x, DESK)}`).join('');
 // 線を k（0〜1）まで描く（pathLength=1 の破線で）
 const DRAW = (d, k, w = 14) => k <= 0 ? '' : `<path d="${d}" pathLength="1" stroke-dasharray="${Math.min(1, k)} 1" stroke="#8FC3E8" stroke-width="${w}" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`;
 const WL = 70, WR = 690, WY = 230, WW = 320, WH = 420;            // 窓（左・右）

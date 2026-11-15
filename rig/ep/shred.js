@@ -31,8 +31,8 @@ var EP = {
     const rface = t < 4.3 ? RIG.FACES.neutral : t < 5.1 ? Object.assign({}, RIG.FACES.smile, { sparkle: 1 }) : t < 5.6 ? RIG.FACES.smile : RIG.FACES.sleepy;
     const rp = Object.assign({}, inBin ? RIG.POSES.loaf : RIG.POSES.sit, rface, { x: h.x, y: DESK - 413 * 1.35 + h.yOff + sink, scale: 1.35, flip: true, eyeLook: t < 4.3 ? .6 : .2, bodySquash: h.squash + (inBin ? Math.sin(t * 2.4) * .04 : 0) });
     L.char('ren', rp, t, '', {});
-    let fx = `<rect x="-500" y="${DESK + 28}" width="2080" height="900" fill="url(#v2desk)"/><rect x="-500" y="${DESK}" width="2080" height="34" rx="10" fill="${L.PAL.woodTop}"/>`
-      + [60, 560].map(x => `<rect x="${x}" y="${DESK + 90}" width="460" height="170" rx="14" fill="none" stroke="${L.PAL.wood2}" stroke-width="6" opacity=".55"/><rect x="${x + 190}" y="${DESK + 160}" width="80" height="16" rx="8" fill="#E9D2A8"/>`).join('');
+    let fx = `${L.deskFront(DESK)}`
+      + [60, 560].map(x => `${L.drawer(x, DESK)}`).join('');
     // 書類の束（ジルの手元）：入れるたびに減る
     const left = Math.max(0, 14 - Math.floor(fill * 14) + (t >= 7.4 ? 3 : 0));
     fx += L.papers(250, DESK - 4, left);

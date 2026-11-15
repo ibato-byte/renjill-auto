@@ -32,8 +32,8 @@ var EP = {
     const rface = t < 2.2 ? RIG.FACES.neutral : t < 2.5 ? Object.assign({}, RIG.FACES.smile, { sparkle: 1 }) : t < 5.3 ? RIG.FACES.smile : t < 7.2 ? Object.assign({}, RIG.FACES.neutral, { eyeLook: -.6 }) : RIG.FACES.smug;
     const rp = Object.assign({}, munching ? RIG.POSES.lean : RIG.POSES.sit, rface, { x: 540, y: DESK - 413 * 1.35, scale: 1.35, flip: true, eyeLook: munching ? .5 : t < 7.2 ? -.6 : .4, bodyTilt: munching ? -14 : 0, headNod: munching ? Math.abs(Math.sin(t * 16)) * 10 : 0 });
     L.char('ren', rp, t, '', {});
-    let fx = `<rect x="-500" y="${DESK + 28}" width="2080" height="900" fill="url(#v2desk)"/><rect x="-500" y="${DESK}" width="2080" height="34" rx="10" fill="${L.PAL.woodTop}"/>`
-      + [60, 560].map(x => `<rect x="${x}" y="${DESK + 90}" width="460" height="170" rx="14" fill="none" stroke="${L.PAL.wood2}" stroke-width="6" opacity=".55"/><rect x="${x + 190}" y="${DESK + 160}" width="80" height="16" rx="8" fill="#E9D2A8"/>`).join('');
+    let fx = `${L.deskFront(DESK)}`
+      + [60, 560].map(x => `${L.drawer(x, DESK)}`).join('');
     // ジルの画面（仕事）
     fx += `<g transform="translate(250 ${DESK - 4})"><path d="M-130 0 L130 0 L146 18 L-146 18Z" fill="#C9CFD8"/><rect x="-120" y="-150" width="240" height="150" rx="10" fill="#3B4252"/><rect x="-108" y="-138" width="216" height="126" rx="6" fill="#DCE9F5"/></g>`;
     // リース（0.8〜1.4 でスタンドに置く）
