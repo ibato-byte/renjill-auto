@@ -43,6 +43,7 @@ class Flicker(unittest.TestCase):
             self.assertIn("settled(p,", s.replace("settled(p, ", "settled(p,"))
             self.assertNotIn("p.screenshot({path:`${dir}", s)   # 1 回撮っただけの絵をそのまま保存しない
         self.assertIn("a.equals(b)", (ROOT / "rig/settled.js").read_text())
+        self.assertIn("flicker.find(str(fr[i]))", (ROOT / "auto/bgm.py").read_text())   # 長い動画も、章ごとに見る
 
 
 if __name__ == "__main__":
