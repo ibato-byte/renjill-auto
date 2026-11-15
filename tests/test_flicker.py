@@ -36,6 +36,16 @@ class Flicker(unittest.TestCase):
             p = pathlib.Path(t) / "cut.mp4"; make(p, list(range(15, 30)))
             self.assertEqual(flicker.find(str(p)), [])
 
+    def test_screen_shake_is_not_flicker(self):
+        # 画面ぜんたいが 1 コマだけゆれる演出は、ちかちかではない（絵は全部描けている）
+        d = tempfile.mkdtemp()
+        for i in range(30):
+            dy = 14 if i == 12 else 0
+            vf = f"drawbox=x=40:y={100 + dy}:w=120:h=90:color=black:t=fill,drawbox=x=150:y={260 + dy}:w=80:h=120:color=white:t=fill,drawbox=x=20:y={330 + dy}:w=60:h=40:color=0x553311:t=fill"
+            subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "lavfi", "-i", "color=c=0x999999:s=270x480", "-frames:v", "1", "-vf", vf, f"{d}/f{i:04d}.jpg"], check=True)
+        self.assertEqual(flicker.find(d), [])
+        self.assertNotEqual(flicker.find(d, shake=0), [])  # ゆれの見分けを切ると引っかかる＝この試験は本当にゆれを作っている
+
     def test_gate_and_renderers_use_it(self):
         self.assertIn("flicker.find(str(path))", (ROOT / "auto/qa.py").read_text())
         for f in ("rig/render-ep.js", "rig/bgm/render.js"):
