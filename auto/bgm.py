@@ -156,6 +156,16 @@ def plan(date, st=None, cfg=None, theme=None, n=None):
             "ren": th["ren"], "jil": th["jil"], "thumb": th["thumb"], "title": title[:100], "en": th["en"], "ja": th["ja"], "zh": th.get("zh", th["en"]), "ko": th.get("ko", th["en"]), "blurb_en": th["blurb_en"], "blurb_ja": th["blurb_ja"]}
 
 
+# 説明欄の SNS の行。出している SNS だけを書く（2026-11-15：「X」と書いていたが、X には出していない＝公式サイト・ゲームの SNS の一覧と食い違っていた）
+SNS_LINE = "Instagram / TikTok / Threads: @renjill_office"
+SNS_LINE_OLD = "Instagram / TikTok / X: @renjill_office"
+
+
+def fresh_links(text):
+    """説明の中の古い SNS の行を、いまの行に直す（作り置きの回は、作った時の説明を持っているので、出す直前にも通す）"""
+    return (text or "").replace(SNS_LINE_OLD, SNS_LINE)
+
+
 TRACKLIST = "Tracklist｜曲目"      # 見出しも日本語を並べる（2026-11-14 オーナーの指摘「Tracklist が意味不明」）
 
 
@@ -179,7 +189,7 @@ def description(pl, tracks, used_names=()):
             'All music and animation are original, made in-house for this video (no samples). Feel free to play it in the background.\n'
             '音楽もアニメーションも、この動画のために作ったオリジナルです。\n\n'
             '▶ Daily shorts: a wordless office comedy / 毎日のショート（セリフなしのオフィスコメディ）もどうぞ\n'
-            'Instagram / TikTok / X: @renjill_office\n© COANA TOKYO')
+            f'{SNS_LINE}\n© COANA TOKYO')
     return body, names
 
 
@@ -334,8 +344,8 @@ def upload(date, privacy=None):
     from googleapiclient.http import MediaFileUpload
     import comments, stories, sns_policy
     yt = comments.yt_client()
-    desc = sns_policy.yt_description(meta["description"]) + f"\n\n{STYLE_HASH[meta.get('style', 'lofi')]} #studymusic #作業用BGM"
-    loc = {k: {"title": v["title"], "description": (sns_policy.yt_description(v["description"]) + f"\n\n{STYLE_HASH[meta.get('style', 'lofi')]} #studymusic #作業用BGM")[:5000]} for k, v in meta["localizations"].items()}
+    desc = sns_policy.yt_description(fresh_links(meta["description"])) + f"\n\n{STYLE_HASH[meta.get('style', 'lofi')]} #studymusic #作業用BGM"
+    loc = {k: {"title": v["title"], "description": (sns_policy.yt_description(fresh_links(v["description"])) + f"\n\n{STYLE_HASH[meta.get('style', 'lofi')]} #studymusic #作業用BGM")[:5000]} for k, v in meta["localizations"].items()}
     snippet = {"title": meta["title"], "description": desc[:5000], "tags": meta["tags"], "categoryId": "10", "defaultLanguage": "en"}
     status = {"privacyStatus": privacy, "selfDeclaredMadeForKids": False, "embeddable": True}
     # YouTube が題名・説明・タグ・多言語のどれかを受け付けないとき（400 INVALID_REQUEST_METADATA。2026-11-13 の1本目）は、
@@ -468,6 +478,32 @@ def relabel(dry=False):
             log(d, "の曲名を付け直した", f'https://youtu.be/{r["yt"]}', n, "曲：", names[0], "…")
         except Exception as e:
             bad += 1; log(d, "の曲名を付け直せず", type(e).__name__, str(e)[:200])
+    return 1 if bad else 0
+
+
+def fix_links(dry=False):
+    """出した回の説明に古い SNS の行（X）が残っていたら、いまの行に直す。動画・題名・曲の一覧は変えない。直す物が無ければ何もしない（毎回の実行で呼んでよい）"""
+    st = state(); todo = [(d, r) for d, r in sorted(st["episodes"].items()) if r.get("yt") and not r.get("links_ok")]
+    if not todo: return 0
+    import comments
+    yt = None if dry else comments.yt_client(); bad = 0
+    for d, r in todo:
+        if dry: log(d, "説明の SNS の行を確かめる（dry）"); continue
+        try:
+            it = (yt.videos().list(part="snippet,localizations", id=r["yt"]).execute().get("items") or [None])[0]
+            if not it: raise RuntimeError("動画が見つからない")
+            sn = it["snippet"]; old = SNS_LINE_OLD in sn.get("description", "") or any(SNS_LINE_OLD in v.get("description", "") for v in (it.get("localizations") or {}).values())
+            if old:
+                body = {"id": r["yt"], "snippet": {"title": sn["title"], "categoryId": sn.get("categoryId", "10"), "description": fresh_links(sn["description"])[:5000]}}
+                for k in ("tags", "defaultLanguage"):
+                    if sn.get(k): body["snippet"][k] = sn[k]
+                part = "snippet"
+                if it.get("localizations"):
+                    body["localizations"] = {lang: {"title": v["title"], "description": fresh_links(v.get("description", ""))[:5000]} for lang, v in it["localizations"].items()}; part = "snippet,localizations"
+                yt.videos().update(part=part, body=body).execute(); log(d, "の説明の SNS の行を直した", f'https://youtu.be/{r["yt"]}')
+            r["links_ok"] = 1; (AUTO / "bgm_state.json").write_text(json.dumps(st, ensure_ascii=False, indent=1))
+        except Exception as e:
+            bad += 1; log(d, "の説明を直せず", type(e).__name__, str(e)[:200])
     return 1 if bad else 0
 
 
@@ -729,6 +765,8 @@ def main(argv=None):
         probs = stock_problems(d, st) if stock_fetch(d, st) else ["取ってこられなかった"]
         shutil.rmtree(STOCK / d, ignore_errors=True)
         log("取り出しの確認", d, "OK" if not probs else "NG：" + " / ".join(probs)); return 1 if probs else 0
+    try: fix_links()   # 出した回の説明の古い行を直す（失敗しても、その日の投稿は止めない）
+    except Exception as e: log("説明の行の直しは見送り", type(e).__name__, str(e)[:160])
     cfg, st = config(), state()
     left = themes_left(st, int(date[5:7])); warn = f"／要対応：まだ出していない映像の組み合わせが残り {left} 本分（同じものは出さない決まり。auto/bgm_themes.py に新しい景色を足す）" if left < LOW_THEMES else ""
     if warn: log(warn)

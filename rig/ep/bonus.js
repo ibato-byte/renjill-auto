@@ -25,7 +25,7 @@ var EP = {
     else if (t < 3.1) rp = Object.assign({}, RIG.POSES.sit, RIG.FACES.neutral, { eyeOpen: .9 });
     else if (t < 5.6) rp = Object.assign({}, RIG.POSES.loaf, RIG.FACES.annoyed, { sweat: .6 });
     else rp = Object.assign({}, RIG.POSES.loaf, RIG.FACES.surprised, { excl: 0, eyeLook: -.9, sweat: 1, headNod: 24 });
-    Object.assign(rp, { x: 700, y: DESK - 413 * 1.5, scale: 1.5, flip: true });
+    Object.assign(rp, { x: 620, y: DESK - 413 * 1.5, scale: 1.5, flip: true }); // 2026-11-15：80 内側へ（体の 3 割が舞台の外にあり、引きの絵でいつも切れていた）
     L.char('ren', rp, t, '', {});
     // ジル（左）：4.0 封筒に手を伸ばす → 4.6〜5.2 開ける → 5.6 大きな束 → 6.2〜 もぐもぐ
     const jOpen = ease(seg(t, 4.6, 5.2));
@@ -39,20 +39,20 @@ var EP = {
       + [60, 560].map(x => `<rect x="${x}" y="${DESK + 90}" width="460" height="170" rx="14" fill="none" stroke="${L.PAL.wood2}" stroke-width="6" opacity=".55"/><rect x="${x + 190}" y="${DESK + 160}" width="80" height="16" rx="8" fill="#E9D2A8"/>`).join('');
     const renIn = rOpen > 0 ? `<g transform="translate(0 -40) scale(${.9 * outBack(seg(t, 1.5, 1.95))})">${HAYCARD(L, 3, false)}</g>` : '';
     const jilIn = jOpen > 0 ? `<g transform="translate(0 -60) scale(${1.15 * outBack(seg(t, 4.8, 5.3))})">${HAYCARD(L, 30, true)}</g>` : '';
-    fx += ENV(L, 760, DESK - 120, rOpen, renIn, .85) + ENV(L, 300, DESK - 120, jOpen, jilIn, .85);
-    if (t > .7 && t < 1.3) fx += L.sparkles(760, DESK - 300, t, 1.2);
+    fx += ENV(L, 680, DESK - 120, rOpen, renIn, .85) + ENV(L, 300, DESK - 120, jOpen, jilIn, .85);
+    if (t > .7 && t < 1.3) fx += L.sparkles(680, DESK - 300, t, 1.2);
     if (t > 5.3 && t < 6.6) fx += L.sparkles(300, DESK - 360, t, 1.6, 7);
     if (t > 6.2 && t < 8.6) fx += L.munch(200, DESK - 320, t, 1.3);
     let ui = (t > 1.8 && t < 3.4 ? CHIP(L, 'BONUS DAY', 'ボーナスの日。上司と部下に封筒が1通ずつ', 1380, seg(t, 1.8, 2.1)) : '')
       + (t > 5.8 && t < 8.6 ? CHIP_OFF(L, "JILL'S IS 10× BIGGER", '部下のほうが10倍多い', 1380, seg(t, 5.8, 6.1)) : '');
     const cam = L.camAt([
-      { t: 0, z: 1.5, cx: 700, cy: 1150 },
+      { t: 0, z: 1.5, cx: 640, cy: 1150 },
       { t: 0.01, z: 1.25, cx: 620, cy: 1200, d: .8 },
-      { t: 1.3, z: 1.6, cx: 740, cy: 1240, d: .5 },                 // レンの封筒に寄る
-      { t: 3.1, z: 1.15, cx: 540, cy: 1200, d: .5 },
+      { t: 1.3, z: 1.6, cx: 660, cy: 1240, d: .5 },                 // レンの封筒に寄る
+      { t: 3.1, z: 1.15, cx: 600, cy: 1200, d: .5 },
       { t: 4.4, z: 1.6, cx: 320, cy: 1230, d: .5 },                 // ジルの封筒に寄る
-      { t: 5.6, z: 1.1, cx: 500, cy: 1180, d: .5 },                 // 引き：両方見える
-      { t: 7.2, z: 1.45, cx: 420, cy: 1200, d: .6 },
+      { t: 5.6, z: 1.1, cx: 580, cy: 1180, d: .5 },                 // 引き：両方見える
+      { t: 7.2, z: 1.35, cx: 690, cy: 1200, d: .6 },
     ], t);
     if (t > 8.6) { fx = ''; ui = ''; }
     L.mount({ bg, fx, ui, cam, t, shake: t > 5.2 && t < 5.4 ? 8 : 0 });
