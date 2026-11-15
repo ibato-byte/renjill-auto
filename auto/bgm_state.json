@@ -124,9 +124,9 @@
  },
  "stock": {
   "2026-11-18": {
-   "run": "43644607686",
+   "run": "43702508125",
    "artifact": "bgm-stock-2026-11-18",
-   "code": "6651bc5b15ad",
+   "code": "03b5cd63ce08",
    "no": 3,
    "theme": "wa_evening",
    "style": "wa",
@@ -135,7 +135,7 @@
    "look": 2,
    "minutes": 60,
    "mb": 1470,
-   "made": "2026-11-15T08:04+09:00",
+   "made": "2026-11-15T21:23+09:00",
    "track_keys": [
     "G minor|0m7-8maj7-0m7-7m7|76.0",
     "A minor|0m6-8maj7-5m7-7m7|63.0",
@@ -180,9 +180,9 @@
    ]
   },
   "2026-11-21": {
-   "run": "43644607686",
+   "run": "43702508125",
    "artifact": "bgm-stock-2026-11-21",
-   "code": "6651bc5b15ad",
+   "code": "03b5cd63ce08",
    "no": 4,
    "theme": "dance_night",
    "style": "club",
@@ -191,7 +191,7 @@
    "look": 3,
    "minutes": 60,
    "mb": 1653,
-   "made": "2026-11-15T08:04+09:00",
+   "made": "2026-11-15T21:23+09:00",
    "track_keys": [
     "F minor|8maj7-107-0m7-0m7|125.0",
     "D minor|0m7-5m7-8maj7-107|124.0",
@@ -234,9 +234,9 @@
    ]
   },
   "2026-11-25": {
-   "run": "43644607686",
+   "run": "43702508125",
    "artifact": "bgm-stock-2026-11-25",
-   "code": "6651bc5b15ad",
+   "code": "03b5cd63ce08",
    "no": 5,
    "theme": "quiet_ballads",
    "style": "ballad",
@@ -245,7 +245,7 @@
    "look": 0,
    "minutes": 60,
    "mb": 1262,
-   "made": "2026-11-15T08:04+09:00",
+   "made": "2026-11-15T21:23+09:00",
    "track_keys": [
     "Eb major|0maj7-77-9m7-5maj7|68.0",
     "G minor|0m7-8maj7-3maj7-107|63.0",
@@ -286,9 +286,9 @@
    ]
   },
   "2026-11-28": {
-   "run": "43644607686",
+   "run": "43702508125",
    "artifact": "bgm-stock-2026-11-28",
-   "code": "6651bc5b15ad",
+   "code": "03b5cd63ce08",
    "no": 6,
    "theme": "morning",
    "style": "lofi",
@@ -297,7 +297,7 @@
    "look": 1,
    "minutes": 60,
    "mb": 1346,
-   "made": "2026-11-15T08:04+09:00",
+   "made": "2026-11-15T21:23+09:00",
    "track_keys": [
     "F minor|0m7-5m7-107-3maj7|74.0",
     "Eb minor|0m7-5m7-107-3maj7|75.0",
@@ -346,9 +346,9 @@
    ]
   },
   "2026-12-02": {
-   "run": "43644607686",
+   "run": "43702508125",
    "artifact": "bgm-stock-2026-12-02",
-   "code": "6651bc5b15ad",
+   "code": "03b5cd63ce08",
    "no": 7,
    "theme": "clear_night",
    "style": "lofi",
@@ -357,7 +357,7 @@
    "look": 2,
    "minutes": 60,
    "mb": 1261,
-   "made": "2026-11-15T08:04+09:00",
+   "made": "2026-11-15T21:23+09:00",
    "track_keys": [
     "G minor|0m7-107-8maj7-7m7|86.0",
     "Eb major|9m7-2m7-77-0maj7|69.0",
@@ -406,9 +406,9 @@
    ]
   },
   "2026-12-05": {
-   "run": "43644607686",
+   "run": "43702508125",
    "artifact": "bgm-stock-2026-12-05",
-   "code": "6651bc5b15ad",
+   "code": "03b5cd63ce08",
    "no": 8,
    "theme": "rain_afternoon",
    "style": "lofi",
@@ -417,7 +417,7 @@
    "look": 3,
    "minutes": 60,
    "mb": 1446,
-   "made": "2026-11-15T08:04+09:00",
+   "made": "2026-11-15T21:23+09:00",
    "track_keys": [
     "G major|0maj7-4m7-5maj7-5m6|76.0",
     "D major|5maj7-4m7-9m7-0maj7|71.0",
@@ -466,9 +466,9 @@
    ]
   },
   "2026-12-09": {
-   "run": "43644607686",
+   "run": "43702508125",
    "artifact": "bgm-stock-2026-12-09",
-   "code": "6651bc5b15ad",
+   "code": "03b5cd63ce08",
    "no": 9,
    "theme": "sunset",
    "style": "lofi",
@@ -477,7 +477,7 @@
    "look": 0,
    "minutes": 60,
    "mb": 1307,
-   "made": "2026-11-15T08:04+09:00",
+   "made": "2026-11-15T21:23+09:00",
    "track_keys": [
     "G major|0maj7-9m7-2m7-77|76.0",
     "Bb major|0maj7-9m7-2m7-77|80.0",
@@ -526,9 +526,9 @@
    ]
   },
   "2026-12-12": {
-   "run": "43644607686",
+   "run": "43702508125",
    "artifact": "bgm-stock-2026-12-12",
-   "code": "6651bc5b15ad",
+   "code": "03b5cd63ce08",
    "no": 10,
    "theme": "rain_morning",
    "style": "lofi",
@@ -537,7 +537,7 @@
    "look": 1,
    "minutes": 60,
    "mb": 1437,
-   "made": "2026-11-15T08:04+09:00",
+   "made": "2026-11-15T21:23+09:00",
    "track_keys": [
     "F major|0maj7-5maj7-2m7-77|82.0",
     "Eb major|5maj7-4m7-2m7-0maj7|78.0",
@@ -586,9 +586,9 @@
    ]
   },
   "2026-12-16": {
-   "run": "43644607686",
+   "run": "43702508125",
    "artifact": "bgm-stock-2026-12-16",
-   "code": "6651bc5b15ad",
+   "code": "03b5cd63ce08",
    "no": 11,
    "theme": "g-wa-mountain-sunset-snow",
    "style": "wa",
@@ -597,7 +597,7 @@
    "look": 2,
    "minutes": 60,
    "mb": 1467,
-   "made": "2026-11-15T08:04+09:00",
+   "made": "2026-11-15T21:23+09:00",
    "track_keys": [
     "A minor|0m7-8maj7-0m7-7m7|74.0",
     "C minor|8maj7-7m7-0m7-0m6|67.0",
@@ -642,9 +642,9 @@
    ]
   },
   "2026-12-19": {
-   "run": "43644607686",
+   "run": "43702508125",
    "artifact": "bgm-stock-2026-12-19",
-   "code": "6651bc5b15ad",
+   "code": "03b5cd63ce08",
    "no": 12,
    "theme": "g-ballad-hills-night-clear",
    "style": "ballad",
@@ -653,7 +653,7 @@
    "look": 3,
    "minutes": 60,
    "mb": 1266,
-   "made": "2026-11-15T08:04+09:00",
+   "made": "2026-11-15T21:23+09:00",
    "track_keys": [
     "G major|9m7-5maj7-0maj7-77|66.0",
     "A major|0maj7-77-9m7-5maj7|58.0",
@@ -694,9 +694,9 @@
    ]
   },
   "2026-12-23": {
-   "run": "43644607686",
+   "run": "43702508125",
    "artifact": "bgm-stock-2026-12-23",
-   "code": "6651bc5b15ad",
+   "code": "03b5cd63ce08",
    "no": 13,
    "theme": "g-sea-sea-morning-rain",
    "style": "sea",
@@ -705,7 +705,7 @@
    "look": 0,
    "minutes": 60,
    "mb": 1597,
-   "made": "2026-11-15T08:04+09:00",
+   "made": "2026-11-15T21:23+09:00",
    "track_keys": [
     "D major|5maj7-4m7-2m7-77|86.0",
     "C major|5maj7-4m7-2m7-77|91.0",
@@ -760,9 +760,9 @@
    ]
   },
   "2026-12-26": {
-   "run": "43644607686",
+   "run": "43702508125",
    "artifact": "bgm-stock-2026-12-26",
-   "code": "6651bc5b15ad",
+   "code": "03b5cd63ce08",
    "no": 14,
    "theme": "g-wa-garden-night-snow",
    "style": "wa",
@@ -771,7 +771,7 @@
    "look": 1,
    "minutes": 60,
    "mb": 1361,
-   "made": "2026-11-15T08:04+09:00",
+   "made": "2026-11-15T21:23+09:00",
    "track_keys": [
     "F minor|5m7-0m7-8maj7-0m7|62.0",
     "G minor|0m6-8maj7-5m7-7m7|62.0",
@@ -816,9 +816,9 @@
    ]
   },
   "2026-12-30": {
-   "run": "43644607686",
+   "run": "43702508125",
    "artifact": "bgm-stock-2026-12-30",
-   "code": "6651bc5b15ad",
+   "code": "03b5cd63ce08",
    "no": 15,
    "theme": "g-club-neon-sunset-clear",
    "style": "club",
@@ -826,8 +826,8 @@
    "seed": 20261230,
    "look": 2,
    "minutes": 60,
-   "mb": 1646,
-   "made": "2026-11-15T08:04+09:00",
+   "mb": 1645,
+   "made": "2026-11-15T21:23+09:00",
    "track_keys": [
     "G minor|0m7-5m7-8maj7-107|123.0",
     "Bb minor|0m7-8maj7-3maj7-107|123.0",

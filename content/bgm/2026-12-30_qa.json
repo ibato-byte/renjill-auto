@@ -4,7 +4,7 @@
  "warnings": [],
  "numbers": {
   "sec": 3600.0,
-  "mb": 1646,
+  "mb": 1645,
   "lufs": -14.0,
   "lra": 6.2,
   "peak": -5.0,
@@ -21,7 +21,7 @@
   "loops": [
    {
     "adj_mean": 0.17,
-    "adj_max": 0.49,
+    "adj_max": 0.5,
     "seam": 0.35,
     "luma": 77.41
    },
