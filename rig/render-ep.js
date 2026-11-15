@@ -16,7 +16,10 @@ const base=`${__dirname}/out/${ep}`, dir=nohook?base+'_nohook':base; fs.mkdirSyn
 const N=Math.round(fps*meta.dur);
 // nohook 版：一言が出る間（HOOK_END 秒）のコマだけ描き直し、残りは通常版（先に描いたもの）のコマをそのまま使う
 const hookEnd=await p.evaluate(()=>window.HOOK_END);
+// 描きかけのコマを撮らない（2026-11-15 事故：「10分の会議」がちかちかした。1.5 倍で描くようにしたら、ブラウザが絵を塗り終える前に撮れてしまい、
+// 引き出し・画面の右端・文字が 1 コマだけ抜けたコマが 27 枚まざった）。画面が 2 回つづけて同じになるまで撮り直し、同じになった絵だけを使う
+const {settled}=require('./settled.js');
 for(let i=0;i<N;i++){
   const f=`f${String(i).padStart(4,'0')}.jpg`;
-  if(nohook&&i/fps>=hookEnd){fs.copyFileSync(`${base}/${f}`,`${dir}/${f}`);continue}await p.evaluate(t=>window.setOut(t),i/fps);await p.screenshot({path:`${dir}/${f}`,type:'jpeg',quality:V.jpeg});}
+  if(nohook&&i/fps>=hookEnd){fs.copyFileSync(`${base}/${f}`,`${dir}/${f}`);continue}await p.evaluate(t=>window.setOut(t),i/fps);fs.writeFileSync(`${dir}/${f}`,await settled(p,{type:'jpeg',quality:V.jpeg}));}
 await b.close();console.log(ep,'frames',N,'dur',meta.dur);})();

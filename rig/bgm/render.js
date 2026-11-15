@@ -2,6 +2,7 @@
 // 出力: f00000.jpg …（1920x1080）。thumb を付けると t 秒の1枚だけ: node render.js out.jpg "…" thumb 12.5
 const fs = require('fs'), path = require('path');
 let chromium; try { ({ chromium } = require('playwright')); } catch (e) { ({ chromium } = require('/opt/npm-tools/node_modules/playwright')); }
+const { settled } = require('../settled.js'); // 描き終わったコマだけを撮る（2026-11-15）
 const [out, query, a3, a4, a5, a6] = process.argv.slice(2);
 // 2026-11-15：コマは a6 倍の細かさで描く（4/3 倍 = 2560x1440。YouTube は 1440p 以上で上げた動画に質の高い圧縮を使うので、見る人の画面できれいになる）。表紙（thumb）は今までどおり 1920x1080
 const SCALE = Math.max(1, Math.min(2, +a6 || 1));
@@ -18,7 +19,7 @@ const url = 'file://' + path.join(__dirname, 'scene.html') + '?' + query;
   let next = 0;
   await Promise.all(Array.from({ length: par }, async () => {
     const p = await open(SCALE);
-    for (;;) { const i = next++; if (i >= N) break; await p.evaluate(t => window.setT(t), i / fps); await p.screenshot({ path: `${out}/f${String(i).padStart(5, '0')}.jpg`, type: 'jpeg', quality: 95 }); }
+    for (;;) { const i = next++; if (i >= N) break; await p.evaluate(t => window.setT(t), i / fps); fs.writeFileSync(`${out}/f${String(i).padStart(5, '0')}.jpg`, await settled(p, { type: 'jpeg', quality: 95 })); }
   }));
   await b.close(); console.log('frames', N, out);
 })();

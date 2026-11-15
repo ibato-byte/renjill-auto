@@ -5,6 +5,7 @@
 使い方: python auto/qa.py <ep> <yt.mp4> <loop.mp4>  → dist/<ep>_qa.json, dist/<ep>_sheet.jpg
 """
 import json, os, pathlib, subprocess, sys
+import flicker
 import numpy as np
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 RIG, DIST = ROOT / "rig", ROOT / "dist"
@@ -40,6 +41,9 @@ def main(ep, yt, loop):
     for name, path, need_end in [("yt", yt, True), ("loop", loop, False)]:
         path = pathlib.Path(path)
         if not path.exists() or path.stat().st_size < 500_000: issues.append(f"{name}: ファイルがない/小さすぎる"); continue
+        # ちかちか（描きかけのコマ）：1 コマだけ絵が変わって戻るコマがあれば出さない（2026-11-15 事故。auto/flicker.py）
+        fl = flicker.find(str(path))
+        if fl: issues.append(f"{name}: ちかちか（1 コマだけ絵が変わるコマが {len(fl)} 枚。例 {fl[:4]}）")
         v, a, d = ffprobe(path)
         if (v["width"], v["height"]) != (1080, 1920): issues.append(f"{name}: 解像度 {v['width']}x{v['height']}")
         if abs(eval(v["r_frame_rate"]) - FPS) > 0.1: issues.append(f"{name}: fps {v['r_frame_rate']}（rig/video.json は {FPS}）")
