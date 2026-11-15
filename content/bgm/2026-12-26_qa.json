@@ -6,7 +6,7 @@
  ],
  "numbers": {
   "sec": 3600.0,
-  "mb": 1172,
+  "mb": 1361,
   "lufs": -15.0,
   "lra": 12.3,
   "peak": -2.8,
@@ -22,33 +22,33 @@
   "tracks": 19,
   "loops": [
    {
-    "adj_mean": 0.06,
-    "adj_max": 0.17,
-    "seam": 0.07,
-    "luma": 151.48
-   },
-   {
     "adj_mean": 0.05,
-    "adj_max": 0.16,
-    "seam": 0.05,
-    "luma": 94.18
-   },
-   {
-    "adj_mean": 0.06,
-    "adj_max": 0.64,
-    "seam": 0.04,
-    "luma": 90.04
+    "adj_max": 0.17,
+    "seam": 0.06,
+    "luma": 151.44
    },
    {
     "adj_mean": 0.04,
-    "adj_max": 0.13,
+    "adj_max": 0.15,
     "seam": 0.05,
-    "luma": 83.41
+    "luma": 94.1
+   },
+   {
+    "adj_mean": 0.06,
+    "adj_max": 0.63,
+    "seam": 0.04,
+    "luma": 89.97
+   },
+   {
+    "adj_mean": 0.04,
+    "adj_max": 0.12,
+    "seam": 0.04,
+    "luma": 83.35
    }
   ],
   "chapter_diff": [
    57.9,
-   5.6,
+   5.5,
    8.8
   ]
  }

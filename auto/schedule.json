@@ -747,7 +747,8 @@
       "thumb": {
         "t": 3.2,
         "cam": "1.4,480,960",
-        "hook": "WI-FI: OFF/会議中に上司が固まった"
+        "hook": "WI-FI: OFF/会議中に上司が固まった",
+        "variant": "B"
       },
       "first_comment": "固まった顔、保存したことある？ / Ever saved a frozen-face screenshot?",
       "site_i18n": {
@@ -768,6 +769,12 @@
         "zh-Hant": "線上會議中當機的課長 | 蓮與吉兒 Ren & Jill",
         "es": "El jefe se congela en la videollamada | Ren & Jill",
         "pt": "O chefe trava na videochamada | Ren & Jill"
+      },
+      "experiment": {
+        "var": "thumb_variant",
+        "std": "A",
+        "value": "B",
+        "why": "サムネの文字の位置（上と下）を変えて、プロフィール一覧からの見られ方を比べる"
       }
     },
     {
