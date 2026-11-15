@@ -132,7 +132,7 @@ const STEP = 0.125, W = 1080, H = 1920;
       for (const c of r.caps || []) if (r.end < 0.5) capSet.add(c.slice(0, 40));
       for (const id of ['ren', 'jil']) { const b = r.bodies && r.bodies[id]; if (!b || r.end >= 0.5) continue; const w = b[2] - b[0], h = b[3] - b[1]; if (w < 5 || h < 5) continue;
         const vis = Math.max(0, Math.min(b[2], W) - Math.max(b[0], 0)) * Math.max(0, Math.min(b[3], H) - Math.max(b[1], 0)) / (w * h);
-        if (vis < 0.6 && r.z < 1.6) cutT[id] = (cutT[id] || 0) + STEP; // 寄り（z≥1.6）は演出として除く
+        if (vis > 0.02 && vis < 0.6 && r.z < 1.58) cutT[id] = (cutT[id] || 0) + STEP; // 寄り（z≥1.6）は演出として除く。まったく映っていない（舞台の外で出番を待っている・退場した）のは「切れている」ではない（2026-11-15：advent・plant・rain で誤って数えていた）
         if (vis > 0.95) sizeSum[id] = (sizeSum[id] || 0) + h / H, sizeN[id] = (sizeN[id] || 0) + 1; }
     }
     if (hash === prevHash) { stillSince += STEP; if (stillSince >= 1.5 && Math.abs(stillSince - 1.5) < 1e-6 && r.end < 0.5) warns.push(`1.5秒以上止まっている t=${(t - stillSince).toFixed(2)}〜（オチ前の間は0.7秒まで）`); if (stillSince >= 2.5 && Math.abs(stillSince - 2.5) < 1e-6 && r.end < 0.5) issues.push(`2.5秒以上動きなし t=${(t - stillSince).toFixed(2)}〜`); }
@@ -144,16 +144,26 @@ const STEP = 0.125, W = 1080, H = 1920;
     // 残骸の見張り（総見直し #200・2026-11-14）：机などの背景も fx に描くので、数そのものではなく
     //   「その回でいちばん少ないときの fx の数（＝背景）」より増えて残っている数を見る。前は全話に出て見張りにならなかった
     if (r.end < 0.5) fxMin = Math.min(fxMin, r.fx);
-    if (t >= dur - 1.2 && t < dur - 1.1 && r.fx - fxMin > 3) warns.push(`エンドカード直前に、背景より多いfx要素が${r.fx - fxMin}個残っている（全${r.fx}個・背景${fxMin}個）`);
+    // 2026-11-15：「エンドカード直前に fx が残っている」の警告はやめた。オチの小道具（散らばった書類・食べたカレンダー）が場面に残るのは当たり前で、22 話に出て見張りにならなかった。
+    //   エンドカードは不透明で全面をおおうので、見るべきは「エンドカードの上に何か出ていないか」。下の『エンドカードの上』で、不合格として見る
     if (Math.abs((t / dur) * 12 - Math.round((t / dur) * 12)) < STEP / dur * 6 && sheet.length < 12) sheet.push({ t, buf: await p.screenshot({ type: 'jpeg', quality: 70 }) });
   }
   // エンドカードが出ること
   await p.evaluate(t => window.setOut(t), dur - 0.05);
   const endOp = await p.evaluate(() => parseFloat(getComputedStyle(document.getElementById('end')).opacity));
   if (endOp < 0.9) issues.push(`エンドカードが出ていない（opacity ${endOp}）`);
+  { // エンドカードの上に物が残っていないこと：場面・字幕・冒頭の一言を隠したコマと、そのままのコマを比べる（同じなら、上には何もない）
+    const shot = () => p.screenshot({ type: 'jpeg', quality: 40, clip: { x: 0, y: 0, width: W, height: H }, scale: 'css' });
+    const full = await shot(); await p.evaluate(() => { for (const id of ['world', 'ui', 'hook']) { const e = document.getElementById(id); if (e) e.style.visibility = 'hidden'; } }); const base = await shot();
+    await p.evaluate(() => { for (const id of ['world', 'ui', 'hook']) { const e = document.getElementById(id); if (e) e.style.visibility = ''; } });
+    if (endOp >= 0.9 && Math.abs(full.length - base.length) > 200) issues.push(`エンドカードの上に物が残っている（そのまま ${full.length} バイト／エンドカードだけ ${base.length} バイト）`);
+  }
   { const cut = await p.evaluate(() => window.__LIMBCUT || 0); if (cut > 0) issues.push(`腕を長く伸ばす所がある（必要な長さ ${Math.round(cut)}px）：レンとジルには腕がない。持ち物は体のすぐ前に置き、前足だけで持つ`); }
   if (capSet.size > 2) warns.push(`字幕が${capSet.size}種類（決まりは2回まで。オチは絵で見せる）：${[...capSet].map(x => x.split(/\s+/)[0]).join('／')}`);
-  for (const id of ['ren', 'jil']) { if ((cutT[id] || 0) >= 1) warns.push(`${id === 'ren' ? 'レン' : 'ジル'}の体が画面から4割以上切れている時間が${cutT[id].toFixed(1)}秒（寄りの演出を除く）`);
+  // 体が半分切れたまま映る時間：1 秒以上は知らせる、2.5 秒以上は不合格（2026-11-15：在庫の 40 話のカメラを rig/camfit.js で直し終えたので、長い物は通さない。
+  //   寄りへ動く途中に相手が切れるのは自然なので、短い物は知らせるだけ）
+  for (const id of ['ren', 'jil']) { if ((cutT[id] || 0) >= 2.5) issues.push(`${id === 'ren' ? 'レン' : 'ジル'}の体が、半分切れたまま ${cutT[id].toFixed(1)} 秒映っている（寄りの演出を除く）：node rig/camfit.js <回> --write でカメラを直すか、立ち位置を内側へ`);
+    else if ((cutT[id] || 0) >= 1) warns.push(`${id === 'ren' ? 'レン' : 'ジル'}の体が画面から4割以上切れている時間が${cutT[id].toFixed(1)}秒（寄りの演出を除く）`);
     // 2026-11-13：在庫76話がすべて20%以上になったので不合格に上げた（wifi・mute を作り直し）
     if (sizeN[id] >= 8 && sizeSum[id] / sizeN[id] < 0.2) issues.push(`${id === 'ren' ? 'レン' : 'ジル'}が小さい（画面の高さの平均${Math.round(100 * sizeSum[id] / sizeN[id])}%。35%以上が目安・20%未満は不合格）`); }
   await b.close();

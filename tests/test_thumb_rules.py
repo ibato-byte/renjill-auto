@@ -47,7 +47,9 @@ class Thumb(unittest.TestCase):
     def test_endcard_leftover_uses_scene_baseline(self):
         # 総見直し #200（2026-11-14）：机などの背景も fx に描くため、数そのもので警告すると全話に出て見張りにならなかった。
         # 「その回でいちばん少ないときの fx の数（背景）」との差で見る
+        # 2026-11-15：背景との差で見ても、オチの小道具（散らばった書類・食べたカレンダー）が場面に残っているだけで 22 話に出た。
+        # エンドカードは不透明で全面をおおうので、見るのは「エンドカードの上に物が出ていないか」（不合格として。tests/test_framing.py）。数で警告する形には戻さない
         src = (ROOT / "rig/qa.js").read_text()
-        self.assertIn("fxMin = Math.min(fxMin, r.fx)", src)
-        self.assertIn("r.fx - fxMin > 3", src)
+        self.assertIn("エンドカードの上に物が残っている", src)
+        self.assertNotIn("r.fx - fxMin > 3", src)
         self.assertNotIn("&& r.fx > 3)", src)

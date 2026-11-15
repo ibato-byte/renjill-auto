@@ -28,10 +28,10 @@ var EP = {
     // レン：2.7 から身長計の前へ → せのび（stand）→ 箱を置く → 箱の上へ（ご満悦）
     const rIn = ease(seg(t, 2.6, 3.1)), onBox = ease(seg(t, 4.6, 5.0)), boxIn = ease(seg(t, 3.9, 4.3));
     const rface = t < 3.4 ? RIG.FACES.neutral : t < 3.9 ? Object.assign({}, RIG.FACES.oops, { sweat: 1 }) : t < 4.6 ? RIG.FACES.sharp : Object.assign({}, RIG.FACES.smug, { sparkle: t < 6.6 ? 1 : 0 });
-    L.char('ren', Object.assign({}, t > 3.1 && t < 3.9 ? RIG.POSES.stand : RIG.POSES.sit, rface, { x: 900 - 420 * rIn, y: FLOOR - 413 * 1.35 - 230 * onBox - Math.sin(onBox * Math.PI) * 80, scale: 1.35, flip: true, eyeLook: -.2 }), t, '', {});
+    L.char('ren', Object.assign({}, t > 3.1 && t < 3.9 ? RIG.POSES.stand : RIG.POSES.sit, rface, { x: 830 - 350 * rIn, y: FLOOR - 413 * 1.35 - 230 * onBox - Math.sin(onBox * Math.PI) * 80, scale: 1.35, flip: true, eyeLook: -.2 }), t, '', {});
     let fx = `<rect x="-500" y="${FLOOR}" width="2080" height="400" fill="#D9C7A8"/><rect x="-500" y="${FLOOR - 8}" width="2080" height="12" fill="#C2AE8C"/>`;
     // 身長計はキャラの後ろの壁……fx は手前に描かれるので、目もりはキャラの右がわ（顔にかからない位置）に置く
-    fx = RULER(RX + 330) + fx;
+    const back = RULER(RX + 330); // 身長計は壁の物なので、キャラクターの後ろに描く（2026-11-15：前に描いていて、出番を待つ課長の顔にかぶっていた）
     // 箱（課長の足もと）
     if (boxIn > 0) fx += `<g transform="translate(${760} ${FLOOR + 40 - 0})" opacity="${boxIn}"><rect x="-150" y="-${230 * boxIn + 10}" width="300" height="${230 * boxIn + 10}" rx="8" fill="#C79A6C" stroke="#9C7448" stroke-width="6"/><rect x="-30" y="-${230 * boxIn + 10}" width="60" height="${230 * boxIn + 10}" fill="#D9B48A" opacity=".6"/></g>`;
     // 印：ジル（低め）・課長（箱こみで高い）
@@ -43,13 +43,13 @@ var EP = {
     let ui = (t > 0.6 && t < 2.4 ? CHIP(L, 'HEIGHT CHECK', '健康診断の身長測定', 1820, seg(t, .6, .9)) : '')
       + (t > 6.2 && t < 8.6 ? CHIP_OFF(L, 'HEIGHT: BOX INCLUDED', '身長：箱こみ', 1820, seg(t, 6.2, 6.5)) : '');
     const cam = L.camAt([
-      { t: 0, z: 1.1, cx: 600, cy: 1250 },
+      { t: 0, z: 1.05, cx: 650, cy: 1250 },
       { t: 0.01, z: .95, cx: 600, cy: 1200, d: .9 },
-      { t: 3.0, z: 1.1, cx: 720, cy: 1200, d: .5 },
+      { t: 3.0, z: 1.1, cx: 620, cy: 1200, d: .5 },
       { t: 5.2, z: .95, cx: 620, cy: 1100, d: .5 },
     ], t);
     if (t > 8.6) { fx = ''; ui = ''; }
-    L.mount({ bg, fx, ui, cam, t, shake: t > 4.2 && t < 4.4 ? 4 : 0 });
+    L.mount({ bg, back, fx, ui, cam, t, shake: t > 4.2 && t < 4.4 ? 4 : 0 });
     if (typeof endcard === 'function') endcard(t, EP.dur);
   }
 };
