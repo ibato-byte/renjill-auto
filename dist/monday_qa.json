@@ -2,16 +2,12 @@
   "ep": "monday",
   "pass": true,
   "issues": [],
-  "warns": [
-    "エンドカード直前に、背景より多いfx要素が8個残っている（全10個・背景2個）"
-  ],
+  "warns": [],
   "render": {
     "ep": "monday",
-    "dur": 9.5,
+    "dur": 10.6,
     "pass": true,
     "issues": [],
-    "warns": [
-      "エンドカード直前に、背景より多いfx要素が8個残っている（全10個・背景2個）"
-    ]
+    "warns": []
   }
 }
