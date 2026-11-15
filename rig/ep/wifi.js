@@ -19,6 +19,7 @@ var EP = {
     // ジル（左・実物）：聞く → 固まった顔を見てにやり → 5.2 スクショ（カシャ）→ 保存した絵を手元に
     const jface = t < 3.6 ? RIG.FACES.sharp : t < 6.4 ? RIG.FACES.smug : RIG.FACES.smile;
     const jp = Object.assign({}, RIG.POSES.sit, jface, { x: -60, y: DESK - 426 * 1.4 + 20, scale: 1.4, eyeLook: .8, blush: t > 3.6 ? .5 : 0 }, L.startle(t, 2.65));
+    if (jp.yOff) jp.y += jp.yOff;   // 2026-11-15：部品の yOff は rig が使わない。y に足さないと飛び上がらない（前は顔だけ驚いていた）
     L.char('jil', jp, t, '', {});
     // レン（画面の中）：口パク → 2.6 固まる（変顔：目が片方閉じ、口が「う」）→ 6.4 復帰（にこにこ）
     // 総見直し 11/13：画面を大きく（780×720）、レンを1.75倍に（前は画面の高さの20%で小さかった）。画面の中は自宅の壁（会議の相手だと一目で分かる）

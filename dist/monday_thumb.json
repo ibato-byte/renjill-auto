@@ -1,15 +1,15 @@
 {
  "ep": "monday",
  "en": {
-  "width": 860,
-  "height": 146,
-  "top": 430
+  "width": 852,
+  "height": 95,
+  "top": 452
  },
- "chipTop": 643,
+ "chipTop": 640,
  "busy": {
   "en": 0,
   "ja": 0,
-  "chip": 0.6
+  "chip": 0
  },
- "made": "2026-11-15T00:45:49.721Z"
+ "made": "2026-11-15T04:36:19.925Z"
 }
