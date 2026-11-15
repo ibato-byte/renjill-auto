@@ -43,7 +43,15 @@ class Flicker(unittest.TestCase):
             self.assertIn("settled(p,", s.replace("settled(p, ", "settled(p,"))
             self.assertNotIn("p.screenshot({path:`${dir}", s)   # 1 回撮っただけの絵をそのまま保存しない
         self.assertIn("a.equals(b)", (ROOT / "rig/settled.js").read_text())
+        self.assertIn("flicker.find(str(fr[i]))", (ROOT / "auto/bgm.py").read_text())   # 長い動画も、章ごとに見る
 
 
 if __name__ == "__main__":
     unittest.main()
+
+
+def test_unpost_resets_manual_tiktok():
+    """やり直しのとき、TikTok（手動）の記録を外して、置き場の動画を新しい絵に差し替えさせる"""
+    import pathlib
+    src = (pathlib.Path(__file__).resolve().parent.parent / "auto" / "unpost.py").read_text()
+    assert 'rec.get("tt") == "manual"' in src and 'rec.pop("tt", None)' in src

@@ -69,6 +69,10 @@ def main(argv):
                 log(k, key, "消した"); rec.pop(key, None); rec.pop(key + "_at", None)
             else:
                 left += 1; log(k, key, "消せなかった（記録は残す）:", why)
+        if not dry and rec.get("tt") == "manual":
+            # TikTok は手で出す回。記録を外すと、出し直しのときに置き場の tt_ の動画も新しい絵に差し替わる
+            # （2026-11-15：外さなかったので、置き場に古い「ちかちか」の動画が残った）
+            rec.pop("tt", None); log(k, "tt", "手動の記録を外した（動画を置き直す）")
         if not dry: f.write_text(json.dumps(posted, ensure_ascii=False, indent=2))
     log("消せなかった数", left)
     return 0

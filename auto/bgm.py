@@ -267,6 +267,10 @@ def build_video(pl, work, par=3):
     fr = [work / f"ch{i}" for i in range(n)]
     for i in range(n):
         run(["node", RIG / "render.js", fr[i], query(pl, i), FPS, par, LOOP, f"{RENDER_SCALE:.7f}"])
+        # ちかちか（描きかけのコマ）が 1 枚でもあれば、ここで止める（2026-11-15：短い動画で起きた事故。長い動画は同じ 60 秒をくり返すので、1 枚でも 1 時間ずっと見える）
+        import flicker
+        fl = flicker.find(str(fr[i]))
+        if fl: raise RuntimeError(f"第{i + 1}章のコマに、ちかちか（1 コマだけ絵が変わる）が {len(fl)} 枚: {fl[:6]}")
     seg = work / "seg"; seg.mkdir(exist_ok=True)
     N, X = FPS * LOOP, FPS * XF
     order = []
