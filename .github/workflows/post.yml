@@ -16,6 +16,9 @@ on:
       date:
         description: "出し直す日（例 2026-10-23。トークン復旧後に、出せなかった回を出す）。slot と一緒に指定。投稿済みの SNS は posted.json を見て飛ばす"
         required: false
+      redo:
+        description: "true で、その日（date）に出した回を SNS から消してから出し直す（取り消せない。オーナーの指示があった時だけ。auto/unpost.py）"
+        required: false
 permissions:
   contents: write
   issues: write
@@ -80,9 +83,11 @@ jobs:
           THREADS_USER_ID: ${{ secrets.THREADS_USER_ID }}
           IN_SLOT: ${{ github.event.inputs.slot }}
           IN_DATE: ${{ github.event.inputs.date }}
+          IN_REDO: ${{ github.event.inputs.redo }}
         run: |
           rm -f dist/post_hub_args dist/post_hub_summary  # 前の実行の結果を Hub に出さない
           # 出し直し（date を指定）：その日の回のうち、まだ出ていない SNS だけを出す（posted.json で二重投稿を防ぐ）
+          if [ "$IN_REDO" = "true" ] && [ -n "$IN_DATE" ]; then python auto/unpost.py "$IN_DATE"; fi
           if [ -n "$IN_DATE" ]; then python auto/post.py --date "$IN_DATE" "${IN_SLOT:-12:00}"; else python auto/post.py $IN_SLOT; fi
       - name: 公式ページの更新（AI を使わない。依頼 #38）
         if: always() && steps.hub.outputs.paused != 'true'
