@@ -46,3 +46,8 @@
 2026-11-12,renjill-midweek-check,45,台本,ウォーターサーバー：オチの小さな紙コップがレンの体の後ろ（back の層）に隠れて見えなかった → 前の層に出し、口元で少し傾けて飲む動きに,rig/ep/watercooler.js,別のレビュー役の指摘（blocker）と 7.4・7.9・8.6 秒のコマの目視
 2026-11-12,renjill-midweek-check,46,台本,定時1分前：最後の寄りで時計の「18:00」の「1」が左端で切れて「8:00」に見えた → カメラ cx 800→700,rig/ep/teiji.js,別のレビュー役の指摘と 24コマ表の目視（直した後は 18:00 が全部見える）
 2026-11-12,renjill-midweek-check,47,台本,ハンコ8個：8個目のかすれた判が薄すぎて（濃さ25%）インク切れが伝わらない → 濃さ60%・太い破線に,rig/ep/hanko.js,別のレビュー役の指摘と 4.6・5.2 秒のコマの目視
+2026-11-16,renjill-weekly-pdca,1,冒頭,11/22 エアコン：冒頭の日本語を 13→6 文字（エアコン戦争）。打ち手 hook として記録,auto/schedule.json aircon・rig/pace.js,REVIEW-2026-11-15：短い日本語の回ほど見た割合が高い
+2026-11-16,renjill-weekly-pdca,2,冒頭,11/24 ミュート：冒頭の日本語を 13→7 文字（ミュートで熱弁）。打ち手 hook として記録,auto/schedule.json mute・rig/pace.js,同上
+2026-11-16,renjill-weekly-pdca,3,キャプション,12/11 カイロ10個：英語の書き出しを物の並びに。打ち手 caption_en として記録,auto/schedule.json kairo,"ウォーターサーバー 1,333 再生・見た割合 0.715"
+2026-11-16,renjill-weekly-pdca,4,きまり,11/30 締め切り前夜：作り直しの理由（remake.why）を記録し、novelty.py のきまり違反（11/9 から出ていた）を解消,auto/schedule.json deadline,python auto/novelty.py の要対応が消えた
+2026-11-16,renjill-weekly-pdca,5,記録,週報を docs/weekly/2026-11-16.md に（数字・試すこと・BGM・個人情報の点検）,docs/weekly/2026-11-16.md,週次PDCAの指示文

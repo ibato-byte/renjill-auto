@@ -858,7 +858,7 @@
       "thumb": {
         "t": 5.7,
         "cam": "1.3,580,1180",
-        "hook": "AIRCON WAR/エアコンの温度、上司と部下"
+        "hook": "AIRCON WAR/エアコン戦争"
       },
       "first_comment": "オフィスの適温、何度？ / What's the right office temperature?",
       "site_i18n": {
@@ -879,6 +879,12 @@
         "zh-Hant": "冷氣溫度大戰，課長對吉兒 | 蓮與吉兒 Ren & Jill",
         "es": "Guerra del aire acondicionado | Ren & Jill",
         "pt": "Guerra do ar-condicionado | Ren & Jill"
+      },
+      "experiment": {
+        "var": "hook",
+        "std": "AIRCON WAR/エアコンの温度、上司と部下",
+        "value": "AIRCON WAR/エアコン戦争",
+        "why": "2026-11-16 週次：冒頭の日本語が短い回ほど見られている（5〜7文字の回 0.49〜0.64、17〜18文字の回 0.41〜0.46。REVIEW-2026-11-15）。日本語だけ短くして比べる"
       }
     },
     {
@@ -969,7 +975,7 @@
       "thumb": {
         "t": 2.5,
         "cam": "1.15,540,1000",
-        "hook": "STILL MUTED/ミュートのまま熱弁する上司"
+        "hook": "STILL MUTED/ミュートで熱弁"
       },
       "first_comment": "ミュートのまま話した最長記録は？ / Longest you've talked on mute?",
       "site_i18n": {
@@ -990,6 +996,12 @@
         "zh-Hant": "開著靜音熱烈發言的課長 | 蓮與吉兒 Ren & Jill",
         "es": "El jefe da un discurso en silencio (mute) | Ren & Jill",
         "pt": "O chefe discursa no mudo | Ren & Jill"
+      },
+      "experiment": {
+        "var": "hook",
+        "std": "STILL MUTED/ミュートのまま熱弁する上司",
+        "value": "STILL MUTED/ミュートで熱弁",
+        "why": "2026-11-16 週次：冒頭の日本語が短い回ほど見られている（5〜7文字の回 0.49〜0.64、17〜18文字の回 0.41〜0.46。REVIEW-2026-11-15）。日本語だけ短くして比べる"
       }
     },
     {
@@ -1200,6 +1212,9 @@
         "zh-Hant": "早上9點截止，晚上10點兩人的文件一樣高 | 蓮與吉兒 Ren & Jill",
         "es": "Entrega a las 9:00 y a las 22:00 van empatados | Ren & Jill",
         "pt": "Prazo às 9h, e às 22h as pilhas estão empatadas | Ren & Jill"
+      },
+      "remake": {
+        "why": "2026-11-16 週次：10/30 の「締め切りのカレンダー」（22秒・古い作り。見た割合は10月の回の 0.14〜0.17 の水準）と同じ「締め切り」の話なので作り直しとして記録。状況とオチは別（徹夜の書類の山／ジルは✓の束、課長は1枚目で寝ている）、長さは 9.5 秒・1秒目から動く今の冒頭の型で、見た割合 0.4〜0.6 の11月の回と同じ作り。前回から31日あけた"
       }
     },
     {
@@ -1524,7 +1539,7 @@
       "no": 48,
       "title": "カイロ10個",
       "caption_ja": "寒い朝。ジルが課長にカイロを1個。課長は引き出しから残りを出して体じゅうに10個。汗だく。ジルは0個でぶるぶる。",
-      "caption_en": "A cold morning. Jill gives the boss one heat pack. He finds nine more in his drawer and sticks on all ten. He's sweating. Jill has zero.",
+      "caption_en": "One heat pack. Nine more from his drawer. All ten on the boss. He's sweating. Jill has zero.",
       "tag_set": "C",
       "thumb": {
         "t": 5.8,
@@ -1550,6 +1565,12 @@
         "zh-Hant": "暖暖包10個，課長全貼在自己身上 | 蓮與吉兒 Ren & Jill",
         "es": "10 parches de calor, todos para el jefe | Ren & Jill",
         "pt": "10 bolsas de calor, todas para o chefe | Ren & Jill"
+      },
+      "experiment": {
+        "var": "caption_en",
+        "std": "A cold morning. Jill gives the boss one heat pack. He finds nine more in his drawer and sticks on all ten. He's sweating. Jill has zero.",
+        "value": "One heat pack. Nine more from his drawer. All ten on the boss. He's sweating. Jill has zero.",
+        "why": "2026-11-16 週次：伸びたウォーターサーバー（1,333再生・見た割合0.72）は英語の書き出しが物の並び（A cup, a mug, a bucket.）。物が増える回で英語1行目だけ物の並びにして比べる"
       }
     },
     {
