@@ -25,6 +25,8 @@
 - 字幕の英語に 11 文字以上の長い単語があれば WARN（海外の人がひと目で読める単語に。2026-11-12）… 166
 - キャラの svg を CSS で 1.2 倍未満に縮めて「画面の中」に置く回は ISSUE（2026-11-13：wifi・mute で画面の中のレンが
   画面の高さの20%しかなく小さかった → 大きな画面＋pose の scale 1.75 に作り直し。縮めずに pose の x・y・scale で置く）… 112
+- 跳ぶ部品（L.startle・L.binky・L.runIn）を使うのに yOff を y に足していない回は ISSUE（2026-11-15：rig.js は yOff を使わないので、
+  足さないと顔だけ驚いて体は跳ばない。月曜の朝・オンライン会議で見つかった。y に「+ yOff」を足す）… 301
 """
 import datetime as dt, json, pathlib, re, sys
 
@@ -53,6 +55,15 @@ _SHRINK = re.compile(r"style\.transform\s*=\s*`[^`]*scale\(\s*([\d.]+)\s*\)")
 def shrinks(src):
     """キャラの svg を CSS の transform で 1.2 倍未満に縮めているか（コメントを除く）"""
     return any(float(v) < 1.2 for line in src.splitlines() for v in _SHRINK.findall(line.split("//", 1)[0]))
+
+
+_JUMP = re.compile(r"L\.(startle|binky|runIn)\(")
+
+
+def jump_without_yoff(src):
+    """跳ぶ部品を使っているのに、yOff を一度も y に足していないか（コメントを除く）"""
+    code = "\n".join(line.split("//", 1)[0] for line in src.splitlines())
+    return bool(_JUMP.search(code)) and not re.search(r"\.y\s*\+=\s*[^;\n]*yOff|y:[^,\n]*yOff|\+\s*\(?\s*\w+\.yOff", code)
 
 
 def chip_windows(src):
@@ -87,6 +98,7 @@ def info(ep, pc):
         "speed": p["speed"],
         "limb": uses_limb(src),
         "shrink": shrinks(src),
+        "jump": jump_without_yoff(src),
         "out": (dur - p["start"]) / p["speed"] if dur else None,
         "hook": p["hook"],
         "loud": frozenset(re.findall(r"type:\s*'([a-z]+)'", src)) & LOUD,
@@ -118,6 +130,8 @@ def check(posts, today, days=14, pc=None, lk=None):
                 issues.append(f"{tag}: 腕（limb()）を描いている。レンとジルには腕がない：口でくわえる・頭や体で押す形に作り直す")
             if i.get("shrink"):
                 issues.append(f"{tag}: キャラを CSS で縮めて置いている（画面の中のキャラが小さくなる）：pose の x・y・scale で大きく置く（画面の高さの35%以上）")
+            if i.get("jump"):
+                issues.append(f"{tag}: 跳ぶ部品（L.startle・L.binky・L.runIn）の yOff を y に足していない（rig は yOff を使わないので体が跳ばない）：pose の y に yOff を足す")
             if len(i["caps"]) > 1:
                 warns.append(f"{tag}: 途中の字幕が{len(i['caps'])}回（1回まで。言葉を入れすぎると世界観が崩れる・オチは絵で見せる。2026-11-10 オーナー）")
             for en, ja in i["caps"]:

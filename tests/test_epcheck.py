@@ -43,6 +43,19 @@ class Small(unittest.TestCase):
             self.assertFalse(epcheck.shrinks((ROOT / f"rig/ep/{ep}.js").read_text()), ep)
 
 
+class Jump(unittest.TestCase):
+    """跳ぶ部品の yOff を y に足す（2026-11-15：rig.js は yOff を使わない。月曜の朝・オンライン会議で体が跳んでいなかった）"""
+    def test_missing_yoff_detected(self):
+        self.assertTrue(epcheck.jump_without_yoff("const jp = Object.assign({}, P, { y: 100 }, L.startle(t, 2));"))
+        self.assertFalse(epcheck.jump_without_yoff("const jp = Object.assign({}, P, L.startle(t, 2));\n if (jp.yOff) jp.y += jp.yOff;"))
+        self.assertFalse(epcheck.jump_without_yoff("y: DESK + (st.yOff || 0), st = L.startle(t, 2)"))
+        self.assertFalse(epcheck.jump_without_yoff("// L.binky(t, 1) は使わない"))
+
+    def test_all_episodes_apply_yoff(self):
+        bad = [f.stem for f in (ROOT / "rig/ep").glob("*.js") if epcheck.jump_without_yoff(f.read_text())]
+        self.assertEqual(bad, [])
+
+
 class Upcoming(unittest.TestCase):
     def test_next_14_days_have_no_issues(self):
         posts = json.loads((ROOT / "auto/schedule.json").read_text())["posts"]

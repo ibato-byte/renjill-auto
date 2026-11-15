@@ -553,8 +553,7 @@
       "thumb": {
         "t": 6,
         "cam": "1.25,540,1150",
-        "hook": "MONDAY 7:00 AM/月曜の朝、上司の目覚まし",
-        "variant": "B"
+        "hook": "MONDAY 7:00 AM/月曜の朝、上司の目覚まし"
       },
       "first_comment": "月曜のスヌーズ、何回まで？ / How many snoozes on a Monday?",
       "site_i18n": {
@@ -579,8 +578,8 @@
       "experiment": {
         "var": "thumb_variant",
         "std": "A",
-        "value": "B",
-        "why": "サムネの文字の位置（上と下）を変えて、プロフィール一覧からの見られ方を比べる"
+        "value": "A",
+        "why": "2026-11-15 総見直し：B（文字が下）は机の絵が文字にかかり表紙の検査に通らないため A で出す。この回は比較に使わない"
       }
     },
     {
@@ -669,7 +668,7 @@
       "caption_en": "\"Just one page.\" Forty pages later, Jill stops it with one button.",
       "tag_set": "A",
       "thumb": {
-        "t": 4.4,
+        "t": 2.8,
         "cam": "1.5,760,1147",
         "hook": "PRINT: 1 PAGE/「1枚だけ印刷」の上司"
       },

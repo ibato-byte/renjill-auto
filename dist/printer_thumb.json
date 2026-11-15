@@ -1,15 +1,15 @@
 {
  "ep": "printer",
  "en": {
-  "width": 854,
-  "height": 174,
-  "top": 426
+  "width": 860,
+  "height": 120,
+  "top": 453
  },
- "chipTop": 668,
+ "chipTop": 674,
  "busy": {
   "en": 0,
   "ja": 0,
-  "chip": 0.2
+  "chip": 1.3
  },
- "made": "2026-11-15T00:55:23.747Z"
+ "made": "2026-11-15T04:36:32.354Z"
 }
