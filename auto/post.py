@@ -196,6 +196,29 @@ class TikTokManual(Exception):
 
 OWNER_TASKS = []  # この実行で Hub の「あなたの番」に出すもの（write_hub_args が --owner-task にする）
 
+X_LIMIT = 280  # X の無料の決まり：日本語・中国語などは 1 文字を 2 と数えて 280 まで。リンクは 23
+
+def x_len(text):
+    """X の数え方での長さ（日本語・記号の多くは 2、英数字は 1、リンクは 23）"""
+    import re, unicodedata
+    n = 0
+    for part in re.split(r"(https?://\S+)", text):
+        if part.startswith("http"): n += 23; continue
+        for ch in part:
+            o = ord(ch)
+            n += 1 if (o <= 0x10FF or 0x2000 <= o <= 0x200D or 0x2010 <= o <= 0x201F or 0x2032 <= o <= 0x2037) else 2
+    return n
+
+def x_caption(p, d):
+    """X 用の短い説明文（2026-11-15 から Claude が Chrome で手で出す。X の自動投稿の仕組みは有料なので使わない）。
+    英語・日本語の一言＋タグ 2 個＋ゲームの案内。上限を超えるなら、後ろから削る（途中で切らない）"""
+    tg = " ".join(tags(p, d).split()[:2])
+    parts = [p["caption_en"], p["caption_ja"], tg, "▶ 無料ゲーム / Free game: https://hay-dash.coana.co.jp/"]
+    while len(parts) > 2 and x_len("\n\n".join(parts)) > X_LIMIT: parts.pop()
+    out = "\n\n".join(parts)
+    if x_len(out) > X_LIMIT: out = p["caption_ja"]
+    return out
+
 def tt_caption(p, d):
     """TikTok だけ、末尾に繁体字・韓国語のハッシュタグ（sns_policy.json の tt_i18n_tags。上限を超えるなら足さない）"""
     return sns_policy.tiktok_caption(caption(p, d))
