@@ -74,3 +74,4 @@
 2026-11-15,renjill-growth-research,26,商標,商標プラン：フォロワーの記録の場所を実態（content/followers.csv・毎日自動）に直した,docs/TRADEMARK_PLAN.md,content/followers.csv
 2026-11-15,renjill-growth-research,27,商標,商標プラン：出願の合図のメール件名を Hub のきまり（【Hub】要対応）に合わせた,docs/TRADEMARK_PLAN.md,automation-hub docs/EMAIL.md
 2026-11-15,renjill-growth-research,28,商標,商標プラン：見張りの記録の表を新設し、11/8・11/15 の結果を記録,docs/TRADEMARK_PLAN.md,本日の検索・content/followers.csv
+2026-11-15,renjill-growth-research,29,抜けの修正,調査が main に届いていない問題を Hub の修正依頼 #249 にした（PR 化と今後の流れの決定）,automation-hub 依頼 #249,https://automation-hub-8lm.pages.dev/#/r/249
