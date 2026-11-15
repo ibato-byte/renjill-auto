@@ -37,6 +37,13 @@
   <radialGradient id="v2sun" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#FFF3C4" stop-opacity=".95"/><stop offset=".4" stop-color="#FFE9A8" stop-opacity=".4"/><stop offset="1" stop-color="#FFE9A8" stop-opacity="0"/></radialGradient>
   <linearGradient id="v2slat" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".7" stop-color="#F6F0E4"/><stop offset="1" stop-color="#D9CDB8"/></linearGradient>
   <linearGradient id="v2lap" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E4E8EE"/><stop offset="1" stop-color="#AEB6C2"/></linearGradient>
+  <filter id="v2bevel" x="-8%" y="-8%" width="116%" height="124%" color-interpolation-filters="sRGB">
+    <feGaussianBlur in="SourceAlpha" stdDeviation="3.5" result="b"/>
+    <feOffset in="b" dx="0" dy="8" result="sh0"/><feFlood flood-color="#3B2412" flood-opacity=".22"/><feComposite in2="sh0" operator="in" result="sh"/>
+    <feOffset in="b" dx="4" dy="6" result="o1"/><feComposite in="SourceAlpha" in2="o1" operator="out" result="rimL"/><feFlood flood-color="#FFFFFF" flood-opacity=".3"/><feComposite in2="rimL" operator="in" result="hl"/>
+    <feOffset in="b" dx="-4" dy="-7" result="o2"/><feComposite in="SourceAlpha" in2="o2" operator="out" result="rimD"/><feFlood flood-color="#3B2412" flood-opacity=".2"/><feComposite in2="rimD" operator="in" result="dk"/>
+    <feMerge><feMergeNode in="sh"/><feMergeNode in="SourceGraphic"/><feMergeNode in="hl"/><feMergeNode in="dk"/></feMerge>
+  </filter>
   <radialGradient id="v2shadow" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#5A3A1E" stop-opacity=".28"/><stop offset="1" stop-color="#5A3A1E" stop-opacity="0"/></radialGradient>
   </defs>`;
 
@@ -128,11 +135,11 @@
   // 机（本番と同じ木の色。天板＋前板）
   L.desk = (y, o = {}) => { const x = o.x == null ? 0 : o.x, w = o.w || 1080, h = o.h || 260; return `<g><rect x="${x}" y="${y}" width="${w}" height="34" rx="10" fill="${PAL.woodTop}"/><rect x="${x + 8}" y="${y + 30}" width="${w - 16}" height="${h}" rx="8" fill="url(#v2desk)"/><rect x="${x + 30}" y="${y + 90}" width="${w - 60}" height="5" rx="2" fill="${PAL.wood2}" opacity=".5"/></g>`; };
   // 手前の机（画面いっぱいの前板）と引き出し。75 話が同じ絵を 1 話ずつ書いていたのを、ここ 1 か所に（2026-11-16：見た目の作り込みを全話に一度に入れるため）
-  L.deskFront = y => `<rect x="-500" y="${y + 28}" width="2080" height="900" fill="url(#v2desk)"/>`
+  L.deskFront = y => `<g data-nb="1"><rect x="-500" y="${y + 28}" width="2080" height="900" fill="url(#v2desk)"/>`
     + [[70, 0, 1], [118, 300, -1], [200, -200, 1], [290, 150, -1], [330, -350, 1], [420, 40, -1], [520, 260, 1], [640, -120, -1], [760, 90, 1]].map(([dy, dx, k], i) => `<path d="M-500 ${y + dy} Q${dx + 200} ${y + dy + 14 * k} ${dx + 760} ${y + dy + 2} T1580 ${y + dy + 6 * k}" stroke="${i % 3 ? '#6E4728' : '#D9B084'}" stroke-width="${i % 3 ? 3 : 2.5}" fill="none" opacity="${i % 3 ? .16 : .22}"/>`).join('')
-    + `<rect x="-500" y="${y + 30}" width="2080" height="46" fill="url(#v2under)"/><rect x="-500" y="${y}" width="2080" height="34" rx="10" fill="${PAL.woodTop}"/><rect x="-500" y="${y}" width="2080" height="7" rx="3.5" fill="#E2BC8E"/><rect x="-500" y="${y + 27}" width="2080" height="7" fill="#8C603C" opacity=".45"/><ellipse cx="300" cy="${y + 5}" rx="260" ry="5" fill="#fff" opacity=".28"/>`;
-  L.drawer = (x, y) => `<rect x="${x}" y="${y + 90}" width="460" height="170" rx="14" fill="#5A3A1E" opacity=".07"/><rect x="${x}" y="${y + 90}" width="460" height="170" rx="14" fill="none" stroke="${PAL.wood2}" stroke-width="6" opacity=".55"/><path d="M${x + 14} ${y + 97} L${x + 446} ${y + 97}" stroke="#3B2412" stroke-width="5" opacity=".2" stroke-linecap="round"/><path d="M${x + 14} ${y + 265} L${x + 446} ${y + 265}" stroke="#E2BC8E" stroke-width="4" opacity=".55" stroke-linecap="round"/>`
-    + `<rect x="${x + 188}" y="${y + 166}" width="84" height="20" rx="10" fill="#3B2412" opacity=".28"/><rect x="${x + 190}" y="${y + 160}" width="80" height="16" rx="8" fill="url(#v2metal)"/><rect x="${x + 198}" y="${y + 163}" width="64" height="3.5" rx="1.75" fill="#fff" opacity=".7"/>`;
+    + `<rect x="-500" y="${y + 30}" width="2080" height="46" fill="url(#v2under)"/><rect x="-500" y="${y}" width="2080" height="34" rx="10" fill="${PAL.woodTop}"/><rect x="-500" y="${y}" width="2080" height="7" rx="3.5" fill="#E2BC8E"/><rect x="-500" y="${y + 27}" width="2080" height="7" fill="#8C603C" opacity=".45"/><ellipse cx="300" cy="${y + 5}" rx="260" ry="5" fill="#fff" opacity=".28"/></g>`;
+  L.drawer = (x, y) => `<g data-nb="1"><rect x="${x}" y="${y + 90}" width="460" height="170" rx="14" fill="#5A3A1E" opacity=".07"/><rect x="${x}" y="${y + 90}" width="460" height="170" rx="14" fill="none" stroke="${PAL.wood2}" stroke-width="6" opacity=".55"/><path d="M${x + 14} ${y + 97} L${x + 446} ${y + 97}" stroke="#3B2412" stroke-width="5" opacity=".2" stroke-linecap="round"/><path d="M${x + 14} ${y + 265} L${x + 446} ${y + 265}" stroke="#E2BC8E" stroke-width="4" opacity=".55" stroke-linecap="round"/>`
+    + `<rect x="${x + 188}" y="${y + 166}" width="84" height="20" rx="10" fill="#3B2412" opacity=".28"/><rect x="${x + 190}" y="${y + 160}" width="80" height="16" rx="8" fill="url(#v2metal)"/><rect x="${x + 198}" y="${y + 163}" width="64" height="3.5" rx="1.75" fill="#fff" opacity=".7"/></g>`;
   L.laptop = (x, y, s = 1, screen = '') => `<g transform="translate(${x} ${y}) scale(${s})"><ellipse cx="0" cy="28" rx="230" ry="12" fill="#3B2412" opacity=".2"/><path d="M-190 0 L190 0 L215 26 L-215 26Z" fill="url(#v2lap)"/><path d="M-170 6 L170 6 L182 18 L-182 18Z" fill="#8E97A4" opacity=".5"/><rect x="-215" y="22" width="430" height="5" rx="2.5" fill="#8E97A4"/><rect x="-180" y="-250" width="360" height="250" rx="16" fill="#3B4252"/><rect x="-180" y="-250" width="360" height="250" rx="16" fill="none" stroke="#5A6478" stroke-width="3"/><rect x="-164" y="-234" width="328" height="218" rx="8" fill="url(#v2screen)"/><g transform="translate(-164 -234)">${screen}</g><path d="M-150 -234 L-60 -234 L-130 -16 L-164 -16 L-164 -200Z" fill="#fff" opacity=".14"/><circle cx="0" cy="-242" r="3" fill="#1E232C"/></g>`;
   L.papers = (x, y, n, o = {}) => {
     let s = n > 0 ? `<ellipse cx="${x + 6}" cy="${y + 2}" rx="118" ry="10" fill="#3B2412" opacity=".18"/>` : '';
@@ -161,16 +168,23 @@
   L.bubble = (x, y, inner, o = {}) => {
     const w = o.w || 300, h = o.h || 160, s = o.s == null ? 1 : o.s, tl = o.tail || -40;
     if (s <= 0) return '';
-    return `<g transform="translate(${x} ${y}) scale(${s})"><rect x="${-w / 2 + 6}" y="${-h + 10}" width="${w}" height="${h}" rx="${h / 2.4}" fill="#3B2412" opacity=".16"/><rect x="${-w / 2}" y="${-h}" width="${w}" height="${h}" rx="${h / 2.4}" fill="#fff" stroke="${PAL.ink}" stroke-width="7"/><rect x="${-w / 2 + 14}" y="${-h * .42}" width="${w - 28}" height="${h * .36}" rx="${h * .18}" fill="#F3EADB" opacity=".6"/><path d="M${tl - 20} -4 L${tl} 46 L${tl + 26} -4Z" fill="#fff" stroke="${PAL.ink}" stroke-width="7" stroke-linejoin="round"/><rect x="${tl - 16}" y="-12" width="40" height="12" fill="#fff"/><g transform="translate(0 ${-h / 2})">${inner}</g></g>`;
+    return `<g transform="translate(${x} ${y}) scale(${s})"><rect x="${-w / 2 + 6}" y="${-h + 10}" width="${w}" height="${h}" rx="${h / 2.4}" fill="#3B2412" opacity=".16"/><rect x="${-w / 2}" y="${-h}" width="${w}" height="${h}" rx="${h / 2.4}" fill="#fff" stroke="${PAL.ink}" stroke-width="7"/><path d="M${tl - 20} -4 L${tl} 46 L${tl + 26} -4Z" fill="#fff" stroke="${PAL.ink}" stroke-width="7" stroke-linejoin="round"/><rect x="${tl - 16}" y="-12" width="40" height="12" fill="#fff"/><g transform="translate(0 ${-h / 2})">${inner}</g></g>`;
   };
   L.qmark = (x, y, s = 1) => `<text x="${x}" y="${y}" font-size="${110 * s}" font-weight="900" text-anchor="middle" dominant-baseline="central" font-family="Noto Sans CJK JP" fill="#E8473A" stroke="#fff" stroke-width="${12 * s}" paint-order="stroke">?</text>`;
   L.emark = (x, y, s = 1, ch = '!') => `<text x="${x}" y="${y}" font-size="${130 * s}" font-weight="900" text-anchor="middle" font-family="Noto Sans CJK JP" fill="#E8473A" stroke="#fff" stroke-width="${18 * s}" paint-order="stroke">${ch}</text>`;
 
   // ---------- 載せる・動かす ----------
-  const set = (id, s) => { const n = document.getElementById(id); if (n) n.innerHTML = s || ''; };
+  // 同じ中身なら入れ直さない（背景は、ほとんどのコマで前のコマと同じ。毎コマ作り直すと、作り込んだぶん描くのが遅くなる）。入れ直したら true
+  const set = (id, s) => { const n = document.getElementById(id); if (!n) return false; s = s || ''; if (n.__html === s && n.firstChild) return false; n.innerHTML = s; n.__html = s; return true; };
   // sc: { bg, back, fx, ui, cam:{z,cx,cy}, shake(px), dim }
   L.mount = function (sc) {
-    set('bg', L.defs() + (sc.bg || '')); set('back', sc.back); set('fx', sc.fx); set('ui', sc.ui);
+    /* 小物（back・fx の層にある物）に「ふちの光・下がわのかげ・落ちるかげ」を付ける（2026-11-16：話ごとの小物が色の板のままで、毛並みまで描いたキャラクターとつり合っていなかった。
+       73 話の小物を 1 つずつ描き直す代わりに、全話に同じ光を当てる）。
+       1 つずつ付ける：はじめは層ぜんたいに 1 回で付けたが、カメラが寄る回（オンライン会議）で絵が大きくなりすぎてブラウザが落ちた。大きな面（机・壁・画面＝たて・よこ 600 以上）には付けない */
+    set('bg', L.defs() + (sc.bg || '')); const ch = { back: set('back', sc.back), fx: set('fx', sc.fx) }; set('ui', sc.ui);
+    if (!window.NO_BEVEL) for (const id of ['back', 'fx']) { const n = document.getElementById(id); if (!n || !ch[id]) continue;
+      for (const e of n.children) { const tg = e.tagName; if (tg === 'defs' || tg === 'linearGradient' || tg === 'radialGradient' || tg === 'filter' || e.hasAttribute('data-nb')) continue;
+        let b; try { b = e.getBBox(); } catch (x) { continue; } if (!(b.width > 2 && b.height > 2) || b.width > 600 || b.height > 600) continue; e.setAttribute('filter', 'url(#v2bevel)'); } }
     const c = sc.cam || { z: 1, cx: 540, cy: 960 };
     const sh = sc.shake || 0, t = sc.t || 0;
     const dx = sh ? Math.sin(t * 91) * sh : 0, dy = sh ? Math.cos(t * 77) * sh * .6 : 0;
