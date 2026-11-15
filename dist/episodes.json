@@ -1,5 +1,24 @@
 [
  {
+  "ep": "meeting",
+  "date": "2026-11-15",
+  "title": {
+   "ja": "10分の会議",
+   "en": "Just 10 minutes",
+   "zh": "只要10分鐘",
+   "ko": "딱 10분만"
+  },
+  "caption": {
+   "ja": "「10分だけ」の会議、2時間後。ジルはコーヒー3杯目で寝落ちです。",
+   "en": "\"Just 10 minutes,\" the boss said. Two hours later, Jill is asleep on her third coffee.",
+   "zh": "「只要10分鐘」的會議，兩小時後。吉兒喝到第三杯咖啡就睡著了。",
+   "ko": "\"딱 10분만\"이라던 회의, 두 시간 뒤. 질은 세 잔째 커피에서 잠들었어요."
+  },
+  "cover": "20261115_meeting_cover.jpg",
+  "video": "20261115_meeting.mp4",
+  "youtube_id": "FzdSdAyqaio"
+ },
+ {
   "ep": "watercooler",
   "date": "2026-11-14",
   "title": {
