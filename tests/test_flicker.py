@@ -65,3 +65,10 @@ def test_unpost_resets_manual_tiktok():
     import pathlib
     src = (pathlib.Path(__file__).resolve().parent.parent / "auto" / "unpost.py").read_text()
     assert 'rec.get("tt") == "manual"' in src and 'rec.pop("tt", None)' in src
+
+
+def test_replaced_media_is_purged_from_cdn():
+    """置き場の動画を置きかえたら、配信の中つぎ（公式サイトが読む所）の古い物も消す"""
+    import pathlib
+    src = (pathlib.Path(__file__).resolve().parent.parent / "auto" / "post.py").read_text()
+    assert "purge.jsdelivr.net/gh/" in src and "if cur.status_code == 200: media_purge(name)" in src

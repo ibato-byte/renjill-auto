@@ -238,6 +238,16 @@ def post_tiktok(p, d, path):
 # ---------- Instagram ----------
 MEDIA_REPO = os.environ.get("MEDIA_REPO", "ibato-byte/renjill-media")  # 公開済み動画とカバーだけを置く公開リポジトリ（Shota承認 2026-10-20）
 
+def media_purge(name):
+    """公式サイトは renjill-media を配信の中つぎ（jsDelivr）ごしに読む。中つぎは同じ名前の物をしばらくおぼえているので、
+    置きかえたら「消して」と頼む（2026-11-15：出し直した「10分の会議」で、サイトにだけ古い・ちかちかする動画が残った）。失敗しても投稿は止めない"""
+    try:
+        r = requests.get(f"https://purge.jsdelivr.net/gh/{MEDIA_REPO}@main/{name}", timeout=20)
+        print("    media: 中つぎの古い物を消した" if r.status_code == 200 else f"    media: 中つぎを消せなかった {r.status_code}", name)
+    except Exception as e:
+        print("    media: 中つぎを消せなかった", repr(e)[:100])
+
+
 def media_publish(local_path, name):
     """公開リポジトリ renjill-media に置いて、Instagram が取りに来られる公開URLを返す。
     必要なもの: Secrets の MEDIA_TOKEN（renjill-media の contents 読み書きだけを許可した fine-grained PAT）"""
@@ -250,6 +260,7 @@ def media_publish(local_path, name):
     if cur.status_code == 200: body["sha"] = cur.json()["sha"]
     r = requests.put(api, headers=H, json=body)
     if r.status_code not in (200, 201): raise RuntimeError(f"media upload {r.status_code}: {r.text[:300]}")
+    if cur.status_code == 200: media_purge(name)  # 置きかえたとき：配信の中つぎに残る古い物を消す
     url = f"https://raw.githubusercontent.com/{MEDIA_REPO}/main/{name}"
     for _ in range(20):  # CDNに乗るまで待つ
         if requests.head(url, allow_redirects=True).status_code == 200: return url
