@@ -2442,6 +2442,83 @@
         "pt": "O alarme toca bem alto e o chefe continua dormindo | Ren & Jill"
       },
       "planned_date": "2027-01-27"
+    },
+    {
+      "slot": "18:00",
+      "ep": "wifi",
+      "no": 26,
+      "title": "オンライン会議で固まる上司",
+      "caption_ja": "オンライン会議、Wi-Fiが切れて課長の顔が固まった。ジルはその顔を保存しました。",
+      "caption_en": "Online meeting. The Wi-Fi drops and the boss's face freezes. Jill saved a screenshot.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 3.2,
+        "cam": "1.4,480,960",
+        "hook": "WI-FI: OFF/会議中に上司が固まった",
+        "variant": "B"
+      },
+      "first_comment": "固まった顔、保存したことある？ / Ever saved a frozen-face screenshot?",
+      "site_i18n": {
+        "title": {
+          "en": "Frozen boss",
+          "zh": "當機的課長",
+          "ko": "멈춘 과장님"
+        },
+        "caption": {
+          "zh": "線上會議，Wi-Fi斷線，課長的臉定格了。吉兒把那張臉存了下來。",
+          "ko": "온라인 회의, 와이파이가 끊겨 과장님 얼굴이 멈췄어요. 질은 그 얼굴을 저장했어요."
+        }
+      },
+      "cta": "Send this to the coworker who always freezes mid-sentence/会議中によく固まる人に送ろう",
+      "title_i18n": {
+        "ja": "オンライン会議で固まる上司 | レンとジル「オンライン会議で固まる上司」",
+        "ko": "화상 회의에서 멈춘 과장님 | 렌과 질 Ren & Jill",
+        "zh-Hant": "線上會議中當機的課長 | 蓮與吉兒 Ren & Jill",
+        "es": "El jefe se congela en la videollamada | Ren & Jill",
+        "pt": "O chefe trava na videochamada | Ren & Jill"
+      },
+      "experiment": {
+        "var": "thumb_variant",
+        "std": "A",
+        "value": "B",
+        "why": "サムネの文字の位置（上と下）を変えて、プロフィール一覧からの見られ方を比べる"
+      },
+      "planned_date": "2026-11-19"
+    },
+    {
+      "slot": "18:00",
+      "ep": "lunchbox",
+      "no": 28,
+      "title": "お弁当が入れ替わった",
+      "caption_ja": "12:00、お弁当が入れ替わっていた。取り替えたら、課長は3秒で完食。次はジルのサラダを見ています。",
+      "caption_en": "Lunch boxes got swapped. Swapped back, the boss finished his in 3 seconds. Now he's eyeing Jill's salad.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 4.0,
+        "cam": "1.4,580,1096",
+        "hook": "LUNCH SWAP/お弁当が入れ替わった"
+      },
+      "first_comment": "お弁当、他人のを開けたことある？ / Ever opened someone else's lunch by mistake?",
+      "site_i18n": {
+        "title": {
+          "en": "Lunch swap",
+          "zh": "便當換錯了",
+          "ko": "도시락이 바뀌었다"
+        },
+        "caption": {
+          "zh": "12:00，便當換錯了。換回來之後，課長三秒吃完，現在盯著吉兒的沙拉。",
+          "ko": "12:00, 도시락이 바뀌어 있었어요. 다시 바꾸자 과장님은 3초 만에 완식. 이제 질의 샐러드를 보고 있어요."
+        }
+      },
+      "cta": "Send this to the fastest eater in your office/会社で一番食べるのが速い人に送ろう",
+      "title_i18n": {
+        "ja": "お弁当が入れ替わった | レンとジル「お弁当が入れ替わった」",
+        "ko": "도시락이 바뀌었다 | 렌과 질 Ren & Jill",
+        "zh-Hant": "便當拿錯了 | 蓮與吉兒 Ren & Jill",
+        "es": "Se cambiaron los almuerzos | Ren & Jill",
+        "pt": "As marmitas foram trocadas | Ren & Jill"
+      },
+      "planned_date": "2026-11-21"
     }
   ]
 }

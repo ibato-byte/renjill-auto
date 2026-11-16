@@ -52,7 +52,27 @@ class SeriesTest(unittest.TestCase):
 
     def test_wrong_part_for_weekday(self):
         r = run([post("2026-11-23", "p1", 2)] + GOOD[1:])
-        self.assertTrue(any("この曜日は第1話" in x for x in r["issues"]))
+        self.assertTrue(any("この日は第1話" in x for x in r["issues"]))
+
+    def test_series_can_start_midweek(self):
+        """第1弾は 木11/19・土11/21・月11/23（2026-11-17 オーナー）。series_start から投稿日の順に 1→2→3"""
+        pol = dict(POL, series_start="2026-11-19")
+        self.assertEqual([series.part_for(d, pol) for d in ("2026-11-19", "2026-11-21", "2026-11-23", "2026-11-26")], [1, 2, 3, 1])
+        good = [post("2026-11-19", "p1", 1), post("2026-11-21", "p2", 2), post("2026-11-23", "p3", 3, ja="", en="")]
+        r = series.check(good, dt.date(2026, 11, 18), 6, pol, src=SRC.get)
+        self.assertEqual(r["issues"], [], r)
+        r = series.check(good + [post("2026-11-20", "x", None)], dt.date(2026, 11, 18), 6, pol, src=SRC.get)
+        self.assertTrue(any("金曜日" in x for x in r["issues"]))
+
+    def test_post_py_skips_non_series_after_start(self):
+        """連載が始まったら、1話完結（series の欄がない回）は出さない（オーナーの指示があるまで）"""
+        import post
+        sch = {"defaults": {"platforms": ["ig"]}, "posts": [post_entry("2026-11-19")]}
+        with mock.patch.object(post.series, "policy", return_value=dict(POL, series_start="2026-11-19")), \
+             mock.patch.object(post.json, "loads", side_effect=[sch, {}]):
+            now = dt.datetime(2026, 11, 19, 18, 0, tzinfo=post.JST)
+            _, _, out = post.pick_posts(slot_override="18:00", now=now)
+        self.assertEqual(out, [])
 
     def test_follow_teaser_and_recap(self):
         src = dict(SRC, p1="// 状況：x\nおわり", p2="// 状況：x\n次回！フォローして")

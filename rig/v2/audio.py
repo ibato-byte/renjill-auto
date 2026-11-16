@@ -85,6 +85,18 @@ def S(kind):
         d = 20.5; t = t_(d); y = 0.010 * np.sin(2 * np.pi * 98 * t) * (1 + .15 * np.sin(2 * np.pi * .3 * t)) + 0.006 * lp(noise(d), 400)
         f = int(SR * .4); y[:f] *= np.linspace(0, 1, f); y[-f:] *= np.linspace(1, 0, f)
         return y
+    # 2026-11-17 エレベーター第2話で追加
+    if kind == 'doorq':  # 扉がすばやく開く／閉まる（ウィーン・短い）
+        d = .38; t = t_(d); hum = 0.14 * np.sin(2 * np.pi * np.cumsum(120 + 70 * t / d) / SR) * np.sin(np.pi * t / d) ** .7
+        return hum + 0.06 * bp(noise(d), 600, 2600) * np.sin(np.pi * t / d) ** 2
+    if kind == 'kui':    # クイッ（メガネを直す。キュッと上がる短い音＋小さなカチッ）
+        a = 0.3 * sweep(900, 1900, .07) * env(int(SR * .07), .002, .03)
+        b = 0.25 * bp(noise(.012), 3000, 8000) * env(int(SR * .012), .0005, .003)
+        out = np.zeros(int(SR * .12)); out[:len(a)] += a; o = int(SR * .075); out[o:o + len(b)] += b
+        return out
+    if kind == 'boyon':  # ボヨヨ〜ン（耳がはね返る。ゆれながら下がるばね）
+        t = t_(1.0); f = 210 * (1 + .45 * np.exp(-t / .3) * np.sin(2 * np.pi * 8 * t)) * (1 - .25 * t)
+        return 0.5 * np.sin(2 * np.pi * np.cumsum(f) / SR) * env(len(t), .004, .38)
     if kind.startswith('beep'):  # ピッ（ボタン。beep / beep2 / beep3 … で少しずつ高くなる）
         n = int(kind[4:] or 1); f = 1760 * 2 ** ((n - 1) * 2 / 12); d = .09; t = t_(d)
         return 0.32 * (np.sin(2 * np.pi * f * t) + .25 * np.sin(4 * np.pi * f * t)) * env(len(t), .002, .05)

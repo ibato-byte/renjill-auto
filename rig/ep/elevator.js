@@ -118,10 +118,12 @@ document.write('<script src="v2/lib.js"><\/script><script src="v2/elevator_set.j
   ];
   var sfxCache = null;
   // テロップ（最後）：画面の文字はカメラの外（ui）に。Instagram の下の隠れる範囲より上
-  const TELOP = (k) => k <= 0 ? '' : `<g transform="translate(540 1420) scale(${L.outBack(Math.min(1, k * 1.6))})" opacity="${Math.min(1, k * 3)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle">
-    <rect x="-452" y="-112" width="904" height="236" rx="46" fill="#3B2412" opacity=".22" transform="translate(6 10)"/>
-    <rect x="-452" y="-112" width="904" height="236" rx="46" fill="#3A2414" opacity=".9"/><rect x="-436" y="-98" width="872" height="18" rx="9" fill="#fff" opacity=".08"/>
-    <text y="-6" font-size="88" fill="#FFF7E8">続きは次回！</text><text y="78" font-size="54" fill="#F2D3A8">フォローして待っててね</text></g>`;
+  // 2026-11-17 オーナー：テロップに英語も（日本語の下に小さく）
+  const TELOP = (k) => k <= 0 ? '' : `<g transform="translate(540 1430) scale(${L.outBack(Math.min(1, k * 1.6))})" opacity="${Math.min(1, k * 3)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle">
+    <rect x="-452" y="-122" width="904" height="292" rx="46" fill="#3B2412" opacity=".22" transform="translate(6 10)"/>
+    <rect x="-452" y="-122" width="904" height="292" rx="46" fill="#3A2414" opacity=".9"/><rect x="-436" y="-108" width="872" height="18" rx="9" fill="#fff" opacity=".08"/>
+    <text y="-16" font-size="88" fill="#FFF7E8">続きは次回！</text><text y="66" font-size="54" fill="#F2D3A8">フォローして待っててね</text>
+    <text y="128" font-size="38" fill="#FFF7E8" opacity=".85" font-family="Noto Sans, Noto Sans CJK JP, sans-serif">To be continued! Follow us</text></g>`;
   // 4〜6秒：上に「・・・。」（2人きりの気まずさ）。点が 1 つずつ増えて「。」で止まる
   const DOTS = t => { if (t < 4.0 || t > 6.0) return ''; const n = Math.min(4, 1 + Math.floor((t - 4.0) / .3)), a = Math.min(1, (t - 4.0) * 6, (6.0 - t) * 5);
     const txt = '・・・。'.slice(0, n);
