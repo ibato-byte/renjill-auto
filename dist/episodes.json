@@ -1,5 +1,24 @@
 [
  {
+  "ep": "monday",
+  "date": "2026-11-16",
+  "title": {
+   "ja": "月曜の朝",
+   "en": "Monday morning",
+   "zh": "星期一早上",
+   "ko": "월요일 아침"
+  },
+  "caption": {
+   "ja": "月曜7:00の目覚まし。3回止めて、8:59。ジルはもう席にいます。",
+   "en": "Monday, 7:00 AM alarm. Snoozed three times. 8:59, and Jill is already at her desk.",
+   "zh": "星期一7:00的鬧鐘。按了三次貪睡，8:59。吉兒已經在座位上了。",
+   "ko": "월요일 7:00 알람. 세 번 끄고, 8:59. 질은 벌써 자리에 있어요."
+  },
+  "cover": "20261116_monday_cover.jpg",
+  "video": "20261116_monday.mp4",
+  "youtube_id": "d6UeRgkPXug"
+ },
+ {
   "ep": "meeting",
   "date": "2026-11-15",
   "title": {
