@@ -981,7 +981,7 @@
       "thumb": {
         "t": 2.5,
         "cam": "1.15,540,1000",
-        "hook": "STILL MUTED/ミュートで熱弁"
+        "hook": "STILL MUTED/ミュートのまま熱弁する上司"
       },
       "first_comment": "ミュートのまま話した最長記録は？ / Longest you've talked on mute?",
       "site_i18n": {
@@ -1002,12 +1002,6 @@
         "zh-Hant": "開著靜音熱烈發言的課長 | 蓮與吉兒 Ren & Jill",
         "es": "El jefe da un discurso en silencio (mute) | Ren & Jill",
         "pt": "O chefe discursa no mudo | Ren & Jill"
-      },
-      "experiment": {
-        "var": "hook",
-        "std": "STILL MUTED/ミュートのまま熱弁する上司",
-        "value": "STILL MUTED/ミュートで熱弁",
-        "why": "2026-11-16 週次：冒頭の日本語が短い回ほど見られている（5〜7文字の回 0.49〜0.64、17〜18文字の回 0.41〜0.46。REVIEW-2026-11-15）。日本語だけ短くして比べる"
       }
     },
     {

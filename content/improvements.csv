@@ -80,3 +80,4 @@
 2026-11-16,renjill-weekly-pdca,3,キャプション,12/11 カイロ10個：英語の書き出しを物の並びに。打ち手 caption_en として記録,auto/schedule.json kairo,"ウォーターサーバー 1,333 再生・見た割合 0.715"
 2026-11-16,renjill-weekly-pdca,4,きまり,11/30 締め切り前夜：作り直しの理由（remake.why）を記録し、novelty.py のきまり違反（11/9 から出ていた）を解消,auto/schedule.json deadline,python auto/novelty.py の要対応が消えた
 2026-11-16,renjill-weekly-pdca,5,記録,週報を docs/weekly/2026-11-16.md に（数字・試すこと・BGM・個人情報の点検）,docs/weekly/2026-11-16.md,週次PDCAの指示文
+2026-11-16,hub-agent,1,冒頭,11/24 ミュート：短くした冒頭（ミュートで熱弁）では表紙の検査（背景のごちゃつき）が全部のコマで不合格になったため、元の文字に戻し試しを外した（11/22 エアコンの試しは残す）,auto/schedule.json mute・rig/pace.js・content/experiments.csv,手元の thumbnail() で新しい文字は9コマとも THUMB_BUSY_BACKGROUND、元の文字は合格（Hub 依頼 #254）
