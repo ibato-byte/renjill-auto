@@ -83,6 +83,24 @@ def pace():
     return out
 
 
+def head_lines(src):
+    """台本の頭（最初の8行のコメント）に「状況」と「オチ」が1行ずつ書いてあるか（OVERHAUL 17）"""
+    head = []
+    for line in src.splitlines()[:8]:
+        if not line.lstrip().startswith("//"): break   # 頭のコメントのかたまりだけを見る
+        head.append(line)
+    head = "\n".join(head)
+    return {"situation": "状況" in head, "punch": "オチ" in head}
+
+
+def post_fields(p):
+    """予定の回に、表紙のコマ（t・cam・冒頭の一言。OVERHAUL 37）と、同僚に送る一言（caption_ja・first_comment。OVERHAUL 39）があるか。足りない欄の名前を返す"""
+    th = p.get("thumb") or {}
+    need = {"thumb.t": th.get("t") is not None, "thumb.cam": bool(th.get("cam")), "thumb.hook": bool(th.get("hook")),
+            "caption_ja": bool((p.get("caption_ja") or "").strip()), "first_comment": bool((p.get("first_comment") or "").strip())}
+    return [k for k, ok in need.items() if not ok]
+
+
 def info(ep, pc):
     f = EP / f"{ep}.js"
     if not f.exists():
@@ -101,6 +119,7 @@ def info(ep, pc):
         "jump": jump_without_yoff(src),
         "out": (dur - p["start"]) / p["speed"] if dur else None,
         "hook": p["hook"],
+        "head": head_lines(src),
         "loud": frozenset(re.findall(r"type:\s*'([a-z]+)'", src)) & LOUD,
         "props": frozenset(re.findall(r"L\.(\w+)\(", src)) & PROPS,
     }
@@ -132,6 +151,11 @@ def check(posts, today, days=14, pc=None, lk=None):
                 issues.append(f"{tag}: キャラを CSS で縮めて置いている（画面の中のキャラが小さくなる）：pose の x・y・scale で大きく置く（画面の高さの35%以上）")
             if i.get("jump"):
                 issues.append(f"{tag}: 跳ぶ部品（L.startle・L.binky・L.runIn）の yOff を y に足していない（rig は yOff を使わないので体が跳ばない）：pose の y に yOff を足す")
+            if not (i["head"]["situation"] and i["head"]["punch"]):
+                issues.append(f"{tag}: 台本の頭のコメントに「状況：」と「オチ：」が1行ずつない（1行で言えない話は作らない。OVERHAUL 17）")
+            miss = post_fields(p)
+            if miss:
+                issues.append(f"{tag}: schedule.json に {'・'.join(miss)} がない（表紙のコマと、同僚に送る一言は台本と一緒に決める。OVERHAUL 37・39）")
             if len(i["caps"]) > 1:
                 warns.append(f"{tag}: 途中の字幕が{len(i['caps'])}回（1回まで。言葉を入れすぎると世界観が崩れる・オチは絵で見せる。2026-11-10 オーナー）")
             for en, ja in i["caps"]:
