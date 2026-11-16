@@ -116,6 +116,25 @@ def story_rows(today, uid, tok, http):
     return rows or [[today, "story", uid, "stories", "", "いま24時間以内のストーリーズがない"]]
 
 
+FB_PLAY_CANDIDATES = ("blue_reels_play_count", "fb_reels_total_plays", "fb_reels_replay_count", "post_video_views", "total_video_views", "total_video_impressions")
+
+
+def fb_plays_check(posted, token, http, days=30):
+    """Facebook リールの再生が 11/1 以降の回ですべて 0 になった件の確かめ（Hub 依頼 #250）。
+    直近の回について、再生の候補の指標と、動画の公開状態をログに出すだけ（CSV には書かない・読み取りのみ）"""
+    since = (dt.datetime.now(JST) - dt.timedelta(days=days)).strftime("%Y-%m-%d")
+    for key, v in sorted(posted.items()):
+        vid = v.get("facebook")
+        if not vid or vid in meta_stats.NOT_ID or key[:10] < since: continue
+        out = {}
+        for m in FB_PLAY_CANDIDATES:
+            j = _get(http, f"{fb.G}/{vid}/video_insights", {"metric": m, "access_token": token})
+            out[m] = ("ERR " + _err(j)[:60]) if j.get("error") else ((j.get("data") or [{}])[0].get("values") or [{}])[0].get("value")
+        j = _get(http, f"{fb.G}/{vid}", {"fields": "views,published,status,privacy,is_crossposting_eligible,post_id", "access_token": token})
+        st = {"ERR": _err(j)[:60]} if j.get("error") else {k: j.get(k) for k in ("views", "published", "status", "privacy", "post_id")}
+        print("fb_plays_check", key, json.dumps(out, ensure_ascii=False), json.dumps(st, ensure_ascii=False))
+
+
 def fb_rows(today, posted, token, http):
     """Facebook リール。インサイト・動画そのものの順に聞き、取れなかったときは API が返した理由をメモに残す（Hub 依頼 #95）"""
     rows = []
@@ -220,7 +239,10 @@ def main():
         rows += reel_rows(today, posted, tok, requests, durations_of())
         rows += account_rows(today, uid, tok, requests)
         rows += story_rows(today, uid, tok, requests)
-    if meta.get("token"): rows += fb_rows(today, posted, meta["token"], requests)
+    if meta.get("token"):
+        rows += fb_rows(today, posted, meta["token"], requests)
+        try: fb_plays_check(posted, meta["token"], requests)
+        except Exception as e: print("fb_plays_check: 失敗", type(e).__name__)
     ttok = os.environ.get("THREADS_ACCESS_TOKEN")
     if ttok: rows += threads_rows(today, posted, ttok, requests)
     n = append(ROOT / "content" / "insights.csv", rows, today)
