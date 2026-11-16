@@ -38,8 +38,8 @@ var EP = {
       + `<g><rect x="${MX - 16}" y="${MY + MH + 8}" width="${MW + 32}" height="52" rx="12" fill="#3B4252"/><path d="M${MX + 60} ${MY + MH + 60} L${MX + MW - 60} ${MY + MH + 60} L${MX + MW - 20} ${DESK} L${MX + 20} ${DESK}Z" fill="#C9CFD8"/></g>`
       + `<rect x="${MX - 4}" y="${MY - 4}" width="${MW + 8}" height="${MH + 8}" rx="22" fill="none" stroke="#3B4252" stroke-width="24"/>`;
     // 手前：机・ノートPCの台・Wi-Fi の印・スクショの紙
-    let fx = `<rect x="-500" y="${DESK + 28}" width="2080" height="900" fill="url(#v2desk)"/><rect x="-500" y="${DESK}" width="2080" height="34" rx="10" fill="${L.PAL.woodTop}"/>`
-      + [60, 560].map(x => `<rect x="${x}" y="${DESK + 90}" width="460" height="170" rx="14" fill="none" stroke="${L.PAL.wood2}" stroke-width="6" opacity=".55"/><rect x="${x + 190}" y="${DESK + 160}" width="80" height="16" rx="8" fill="#E9D2A8"/>`).join('');
+    let fx = `${L.deskFront(DESK)}`
+      + [60, 560].map(x => `${L.drawer(x, DESK)}`).join('');
     fx += WIFI(MX + MW - 120, MY + 80, !cut, 1.1);
     if (cut && t < 3.4) fx += L.emark(MX + MW / 2, MY - 40, 1.2, '!?');
     if (cut) fx += `<g transform="translate(${MX + MW / 2} ${MY + MH - 40})">${Array.from({ length: 3 }, (_, i) => `<circle cx="${-40 + i * 40}" cy="0" r="${12 + 6 * Math.max(0, Math.sin(t * 6 - i * 1.2))}" fill="#fff" opacity=".9"/>`).join('')}</g>`;   // つながるのを待つ点々

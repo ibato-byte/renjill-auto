@@ -36,8 +36,8 @@ var EP = {
     const rturn = t >= 2.7 && t < 3.9;
     const rface = t < 2.6 ? Object.assign({}, RIG.FACES.smile, { sparkle: t > 2.2 ? 1 : 0 }) : t < 4.0 ? RIG.FACES.sharp : t < 5.2 ? Object.assign({}, RIG.FACES.surprised, { excl: 1 }) : Object.assign({}, RIG.FACES.smile, { sparkle: t < 6.6 ? 1 : 0, heart: t >= 6.6 ? 1 : 0 });
     L.char('ren', Object.assign({}, rturn ? RIG.POSES.lean : RIG.POSES.sit, rface, { x: 560, y: DESK - 413 * 1.35, scale: 1.35, flip: true, eyeLook: -.4, bodyTilt: rturn ? -12 + Math.sin(t * 30) * 3 : 0 }), t, '', {});
-    let fx = `<rect x="-500" y="${DESK + 28}" width="2080" height="900" fill="url(#v2desk)"/><rect x="-500" y="${DESK}" width="2080" height="34" rx="10" fill="${L.PAL.woodTop}"/>`
-      + [60, 560].map(x => `<rect x="${x}" y="${DESK + 90}" width="460" height="170" rx="14" fill="none" stroke="${L.PAL.wood2}" stroke-width="6" opacity=".55"/><rect x="${x + 190}" y="${DESK + 160}" width="80" height="16" rx="8" fill="#E9D2A8"/>`).join('');
+    let fx = `${L.deskFront(DESK)}`
+      + [60, 560].map(x => `${L.drawer(x, DESK)}`).join('');
     // 受け皿
     fx += `<rect x="${DX - 70}" y="${DESK - 34}" width="140" height="30" rx="10" fill="#E9D2A8" stroke="#C9A06A" stroke-width="4"/>`;
     if (t < 5.2) fx += DRUM(DX, DY, a);

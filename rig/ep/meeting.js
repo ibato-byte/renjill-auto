@@ -43,8 +43,8 @@ var EP = {
     const jp = Object.assign({}, asleep ? RIG.POSES.stretch : RIG.POSES.sit, Object.assign({}, jface, { zzz: 0 }), { x: 20, y: DESK - 413 * S, scale: S, eyeLook: t < 4.2 ? .6 : 0, headNod: asleep ? RIG.POSES.stretch.headNod : nod }, jmove);
     if (asleep && jmove.bodySquash) jp.bodySquash = RIG.POSES.stretch.bodySquash + jmove.bodySquash;
     L.char('jil', jp, t, '', {});
-    let fx = `<rect x="-500" y="${DESK + 28}" width="2080" height="900" fill="url(#v2desk)"/><rect x="-500" y="${DESK}" width="2080" height="34" rx="10" fill="${L.PAL.woodTop}"/>`
-      + [60, 560].map(x => `<rect x="${x}" y="${DESK + 90}" width="460" height="170" rx="14" fill="none" stroke="${L.PAL.wood2}" stroke-width="6" opacity=".55"/><rect x="${x + 190}" y="${DESK + 160}" width="80" height="16" rx="8" fill="#E9D2A8"/>`).join('');
+    let fx = `${L.deskFront(DESK)}`
+      + [60, 560].map(x => `${L.drawer(x, DESK)}`).join('');
     // コーヒー：ジルの前に。1杯 → 2杯 → 2時間後は3杯（最後だけ中身あり）
     const cups = spin < .5 ? 1 : spin < .9 ? 2 : 3;
     for (let i = 0; i < cups; i++) fx += CUP(110 + i * 105, DESK - 6, .85, i === cups - 1 && spin < 1);

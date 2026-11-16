@@ -30,8 +30,8 @@ var EP = {
     const rface = t < 3.8 ? RIG.FACES.smile : t < 5.8 ? RIG.FACES.think : t < 7.2 ? RIG.FACES.smile : RIG.FACES.shy;
     const rp = Object.assign({}, RIG.POSES.sit, rface, { x: 560, y: DESK - 413 * 1.35, scale: 1.35, flip: true, eyeLook: t >= 7.2 ? .9 : .2, headNod: eat && t < 7.2 ? Math.abs(Math.sin(t * 16)) * 10 : 0, bodySquash: eat && t < 7.2 ? Math.sin(t * 16) * .15 : 0, headTilt: t >= 7.6 ? 12 : 0 });
     L.char('ren', rp, t, '', {});
-    let fx = `<rect x="-500" y="${DESK + 28}" width="2080" height="900" fill="url(#v2desk)"/><rect x="-500" y="${DESK}" width="2080" height="34" rx="10" fill="${L.PAL.woodTop}"/>`
-      + [60, 560].map(x => `<rect x="${x}" y="${DESK + 90}" width="460" height="170" rx="14" fill="none" stroke="${L.PAL.wood2}" stroke-width="6" opacity=".55"/><rect x="${x + 190}" y="${DESK + 160}" width="80" height="16" rx="8" fill="#E9D2A8"/>`).join('');
+    let fx = `${L.deskFront(DESK)}`
+      + [60, 560].map(x => `${L.drawer(x, DESK)}`).join('');
     // 箱の位置：左（ジルの前 x=300）と右（レンの前 x=800）。swap で入れ替わる
     const xL = 300 + 500 * swap, xR = 800 - 500 * swap, yB = DESK - 20 - Math.sin(swap * Math.PI) * 80;
     // 左の箱（ピンクの目印＝ジルの箱）の中身は牧草の山。右の箱（青＝レンの箱）の中身は小さなサラダ

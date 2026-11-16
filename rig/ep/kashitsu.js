@@ -34,8 +34,8 @@ var EP = {
     const rface = t < 2.0 ? RIG.FACES.smile : t < 5.2 ? Object.assign({}, RIG.FACES.smile, { blush: 1 }) : Object.assign({}, RIG.FACES.smug, { blush: 1 });
     const rp = Object.assign({}, t >= 1.4 && t < 2.0 ? RIG.POSES.lean : RIG.POSES.sit, rface, { x: 540, y: DESK - 413 * 1.35, scale: 1.35, flip: true, eyeLook: .3, bodyTilt: t >= 1.4 && t < 2.0 ? -12 : 0, headTilt: t >= 2.4 && t < 5.2 ? Math.sin(t * 3) * 6 : 0 });
     L.char('ren', rp, t, '', {});
-    let fx = `<rect x="-500" y="${DESK + 28}" width="2080" height="900" fill="url(#v2desk)"/><rect x="-500" y="${DESK}" width="2080" height="34" rx="10" fill="${L.PAL.woodTop}"/>`
-      + [60, 560].map(x => `<rect x="${x}" y="${DESK + 90}" width="460" height="170" rx="14" fill="none" stroke="${L.PAL.wood2}" stroke-width="6" opacity=".55"/><rect x="${x + 190}" y="${DESK + 160}" width="80" height="16" rx="8" fill="#E9D2A8"/>`).join('');
+    let fx = `${L.deskFront(DESK)}`
+      + [60, 560].map(x => `${L.drawer(x, DESK)}`).join('');
     // 加湿器（1.0 に置く）
     const place = t < 1.0 ? -300 * (1 - ease(seg(t, .6, 1.0))) : 0;
     fx += `<g transform="translate(0 ${place})">${HUMID(560, DESK + 6, knob)}</g>`;

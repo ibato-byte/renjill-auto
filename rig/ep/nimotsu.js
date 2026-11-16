@@ -35,8 +35,8 @@ var EP = {
     const rface = t < 2.8 ? RIG.FACES.neutral : t < 4.2 ? RIG.FACES.smile : sitting ? RIG.FACES.sharp : t < 6.6 ? Object.assign({}, RIG.FACES.surprised, { excl: 1 }) : Object.assign({}, RIG.FACES.smug, { sparkle: 1 });
     const rpose = t >= 2.8 && t < 4.2 ? RIG.POSES.lean : burst && t < 6.4 ? RIG.POSES.binky : RIG.POSES.sit;
     L.char('ren', Object.assign({}, rpose, rface, { x: sitting || burst ? RX - 270 : 600, y: ry, scale: sitting || burst ? 1.15 : 1.35, flip: true, eyeLook: -.3, bodyTilt: t >= 2.8 && t < 4.2 ? -10 : 0 }), t, '', {});
-    let fx = `<rect x="-500" y="${DESK + 28}" width="2080" height="900" fill="url(#v2desk)"/><rect x="-500" y="${DESK}" width="2080" height="34" rx="10" fill="${L.PAL.woodTop}"/>`
-      + [60, 560].map(x => `<rect x="${x}" y="${DESK + 90}" width="460" height="170" rx="14" fill="none" stroke="${L.PAL.wood2}" stroke-width="6" opacity=".55"/><rect x="${x + 190}" y="${DESK + 160}" width="80" height="16" rx="8" fill="#E9D2A8"/>`).join('');
+    let fx = `${L.deskFront(DESK)}`
+      + [60, 560].map(x => `${L.drawer(x, DESK)}`).join('');
     // ジルのスーツケース：たたんだ服（1.0〜1.6）→ 1.8 でパチン
     const clothes = t >= .9 ? `<g>${[0, 1].map(i => `<rect x="${280 + i * 70}" y="${DESK - 150}" width="60" height="${18 + i * 4}" rx="6" fill="${i ? '#F07A8A' : '#9BC7E8'}"/>`).join('')}</g>` : '';
     fx += CASE(340, DESK, 200, 130, '#5BA6D6', t < 1.8 ? 1 : 0, t < 1.8 ? clothes : '');

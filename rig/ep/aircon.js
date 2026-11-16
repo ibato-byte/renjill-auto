@@ -33,8 +33,8 @@ var EP = {
     const rface = stage === 5 ? (t < 6.4 ? RIG.FACES.surprised : RIG.FACES.oops) : rhot ? Object.assign({}, RIG.FACES.oops, { sweat: 1, mouth: 'w', browAngle: 4 }) : RIG.FACES.smile;
     const rp = Object.assign({}, openWin ? RIG.POSES.stand : RIG.POSES.sit, rface, { x: 560 - (openWin ? 60 * ease(seg(t, 7.2, 7.8)) : 0), y: DESK - 413 * 1.35, scale: 1.35, flip: true, eyeLook: .4, headNod: rhot && !openWin ? 6 : 0 });
     L.char('ren', rp, t, '', {});
-    let fx = `<rect x="-500" y="${DESK + 28}" width="2080" height="900" fill="url(#v2desk)"/><rect x="-500" y="${DESK}" width="2080" height="34" rx="10" fill="${L.PAL.woodTop}"/>`
-      + [60, 560].map(x => `<rect x="${x}" y="${DESK + 90}" width="460" height="170" rx="14" fill="none" stroke="${L.PAL.wood2}" stroke-width="6" opacity=".55"/><rect x="${x + 190}" y="${DESK + 160}" width="80" height="16" rx="8" fill="#E9D2A8"/>`).join('');
+    let fx = `${L.deskFront(DESK)}`
+      + [60, 560].map(x => `${L.drawer(x, DESK)}`).join('');
     // 手前のリモコン：押す側の前に出る（1.6 レン、3.2 ジル、4.7 レン、5.2 ジル、5.6 両方）
     const press = (at, x) => (t > at && t < at + .5) ? REMOTE(x, DESK - 180 - Math.sin(seg(t, at, at + .5) * Math.PI) * 60, x < 540 ? -20 : 20, 1.0) : '';
     fx += press(1.6, 760) + press(3.2, 320) + press(4.7, 760) + press(5.2, 320);

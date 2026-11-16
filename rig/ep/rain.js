@@ -22,14 +22,14 @@ var EP = {
     // レン（右）：1.0〜2.0 右からとぼとぼ入ってくる（しずく）→ 止まる → 5.4 ぶるぶる → すっきり（にこ）
     const h = RIG.hop(t, 1.0, 2.0, 1250, 540, { hops: 3, height: 30 });
     const rface = t < 5.4 ? Object.assign({}, RIG.FACES.annoyed, { sweat: 0, eyeOpen: .5 }) : t < 6.3 ? Object.assign({}, RIG.FACES.sleepy, { zzz: 0, eyeOpen: .05 }) : RIG.FACES.smile;
-    const rp = Object.assign({}, t < 2.0 ? RIG.POSES.stand : RIG.POSES.sit, rface, { x: h.x, y: DESK - 413 * 1.35 + h.yOff, scale: 1.35, flip: true, bodySquash: h.squash, bodyTilt: shake ? Math.sin(t * 60) * 14 : 0, headTilt: shake ? Math.sin(t * 60 + 1) * 16 : (t < 5.4 ? 6 : 0), blush: t >= 6.3 ? .7 : 0 });
+    const rp = Object.assign({}, t < 2.0 ? RIG.POSES.stand : RIG.POSES.sit, rface, { x: h.x, y: DESK - 413 * 1.35 + h.yOff, scale: 1.35, flip: true, bodySquash: h.squash, bodyTilt: shake ? Math.sin(t * 36) * 14 : 0, headTilt: shake ? Math.sin(t * 36 + 1) * 16 /* 2026-11-16：ぶるぶるは 1 秒 30 コマで約 5 コマに 1 往復（前は 3 コマに 1 往復で、1 コマごとに左右が入れかわり、ちかちかして見えた。ちかちかの検査が止めた） */ : (t < 5.4 ? 6 : 0), blush: t >= 6.3 ? .7 : 0 });
     L.char('ren', rp, t, '', { vx: t < 2.0 ? -700 : 0 });
     // ジル（左）：見る → 3.6 タオルを差し出す（lean）→ しずくを浴びて目を閉じる（annoyed）→ 7.4 ぽたぽた
     const jface = t < 6.3 ? RIG.FACES.sharp : RIG.FACES.annoyed;
     const jp = Object.assign({}, t > 3.6 && t < 6.3 ? RIG.POSES.lean : RIG.POSES.sit, jface, { x: 60, y: DESK - 413 * 1.3, scale: 1.3, eyeLook: .8, bodyTilt: t > 3.6 && t < 6.3 ? -8 : 0, earL: wetJ ? 25 : 0, earR: wetJ ? 25 : 0, eyeOpen: wetJ ? .4 : 1 });
     L.char('jil', jp, t, t > 3.6 && t < 5.4 ? TOWEL(520, DESK - 170, -12) : '', {});
-    let fx = `<rect x="-500" y="${DESK + 28}" width="2080" height="900" fill="url(#v2desk)"/><rect x="-500" y="${DESK}" width="2080" height="34" rx="10" fill="${L.PAL.woodTop}"/>`
-      + [60, 560].map(x => `<rect x="${x}" y="${DESK + 90}" width="460" height="170" rx="14" fill="none" stroke="${L.PAL.wood2}" stroke-width="6" opacity=".55"/><rect x="${x + 190}" y="${DESK + 160}" width="80" height="16" rx="8" fill="#E9D2A8"/>`).join('');
+    let fx = `${L.deskFront(DESK)}`
+      + [60, 560].map(x => `${L.drawer(x, DESK)}`).join('');
     // レンの足元の水たまり（止まってから広がる）と、頭からのしずく
     if (t > 1.2) { const k = Math.min(1, (t - 1.2) / 2.5); fx += `<ellipse cx="${h.x + 360}" cy="${DESK + 20}" rx="${40 + 200 * k}" ry="${8 + 30 * k}" fill="#8FBBE0" opacity=".55"/>`; }
     if (t < 5.4) for (let i = 0; i < 4; i++) { const ph = (t * 1.6 + i * .25) % 1; fx += DROP(h.x + 250 + i * 70, DESK - 620 + ph * 560, .8 * (1 - ph * .3)); }

@@ -31,8 +31,8 @@ var EP = {
     const turned = t >= 5.0 && t < 7.4;
     const rface = t < 3.6 ? Object.assign({}, RIG.FACES.smile, { sparkle: t < 1.6 ? 1 : 0 }) : t < 5.0 ? RIG.FACES.smug : tapping ? Object.assign({}, RIG.FACES.shy, { eyeOpen: .3 }) : RIG.FACES.shy;
     L.char('ren', Object.assign({}, t > .4 && t < 1.2 ? RIG.POSES.lean : RIG.POSES.sit, rface, { x: 560, y: DESK - 413 * 1.35, scale: 1.35, flip: !turned, eyeLook: -.4, headNod: tapping ? Math.sin(t * 20) * 4 : 0, bodyTilt: t > .4 && t < 1.2 ? -10 : 0 }), t, '', {});
-    let fx = `<rect x="-500" y="${DESK + 28}" width="2080" height="900" fill="url(#v2desk)"/><rect x="-500" y="${DESK}" width="2080" height="34" rx="10" fill="${L.PAL.woodTop}"/>`
-      + [60, 560].map(x => `<rect x="${x}" y="${DESK + 90}" width="460" height="170" rx="14" fill="none" stroke="${L.PAL.wood2}" stroke-width="6" opacity=".55"/><rect x="${x + 190}" y="${DESK + 160}" width="80" height="16" rx="8" fill="#E9D2A8"/>`).join('');
+    let fx = `${L.deskFront(DESK)}`
+      + [60, 560].map(x => `${L.drawer(x, DESK)}`).join('');
     // ポチ袋：課長の机 → ジルの机へすべる → 開く
     { const u = ease(seg(t, .6, 1.4)), o = seg(t, 2.9, 3.3); fx += POCHI(760 - 320 * u, DESK - 70, -6 + 10 * u, o); }
     if (t > 3.3) { const k = outBack(seg(t, 3.4, 3.8)), out = seg(t, 5.0, 5.4); fx += TICKET(540 - 110 * out, 720 + 600 * out, .9 * k * (1 - out * .8)); }   // 読んだら、ジルの机の上（ポチ袋のとなり）へ

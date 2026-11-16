@@ -30,8 +30,8 @@ var EP = {
     const rface = t < 7.4 ? Object.assign({}, RIG.FACES.neutral, { eyeOpen: .7, mouth: 'w' }) : RIG.FACES.smug;
     const rp = Object.assign({}, RIG.POSES.lean, rface, { x: 540, y: DESK - 413 * 1.35, scale: 1.35, flip: true, bodyTilt: -8, headTilt: t < 7.4 ? 14 + Math.sin(t * 2) * 3 : 0, eyeLook: .4 });
     L.char('ren', rp, t, '', {});
-    let fx = `<rect x="-500" y="${DESK + 28}" width="2080" height="900" fill="url(#v2desk)"/><rect x="-500" y="${DESK}" width="2080" height="34" rx="10" fill="${L.PAL.woodTop}"/>`
-      + [60, 560].map(x => `<rect x="${x}" y="${DESK + 90}" width="460" height="170" rx="14" fill="none" stroke="${L.PAL.wood2}" stroke-width="6" opacity=".55"/><rect x="${x + 190}" y="${DESK + 160}" width="80" height="16" rx="8" fill="#E9D2A8"/>`).join('');
+    let fx = `${L.deskFront(DESK)}`
+      + [60, 560].map(x => `${L.drawer(x, DESK)}`).join('');
     fx += STACK(170, DESK - 6, jl, false) + STACK(420, DESK - 6, jd, true);
     fx += CARD(790, DESK - 30, draw, .85);
     if (t > 1.0 && t < 7.4) fx += `<g transform="translate(${830 + Math.sin(t * 6) * 20} ${DESK - 170 + Math.cos(t * 5) * 8}) rotate(-40)"><rect x="-8" y="-70" width="16" height="110" rx="4" fill="#F2B544"/><path d="M-8 40 l8 24 l8 -24 Z" fill="#5A3A1E"/></g>`;  // 鉛筆

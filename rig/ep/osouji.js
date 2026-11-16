@@ -29,8 +29,8 @@ var EP = {
     const jface = t < 5.6 ? RIG.FACES.sharp : t < 6.6 ? Object.assign({}, RIG.FACES.surprised, { excl: 1 }) : RIG.FACES.annoyed;
     const jp = Object.assign({}, RIG.POSES.sit, jface, { x: 140 - back, y: DESK - 413 * 1.3, scale: 1.3, eyeLook: t > 5.6 ? .9 : .2, bodySquash: t > 6.6 ? -.1 : 0 });
     L.char('jil', jp, t, '', {});
-    let fx = `<rect x="-500" y="${DESK + 28}" width="2080" height="900" fill="url(#v2desk)"/><rect x="-500" y="${DESK}" width="2080" height="34" rx="10" fill="${L.PAL.woodTop}"/>`
-      + [60, 560].map(x => `<rect x="${x}" y="${DESK + 90}" width="460" height="170" rx="14" fill="none" stroke="${L.PAL.wood2}" stroke-width="6" opacity=".55"/><rect x="${x + 190}" y="${DESK + 160}" width="80" height="16" rx="8" fill="#E9D2A8"/>`).join('');
+    let fx = `${L.deskFront(DESK)}`
+      + [60, 560].map(x => `${L.drawer(x, DESK)}`).join('');
     // ジルの机：ピカピカ（星）
     fx += L.sparkles(230, DESK - 60, t, .8, 4);
     // レンの机：山（手前に置いて、レンの体の下半分を隠す）

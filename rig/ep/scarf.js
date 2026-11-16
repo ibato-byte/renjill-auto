@@ -30,8 +30,8 @@ var EP = {
     const rface = t < 2.6 ? RIG.FACES.shy : t < 5.0 ? RIG.FACES.smile : t < 6.8 ? Object.assign({}, RIG.FACES.oops, { sweat: 1 }) : RIG.FACES.shy;
     const rp = Object.assign({}, RIG.POSES.sit, rface, { x: 540, y: DESK - 413 * 1.35, scale: 1.35, flip: true, eyeLook: .4, headTilt: t >= 2.6 && t < 4.8 ? Math.sin(t * 12) * 8 : 0, bodySquash: t >= 2.6 && t < 4.8 ? Math.abs(Math.sin(t * 12)) * .08 : 0 });
     L.char('ren', rp, t, '', {});
-    let fx = `<rect x="-500" y="${DESK + 28}" width="2080" height="900" fill="url(#v2desk)"/><rect x="-500" y="${DESK}" width="2080" height="34" rx="10" fill="${L.PAL.woodTop}"/>`
-      + [60, 560].map(x => `<rect x="${x}" y="${DESK + 90}" width="460" height="170" rx="14" fill="none" stroke="${L.PAL.wood2}" stroke-width="6" opacity=".55"/><rect x="${x + 190}" y="${DESK + 160}" width="80" height="16" rx="8" fill="#E9D2A8"/>`).join('');
+    let fx = `${L.deskFront(DESK)}`
+      + [60, 560].map(x => `${L.drawer(x, DESK)}`).join('');
     // 包み（1.0 にジルからレンへ滑る）→ 1.6 ほどける
     if (t > 0.8 && t < 1.6) { const k = ease(seg(t, 1.0, 1.5)); fx += `<g transform="translate(${300 + 400 * k} ${DESK - 120 - Math.sin(k * Math.PI) * 60}) rotate(${k * 20})"><rect x="-80" y="-60" width="160" height="120" rx="14" fill="#F7E7D0" stroke="#D9B98E" stroke-width="6"/><rect x="-10" y="-60" width="20" height="120" fill="#E8473A"/><rect x="-80" y="-10" width="160" height="20" fill="#E8473A"/></g>`; }
     // レンの首のマフラー（首の位置：x 905, y DESK-210 あたり）

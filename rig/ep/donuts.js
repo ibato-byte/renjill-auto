@@ -33,8 +33,8 @@ var EP = {
     const chomp = eating ? Math.abs(Math.sin((t - 3.6) / 0.3 * Math.PI)) : 0;
     const rp = Object.assign({}, RIG.POSES.sit, rface, { x: 540, y: DESK - 413 * 1.35, scale: 1.35, flip: true, eyeLook: t < 3.4 ? .9 : eating ? .2 : -.6, headNod: chomp * 18, bodySquash: eating ? chomp * .15 : 0, headTilt: t >= 5.9 && t < 7.8 ? 12 : 0 });
     L.char('ren', rp, t, '', {});
-    let fx = `<rect x="-500" y="${DESK + 28}" width="2080" height="900" fill="url(#v2desk)"/><rect x="-500" y="${DESK}" width="2080" height="34" rx="10" fill="${L.PAL.woodTop}"/>`
-      + [60, 560].map(x => `<rect x="${x}" y="${DESK + 90}" width="460" height="170" rx="14" fill="none" stroke="${L.PAL.wood2}" stroke-width="6" opacity=".55"/><rect x="${x + 190}" y="${DESK + 160}" width="80" height="16" rx="8" fill="#E9D2A8"/>`).join('');
+    let fx = `${L.deskFront(DESK)}`
+      + [60, 560].map(x => `${L.drawer(x, DESK)}`).join('');
     // 箱（ジルが 1.0 に置く：上から降りてくる）
     const drop = t < 1.0 ? 0 : outBack(seg(t, 1.0, 1.4));
     if (t >= 1.0) fx += BOX(540, DESK - 20 - 400 * (1 - drop), open, n);

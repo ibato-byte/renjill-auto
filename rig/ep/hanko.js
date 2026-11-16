@@ -42,8 +42,8 @@ var EP = {
     const jface = t < 6.1 ? RIG.FACES.sharp : t < 7.5 ? Object.assign({}, RIG.FACES.think, { question: 0 }) : RIG.FACES.smile;
     const jp = Object.assign({}, RIG.POSES.sit, jface, { x: 40, y: DESK - 413 * 1.25, scale: 1.25, eyeLook: .8, headTilt: t >= 6.1 && t < 7.5 ? -12 : 0 });
     L.char('jil', jp, t, '', {});
-    let fx = `<rect x="-500" y="${DESK + 28}" width="2080" height="900" fill="url(#v2desk)"/><rect x="-500" y="${DESK}" width="2080" height="34" rx="10" fill="${L.PAL.woodTop}"/>`
-      + [60, 560].map(x => `<rect x="${x}" y="${DESK + 90}" width="460" height="170" rx="14" fill="none" stroke="${L.PAL.wood2}" stroke-width="6" opacity=".55"/><rect x="${x + 190}" y="${DESK + 160}" width="80" height="16" rx="8" fill="#E9D2A8"/>`).join('');
+    let fx = `${L.deskFront(DESK)}`
+      + [60, 560].map(x => `${L.drawer(x, DESK)}`).join('');
     // 書類（机の手前に立てて見せる）とハンコ
     fx += SHEET(540, DESK - 30, stamps, paw, faint);
     const cell = i => [540 - 220 + (i % 4) * 150, DESK - 30 + 60 + Math.floor(i / 4) * 110];

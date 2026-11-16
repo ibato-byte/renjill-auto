@@ -32,8 +32,8 @@ var EP = {
     const busy = t >= 3.2 && t < 5.0, eating = t >= 5.3 && t < 6.2;
     const rp = Object.assign({}, busy ? RIG.POSES.lean : RIG.POSES.sit, rface, { x: 540, y: DESK - 413 * 1.35, scale: 1.35, flip: true, eyeLook: t < 2.6 ? .8 : busy ? .4 : -.6, bodyTilt: busy ? -10 + Math.sin(t * 40) * 3 : 0, headNod: eating ? Math.abs(Math.sin(t * 18)) * 12 : 0, bodySquash: eating ? Math.sin(t * 18) * .12 : 0 });
     L.char('ren', rp, t, '', {});
-    let fx = `<rect x="-500" y="${DESK + 28}" width="2080" height="900" fill="url(#v2desk)"/><rect x="-500" y="${DESK}" width="2080" height="34" rx="10" fill="${L.PAL.woodTop}"/>`
-      + [60, 560].map(x => `<rect x="${x}" y="${DESK + 90}" width="460" height="170" rx="14" fill="none" stroke="${L.PAL.wood2}" stroke-width="6" opacity=".55"/><rect x="${x + 190}" y="${DESK + 160}" width="80" height="16" rx="8" fill="#E9D2A8"/>`).join('');
+    let fx = `${L.deskFront(DESK)}`
+      + [60, 560].map(x => `${L.drawer(x, DESK)}`).join('');
     // カレンダー（机の中央、少し低め）
     fx += ADVENT(540, DESK + 30, opened, eaten);
     if (t > 1.0 && t < 1.4) fx += L.sparkles(290, DESK - 130, t, .9, 4);

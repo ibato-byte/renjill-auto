@@ -51,8 +51,8 @@ var EP = {
     const jhay = t > 7.0 ? L.hayStrand(h.x + 250 * js - Math.min(120, (t - 7.2) * 90), DESK - 250, Math.max(20, 150 - Math.max(0, t - 7.2) * 90), -170) : '';
     L.char('jil', jp, t, '', { vx: h.vx });
     // 手前（机の前板・書類・効果）
-    let fx = `<rect x="-500" y="${DESK + 28}" width="2080" height="900" fill="url(#v2desk)"/><rect x="-500" y="${DESK}" width="2080" height="34" rx="10" fill="${L.PAL.woodTop}"/>`
-      + [60, 560].map(x => `<rect x="${x}" y="${DESK + 90}" width="460" height="170" rx="14" fill="none" stroke="${L.PAL.wood2}" stroke-width="6" opacity=".55"/><rect x="${x + 190}" y="${DESK + 160}" width="80" height="16" rx="8" fill="#E9D2A8"/>`).join('');
+    let fx = `${L.deskFront(DESK)}`
+      + [60, 560].map(x => `${L.drawer(x, DESK)}`).join('');
     fx += form + stamper + jhay + hay;
     fx += SS.map(s => L.impact(FX - 20, DESK + 110 + SS.indexOf(s) * 170, seg(t, s, s + .3), 1.1)).join('');
     if (t > 2.25 && t < 2.75) fx += L.emark(820, DESK - 640, 1.1);
