@@ -25,12 +25,12 @@ var EP = {
     const bg = ELEV(open) + FLOOR(fl, 1 + .15 * L.pulse(t, 6.6, 6.9));
     const GROUND = 1440;
     // ジル：数字をじっと見る（上を向く）→ 7.0 でドアの奥へ最速退場
-    const go = seg(t, 7.0, 7.4), js = 1.3 * (1 - go * .6);
-    const jp = Object.assign({}, t > 7.0 ? RIG.POSES.stretch : RIG.POSES.sit, t > 7.0 ? RIG.FACES.smile : RIG.FACES.neutral, { x: L.lerp(200, 540 - 270 * js / 1.3 * .5, go), y: L.lerp(GROUND, 1300, go) - 413 * js, scale: js, eyeLook: 0, headNod: t < 7.0 ? -14 : 0, bodySquash: t > 6.6 && t < 7.0 ? -.3 * seg(t, 6.6, 7.0) : 0 });
+    const go = seg(t, 7.0, 7.4), js = 1.5 * (1 - go * .6);
+    const jp = Object.assign({}, t > 7.0 ? RIG.POSES.stretch : RIG.POSES.sit, t > 7.0 ? RIG.FACES.smile : RIG.FACES.neutral, { x: L.lerp(110, 540 - 270 * js / 1.5 * .5, go), y: L.lerp(GROUND, 1300, go) - 413 * js, scale: js, eyeLook: 0, headNod: t < 7.0 ? -14 : 0, bodySquash: t > 6.6 && t < 7.0 ? -.3 * seg(t, 6.6, 7.0) : 0 });
     L.char('jil', t > 7.4 ? null : jp, t, '', { vx: t > 7.0 ? -1500 : 0 });
     // レン：ちらちら見る → 何か言おうとする（吹き出し「…」が出かかる）→ 取り残される
     const glance = Math.sin(t * 1.3) > .3 ? -.8 : 0;
-    const rp = Object.assign({}, RIG.POSES.sit, t > 7.2 ? RIG.FACES.neutral : RIG.FACES.smile, { x: 540, y: GROUND - 413 * 1.45, scale: 1.45, flip: true, eyeLook: t > 7.2 ? -1 : glance, sweat: t > 3.5 && t < 6.6 ? .6 : 0, blush: .3 });
+    const rp = Object.assign({}, RIG.POSES.sit, t > 7.2 ? RIG.FACES.neutral : RIG.FACES.smile, { x: 320, y: GROUND - 413 * 1.7, scale: 1.7, flip: true, eyeLook: t > 7.2 ? -1 : glance, sweat: t > 3.5 && t < 6.6 ? .6 : 0, blush: .3 });
     L.char('ren', rp, t, '', {});
     let fx = '';
     const want = L.pulse(t, 2.0, 6.6);
@@ -40,12 +40,12 @@ var EP = {
     let ui = (t > 1.8 && t < 3.4 ? CHIP(L, 'ELEVATOR. BOSS. SILENCE.', 'エレベーターで上司と2人きり', 1500, seg(t, 1.8, 2.1)) : '')
       + (t > 7.3 && t < 8.6 ? CHIP_OFF(L, '12F. JILL: OUT IN 0.1 SEC', '12階、部下は0.1秒で退場', 1500, seg(t, 7.3, 7.6)) : '');
     const cam = L.camAt([
-      { t: 0, z: 1.3, cx: 540, cy: 1050 },
-      { t: 0.01, z: 1.05, cx: 540, cy: 1000, d: 1.0 },
-      { t: 3.2, z: 1.35, cx: 620, cy: 1150, d: .6 },               // レンの顔
+      { t: 0, z: 1.15, cx: 530, cy: 1060 },
+      { t: 0.01, z: 1.05, cx: 530, cy: 1040, d: 1.0 },
+      { t: 3.2, z: 1.22, cx: 540, cy: 1170, d: .6 },               // レンの顔
       { t: 6.4, z: 1.2, cx: 540, cy: 800, d: .3 },                 // 階の表示
       { t: 6.9, z: 1.0, cx: 540, cy: 1000, d: .3 },
-      { t: 7.8, z: 1.3, cx: 600, cy: 1150, d: .6 },                // 取り残されたレン
+      { t: 7.8, z: 1.3, cx: 560, cy: 1180, d: .6 },                // 取り残されたレン
     ], t);
     if (t > 8.6) { fx = ''; ui = ''; }
     L.mount({ bg, fx, ui, cam, t, shake: t > 6.6 && t < 6.75 ? 6 : 0 });

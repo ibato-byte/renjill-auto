@@ -98,3 +98,37 @@ class Rules20261112(unittest.TestCase):
         posts = json.loads((ROOT / "auto/schedule.json").read_text())["posts"]
         r = epcheck.check(posts, dt.datetime.now(epcheck.JST).date(), 14)
         self.assertFalse([x for x in r["warns"] if "表紙の文字が違う" in x])
+
+
+class Required(unittest.TestCase):
+    """台本と一緒に決めるもの（総見直し 2026-11-16：OVERHAUL 17・37・39 を検査に入れた）"""
+    def test_head_lines(self):
+        self.assertEqual(epcheck.head_lines("// x\n// 状況：a\n// オチ：b\nvar EP={}"), {"situation": True, "punch": True})
+        self.assertEqual(epcheck.head_lines("// x\nvar EP={}\n// 状況 オチ"), {"situation": False, "punch": False})
+
+    def test_post_fields(self):
+        full = {"thumb": {"t": 0, "cam": "1,540,1000", "hook": "A/あ"}, "caption_ja": "あ", "first_comment": "い"}
+        self.assertEqual(epcheck.post_fields(full), [])
+        self.assertEqual(epcheck.post_fields({"thumb": {"hook": "A/あ"}, "caption_ja": " "}), ["thumb.t", "thumb.cam", "caption_ja", "first_comment"])
+
+    def test_missing_is_issue(self):
+        import tempfile, shutil
+        d = pathlib.Path(tempfile.mkdtemp())
+        try:
+            (d / "zz_req.js").write_text("// 題だけ\nvar EP={dur: 9};\n")
+            old = epcheck.EP; epcheck.EP = d
+            try:
+                r = epcheck.check([{"date": "2026-11-17", "ep": "zz_req"}], dt.date(2026, 11, 16), 14, pc={}, lk={})
+            finally:
+                epcheck.EP = old
+            joined = "\n".join(r["issues"])
+            self.assertIn("「状況：」と「オチ：」", joined)
+            self.assertIn("thumb.t", joined)
+        finally:
+            shutil.rmtree(d)
+
+    def test_all_stock_has_required(self):
+        """予定表の今日以降の回はすべて満たしている（在庫76話）"""
+        posts = json.loads((ROOT / "auto/schedule.json").read_text())["posts"]
+        r = epcheck.check(posts, dt.datetime.now(epcheck.JST).date(), 400)
+        self.assertFalse([x for x in r["issues"] if "OVERHAUL 17" in x or "OVERHAUL 37" in x])
