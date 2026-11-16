@@ -8,5 +8,9 @@ const { chromium } = require('playwright'); const fs = require('fs'); const out 
     await p.evaluate(([who, m, f]) => { for (const id of ['ren', 'jil', 'fx']) document.getElementById(id).innerHTML = '';
       if (who === 'pom') { const s = document.getElementById('fx'); s.appendChild(pomDefs()); s.appendChild(pomShape(540, 1250, 2.4, Object.assign({ paws: 1 }, f))); }
       else { const face = f === 'B' ? Object.assign({}, RIG.FACES.neutral, { eyeOpen: .04, eyeShape: 'flat' }) : RIG.FACES[f]; RIG.render(document.getElementById(who), Object.assign({ char: who }, RIG.POSES.sit, face, { x: who === 'ren' ? 120 : 300, y: 620, scale: 2.2, flip: who === 'ren', sparkle: 0, zzz: 0 })); } }, [who, m, shots[who][m]]);
-    await p.waitForTimeout(200); await p.screenshot({ path: `${out}/${who}_${m}.png`, omitBackground: true }); }
+    await p.waitForTimeout(200); await p.screenshot({ path: `${out}/${who}_${m}.png`, omitBackground: true });
+    if (who !== 'pom' && m === 'open') { // 耳だけの絵（公式サイトの動く 3D で、耳だけを動かすための形。2026-11-16：耳の形が分からず、背中まで一緒に動いて髪の毛のように見えた）
+      await p.evaluate(who => { const r = document.getElementById(who); const ears = [...r.querySelectorAll('path,ellipse')].filter(e => /ear(In)?\)$/.test(e.getAttribute('fill') || ''));
+        r.querySelectorAll('*').forEach(e => e.style.visibility = 'hidden'); for (const e of ears) for (const k of e.parentNode.children) { k.style.visibility = 'visible'; k.style.opacity = 1; } }, who);
+      await p.waitForTimeout(150); await p.screenshot({ path: `${out}/${who}_ears.png`, omitBackground: true }); } }
   await b.close(); })();
