@@ -1,4 +1,6 @@
-// 「上司とエレベーター 第2話（Part 2）」（15秒＋エンドカード1秒・セリフなし）2026-11-17 オーナーの絵コンテ
+// 「上司とエレベーター 第2話（Part 2）」（18秒＋エンドカード1秒・セリフなし）2026-11-17 オーナーの絵コンテ
+// 2026-11-17 オーナー：最初の「全部の階で止まる」を 0〜4秒 → 0〜7秒に（場面の切り替えが早く、状況が伝わりにくい）。
+//   扉の動きの速さはそのままで、誰もいない廊下を見る間を長く。下の台本の時間は「元の時間」（4秒より後は、見える時間では +3秒）。W() が見える時間 → 元の時間に直す
 // 前回：課長（レン）のたれ耳が、エレベーターの全部の階のボタンを押してしまった（最初の0.45秒は、その終わりの絵＝耳がボタンにのったまま）
 // 状況：全部の階で止まるエレベーター。ジルがひらめき、レンの耳を頭の上にまとめて押さえる
 // オチ：手をはなした瞬間、耳がボヨヨ〜ンとはね返って「開」を押す → 扉が開くと、新人ポムが立っている（助けたのに、もっと悪くなる）
@@ -184,7 +186,7 @@ document.write('<script src="v2/lib.js"><\/script><script src="v2/elevator_set.j
   // ポム（8階の廊下）。2人の間から見える所
   const POMQ = t => ({ eye: t < 11.0 ? 'round' : 'big', look: 0, wob: t < 10.9 ? 0 : 12 * L.ease(sm(10.9, 11.3, t)), blush: .35, squash: -.06 * L.pulse(t, 10.6, 10.85) });
   const POM_AT = { x: 355, y: 1486, s: 1.5 };   // ジルとレンの頭の間から顔が見える所
-  window.EP = {
+  const OLD = {
     dur: 16.0,
     bgmHolds: '0.0-12.2',
     get sfx() {
@@ -216,16 +218,28 @@ document.write('<script src="v2/lib.js"><\/script><script src="v2/elevator_set.j
       // ひらめきの光
       if (t > 5.4 && t < 5.9) { const a = L.pulse(t, 5.4, 5.9), s = ELV.JIL.s; fx += `<g transform="translate(${J.p.x + 188 * s} ${J.p.y + 40 * s})" opacity="${a.toFixed(2)}">${[0, 1, 2, 3, 4].map(i => `<path d="M0 -40 L0 -${70 + 10 * a}" stroke="#F2C14E" stroke-width="9" stroke-linecap="round" transform="rotate(${-50 + i * 25})"/>`).join('')}</g>`; }
       const cam = L.camAt([
-        { t: 0, z: 1.45, cx: 760, cy: 1250 },                  // 前回の終わり（耳がボタンにのったまま）
-        { t: 0.4, z: 1.13, cx: 525, cy: 1240, d: .5 },          // 扉と2人
+        { t: 0, z: 1.66, cx: 780, cy: 1250 },                  // 前回の終わり（耳がボタンにのったまま）。最初のコマからゆっくり引く（qa：0.5 秒以内に動き）
+        { t: 0.01, z: 1.13, cx: 525, cy: 1240, d: .85 },        // 扉と2人
         { t: 8.95, z: 1.2, cx: 600, cy: 1270, d: .4 },          // 耳がはね返って「開」へ（原因と結果が同じ画に入る）
         { t: 10.35, z: 1.08, cx: 490, cy: 1190, d: .45 },       // 扉が開いてポム
       ], t);
       if (still(t)) cam.z /= 1 + .006 * Math.sin(t * .9);
       L.mount({ bg, fx, ui: t < 15.05 ? TELOP(L.seg(t, 12.3, 12.8)) : '', cam, t });
       if (J.layer === 'back') { const b = document.getElementById('back'); RIG.render(b, RIG.alive(Object.assign({}, RIG.DEFAULTS, { char: 'jil' }, J.p), t, { ears: true })); b.__html = '#jil'; }   // __html を変えておく＝次のコマで L.mount が消す
-      if (typeof endcard === 'function') endcard(t, EP.dur);
     }
+  };
+  // ---- 見える時間 → 元の時間（最初の 4 秒を 7 秒に。扉が開く・閉まる所は同じ速さ、廊下を見る間と、ため息の前を長く）----
+  const NEW = [0, 0.9, 0.95, 1.25, 2.1, 2.4, 2.85, 2.9, 3.17, 3.95, 4.23, 4.7, 4.74, 4.98, 5.7, 5.95, 6.25, 6.85, 7.0];
+  const OLDT = [0, 0.45, 0.5, 0.75, 1.05, 1.32, 1.55, 1.6, 1.8, 2.02, 2.28, 2.5, 2.54, 2.7, 2.9, 3.12, 3.3, 3.9, 4.0];
+  const SHIFT = 3.0;
+  const W = t => { if (t >= 7.0) return t - SHIFT; for (let i = 0; i < NEW.length - 1; i++) if (t <= NEW[i + 1]) return OLDT[i] + (OLDT[i + 1] - OLDT[i]) * (t - NEW[i]) / (NEW[i + 1] - NEW[i]); return t - SHIFT; };
+  const Winv = o => { if (o >= 4.0) return o + SHIFT; for (let i = 0; i < OLDT.length - 1; i++) if (o <= OLDT[i + 1]) return NEW[i] + (NEW[i + 1] - NEW[i]) * (o - OLDT[i]) / (OLDT[i + 1] - OLDT[i]); return o + SHIFT; };
+  window.EP = {
+    dur: OLD.dur + SHIFT,
+    bgmHolds: '0.0-15.2',
+    get sfx() { return OLD.sfx.map(x => Object.assign({}, x, { t: x.type === 'hum' ? 0 : Math.round(Winv(x.t) * 1000) / 1000 })); },
+    touches: () => { const T = OLD.touches(), o = {}; for (const k in T) o[k] = Winv(T[k]); return o; },
+    frame(t) { OLD.frame(W(t)); if (typeof endcard === 'function') endcard(t, EP.dur); }
   };
 })();
 var EP = window.EP;
