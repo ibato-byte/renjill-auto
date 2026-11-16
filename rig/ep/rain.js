@@ -22,7 +22,7 @@ var EP = {
     // レン（右）：1.0〜2.0 右からとぼとぼ入ってくる（しずく）→ 止まる → 5.4 ぶるぶる → すっきり（にこ）
     const h = RIG.hop(t, 1.0, 2.0, 1250, 540, { hops: 3, height: 30 });
     const rface = t < 5.4 ? Object.assign({}, RIG.FACES.annoyed, { sweat: 0, eyeOpen: .5 }) : t < 6.3 ? Object.assign({}, RIG.FACES.sleepy, { zzz: 0, eyeOpen: .05 }) : RIG.FACES.smile;
-    const rp = Object.assign({}, t < 2.0 ? RIG.POSES.stand : RIG.POSES.sit, rface, { x: h.x, y: DESK - 413 * 1.35 + h.yOff, scale: 1.35, flip: true, bodySquash: h.squash, bodyTilt: shake ? Math.sin(t * 60) * 14 : 0, headTilt: shake ? Math.sin(t * 60 + 1) * 16 : (t < 5.4 ? 6 : 0), blush: t >= 6.3 ? .7 : 0 });
+    const rp = Object.assign({}, t < 2.0 ? RIG.POSES.stand : RIG.POSES.sit, rface, { x: h.x, y: DESK - 413 * 1.35 + h.yOff, scale: 1.35, flip: true, bodySquash: h.squash, bodyTilt: shake ? Math.sin(t * 36) * 14 : 0, headTilt: shake ? Math.sin(t * 36 + 1) * 16 /* 2026-11-16：ぶるぶるは 1 秒 30 コマで約 5 コマに 1 往復（前は 3 コマに 1 往復で、1 コマごとに左右が入れかわり、ちかちかして見えた。ちかちかの検査が止めた） */ : (t < 5.4 ? 6 : 0), blush: t >= 6.3 ? .7 : 0 });
     L.char('ren', rp, t, '', { vx: t < 2.0 ? -700 : 0 });
     // ジル（左）：見る → 3.6 タオルを差し出す（lean）→ しずくを浴びて目を閉じる（annoyed）→ 7.4 ぽたぽた
     const jface = t < 6.3 ? RIG.FACES.sharp : RIG.FACES.annoyed;
