@@ -12,5 +12,9 @@ const { chromium } = require('playwright'); const fs = require('fs'); const out 
     if (who !== 'pom' && m === 'open') { // 耳だけの絵（公式サイトの動く 3D で、耳だけを動かすための形。2026-11-16：耳の形が分からず、背中まで一緒に動いて髪の毛のように見えた）
       await p.evaluate(who => { const r = document.getElementById(who); const ears = [...r.querySelectorAll('path,ellipse')].filter(e => /ear(In)?\)$/.test(e.getAttribute('fill') || ''));
         r.querySelectorAll('*').forEach(e => e.style.visibility = 'hidden'); for (const e of ears) for (const k of e.parentNode.children) { k.style.visibility = 'visible'; k.style.opacity = 1; } }, who);
-      await p.waitForTimeout(150); await p.screenshot({ path: `${out}/${who}_ears.png`, omitBackground: true }); } }
+      await p.waitForTimeout(150); await p.screenshot({ path: `${out}/${who}_ears.png`, omitBackground: true });
+      // 頭（耳こみ）だけの絵：3D で頭を回す時、頭と耳をひとかたまりで動かすため（帯で分けると、体の前に垂れた耳がちぎれて見えた。2026-11-16）
+      await p.evaluate(who => { const r = document.getElementById(who); const hp = [...r.querySelectorAll('path')].find(e => /head\)$/.test(e.getAttribute('fill') || '')); r.querySelectorAll('*').forEach(e => e.style.visibility = 'hidden');
+        let n = hp.parentNode; n.style.visibility = 'visible'; n.querySelectorAll('*').forEach(e => { e.style.visibility = 'visible'; }); }, who);
+      await p.waitForTimeout(150); await p.screenshot({ path: `${out}/${who}_headmask.png`, omitBackground: true }); } }
   await b.close(); })();
