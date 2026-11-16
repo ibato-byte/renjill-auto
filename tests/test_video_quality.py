@@ -55,7 +55,9 @@ class OpeningText(unittest.TestCase):
             self.assertIn(need, EPHTML, f"ep.html に {need} がない（冒頭の一言と同じ字幕を出さない決まり）")
 
     def test_hook_japanese_is_short(self):
-        bad = [f'{p["ep"]}（{len(HOOKS[p["ep"]].split("/")[1])}文字）' for p in upcoming() if p["ep"] in HOOKS and "/" in HOOKS[p["ep"]] and len(HOOKS[p["ep"]].split("/")[1]) > 13]
+        # シリーズの印「 Part N」は数えない（2026-11-16 オーナー：エレベーター第1話の冒頭に Part 1 を足す。題の部分は 13 文字までのまま）
+        ja = lambda h: re.sub(r"\s*Part\s*\d+$", "", h.split("/")[1])
+        bad = [f'{p["ep"]}（{len(ja(HOOKS[p["ep"]]))}文字）' for p in upcoming() if p["ep"] in HOOKS and "/" in HOOKS[p["ep"]] and len(ja(HOOKS[p["ep"]])) > 13]
         self.assertEqual(bad, [], "冒頭の日本語は 13 文字まで：" + ", ".join(bad))
 
     def test_cover_text_matches_hook(self):

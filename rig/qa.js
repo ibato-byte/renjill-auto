@@ -25,7 +25,7 @@ const STEP = 0.125, W = 1080, H = 1920;
   try { const src = fs.readFileSync(path.join(__dirname, 'ep', ep + '.js'), 'utf8');
     const thick = (src.match(/'stroke-width':\s*(2[8-9]|[3-9]\d)\b[^)]*'stroke-linecap':\s*'round'|'stroke-linecap':\s*'round'[^)]*'stroke-width':\s*(2[8-9]|[3-9]\d)\b/g) || []);
     if (thick.length) issues.push(`腕のような太い線を直接描いている（${thick.length}か所）：腕は limb() で、体のふちから短く`); } catch (e) { }
-  if (!(dur >= 8 && dur <= 20)) issues.push(`尺が範囲外: ${dur.toFixed(1)}s（8〜20s。目安は7〜12s、最後まで見られる長さに）`);
+  if (!(dur >= 8 && dur <= 21)) issues.push(`尺が範囲外: ${dur.toFixed(1)}s（8〜21s＝本編20秒＋エンドカード1秒まで。2026-11-16 オーナー：エレベーター第1話を20秒に。目安は7〜12s、最後まで見られる長さに）`);
   else if (dur > 17) warns.push(`尺が長め: ${dur.toFixed(1)}s（目安は7〜12s）`);
   // ---- 最初のコマ＝表紙（TikTok などは最初のコマが表紙になる）：冒頭の一言が薄くないこと（2026-11-10 の報告「サムネが薄い」）
   { await p.evaluate(() => window.setOut(0)); const f0 = await p.evaluate(() => { const h = document.getElementById('hook'); return h && h.textContent.trim() ? parseFloat(getComputedStyle(h).opacity) : null; });

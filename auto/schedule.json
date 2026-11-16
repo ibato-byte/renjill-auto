@@ -622,30 +622,30 @@
       "slot": "18:00",
       "ep": "elevator",
       "no": 23,
-      "title": "エレベーターで上司と2人",
-      "caption_ja": "エレベーターで上司と2人きり。12階に着いた瞬間、ジルは0.1秒で退場。",
-      "caption_en": "Alone in the elevator with the boss. Doors open on 12. Jill is gone in 0.1 seconds.",
+      "title": "エレベーターで上司と2人 Part 1",
+      "caption_ja": "エレベーターで上司と2人きり。沈黙に耐えていたら、課長の耳が全部の階を押しました。（つづく）",
+      "caption_en": "Alone in the elevator with the boss. Then his ear pressed every floor. (to be continued)",
       "tag_set": "C",
       "thumb": {
         "t": 1.6,
-        "cam": "1.35,595,1010",
-        "hook": "BOSS. ELEVATOR./上司とエレベーター"
+        "cam": "1.2,520,1150",
+        "hook": "BOSS. ELEVATOR./上司とエレベーター Part 1"
       },
       "first_comment": "エレベーターで上司と2人、何を話す？ / What do you say to your boss in the elevator?",
       "site_i18n": {
         "title": {
-          "en": "Elevator with the boss",
+          "en": "Elevator with the boss, Part 1",
           "zh": "和主管單獨搭電梯",
           "ko": "상사와 단둘이 엘리베이터"
         },
         "caption": {
-          "zh": "和課長單獨搭電梯。到12樓的瞬間，吉兒0.1秒退場。",
-          "ko": "과장님과 단둘이 엘리베이터. 12층에 도착한 순간, 질은 0.1초 만에 퇴장."
+          "zh": "和課長單獨搭電梯。忍著沉默時，課長的耳朵按了每一層樓。（待續）",
+          "ko": "과장님과 단둘이 엘리베이터. 침묵을 견디는 사이, 과장님 귀가 모든 층을 눌렀어요. (계속)"
         }
       },
       "cta": "Save this for your next Monday./月曜の朝のために保存して",
       "title_i18n": {
-        "ja": "エレベーターで上司と2人きり | レンとジル「エレベーターで上司と2人」",
+        "ja": "エレベーターで上司と2人きり Part 1 | レンとジル「エレベーターで上司と2人」",
         "ko": "엘리베이터에 과장님과 단둘이 | 렌과 질 Ren & Jill",
         "zh-Hant": "和課長單獨搭電梯 | 蓮與吉兒 Ren & Jill",
         "es": "Solos en el ascensor con el jefe | Ren & Jill",

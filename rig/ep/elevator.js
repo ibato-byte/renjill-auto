@@ -1,54 +1,169 @@
-// 「エレベーターで上司と2人」（約9.5秒・セリフなし）v2 演出／キャラは本番の rig.js
-// 状況：エレベーターに上司と部下の2人きり。階の表示が 1 → 2 → 3 … とゆっくり進む。沈黙（ジルは階の数字だけを見る。レンは何か言おうとして吹き出しが「…」）
-// ひっくり返し：数字が 12 でチン → オチ：ドアが開いた瞬間、ジルは最速で退場。レンの吹き出しは出しかけのまま。字幕「12階、部下は0.1秒で退場」
-document.write('<script src="v2/lib.js"><\/script>');
-const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
-const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
-// エレベーターの箱：open=0..1 でドアが左右に開く
-// 2026-11-16 見た目の作り込み：灰色の板だった扉・壁に、金属のつや・わくの厚み・足もとのかげ・階数の表示の光を足す（形・位置は同じ）
-const ELEV = (open) => `<defs><linearGradient id="evWall" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C6C1B9"/><stop offset="1" stop-color="#A9A39A"/></linearGradient><linearGradient id="evDoor" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#B4AFA7"/><stop offset=".2" stop-color="#DAD6CF"/><stop offset=".55" stop-color="#C6C1B9"/><stop offset="1" stop-color="#ACA79F"/></linearGradient><linearGradient id="evIn" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFF8E2"/><stop offset=".8" stop-color="#F6E6BE"/><stop offset="1" stop-color="#D9C79C"/></linearGradient><linearGradient id="evSh" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3B2412" stop-opacity=".3"/><stop offset="1" stop-color="#3B2412" stop-opacity="0"/></linearGradient></defs>
-<rect x="-500" y="-500" width="2080" height="2920" fill="url(#evWall)"/>${[-340, 20, 1060, 1420].map(x => `<rect x="${x}" y="-500" width="4" height="1990" fill="#8E8880" opacity=".35"/>`).join('')}<rect x="-500" y="1490" width="2080" height="930" fill="#9A948B"/><rect x="-500" y="1490" width="2080" height="60" fill="url(#evSh)"/><rect x="-500" y="1440" width="2080" height="50" fill="#8E8880" opacity=".5"/>
-<rect x="104" y="384" width="872" height="1112" rx="14" fill="#3B2412" opacity=".14"/><rect x="120" y="400" width="840" height="1080" rx="10" fill="#8E8880"/><rect x="120" y="400" width="840" height="12" rx="6" fill="#B4AFA7"/><rect x="140" y="420" width="800" height="1040" fill="url(#evIn)"/><rect x="140" y="420" width="800" height="90" fill="url(#evSh)" opacity=".5"/><rect x="160" y="900" width="760" height="14" rx="7" fill="#C9B88E"/><rect x="160" y="900" width="760" height="5" rx="2.5" fill="#EFE2BE"/>
-<g>${[[140 - open * 400], [540 + open * 400]].map(([x]) => `<rect x="${x}" y="420" width="400" height="1040" fill="url(#evDoor)" stroke="#9E9890" stroke-width="6"/><rect x="${x + 30}" y="460" width="340" height="960" rx="6" fill="none" stroke="#9E9890" stroke-width="3" opacity=".5"/><path d="M${x + 60} 420 L${x + 130} 420 L${x + 60} 1460 L${x - 10 + 60} 1460Z" fill="#fff" opacity=".12"/><rect x="${x}" y="1380" width="400" height="80" fill="url(#evSh)" opacity=".35" transform="rotate(180 ${x + 200} 1420)"/>`).join('')}</g><rect x="140" y="420" width="800" height="26" fill="url(#evSh)" opacity=".6"/><rect x="120" y="1460" width="840" height="30" fill="#6E6861"/><rect x="120" y="1460" width="840" height="7" fill="#9A948B"/>
-<g transform="translate(1010 980)"><rect x="-34" y="-74" width="68" height="148" rx="12" fill="#8E8880"/><rect x="-34" y="-74" width="68" height="10" rx="5" fill="#B4AFA7"/><circle cx="0" cy="-30" r="17" fill="#DAD6CF" stroke="#6E6861" stroke-width="3"/><path d="M-8 -26 L0 -38 L8 -26Z" fill="#6E6861"/><circle cx="0" cy="30" r="17" fill="#DAD6CF" stroke="#6E6861" stroke-width="3"/><path d="M-8 26 L0 38 L8 26Z" fill="#6E6861"/></g>`;
-const FLOOR = (n, s = 1) => `<g transform="translate(540 290) scale(${s})"><rect x="-144" y="-50" width="300" height="120" rx="18" fill="#3B2412" opacity=".2"/><rect x="-150" y="-60" width="300" height="120" rx="18" fill="#2E3440"/><rect x="-150" y="-60" width="300" height="50" rx="18" fill="#fff" opacity=".07"/><rect x="-138" y="-48" width="276" height="96" rx="12" fill="#1E232C"/><text x="0" y="30" text-anchor="middle" font-size="84" font-weight="900" font-family="Noto Sans Mono, monospace" fill="#FF8A5B" opacity=".35" stroke="#FF8A5B" stroke-width="9" stroke-linejoin="round">${n}</text><text x="0" y="30" text-anchor="middle" font-size="84" font-weight="900" font-family="Noto Sans Mono, monospace" fill="#FF8A5B">${n}</text><path d="M-110 -20 L-90 -44 L-70 -20Z" fill="#7CF0A8"/></g>`;
-var EP = {
-  dur: 9.5,
-  bgmHolds: '0.0-6.6',          // 沈黙の回：BGM なし。6.6 のチンから BGM
-  sfx: [{ t: 0.3, type: 'click' }, { t: 1.1, type: 'click' }, { t: 1.9, type: 'click' }, { t: 2.7, type: 'click' }, { t: 3.5, type: 'click' }, { t: 4.3, type: 'click' }, { t: 5.1, type: 'click' }, { t: 5.9, type: 'click' },
-    { t: 2.3, type: 'blink' }, { t: 4.0, type: 'twitch' }, { t: 6.6, type: 'pon' }, { t: 6.9, type: 'swish' }, { t: 7.1, type: 'whoosh' }, { t: 8.0, type: 'blink' }],
-  frame(t) {
-    const L = window.L; if (!L || !window.RIG) return;
-    const { seg, ease, outBack } = L;
-    const fl = t < 6.6 ? Math.min(11, 1 + Math.floor(t / .8)) : 12;
-    const open = ease(seg(t, 6.7, 7.1));
-    const bg = ELEV(open) + FLOOR(fl, 1 + .15 * L.pulse(t, 6.6, 6.9));
-    const GROUND = 1440;
-    // ジル：数字をじっと見る（上を向く）→ 7.0 でドアの奥へ最速退場
-    const go = seg(t, 7.0, 7.4), js = 1.5 * (1 - go * .6);
-    const jp = Object.assign({}, t > 7.0 ? RIG.POSES.stretch : RIG.POSES.sit, t > 7.0 ? RIG.FACES.smile : RIG.FACES.neutral, { x: L.lerp(110, 540 - 270 * js / 1.5 * .5, go), y: L.lerp(GROUND, 1300, go) - 413 * js, scale: js, eyeLook: 0, headNod: t < 7.0 ? -14 : 0, bodySquash: t > 6.6 && t < 7.0 ? -.3 * seg(t, 6.6, 7.0) : 0 });
-    L.char('jil', t > 7.4 ? null : jp, t, '', { vx: t > 7.0 ? -1500 : 0 });
-    // レン：ちらちら見る → 何か言おうとする（吹き出し「…」が出かかる）→ 取り残される
-    const glance = Math.sin(t * 1.3) > .3 ? -.8 : 0;
-    const rp = Object.assign({}, RIG.POSES.sit, t > 7.2 ? RIG.FACES.neutral : RIG.FACES.smile, { x: 320, y: GROUND - 413 * 1.7, scale: 1.7, flip: true, eyeLook: t > 7.2 ? -1 : glance, sweat: t > 3.5 && t < 6.6 ? .6 : 0, blush: .3 });
-    L.char('ren', rp, t, '', {});
-    let fx = '';
-    const want = L.pulse(t, 2.0, 6.6);
-    if (t > 2.0 && t < 6.6) fx += L.bubble(760, GROUND - 640, `<text y="20" text-anchor="middle" font-size="70" font-weight="900" font-family="Noto Sans CJK JP" fill="#3A2414">${'・'.repeat(1 + Math.floor(want * 2.9))}</text>`, { w: 170, h: 120, tail: 40, s: .5 + want * .5 });
-    if (t > 7.2) fx += L.bubble(760, GROUND - 640, `<text y="20" text-anchor="middle" font-size="70" font-weight="900" font-family="Noto Sans CJK JP" fill="#3A2414">・</text>`, { w: 150, h: 120, tail: 40, s: 1 });
-    if (t > 7.0 && t < 7.6) fx += L.speed(540, 1000, 1 - seg(t, 7.0, 7.6), 30);
-    let ui = (t > 1.8 && t < 3.4 ? CHIP(L, 'ELEVATOR. BOSS. SILENCE.', 'エレベーターで上司と2人きり', 1500, seg(t, 1.8, 2.1)) : '')
-      + (t > 7.3 && t < 8.6 ? CHIP_OFF(L, '12F. JILL: OUT IN 0.1 SEC', '12階、部下は0.1秒で退場', 1500, seg(t, 7.3, 7.6)) : '');
-    const cam = L.camAt([
-      { t: 0, z: 1.15, cx: 530, cy: 1060 },
-      { t: 0.01, z: 1.05, cx: 530, cy: 1040, d: 1.0 },
-      { t: 3.2, z: 1.22, cx: 540, cy: 1170, d: .6 },               // レンの顔
-      { t: 6.4, z: 1.2, cx: 540, cy: 800, d: .3 },                 // 階の表示
-      { t: 6.9, z: 1.0, cx: 540, cy: 1000, d: .3 },
-      { t: 7.8, z: 1.3, cx: 560, cy: 1180, d: .6 },                // 取り残されたレン
-    ], t);
-    if (t > 8.6) { fx = ''; ui = ''; }
-    L.mount({ bg, fx, ui, cam, t, shake: t > 6.6 && t < 6.75 ? 6 : 0 });
-    if (typeof endcard === 'function') endcard(t, EP.dur);
+// 「エレベーター 第1話：気まずい2人」（20秒＋エンドカード1秒・セリフなし）2026-11-16 オーナーの絵コンテで作り直し（同日、20秒に）
+// 状況：エレベーターで上司と2人きり。気まずい沈黙
+// オチ：ごまかして耳をゆらしていたら、課長の耳が全部の階のボタンを押していた（ジルの無言のツッコミ・つづく）
+// 0.0–3.0   扉が閉まる（チーン・ウィーン）→ 2人だけ。チラッと見て、同時に反対へ目をそらす
+// 3.0–7.5   沈黙。レンはキョロキョロ・モゾモゾ、ジルは真顔で階の表示。4〜6秒は上に「・・・。」。最後の 0.6 秒は完全に止まる
+// 7.5–13.3  レンは気まずさをごまかすように、天井を見ながら耳を左右にゆらす（無意識・♪）。ゆれるたびに耳の先がボタンにふれ、
+//           何回かに分けて上から順に押される（ピッ…ピッピッ…ピッピッ…ピピピッ）。全部光った後、レンが固まる
+// 13.6–17.0 ジルが光るボタンを見る → ゆっくりレンへ（無言のツッコミ）→ レンもおそるおそる → 目が合って静止
+// 17.4–20.0 テロップ「続きは次回！ フォローして待っててね」。全部の階が光ったまま（第2話へ続く）
+// セット（内装・ボタン・照明・立ち位置）は rig/v2/elevator_set.js を共通で使う
+document.write('<script src="v2/lib.js"><\/script><script src="v2/elevator_set.js"><\/script>');
+(function () {
+  const sm = (a, b, t) => { const k = Math.max(0, Math.min(1, (t - a) / (b - a))); return k * k * (3 - 2 * k); };
+  // 耳の角度 → 耳の先のいちばん右の x（レンを x=392 に置いて実測。2026-11-16）。耳の先をボタンの列に重ねるための x を出す
+  const EAR_X = [[-100, 1060], [-96, 1067], [-92, 1073], [-88, 1077], [-84, 1080], [-80, 1082], [-76, 1083], [-72, 1082], [-68, 1080], [-64, 1077], [-60, 1072], [-56, 1066], [-52, 1059], [-40, 1031], [-30, 1002], [-20, 969], [-10, 934], [0, 902]];
+  const earRight = e => { for (let i = 0; i < EAR_X.length - 1; i++) { const [e0, r0] = EAR_X[i], [e1, r1] = EAR_X[i + 1]; if (e <= e1) return L.lerp(r0, r1, (e - e0) / (e1 - e0)); } return 902; };
+  const xFor = e => 392 + (ELV.BX + 14) - earRight(e);
+  // 耳のゆれ：[外へ振る開始, 外のいちばん端の時間, 戻り終わり, 外の角度, そのときのレンの x（null＝届かない位置）]
+  //   外へ振るとき、x も少しずつ右へ（モゾモゾ）→ いちばん外に振れた瞬間だけ耳の先がボタンの列にかかる。戻るときは耳がボタンからはなれる
+  const SW = [
+    [7.85, 8.25, 8.7, -40, 'far'],     // 1回目：まだ届かない（ゆらし始め）
+    [8.7, 9.15, 9.65, -86, 'hit'],     // 2回目：いちばん上（8）
+    [9.65, 10.15, 10.65, -74, 'hit'],  // 3回目：7・6
+    [10.65, 11.15, 11.65, -62, 'hit'], // 4回目：5・4
+  ];
+  const DROOP = [11.65, 12.15, 12.95]; // 最後：外へ振って（-55）そのまま重みで垂れる → 3・2・1 が続けて（ピピピッ）
+  const HOLD_E = -30;
+  // 体も耳と一緒に左右にゆれる：外へ振るときは x を遅れて右へ（u^3）、戻るときは耳より先に左へ 70px もどす。
+  //   こうしないと、耳が外へ振れる途中（-80° あたりが耳のいちばん外）で、ねらっていない下のボタンまでふれてしまう（2026-11-16 実測）
+  const BACK = 70;
+  function earAt(t) {   // { e: 耳の角度, x: レンの x }
+    const R = ELV.REN; let e = 0, prevX = R.x;
+    for (const [a, p, b, ep, mode] of SW) {
+      const tx = mode === 'far' ? R.x : xFor(ep), back = mode === 'far' ? R.x : tx - BACK;
+      if (t < a) return { e, x: prevX };
+      if (t < p) { const u = sm(a, p, t); return { e: L.lerp(-22, ep, L.ease(u)), x: L.lerp(prevX, tx, Math.pow(u, 3)) }; }
+      if (t < b) { const v = sm(p, b, t); return { e: L.lerp(ep, -22, L.ease(v)), x: L.lerp(tx, back, Math.sqrt(v)) }; }   // 体は耳より先に左へ（はなれる）
+      e = -22; prevX = back;
+    }
+    const [a, p, b] = DROOP, tx0 = xFor(-55);
+    if (t < p) { const u = sm(a, p, t); return { e: L.lerp(-22, -55, L.ease(u)), x: L.lerp(prevX, tx0, Math.pow(u, 3)) }; }
+    const u = Math.pow(sm(p, b, t), 1.4), ee = L.lerp(-55, HOLD_E, u);
+    return { e: ee, x: xFor(ee) };
   }
-};
+  // ---- レンの動き（耳がボタンにふれるかは、この動きの実際の耳の形で判定する）----
+  function renPose(t) {
+    const R = ELV.REN, F = RIG.FACES;
+    let x = R.x, tilt = 0, sq = 0, nod = 0, earR = 0, earL = 0, look = 0, eyeOpen = 1, face = F.neutral, extra = {};
+    // 2.2–2.6 チラッ（ジルの方＝左）→ 2.6 同時に反対（右）へ。目だけだと小さいので首も少しかしげる
+    if (t >= 2.2 && t < 2.6) { look = -sm(2.2, 2.3, t); extra.headTilt = -7 * sm(2.2, 2.35, t); }
+    else if (t >= 2.6 && t < 3.0) { look = sm(2.6, 2.68, t); extra.headTilt = L.lerp(-7, 7, sm(2.6, 2.72, t)); }
+    // 3.0–6.2：キョロキョロ（0.3 秒ごとに目線が飛ぶ）＋モゾモゾ
+    if (t >= 3.0 && t < 6.2) {
+      const seq = [1, -.3, .7, -.6, .2, .9, -.2, .5, -.7, .4, 1, -.4, .3, .8, -.1], i = Math.floor((t - 3.0) / .3), u = ((t - 3.0) % .3) / .3;
+      look = L.lerp(seq[Math.max(0, i - 1)] ?? 1, seq[Math.min(i, seq.length - 1)], L.ease(Math.min(1, u * 2.5)));
+      extra.headTilt = 7 * (1 - sm(3.0, 3.4, t));
+      tilt = 3 * Math.sin((t - 3.0) * 8) * (1 - sm(5.8, 6.2, t)); sq = .05 * Math.sin((t - 3.0) * 12); x += 4 * Math.sin((t - 3.0) * 6) * (1 - sm(5.8, 6.2, t));
+      extra.sweat = .5 * sm(3.6, 4.2, t);
+    }
+    if (t >= 6.2 && t < 7.5) { look = .5; extra.sweat = .5; }   // だまって止まる（6.9–7.5 は完全に静止）
+    // 7.5–13.3：天井を見て、気まずさをごまかすように耳を左右にゆらす（本人は気づいていない＝のんきな顔・♪）
+    if (t >= 7.5 && t < 13.3) {
+      const a = sm(7.5, 7.85, t), E = earAt(t);
+      earR = L.lerp(0, E.e, a); earL = .3 * earR;                // 左の耳も外へ小さく（パタパタ。内がわへ振ると顔にかぶる）
+      x = E.x;
+      const sway = Math.sin((t - 7.85) * Math.PI / 1.0);         // 体も耳のゆれに合わせて小さく左右に
+      tilt = 6 * a; extra.headTilt = 6 * a; nod = -12 * a; sq = .03 * sway * a;   // 体のかたむきは一定（耳の位置の実測と同じ）。左右のゆれは x で
+      look = .2; face = Object.assign({}, F.smile, { blush: .3 });   // 目を細めて、のんき
+      if (t > 12.3) face = Object.assign({}, F.neutral, { mouth: 'w' });
+    }
+    // 13.3：突然固まる（気づく）。耳はボタンにのせたまま
+    if (t >= 13.3) {
+      const f = sm(13.3, 13.42, t);
+      earR = HOLD_E; earL = .3 * HOLD_E; x = xFor(HOLD_E); tilt = 4; extra.headTilt = 5; nod = -12 * (1 - f) + 6 * f; sq = -.1 * f + .05 * L.pulse(t, 13.3, 13.5); look = .3;
+      face = Object.assign({}, F.neutral, { mouth: 'line' }); eyeOpen = 1 + .22 * f; extra.sweat = f;
+    }
+    // 16.2–16.9：おそるおそるジルを見る
+    if (t >= 16.2) { const g = sm(16.2, 16.9, t); look = L.lerp(.3, -1, g); extra.headTilt = L.lerp(5, -6, g); }
+    return Object.assign({}, RIG.POSES.sit, face, { x, y: ELV.y(R) + nod * .3, scale: R.s, bodyTilt: tilt, bodySquash: sq, headNod: nod * .5, earL, earR, eyeLook: look, eyeOpen, blush: face.blush ?? .25 }, extra.sweat ? { sweat: extra.sweat } : {}, extra.headTilt != null ? { headTilt: extra.headTilt } : {});
+  }
+  // ジル：真顔で階の表示 → 光るボタンをじっと → ゆっくりレンへ
+  function jilPose(t) {
+    const J = ELV.JIL, F = RIG.FACES;
+    let look = 0, nod = 0, htilt = 0, face = F.neutral, eyeOpen = 1;
+    if (t >= 2.2 && t < 2.6) { look = sm(2.2, 2.3, t); htilt = 7 * sm(2.2, 2.35, t); }                                // チラッ（レンの方＝右）
+    else if (t >= 2.6 && t < 3.0) { look = -sm(2.6, 2.68, t); htilt = L.lerp(7, -7, sm(2.6, 2.72, t)); }              // 同時に反対へ
+    if (t >= 3.0 && t < 13.6) { look = L.lerp(-1, 0, sm(3.0, 3.3, t)); htilt = -7 * (1 - sm(3.0, 3.3, t)); nod = -16 * sm(3.0, 3.4, t); face = F.sharp; } // 階の表示をじっと
+    if (t >= 13.6) {
+      const a = sm(13.6, 14.1, t); look = L.lerp(0, .9, a); nod = L.lerp(-16, 8, a); face = F.sharp;                    // 光るボタンを見る（右下）
+      const b = sm(15.2, 16.4, t); htilt = 10 * b; nod = L.lerp(nod, 2, b); look = L.lerp(look, 1, b);                  // ゆっくりレンへ（無言のツッコミ）
+      if (b > 0) face = Object.assign({}, F.sharp, { eyeShape: 'half', mouth: 'line' }); eyeOpen = L.lerp(1, .6, sm(15.4, 15.9, t));
+    }
+    return Object.assign({}, RIG.POSES.sit, face, { x: J.x, y: ELV.y(J), scale: J.s, eyeLook: look, headNod: nod, headTilt: htilt, eyeOpen });
+  }
+  // 完全に止まる時間（呼吸・まばたき・耳のゆれも止める）
+  const still = t => (t >= 6.9 && t < 7.5) || t >= 16.95;
+  const charOpt = (t, extra) => Object.assign({ twitch: !still(t) && !(t > 7.4 && t < 13.6) }, still(t) ? { blink: false, breathe: false, ears: false } : {}, (t > 7.4 && t < 13.6) ? { ears: false } : {}, extra || {});
+
+  // ---- 耳がふれた時間（実際に描いて判定。1回だけ計算）----
+  let TOUCH = null;
+  function touches() {
+    if (TOUCH) return TOUCH;
+    TOUCH = {};
+    for (let t = 7.4; t <= 13.6; t += 1 / 240) {
+      L.char('ren', renPose(t), t, '', charOpt(t, { shadow: false }));
+      for (const n of ELV.earTouch()) if (TOUCH[n] == null) TOUCH[n] = Math.round(t * 1000) / 1000;
+    }
+    return TOUCH;
+  }
+  const BASE_SFX = [
+    { t: 0.0, type: 'hum', pan: 0 },   // 空気の音（ずっと小さく）
+    { t: 0.2, type: 'ding', pan: .2 }, { t: 0.45, type: 'door' },
+    { t: 2.22, type: 'blink', pan: -.2 }, { t: 2.6, type: 'swish' },
+    { t: 7.55, type: 'swish', pan: .4 },
+    { t: 13.32, type: 'twitch', pan: .3 },
+    { t: 15.25, type: 'blink', pan: -.3 },
+    { t: 17.45, type: 'pop' }
+  ];
+  var sfxCache = null;
+  // テロップ（最後）：画面の文字はカメラの外（ui）に。Instagram の下の隠れる範囲より上
+  const TELOP = (k) => k <= 0 ? '' : `<g transform="translate(540 1420) scale(${L.outBack(Math.min(1, k * 1.6))})" opacity="${Math.min(1, k * 3)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle">
+    <rect x="-452" y="-112" width="904" height="236" rx="46" fill="#3B2412" opacity=".22" transform="translate(6 10)"/>
+    <rect x="-452" y="-112" width="904" height="236" rx="46" fill="#3A2414" opacity=".9"/><rect x="-436" y="-98" width="872" height="18" rx="9" fill="#fff" opacity=".08"/>
+    <text y="-6" font-size="88" fill="#FFF7E8">続きは次回！</text><text y="78" font-size="54" fill="#F2D3A8">フォローして待っててね</text></g>`;
+  // 4〜6秒：上に「・・・。」（2人きりの気まずさ）。点が 1 つずつ増えて「。」で止まる
+  const DOTS = t => { if (t < 4.0 || t > 6.0) return ''; const n = Math.min(4, 1 + Math.floor((t - 4.0) / .3)), a = Math.min(1, (t - 4.0) * 6, (6.0 - t) * 5);
+    const txt = '・・・。'.slice(0, n);
+    return `<g opacity="${a.toFixed(2)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="start"><text x="330" y="610" font-size="130" fill="#3A2414" stroke="#FFF7E8" stroke-width="16" paint-order="stroke" letter-spacing="6">${txt}</text></g>`; };
+  window.EP = {
+    dur: 21.0,
+    bgmHolds: '0.0-17.3',   // 気まずさの回：本編は BGM なし（効果音と沈黙だけ）。テロップから BGM
+    get sfx() {
+      if (sfxCache) return sfxCache;
+      const T = touches(), order = Object.keys(T).map(Number).sort((a, b) => T[a] - T[b]);
+      sfxCache = BASE_SFX.concat(order.map((n, i) => ({ t: T[n], type: 'beep' + Math.min(6, 1 + Math.floor(i * .7)), pan: .55 }))).sort((a, b) => a.t - b.t);
+      return sfxCache;
+    },
+    touches: () => touches(),
+    frame(t) {
+      if (!window.L || !window.RIG || !window.ELV) return;
+      const T = touches();
+      const open = 1 - L.ease(L.seg(t, 0.45, 1.6));
+      const lit = Object.keys(T).map(Number).filter(n => T[n] <= t);
+      const glow = {}; for (const n of lit) glow[n] = Math.max(0, 1 - (t - T[n]) / .25);
+      const floor = t < 5.0 ? 1 : t < 10.0 ? 2 : t < 15.0 ? 3 : 4;
+      const bg = ELV.bg({ open, floor, lit, glow, pulse: .5 + .5 * Math.sin(t * 4) });
+      L.char('jil', jilPose(t), t, '', charOpt(t));
+      L.char('ren', renPose(t), t, '', charOpt(t));
+      let fx = '';
+      // 耳をゆらしている間の ♪（のんき・無意識）
+      if (t > 7.9 && t < 12.4) for (let i = 0; i < 3; i++) {
+        const u = ((t - 7.9) / 1.5 + i / 3) % 1, a = Math.min(1, u * 5, (1 - u) * 3) * Math.min(1, (12.4 - t) * 3);
+        fx += `<text x="${560 + 40 * Math.sin(u * 6 + i)}" y="${1040 - u * 160}" font-size="${54 + 10 * i}" font-weight="900" fill="#8C603C" opacity="${a.toFixed(2)}" text-anchor="middle" font-family="Noto Sans CJK JP, sans-serif">♪</text>`;
+      }
+      const cam = L.camAt([
+        { t: 0, z: 1.08, cx: 540, cy: 1110 },                  // 扉が閉まる（扉と2人）。最初のコマからゆっくり寄る（qa：最初の 0.5 秒で動きを出す）
+        { t: 0.01, z: 1.32, cx: 510, cy: 1300, d: 2.4 },       // 2人
+        { t: 7.4, z: 1.62, cx: 770, cy: 1250, d: .7 },          // レンの耳とボタン
+        { t: 13.6, z: 1.13, cx: 525, cy: 1290, d: .6 },        // 2人＋光るボタン（全身と表情とボタンが入る）
+        { t: 16.85, z: 1.2, cx: 530, cy: 1300, d: .5 },        // 目が合う
+      ], t);
+      cam.z /= 1 + .006 * Math.sin(t * .9); if (!still(t)) cam.z *= 1 + .006 * Math.sin(t * .9);  // 静止中はカメラのゆれも止める
+      const ui = t < 20.05 ? DOTS(t) + TELOP(L.seg(t, 17.4, 17.9)) : '';
+      L.mount({ bg, fx, ui, cam, t });
+      if (typeof endcard === 'function') endcard(t, EP.dur);
+    }
+  };
+})();
+var EP = window.EP;

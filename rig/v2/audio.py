@@ -71,6 +71,23 @@ def S(kind):
         return out
     if kind == 'flop':   # ぺたん（倒れる）
         return A(0.5 * lp(noise(.25), 600) * env(int(SR * .25), .005, .07), 0.5 * sweep(110, 60, .2) * env(int(SR * .2), .003, .06))
+    # 2026-11-16 エレベーターの回で追加（ほかの回の音は変えない）
+    if kind == 'ding':   # チーン（エレベーターの到着・扉が閉まる合図。高い鈴1音）
+        return 0.4 * modal(1318.5, [1, 2.0, 2.76, 4.1], [1, .4, .22, .1], [.9, .5, .3, .15], 1.3)
+    if kind == 'door':   # ウィーン（扉が左右から閉まる。モーター音＋すべる音、最後にとんっ）
+        d = 1.0; t = t_(d); hum = 0.16 * np.sin(2 * np.pi * np.cumsum(110 + 50 * np.sin(np.pi * t / d)) / SR) * np.sin(np.pi * t / d) ** .8
+        slide = 0.07 * bp(noise(d), 500, 2400) * np.sin(np.pi * t / d) ** 2
+        out = np.zeros(int(SR * 1.2)); out[:len(t)] += hum + slide
+        k = A(0.4 * modal(260, [1, 2.4], [1, .3], [.06, .03], .15), 0.1 * lp(noise(.04), 1200) * env(int(SR * .04), .001, .01))
+        o = int(SR * .95); out[o:o + len(k)] += k
+        return out
+    if kind == 'hum':    # エレベーターの中の空気の音（モーターのうなり＋換気。とても小さく。沈黙の場面でも完全な無音にしない）
+        d = 20.5; t = t_(d); y = 0.010 * np.sin(2 * np.pi * 98 * t) * (1 + .15 * np.sin(2 * np.pi * .3 * t)) + 0.006 * lp(noise(d), 400)
+        f = int(SR * .4); y[:f] *= np.linspace(0, 1, f); y[-f:] *= np.linspace(1, 0, f)
+        return y
+    if kind.startswith('beep'):  # ピッ（ボタン。beep / beep2 / beep3 … で少しずつ高くなる）
+        n = int(kind[4:] or 1); f = 1760 * 2 ** ((n - 1) * 2 / 12); d = .09; t = t_(d)
+        return 0.32 * (np.sin(2 * np.pi * f * t) + .25 * np.sin(4 * np.pi * f * t)) * env(len(t), .002, .05)
     raise Exception('unknown sfx ' + kind)
 
 # ---------- BGM ----------
