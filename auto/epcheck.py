@@ -179,6 +179,7 @@ def check(posts, today, days=14, pc=None, lk=None):
             if len(en.split()) > 4: warns.append(f"{tag}: 冒頭の英語が{len(en.split())}語（3〜4語に）")
             # 冒頭の日本語は 13 文字まで（2026-11-15：1.7 秒で読める長さ。振り返りで、短い一言の回ほど最後まで見られていた：最後の1枚 0.64／99%で止まる 0.49 ⇔ 長い一言の回 0.41〜0.46）
             ja_h = i["hook"].split("/")[1] if "/" in i["hook"] else ""
+            ja_h = re.sub(r"\s*Part\s*\d+$", "", ja_h)   # 連載の印「 Part N」は数えない（tests/test_video_quality.py と同じ数え方）
             if len(ja_h) > 13: warns.append(f"{tag}: 冒頭の日本語が{len(ja_h)}文字（13文字までに。1.7秒で読み切れない）")
             # 3話連載の回（2026-11-16〜）は、あらすじ・次回予告・フォローのテロップが入るので 21 秒まで（エレベーター第1話＝20秒＋エンドカード1秒）
             hi = 21 if p.get("series") else 12
