@@ -1,0 +1,9 @@
+{
+  "_comment": "2026-11-16 オーナー決定：毎日投稿をやめ、毎週 月・木・土 の週3本にする。1週間の3本で1つの話（3話連載）が完結する。各話の最後に次回予告とフォローのテロップ、第2話・第3話の冒頭に前回のあらすじ（1〜2秒）と「Part N」。この決まりは auto/series.py が読み、post.py（曜日の外は投稿しない）・epcheck.py・daily_review.py・cadence.py が使う。方針の全文は docs/SERIES.md。",
+  "since": "2026-11-17",
+  "series_start": "2026-11-23",
+  "post_weekdays": [0, 3, 5],
+  "parts": 3,
+  "per_week": 3,
+  "schedule_target_days": 7
+}

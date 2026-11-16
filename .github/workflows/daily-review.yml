@@ -53,7 +53,12 @@ jobs:
               schedule-short|no-experiment)
                 [ -d "$RUNNER_TEMP/hub" ] && node "$RUNNER_TEMP/hub/scripts/hub.mjs" req-new --type improve --target renjill-weekly-pdca --auto \
                   --title "【改善が止まっています】$k（毎日の振り返りが見つけた）" \
-                  --body "毎日の振り返り（renjill-daily-review）が見つけました：$(python3 -c "import json;print([p['text'] for p in json.load(open('dist/daily_problems.json')) if p['kind']=='$k'][0])")。予定表をあと14日以上埋める・打ち手の記録を付ける、のうち該当するものを自動で直してください。" || true ;;
+                  --body "毎日の振り返り（renjill-daily-review）が見つけました：$(python3 -c "import json;print([p['text'] for p in json.load(open('dist/daily_problems.json')) if p['kind']=='$k'][0])")。予定表を次の週の3話（月・木・土）まで埋める・打ち手の記録を付ける、のうち該当するものを自動で直してください。" || true ;;
+              series-rule)
+                # 週3本（月・木・土）・3話連載の決まり（2026-11-16 オーナー決定）に合わない回。直すのは総見直し（毎日 13:23）
+                [ -d "$RUNNER_TEMP/hub" ] && node "$RUNNER_TEMP/hub/scripts/hub.mjs" req-new --type improve --target renjill-overhaul --auto \
+                  --title "【連載の決まり】予定表が週3本・3話連載に合っていません（毎日の振り返りが見つけた）" \
+                  --body "毎日の振り返り（renjill-daily-review）が見つけました：$(python3 -c "import json;print([p['text'] for p in json.load(open('dist/daily_problems.json')) if p['kind']=='$k'][0])")。renjill-auto の docs/SERIES.md のとおり自動で直してください（python3 auto/series.py で確認）。" || true ;;
             esac
           done
       - name: Automation Hub に記録

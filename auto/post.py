@@ -29,6 +29,7 @@ import growth
 import threads
 import textcheck
 import covercheck
+import series
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 RIG, DIST, AUTO = ROOT / "rig", ROOT / "dist", ROOT / "auto"
@@ -60,6 +61,9 @@ def pick_posts(slot_override=None, now=None, ignore_posted=False):
     out = []
     for p in sch["posts"]:
         if p["date"] != today: continue
+        # 週3本（月・木・土）・3話連載（2026-11-16 オーナー決定。auto/series_policy.json）：ほかの曜日の回は、予定表に残っていても出さない
+        if not series.allowed(p["date"]):
+            print(f'[post] {p["date"]} {p["ep"]} は投稿しない曜日の回（投稿は{series.label()}だけ）。出さずに飛ばす', file=sys.stderr); continue
         if slot_override is None and not in_window(p, now): continue
         if slot_override is not None and not same_slot(p["slot"], slot_override): continue  # 指定した時間の回だけ（12:00 の起動で 18:00 の回を先に出さない。Hub 依頼 #141・2026-11-13）
         key = f'{p["date"]}_{p["ep"]}'
@@ -380,7 +384,7 @@ def next_api_post(sch, posted, now, detail=False):
             return (label, p["title"], at.astimezone(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:00Z")) if detail else label
     return None
 
-HUB_DOES = "毎日 12:00・18:00・19:00 に、予定の動画を Instagram・Facebook などに自動で投稿する（レンとジル）"
+HUB_DOES = "毎週 月・木・土（3話連載）の 12:00・18:00・19:00 のうち予定の時刻に、予定の動画を Instagram・Facebook などに自動で投稿する（レンとジル）"
 
 def write_hub_args(fb_result, results=None, actions=None, next_api=None, keep_actions=False, summary=None, outcome=None, count=None, next_action=None):
     """Automation Hub の report に渡す追加の引数（NUL 区切り。post.yml が読む）。

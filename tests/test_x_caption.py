@@ -9,7 +9,8 @@ class XCaption(unittest.TestCase):
     def test_every_episode_fits(self):
         d = json.loads((ROOT / "auto/schedule.json").read_text())
         n = 0
-        for p in d["posts"]:
+        stock = json.loads((ROOT / "auto/stock.json").read_text())["posts"]  # 2026-11-16 に週3本へ変えたとき予定表から外した回も見る
+        for p in d["posts"] + stock:
             if not p.get("caption_ja") or not p.get("caption_en"): continue
             c = post.x_caption(p, d.get("defaults", {}))
             self.assertLessEqual(post.x_len(c), post.X_LIMIT, p["ep"])

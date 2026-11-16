@@ -11,6 +11,7 @@ import csv, datetime as dt, io, json, pathlib, statistics, sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 import cadence
+import series
 
 import novelty
 
@@ -241,8 +242,11 @@ def main(argv):
     # 投稿頻度の段階（依頼 #98）：直した版の最後まで見られた割合で、週4〜5本→毎日（週7本）を自動で判定する
     cad = cadence.main(["--date", today.isoformat()])
     if "content/cadence.json" not in changed_files: changed_files.append("content/cadence.json")
-    hub += ["--kpi", f'投稿頻度=第{cad["stage"]}段階・週{cad["per_week"]}本（{cad["why"]}）']
+    hub += ["--kpi", f'投稿頻度={cad["why"]}' if cad["stage"] == "series" else f'投稿頻度=第{cad["stage"]}段階・週{cad["per_week"]}本（{cad["why"]}）']
     hub += ["--kpi", f'予定表={cad["schedule_days_ahead"]}/{cad["schedule_target_days"]}日先まで']
+    # 週3本（月・木・土）・3話連載の決まり（2026-11-16 オーナー決定）：曜日の外の回・連載の欄・Part N・つづく・フォロー・あらすじ・3話そろい
+    sr = series.check(posts, today)
+    if sr["issues"]: problems.append({"kind": "series-rule", "text": "連載の決まりに合わない：" + "／".join(sr["issues"][:3]), "fix": "docs/SERIES.md のとおり直す（3日以内の回は総見直しが直す）"})
     if cad["same_day_twice"]: problems.append({"kind": "same-day-twice", "text": f'同じ日に2本入っている日がある：{"・".join(cad["same_day_twice"])}', "fix": "別の日にずらす"})
     hub += ["--kpi", f"止まっているもの={len(problems)}"]
     (ROOT / "dist" / "daily_hub_args").write_bytes(b"\0".join(x.encode() for x in hub) + b"\0")
