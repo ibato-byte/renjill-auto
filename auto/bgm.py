@@ -188,7 +188,7 @@ def description(pl, tracks, used_names=()):
             f'{TRACKLIST}\n' + "\n".join(lines) + '\n\n'
             'All music and animation are original, made in-house for this video (no samples). Feel free to play it in the background.\n'
             '音楽もアニメーションも、この動画のために作ったオリジナルです。\n\n'
-            '▶ Daily shorts: a wordless office comedy / 毎日のショート（セリフなしのオフィスコメディ）もどうぞ\n'
+            '▶ Shorts every Mon, Thu & Sat: a 3-part office comedy each week / 毎週 月・木・土のショート（3話で1つのお話）もどうぞ\n'
             f'{SNS_LINE}\n© COANA TOKYO')
     return body, names
 

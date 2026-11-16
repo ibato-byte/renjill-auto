@@ -1,7 +1,10 @@
 # renjill-auto — レンとジル 自動投稿リポジトリ
 
 うさぎの課長レンと部下ジルの、セリフなしオフィスコメディ（COANA TOKYO）。
-このリポジトリが毎日「今日の回」を描画し、Instagram / TikTok / YouTube / Facebook（リール）に投稿し、数値を記録します。
+このリポジトリが予定の日に「その日の回」を描画し、Instagram / TikTok / YouTube / Facebook（リール）に投稿し、数値を記録します。
+
+> **2026-11-16 オーナー決定：短い動画は毎週 月・木・土 の週3本、1週間の3本で1つの話（3話連載）。** 方針と仕組みは [docs/SERIES.md](docs/SERIES.md)。
+> この README の「毎日」「週4〜5本」「14日先」などの古い記述と食い違うときは、docs/SERIES.md を優先する。
 
 ## 構成
 - `rig/` … SVGリグ・エピソード台本（`ep/*.js`）・描画と音の生成
@@ -12,7 +15,9 @@
 - `auto/metrics.py` … 投稿済み動画の数値を `content/metrics.csv` に追記
 - `auto/sns_policy.json` … SNS の多言語方針のスイッチ（YouTube の説明の公式サイトの行・TikTok だけの繁体字／韓国語ハッシュタグ・公式サイトの一覧 episodes.json）。項目を false にすると、その変更だけ止まる
 - `auto/episodes_json.py` … 公式サイト（https://renjill.coana.co.jp/）のエピソード一覧 `renjill-media/episodes.json` を作る。題・一言は4言語（ja・en・zh・ko。zh・ko は予定表の回の `site_i18n`）、カバー・動画・YouTube の ID つき。投稿のあとに毎回、今のファイルとまとめて書き直す（前の ID や回は消さない。失敗しても投稿は止めない）。`python auto/episodes_json.py` で中身だけ表示
-- `.github/workflows/post.yml` … 12:00 / 18:00 / 19:00 JST に実行
+- `auto/series_policy.json`・`auto/series.py` … 週3本（月・木・土）・3話連載の決まりと検査（docs/SERIES.md）
+- `auto/stock.json` … 在庫（週3本に変えたとき予定表から外した1話完結の回。台本は rig/ep に残す）
+- `.github/workflows/post.yml` … 毎日 12:00 / 18:00 / 19:00 JST に起動（予定表にある 月・木・土 の回だけ出す）
 - `.github/workflows/metrics.yml` … 毎朝 06:30 JST に実行
 - `dist/` … 生成済み動画（`*_yt.mp4` エンドカード付き、`*_loop.mp4` ループ版）
 

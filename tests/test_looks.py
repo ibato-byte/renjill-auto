@@ -8,16 +8,14 @@ import looks
 
 class Looks(unittest.TestCase):
     def test_no_repeat_within_4(self):
-        posts = json.loads((ROOT / "auto/schedule.json").read_text())["posts"]
-        m = looks.assign(posts)
+        m = looks.assign(looks.all_posts())
         order = list(m)
         for i in range(len(order)):
             prev = [m[e] for e in order[max(0, i - 3):i]]
             self.assertNotIn(m[order[i]], prev, order[i])
 
     def test_file_up_to_date(self):
-        posts = json.loads((ROOT / "auto/schedule.json").read_text())["posts"]
-        self.assertEqual((ROOT / "rig/v2/looks.js").read_text(), looks.render(looks.assign(posts)),
+        self.assertEqual((ROOT / "rig/v2/looks.js").read_text(), looks.render(looks.assign(looks.all_posts())),
                          "rig/v2/looks.js が古い：python3 auto/looks.py を実行")
 
     def test_lib_uses_table(self):

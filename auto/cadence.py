@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-"""投稿の頻度を「毎日（週7本）」へ段階的に増やす判定（Claude を使わない。Hub 依頼 #98）。
+"""投稿の頻度の判定（Claude を使わない。Hub 依頼 #98）。
+※ 2026-11-16 から、オーナーの決定で「週3本（月・木・土）・3話連載」に固定（auto/series_policy.json があれば main はそれを返す）。
+以下は以前の段階の判定（decide）。週3本の決まりをやめたときに戻せるよう残す。
 第1段階（今）：週4〜5本。つかみの改善（#97）を優先し、毎日出せる体制（ネタ・描画・検査・予定表14日先）だけ先に作る。
 第2段階：#97 の直しで作った回（rig/pace.js に載っている回）のうち、投稿順に「最後まで見られた割合（平均視聴時間÷長さ）」が
   直す前の基準（約16%）より明らかに上（RISE_RATIO 倍以上）の回が 2 本続いたら、毎日（週7本）に切り替える。
@@ -7,6 +9,8 @@
 結果は content/cadence.json に書く。daily_review.py が毎朝呼んで Hub に出し、週次PDCAは「今週の本数」をこの値から決める。
 `python auto/cadence.py [--date YYYY-MM-DD]`"""
 import csv, datetime as dt, io, json, pathlib, re, sys
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+import series
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 JST = dt.timezone(dt.timedelta(hours=9))
@@ -70,13 +74,19 @@ def main(argv):
     posted = json.loads(posted_f.read_text(encoding="utf-8")) if posted_f.exists() else {}
     rows = ratios(read_csv(ROOT / "content" / "insights.csv"), posted, new_style_eps())
     stage, per_week, why = decide(rows, prev.get("stage", 1))
+    target = AHEAD_DAYS
+    pol = series.policy()
+    if pol and today.isoformat() >= pol["since"]:
+        # 2026-11-16 オーナー決定：週3本（月・木・土）・3話連載に固定。段階の自動判定（週5→毎日）は使わない
+        stage, per_week, target = "series", pol["per_week"], pol["schedule_target_days"]
+        why = f"週{per_week}本（{series.label(pol)}）・{pol['parts']}話で1つの話（2026-11-16 オーナー決定。auto/series_policy.json）"
     days, dup = planned(json.loads((ROOT / "auto" / "schedule.json").read_text(encoding="utf-8")), today)
     out = {"stage": stage, "per_week": per_week, "why": why, "baseline": BASELINE, "need": round(BASELINE * RISE_RATIO, 3),
-           "recent": [{"key": k, "ratio": v} for k, v in rows[-4:]], "schedule_days_ahead": days, "schedule_target_days": AHEAD_DAYS,
+           "recent": [{"key": k, "ratio": v} for k, v in rows[-4:]], "schedule_days_ahead": days, "schedule_target_days": target,
            "same_day_twice": dup, "date": today.isoformat()}
     if {k: v for k, v in out.items() if k != "date"} != {k: v for k, v in prev.items() if k != "date"} or not f.exists():
         f.write_text(json.dumps(out, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
-    print(f"[cadence] 第{stage}段階・週{per_week}本：{why}")
+    print(f"[cadence] {stage}・週{per_week}本：{why}")
     return out
 
 

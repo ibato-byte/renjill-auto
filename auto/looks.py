@@ -26,9 +26,16 @@ def render(m):
     return "// 自動生成（auto/looks.py）。手で直さない。話ごとの部屋の見た目 0〜3（rig/v2/lib.js の LOOKS）\nwindow.LOOK_ALL = {\n" + body + "\n};\n"
 
 
-def main():
+def all_posts():
+    """予定表の回＋在庫（auto/stock.json。2026-11-16 に週3本へ変えたとき外した回。元の予定日 planned_date の順）"""
     posts = json.loads((ROOT / "auto/schedule.json").read_text())["posts"]
-    (ROOT / "rig/v2/looks.js").write_text(render(assign(posts)))
+    f = ROOT / "auto/stock.json"
+    stock = [dict(p, date=p.get("planned_date", "")) for p in json.loads(f.read_text())["posts"]] if f.exists() else []
+    return posts + stock
+
+
+def main():
+    (ROOT / "rig/v2/looks.js").write_text(render(assign(all_posts())))
 
 
 if __name__ == "__main__":

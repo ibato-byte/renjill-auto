@@ -12,7 +12,8 @@
 - 字幕の長さ：英語 24 文字・日本語 18 文字を超えたら WARN                    … 38・159
 - 冒頭の一言（pace.js の hook）：日本語 14 文字以上は WARN（13 文字まで。2026-11-15）
 - 冒頭の一言（pace.js の hook）：英語 5 語以上は WARN（3〜4 語）            … 136
-- 尺：画面に出る長さが 7〜12 秒の外なら WARN                               … 5・143
+- 週3本（月・木・土）・3話連載の決まり（auto/series.py。2026-11-16 オーナー決定）：曜日の外の回・連載の欄・Part N・次回予告・フォロー・あらすじは ISSUE
+- 尺：画面に出る長さが 7〜12 秒（3話連載の回は 21 秒まで）の外なら WARN                               … 5・143
 - 同じ効果音の組み合わせ：「目立つ音」（pon/boing/chime/thump/flop）が3日続けて同じなら WARN … 127
 - 同じ部屋：前の3話と同じ見た目（rig/v2/looks.js）なら WARN                … 179
 - 小物の名前（L.xxx の小物）が3日続けて同じなら WARN                        … 15・180
@@ -29,6 +30,8 @@
   足さないと顔だけ驚いて体は跳ばない。月曜の朝・オンライン会議で見つかった。y に「+ yOff」を足す）… 301
 """
 import datetime as dt, json, pathlib, re, sys
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+import series
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 EP = ROOT / "rig" / "ep"
@@ -177,7 +180,9 @@ def check(posts, today, days=14, pc=None, lk=None):
             # 冒頭の日本語は 13 文字まで（2026-11-15：1.7 秒で読める長さ。振り返りで、短い一言の回ほど最後まで見られていた：最後の1枚 0.64／99%で止まる 0.49 ⇔ 長い一言の回 0.41〜0.46）
             ja_h = i["hook"].split("/")[1] if "/" in i["hook"] else ""
             if len(ja_h) > 13: warns.append(f"{tag}: 冒頭の日本語が{len(ja_h)}文字（13文字までに。1.7秒で読み切れない）")
-            if i["out"] and not (7 <= i["out"] <= 12): warns.append(f"{tag}: 尺 {i['out']:.1f}秒（7〜12秒に）")
+            # 3話連載の回（2026-11-16〜）は、あらすじ・次回予告・フォローのテロップが入るので 21 秒まで（エレベーター第1話＝20秒＋エンドカード1秒）
+            hi = 21 if p.get("series") else 12
+            if i["out"] and not (7 <= i["out"] <= hi): warns.append(f"{tag}: 尺 {i['out']:.1f}秒（7〜{hi}秒に）")
             if ep in lk and any(lk.get(h) == lk[ep] for h in hist[-3:]):
                 warns.append(f"{tag}: 前の3話と同じ部屋（rig/v2/looks.js を作り直す：python3 auto/looks.py）")
             prev = [info(h, pc) for h in hist[-2:]]
@@ -187,7 +192,9 @@ def check(posts, today, days=14, pc=None, lk=None):
                 common = i["props"] & prev[0]["props"] & prev[1]["props"]
                 if common: warns.append(f"{tag}: 同じ小物が3話続く（{'・'.join(sorted(common))}）")
         hist.append(ep)
-    return {"issues": issues, "warns": warns}
+    # 週3本（月・木・土）・3話連載の決まり（2026-11-16 オーナー決定。auto/series.py）
+    sr = series.check(posts, today, days)
+    return {"issues": issues + sr["issues"], "warns": warns + sr["warns"]}
 
 
 def main(argv):
