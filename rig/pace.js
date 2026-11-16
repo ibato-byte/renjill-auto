@@ -99,3 +99,4 @@ window.PACE_ALL.mouse = { start: 0.0, speed: 1.0, hook: 'THE CURSOR/マウスの
 window.PACE_ALL.nekutai = { start: 0.0, speed: 1.0, hook: 'TIE A TIE/ネクタイ、上司が結ぶと' };
 window.PACE_ALL.mezamashi = { start: 0.0, speed: 1.0, hook: 'ALARM CLOCK/目覚まし、上司のは' };
 window.PACE_ALL.elevator2 = { start: 0.0, speed: 1.0, hook: 'BOSS. ELEVATOR./上司とエレベーター Part 2' };   // 2026-11-17 連載・第2話
+window.PACE_ALL.elevator3 = { start: 0.0, speed: 1.0, hook: 'BOSS. ELEVATOR./上司とエレベーター Part 3' };   // 2026-11-17 連載・第3話（最終話）

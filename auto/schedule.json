@@ -669,6 +669,46 @@
       }
     },
     {
+      "date": "2026-11-23",
+      "slot": "18:00",
+      "ep": "elevator3",
+      "no": 96,
+      "title": "上司とエレベーター Part 3",
+      "caption_ja": "新人ポムが、はちまきで課長の耳を結んで解決！やっと1階…と思ったら、ほおぶくろから仕事がポポポポン。",
+      "caption_en": "New hire Pom ties up the boss's ears with his headband. Finally, the ground floor... then the work pops out of his cheeks.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 6.6,
+        "cam": "1.12,480,1180",
+        "hook": "BOSS. ELEVATOR./上司とエレベーター Part 3"
+      },
+      "first_comment": "仕事を持って帰ってきた新人、どうする？ / What would you do with this new hire?",
+      "site_i18n": {
+        "title": {
+          "en": "Elevator with the boss, Part 3",
+          "zh": "和主管單獨搭電梯 Part 3",
+          "ko": "상사와 단둘이 엘리베이터 Part 3"
+        },
+        "caption": {
+          "zh": "新人波姆用頭帶把課長的耳朵綁起來！終於到1樓了…結果頰囊裡的工作噗噗噗地彈出來。",
+          "ko": "신입 폼이 머리띠로 과장님 귀를 묶어서 해결! 드디어 1층… 이라고 생각했더니 볼주머니에서 일이 퐁퐁퐁."
+        }
+      },
+      "title_i18n": {
+        "ja": "はちまきで解決…と思ったら Part 3 | レンとジル「上司とエレベーター」",
+        "ko": "머리띠로 해결…인 줄 알았는데 Part 3 | 렌과 질 Ren & Jill",
+        "zh-Hant": "用頭帶解決…才怪 Part 3 | 蓮與吉兒 Ren & Jill",
+        "es": "Resuelto con una cinta... o no, Parte 3 | Ren & Jill",
+        "pt": "Resolvido com a faixa... ou não, Parte 3 | Ren & Jill"
+      },
+      "series": {
+        "id": "elevator",
+        "part": 3,
+        "of": 3
+      },
+      "cta": "Save this for your next Monday./月曜の朝のために保存して"
+    },
+    {
       "date": "2026-11-12",
       "slot": "18:00",
       "ep": "hanko",

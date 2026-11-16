@@ -40,8 +40,8 @@
   <clipPath id="elOpening"><rect x="276" y="486" width="528" height="1004"/></clipPath>
   </defs>`;
   // 階の表示（扉の上）
-  ELV.indicator = (n, up = true, pulse = 0) => `<g transform="translate(540 410)"><rect x="-112" y="-50" width="224" height="104" rx="18" fill="${K.ink}" opacity=".16"/><rect x="-116" y="-58" width="232" height="104" rx="18" fill="url(#elFrame)"/><rect x="-100" y="-44" width="200" height="76" rx="10" fill="#1E232C"/><rect x="-100" y="-44" width="200" height="10" rx="5" fill="#000" opacity=".35"/>`
-    + (up ? `<path d="M-76 6 L-58 -22 L-40 6Z" fill="#7CF0A8" opacity="${.75 + .25 * pulse}"/>` : '')
+  ELV.indicator = (n, up = true, pulse = 0, down = false) => `<g transform="translate(540 410)"><rect x="-112" y="-50" width="224" height="104" rx="18" fill="${K.ink}" opacity=".16"/><rect x="-116" y="-58" width="232" height="104" rx="18" fill="url(#elFrame)"/><rect x="-100" y="-44" width="200" height="76" rx="10" fill="#1E232C"/><rect x="-100" y="-44" width="200" height="10" rx="5" fill="#000" opacity=".35"/>`
+    + (down ? `<path d="M-76 -22 L-58 6 L-40 -22Z" fill="#7CF0A8" opacity="${.75 + .25 * pulse}"/>` : up ? `<path d="M-76 6 L-58 -22 L-40 6Z" fill="#7CF0A8" opacity="${.75 + .25 * pulse}"/>` : '')
     + `<text x="22" y="20" text-anchor="middle" font-size="64" font-weight="900" font-family="Noto Sans Mono, monospace" fill="#FF8A5B" opacity=".35" stroke="#FF8A5B" stroke-width="8" stroke-linejoin="round">${n}</text><text x="22" y="20" text-anchor="middle" font-size="64" font-weight="900" font-family="Noto Sans Mono, monospace" fill="#FF8A5B">${n}</text><path d="M-92 -40 L-30 -40 L-62 28 L-92 28Z" fill="#fff" opacity=".05"/></g>`;
   // ボタンの板（扉の右がわ）。lit：光っている階の配列、glow：押した直後の強い光
   ELV.panel = (lit = [], glow = {}, openLit = 0) => {
@@ -87,7 +87,7 @@
       + `<path d="M-500 2100 L60 1510 L1020 1510 L1580 2100Z" fill="url(#elFloor)"/><path d="M60 1510 L1020 1510" stroke="#A9A194" stroke-width="5"/>`
       + [1600, 1720, 1880].map((y, i) => `<path d="M${-40 - i * 60} ${y} L${1120 + i * 60} ${y}" stroke="#A9A194" stroke-width="${2 + i}" opacity=".35"/>`).join('')
       + `<ellipse cx="540" cy="1560" rx="420" ry="40" fill="#fff" opacity=".12"/>`
-      + ELV.indicator(o.floor == null ? 1 : o.floor, o.up !== false, o.pulse || 0)
+      + ELV.indicator(o.floor == null ? 1 : o.floor, o.up !== false && !o.down, o.pulse || 0, !!o.down)
       + ELV.panel(o.lit || [], o.glow || {}, o.openLit || 0);
   };
   // レンの右の耳（たれ耳）が、ボタン b にふれているか（DOM の実際の耳の形で判定する＝絵と音が必ず合う）
@@ -123,25 +123,39 @@
     <radialGradient id="pombody" cx="0.4" cy="0.3" r="0.8"><stop offset="0" stop-color="${POM.a}"/><stop offset="0.6" stop-color="${POM.b}"/><stop offset="1" stop-color="${POM.deep}"/></radialGradient>
     <radialGradient id="pomhead" cx="0.5" cy="0.4" r="0.65"><stop offset="0" stop-color="#F7E9D3"/><stop offset="0.6" stop-color="${POM.a}"/><stop offset="1" stop-color="${POM.b}"/></radialGradient>
     <radialGradient id="pomcheek" cx="0.45" cy="0.4" r="0.6"><stop offset="0" stop-color="#FFFFFF"/><stop offset="0.62" stop-color="${POM.cream}"/><stop offset="0.9" stop-color="#EBDCC6"/><stop offset="1" stop-color="#D9C4A4"/></radialGradient></defs>`;
+  // q = { eye 'round'|'big'|'happy', look -1〜1, wob（首のかしげ deg）, squash, blush, cheek 0〜1.6（ほおぶくろ。1 をこえると風船）, band（はちまき。false で外した頭）, paws 1（バンザイ）, mouth 'w'|'o' }
   ELV.pom = (x, y, s, q = {}) => {
-    const fur = { filter: 'url(#pomfur)' }, sq = q.squash || 0, sy = 1 + sq * .6, sx = 1 - sq * .4, hy = -128;
+    const fur = { filter: 'url(#pomfur)' }, sq = q.squash || 0, sy = 1 + sq * .6, sx = 1 - sq * .4, hy = -128, c = q.cheek || 0;
     const ear = sd => `<g transform="translate(${sd * 42} ${hy - 44}) rotate(${sd * 22})">${E(0, 0, 17, 18, POM.earO, fur)}${E(0, 2, 12, 13, POM.earI)}</g>`;
-    const eyeY = hy - 6, look = 2.5 * (q.look || 0);
-    const eye = sd => { const cx = sd * 22 + look; if (q.eye === 'happy') return `<path d="M${cx - 9} ${eyeY + 3} Q${cx} ${eyeY - 9} ${cx + 9} ${eyeY + 3}" fill="none" stroke="${POM.eye}" stroke-width="4" stroke-linecap="round"/>`;
+    const eyeY = hy - 6, ex = 22 + 2 * Math.min(c, 1), look = 2.5 * (q.look || 0);
+    const eye = sd => { const cx = sd * ex + look; if (q.eye === 'happy') return `<path d="M${cx - 9} ${eyeY + 3} Q${cx} ${eyeY - 9} ${cx + 9} ${eyeY + 3}" fill="none" stroke="${POM.eye}" stroke-width="4" stroke-linecap="round"/>`;
       const r = q.eye === 'big' ? 12 : 9.5; return E(cx, eyeY, r * .92, r * 1.05, POM.eye) + E(cx + 3, eyeY - 4, r * .32, r * .3, '#FFFFFF') + E(cx - 2.5, eyeY + 4, r * .14, r * .12, '#FFFFFF', { opacity: .7 }); };
+    const cr = 1 + 1.45 * c, cheek = sd => E(sd * (34 + 24 * c), hy + 18 + 8 * c, 26 * cr, 22 * (1 + 1.1 * c), 'url(#pomcheek)', fur)
+      + (c > .6 ? E(sd * (30 + 24 * c), hy + 6 + 4 * c, 10 * cr, 6 * cr, '#FFFFFF', { opacity: Math.min(.6, (c - .6)) }) : '');   // ふくらんだほおのつや
+    const bl = q.blush == null ? .35 : q.blush;
     const body = E(0, 2, 78, 9, '#3B2A20', { opacity: .18, filter: 'url(#pomblur)' }) + E(-30, -5, 17, 8, POM.pink) + E(30, -5, 17, 8, POM.pink)
       + E(0, -60, 76, 62, 'url(#pombody)', fur) + E(0, -46, 48, 40, POM.cream, Object.assign({ opacity: .95 }, fur))
       + `<g transform="translate(-30 -40) scale(0.9)"><path d="M0 12 L-9 0 L-9 -11 L0 -4 Z" fill="#F2C230" stroke="#B8901C" stroke-width="1"/><path d="M0 12 L9 0 L9 -11 L0 -4 Z" fill="#3FA34D" stroke="#2C7A37" stroke-width="1"/></g>`;
+    const mouth = q.mouth === 'o' ? E(0, hy + 30, 4, 5, '#B5615E') : `<path d="M0 ${hy + 24} V${hy + 28} M0 ${hy + 28} q-4 4 -8 2 M0 ${hy + 28} q4 4 8 2" fill="none" stroke="#9A5A50" stroke-width="2" stroke-linecap="round"/>`;
     const head = `<g transform="rotate(${q.wob || 0} 0 ${hy + 40})">` + ear(-1) + ear(1) + E(0, hy, 64, 55, 'url(#pomhead)', fur) + E(0, hy - 24, 44, 26, '#E2BE8C', { opacity: .4, filter: 'url(#pomblur)' })
-      + E(-34, hy + 18, 26, 22, 'url(#pomcheek)', fur) + E(34, hy + 18, 26, 22, 'url(#pomcheek)', fur)
-      + E(-36, hy + 16, 9, 5, '#EC8C8C', { opacity: .45 * (q.blush == null ? .35 : q.blush) }) + E(36, hy + 16, 9, 5, '#EC8C8C', { opacity: .45 * (q.blush == null ? .35 : q.blush) })
-      + eye(-1) + eye(1) + E(0, hy + 14, 6.5, 4.8, POM.nose)
-      + `<path d="M0 ${hy + 24} V${hy + 28} M0 ${hy + 28} q-4 4 -8 2 M0 ${hy + 28} q4 4 8 2" fill="none" stroke="#9A5A50" stroke-width="2" stroke-linecap="round"/>`
-      + `<path d="M-14 ${hy + 18} L-54 ${hy + 10} M-14 ${hy + 22} L-52 ${hy + 26} M14 ${hy + 18} L54 ${hy + 10} M14 ${hy + 22} L52 ${hy + 26}" fill="none" stroke="#FFFFFF" stroke-width="1.3" opacity=".85"/>`
-      + `<path d="M-54 ${hy - 24} Q0 ${hy - 44} 54 ${hy - 24}" fill="none" stroke="${POM.band}" stroke-width="10" stroke-linecap="round"/><path d="M-44 ${hy - 28} Q0 ${hy - 45} 44 ${hy - 28}" fill="none" stroke="#FFFFFF" stroke-width="2" opacity=".4"/>`
-      + `<path d="M50 ${hy - 26} q16 2 22 12 l-6 4 q-6 -8 -16 -10 Z M50 ${hy - 26} q18 -6 26 0 l-4 6 q-8 -4 -20 0 Z" fill="${POM.band}"/></g>`;
-    const paws = E(-20, -70, 10, 8, POM.pink) + E(20, -70, 10, 8, POM.pink);
+      + cheek(-1) + cheek(1)
+      + E(-36 - 18 * c, hy + 16, 9 + 6 * c, 5 + 3 * c, '#EC8C8C', { opacity: .45 * bl }) + E(36 + 18 * c, hy + 16, 9 + 6 * c, 5 + 3 * c, '#EC8C8C', { opacity: .45 * bl })
+      + eye(-1) + eye(1) + E(0, hy + 14, 6.5, 4.8, POM.nose) + mouth
+      + `<path d="M-14 ${hy + 18} L-${54 + 20 * c} ${hy + 10} M-14 ${hy + 22} L-${52 + 20 * c} ${hy + 26} M14 ${hy + 18} L${54 + 20 * c} ${hy + 10} M14 ${hy + 22} L${52 + 20 * c} ${hy + 26}" fill="none" stroke="#FFFFFF" stroke-width="1.3" opacity=".85"/>`
+      + (q.band === false ? '' : ELV.bandOnHead(hy)) + `</g>`;
+    const paws = q.paws ? E(-26, -96, 11, 9, POM.pink) + E(26, -96, 11, 9, POM.pink) : E(-20, -70, 10, 8, POM.pink) + E(20, -70, 10, 8, POM.pink);
     return `<g transform="translate(${x} ${y}) scale(${s * sx} ${s * sy})">${body}${head}${paws}</g>`;
   };
+  // ポムの赤いはちまき（公式と同じ色・形）。頭に巻いた形（ポムの頭の座標）
+  ELV.BAND = POM.band;
+  ELV.bandOnHead = hy => `<path d="M-54 ${hy - 24} Q0 ${hy - 44} 54 ${hy - 24}" fill="none" stroke="${POM.band}" stroke-width="10" stroke-linecap="round"/><path d="M-44 ${hy - 28} Q0 ${hy - 45} 44 ${hy - 28}" fill="none" stroke="#FFFFFF" stroke-width="2" opacity=".4"/>`
+    + `<path d="M50 ${hy - 26} q16 2 22 12 l-6 4 q-6 -8 -16 -10 Z M50 ${hy - 26} q18 -6 26 0 l-4 6 q-8 -4 -20 0 Z" fill="${POM.band}"/>`;
+  // 外して手に持ったはちまき（ゆるい弧＋結び目）。(x, y) が真ん中、s は大きさ
+  ELV.bandLoose = (x, y, s, rot = 0) => `<g transform="translate(${x} ${y}) rotate(${rot}) scale(${s})"><path d="M-58 0 Q0 -22 58 0" fill="none" stroke="${POM.band}" stroke-width="10" stroke-linecap="round"/><path d="M-48 -4 Q0 -24 48 -4" fill="none" stroke="#FFFFFF" stroke-width="2" opacity=".4"/>`
+    + `<path d="M54 -2 q16 2 22 12 l-6 4 q-6 -8 -16 -10 Z M54 -2 q18 -6 26 0 l-4 6 q-8 -4 -20 0 Z" fill="${POM.band}"/></g>`;
+  // 耳の束に結んだはちまき（輪＋ちょうちょ結び）。(x, y) が束の真ん中、w が束の太さ、k は結ぶ途中 0〜1
+  ELV.bandTied = (x, y, w, k = 1, rot = 0) => k <= 0 ? '' : `<g transform="translate(${x} ${y}) rotate(${rot})" opacity="${Math.min(1, k * 3).toFixed(2)}">`
+    + `<ellipse cx="0" cy="0" rx="${(w / 2 + 6) * (1.4 - .4 * k)}" ry="${12 + 4 * (1 - k)}" fill="none" stroke="${POM.band}" stroke-width="13"/><ellipse cx="0" cy="-3" rx="${(w / 2) * (1.4 - .4 * k)}" ry="8" fill="none" stroke="#FFFFFF" stroke-width="2" opacity=".35"/>`
+    + `<g transform="translate(${w / 2 + 4} 2) scale(${(.4 + .6 * k).toFixed(2)})"><path d="M0 0 q22 -16 30 -2 q-8 12 -30 2Z M0 0 q20 14 12 28 q-12 -4 -12 -28Z" fill="${POM.band}"/><circle r="6" fill="#A81E31"/></g></g>`;
   window.ELV = ELV;
 })();

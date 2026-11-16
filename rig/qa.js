@@ -18,6 +18,10 @@ const STEP = 0.125, W = 1080, H = 1920;
   p.on('console', m => { if (m.type() === 'error') errors.push('console: ' + m.text()); });
   await p.goto('file://' + __dirname + '/ep.html?ep=' + ep); await p.waitForTimeout(600);
   const dur = await p.evaluate(() => outDur());   // 画面に出る長さ（頭を削り、速くしたあと。依頼 #97）
+  // 台本が「わざと」と宣言した時間（EP.qaAllow）は、その検査だけ通す（2026-11-17 オーナーの絵コンテ：エレベーター第3話でレンが書類に埋もれる・最後の静止とテロップ）。
+  //   EP.qaAllow = { hidden_ren: [[開始, 終わり], …], still: [[開始, 終わり]] }（見える時間・秒）。理由は台本のコメントに書く
+  const ALLOW = await p.evaluate(() => (window.EP && window.EP.qaAllow) || {});
+  const allowAt = (k, t) => (ALLOW[k] || []).some(([a, b]) => t >= a && t <= b);
   const issues = [], warns = [];
   // ---- 腕（2026-11-10 の報告「変なところから腕が生える」）：レンとジルには元のデザインに腕がない。
   //   ① エピソードの中で太い丸い線（腕のような物）を直接描かない → common.js の limb()（体のふちから・長さに上限）を使う
@@ -121,7 +125,7 @@ const STEP = 0.125, W = 1080, H = 1920;
     prevFaces = r.faces; prevTx = r.tx; prevTy = r.ty; prevZ = r.z;
     // 顔が他のもの（書類・相手・fx）に隠れる：9点中5点以上が他レイヤーに覆われる状態が0.75秒以上
     for (const [id, f] of Object.entries(r.faces)) {
-      if (f.vis >= 0.6 && f.covered >= 0.55 && r.end < 0.5) { occl[id] = (occl[id] || 0) + STEP; if (Math.abs(occl[id] - 0.75) < 1e-6) issues.push(`${id === 'ren' ? 'レン' : 'ジル'}の顔が隠れている t=${(t - 0.75).toFixed(2)}〜`); } else occl[id] = 0;
+      if (f.vis >= 0.6 && f.covered >= 0.55 && r.end < 0.5 && !allowAt('hidden_' + id, t)) { occl[id] = (occl[id] || 0) + STEP; if (Math.abs(occl[id] - 0.75) < 1e-6) issues.push(`${id === 'ren' ? 'レン' : 'ジル'}の顔が隠れている t=${(t - 0.75).toFixed(2)}〜`); } else occl[id] = 0;
     }
     if (r.dimGap && r.dimGap.length) issues.push(`暗い幕が画面の端まで届いていない（${r.dimGap.join('・')}）t=${t.toFixed(2)}`);
     if (r.z < 0.9 || r.z > 4.2) issues.push(`カメラ倍率が範囲外 t=${t.toFixed(2)} z=${r.z.toFixed(2)}`);
@@ -135,7 +139,7 @@ const STEP = 0.125, W = 1080, H = 1920;
         if (vis > 0.02 && vis < 0.6 && r.z < 1.58) cutT[id] = (cutT[id] || 0) + STEP; // 寄り（z≥1.6）は演出として除く。まったく映っていない（舞台の外で出番を待っている・退場した）のは「切れている」ではない（2026-11-15：advent・plant・rain で誤って数えていた）
         if (vis > 0.95) sizeSum[id] = (sizeSum[id] || 0) + h / H, sizeN[id] = (sizeN[id] || 0) + 1; }
     }
-    if (hash === prevHash) { stillSince += STEP; if (stillSince >= 1.5 && Math.abs(stillSince - 1.5) < 1e-6 && r.end < 0.5) warns.push(`1.5秒以上止まっている t=${(t - stillSince).toFixed(2)}〜（オチ前の間は0.7秒まで）`); if (stillSince >= 2.5 && Math.abs(stillSince - 2.5) < 1e-6 && r.end < 0.5) issues.push(`2.5秒以上動きなし t=${(t - stillSince).toFixed(2)}〜`); }
+    if (hash === prevHash) { stillSince += STEP; if (stillSince >= 1.5 && Math.abs(stillSince - 1.5) < 1e-6 && r.end < 0.5) warns.push(`1.5秒以上止まっている t=${(t - stillSince).toFixed(2)}〜（オチ前の間は0.7秒まで）`); if (stillSince >= 2.5 && Math.abs(stillSince - 2.5) < 1e-6 && r.end < 0.5 && !allowAt('still', t)) issues.push(`2.5秒以上動きなし t=${(t - stillSince).toFixed(2)}〜`); }
     else stillSince = 0;
     prevHash = hash;
     // 白飛び／黒つぶれ：ごく小さいJPEGは単色
