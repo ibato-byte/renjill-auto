@@ -155,7 +155,15 @@ function limb(layer, id, hand, o) {
   window.__LIMB = Math.max(window.__LIMB || 0, len); window.__LIMBS = (window.__LIMBS || 0) + 1;
   const col = o.col || '#C7A077', w = o.w || 34;
   const mx = (sh.x + hand.x) / 2, my = (sh.y + hand.y) / 2 + (o.bend || 0);
+  // 手（2026-11-16 オーナー：手足が安っぽい）：丸い手に、指の分かれ目 2 本・上の光・うでのかげ。指先はうでの先の向き
+  const ang = Math.atan2(hand.y - my, hand.x - mx) * 180 / Math.PI, pw = w * 0.68, ph = w * 0.58, pc = o.paw || col;
   const kids = [el('path', { d: `M${sh.x} ${sh.y} Q${mx} ${my} ${hand.x} ${hand.y}`, fill: 'none', stroke: col, 'stroke-width': w, 'stroke-linecap': 'round' }),
-    el('ellipse', { cx: hand.x, cy: hand.y, rx: w * 0.68, ry: w * 0.58, fill: o.paw || col })];
+    el('path', { d: `M${sh.x} ${sh.y} Q${mx} ${my} ${hand.x} ${hand.y}`, fill: 'none', stroke: '#6E5034', 'stroke-width': w * 0.28, 'stroke-linecap': 'round', opacity: 0.12, transform: `translate(0 ${w * 0.3})` }), // うでの下がわのかげ
+    el('g', { transform: `translate(${hand.x} ${hand.y}) rotate(${ang})` }, [
+      el('ellipse', { cx: 0, cy: 0, rx: pw, ry: ph, fill: pc }),
+      el('ellipse', { cx: -pw * 0.1, cy: -ph * 0.35, rx: pw * 0.62, ry: ph * 0.38, fill: '#FFFFFF', opacity: 0.32 }), // 上の光
+      el('path', { d: `M${pw * 0.98} ${ph * 0.45} Q${pw * 0.7} ${ph * 0.5} ${pw * 0.45} ${ph * 0.4}`, fill: 'none', stroke: '#6E5034', 'stroke-width': w * 0.07, 'stroke-linecap': 'round', opacity: 0.35 }), // 下のふちのかげ
+      ...[-0.32, 0.18].map(k => el('path', { d: `M${pw * 0.98} ${ph * k} Q${pw * 0.78} ${ph * (k + 0.04)} ${pw * 0.6} ${ph * k}`, fill: 'none', stroke: '#8E7052', 'stroke-width': w * 0.055, 'stroke-linecap': 'round', opacity: 0.5 })) // 指の分かれ目
+    ])];
   const g = el('g', {}, kids); if (o.behind) layer.insertBefore(g, layer.firstChild); else layer.appendChild(g); return { sh, len };
 }

@@ -96,8 +96,54 @@
       rg('cream', [[0, c.cream, 1], [0.6, c.cream, 0.9], [1, c.cream, 0]], 0.5, 0.45, 0.5),
       rg('eye', [[0, c.eye1], [0.45, c.eye2], [1, c.eye3]], 0.42, 0.38, 0.65),
       isRen ? lg('ear', [[0, c.ear1], [0.6, c.ear2], [1, c.ear3]], 0.2, 1) : lg('ear', [[0, c.ear1], [1, c.ear2]], 0, 1),
-      isRen ? null : lg('earIn', [[0, c.earIn1], [1, c.earIn2]], 0, 1)
+      isRen ? null : lg('earIn', [[0, c.earIn1], [1, c.earIn2]], 0, 1),
+      // 足（2026-11-16）：上がやわらかい光、下が少し沈む。前足はクリーム、後ろ足は体より少し明るい茶
+      rg('paw', [[0, isRen ? '#FCF5EA' : '#FEF8EF'], [0.55, isRen ? '#F0E3D1' : '#F3E8DA'], [1, isRen ? '#D3BC9F' : '#D8C4AA']], 0.45, 0.32, 0.72), // 丸みが出るように、まん中が明るく、ふちが沈む
+      rg('foot', [[0, isRen ? '#E4CBA6' : '#E6CDA8'], [0.6, isRen ? '#CFB08B' : '#D3B48F'], [1, isRen ? '#A88662' : '#AC8A66']], 0.62, 0.3, 0.75), // 体の色に近い茶（つま先だけ明るい）
+      rg('haunch', [[0, c.fur1, 0.9], [0.6, c.fur2, 0.55], [1, c.fur2, 0]], 0.4, 0.35, 0.65)
     ].filter(Boolean));
+  }
+
+  // ---------- 足（2026-11-16 オーナー：手足が安っぽい → 作り込み） ----------
+  // 前足：指の分かれ目・上の光・下のかげ・床に落ちるかげ・胸から続く毛（手首）。w＝半分の幅、h＝半分の高さ
+  function frontPaw(cx, cy, w, h, u, fur, cream, top) { // top＝その位置の体の下のふち（のびる時は体が上がるので、うでを見せてつなぐ）
+    const t = cy - h * 1.05, b = cy + h * 0.62, arm = top != null && top < t - h * 0.2;
+    const shape = `M${cx - w} ${b - h * 0.1} C${cx - w * 1.06} ${cy - h * 0.35} ${cx - w * 0.62} ${t} ${cx} ${t} C${cx + w * 0.62} ${t} ${cx + w * 1.06} ${cy - h * 0.35} ${cx + w} ${b - h * 0.1} Q${cx + w * 0.55} ${b + h * 0.22} ${cx} ${b + h * 0.18} Q${cx - w * 0.55} ${b + h * 0.22} ${cx - w} ${b - h * 0.1} Z`;
+    const toe = k => `M${cx + w * k} ${b + h * 0.02} Q${cx + w * k * 1.12} ${cy + h * 0.1} ${cx + w * k * 0.96} ${cy - h * 0.18}`; // 指の分かれ目：下の半分だけ、内へ少し曲がる
+    return G({}, [
+      E(cx, b + h * 0.2, w * 1.05, h * 0.32, '#3B2A20', { opacity: 0.22, filter: u('blurS') }), // 床に落ちる小さなかげ
+      arm ? P(`M${cx - w * 0.7} ${top - h * 0.8} L${cx - w * 0.78} ${cy - h * 0.2} L${cx + w * 0.78} ${cy - h * 0.2} L${cx + w * 0.7} ${top - h * 0.8} Z`, cream, fur) : null, // うで（体と足をつなぐ）
+      arm ? P(`M${cx + w * 0.55} ${top - h * 0.4} L${cx + w * 0.62} ${cy - h * 0.4}`, 'none', { stroke: '#B59878', 'stroke-width': 4, 'stroke-linecap': 'round', opacity: 0.25, filter: u('blurS') }) : null,
+      E(cx, cy - h * 1.35, w * 0.8, h * 1.6, u('cream'), { opacity: 0.5 }), // 手首：胸の毛から、ふちを作らずに続く
+      E(cx, t + h * 0.2, w * 0.92, h * 0.3, '#8A6A4A', { opacity: 0.2, filter: u('blurS') }), // 足と胸の間のかげ（足が胸の前に出ている）
+      P(shape, u('paw'), fur),
+      ...[-0.34, 0.34].map(k => G({}, [P(toe(k), 'none', { stroke: '#A98E70', 'stroke-width': 1.7, 'stroke-linecap': 'round', opacity: 0.5 }), P(toe(k), 'none', { stroke: '#FFFFFF', 'stroke-width': 1.2, 'stroke-linecap': 'round', opacity: 0.35, transform: `translate(${k > 0 ? 1.6 : -1.6} -0.6)` })])), // 分かれ目の横に毛の光
+      E(cx - w * 0.15, cy - h * 0.55, w * 0.62, h * 0.32, '#FFFFFF', { opacity: 0.45, filter: u('blurS') }), // 上の光（やわらかく 1 つ）
+      P(`M${cx - w * 0.85} ${b - h * 0.02} Q${cx} ${b + h * 0.34} ${cx + w * 0.85} ${b - h * 0.02}`, 'none', { stroke: '#A88B6C', 'stroke-width': 3, 'stroke-linecap': 'round', opacity: 0.3, filter: u('blurS') }) // 下のかげ
+    ]);
+  }
+  // 後ろ足：かかと（体の下）からつま先へ。つま先は丸くふくらむ。dir＝つま先の向き（+1 右）。L＝長さ、h＝厚み
+  function hindFoot(hx, y, L, h, dir, u, fur) {
+    const tx = hx + dir * L, d = dir;
+    const shape = `M${hx - d * L * 0.1} ${y + h * 0.8} C${hx - d * L * 0.18} ${y - h * 0.4} ${hx + d * L * 0.1} ${y - h * 1.15} ${hx + d * L * 0.42} ${y - h * 0.9} C${hx + d * L * 0.62} ${y - h * 0.75} ${tx - d * h * 1.3} ${y - h * 1.0} ${tx - d * h * 0.2} ${y - h * 0.62} C${tx + d * h * 0.55} ${y - h * 0.32} ${tx + d * h * 0.5} ${y + h * 0.75} ${tx - d * h * 0.4} ${y + h * 0.92} L${hx + d * L * 0.1} ${y + h * 0.95} Z`;
+    const crease = k => `M${tx - d * h * k} ${y + h * 0.82} Q${tx - d * h * (k - 0.2)} ${y + h * 0.3} ${tx - d * h * (k - 0.05)} ${y - h * 0.1}`;
+    return G({}, [
+      E(hx + d * L * 0.45, y + h * 0.95, L * 0.62, h * 0.38, '#3B2A20', { opacity: 0.2, filter: u('blurS') }),
+      P(shape, u('foot'), fur),
+      E(hx + d * L * 0.12, y - h * 0.7, L * 0.34, h * 0.62, '#6E5034', { opacity: 0.26, filter: u('blurS') }), // 体の下に入る所のかげ
+      E(tx - d * h * 0.55, y + h * 0.1, h * 0.85, h * 0.62, '#F3E6D2', { opacity: 0.55, filter: u('blurS') }), // つま先の明るい毛
+      P(crease(0.55), 'none', { stroke: '#9E7F5D', 'stroke-width': 1.6, 'stroke-linecap': 'round', opacity: 0.45 }),
+      E(hx + d * L * 0.5, y - h * 0.45, L * 0.3, h * 0.28, '#FFF6E8', { opacity: 0.4, filter: u('blurS') }), // 甲の光
+      P(`M${hx} ${y + h * 0.85} L${tx - d * h * 0.6} ${y + h * 0.82}`, 'none', { stroke: '#8E7052', 'stroke-width': 3, 'stroke-linecap': 'round', opacity: 0.25, filter: u('blurS') }) // 足の裏のかげ
+    ]);
+  }
+  // もも：すわった体の後ろに、丸くふくらんだ太もも（光とかげで）
+  function haunch(cx, cy, rx, ry, u, fur) {
+    return G({}, [
+      E(cx, cy, rx, ry, u('haunch'), fur),
+      P(`M${cx - rx * 0.92} ${cy + ry * 0.25} C${cx - rx * 0.8} ${cy - ry * 0.85} ${cx + rx * 0.45} ${cy - ry * 1.05} ${cx + rx * 0.9} ${cy - ry * 0.2}`, 'none', { stroke: '#FFF3E0', 'stroke-width': 12, 'stroke-linecap': 'round', opacity: 0.2, filter: u('blur') }),
+      P(`M${cx - rx * 0.95} ${cy + ry * 0.35} C${cx - rx * 0.7} ${cy + ry * 1.0} ${cx + rx * 0.5} ${cy + ry * 1.05} ${cx + rx * 0.95} ${cy + ry * 0.3}`, 'none', { stroke: '#8A6844', 'stroke-width': 10, 'stroke-linecap': 'round', opacity: 0.24, filter: u('blur') })
+    ]);
   }
 
   // ---------- レン（ホーランドロップ） ----------
@@ -110,14 +156,15 @@
     const bh = 90 * (1 - 0.3 * Math.max(0, sq)) * (1 + 0.12 * Math.max(0, -sq));
     const bodyCx = 240 + 40 * Math.max(0, sq);
     const body = G({ transform: `rotate(${p.bodyTilt} 200 300)` }, [
+      // 後ろ足（体の下から外へ。のびる時も体から離れない：体の下のふちに付ける）
+      (() => { const hx = sq > 0.2 ? bodyCx + bw * 0.42 : 318, ky = (hx - bodyCx) / bw, by = 304 + bh * Math.sqrt(Math.max(0, 1 - ky * ky)); return hindFoot(hx, Math.min(386, by - 4), sq > 0.2 ? 86 : 70, 16, 1, u, fur); })(),
       E(bodyCx, 304, bw, bh, u('body'), fur),
-      // 後ろ脚（stretchで伸びる）
-      sq > 0.2 ? E(bodyCx + bw * 0.78, 386, 54, 15, '#D6BB98', fur) : E(338, 386, 56, 15, '#D6BB98', fur),
-      sq > 0.2 ? E(bodyCx + bw * 0.98, 392, 30, 12, c.cream, fur) : null,
+      // もも
+      haunch(bodyCx + bw * 0.5, 334 - 6 * Math.max(0, sq), bw * 0.4, bh * 0.56, u, fur),
       // 胸のクリーム
       E(176, 326 + 10 * Math.max(0, sq), 86, 74 * (1 - 0.2 * Math.max(0, sq)), u('cream'), fur),
       // 前足
-      E(150, 390, 24, 13, '#F0E3D1', fur), E(204, 392, 24, 13, '#F0E3D1', fur)
+      ...[[150, 390], [204, 392]].map(([x, y]) => { const k = (x - bodyCx) / bw; return frontPaw(x, y, 24, 13, u, fur, c.cream, 304 + bh * Math.sqrt(Math.max(0, 1 - k * k))); })
     ]);
     // 足ダン（レンはほぼ使わない）
     // ネクタイ
@@ -138,11 +185,12 @@
       } else if (p.eyeShape === 'flat' || p.eyeOpen < 0.15) {
         kids.push(P(`M${cx - 13} 196 Q${cx} 202 ${cx + 13} 196`, 'none', { stroke: c.eye2, 'stroke-width': 4, 'stroke-linecap': 'round' }));
       } else {
-        kids.push(E(cx + eyeDx, 195, 13, eyeRy, u('eye')));
-        if (p.eyeShape === 'half') kids.push(P(`M${cx - 15} 186 h30 v-14 h-30 z`, u('head')));
-        if (p.eyeShape === 'angry') kids.push(P(`M${cx - 16} 184 L${cx + 16} 192 L${cx + 16} 176 Z`, u('head')));
-        kids.push(E(cx + eyeDx + 4.5, 189.5, 4, 3.2, '#FFFFFF', { opacity: 0.9 }));
-        kids.push(P(`M${cx - 13} 192 Q${cx} 178 ${cx + 13} 192`, 'none', { stroke: '#5E4535', 'stroke-width': 1.6, opacity: 0.6 }));
+        // 半目・怒り目：上を頭の色の板でかくすと、色が合わず四角く見えた（2026-11-16）→ まぶたの線の下だけを見せ、まぶたの線を引く
+        const lid = p.eyeShape === 'half' ? `M${cx - 21} 186 Q${cx} 190 ${cx + 21} 186` : p.eyeShape === 'angry' ? (cx < 180 ? `M${cx - 21} 182.6 L${cx + 21} 193.6` : `M${cx - 21} 193.6 L${cx + 21} 182.6`) : null;
+        const eyeIn = [E(cx + eyeDx, 195, 13, eyeRy, u('eye')), E(cx + eyeDx + 4.5, 189.5, 4, 3.2, '#FFFFFF', { opacity: 0.9 })];
+        if (lid) { const cid = `${id}lid${cx}`; kids.push(el('clipPath', { id: cid }, [P(lid + ` V${186 + 60} H${cx - 21} Z`, '#000')])); kids.push(G({ 'clip-path': `url(#${cid})` }, eyeIn)); kids.push(P(lid, 'none', { stroke: c.eye2, 'stroke-width': 3.6, 'stroke-linecap': 'round' })); }
+        else kids.push(...eyeIn);
+        if (!lid) kids.push(P(`M${cx - 13} 192 Q${cx} 178 ${cx + 13} 192`, 'none', { stroke: '#5E4535', 'stroke-width': 1.6, opacity: 0.6 }));
       }
       return G({}, kids);
     };
@@ -205,10 +253,13 @@
     const bh = 74 * (1 - 0.28 * Math.max(0, sq)) * (1 + 0.12 * Math.max(0, -sq));
     const lift = p.legLift; // 足ダン：後ろ足が上がって下りる
     const body = G({ transform: `rotate(${p.bodyTilt} 200 320)` }, [
+      // 後ろ足（足ダン：かかとを支点に上がって下りる）
+      (() => { const jx = 222 + 30 * Math.max(0, sq), hx = sq > 0.2 ? jx + bw * 0.4 : 284, ky = (hx - jx) / bw, by = 322 + bh * Math.sqrt(Math.max(0, 1 - ky * ky)); // のびる時は体の下のふちに付ける
+        return G({ transform: `translate(0 ${-30 * lift}) rotate(${-24 * lift} 288 388)` }, [hindFoot(hx, Math.min(386, by - 4), 54, 13, 1, u, fur)]); })(),
       E(222 + 30 * Math.max(0, sq), 322, bw, bh, u('body'), fur),
-      E(300, 388 - 46 * lift, 42, 12, '#DABE9C', Object.assign({ transform: `rotate(${-30 * lift} 300 388)` }, fur)),
+      haunch(222 + 30 * Math.max(0, sq) + bw * 0.5, 350, bw * 0.4, bh * 0.56, u, fur),
       E(184, 336, 64, 58, u('cream'), fur),
-      E(164, 390, 19, 11, '#F3E8DA', fur), E(206, 391, 19, 11, '#F3E8DA', fur)
+      ...[[164, 390], [206, 391]].map(([x, y]) => { const k = (x - 222 - 30 * Math.max(0, sq)) / bw; return frontPaw(x, y, 19, 11, u, fur, c.cream, 322 + bh * Math.sqrt(Math.max(0, 1 - k * k))); })
     ]);
     const lanyard = p.prop ? G({}, [
       P('M166 284 L188 316 L210 284', 'none', { stroke: c.theme, 'stroke-width': 3, 'stroke-linejoin': 'round' }),
@@ -226,10 +277,11 @@
       } else if (p.eyeShape === 'flat' || p.eyeOpen < 0.15) {
         kids.push(P(`M${cx - 16} 202 Q${cx} 209 ${cx + 16} 202`, 'none', { stroke: c.eye2, 'stroke-width': 4.5, 'stroke-linecap': 'round' }));
       } else {
-        kids.push(E(cx + eyeDx, 201, 18, eyeRy, u('eye')));
-        if (p.eyeShape === 'half') kids.push(P(`M${cx - 20} 191 h40 v-18 h-40 z`, u('head')));
-        if (p.eyeShape === 'angry') kids.push(P(`M${cx - 20} 186 L${cx + 20} 196 L${cx + 20} 176 Z`, u('head')));
-        kids.push(E(cx + eyeDx + 6, 193, 5.2, 4.2, '#FFFFFF', { opacity: 0.92 }));
+        // 半目・怒り目：上を頭の色の板でかくすと、色が合わず四角く見えた（2026-11-16）→ まぶたの線の下だけを見せ、まぶたの線を引く
+        const lid = p.eyeShape === 'half' ? `M${cx - 26} 191 Q${cx} 195 ${cx + 26} 191` : p.eyeShape === 'angry' ? (cx < 188 ? `M${cx - 26} 184.5 L${cx + 26} 197.5` : `M${cx - 26} 197.5 L${cx + 26} 184.5`) : null;
+        const eyeIn = [E(cx + eyeDx, 201, 18, eyeRy, u('eye')), E(cx + eyeDx + 6, 193, 5.2, 4.2, '#FFFFFF', { opacity: 0.92 })];
+        if (lid) { const cid = `${id}lid${cx}`; kids.push(el('clipPath', { id: cid }, [P(lid + ` V${191 + 60} H${cx - 26} Z`, '#000')])); kids.push(G({ 'clip-path': `url(#${cid})` }, eyeIn)); kids.push(P(lid, 'none', { stroke: c.eye2, 'stroke-width': 3.6, 'stroke-linecap': 'round' })); }
+        else kids.push(...eyeIn);
         kids.push(P(`M${cx - 9} 210 Q${cx} 215 ${cx + 9} 210`, 'none', { stroke: '#A9BDCC', 'stroke-width': 2, opacity: 0.25 }));
       }
       return G({}, kids);
