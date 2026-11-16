@@ -211,6 +211,15 @@ class StatsTest(unittest.TestCase):
                     {"name": "post_video_social_actions", "values": [{"value": {"share": 3, "comment": 1}}]}]})
         self.assertEqual(fb.reel_stats("v1", TOK, H()), {"plays": 321, "reactions": 7, "comments": 1, "shares": 3})
 
+    def test_reel_stats_prefers_total_plays(self):
+        # 2026-11-15 から blue_reels_play_count はくり返し再生を数えない（14 → 7）。合計の fb_reels_total_plays を使う（Hub 依頼 #250）
+        class H:
+            def get(self, url, params=None, timeout=None):
+                return Resp({"data": [
+                    {"name": "blue_reels_play_count", "values": [{"value": 7}]},
+                    {"name": "fb_reels_total_plays", "values": [{"value": 14}]}]})
+        self.assertEqual(fb.reel_stats("v1", TOK, H())["plays"], 14)
+
     def test_reel_stats_unavailable(self):
         class H:
             def get(self, url, params=None, timeout=None): return Resp({"error": {"message": "no permission"}})

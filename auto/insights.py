@@ -123,7 +123,10 @@ def fb_rows(today, posted, token, http):
         vid = v.get("facebook")
         if not vid or vid in meta_stats.NOT_ID: continue
         got, why = {}, []
-        for m, label in (("blue_reels_play_count", "plays"), ("post_video_likes_by_reaction_type", "reactions"), ("post_video_social_actions", "social")):
+        # 再生は fb_reels_total_plays（くり返し再生を含む合計。動画の views と同じ数）。blue_reels_play_count は 2026-11-15 から
+        # くり返し再生を数えなくなり、同じ回の数字が 14→7 に減って見えた（Hub 依頼 #250）。合計が取れないときだけ古い指標を使う
+        for m, label in (("fb_reels_total_plays", "plays"), ("blue_reels_play_count", "plays"), ("post_video_likes_by_reaction_type", "reactions"), ("post_video_social_actions", "social")):
+            if label == "plays" and "plays" in got: continue
             j = _get(http, f"{fb.G}/{vid}/video_insights", {"metric": m, "access_token": token})
             if j.get("error"): why.append(f"{m}：{_err(j)}"); continue
             vals = ((j.get("data") or [{}])[0].get("values") or [{}])[0].get("value")

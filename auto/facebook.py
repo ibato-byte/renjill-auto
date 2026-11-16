@@ -233,7 +233,8 @@ def _num(v):
 
 def reel_stats(vid, tok, http=requests):
     """リールの再生・リアクション・コメント・シェア。取れない項目は空欄"""
-    metrics = ("blue_reels_play_count", "post_video_likes_by_reaction_type", "post_video_social_actions")
+    # 再生は fb_reels_total_plays（くり返し再生を含む合計）を優先。blue_reels_play_count は 2026-11-15 から数え方が変わり半分ほどに減った（Hub 依頼 #250）
+    metrics = ("fb_reels_total_plays", "blue_reels_play_count", "post_video_likes_by_reaction_type", "post_video_social_actions")
     out = {}
     data = _json(http.get(f"{G}/{vid}/video_insights", params={"metric": ",".join(metrics), "access_token": tok}, timeout=30)).get("data")
     if data is None:  # まとめて取れなければ1つずつ
@@ -243,7 +244,8 @@ def reel_stats(vid, tok, http=requests):
     for it in data:
         vals = it.get("values") or [{}]
         v = vals[0].get("value", "")
-        if it.get("name") == "blue_reels_play_count": out["plays"] = _num(v)
+        if it.get("name") == "fb_reels_total_plays": out["plays"] = _num(v)
+        elif it.get("name") == "blue_reels_play_count": out.setdefault("plays", _num(v))
         elif it.get("name") == "post_video_likes_by_reaction_type": out["reactions"] = _num(v)
         elif it.get("name") == "post_video_social_actions" and isinstance(v, dict):
             out["comments"] = v.get("comment", ""); out["shares"] = v.get("share", "")

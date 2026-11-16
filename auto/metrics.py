@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """投稿済み動画の数値を集めて content/metrics.csv に追記する（毎日1回）。
 YouTube: videos.list statistics / Instagram: media insights / TikTok: video query /
-Facebook リール: video_insights（再生=blue_reels_play_count、いいね=リアクション合計、コメント・シェア）。
+Facebook リール: video_insights（再生=fb_reels_total_plays（くり返しを含む合計。取れなければ blue_reels_play_count。依頼 #250）、いいね=リアクション合計、コメント・シェア）。
 取れないSNSは空欄のまま（推測で埋めない。ログに「計測なし」と出す）。
 Business Suite・手で予約した回（posted.json の "bs-scheduled"／"manual"）は、Instagram・Facebook の最近の投稿から
 予定時刻とキャプションで投稿IDを探して posted.json に入れ、数値を取る（auto/meta_stats.py）。
