@@ -34,8 +34,8 @@ var EP = {
     const jface = t < 3.2 ? RIG.FACES.smile : t < 6.2 ? RIG.FACES.annoyed : RIG.FACES.smile;
     const jp = Object.assign({}, held ? RIG.POSES.lean : RIG.POSES.sit, jface, { x: 60, y: DESK - 413 * 1.3, scale: 1.3, eyeLook: held ? .9 : 0, bodyTilt: held ? -14 : 0 });
     L.char('jil', jp, t, '', {});
-    let fx = `<rect x="-500" y="${DESK + 28}" width="2080" height="900" fill="url(#v2desk)"/><rect x="-500" y="${DESK}" width="2080" height="34" rx="10" fill="${L.PAL.woodTop}"/>`
-      + [60, 560].map(x => `<rect x="${x}" y="${DESK + 90}" width="460" height="170" rx="14" fill="none" stroke="${L.PAL.wood2}" stroke-width="6" opacity=".55"/><rect x="${x + 190}" y="${DESK + 160}" width="80" height="16" rx="8" fill="#E9D2A8"/>`).join('');
+    let fx = `${L.deskFront(DESK)}`
+      + [60, 560].map(x => `${L.drawer(x, DESK)}`).join('');
     // カメラ（手前・中央下）
     fx += CAMERA(540, DESK + 120, 1.0);
     if (counting) { const n = 3 - Math.floor((t - counting[0]) / 0.4); fx += COUNT(540, 760, Math.max(1, Math.min(3, n))); }

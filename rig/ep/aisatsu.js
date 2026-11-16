@@ -26,8 +26,8 @@ var EP = {
     L.char('ren', Object.assign({}, t >= 3.2 && t < 4.8 ? RIG.POSES.lean : RIG.POSES.sit, rface, { x: rx, y: DESK - 413 * 1.35, scale: 1.35, flip: true, eyeLook: -.4, bodyTilt: t < 4.8 ? -38 * deep : 0, headNod: t < 4.8 ? 30 * deep : 0 }), t, '', {});
     const rs = document.getElementById('ren');
     if (rs) { const cx = rx + 300, cy = DESK - 260; rs.style.transformOrigin = `${cx}px ${cy}px`; rs.style.transform = t >= 4.8 && t < 5.7 ? `rotate(${-360 * roll}deg)` : ''; }
-    let fx = `<rect x="-500" y="${DESK + 28}" width="2080" height="900" fill="url(#v2desk)"/><rect x="-500" y="${DESK}" width="2080" height="34" rx="10" fill="${L.PAL.woodTop}"/>`
-      + [60, 560].map(x => `<rect x="${x}" y="${DESK + 90}" width="460" height="170" rx="14" fill="none" stroke="${L.PAL.wood2}" stroke-width="6" opacity=".55"/><rect x="${x + 190}" y="${DESK + 160}" width="80" height="16" rx="8" fill="#E9D2A8"/>`).join('');
+    let fx = `${L.deskFront(DESK)}`
+      + [60, 560].map(x => `${L.drawer(x, DESK)}`).join('');
     // 謹賀新年のたれ幕（壁）
     fx += `<g transform="translate(540 ${DESK - 760}) scale(${outBack(seg(t, .3, .7))})"><rect x="-260" y="-70" width="520" height="140" rx="12" fill="#FFFDF7" stroke="#C9483C" stroke-width="10"/><text y="26" text-anchor="middle" font-family="Noto Sans CJK JP" font-weight="900" font-size="80" fill="#C9483C">謹賀新年</text>`
       + `<circle cx="-230" cy="-40" r="16" fill="#E8473A"/><circle cx="230" cy="-40" r="16" fill="#E8473A"/></g>`;

@@ -34,8 +34,8 @@ var EP = {
     const ropen = t >= 2.7 && t < 4.5;
     const rface = t < 2.7 ? RIG.FACES.neutral : t < 5.6 ? Object.assign({}, RIG.FACES.smile, { sparkle: n > 0 ? 1 : 0, heart: n >= 3 ? 1 : 0 }) : t < 7.0 ? RIG.FACES.neutral : RIG.FACES.smug;
     L.char('ren', Object.assign({}, ropen ? RIG.POSES.lean : RIG.POSES.sit, rface, { x: 560, y: DESK - 413 * 1.35, scale: 1.35, flip: true, eyeLook: t >= 6.2 ? -.8 : -.2, bodyTilt: ropen ? -10 : 0 }), t, '', {});
-    let fx = `<rect x="-500" y="${DESK + 28}" width="2080" height="900" fill="url(#v2desk)"/><rect x="-500" y="${DESK}" width="2080" height="34" rx="10" fill="${L.PAL.woodTop}"/>`
-      + [60, 560].map(x => `<rect x="${x}" y="${DESK + 90}" width="460" height="170" rx="14" fill="none" stroke="${L.PAL.wood2}" stroke-width="6" opacity=".55"/><rect x="${x + 190}" y="${DESK + 160}" width="80" height="16" rx="8" fill="#E9D2A8"/>`).join('');
+    let fx = `${L.deskFront(DESK)}`
+      + [60, 560].map(x => `${L.drawer(x, DESK)}`).join('');
     // ジルの重箱：閉じて積んである → 1段目を開けて横に（おせち）→ 3段目（牧草1本）
     if (t < 1.6) { fx += TIER(320, DESK - 50, 'closed', 1) + TIER(320, DESK - 140, 'closed', 1) + TIER(320, DESK - 230, 'closed', 1); }
     else { fx += TIER(320, DESK - 50, mine3 ? 'one' : 'closed', 1) + (mine3 ? '' : TIER(320, DESK - 140, 'closed', 1)) + `<g transform="translate(0 ${-(1 - outBack(seg(t, 1.6, 1.9))) * 30})">${TIER(320, DESK - (mine3 ? 120 : 190), 'food', 1)}</g>`; }

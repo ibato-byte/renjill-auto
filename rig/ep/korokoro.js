@@ -36,8 +36,8 @@ var EP = {
     // レン（右）：ふわふわ → コロコロされて気持ちよさそう（照れ）→ 細くなってご満悦
     const rface = t < 2.8 ? RIG.FACES.neutral : t < 5.4 ? Object.assign({}, RIG.FACES.shy, { heart: 1 }) : RIG.FACES.smug;
     L.char('ren', Object.assign({}, RIG.POSES.sit, rface, { x: 540 + (1.35 - rs) * 260, y: DESK - 413 * rs, scale: rs, flip: true, eyeLook: .2 }), t, '', {});
-    let fx = `<rect x="-500" y="${DESK + 28}" width="2080" height="900" fill="url(#v2desk)"/><rect x="-500" y="${DESK}" width="2080" height="34" rx="10" fill="${L.PAL.woodTop}"/>`
-      + [60, 560].map(x => `<rect x="${x}" y="${DESK + 90}" width="460" height="170" rx="14" fill="none" stroke="${L.PAL.wood2}" stroke-width="6" opacity=".55"/><rect x="${x + 190}" y="${DESK + 160}" width="80" height="16" rx="8" fill="#E9D2A8"/>`).join('');
+    let fx = `${L.deskFront(DESK)}`
+      + [60, 560].map(x => `${L.drawer(x, DESK)}`).join('');
     // 毛の山（課長とジルの間）
     const pile = groom ? g * .95 : t >= 5.4 ? .95 + .25 * outBack(seg(t, 5.4, 5.8)) : 0;
     fx += FURBALL(560, DESK + 6, pile * .9, t >= 6.4 ? Math.min(1, (t - 6.4) * 4) : 0, t);

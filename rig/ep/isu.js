@@ -32,7 +32,7 @@ var EP = {
     const rface = t < 3.4 ? RIG.FACES.neutral : t < 4.3 ? Object.assign({}, RIG.FACES.smile, { sparkle: 1 }) : t < 4.9 ? RIG.FACES.smile : Object.assign({}, RIG.FACES.smug, { sparkle: t < 6.6 ? 1 : 0 });
     const rx0 = 560, rx1 = 520, ry0 = DESK - 413 * 1.35 - 40, ry1 = FLOOR - 413 * 1.1 - 150;
     const rx = rx0 + (rx1 - rx0) * hop, ry = ry0 + (ry1 - ry0) * hop - Math.sin(hop * Math.PI) * 220;
-    let fx = `<rect x="-500" y="${DESK + 28}" width="2080" height="900" fill="url(#v2desk)"/><rect x="-500" y="${DESK}" width="2080" height="34" rx="10" fill="${L.PAL.woodTop}"/>`;
+    let fx = `${L.deskFront(DESK)}`;
     // （この回は机の手前に、イスと箱を置く）
     L.char('jil', Object.assign({}, RIG.POSES.sit, jface, { x: 30, y: DESK - 413 * 1.3 - 40, scale: 1.3, eyeLook: t >= 3.4 ? .9 : 0, bodyTilt: 0 }), t, '', {});
     L.char('ren', Object.assign({}, t >= 4.3 && t < 4.9 ? RIG.POSES.binky : RIG.POSES.sit, rface, { x: inBox ? rx1 : rx, y: inBox ? ry1 : ry, scale: inBox ? 1.1 : 1.35, flip: true, eyeLook: -.3 }), t, '', {});

@@ -802,13 +802,19 @@
           "ko": "송년회 총무는 질. 가게는 전부 만석. 과장님이 정한 장소는 이 책상이었어요."
         }
       },
-      "cta": "Send this to this year's party planner/今年の幹事に送ろう",
+      "cta": "Send this to the coworker who needs it./あの同僚に送ってあげて",
       "title_i18n": {
         "ja": "忘年会の幹事はジル、会場は… | レンとジル「忘年会の幹事」",
         "ko": "송년회 총무는 질, 장소는… | 렌과 질 Ren & Jill",
         "zh-Hant": "尾牙主辦人是吉兒，會場是… | 蓮與吉兒 Ren & Jill",
         "es": "Jill organiza la fiesta de fin de año | Ren & Jill",
         "pt": "Jill organiza a festa de fim de ano | Ren & Jill"
+      },
+      "experiment": {
+        "var": "cta",
+        "std": "Which one is your boss?/あなたの職場のレンは誰？",
+        "value": "Send this to the coworker who needs it./あの同僚に送ってあげて",
+        "why": "最後の一言を足して、送る・保存する人が増えるか比べる"
       }
     },
     {

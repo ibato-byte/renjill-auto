@@ -46,6 +46,20 @@ class Flicker(unittest.TestCase):
         self.assertEqual(flicker.find(d), [])
         self.assertNotEqual(flicker.find(d, shake=0), [])  # ゆれの見分けを切ると引っかかる＝この試験は本当にゆれを作っている
 
+    def test_small_shake_on_detailed_picture_is_not_flicker(self):
+        # 2026-11-16：背景を作り込んだら、カメラが寄った場面の小さなゆれ（96 幅では 1 点に満たない）を「ちかちか」と数えた（11/24「ミュートのまま」）。細かい絵の小さなゆれも、ゆれと見分ける
+        d = tempfile.mkdtemp()
+        for i in range(30):
+            dx, dy = (4, 3) if i == 12 else (0, 0)
+            boxes = ",".join(f"drawbox=x={(k * 37) % 250 + dx}:y={(k * 53) % 460 + dy}:w={6 + k % 5 * 3}:h={5 + k % 4 * 4}:color={['black', 'white', '0x553311', '0x2255aa'][k % 4]}:t=fill" for k in range(60))
+            subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "lavfi", "-i", "color=c=0x999999:s=270x480", "-frames:v", "1", "-vf", boxes, f"{d}/f{i:04d}.jpg"], check=True)
+        self.assertEqual(flicker.find(d), [])
+        self.assertNotEqual(flicker.find(d, shake=0), [])  # ゆれの見分けを切ると引っかかる
+        # 同じ細かい絵で、1 コマだけ物が抜ける（描きかけ）は、今までどおり見つける
+        boxes = ",".join(f"drawbox=x={(k * 37) % 250}:y={(k * 53) % 460}:w={6 + k % 5 * 3}:h={5 + k % 4 * 4}:color={['black', 'white', '0x553311', '0x2255aa'][k % 4]}:t=fill" for k in range(60) if k % 2)
+        subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "lavfi", "-i", "color=c=0x999999:s=270x480", "-frames:v", "1", "-vf", boxes, f"{d}/f0020.jpg"], check=True)
+        self.assertEqual([x[0] for x in flicker.find(d)], [21])
+
     def test_gate_and_renderers_use_it(self):
         self.assertIn("flicker.find(str(path))", (ROOT / "auto/qa.py").read_text())
         for f in ("rig/render-ep.js", "rig/bgm/render.js"):

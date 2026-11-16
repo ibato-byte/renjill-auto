@@ -28,8 +28,8 @@ var EP = {
     // レン（右）：もう座っている（ご満悦・早い）→ カレンダーで「！」→ 見合わせる → 香箱すわりでのんびり
     const rface = t < 2.8 ? Object.assign({}, RIG.FACES.smug, { sparkle: t > 1.4 && t < 2.6 ? 1 : 0 }) : t < 3.8 ? RIG.FACES.neutral : t < 5.0 ? Object.assign({}, RIG.FACES.surprised, { excl: 1 }) : t < 6.2 ? RIG.FACES.oops : Object.assign({}, RIG.FACES.smile, { sparkle: 0 });
     L.char('ren', Object.assign({}, t >= 6.2 ? RIG.POSES.loaf : RIG.POSES.sit, rface, { x: 560, y: DESK - 413 * 1.35, scale: 1.35, flip: true, eyeLook: t >= 2.8 && t < 3.8 ? .3 : -.4 }), t, '', {});
-    let fx = `<rect x="-500" y="${DESK + 28}" width="2080" height="900" fill="url(#v2desk)"/><rect x="-500" y="${DESK}" width="2080" height="34" rx="10" fill="${L.PAL.woodTop}"/>`
-      + [60, 560].map(x => `<rect x="${x}" y="${DESK + 90}" width="460" height="170" rx="14" fill="none" stroke="${L.PAL.wood2}" stroke-width="6" opacity=".55"/><rect x="${x + 190}" y="${DESK + 160}" width="80" height="16" rx="8" fill="#E9D2A8"/>`).join('');
+    let fx = `${L.deskFront(DESK)}`
+      + [60, 560].map(x => `${L.drawer(x, DESK)}`).join('');
     fx += CAL(540, 640, t >= 3.0 && t < 5.0 ? outBack(seg(t, 3.0, 3.4)) : 0);
     if (shock) fx += L.impact(540, 640, seg(t, 3.8, 4.3), 1.6, '#E8473A');
     if (t > 6.6 && t < 8.0) fx += L.sparkles(540, 1000, t, 1.4, 6);

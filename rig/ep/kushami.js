@@ -25,8 +25,8 @@ var EP = {
     // レン（右）：鼻むずむず（目をとじて、顔を上げていく）→ くしゃみ（体がうしろへ・nudge）→ あせ
     const rface = t < 2.8 ? RIG.FACES.neutral : ah ? Object.assign({}, RIG.FACES.oops, { eyeOpen: .25 + .25 * Math.sin(t * 9), sweat: 0 }) : sneeze ? Object.assign({}, RIG.FACES.surprised, { eyeOpen: .1, excl: 0 }) : RIG.FACES.oops;
     L.char('ren', Object.assign({}, sneeze ? RIG.POSES.nudge : RIG.POSES.sit, rface, { x: 560, y: DESK - 413 * 1.35, scale: 1.35, flip: true, eyeLook: -.2, headNod: ah ? -6 - 10 * seg(t, 2.8, 4.6) : sneeze ? 18 : 0, bodyTilt: sneeze ? -12 : 0 }), t, '', {});
-    let fx = `<rect x="-500" y="${DESK + 28}" width="2080" height="900" fill="url(#v2desk)"/><rect x="-500" y="${DESK}" width="2080" height="34" rx="10" fill="${L.PAL.woodTop}"/>`
-      + [60, 560].map(x => `<rect x="${x}" y="${DESK + 90}" width="460" height="170" rx="14" fill="none" stroke="${L.PAL.wood2}" stroke-width="6" opacity=".55"/><rect x="${x + 190}" y="${DESK + 160}" width="80" height="16" rx="8" fill="#E9D2A8"/>`).join('');
+    let fx = `${L.deskFront(DESK)}`
+      + [60, 560].map(x => `${L.drawer(x, DESK)}`).join('');
     // 書類の山（ジルの机）→ くしゃみで、左上へまい上がる（顔の前は通らない高さ）
     for (let i = 0; i < 8; i++) {
       if (fly <= 0) { if (i < stack) fx += SHEET(430 + (i % 2) * 6, DESK - 46 - i * 14, (i % 3 - 1) * 3); continue; }

@@ -30,8 +30,8 @@ var EP = {
     const jface = t < 2.6 ? RIG.FACES.smile : t < 4.4 ? Object.assign({}, RIG.FACES.surprised, { excl: 0 }) : RIG.FACES.annoyed;
     const jp = Object.assign({}, RIG.POSES.sit, jface, { x: 40, y: DESK - 413 * 1.3, scale: 1.3, eyeLook: .8, bodyTilt: t >= 2.6 && t < 4.9 ? Math.sin(t * 40) * 2 : 0 });
     L.char('jil', jp, t, snowK > .3 ? DRIFT(40 + 350, DESK - 413 * 1.3 + 110, 200, 36 * snowK) : '', {});
-    let fx = `<rect x="-500" y="${DESK + 28}" width="2080" height="900" fill="url(#v2desk)"/><rect x="-500" y="${DESK}" width="2080" height="34" rx="10" fill="${L.PAL.woodTop}"/>`
-      + [60, 560].map(x => `<rect x="${x}" y="${DESK + 90}" width="460" height="170" rx="14" fill="none" stroke="${L.PAL.wood2}" stroke-width="6" opacity=".55"/><rect x="${x + 190}" y="${DESK + 160}" width="80" height="16" rx="8" fill="#E9D2A8"/>`).join('');
+    let fx = `${L.deskFront(DESK)}`
+      + [60, 560].map(x => `${L.drawer(x, DESK)}`).join('');
     // 開いた窓（右の窓の下半分が開く：枠を少し明るく）と吹き込む雪
     if (open) fx += `<rect x="690" y="440" width="320" height="210" fill="#EAF4FF" opacity=".55" pointer-events="none"/>` + FLAKES(t * 2, 40, 300, 1050, 440, DESK, .95);
     // 3 秒のカウント（窓の横に数字）
