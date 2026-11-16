@@ -75,3 +75,8 @@
 2026-11-15,renjill-growth-research,27,商標,商標プラン：出願の合図のメール件名を Hub のきまり（【Hub】要対応）に合わせた,docs/TRADEMARK_PLAN.md,automation-hub docs/EMAIL.md
 2026-11-15,renjill-growth-research,28,商標,商標プラン：見張りの記録の表を新設し、11/8・11/15 の結果を記録,docs/TRADEMARK_PLAN.md,本日の検索・content/followers.csv
 2026-11-15,renjill-growth-research,29,抜けの修正,調査が main に届いていない問題を Hub の修正依頼 #249 にした（PR 化と今後の流れの決定）,automation-hub 依頼 #249,https://automation-hub-8lm.pages.dev/#/r/249
+2026-11-16,renjill-weekly-pdca,1,冒頭,11/22 エアコン：冒頭の日本語を 13→6 文字（エアコン戦争）。打ち手 hook として記録,auto/schedule.json aircon・rig/pace.js,REVIEW-2026-11-15：短い日本語の回ほど見た割合が高い
+2026-11-16,renjill-weekly-pdca,2,冒頭,11/24 ミュート：冒頭の日本語を 13→7 文字（ミュートで熱弁）。打ち手 hook として記録,auto/schedule.json mute・rig/pace.js,同上
+2026-11-16,renjill-weekly-pdca,3,キャプション,12/11 カイロ10個：英語の書き出しを物の並びに。打ち手 caption_en として記録,auto/schedule.json kairo,"ウォーターサーバー 1,333 再生・見た割合 0.715"
+2026-11-16,renjill-weekly-pdca,4,きまり,11/30 締め切り前夜：作り直しの理由（remake.why）を記録し、novelty.py のきまり違反（11/9 から出ていた）を解消,auto/schedule.json deadline,python auto/novelty.py の要対応が消えた
+2026-11-16,renjill-weekly-pdca,5,記録,週報を docs/weekly/2026-11-16.md に（数字・試すこと・BGM・個人情報の点検）,docs/weekly/2026-11-16.md,週次PDCAの指示文
