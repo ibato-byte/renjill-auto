@@ -1,7 +1,7 @@
 {
- "stage": 1,
- "per_week": 5,
- "why": "直近 2 本が 21%・49%。21% 以上が 2 本続くまで週5本",
+ "stage": "series",
+ "per_week": 3,
+ "why": "週3本（月・木・土）・3話で1つの話（2026-11-16 オーナー決定。auto/series_policy.json）",
  "baseline": 0.16,
  "need": 0.208,
  "recent": [
@@ -18,8 +18,8 @@
    "ratio": 0.486
   }
  ],
- "schedule_days_ahead": 72,
- "schedule_target_days": 14,
+ "schedule_days_ahead": 6,
+ "schedule_target_days": 7,
  "same_day_twice": [],
- "date": "2026-11-16"
+ "date": "2026-11-17"
 }
