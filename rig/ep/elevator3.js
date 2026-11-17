@@ -167,7 +167,8 @@ document.write('<script src="v2/lib.js"><\/script><script src="v2/elevator_set.j
     });
     return s ? `<g data-nb="1">${s}</g>` : '';
   }
-  const TELOP = (k) => k <= 0 ? '' : `<g transform="translate(540 1430) scale(${L.outBack(Math.min(1, k * 1.6))})" opacity="${Math.min(1, k * 3)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle">
+  // テロップは画面の上（扉の上の空いた所）。下に置くと、オチのポムの顔とネクタイ（書類の山のすき間）を6秒間かくしていた（2026-11-17 総見直し）
+  const TELOP = (k) => k <= 0 ? '' : `<g transform="translate(540 345) scale(${(.86 * L.outBack(Math.min(1, k * 1.6))).toFixed(3)})" opacity="${Math.min(1, k * 3)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle">
     <rect x="-452" y="-122" width="904" height="292" rx="46" fill="#3B2412" opacity=".22" transform="translate(6 10)"/>
     <rect x="-452" y="-122" width="904" height="292" rx="46" fill="#3A2414" opacity=".9"/><rect x="-436" y="-108" width="872" height="18" rx="9" fill="#fff" opacity=".08"/>
     <text y="-16" font-size="88" fill="#FFF7E8">続きは次回！</text><text y="66" font-size="54" fill="#F2D3A8">フォローして待っててね</text>

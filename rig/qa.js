@@ -30,7 +30,10 @@ const STEP = 0.125, W = 1080, H = 1920;
     const thick = (src.match(/'stroke-width':\s*(2[8-9]|[3-9]\d)\b[^)]*'stroke-linecap':\s*'round'|'stroke-linecap':\s*'round'[^)]*'stroke-width':\s*(2[8-9]|[3-9]\d)\b/g) || []);
     if (thick.length) issues.push(`腕のような太い線を直接描いている（${thick.length}か所）：腕は limb() で、体のふちから短く`); } catch (e) { }
   if (!(dur >= 8 && dur <= 21)) issues.push(`尺が範囲外: ${dur.toFixed(1)}s（8〜21s＝本編20秒＋エンドカード1秒まで。2026-11-16 オーナー：エレベーター第1話を20秒に。目安は7〜12s、最後まで見られる長さに）`);
-  else if (dur > 17) warns.push(`尺が長め: ${dur.toFixed(1)}s（目安は7〜12s）`);
+  else if (dur > 17) {   // 3話連載の回は 7〜21 秒が目安（docs/SERIES.md・2026-11-16 オーナー）。連載の回にこの警告を出すと見張りにならない（2026-11-17）
+    let serial = false; try { serial = (JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'auto', 'schedule.json'), 'utf8')).posts || []).some(q => q.ep === ep && q.series); } catch (e) { }
+    if (!serial) warns.push(`尺が長め: ${dur.toFixed(1)}s（目安は7〜12s。3話連載の回は21秒まで）`);
+  }
   // ---- 最初のコマ＝表紙（TikTok などは最初のコマが表紙になる）：冒頭の一言が薄くないこと（2026-11-10 の報告「サムネが薄い」）
   { await p.evaluate(() => window.setOut(0)); const f0 = await p.evaluate(() => { const h = document.getElementById('hook'); return h && h.textContent.trim() ? parseFloat(getComputedStyle(h).opacity) : null; });
     if (f0 !== null && f0 < 0.98) issues.push(`最初のコマで冒頭の一言が薄い（濃さ ${f0.toFixed(2)}）：表紙が薄くなる。最初のコマから濃さ100%で出す`); }
@@ -56,7 +59,7 @@ const STEP = 0.125, W = 1080, H = 1920;
     }
   }
   const capSet = new Set(), cutT = {}, sizeSum = {}, sizeN = {};
-  let prevHash = null, stillSince = 0, noFace = 0, prevFaces = {}, prevTx = 0, prevTy = 0, prevZ = 1; const occl = {}, prevD = {};
+  let prevHash = null, stillSince = 0, noFace = 0, prevFaces = {}, prevTx = 0, prevTy = 0, prevZ = 1; const occl = {}, prevD = {}, uiOver = {};
   // 瞬間カット禁止（24fpsで確認）：1フレームで倍率が35%以上、または中心が画面幅の30%以上跳んだらNG。0.4秒のカメラ移動は通る
   {
     let pz = null, ptx = 0, pty = 0;
@@ -86,14 +89,15 @@ const STEP = 0.125, W = 1080, H = 1920;
         const cx = nr.left + nr.width / 2, cy = nr.top + nr.height / 2, u = nr.width;
         const l = cx - 7 * u, rt = cx + 7 * u, tp = cy - 6 * u, fb = cy + 3 * u, area = (rt - l) * (fb - tp);
         const vis = Math.max(0, Math.min(rt, W) - Math.max(l, 0)) * Math.max(0, Math.min(fb, H) - Math.max(tp, 0));
-        let covered = 0, n = 0;
+        let covered = 0, n = 0, byUi = 0;
         for (let i = 1; i <= 3; i++) for (let j = 1; j <= 3; j++) {
           const x = l + (rt - l) * i / 4, y = tp + (fb - tp) * j / 4; if (x < 0 || x > W || y < 0 || y > H) continue; n++;
           const els = document.elementsFromPoint(x, y);
           const top = els.find(e => e.tagName !== 'svg' && e.tagName !== 'DIV'); const svg = top && top.closest ? top.closest('svg') : null;
           if (svg && svg.id !== id && svg.id !== 'bg' && svg.id !== 'back' && svg.id !== 'ui') covered++;
+          if (svg && svg.id === 'ui') byUi++;   // テロップ・字幕の帯が顔にかかる（2026-11-17：エレベーター第3話で最後のテロップがオチの顔を6秒かくした）
         }
-        faces[id] = { vis: vis / area, covered: n ? covered / n : 0, cx, cy };
+        faces[id] = { vis: vis / area, covered: n ? covered / n : 0, byUi: n ? byUi / n : 0, cx, cy };
       }
       // 暗い幕（#dim）が画面の四隅・四辺の中央すべてにかかっているか（依頼 #90：左端だけ暗くならない不具合の再発防止）
       let dimGap = null;
@@ -126,6 +130,8 @@ const STEP = 0.125, W = 1080, H = 1920;
     // 顔が他のもの（書類・相手・fx）に隠れる：9点中5点以上が他レイヤーに覆われる状態が0.75秒以上
     for (const [id, f] of Object.entries(r.faces)) {
       if (f.vis >= 0.6 && f.covered >= 0.55 && r.end < 0.5 && !allowAt('hidden_' + id, t)) { occl[id] = (occl[id] || 0) + STEP; if (Math.abs(occl[id] - 0.75) < 1e-6) issues.push(`${id === 'ren' ? 'レン' : 'ジル'}の顔が隠れている t=${(t - 0.75).toFixed(2)}〜`); } else occl[id] = 0;
+      // テロップ・字幕（#ui）が顔を半分以上かくすのが1秒以上：まずは警告（在庫を確かめたら不合格に上げる）
+      if (f.vis >= 0.6 && f.byUi >= 0.55 && r.end < 0.5) { uiOver[id] = (uiOver[id] || 0) + STEP; if (Math.abs(uiOver[id] - 1.0) < 1e-6) warns.push(`テロップが${id === 'ren' ? 'レン' : 'ジル'}の顔にかかっている t=${(t - 1.0).toFixed(2)}〜（帯を空いた所へ動かす）`); } else uiOver[id] = 0;
     }
     if (r.dimGap && r.dimGap.length) issues.push(`暗い幕が画面の端まで届いていない（${r.dimGap.join('・')}）t=${t.toFixed(2)}`);
     if (r.z < 0.9 || r.z > 4.2) issues.push(`カメラ倍率が範囲外 t=${t.toFixed(2)} z=${r.z.toFixed(2)}`);
