@@ -20,9 +20,9 @@ const { chromium } = require('playwright'); const fs = require('fs'); const out 
   // 寝る姿勢（のびて寝る）：アニメの「のび」（体が長く低い）に、目を閉じた顔。公式サイトの動く 3D で、レンが居眠りする時に使う（2026-11-17）
   // ふだんの絵と同じ場所・同じ大きさで撮る（サイトの tools/char_from_rig.py が、ふだんの絵と同じ縮尺で切り出す）
   // 体が横に長いので、ふだんより小さく（1.7 倍）・内側で撮る。同じ場所で「ふだんの絵」（flatref）も撮り、サイトの道具はそれに合わせて切る
-  for (const who of ['ren', 'jil']) for (const [m, flat] of [['flatref', 0], ['flat', 1]]) {
+  for (const who of ['ren', 'jil']) for (const [m, flat] of [['flatref', 0], ['flat', 1], ['bow', 2], ['flop', 3]]) {
     await p.evaluate(([who, flat]) => { for (const id of ['ren', 'jil', 'fx']) document.getElementById(id).innerHTML = '';
-      const pose = flat ? Object.assign({}, RIG.POSES.sploot, RIG.FACES.sleepy, { zzz: 0 }) : Object.assign({}, RIG.POSES.sit, RIG.FACES.neutral);
+      const pose = flat === 3 ? Object.assign({}, RIG.POSES.flop, { zzz: 0 }) : flat === 2 ? Object.assign({}, RIG.POSES.bow, { zzz: 0 }) : flat ? Object.assign({}, RIG.POSES.sploot, RIG.FACES.sleepy, { zzz: 0 }) : Object.assign({}, RIG.POSES.sit, RIG.FACES.neutral);
       RIG.render(document.getElementById(who), Object.assign({ char: who }, pose, { x: who === 'ren' ? 430 : 90, y: 820, scale: 1.7, flip: who === 'ren', sparkle: 0 })); }, [who, flat]);
     await p.waitForTimeout(200); await p.screenshot({ path: `${out}/${who}_${m}.png`, omitBackground: true }); }
   await b.close(); })();
