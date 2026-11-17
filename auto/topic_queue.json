@@ -1,1 +1,8 @@
-[]
+[
+  {
+    "date": "2026-11-17",
+    "kind": "heavy_rain",
+    "label": "大雨の日（降水 32mm）",
+    "status": "new"
+  }
+]
