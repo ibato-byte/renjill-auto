@@ -7,7 +7,13 @@ import pathlib
 import re
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-CALL = re.compile(r"\b(E|P|G|el|line|frontPaw|hindFoot|haunch|hindSole|splootPaws|splootBody)\(")
+CALL = re.compile(r"\b(E|P|G|el|line|frontPaw|hindFoot|haunch|hindSole|splootPaws|splootBody|flopBody|bowBody)\(")
+# 説明の中で、開いていないかっこを閉じている形も（2026-11-17：ほおの毛の説明のあとに「]) : null,」が入り、絵が出なくなりかけた）
+
+
+def net_close(tail: str) -> int:
+    t = re.sub(r"[^\x00-\x7f]+", " ", tail)
+    return sum(t.count(c) for c in ")]}") - sum(t.count(c) for c in "([{")
 
 
 def strip_strings(code: str) -> str:
@@ -21,7 +27,8 @@ def bad_lines(text: str):
         i = code.find("// ")
         if i <= 0 or "://" in code[max(0, i - 1):i + 2]:
             continue
-        if CALL.search(code[i:]):
+        tail = code[i:]
+        if CALL.search(tail) or net_close(tail) > 0:
             out.append((n, line.strip()[:80]))
     return out
 
@@ -37,4 +44,9 @@ def test_no_code_after_inline_comment():
 
 def test_detects_the_mistake():
     sample = "      paw(1, 2), paw(3, 4), // 前足 E(182, 384, 62, 6, '#5A4030')]);"
+    assert bad_lines(sample)
+
+
+def test_detects_closing_after_comment():
+    sample = "      ...(p.pose === 'sploot' ? [E(1, 2, 3, 4, 'x')] : [])   // ほおの毛（説明）]) : null,"
     assert bad_lines(sample)

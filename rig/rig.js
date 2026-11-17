@@ -55,7 +55,7 @@
     sit:     { pose: 'sit', bodySquash: 0, bodyTilt: 0, headTilt: 0, headNod: 0, legLift: 0 },
     loaf:    { pose: 'sit', bodySquash: -0.5, bodyTilt: 0, headNod: 10 },
     stretch: { pose: 'stretch', bodySquash: 1, bodyTilt: 0, headTilt: 6, headNod: 26 },
-    flop:    { pose: 'flop', bodySquash: 0, bodyTilt: 0, headTilt: -68, headNod: 30, legLift: 0, earL: 0, earR: 0, eyeOpen: 0.06, eyeShape: 'flat', mouth: 'w' }, // ばたん：頭はほおを床につけて横に（13）、目を閉じる（14）
+    flop:    { pose: 'flop', bodySquash: 0, bodyTilt: 0, headTilt: 78, headNod: 31, headX: -36, legLift: 0, earL: 138, earR: -4, eyeOpen: 0.06, eyeShape: 'flat', mouth: 'w', blush: 0.6 }, // ばたん：頭のてっぺんを背中側へ倒し、ほおを床に（首が宙にうかない）。耳は背中へ寝かせる（2026-11-17 直し）
     bow:     { pose: 'bow', bodySquash: 0, bodyTilt: 0, headTilt: -9, headNod: 62, legLift: 0, earL: 6, earR: 6, eyeOpen: 0.06, eyeShape: 'flat', mouth: 'yawn' }, // 前のび＋あくび（22 頭は前へ下がって少し前へ傾く・23 耳は力がぬけて外へ・24 目はぎゅっと閉じる）
     sploot:  { pose: 'sploot', bodySquash: 0, bodyTilt: 0, headTilt: 3, headNod: 86, legLift: 0, earL: -3, earR: -3 }, // あごが前足の上にのる高さ // のびて寝る（あごを前足にのせる高さ）
     stand:   { pose: 'stand', bodySquash: -0.2, headNod: -16 },
@@ -285,6 +285,7 @@
 
   // ---------- ばたん（フロップ）2026-11-17 ----------
   // 安心しきったうさぎは、横へばたんと倒れて寝る：体は横向きに床へ、白いおなかがこちら側、4 本の足は力がぬけて前（こちら）へ投げ出す。頭はほおを床につけて横に寝る
+  const SLEEPY = /^(sploot|flop)$/; // 寝ている姿（のび寝・ばたん）：閉じた目・ゆるんだひげ・弱いほおの赤み・頭の光をおさえる、を一緒に使う
   function flopBody(isRen, p, c, u, fur) {
     const S = isRen ? 1 : 0.8, hx = isRen ? 180 : 188, sx = isRen ? 1 : 0.88;
     const wrap = kids => G({ transform: `translate(${hx} 398) scale(${S * sx} ${S}) translate(-180 -398)` }, kids);
@@ -308,12 +309,13 @@
       // 8 後ろ足 2 本：力がぬけて前（こちら）へ投げ出す。少しずらして重なる
       leg(456, 346, 522, 388, 20, c.fur2), leg(438, 356, 500, 396, 22, c.fur1),
       // 9 前足 2 本：胸の前でゆるく
-      leg(262, 350, 224, 388, 15, c.cream), leg(278, 358, 246, 396, 16, c.cream),
+      leg(272, 356, 240, 392, 15, c.cream), leg(290, 364, 262, 398, 16, c.cream), // 前足は胸の下から床へ。短く、肉球側を少し見せる
       G({}, [E(506, 318, 14, 11, '#F4EADB', fur), ...[[496, 312], [508, 308], [516, 318], [508, 328]].map(([x, y]) => E(x, y, 5, 4, '#FBF7F0', Object.assign({ opacity: 0.8 }, fur)))]), // 10 しっぽ（体の横のはし）
       P('M200 300 C 220 290 252 292 268 304 C 280 316 280 352 266 366 C 248 380 214 376 202 360 C 190 344 188 312 200 300 Z', u('body'), fur), // 11 首と肩：頭と体を、ふくらんだ毛でなめらかにつなぐ
-      E(236, 360, 30, 12, u('cream'), { opacity: 0.8, filter: u('blurS') }),                                  // 15 のど元の明るい毛（胸へ続く）
+      E(262, 372, 24, 10, u('cream'), { opacity: 0.6, filter: u('blurS') }),                                  // 15 のど元の明るい毛（頭の下にかくれ、胸へ続く。こぶに見えないよう小さく）
     ];
-    return { back: wrap(back), body: wrap(body) };
+    const cheekShadow = G({}, [E(isRen ? 185 : 199, 397, 96, 10, '#3B2A20', { opacity: 0.22, filter: u('blur') }), E(isRen ? 178 : 192, 396, 62, 4, '#2E2018', { opacity: 0.28, filter: u('blurS') })]); // 16 ほおが床についている所の、こい影（頭が浮いて見えないように）
+    return { back: G({}, [wrap(back), cheekShadow]), body: wrap(body) };
   }
 
   // ---------- レン（ホーランドロップ） ----------
@@ -353,7 +355,7 @@
       if (p.eyeShape === 'happy') {
         kids.push(P(`M${cx - 14} 197 Q${cx} 178 ${cx + 14} 197`, 'none', { stroke: c.eye2, 'stroke-width': 4.5, 'stroke-linecap': 'round' }));
       } else if (p.eyeShape === 'flat' || p.eyeOpen < 0.15) {
-        kids.push(p.pose === 'sploot' ? P(`M${cx - 14} 197 Q${cx} 205 ${cx + 14} 197`, 'none', { stroke: c.eye2, 'stroke-width': 3.4, 'stroke-linecap': 'round' }) : P(`M${cx - 13} 196 Q${cx} 202 ${cx + 13} 196`, 'none', { stroke: c.eye2, 'stroke-width': 4, 'stroke-linecap': 'round' })); // 寝ている時：まぶたの線は細く、ゆるく下へ
+        kids.push(SLEEPY.test(p.pose) ? P(`M${cx - 14} 197 Q${cx} 205 ${cx + 14} 197`, 'none', { stroke: c.eye2, 'stroke-width': 3.4, 'stroke-linecap': 'round' }) : P(`M${cx - 13} 196 Q${cx} 202 ${cx + 13} 196`, 'none', { stroke: c.eye2, 'stroke-width': 4, 'stroke-linecap': 'round' })); // 寝ている時：まぶたの線は細く、ゆるく下へ
       } else {
         // 半目・怒り目：上を頭の色の板でかくすと、色が合わず四角く見えた（2026-11-16）→ まぶたの線の下だけを見せ、まぶたの線を引く
         const lid = p.eyeShape === 'half' ? `M${cx - 21} 186 Q${cx} 190 ${cx + 21} 186` : p.eyeShape === 'angry' ? (cx < 180 ? `M${cx - 21} 182.6 L${cx + 21} 193.6` : `M${cx - 21} 193.6 L${cx + 21} 182.6`) : null;
@@ -384,18 +386,18 @@
       // 付け根の折れ
       P('M112 122 C 122 112 136 110 150 118', 'none', { stroke: c.ear3, 'stroke-width': 4, 'stroke-linecap': 'round', opacity: 0.5 })
     ]);
-    const earR = G({ transform: earRot(1, p.earR) }, [
+    const earR = G({ transform: earRot(1, p.earR) + (p.pose === 'flop' ? ' translate(230 120) scale(1 0.5) translate(-230 -120)' : '') }, [ // ばたん：下側の耳は頭の下じきになり、床に沿って短く見える
       P('M226 112 C 260 102 304 126 320 180 C 334 230 332 286 308 306 C 286 324 254 306 248 272 C 242 238 250 204 254 172 C 258 146 246 124 226 112 Z', u('ear'), fur),
       E(294, 296, 24, 12, c.ear3, { opacity: 0.22, filter: u('blurS') }),
       p.pose === 'sploot' ? G({}, [P('M242 140 C 262 190 266 250 288 298', 'none', { stroke: c.ear3, 'stroke-width': 6, 'stroke-linecap': 'round', opacity: 0.3, filter: u('blurS') }), E(296, 302, 26, 6, '#EAD3B4', { opacity: 0.4, filter: u('blurS') })]) : null,
       P('M248 122 C 238 112 224 110 210 118', 'none', { stroke: c.ear3, 'stroke-width': 4, 'stroke-linecap': 'round', opacity: 0.5 })
     ]);
-    const head = G({ transform: `translate(0 ${p.headNod}) rotate(${p.headTilt} 180 240)` + (p.pose === 'sploot' ? ' translate(0 292) scale(1.02 0.96) translate(0 -292)' : '') }, [ // 寝る時：あごが前足に押されて、少しつぶれる（26）
+    const head = G({ transform: (p.pose === 'flop' ? 'translate(0 396) scale(1.03 0.95) translate(0 -396) ' : '') + `translate(${p.headX || 0} ${p.headNod}) rotate(${p.headTilt} 180 240)` + (p.pose === 'sploot' ? ' translate(0 292) scale(1.02 0.96) translate(0 -292)' : '') }, [ // 寝る時：あごが前足に押されて、少しつぶれる（26）
       // 頭
       P('M180 105 C 252 105 292 150 292 202 C 292 258 246 292 180 292 C 114 292 68 258 68 202 C 68 150 108 105 180 105 Z', u('head'), fur),
       E(180, 250, 70, 34, '#E9D3B6', { opacity: 0.75, filter: u('blur') }),
       // クラウン（ふわっと盛り上がった頭頂）
-      E(180, 108, 46, 13, '#E3C7A3', { opacity: p.pose === 'sploot' ? 0.18 : 0.7, filter: u('blurS') }), // 寝ている時は頭のてっぺんの光を弱く（光の輪のように浮いて見えた）
+      E(180, 118, 42, 10, '#E3C7A3', { opacity: SLEEPY.test(p.pose) ? 0.18 : 0.7, filter: u('blurS') }), // 頭のてっぺんの光は、頭の形の内側に収める（上にはみ出すと、うすい輪がのって見えた。2026-11-17） // 寝ている時は頭のてっぺんの光を弱く（光の輪のように浮いて見えた）
       P('M138 122 C 152 112 168 110 180 112 C 192 110 208 112 222 122', 'none', { stroke: '#A98863', 'stroke-width': 3, 'stroke-linecap': 'round', opacity: 0.55 }),
       E(150, 196, 20, 18, '#EAD7BE', { opacity: 0.8, filter: u('blurS') }),
       E(210, 196, 20, 18, '#EAD7BE', { opacity: 0.8, filter: u('blurS') }),
@@ -409,11 +411,11 @@
       eye(150), eye(210),
       P('M173 229 Q180 225 187 229 Q184 235 180 236 Q176 235 173 229 Z', c.nose),
       mouthEl,
-      E(124, 228, 15, 9, c.blush, { opacity: (p.pose === 'sploot' ? 0.35 : 0.55) * p.blush }), E(236, 228, 15, 9, c.blush, { opacity: (p.pose === 'sploot' ? 0.35 : 0.55) * p.blush }), // 寝ている時はほおの赤みを弱く
-      P(p.pose === 'sploot' ? 'M158 242 Q124 240 94 247 M158 247 Q126 253 100 263 M202 242 Q236 240 266 247 M202 247 Q234 253 260 263' : 'M158 240 Q122 230 92 229 M158 246 Q124 247 96 254 M202 240 Q238 230 268 229 M202 246 Q236 247 264 254', 'none', { stroke: '#FBF6EE', 'stroke-width': 1.1, opacity: 0.85 }), // 寝ている時：ひげの力がぬけて下がる
-      p.pose === 'sploot' ? G({}, [E(150, 207, 17, 5, '#B48E66', { opacity: 0.22, filter: u('blurS') }), E(210, 207, 17, 5, '#B48E66', { opacity: 0.22, filter: u('blurS') }), // 閉じた目の下のふくらみ
+      E(124, 228, 15, 9, c.blush, { opacity: (SLEEPY.test(p.pose) ? 0.35 : 0.55) * p.blush }), E(236, 228, 15, 9, c.blush, { opacity: (SLEEPY.test(p.pose) ? 0.35 : 0.55) * p.blush }), // 寝ている時はほおの赤みを弱く
+      P(SLEEPY.test(p.pose) ? 'M158 242 Q124 240 94 247 M158 247 Q126 253 100 263 M202 242 Q236 240 266 247 M202 247 Q234 253 260 263' : 'M158 240 Q122 230 92 229 M158 246 Q124 247 96 254 M202 240 Q238 230 268 229 M202 246 Q236 247 264 254', 'none', { stroke: '#FBF6EE', 'stroke-width': 1.1, opacity: 0.85 }), // 寝ている時：ひげの力がぬけて下がる
+      SLEEPY.test(p.pose) ? G({}, [E(150, 207, 17, 5, '#B48E66', { opacity: 0.22, filter: u('blurS') }), E(210, 207, 17, 5, '#B48E66', { opacity: 0.22, filter: u('blurS') }), // 閉じた目の下のふくらみ
         P('M136 197 l-5 3 M224 197 l5 3', 'none', { stroke: c.eye2, 'stroke-width': 2, 'stroke-linecap': 'round', opacity: 0.6 }), // 目じりのまつ毛
-        E(132, 282, 30, 11, c.head2, { opacity: 0.55, filter: u('blurS') }), E(228, 282, 30, 11, c.head2, { opacity: 0.55, filter: u('blurS') })]) : null // ほおの毛：前足に押されて横へ
+        ...(p.pose === 'sploot' ? [E(132, 282, 30, 11, c.head2, { opacity: 0.55, filter: u('blurS') }), E(228, 282, 30, 11, c.head2, { opacity: 0.55, filter: u('blurS') })] : [])]) : null // ほおの毛：前足に押されて横へ
     ]);
 
     if (p.pose === 'flop') { const fb = flopBody(true, p, c, u, fur); return G({}, [fb.back, fb.body, head]); } // 12 ネクタイは体の下にかくれる
@@ -428,6 +430,7 @@
 
   // ---------- ジル（ネザーランドドワーフ） ----------
   function buildJil(p, id) {
+    if (p.pose === 'flop') p = Object.assign({}, p, { headNod: 40, headX: -30, earL: 0, earR: 0 }); // ばたん（ジル）：頭が小さめなので少し下げる。立ち耳は頭と一緒に背中側へ寝る
     const c = C.jil, u = n => `url(#${id}${n})`;
     const fur = p.fur ? { filter: u('fur') } : {};
     const sq = p.bodySquash;
@@ -457,7 +460,7 @@
       if (p.eyeShape === 'happy') {
         kids.push(P(`M${cx - 17} 204 Q${cx} 182 ${cx + 17} 204`, 'none', { stroke: c.eye2, 'stroke-width': 5, 'stroke-linecap': 'round' }));
       } else if (p.eyeShape === 'flat' || p.eyeOpen < 0.15) {
-        kids.push(p.pose === 'sploot' ? P(`M${cx - 17} 203 Q${cx} 212 ${cx + 17} 203`, 'none', { stroke: c.eye2, 'stroke-width': 3.8, 'stroke-linecap': 'round' }) : P(`M${cx - 16} 202 Q${cx} 209 ${cx + 16} 202`, 'none', { stroke: c.eye2, 'stroke-width': 4.5, 'stroke-linecap': 'round' }));
+        kids.push(SLEEPY.test(p.pose) ? P(`M${cx - 17} 203 Q${cx} 212 ${cx + 17} 203`, 'none', { stroke: c.eye2, 'stroke-width': 3.8, 'stroke-linecap': 'round' }) : P(`M${cx - 16} 202 Q${cx} 209 ${cx + 16} 202`, 'none', { stroke: c.eye2, 'stroke-width': 4.5, 'stroke-linecap': 'round' }));
       } else {
         // 半目・怒り目：上を頭の色の板でかくすと、色が合わず四角く見えた（2026-11-16）→ まぶたの線の下だけを見せ、まぶたの線を引く
         const lid = p.eyeShape === 'half' ? `M${cx - 26} 191 Q${cx} 195 ${cx + 26} 191` : p.eyeShape === 'angry' ? (cx < 188 ? `M${cx - 26} 184.5 L${cx + 26} 197.5` : `M${cx - 26} 197.5 L${cx + 26} 184.5`) : null;
@@ -478,7 +481,7 @@
       yawn:  G({}, [E(188, 252, 10, 14, '#7A3436', { stroke: c.mouth, 'stroke-width': 2 }), E(188, 259, 6.5, 5.5, '#E58C8C'), P('M181 241 l2 4 M195 241 l-2 4', 'none', { stroke: '#FFFFFF', 'stroke-width': 2, 'stroke-linecap': 'round' })])
     }[p.mouth] || null;
 
-    const head = G({ transform: `translate(0 ${p.headNod}) rotate(${p.headTilt} 188 240)` + (p.pose === 'sploot' ? ' translate(0 290) scale(1.02 0.96) translate(0 -290)' : '') }, [
+    const head = G({ transform: (p.pose === 'flop' ? 'translate(0 396) scale(1.03 0.95) translate(0 -396) ' : '') + `translate(${p.headX || 0} ${p.headNod}) rotate(${p.headTilt} 188 240)` + (p.pose === 'sploot' ? ' translate(0 290) scale(1.02 0.96) translate(0 -290)' : '') }, [
       // 立ち耳（根元で回転）
       p.pose === 'sploot' ? E(286, 214, 40, 10, '#7A5638', { opacity: 0.18, filter: u('blurS'), transform: 'rotate(32 286 214)' }) : null, // 寝かせた耳が首にのっている所のかげ
       ...(p.pose === 'sploot' ? [ // 寝る時の立ち耳：首のうしろへ寝かせる。前からは短く、外へ倒れて見え、内側の桃色はほとんど見えない（27・28）
@@ -498,15 +501,15 @@
       P('M181 229 Q188 225 195 229 Q192 235 188 236 Q184 235 181 229 Z', c.nose),
       mouthEl,
       E(118, 232, 14, 8, c.blush, { opacity: 0.55 * p.blush }), E(258, 232, 14, 8, c.blush, { opacity: 0.55 * p.blush }),
-      P(p.pose === 'sploot' ? 'M166 242 Q132 240 100 246 M166 247 Q134 253 106 263 M210 242 Q244 240 276 246 M210 247 Q242 253 270 263' : 'M166 240 Q130 230 98 226 M166 246 Q132 248 102 256 M210 240 Q246 230 278 226 M210 246 Q244 248 274 256', 'none', { stroke: '#FBF6EE', 'stroke-width': 1.1, opacity: 0.9 }),
-      p.pose === 'sploot' ? G({}, [E(148, 213, 20, 5, '#B48E66', { opacity: 0.2, filter: u('blurS') }), E(228, 213, 20, 5, '#B48E66', { opacity: 0.2, filter: u('blurS') }), P('M131 203 l-5 3 M245 203 l5 3', 'none', { stroke: c.eye2, 'stroke-width': 2.2, 'stroke-linecap': 'round', opacity: 0.6 }), E(140, 280, 24, 8, c.head2, { opacity: 0.4, filter: u('blurS') }), E(236, 280, 24, 8, c.head2, { opacity: 0.4, filter: u('blurS') })]) : null,
+      P(SLEEPY.test(p.pose) ? 'M166 242 Q132 240 100 246 M166 247 Q134 253 106 263 M210 242 Q244 240 276 246 M210 247 Q242 253 270 263' : 'M166 240 Q130 230 98 226 M166 246 Q132 248 102 256 M210 240 Q246 230 278 226 M210 246 Q244 248 274 256', 'none', { stroke: '#FBF6EE', 'stroke-width': 1.1, opacity: 0.9 }),
+      SLEEPY.test(p.pose) ? G({}, [E(148, 213, 20, 5, '#B48E66', { opacity: 0.2, filter: u('blurS') }), E(228, 213, 20, 5, '#B48E66', { opacity: 0.2, filter: u('blurS') }), P('M131 203 l-5 3 M245 203 l5 3', 'none', { stroke: c.eye2, 'stroke-width': 2.2, 'stroke-linecap': 'round', opacity: 0.6 }), ...(p.pose === 'sploot' ? [E(140, 280, 24, 8, c.head2, { opacity: 0.4, filter: u('blurS') }), E(236, 280, 24, 8, c.head2, { opacity: 0.4, filter: u('blurS') })] : [])]) : null, // 前足に押されたほおの毛は、のび寝だけ（ばたんでは顔の外にうかんだ。2026-11-17）
       // メガネ
-      p.prop ? G(p.pose === 'sploot' ? { transform: 'translate(0 5) rotate(-4 188 200)' } : {}, [ // 寝ている時：メガネが少し鼻へずり落ちて、かたむく
-        p.pose === 'sploot' ? G({}, [el('circle', { cx: 148, cy: 201, r: 25, fill: '#DCE6EE', opacity: 0.12 }), el('circle', { cx: 228, cy: 201, r: 25, fill: '#DCE6EE', opacity: 0.12 })]) : null, // レンズのうすい色
+      p.prop ? G(SLEEPY.test(p.pose) ? { transform: 'translate(0 5) rotate(-4 188 200)' } : {}, [ // 寝ている時：メガネが少し鼻へずり落ちて、かたむく
+        SLEEPY.test(p.pose) ? G({}, [el('circle', { cx: 148, cy: 201, r: 25, fill: '#DCE6EE', opacity: 0.12 }), el('circle', { cx: 228, cy: 201, r: 25, fill: '#DCE6EE', opacity: 0.12 })]) : null, // レンズのうすい色
         el('circle', { cx: 148, cy: 201, r: 26, fill: 'none', stroke: c.ring, 'stroke-width': 2.2 }),
         el('circle', { cx: 228, cy: 201, r: 26, fill: 'none', stroke: c.ring, 'stroke-width': 2.2 }),
         P('M174 197 Q188 190 202 197 M122 197 L106 192 M254 197 L270 192', 'none', { stroke: c.ring, 'stroke-width': 2.2, 'stroke-linecap': 'round' }),
-        P('M136 186 l7 -7', 'none', { stroke: '#FFFFFF', 'stroke-width': 2, 'stroke-linecap': 'round', opacity: p.pose === 'sploot' ? 0.35 : 0.6 })
+        P('M136 186 l7 -7', 'none', { stroke: '#FFFFFF', 'stroke-width': 2, 'stroke-linecap': 'round', opacity: SLEEPY.test(p.pose) ? 0.35 : 0.6 })
       ]) : null
     ]);
     if (p.pose === 'flop') { const fb = flopBody(false, p, c, u, fur); return G({}, [fb.back, fb.body, head]); }
