@@ -55,7 +55,7 @@
     sit:     { pose: 'sit', bodySquash: 0, bodyTilt: 0, headTilt: 0, headNod: 0, legLift: 0 },
     loaf:    { pose: 'sit', bodySquash: -0.5, bodyTilt: 0, headNod: 10 },
     stretch: { pose: 'stretch', bodySquash: 1, bodyTilt: 0, headTilt: 6, headNod: 26 },
-    sploot:  { pose: 'sploot', bodySquash: 0, bodyTilt: 0, headTilt: 3, headNod: 92, legLift: 0, earL: 0, earR: 0 }, // のびて寝る（あごを前足にのせる高さ）
+    sploot:  { pose: 'sploot', bodySquash: 0, bodyTilt: 0, headTilt: 3, headNod: 86, legLift: 0, earL: -3, earR: -3 }, // あごが前足の上にのる高さ // のびて寝る（あごを前足にのせる高さ）
     stand:   { pose: 'stand', bodySquash: -0.2, headNod: -16 },
     thump:   { pose: 'thump', bodySquash: -0.35, headTilt: -4, legLift: 1 },
     lean:    { pose: 'lean', bodySquash: 0, bodyTilt: -8, headTilt: -10, headNod: 6 },
@@ -152,51 +152,95 @@
   // おなかを床にべったり付け、体は長く低い。後ろ足 2 本はまっすぐ後ろへ投げ出し、足の裏が上を向く。前足は前へ。あごは前足か床にのせる。
   // たれ耳は床に広がり、立ち耳は首のうしろへ寝かせる。頭（顔）はアニメの形のまま下げるだけ。ここでは体・足・しっぽを描く（数字はレンの大きさ。ジルは縮める）
   function splootBody(isRen, p, c, u, fur) {
-    const S = isRen ? 1 : 0.8, hx = isRen ? 180 : 188, gy = 398;
-    const wrap = kids => G({ transform: `translate(${hx} ${gy}) scale(${S}) translate(-180 -398)` }, kids);
-    const back = [ // 体のうしろに隠れる物
-      E(400, 396, 230, 13, '#3B2A20', { opacity: 0.2, filter: u('blur') }),                                             // 1 床のかげ：広く低い（体が床に広がる）
-      E(330, 395, 170, 6, '#2E2018', { opacity: 0.32, filter: u('blurS') }),                                             // 2 床に付いている所の、濃く細いかげ
-      // 3 奥の後ろ足：まっすぐ後ろへ。体より少し高く・小さく・暗く（遠いので）
-      G({ opacity: 0.9 }, [P('M424 338 C 468 330 526 333 566 341 C 586 345 588 357 572 360 C 538 364 478 360 436 356 Z', u('foot'), fur),
-        P('M532 336 C 560 338 584 346 586 355 C 570 352 548 349 528 348 Z', '#7A5D44', { opacity: 0.45, filter: u('blurS') }), E(440, 352, 60, 8, '#4A3424', { opacity: 0.2, filter: u('blurS') })]), // 4 足の裏（上を向く。毛が少し暗い）
+    const S = isRen ? 1 : 0.8, hx = isRen ? 180 : 188, gy = 398, sx = isRen ? 1 : 0.86, sy = isRen ? 1.06 : 1; // 体つき：ホーランドロップはずんぐり（少し高く）、ネザーランドドワーフは小さくまとまる（横に短い）
+    const wrap = kids => G({ transform: `translate(${hx} ${gy}) scale(${S * sx} ${S * sy}) translate(-180 -398)` }, kids);
+    const line = (d, col, w, op, blur) => P(d, 'none', Object.assign({ stroke: col, 'stroke-width': w, 'stroke-linecap': 'round', opacity: op }, blur ? { filter: u(blur) } : {}));
+    // 後ろ足（足の裏を上に向けて、まっすぐうしろへ）。かかと hx0 → つま先 tx。w＝足の幅。far＝奥の足
+    const hindSole = (x0, y0, tx, ty, w, far) => {
+      const dx = tx - x0, dy = ty - y0, L = Math.hypot(dx, dy), ang = Math.atan2(dy, dx) * 180 / Math.PI;
+      return G({ transform: `translate(${x0} ${y0}) rotate(${ang})` }, [
+        E(L * 0.55, w * 0.95, L * 0.55, w * 0.42, '#3B2A20', { opacity: far ? 0.16 : 0.24, filter: u('blurS') }),                     // 足の下のかげ（床に近い）
+        P(`M${-L * 0.06} ${-w * 0.3} C ${L * 0.3} ${-w * 0.5} ${L * 0.68} ${-w * 0.62} ${L * 0.9} ${-w * 0.56} C ${L * 1.04} ${-w * 0.48} ${L * 1.06} ${w * 0.46} ${L * 0.9} ${w * 0.54} C ${L * 0.66} ${w * 0.62} ${L * 0.3} ${w * 0.5} ${-L * 0.06} ${w * 0.36} Z`, u('foot'), fur), // 足：かかとは細く、つま先へ少し広がる
+        P(`M${L * 0.16} ${-w * 0.36} C ${L * 0.4} ${-w * 0.5} ${L * 0.7} ${-w * 0.52} ${L * 0.86} ${-w * 0.4} C ${L * 0.88} ${-w * 0.1} ${L * 0.7} ${w * 0.02} ${L * 0.42} ${0} C ${L * 0.26} ${-w * 0.02} ${L * 0.14} ${-w * 0.12} ${L * 0.16} ${-w * 0.36} Z`, '#6A4C36', { opacity: far ? 0.62 : 0.6, filter: u('blurS') }), // 足の裏のまん中：すれて濃い毛（うさぎの足の裏に肉球は無い）
+        E(L * 0.5, w * 0.22, L * 0.36, w * 0.16, '#F2DEC2', { opacity: 0.45, filter: u('blurS') }),                                   // 足の横の明るい毛（丸みが出る）
+        line(`M${L * 0.2} ${w * 0.44} C ${L * 0.45} ${w * 0.52} ${L * 0.7} ${w * 0.54} ${L * 0.88} ${w * 0.46}`, '#6E5034', 3, 0.22, 'blurS'), // 足の下のふちのかげ
+        E(L * 0.08, -w * 0.05, w * 0.36, w * 0.28, '#F0DCBF', { opacity: 0.3, filter: u('blurS') }),                                             // かかと：骨が出て、毛が明るい
+        ...[-0.36, -0.12, 0.12, 0.36].map((k, i) => E(L * (0.95 + (i % 3 ? 0.02 : -0.01)), w * k * 1.08, w * 0.2, w * 0.17, '#EEDDC4', Object.assign({ opacity: far ? 0.6 : 0.85 }, fur))), // 指 4 本：毛のふさ。力がぬけて少し開く
+        ...[-0.24, 0, 0.24].map(k => line(`M${L * 0.86} ${w * k} L${L * 0.99} ${w * k}`, '#9E7F5D', 1.3, 0.5)),                           // 指の分かれ目
+        ...(far ? [] : [-0.36, -0.12, 0.12, 0.36].map(k => line(`M${L * 0.97} ${w * k} l3.5 0`, '#6A5040', 1.4, 0.4))),                   // つめの先（毛の中に少しだけ）
+        line(`M${L * 0.1} ${-w * 0.44} C ${L * 0.4} ${-w * 0.56} ${L * 0.7} ${-w * 0.58} ${L * 0.88} ${-w * 0.48}`, '#FFF3E2', 2.4, 0.35, 'blurS'), // ふちの光
+      ]);
+    };
+    const back = [
+      E(392, 399, 252, 15, '#3B2A20', { opacity: 0.18, filter: u('blur') }),                       // 床のかげ：広く低い。光は左前から → かげは少しうしろへ
+      E(330, 396, 170, 6, '#2E2018', { opacity: 0.32, filter: u('blurS') }),                        // おなかが床に付いている所
+      G({ opacity: 0.94 }, [hindSole(446, 346, 590, 336, 26, true)]),                              // 奥の後ろ足
+      line('M440 350 C 470 348 490 348 500 350', '#5A4030', 7, 0.18, 'blurS'),                      // 奥の足がお尻にかくれる所のかげ
     ];
     const body = [
-      // 5 体：長く低い。肩から腰へ少し上がり、お尻で丸く下がる。おなかは床に平ら（下のふちがまっすぐ）
-      P('M214 300 C 228 286 252 278 276 279 C 300 280 318 290 344 289 C 380 287 404 268 436 268 C 470 268 494 292 498 326 C 502 358 492 384 470 394 L 222 396 C 206 380 204 320 214 300 Z', u('body'), fur), // 肩のふくらみ・腰の前のくぼみ・腰の骨で高く・お尻は丸く
-      // 6 おなかが床に押されて、横へふくらむ（下のふちの毛）
-      P('M222 392 C 300 400 400 401 476 390', 'none', { stroke: c.fur2 || '#B8956C', 'stroke-width': 10, 'stroke-linecap': 'round', opacity: 0.55, filter: u('blurS') }),
-      // 7 体の下半分のかげ（床に近い所は暗い）
-      P('M218 352 C 300 366 400 368 486 350 L 478 390 L 222 394 Z', '#6E5034', { opacity: 0.22, filter: u('blur') }),
-      // 8 背中の光（首から腰へ）・9 背骨のゆるい線
-      P('M236 292 C 256 282 290 282 320 292 C 350 296 390 274 440 274 C 466 276 484 290 490 304', 'none', { stroke: '#FFF4E2', 'stroke-width': 14, 'stroke-linecap': 'round', opacity: 0.3, filter: u('blur') }),
-      P('M262 286 C 296 284 320 296 346 294 C 380 292 404 276 440 276', 'none', { stroke: '#9C7A55', 'stroke-width': 2.2, 'stroke-linecap': 'round', opacity: 0.22 }),
-      E(270, 292, 30, 12, '#F6E6CC', { opacity: 0.3, filter: u('blurS') }), // 肩甲骨のふくらみの光
-      // 10 腰の骨のふくらみ（いちばん高い所）
-      E(436, 280, 34, 13, '#F6E6CC', { opacity: 0.38, filter: u('blurS') }), E(340, 300, 26, 9, '#8E6C4A', { opacity: 0.16, filter: u('blurS') }), // 腰の前のくぼみのかげ
-      // 11 横に倒れたもも（平たく、外へ広がる）
-      haunch(440, 352, 52, 34, u, fur),
-      // 12 わき腹の毛の流れ（3 本）
-      ...[[300, 318], [340, 322], [380, 320]].map(([x, y]) => P(`M${x} ${y} q 14 10 30 12`, 'none', { stroke: '#A5845F', 'stroke-width': 1.6, 'stroke-linecap': 'round', opacity: 0.35 })),
-      // 13 白いしっぽ：お尻の上に、ぺたんと寝る
-      E(494, 334, 16, 13, '#FBF5EC', fur), E(496, 338, 10, 7, '#E5D8C6', { opacity: 0.6, filter: u('blurS') }),
-      // 14 手前の後ろ足：まっすぐ後ろへ投げ出す。かかと（15）が上へ少しとがり、足の裏（16）が上・うしろを向く。つま先（17）は丸い毛
-      P('M432 368 C 476 362 534 366 584 375 C 604 379 608 393 590 397 C 550 400 484 399 436 396 C 424 390 424 372 432 368 Z', u('foot'), fur),
-      P('M530 369 C 566 371 598 379 602 390 C 588 387 556 383 526 381 Z', '#8B6B4E', { opacity: 0.45, filter: u('blurS') }), // 足の裏：上・うしろを向いた、濃い毛の面
-      E(450, 372, 13, 7, '#E9D2B0', { opacity: 0.6, filter: u('blurS') }),
-      E(598, 390, 12, 8, '#F3E6D2', { opacity: 0.6, filter: u('blurS') }),
-      P('M586 394 q 6 -6 4 -14 M574 395 q 6 -6 4 -15', 'none', { stroke: '#9E7F5D', 'stroke-width': 1.5, 'stroke-linecap': 'round', opacity: 0.45 }), // 18 指の分かれ目
-      P('M436 396 L 580 397', 'none', { stroke: '#3B2A20', 'stroke-width': 4, 'stroke-linecap': 'round', opacity: 0.22, filter: u('blurS') }), // 19 足の下の細いかげ
-      // 20 胸のクリーム：床に押されて横に広がる
+      // 体：肩のふくらみ・腰の前のくぼみ・腰の骨で高く・お尻は丸く
+      P('M214 300 C 228 286 252 278 276 279 C 300 280 318 290 344 289 C 380 287 404 268 436 268 C 470 268 494 292 498 326 C 502 358 492 384 470 394 L 222 396 C 206 380 204 320 214 300 Z', u('body'), fur),
+      P('M300 282 C 340 286 380 270 430 268 C 456 268 474 276 484 290 C 450 284 400 290 340 296 Z', c.fur3 || '#9C7652', { opacity: 0.16, filter: u('blur') }), // 背中の毛は少し濃い
+      E(320, 340, 120, 40, '#FFF3E0', { opacity: 0.08, filter: u('blur') }),                       // 体の横の、ゆるい光（上からの光が回りこむ）
+      P('M218 352 C 300 366 400 368 486 350 L 478 390 L 222 394 Z', '#6E5034', { opacity: 0.22, filter: u('blur') }), // 体の下は暗い
+      P('M240 390 C 320 394 400 394 470 388', 'none', { stroke: '#D9B88E', 'stroke-width': 5, 'stroke-linecap': 'round', opacity: 0.25, filter: u('blurS') }), // 床からの照り返し（おなかのふち）
+      P('M228 392 q 8 5 16 1 q 9 5 18 0 q 8 6 17 1 q 9 5 18 0 q 8 5 17 1 q 9 6 18 0 q 8 5 17 1 q 9 5 18 0 q 8 6 17 1 q 9 5 18 0 q 8 5 16 0 q 9 5 18 -2 q 8 4 16 -3 L 470 386 L 228 386 Z', c.fur2, Object.assign({ opacity: 0.55 }, fur)), // おなかのふちの毛：床に押されて、うすくはみ出す
+      line('M236 292 C 256 282 290 282 320 292 C 350 296 390 274 440 274 C 466 276 484 290 490 304', '#FFF4E2', 14, 0.3, 'blur'), // 背中の光
+      line('M226 296 C 250 282 290 280 320 290 C 352 294 392 268 438 268 C 470 268 492 288 497 318', '#FFF7EA', 2.5, 0.45, 'blurS'), // 背中のふちの細い光
+      line('M262 286 C 296 284 320 296 346 294 C 380 292 404 276 440 276', '#9C7A55', 2.2, 0.2),   // 背骨のゆるい線
+      E(270, 292, 30, 12, '#F6E6CC', { opacity: 0.3, filter: u('blurS') }),                         // 肩甲骨のふくらみ
+      E(436, 280, 34, 13, '#F6E6CC', { opacity: 0.38, filter: u('blurS') }),                        // 腰の骨
+      E(340, 300, 26, 9, '#8E6C4A', { opacity: 0.16, filter: u('blurS') }),                         // 腰の前のくぼみ
+      line('M360 300 C 380 318 392 348 396 384', '#7E5E40', 8, 0.18, 'blur'),                       // もものつけ根のくぼみ（おなかとももの境）
+      ...[[404, 316, 22], [420, 334, 24], [440, 350, 22], [456, 336, 20], [300, 316, 26], [332, 330, 28], [366, 324, 24], [262, 320, 22]].map(([x, y, l]) => line(`M${x} ${y} q ${l * 0.5} ${l * 0.28} ${l} ${l * 0.32}`, '#A5845F', 1.5, 0.32)), // 毛の流れ：体の前からお尻へ、ももは丸く
+      // すね：ももから足へまっすぐのびる（足がもものはしから急に出ない）
+      hindSole(456, 377, 616, 384, 30, false),   // つま先は床から少しうく                                                      // 手前の後ろ足
+      // もも：床に倒れて平たく。筋肉のふくらみと、その上の光
+      P('M392 300 C 430 290 474 300 488 330 C 498 356 488 384 462 392 L 404 392 C 388 372 382 320 392 300 Z', u('haunch'), fur),
+      E(440, 318, 34, 16, '#FFF3E0', { opacity: 0.22, filter: u('blurS') }),                        // ももの上の光
+      line('M402 386 C 430 392 458 390 478 380', '#5E4430', 6, 0.22, 'blurS'),                      // ももが床に付く所のかげ
+      // しっぽ：お尻の上のうしろに付き、ぺたんと寝る。ふちはふさふさ
+      G({}, [E(492, 312, 7, 8, '#B89874', { opacity: 0.5, filter: u('blurS') }),                  // つけ根のかげ
+        E(500, 318, 17, 13, '#F4EADB', fur), E(498, 312, 12, 7, c.fur2, { opacity: 0.5, filter: u('blurS') }), // しっぽ：上は毛の色、下とふちが白
+        ...[[486, 312], [494, 306], [506, 308], [514, 316], [512, 326], [500, 330], [488, 324]].map(([x, y]) => E(x, y, 5.5, 4.5, '#FBF7F0', Object.assign({ opacity: 0.8 }, fur))), // ふさふさのふち
+        E(502, 326, 12, 5, '#D9C8B0', { opacity: 0.6, filter: u('blurS') }),                        // しっぽの下のかげ
+        E(497, 313, 7, 4, '#FFFFFF', { opacity: 0.7, filter: u('blurS') })]),                         // しっぽの上の光
+      // 胸のクリーム：床に押されて横に広がる
       E(200, 372, 72, 28, u('cream'), fur),
-      // 21 首の毛：頭と体の間にすき間を作らない
-      E(236, 318, 44, 40, u('body'), fur),
-      // 22 前足：前へのばして平たく（あごの下）。左右で少しずらす（そろえない）
-      frontPaw(146, 389, 25, 9, u, fur, c.cream, null), frontPaw(214, 392, 25, 9, u, fur, c.cream, null),
-      // 23 あごの下の小さなかげ（頭が前足にのっている）
-      E(180, 384, 70, 8, '#5A4030', { opacity: 0.18, filter: u('blurS') }),
+      E(236, 318, 44, 40, u('body'), fur),                                                          // 首の毛
+      line('M246 296 C 238 316 236 340 240 366', '#8E6C4A', 6, 0.14, 'blur'),                       // 肩と胸の境のかげ
+      P('M236 352 C 250 346 268 350 276 364 C 282 378 276 392 262 395 L 238 395 C 228 384 228 360 236 352 Z', u('body'), fur), // ひじ：前足のつけ根が、胸の横で床に付く
+      E(258, 366, 14, 8, '#FFF3E0', { opacity: 0.25, filter: u('blurS') }),                        // ひじの光
+      line('M240 392 C 252 396 266 396 276 390', '#5E4430', 4, 0.2, 'blurS'),                       // ひじの下のかげ
+      E(226, 300, 30, 12, '#6E5034', { opacity: 0.2, filter: u('blur') }),                          // 頭と首の境のかげ（頭がのっている）
+      line('M300 300 C 320 304 340 304 356 300', '#FFF0DC', 5, 0.18, 'blurS'),                      // 息でふくらむ胸のあたりの、ゆるい光
+      E(470, 300, 10, 8, '#F6E6CC', { opacity: 0.3, filter: u('blurS') }),                          // お尻の上の光（しっぽの手前）
+      P('M240 380 C 300 386 400 386 470 376 L 466 388 C 400 394 300 394 240 390 Z', isRen ? '#EAD2B0' : '#EFD6B4', { opacity: 0.35, filter: u('blurS') }), // わき腹の下は、おなかの明るい毛が少し見える
+      ...[[452, 272], [466, 276], [478, 284]].map(([x, y]) => P(`M${x} ${y} q 4 -6 9 -4`, 'none', { stroke: '#F3E3CA', 'stroke-width': 2, 'stroke-linecap': 'round', opacity: 0.5 })), // お尻の上のふちの毛が、少し立つ
+      E(468, 366, 10, 7, '#F6E6CC', { opacity: 0.32, filter: u('blurS') }),                        // ひざ（ももとすねの間）の小さな光
+      E(492, 384, 16, 6, '#F2E2CA', { opacity: 0.35, filter: u('blurS') }),                         // すねの内側の明るい毛
+      E(232, 318, 18, 34, '#6E5034', { opacity: 0.12, filter: u('blur') }),                         // たれ耳が体に落とすかげ
+      line('M222 392 C 236 396 256 397 272 395', '#2E2018', 4, 0.22, 'blurS'),                    // 胸が床に付く所の細いかげ
+      P('M400 386 C 420 380 446 378 462 382 L 458 392 L 404 394 Z', '#4A3424', { opacity: 0.18, filter: u('blurS') }), // 後ろ足とおなかの間のすき間のかげ
+      line('M384 300 C 404 284 444 282 470 296', '#8C6A48', 3, 0.2, 'blurS'),                       // 奥のもも（腰の向こう側）のふち
+      line('M226 300 C 236 306 246 306 254 300', '#9C7A55', 2, 0.3),                                // あごの下の毛のたるみ（頭がのっている）
+      ...[[476, 372], [470, 380]].map(([x, y]) => line(`M${x} ${y} q -6 4 -10 10`, '#E8D2B0', 2, 0.45)), // かかとの長い毛（ふさ）
     ];
     return { back: wrap(back), body: wrap(body) };
+  }
+  // 寝る時の前足：あごの下から前へ（手前へ）出して平たく。頭のあとに描いて、指先が見えるように
+  function splootPaws(isRen, c, u, fur) {
+    const S = isRen ? 1 : 0.8, hx = isRen ? 180 : 188;
+    const paw = (x, y, w, h, rot) => G({ transform: `rotate(${rot} ${x} ${y})` }, [
+      E(x, y + h * 0.9, w * 1.1, h * 0.5, '#3B2A20', { opacity: 0.22, filter: u('blurS') }),       // 床のかげ
+      P(`M${x - w} ${y + h * 0.5} C ${x - w * 1.05} ${y - h * 0.6} ${x - w * 0.5} ${y - h * 1.1} ${x} ${y - h * 1.1} C ${x + w * 0.5} ${y - h * 1.1} ${x + w * 1.05} ${y - h * 0.6} ${x + w} ${y + h * 0.5} Q ${x} ${y + h * 1.05} ${x - w} ${y + h * 0.5} Z`, u('paw'), fur),
+      ...[-0.42, -0.14, 0.14, 0.42].map(k => E(x + w * k * 1.02, y + h * 0.5, w * 0.24, h * 0.42, '#FFFBF4', { opacity: 0.55, filter: u('blurS') })), // 指 4 本のふくらみ
+      ...[-0.28, 0, 0.28].map(k => P(`M${x + w * k} ${y + h * 0.82} q ${w * 0.04} ${-h * 0.4} 0 ${-h * 0.75}`, 'none', { stroke: '#A98E70', 'stroke-width': 1.4, 'stroke-linecap': 'round', opacity: 0.5 })), // 指の分かれ目
+      E(x - w * 0.2, y - h * 0.5, w * 0.55, h * 0.3, '#FFFFFF', { opacity: 0.45, filter: u('blurS') }), // 上の光
+    ]);
+    // 前足：ホーランドロップは骨太で幅広、ネザーランドドワーフは小さく細い
+    return G({ transform: `translate(${hx} 398) scale(${S}) translate(-180 -398)` }, [E(150, 380, 22, 10, c.cream, { opacity: 0.6, filter: u('blurS') }), E(212, 383, 22, 10, c.cream, { opacity: 0.6, filter: u('blurS') }), // 手首：胸の毛から続く
+      paw(150, 392, isRen ? 26 : 21, isRen ? 12 : 10, -6), paw(212, 395, isRen ? 26 : 21, isRen ? 12 : 10, 5), E(182, 384, 62, 6, '#5A4030', { opacity: 0.2, filter: u('blurS') })]); // あごが前足にのる所のかげ
   }
 
   // ---------- レン（ホーランドロップ） ----------
@@ -236,7 +280,7 @@
       if (p.eyeShape === 'happy') {
         kids.push(P(`M${cx - 14} 197 Q${cx} 178 ${cx + 14} 197`, 'none', { stroke: c.eye2, 'stroke-width': 4.5, 'stroke-linecap': 'round' }));
       } else if (p.eyeShape === 'flat' || p.eyeOpen < 0.15) {
-        kids.push(P(`M${cx - 13} 196 Q${cx} 202 ${cx + 13} 196`, 'none', { stroke: c.eye2, 'stroke-width': 4, 'stroke-linecap': 'round' }));
+        kids.push(p.pose === 'sploot' ? P(`M${cx - 14} 197 Q${cx} 205 ${cx + 14} 197`, 'none', { stroke: c.eye2, 'stroke-width': 3.4, 'stroke-linecap': 'round' }) : P(`M${cx - 13} 196 Q${cx} 202 ${cx + 13} 196`, 'none', { stroke: c.eye2, 'stroke-width': 4, 'stroke-linecap': 'round' })); // 寝ている時：まぶたの線は細く、ゆるく下へ
       } else {
         // 半目・怒り目：上を頭の色の板でかくすと、色が合わず四角く見えた（2026-11-16）→ まぶたの線の下だけを見せ、まぶたの線を引く
         const lid = p.eyeShape === 'half' ? `M${cx - 21} 186 Q${cx} 190 ${cx + 21} 186` : p.eyeShape === 'angry' ? (cx < 180 ? `M${cx - 21} 182.6 L${cx + 21} 193.6` : `M${cx - 21} 193.6 L${cx + 21} 182.6`) : null;
@@ -262,12 +306,14 @@
       P('M134 112 C 100 102 56 126 40 180 C 26 230 28 286 52 306 C 74 324 106 306 112 272 C 118 238 110 204 106 172 C 102 146 114 124 134 112 Z', u('ear'), fur),
       // 先端の丸いふくらみ
       E(66, 296, 24, 12, c.ear3, { opacity: 0.22, filter: u('blurS') }),
+      p.pose === 'sploot' ? G({}, [P('M118 140 C 98 190 94 250 72 298', 'none', { stroke: c.ear3, 'stroke-width': 6, 'stroke-linecap': 'round', opacity: 0.3, filter: u('blurS') }), E(64, 302, 26, 6, '#EAD3B4', { opacity: 0.4, filter: u('blurS') })]) : null, // 寝ている時：耳の折れ目・床に付いた耳先 // 寝ている時：耳の折れ目と、床に付いた耳先
       // 付け根の折れ
       P('M112 122 C 122 112 136 110 150 118', 'none', { stroke: c.ear3, 'stroke-width': 4, 'stroke-linecap': 'round', opacity: 0.5 })
     ]);
     const earR = G({ transform: earRot(1, p.earR) }, [
       P('M226 112 C 260 102 304 126 320 180 C 334 230 332 286 308 306 C 286 324 254 306 248 272 C 242 238 250 204 254 172 C 258 146 246 124 226 112 Z', u('ear'), fur),
       E(294, 296, 24, 12, c.ear3, { opacity: 0.22, filter: u('blurS') }),
+      p.pose === 'sploot' ? G({}, [P('M242 140 C 262 190 266 250 288 298', 'none', { stroke: c.ear3, 'stroke-width': 6, 'stroke-linecap': 'round', opacity: 0.3, filter: u('blurS') }), E(296, 302, 26, 6, '#EAD3B4', { opacity: 0.4, filter: u('blurS') })]) : null,
       P('M248 122 C 238 112 224 110 210 118', 'none', { stroke: c.ear3, 'stroke-width': 4, 'stroke-linecap': 'round', opacity: 0.5 })
     ]);
     const head = G({ transform: `translate(0 ${p.headNod}) rotate(${p.headTilt} 180 240)` + (p.pose === 'sploot' ? ' translate(0 292) scale(1.02 0.96) translate(0 -292)' : '') }, [ // 寝る時：あごが前足に押されて、少しつぶれる（26）
@@ -275,7 +321,7 @@
       P('M180 105 C 252 105 292 150 292 202 C 292 258 246 292 180 292 C 114 292 68 258 68 202 C 68 150 108 105 180 105 Z', u('head'), fur),
       E(180, 250, 70, 34, '#E9D3B6', { opacity: 0.75, filter: u('blur') }),
       // クラウン（ふわっと盛り上がった頭頂）
-      E(180, 108, 46, 13, '#E3C7A3', { opacity: 0.7, filter: u('blurS') }),
+      E(180, 108, 46, 13, '#E3C7A3', { opacity: p.pose === 'sploot' ? 0.18 : 0.7, filter: u('blurS') }), // 寝ている時は頭のてっぺんの光を弱く（光の輪のように浮いて見えた）
       P('M138 122 C 152 112 168 110 180 112 C 192 110 208 112 222 122', 'none', { stroke: '#A98863', 'stroke-width': 3, 'stroke-linecap': 'round', opacity: 0.55 }),
       E(150, 196, 20, 18, '#EAD7BE', { opacity: 0.8, filter: u('blurS') }),
       E(210, 196, 20, 18, '#EAD7BE', { opacity: 0.8, filter: u('blurS') }),
@@ -289,14 +335,17 @@
       eye(150), eye(210),
       P('M173 229 Q180 225 187 229 Q184 235 180 236 Q176 235 173 229 Z', c.nose),
       mouthEl,
-      E(124, 228, 15, 9, c.blush, { opacity: 0.55 * p.blush }), E(236, 228, 15, 9, c.blush, { opacity: 0.55 * p.blush }),
-      P('M158 240 Q122 230 92 229 M158 246 Q124 247 96 254 M202 240 Q238 230 268 229 M202 246 Q236 247 264 254', 'none', { stroke: '#FBF6EE', 'stroke-width': 1.1, opacity: 0.85 })
+      E(124, 228, 15, 9, c.blush, { opacity: (p.pose === 'sploot' ? 0.35 : 0.55) * p.blush }), E(236, 228, 15, 9, c.blush, { opacity: (p.pose === 'sploot' ? 0.35 : 0.55) * p.blush }), // 寝ている時はほおの赤みを弱く
+      P(p.pose === 'sploot' ? 'M158 242 Q124 240 94 247 M158 247 Q126 253 100 263 M202 242 Q236 240 266 247 M202 247 Q234 253 260 263' : 'M158 240 Q122 230 92 229 M158 246 Q124 247 96 254 M202 240 Q238 230 268 229 M202 246 Q236 247 264 254', 'none', { stroke: '#FBF6EE', 'stroke-width': 1.1, opacity: 0.85 }), // 寝ている時：ひげの力がぬけて下がる
+      p.pose === 'sploot' ? G({}, [E(150, 207, 17, 5, '#B48E66', { opacity: 0.22, filter: u('blurS') }), E(210, 207, 17, 5, '#B48E66', { opacity: 0.22, filter: u('blurS') }), // 閉じた目の下のふくらみ
+        P('M136 197 l-5 3 M224 197 l5 3', 'none', { stroke: c.eye2, 'stroke-width': 2, 'stroke-linecap': 'round', opacity: 0.6 }), // 目じりのまつ毛
+        E(132, 282, 30, 11, c.head2, { opacity: 0.55, filter: u('blurS') }), E(228, 282, 30, 11, c.head2, { opacity: 0.55, filter: u('blurS') })]) : null // ほおの毛：前足に押されて横へ
     ]);
 
     if (p.pose === 'sploot') { // のびて寝る：体は splootBody。ネクタイは、あごの下から先だけ床にのぞく（24）
-      const sb = splootBody(true, p, c, u, fur), tieTip = p.prop ? G({ transform: 'rotate(-62 214 396)' }, [P('M206 392 L222 392 L218 404 L210 404 Z', c.theme, { opacity: 0.95 })]) : null;
-      const earRest = G({ transform: `translate(0 ${p.headNod})` }, [E(70, 304, 34, 6, '#3B2A20', { opacity: 0.2, filter: u('blurS') }), E(290, 304, 34, 6, '#3B2A20', { opacity: 0.2, filter: u('blurS') })]); // 20 床に付いた耳先のかげ
-      return G({}, [sb.back, sb.body, earRest, tieTip, head]); }
+      const sb = splootBody(true, p, c, u, fur), tieTip = p.prop ? G({ transform: 'rotate(-28 200 382)' }, [E(204, 410, 12, 4, '#3B2A20', { opacity: 0.2, filter: u('blurS') }), P('M196 380 L206 380 L211 402 L201 414 L191 402 Z', c.theme, { opacity: 0.97 }), P('M201 384 L201 410', 'none', { stroke: c.themeDark, 'stroke-width': 1.6, opacity: 0.5 }), P('M193 401 L201 412 L209 401', 'none', { stroke: '#FFFFFF', 'stroke-width': 1, opacity: 0.25 }), E(201, 384, 9, 5, '#2E2018', { opacity: 0.3, filter: u('blurS') })]) : null; // ネクタイ：あごの下から、細い所→広がって先がとがる形で床に寝る
+      const earRest = G({ transform: `translate(0 ${p.headNod})` }, [E(70, 304, 34, 6, '#3B2A20', { opacity: 0.2, filter: u('blurS') }), E(290, 304, 34, 6, '#3B2A20', { opacity: 0.2, filter: u('blurS') })]); // 床に付いた耳先のかげ
+      return G({}, [sb.back, sb.body, earRest, splootPaws(true, c, u, fur), tieTip, head]); }
     const shadow = E(215 + 40 * Math.max(0, sq), 398, 170 * (1 + 0.3 * Math.max(0, sq)), 14, '#3B2A20', { opacity: 0.18, filter: u('blur') });
     return G({}, [shadow, body, tie, head]);
   }
@@ -332,7 +381,7 @@
       if (p.eyeShape === 'happy') {
         kids.push(P(`M${cx - 17} 204 Q${cx} 182 ${cx + 17} 204`, 'none', { stroke: c.eye2, 'stroke-width': 5, 'stroke-linecap': 'round' }));
       } else if (p.eyeShape === 'flat' || p.eyeOpen < 0.15) {
-        kids.push(P(`M${cx - 16} 202 Q${cx} 209 ${cx + 16} 202`, 'none', { stroke: c.eye2, 'stroke-width': 4.5, 'stroke-linecap': 'round' }));
+        kids.push(p.pose === 'sploot' ? P(`M${cx - 17} 203 Q${cx} 212 ${cx + 17} 203`, 'none', { stroke: c.eye2, 'stroke-width': 3.8, 'stroke-linecap': 'round' }) : P(`M${cx - 16} 202 Q${cx} 209 ${cx + 16} 202`, 'none', { stroke: c.eye2, 'stroke-width': 4.5, 'stroke-linecap': 'round' }));
       } else {
         // 半目・怒り目：上を頭の色の板でかくすと、色が合わず四角く見えた（2026-11-16）→ まぶたの線の下だけを見せ、まぶたの線を引く
         const lid = p.eyeShape === 'half' ? `M${cx - 26} 191 Q${cx} 195 ${cx + 26} 191` : p.eyeShape === 'angry' ? (cx < 188 ? `M${cx - 26} 184.5 L${cx + 26} 197.5` : `M${cx - 26} 197.5 L${cx + 26} 184.5`) : null;
@@ -354,9 +403,10 @@
 
     const head = G({ transform: `translate(0 ${p.headNod}) rotate(${p.headTilt} 188 240)` + (p.pose === 'sploot' ? ' translate(0 290) scale(1.02 0.96) translate(0 -290)' : '') }, [
       // 立ち耳（根元で回転）
+      p.pose === 'sploot' ? E(286, 214, 40, 10, '#7A5638', { opacity: 0.18, filter: u('blurS'), transform: 'rotate(32 286 214)' }) : null, // 寝かせた耳が首にのっている所のかげ
       ...(p.pose === 'sploot' ? [ // 寝る時の立ち耳：首のうしろへ寝かせる。前からは短く、外へ倒れて見え、内側の桃色はほとんど見えない（27・28）
-        G({ transform: 'translate(176 146) rotate(96) scale(0.8 1.55) translate(-176 -146)' }, [E(176, 112, 20, 36, u('ear'), fur)]),   // 奥の耳：少し高く
-        G({ transform: 'translate(212 152) rotate(106) scale(0.86 1.6) translate(-212 -152)' }, [E(212, 118, 21, 36, u('ear'), fur), E(212, 112, 6, 22, '#FFF2DE', { opacity: 0.3, filter: u('blurS') }), P('M204 84 Q212 118 206 150', 'none', { stroke: '#A3754C', 'stroke-width': 2, opacity: 0.35 })])] : [
+        G({ transform: 'translate(184 150) rotate(112) scale(0.78 1.42) translate(-184 -150)' }, [E(176, 112, 20, 36, u('ear'), fur)]),   // 奥の耳：少し高く
+        G({ transform: 'translate(220 156) rotate(122) scale(0.84 1.5) translate(-220 -156)' }, [E(212, 118, 21, 36, u('ear'), fur), E(212, 112, 6, 22, '#FFF2DE', { opacity: 0.3, filter: u('blurS') }), P('M196 96 Q 200 80 212 82', 'none', { stroke: '#FFF4E4', 'stroke-width': 3, 'stroke-linecap': 'round', opacity: 0.45, filter: u('blurS') }), E(206, 146, 6, 9, u('earIn'), { opacity: 0.35 }), P('M204 84 Q212 118 206 150', 'none', { stroke: '#A3754C', 'stroke-width': 2, opacity: 0.35 })])] : [
       G({ transform: `rotate(${-12 + p.earL} 164 150)` }, [E(164, 118, 22, 36, u('ear'), fur), E(164, 121, 11, 26, u('earIn'))]),
       G({ transform: `rotate(${13 + p.earR} 212 150)` }, [E(212, 116, 22, 36, u('ear'), fur), E(212, 119, 11, 26, u('earIn'))])]),
       P('M188 130 C 248 130 284 166 284 210 C 284 260 240 290 188 290 C 136 290 92 260 92 210 C 92 166 128 130 188 130 Z', u('head'), fur),
@@ -371,18 +421,20 @@
       P('M181 229 Q188 225 195 229 Q192 235 188 236 Q184 235 181 229 Z', c.nose),
       mouthEl,
       E(118, 232, 14, 8, c.blush, { opacity: 0.55 * p.blush }), E(258, 232, 14, 8, c.blush, { opacity: 0.55 * p.blush }),
-      P('M166 240 Q130 230 98 226 M166 246 Q132 248 102 256 M210 240 Q246 230 278 226 M210 246 Q244 248 274 256', 'none', { stroke: '#FBF6EE', 'stroke-width': 1.1, opacity: 0.9 }),
+      P(p.pose === 'sploot' ? 'M166 242 Q132 240 100 246 M166 247 Q134 253 106 263 M210 242 Q244 240 276 246 M210 247 Q242 253 270 263' : 'M166 240 Q130 230 98 226 M166 246 Q132 248 102 256 M210 240 Q246 230 278 226 M210 246 Q244 248 274 256', 'none', { stroke: '#FBF6EE', 'stroke-width': 1.1, opacity: 0.9 }),
+      p.pose === 'sploot' ? G({}, [E(148, 213, 20, 5, '#B48E66', { opacity: 0.2, filter: u('blurS') }), E(228, 213, 20, 5, '#B48E66', { opacity: 0.2, filter: u('blurS') }), P('M131 203 l-5 3 M245 203 l5 3', 'none', { stroke: c.eye2, 'stroke-width': 2.2, 'stroke-linecap': 'round', opacity: 0.6 }), E(140, 280, 24, 8, c.head2, { opacity: 0.4, filter: u('blurS') }), E(236, 280, 24, 8, c.head2, { opacity: 0.4, filter: u('blurS') })]) : null,
       // メガネ
-      p.prop ? G({}, [
+      p.prop ? G(p.pose === 'sploot' ? { transform: 'translate(0 5) rotate(-4 188 200)' } : {}, [ // 寝ている時：メガネが少し鼻へずり落ちて、かたむく
+        p.pose === 'sploot' ? G({}, [el('circle', { cx: 148, cy: 201, r: 25, fill: '#DCE6EE', opacity: 0.12 }), el('circle', { cx: 228, cy: 201, r: 25, fill: '#DCE6EE', opacity: 0.12 })]) : null, // レンズのうすい色
         el('circle', { cx: 148, cy: 201, r: 26, fill: 'none', stroke: c.ring, 'stroke-width': 2.2 }),
         el('circle', { cx: 228, cy: 201, r: 26, fill: 'none', stroke: c.ring, 'stroke-width': 2.2 }),
         P('M174 197 Q188 190 202 197 M122 197 L106 192 M254 197 L270 192', 'none', { stroke: c.ring, 'stroke-width': 2.2, 'stroke-linecap': 'round' }),
-        P('M136 186 l7 -7', 'none', { stroke: '#FFFFFF', 'stroke-width': 2, 'stroke-linecap': 'round', opacity: 0.6 })
+        P('M136 186 l7 -7', 'none', { stroke: '#FFFFFF', 'stroke-width': 2, 'stroke-linecap': 'round', opacity: p.pose === 'sploot' ? 0.35 : 0.6 })
       ]) : null
     ]);
     if (p.pose === 'sploot') { // のびて寝る：社員証は床に（25）。ひもはあごの下へ
-      const sb = splootBody(false, p, c, u, fur), card = p.prop ? G({ transform: 'rotate(-14 236 384)' }, [P('M196 372 Q214 380 230 378', 'none', { stroke: c.theme, 'stroke-width': 3 }), el('rect', { x: 226, y: 370, width: 22, height: 28, rx: 3, fill: '#FFFFFF', stroke: c.theme, 'stroke-width': 1.8 }), el('rect', { x: 230, y: 374, width: 14, height: 9, rx: 1, fill: c.head2 }), P('M230 388 H244 M230 393 H240', 'none', { stroke: '#9AA9B6', 'stroke-width': 1.8, 'stroke-linecap': 'round' })]) : null;
-      return G({}, [sb.back, sb.body, head, card]); }
+      const sb = splootBody(false, p, c, u, fur), card = p.prop ? G({ transform: 'rotate(-14 236 384)' }, [P('M190 368 Q206 386 230 376', 'none', { stroke: c.theme, 'stroke-width': 3, 'stroke-linecap': 'round' }), el('rect', { x: 233, y: 366, width: 6, height: 6, rx: 1.5, fill: '#C9CED4', stroke: '#8E969E', 'stroke-width': 1 }), E(238, 400, 16, 4, '#3B2A20', { opacity: 0.2, filter: u('blurS') }), el('rect', { x: 226, y: 370, width: 22, height: 28, rx: 3, fill: '#FFFFFF', stroke: c.theme, 'stroke-width': 1.8 }), el('rect', { x: 230, y: 374, width: 14, height: 9, rx: 1, fill: c.head2 }), P('M230 388 H244 M230 393 H240', 'none', { stroke: '#9AA9B6', 'stroke-width': 1.8, 'stroke-linecap': 'round' })]) : null;
+      return G({}, [sb.back, sb.body, splootPaws(false, c, u, fur), head, card]); }
     const shadow = E(210, 398, 130, 13, '#3B2A20', { opacity: 0.18, filter: u('blur') });
     return G({}, [shadow, body, lanyard, head]);
   }
