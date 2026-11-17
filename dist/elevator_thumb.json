@@ -1,15 +1,15 @@
 {
  "ep": "elevator",
  "en": {
-  "width": 858,
-  "height": 99,
-  "top": 452
+  "width": 852,
+  "height": 141,
+  "top": 430
  },
- "chipTop": 662,
+ "chipTop": 638,
  "busy": {
-  "en": 0,
+  "en": 0.2,
   "ja": 0,
   "chip": 0
  },
- "made": "2026-11-16T04:34:46.023Z"
+ "made": "2026-11-17T03:29:44.514Z"
 }
