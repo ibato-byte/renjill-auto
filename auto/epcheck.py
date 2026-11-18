@@ -113,6 +113,8 @@ def info(ep, pc):
     dur = float(m.group(1)) if m else None
     p = pc.get(ep, {"start": 0, "speed": 1, "hook": ""})
     return {
+        # 会社の部屋（L.office）を描く回か。専用のセット（エレベーターなど）の回は looks.js の部屋の番号を使わない
+        "office": "L.office(" in src,
         "caps": captions(src),
         "chipwin": chip_windows(src),
         "ellipsis": sum(line.split("//", 1)[0].count("…") for line in src.splitlines()),
@@ -184,15 +186,20 @@ def check(posts, today, days=14, pc=None, lk=None):
             # 3話連載の回（2026-11-16〜）は、あらすじ・次回予告・フォローのテロップが入るので 21 秒まで（エレベーター第1話＝20秒＋エンドカード1秒）
             hi = 21 if p.get("series") else 12
             if i["out"] and not (7 <= i["out"] <= hi): warns.append(f"{tag}: 尺 {i['out']:.1f}秒（7〜{hi}秒に）")
-            if ep in lk and any(lk.get(h) == lk[ep] for h in hist[-3:]):
+            # 3話連載の同じ話の回どうしは、わざと同じセット・小物・効果音を使う（docs/series/。2026-11-18 総見直し）。
+            # 部屋・効果音・小物の「続けない」見張りは、ほかの話の回とだけ比べる
+            sid = (p.get("series") or {}).get("id")
+            other = [h for h, hs in hist if not (sid and hs == sid)]
+            office_eps = [h for h in other if (info(h, pc) or {}).get("office")]
+            if i.get("office") and ep in lk and any(lk.get(h) == lk[ep] for h in office_eps[-3:]):
                 warns.append(f"{tag}: 前の3話と同じ部屋（rig/v2/looks.js を作り直す：python3 auto/looks.py）")
-            prev = [info(h, pc) for h in hist[-2:]]
+            prev = [info(h, pc) for h in other[-2:]]
             if len(prev) == 2 and all(x and x["loud"] and x["loud"] == i["loud"] for x in prev) and i["loud"]:
                 warns.append(f"{tag}: 目立つ効果音が3話続けて同じ（{'・'.join(sorted(i['loud']))}）")
             if len(prev) == 2 and i["props"] and all(x and (x["props"] & i["props"]) for x in prev):
                 common = i["props"] & prev[0]["props"] & prev[1]["props"]
                 if common: warns.append(f"{tag}: 同じ小物が3話続く（{'・'.join(sorted(common))}）")
-        hist.append(ep)
+        hist.append((ep, (p.get("series") or {}).get("id")))
     # 週3本（月・木・土）・3話連載の決まり（2026-11-16 オーナー決定。auto/series.py）
     sr = series.check(posts, today, days)
     return {"issues": issues + sr["issues"], "warns": warns + sr["warns"]}
