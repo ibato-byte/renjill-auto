@@ -600,8 +600,8 @@
       "site_i18n": {
         "title": {
           "en": "Elevator with the boss, Part 1",
-          "zh": "和主管單獨搭電梯",
-          "ko": "상사와 단둘이 엘리베이터"
+          "zh": "和主管單獨搭電梯 Part 1",
+          "ko": "상사와 단둘이 엘리베이터 Part 1"
         },
         "caption": {
           "zh": "和課長單獨搭電梯。忍著沉默時，課長的耳朵按了每一層樓。（待續）",
@@ -610,11 +610,11 @@
       },
       "cta": "Save this for your next Monday./月曜の朝のために保存して",
       "title_i18n": {
-        "ja": "エレベーターで上司と2人きり Part 1 | レンとジル「エレベーターで上司と2人」",
-        "ko": "엘리베이터에 과장님과 단둘이 | 렌과 질 Ren & Jill",
-        "zh-Hant": "和課長單獨搭電梯 | 蓮與吉兒 Ren & Jill",
-        "es": "Solos en el ascensor con el jefe | Ren & Jill",
-        "pt": "Sozinhos no elevador com o chefe | Ren & Jill"
+        "ja": "エレベーターで上司と2人きり Part 1 | レンとジル「上司とエレベーター」",
+        "ko": "엘리베이터에 과장님과 단둘이 Part 1 | 렌과 질 Ren & Jill",
+        "zh-Hant": "和課長單獨搭電梯 Part 1 | 蓮與吉兒 Ren & Jill",
+        "es": "Solos en el ascensor con el jefe, Parte 1 | Ren & Jill",
+        "pt": "Sozinhos no elevador com o chefe, Parte 1 | Ren & Jill"
       },
       "experiment": {
         "var": "cta",
@@ -654,7 +654,7 @@
           "ko": "모든 층에서 서는 엘리베이터. 질의 묘안으로 과장님 귀를 묶어 봤더니…(계속)"
         }
       },
-      "cta": "Save this for your next Monday./月曜の朝のために保存して",
+      "cta": "Follow so you don't miss Part 3./第3話を見逃さないようにフォローしてね",
       "title_i18n": {
         "ja": "全部の階で止まるエレベーター Part 2 | レンとジル「上司とエレベーター」",
         "ko": "모든 층에 서는 엘리베이터 Part 2 | 렌과 질 Ren & Jill",
@@ -686,8 +686,7 @@
       "thumb": {
         "t": 6.6,
         "cam": "1.12,480,1180",
-        "hook": "BOSS. ELEVATOR./上司とエレベーター Part 3",
-        "variant": "B"
+        "hook": "BOSS. ELEVATOR./上司とエレベーター Part 3"
       },
       "first_comment": "仕事を持って帰ってきた新人、どうする？ / What would you do with this new hire?",
       "site_i18n": {
@@ -713,12 +712,12 @@
         "part": 3,
         "of": 3
       },
-      "cta": "Save this for your next Monday./月曜の朝のために保存して",
+      "cta": "Send this to the coworker who always brings work home./いつも仕事を持ち帰る同僚に送ろう",
       "experiment": {
         "var": "thumb_variant",
         "std": "A",
-        "value": "B",
-        "why": "サムネの文字の位置（上と下）を変えて、プロフィール一覧からの見られ方を比べる"
+        "value": "A",
+        "why": "2026-11-19 週なか再検査：B は表紙の下の文字がレンとポムにかかり、全コマで表紙の検査（背景のごちゃつき）に通らないため A で出す（比較に使わない）"
       }
     },
     {
