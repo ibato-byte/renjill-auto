@@ -409,7 +409,7 @@
       G({ transform: `rotate(${-p.browAngle} 150 176)` }, [P('M136 176 Q150 170 164 176', 'none', { stroke: '#A88259', 'stroke-width': 3, 'stroke-linecap': 'round', opacity: Math.abs(p.browAngle) > 2 ? 0.8 : 0 })]),
       G({ transform: `rotate(${p.browAngle} 210 176)` }, [P('M196 176 Q210 170 224 176', 'none', { stroke: '#A88259', 'stroke-width': 3, 'stroke-linecap': 'round', opacity: Math.abs(p.browAngle) > 2 ? 0.8 : 0 })]),
       eye(150), eye(210),
-      P('M173 229 Q180 225 187 229 Q184 235 180 236 Q176 235 173 229 Z', c.nose),
+      G({ transform: noseT(p, 180) }, [P('M173 229 Q180 225 187 229 Q184 235 180 236 Q176 235 173 229 Z', c.nose)]), // 鼻のひくひく（alive の p.nose）
       mouthEl,
       E(124, 228, 15, 9, c.blush, { opacity: (SLEEPY.test(p.pose) ? 0.35 : 0.55) * p.blush }), E(236, 228, 15, 9, c.blush, { opacity: (SLEEPY.test(p.pose) ? 0.35 : 0.55) * p.blush }), // 寝ている時はほおの赤みを弱く
       P(SLEEPY.test(p.pose) ? 'M158 242 Q124 240 94 247 M158 247 Q126 253 100 263 M202 242 Q236 240 266 247 M202 247 Q234 253 260 263' : 'M158 240 Q122 230 92 229 M158 246 Q124 247 96 254 M202 240 Q238 230 268 229 M202 246 Q236 247 264 254', 'none', { stroke: '#FBF6EE', 'stroke-width': 1.1, opacity: 0.85 }), // 寝ている時：ひげの力がぬけて下がる
@@ -498,7 +498,7 @@
       G({ transform: `rotate(${-p.browAngle} 148 178)` }, [P('M132 178 Q148 172 164 178', 'none', { stroke: '#B08155', 'stroke-width': 3, 'stroke-linecap': 'round', opacity: Math.abs(p.browAngle) > 2 ? 0.8 : 0 })]),
       G({ transform: `rotate(${p.browAngle} 228 178)` }, [P('M212 178 Q228 172 244 178', 'none', { stroke: '#B08155', 'stroke-width': 3, 'stroke-linecap': 'round', opacity: Math.abs(p.browAngle) > 2 ? 0.8 : 0 })]),
       eye(148), eye(228),
-      P('M181 229 Q188 225 195 229 Q192 235 188 236 Q184 235 181 229 Z', c.nose),
+      G({ transform: noseT(p, 188) }, [P('M181 229 Q188 225 195 229 Q192 235 188 236 Q184 235 181 229 Z', c.nose)]), // 鼻のひくひく（alive の p.nose）
       mouthEl,
       E(118, 232, 14, 8, c.blush, { opacity: 0.55 * p.blush }), E(258, 232, 14, 8, c.blush, { opacity: 0.55 * p.blush }),
       P(SLEEPY.test(p.pose) ? 'M166 242 Q132 240 100 246 M166 247 Q134 253 106 263 M210 242 Q244 240 276 246 M210 247 Q242 253 270 263' : 'M166 240 Q130 230 98 226 M166 246 Q132 248 102 256 M210 240 Q246 230 278 226 M210 246 Q244 248 274 256', 'none', { stroke: '#FBF6EE', 'stroke-width': 1.1, opacity: 0.9 }),
@@ -567,6 +567,8 @@
 
   // ---------- v2.1 生命感レイヤー（パラメータだけを足す。既存の描画は変えない） ----------
   // 疑似乱数（シードごとに同じまばたき位置になる → 再描画しても同じ動画になる）
+  // 鼻のひくひく：鼻を少し持ち上げて縦にちぢめる（p.nose 0〜1。2026-11-18）
+  const noseT = (p, x) => p.nose ? `translate(${x} 236) scale(${1 + 0.06 * p.nose} ${1 - 0.22 * p.nose}) translate(${-x} -236) translate(0 ${-1.5 * p.nose})` : '';
   const hash = n => { const s = Math.sin(n * 127.1 + 311.7) * 43758.5453; return s - Math.floor(s); };
   // 自動まばたき：2.2〜4.2秒ごとに0.14秒で閉じて開く。たまに二度まばたき
   function blinkAt(t, seed) {
@@ -588,6 +590,7 @@
     const closedFace = q.eyeShape === 'happy' || q.eyeShape === 'flat' || (q.eyeOpen != null && q.eyeOpen < 0.2);
     if (opt.blink !== false && !closedFace) q.eyeOpen = (q.eyeOpen != null ? q.eyeOpen : 1) * blinkAt(t, seed);
     if (opt.breathe !== false) q.bodySquash = (q.bodySquash || 0) + 0.025 * Math.sin(t * 2.4 + seed);
+    if (opt.nose !== false && !(q.eyeOpen != null && q.eyeOpen < 0.2) && q.pose !== 'sploot' && q.pose !== 'flop') { const b = Math.floor(t / 1.6 + seed * 0.37), u = t / 1.6 + seed * 0.37 - b; q.nose = hash(b + seed * 5) > 0.35 && u < 0.45 ? Math.max(0, Math.sin(u / 0.45 * Math.PI * 4)) : 0; }   // 鼻のひくひく：1.6 秒ごとに、6 割ほどの確率で 4 回ひくひく（寝ている時・目を閉じている時はしない）
     if (opt.ears !== false) {
       const isRen = q.char === 'ren';
       const idle = (isRen ? 2.2 : 3.2) * Math.sin(t * 1.7 + seed * 2);
