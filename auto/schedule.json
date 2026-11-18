@@ -686,7 +686,8 @@
       "thumb": {
         "t": 6.6,
         "cam": "1.12,480,1180",
-        "hook": "BOSS. ELEVATOR./上司とエレベーター Part 3"
+        "hook": "BOSS. ELEVATOR./上司とエレベーター Part 3",
+        "variant": "B"
       },
       "first_comment": "仕事を持って帰ってきた新人、どうする？ / What would you do with this new hire?",
       "site_i18n": {
@@ -712,7 +713,13 @@
         "part": 3,
         "of": 3
       },
-      "cta": "Save this for your next Monday./月曜の朝のために保存して"
+      "cta": "Save this for your next Monday./月曜の朝のために保存して",
+      "experiment": {
+        "var": "thumb_variant",
+        "std": "A",
+        "value": "B",
+        "why": "サムネの文字の位置（上と下）を変えて、プロフィール一覧からの見られ方を比べる"
+      }
     },
     {
       "date": "2026-11-12",
