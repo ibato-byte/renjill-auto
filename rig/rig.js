@@ -612,11 +612,12 @@
     const hops = opt.hops || Math.max(1, Math.round(Math.abs(x1 - x0) / 160));
     const h = opt.height || 46;
     if (t <= t0) return { x: x0, yOff: 0, squash: 0, vx: 0, moving: false };
-    if (t >= t1) { const after = t - t1; const settle = after < 0.25 ? -0.25 * Math.sin(Math.PI * after / 0.25) : 0; return { x: x1, yOff: 0, squash: settle, vx: 0, moving: false }; }
+    if (t >= t1) { const after = t - t1; const settle = after < 0.25 ? -0.25 * Math.sin(Math.PI * after / 0.25) : after < 0.5 ? 0.07 * Math.sin(Math.PI * (after - 0.25) / 0.25) : 0; return { x: x1, yOff: 0, squash: settle, vx: 0, moving: false }; }   // 止まった後、体が小さくはね返って落ち着く（一度でぴたっと止まらない）
     const u = (t - t0) / (t1 - t0), ph = u * hops, k = ph - Math.floor(ph), n = Math.floor(ph);
     const g = 0.12, ka = Math.min(1, Math.max(0, (k - g) / (1 - 2 * g)));   // 1 回の跳びの前後に、地面についている時間（ため・着地）を作る。前へ進むのは宙にいる間だけ
     const x = x0 + (x1 - x0) * (n + easeIO(ka)) / hops;
-    const yOff = -h * (0.88 + 0.24 * hash(n * 5.3 + 1)) * Math.sin(Math.PI * ka);   // 跳ぶ高さは 1 回ごとに少し変わる
+    const ramp = hops > 2 ? (n === 0 ? 0.8 : n === hops - 1 ? 0.85 : 1) : 1;   // 走り出しの 1 回目は低め、止まる前の最後も低め（だんだん速く、だんだんゆっくり）
+    const yOff = -h * ramp * (0.88 + 0.24 * hash(n * 5.3 + 1)) * Math.sin(Math.PI * ka);   // 跳ぶ高さは 1 回ごとに少し変わる
     const hk = 0.88 + 0.24 * hash(n * 5.3 + 1), squash = k < 0.15 ? -0.3 * (1 - k / 0.15) : k > 0.85 ? -0.3 * hk * ((k - 0.85) / 0.15) : 0.18 * Math.sin(Math.PI * k);   // 高く跳んだ回ほど、着地で深く沈む
     const vAir = ka > 0 && ka < 1 ? (x1 - x0) / (t1 - t0) * 1.6 * Math.sin(Math.PI * ka) : 0;   // その時の速さ（宙で速く、地面で 0）。耳は跳ぶたびに流れて、着地で戻る
     return { x, yOff, squash, vx: vAir, vAvg: (x1 - x0) / (t1 - t0), moving: true };
