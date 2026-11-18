@@ -12,7 +12,7 @@ CALL = re.compile(r"\b(E|P|G|el|line|frontPaw|hindFoot|haunch|hindSole|splootPaw
 
 
 # 説明のあとに命令（const・let・if (・+=・-=・「; 命令」）が続く形も（2026-11-18：「// 移動中は息が少し速い」のあとに深い息の命令が残り、動かなくなっていた。かっこは釣り合っていたので見のがした）
-STMT = re.compile(r"\b(const|let|var)\s+[A-Za-z_$][\w$]*\s*=|\bif\s*\(|[\w\])]\s*[-+*/]=\s*[^=]|;\s*[A-Za-z_$({]")
+STMT = re.compile(r"\b(const|let|var)\s+[A-Za-z_$][\w$]*\s*=|\bif\s*\(|[\w\])]\s*[-+*/]=\s*[^=]|;\s*[A-Za-z_$][\w$.]*\s*(?:[-+*/]?=[^=]|\()")
 
 
 def net_close(tail: str) -> int:
