@@ -228,6 +228,14 @@ class WorkflowTest(unittest.TestCase):
         self.assertEqual(days, sorted(cfg["days"])); self.assertLess(int(cron.group(2)) + 9, 24)
         self.assertIn(cfg["privacy"], ("public", "unlisted", "private")); self.assertEqual(cfg["minutes"] % 4, 0)
 
+    def test_backup_schedules(self):
+        # 2026-11-18：GitHub が 20:23 の予約を動かさず、その日の回が出なかった。予備の時刻を 2 つ以上持ち、どれも同じ曜日・日本の同じ日のうち
+        crons = re.findall(r'cron: "(\d+) (\d+) \* \* ([\d,]+)"', self.y)
+        self.assertGreaterEqual(len(crons), 3)
+        self.assertEqual(len({c[2] for c in crons}), 1)
+        for _, h, _ in crons: self.assertLess(int(h) + 9, 24)
+        self.assertIn("done = bool((st[\"episodes\"].get(date) or {}).get(\"yt\"))", self.y)   # 出し終えた日は準備をせずに終わる
+
 
 class StockTest(unittest.TestCase):
     """作り置き（先の回を前もって作る。オーナー依頼 2026-11-14）：順番・記録・当日の使い方"""
