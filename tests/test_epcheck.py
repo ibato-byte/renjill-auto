@@ -132,3 +132,22 @@ class Required(unittest.TestCase):
         posts = json.loads((ROOT / "auto/schedule.json").read_text())["posts"]
         r = epcheck.check(posts, dt.datetime.now(epcheck.JST).date(), 400)
         self.assertFalse([x for x in r["issues"] if "OVERHAUL 17" in x or "OVERHAUL 37" in x])
+
+
+class SameRoom20261118(unittest.TestCase):
+    """2026-11-18 総見直し：「前の3話と同じ部屋」は会社の部屋（L.office）を描く回どうし・ほかの話の回とだけ比べる"""
+    def _warns(self, rows, lk):
+        today = dt.date(2030, 1, 1)
+        posts = [dict(date=f"2030-01-0{n + 1}", slot="18:00", ep=ep, **({"series": s} if s else {})) for n, (ep, s) in enumerate(rows)]
+        r = epcheck.check(posts, today, 14, lk=lk)
+        return [w for w in r["warns"] if "同じ部屋" in w]
+
+    def test_office_same_look_warns(self):
+        self.assertTrue(self._warns([("teiji", None), ("meeting", None)], {"teiji": 2, "meeting": 2}))
+
+    def test_own_set_not_counted(self):
+        self.assertEqual(self._warns([("teiji", None), ("elevator2", None)], {"teiji": 2, "elevator2": 2}), [])
+
+    def test_same_series_not_counted(self):
+        s = lambda n: {"id": "x", "part": n, "of": 3}
+        self.assertEqual(self._warns([("teiji", s(1)), ("meeting", s(2))], {"teiji": 2, "meeting": 2}), [])
