@@ -412,7 +412,7 @@
       G({ transform: noseT(p, 180) }, [P('M173 229 Q180 225 187 229 Q184 235 180 236 Q176 235 173 229 Z', c.nose)]), // 鼻のひくひく（alive の p.nose）
       mouthEl,
       E(124, 228, 15, 9, c.blush, { opacity: (SLEEPY.test(p.pose) ? 0.35 : 0.55) * p.blush }), E(236, 228, 15, 9, c.blush, { opacity: (SLEEPY.test(p.pose) ? 0.35 : 0.55) * p.blush }), // 寝ている時はほおの赤みを弱く
-      P(SLEEPY.test(p.pose) ? 'M158 242 Q124 240 94 247 M158 247 Q126 253 100 263 M202 242 Q236 240 266 247 M202 247 Q234 253 260 263' : 'M158 240 Q122 230 92 229 M158 246 Q124 247 96 254 M202 240 Q238 230 268 229 M202 246 Q236 247 264 254', 'none', { stroke: '#FBF6EE', 'stroke-width': 1.1, opacity: 0.85 }), // 寝ている時：ひげの力がぬけて下がる
+      G({ transform: p.nose ? `translate(180 240) scale(${1 + 0.03 * p.nose} 1) translate(-180 ${-240 - 1.6 * p.nose})` : '' }, [P(SLEEPY.test(p.pose) ? 'M158 242 Q124 240 94 247 M158 247 Q126 253 100 263 M202 242 Q236 240 266 247 M202 247 Q234 253 260 263' : 'M158 240 Q122 230 92 229 M158 246 Q124 247 96 254 M202 240 Q238 230 268 229 M202 246 Q236 247 264 254', 'none', { stroke: '#FBF6EE', 'stroke-width': 1.1, opacity: 0.85 })]), // 寝ている時：ひげの力がぬけて下がる
       SLEEPY.test(p.pose) ? G({}, [E(150, 207, 17, 5, '#B48E66', { opacity: 0.22, filter: u('blurS') }), E(210, 207, 17, 5, '#B48E66', { opacity: 0.22, filter: u('blurS') }), // 閉じた目の下のふくらみ
         P('M136 197 l-5 3 M224 197 l5 3', 'none', { stroke: c.eye2, 'stroke-width': 2, 'stroke-linecap': 'round', opacity: 0.6 }), // 目じりのまつ毛
         ...(p.pose === 'sploot' ? [E(132, 282, 30, 11, c.head2, { opacity: 0.55, filter: u('blurS') }), E(228, 282, 30, 11, c.head2, { opacity: 0.55, filter: u('blurS') })] : [])]) : null // ほおの毛：前足に押されて横へ
@@ -501,7 +501,7 @@
       G({ transform: noseT(p, 188) }, [P('M181 229 Q188 225 195 229 Q192 235 188 236 Q184 235 181 229 Z', c.nose)]), // 鼻のひくひく（alive の p.nose）
       mouthEl,
       E(118, 232, 14, 8, c.blush, { opacity: 0.55 * p.blush }), E(258, 232, 14, 8, c.blush, { opacity: 0.55 * p.blush }),
-      P(SLEEPY.test(p.pose) ? 'M166 242 Q132 240 100 246 M166 247 Q134 253 106 263 M210 242 Q244 240 276 246 M210 247 Q242 253 270 263' : 'M166 240 Q130 230 98 226 M166 246 Q132 248 102 256 M210 240 Q246 230 278 226 M210 246 Q244 248 274 256', 'none', { stroke: '#FBF6EE', 'stroke-width': 1.1, opacity: 0.9 }),
+      G({ transform: p.nose ? `translate(188 240) scale(${1 + 0.03 * p.nose} 1) translate(-188 ${-240 - 1.6 * p.nose})` : '' }, [P(SLEEPY.test(p.pose) ? 'M166 242 Q132 240 100 246 M166 247 Q134 253 106 263 M210 242 Q244 240 276 246 M210 247 Q242 253 270 263' : 'M166 240 Q130 230 98 226 M166 246 Q132 248 102 256 M210 240 Q246 230 278 226 M210 246 Q244 248 274 256', 'none', { stroke: '#FBF6EE', 'stroke-width': 1.1, opacity: 0.9 })]), // ひげも鼻と一緒に少し持ち上がる
       SLEEPY.test(p.pose) ? G({}, [E(148, 213, 20, 5, '#B48E66', { opacity: 0.2, filter: u('blurS') }), E(228, 213, 20, 5, '#B48E66', { opacity: 0.2, filter: u('blurS') }), P('M131 203 l-5 3 M245 203 l5 3', 'none', { stroke: c.eye2, 'stroke-width': 2.2, 'stroke-linecap': 'round', opacity: 0.6 }), ...(p.pose === 'sploot' ? [E(140, 280, 24, 8, c.head2, { opacity: 0.4, filter: u('blurS') }), E(236, 280, 24, 8, c.head2, { opacity: 0.4, filter: u('blurS') })] : [])]) : null, // 前足に押されたほおの毛は、のび寝だけ（ばたんでは顔の外にうかんだ。2026-11-17）
       // メガネ
       p.prop ? G(SLEEPY.test(p.pose) ? { transform: 'translate(0 5) rotate(-4 188 200)' } : {}, [ // 寝ている時：メガネが少し鼻へずり落ちて、かたむく
@@ -590,7 +590,8 @@
     const closedFace = q.eyeShape === 'happy' || q.eyeShape === 'flat' || (q.eyeOpen != null && q.eyeOpen < 0.2);
     if (opt.blink !== false && !closedFace) q.eyeOpen = (q.eyeOpen != null ? q.eyeOpen : 1) * blinkAt(t, seed);
     if (opt.breathe !== false) q.bodySquash = (q.bodySquash || 0) + 0.018 * Math.sin(t * 3.6 + seed);   // 呼吸：1 分に約 34 回（うさぎの休んでいる時は 30〜60 回。前は約 23 回）
-    if (opt.nose !== false && !(q.eyeOpen != null && q.eyeOpen < 0.2) && q.pose !== 'sploot' && q.pose !== 'flop') { const b = Math.floor(t / 1.6 + seed * 0.37), u = t / 1.6 + seed * 0.37 - b; q.nose = hash(b + seed * 5) > 0.35 && u < 0.45 ? Math.max(0, Math.sin(u / 0.45 * Math.PI * 4)) : 0; }   // 鼻のひくひく：1.6 秒ごとに、6 割ほどの確率で 4 回ひくひく（寝ている時・目を閉じている時はしない）
+    if (opt.nose !== false && !(p.eyeOpen != null && p.eyeOpen < 0.2) && !SLEEPY.test(p.pose || '')) { const b = Math.floor(t / 1.6 + seed * 0.37), u = t / 1.6 + seed * 0.37 - b; q.nose = hash(b + seed * 5) > 0.35 && u < 0.45 ? Math.max(0, Math.sin(u / 0.45 * Math.PI * 4)) : 0; }   // 鼻のひくひく：1.6 秒ごとに、6 割ほどの確率で 4 回ひくひく（寝ている時・目を閉じている時はしない）
+    if (opt.head !== false && !(p.eyeOpen != null && p.eyeOpen < 0.2) && !SLEEPY.test(p.pose || '')) { const b = Math.floor(t / 2.7 + seed), u = (t / 2.7 + seed) - b, tgt = (k) => (hash(k * 3.7 + seed) - 0.5) * 6, a = tgt(b - 1), z = tgt(b); q.headTilt = (q.headTilt || 0) + a + (z - a) * Math.min(1, u * 2.7 / 0.14); }   // 頭の向きを数秒ごとに小さく「くいっ」と変える（±3°、0.14 秒で。うさぎの頭の動きは短く素早い）
     if (opt.ears !== false) {
       const isRen = q.char === 'ren';
       const idle = (isRen ? 2.2 : 3.2) * Math.sin(t * 1.7 + seed * 2);
