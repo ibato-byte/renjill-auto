@@ -570,14 +570,14 @@
   // 鼻のひくひく：鼻を少し持ち上げて縦にちぢめる（p.nose 0〜1。2026-11-18）
   const noseT = (p, x) => p.nose ? `translate(${x} 236) scale(${1 + 0.06 * p.nose} ${1 - 0.22 * p.nose}) translate(${-x} -236) translate(0 ${-1.5 * p.nose})` : '';
   const hash = n => { const s = Math.sin(n * 127.1 + 311.7) * 43758.5453; return s - Math.floor(s); };
-  // 自動まばたき：2.2〜4.2秒ごとに0.14秒で閉じて開く。たまに二度まばたき
+  // 自動まばたき：3.5〜6.5秒ごとに0.14秒で閉じて開く。たまに二度まばたき（うさぎはまばたきが少ない。2026-11-18 に 2.2〜4.2 秒から変更）
   function blinkAt(t, seed) {
     let tt = 0.6 + hash(seed) * 1.5, k = 0;
     while (tt < t + 1) {
       const d = t - tt;
       if (d >= 0 && d < 0.14) return 1 - Math.sin(Math.PI * d / 0.14);
       if (hash(seed + k * 7.3) > 0.8) { const d2 = d - 0.22; if (d2 >= 0 && d2 < 0.14) return 1 - Math.sin(Math.PI * d2 / 0.14); }
-      tt += 2.2 + hash(seed + k * 3.1) * 2.0; k++;
+      tt += 3.5 + hash(seed + k * 3.1) * 3.0; k++;
     }
     return 1;
   }
@@ -589,15 +589,16 @@
     const q = Object.assign({}, p);
     const closedFace = q.eyeShape === 'happy' || q.eyeShape === 'flat' || (q.eyeOpen != null && q.eyeOpen < 0.2);
     if (opt.blink !== false && !closedFace) q.eyeOpen = (q.eyeOpen != null ? q.eyeOpen : 1) * blinkAt(t, seed);
-    if (opt.breathe !== false) q.bodySquash = (q.bodySquash || 0) + 0.025 * Math.sin(t * 2.4 + seed);
+    if (opt.breathe !== false) q.bodySquash = (q.bodySquash || 0) + 0.018 * Math.sin(t * 3.6 + seed);   // 呼吸：1 分に約 34 回（うさぎの休んでいる時は 30〜60 回。前は約 23 回）
     if (opt.nose !== false && !(q.eyeOpen != null && q.eyeOpen < 0.2) && q.pose !== 'sploot' && q.pose !== 'flop') { const b = Math.floor(t / 1.6 + seed * 0.37), u = t / 1.6 + seed * 0.37 - b; q.nose = hash(b + seed * 5) > 0.35 && u < 0.45 ? Math.max(0, Math.sin(u / 0.45 * Math.PI * 4)) : 0; }   // 鼻のひくひく：1.6 秒ごとに、6 割ほどの確率で 4 回ひくひく（寝ている時・目を閉じている時はしない）
     if (opt.ears !== false) {
       const isRen = q.char === 'ren';
       const idle = (isRen ? 2.2 : 3.2) * Math.sin(t * 1.7 + seed * 2);
       const drag = Math.max(-1, Math.min(1, (opt.vx || 0) / 900)) * (isRen ? 14 : 10);
       const twitch = isRen ? 0 : (hash(Math.floor(t * 0.7) + seed) > 0.75 ? 7 * Math.max(0, Math.sin((t * 0.7 % 1) * Math.PI * 4)) : 0);
-      q.earL = (q.earL || 0) + idle - drag - twitch;
-      q.earR = (q.earR || 0) - idle * 0.8 - drag + twitch * 0.6;
+      const one = hash(Math.floor(t * 0.7) + seed * 9) > 0.5;   // ぴくっとするのは片耳ずつ（本物は片耳ずつ音の方へ向ける）
+      q.earL = (q.earL || 0) + idle - drag - (one ? twitch : 0);
+      q.earR = (q.earR || 0) - idle * 0.8 - drag + (one ? 0 : twitch);
     }
     return q;
   }
