@@ -615,7 +615,8 @@
     const x = x0 + (x1 - x0) * (n + easeIO(ka)) / hops;
     const yOff = -h * (0.88 + 0.24 * hash(n * 5.3 + 1)) * Math.sin(Math.PI * ka);   // 跳ぶ高さは 1 回ごとに少し変わる
     const squash = k < 0.15 ? -0.3 * (1 - k / 0.15) : k > 0.85 ? -0.3 * ((k - 0.85) / 0.15) : 0.18 * Math.sin(Math.PI * k);
-    return { x, yOff, squash, vx: (x1 - x0) / (t1 - t0), moving: true };
+    const vAir = ka > 0 && ka < 1 ? (x1 - x0) / (t1 - t0) * 1.6 * Math.sin(Math.PI * ka) : 0;   // その時の速さ（宙で速く、地面で 0）。耳は跳ぶたびに流れて、着地で戻る
+    return { x, yOff, squash, vx: vAir, vAvg: (x1 - x0) / (t1 - t0), moving: true };
   }
 
   global.RIG = { render, FACES, POSES, DEFAULTS, sample, C, alive, hop, blinkAt };
