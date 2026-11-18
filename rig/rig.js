@@ -610,9 +610,10 @@
     const h = opt.height || 46;
     if (t <= t0) return { x: x0, yOff: 0, squash: 0, vx: 0, moving: false };
     if (t >= t1) { const after = t - t1; const settle = after < 0.25 ? -0.25 * Math.sin(Math.PI * after / 0.25) : 0; return { x: x1, yOff: 0, squash: settle, vx: 0, moving: false }; }
-    const u = (t - t0) / (t1 - t0), ph = u * hops, k = ph - Math.floor(ph);
-    const x = x0 + (x1 - x0) * (Math.floor(ph) + easeIO(k)) / hops;
-    const yOff = -h * Math.sin(Math.PI * k);
+    const u = (t - t0) / (t1 - t0), ph = u * hops, k = ph - Math.floor(ph), n = Math.floor(ph);
+    const g = 0.12, ka = Math.min(1, Math.max(0, (k - g) / (1 - 2 * g)));   // 1 回の跳びの前後に、地面についている時間（ため・着地）を作る。前へ進むのは宙にいる間だけ
+    const x = x0 + (x1 - x0) * (n + easeIO(ka)) / hops;
+    const yOff = -h * (0.88 + 0.24 * hash(n * 5.3 + 1)) * Math.sin(Math.PI * ka);   // 跳ぶ高さは 1 回ごとに少し変わる
     const squash = k < 0.15 ? -0.3 * (1 - k / 0.15) : k > 0.85 ? -0.3 * ((k - 0.85) / 0.15) : 0.18 * Math.sin(Math.PI * k);
     return { x, yOff, squash, vx: (x1 - x0) / (t1 - t0), moving: true };
   }
