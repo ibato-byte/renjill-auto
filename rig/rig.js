@@ -591,15 +591,15 @@
     if (opt.blink !== false && !closedFace) q.eyeOpen = (q.eyeOpen != null ? q.eyeOpen : 1) * blinkAt(t, seed);
     if (opt.breathe !== false) q.bodySquash = (q.bodySquash || 0) + 0.018 * Math.sin(t * 3.6 + seed);   // 呼吸：1 分に約 34 回（うさぎの休んでいる時は 30〜60 回。前は約 23 回）
     if (opt.nose !== false && !(p.eyeOpen != null && p.eyeOpen < 0.2) && !SLEEPY.test(p.pose || '')) { const b = Math.floor(t / 1.6 + seed * 0.37), u = t / 1.6 + seed * 0.37 - b; q.nose = hash(b + seed * 5) > 0.35 && u < 0.45 ? Math.max(0, Math.sin(u / 0.45 * Math.PI * 4)) : 0; }   // 鼻のひくひく：1.6 秒ごとに、6 割ほどの確率で 4 回ひくひく（寝ている時・目を閉じている時はしない）
-    if (opt.head !== false && !(p.eyeOpen != null && p.eyeOpen < 0.2) && !SLEEPY.test(p.pose || '')) { const b = Math.floor(t / 2.7 + seed), u = (t / 2.7 + seed) - b, tgt = (k) => (hash(k * 3.7 + seed) - 0.5) * 6, a = tgt(b - 1), z = tgt(b); q.headTilt = (q.headTilt || 0) + a + (z - a) * Math.min(1, u * 2.7 / 0.14); }   // 頭の向きを数秒ごとに小さく「くいっ」と変える（±3°、0.14 秒で。うさぎの頭の動きは短く素早い）
+    if (opt.head !== false && !(p.eyeOpen != null && p.eyeOpen < 0.2) && !SLEEPY.test(p.pose || '')) { const b = Math.floor(t / 2.7 + seed), u = (t / 2.7 + seed) - b, tgt = (k) => (hash(k * 3.7 + seed) - 0.5) * 6, a = tgt(b - 1), z = tgt(b); q.headTilt = (q.headTilt || 0) + a + (z - a) * Math.min(1, u * 2.7 / 0.14); const w = u * 2.7; q.__lag = w < 0.7 ? -(z - a) * 1.6 * Math.sin(w / 0.7 * Math.PI * 1.5) * (1 - w / 0.7) : 0; }   // 耳は頭より遅れてゆれ、落ち着く   // 頭の向きを数秒ごとに小さく「くいっ」と変える（±3°、0.14 秒で。うさぎの頭の動きは短く素早い）
     if (opt.ears !== false) {
       const isRen = q.char === 'ren';
       const idle = (isRen ? 2.2 : 3.2) * Math.sin(t * 1.7 + seed * 2);
       const drag = Math.max(-1, Math.min(1, (opt.vx || 0) / 900)) * (isRen ? 14 : 10);
       const twitch = isRen ? 0 : (hash(Math.floor(t * 0.7) + seed) > 0.75 ? 7 * Math.max(0, Math.sin((t * 0.7 % 1) * Math.PI * 4)) : 0);
       const one = hash(Math.floor(t * 0.7) + seed * 9) > 0.5;   // ぴくっとするのは片耳ずつ（本物は片耳ずつ音の方へ向ける）
-      q.earL = (q.earL || 0) + idle - drag - (one ? twitch : 0);
-      q.earR = (q.earR || 0) - idle * 0.8 - drag + (one ? 0 : twitch);
+      q.earL = (q.earL || 0) + idle - drag - (one ? twitch : 0) + (q.__lag || 0);
+      q.earR = (q.earR || 0) - idle * 0.8 - drag + (one ? 0 : twitch) + (q.__lag || 0);
     }
     return q;
   }
