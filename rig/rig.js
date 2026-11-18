@@ -589,7 +589,7 @@
     const q = Object.assign({}, p);
     const closedFace = q.eyeShape === 'happy' || q.eyeShape === 'flat' || (q.eyeOpen != null && q.eyeOpen < 0.2);
     if (opt.blink !== false && !closedFace) q.eyeOpen = (q.eyeOpen != null ? q.eyeOpen : 1) * blinkAt(t, seed);
-    if (opt.breathe !== false) q.bodySquash = (q.bodySquash || 0) + 0.018 * Math.sin(t * (Math.abs(opt.vx || 0) > 30 ? 5.2 : 3.6) + seed);   // 移動中は息が少し速い { const w = (t + seed * 7) % 19; if (w < 1.6) q.bodySquash += 0.03 * Math.sin(w / 1.6 * Math.PI); }   // 19 秒に 1 回、少し深く息をつく   // 呼吸：1 分に約 34 回（うさぎの休んでいる時は 30〜60 回。前は約 23 回）
+    if (opt.breathe !== false) { const zz = (p.eyeOpen != null && p.eyeOpen < 0.2) || SLEEPY.test(p.pose || ''); q.bodySquash = (q.bodySquash || 0) + (zz ? 0.026 : 0.018) * Math.sin(t * (zz ? 2.4 : Math.abs(opt.vx || 0) > 30 ? 5.2 : 3.6) + seed); const w = (t + seed * 7) % 19; if (w < 1.6) q.bodySquash += 0.03 * Math.sin(w / 1.6 * Math.PI); }   // 呼吸：1 分に約 34 回（うさぎの休んでいる時は 30〜60 回）。移動中は少し速く、寝ている時はゆっくり深い。19 秒に 1 回、少し深く息をつく
     if (opt.nose !== false && !(p.eyeOpen != null && p.eyeOpen < 0.2) && !SLEEPY.test(p.pose || '')) { const b = Math.floor(t / 1.6 + seed * 0.37), u = t / 1.6 + seed * 0.37 - b; q.nose = hash(b + seed * 5) > (Math.abs(opt.vx || 0) > 30 ? 0.05 : 0.35) && u < 0.45 ? Math.max(0, Math.sin(u / 0.45 * Math.PI * 4)) * (0.65 + 0.35 * hash(Math.floor(u / 0.45 * 4) + b * 4.1)) : 0; }   // ひくひくの大きさは毎回少し変わる   // 鼻のひくひく：1.6 秒ごとに、6 割ほどの確率で 4 回ひくひく（寝ている時・目を閉じている時はしない）
     if (opt.head !== false && !(p.eyeOpen != null && p.eyeOpen < 0.2) && !SLEEPY.test(p.pose || '')) { const b = Math.floor(t / 2.7 + seed), u = (t / 2.7 + seed) - b, tgt = (k) => (hash(k * 3.7 + seed) - 0.5) * 6, a = tgt(b - 1), z = tgt(b); q.headTilt = (q.headTilt || 0) + a + (z - a) * Math.min(1, u * 2.7 / 0.14); const w = u * 2.7; q.__lag = w < 0.7 ? -(z - a) * 1.6 * Math.sin(w / 0.7 * Math.PI * 1.5) * (1 - w / 0.7) : 0; }   // 耳は頭より遅れてゆれ、落ち着く   // 頭の向きを数秒ごとに小さく「くいっ」と変える（±3°、0.14 秒で。うさぎの頭の動きは短く素早い）
     if (opt.ears !== false) {
@@ -600,6 +600,7 @@
       const one = hash(Math.floor(t * 0.7) + seed * 9) > 0.5;   // ぴくっとするのは片耳ずつ（本物は片耳ずつ音の方へ向ける）
       q.earL = (q.earL || 0) + idle - drag - (one ? twitch : 0) + (q.__lag || 0);
       q.earR = (q.earR || 0) - idle * 0.8 - drag + (one ? 0 : twitch) + (q.__lag || 0);
+      if (!isRen) { const w = (t + seed * 3) % 9.5; if (w < 2.2) q.earR += 9 * Math.min(1, w / 0.25, (2.2 - w) / 0.35); }   // ジルは 9.5 秒に 1 回、右耳だけ 2 秒ほど後ろへ向けて音を聞く
     }
     return q;
   }
