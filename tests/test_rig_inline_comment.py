@@ -11,6 +11,10 @@ CALL = re.compile(r"\b(E|P|G|el|line|frontPaw|hindFoot|haunch|hindSole|splootPaw
 # 説明の中で、開いていないかっこを閉じている形も（2026-11-17：ほおの毛の説明のあとに「]) : null,」が入り、絵が出なくなりかけた）
 
 
+# 説明のあとに命令（const・let・if (・+=・-=・「; 命令」）が続く形も（2026-11-18：「// 移動中は息が少し速い」のあとに深い息の命令が残り、動かなくなっていた。かっこは釣り合っていたので見のがした）
+STMT = re.compile(r"\b(const|let|var)\s+[A-Za-z_$][\w$]*\s*=|\bif\s*\(|[\w\])]\s*[-+*/]=\s*[^=]|;\s*[A-Za-z_$({]")
+
+
 def net_close(tail: str) -> int:
     t = re.sub(r"[^\x00-\x7f]+", " ", tail)
     return sum(t.count(c) for c in ")]}") - sum(t.count(c) for c in "([{")
@@ -28,7 +32,7 @@ def bad_lines(text: str):
         if i <= 0 or "://" in code[max(0, i - 1):i + 2]:
             continue
         tail = code[i:]
-        if CALL.search(tail) or net_close(tail) > 0:
+        if CALL.search(tail) or net_close(tail) > 0 or STMT.search(re.sub(r"[^\x00-\x7f]+", " ", tail)):
             out.append((n, line.strip()[:80]))
     return out
 
@@ -49,4 +53,9 @@ def test_detects_the_mistake():
 
 def test_detects_closing_after_comment():
     sample = "      ...(p.pose === 'sploot' ? [E(1, 2, 3, 4, 'x')] : [])   // ほおの毛（説明）]) : null,"
+    assert bad_lines(sample)
+
+
+def test_detects_statement_after_comment():
+    sample = "    if (a) q.b = 1;   // 移動中は息が少し速い { const w = (t + 7) % 19; if (w < 1.6) q.b += 0.03 * Math.sin(w); }"
     assert bad_lines(sample)
