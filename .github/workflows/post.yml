@@ -49,7 +49,20 @@ jobs:
       - uses: actions/setup-python@v6
         if: steps.hub.outputs.paused != 'true'
         with: { python-version: "3.12" }
-      - if: steps.hub.outputs.paused != 'true'
+      - name: 出す回があるか（なければ重い準備をせずに終える。Hub 依頼 #257）
+        id: due
+        if: steps.hub.outputs.paused != 'true'
+        env:
+          IN_SLOT: ${{ github.event.inputs.slot }}
+          IN_DATE: ${{ github.event.inputs.date }}
+          IN_REDO: ${{ github.event.inputs.redo }}
+        run: |
+          # 出し直し（redo）は、消してから出すので必ず準備する
+          if [ "$IN_REDO" = "true" ]; then echo "due=true" >> "$GITHUB_OUTPUT"; exit 0; fi
+          pip install -q requests
+          rm -f dist/post_hub_args dist/post_hub_summary
+          if [ -n "$IN_DATE" ]; then python auto/post.py --check-due --date "$IN_DATE" "${IN_SLOT:-12:00}"; else python auto/post.py --check-due $IN_SLOT; fi
+      - if: steps.hub.outputs.paused != 'true' && steps.due.outputs.due == 'true'
         # 準備が止まって40分たって「中止」になった（2026-10-23 19:00）ため、5分で打ち切って最大3回やり直す
         # 2026-11-07 02:06：パッケージの取得が止まり、3回分（5分×3＋待ち）がこの枠（15分）に収まらず打ち切られた。
         # 枠を3回分が必ず収まる20分にし、2回目からは別のミラー（archive.ubuntu.com）で取り直す。
@@ -63,12 +76,12 @@ jobs:
             echo "準備をやり直す（$i回目）"; sleep 10
           done
           exit 1
-      - if: steps.hub.outputs.paused != 'true'
+      - if: steps.hub.outputs.paused != 'true' && steps.due.outputs.due == 'true'
         run: npm i -g playwright && npx playwright install --with-deps chromium
-      - if: steps.hub.outputs.paused != 'true'
+      - if: steps.hub.outputs.paused != 'true' && steps.due.outputs.due == 'true'
         run: pip install -q requests numpy scipy google-api-python-client google-auth google-auth-httplib2
       - name: post
-        if: steps.hub.outputs.paused != 'true'
+        if: steps.hub.outputs.paused != 'true' && steps.due.outputs.due == 'true'
         env:
           IG_USER_ID: ${{ secrets.IG_USER_ID }}
           IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}

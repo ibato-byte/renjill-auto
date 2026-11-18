@@ -335,11 +335,12 @@ def publish_episodes(sch, posted):
         log("episodes.json の更新に失敗（投稿は続ける）", repr(e)[:200])
 
 def parse_args(argv):
-    a = {"dry_run": os.environ.get("DRY_RUN", "") not in ("", "0", "false"), "date": None, "slot": None, "ignore_posted": False}
+    a = {"dry_run": os.environ.get("DRY_RUN", "") not in ("", "0", "false"), "date": None, "slot": None, "ignore_posted": False, "check_due": False}
     it = iter(argv)
     for x in it:
         if x == "--dry-run": a["dry_run"] = True
         elif x == "--date": a["date"] = next(it)
+        elif x == "--check-due": a["check_due"] = True  # 出す回があるかだけ調べる（重い準備の前。Hub 依頼 #257）
         elif x == "--ignore-posted": a["ignore_posted"] = True  # ドライランだけ：posted.json の記録があっても送る内容を表示する
         elif x: a["slot"] = x
     return a
@@ -482,6 +483,13 @@ def post_extra(pl, key, p, d, rec, loop_path, fb_access, results, posted):
         log("NG(続行)", key, pl, fb.scrub(repr(e))[:500]); results[label] = "失敗（本編は投稿済み）"
 
 
+def write_due(due):
+    """--check-due の結果を GitHub Actions に渡す（due=true のときだけ ffmpeg などの重い準備をする）。
+    2026-11-19：出す回のない拾い直しの実行が、パッケージの取得の止まり（Ubuntu のミラー）で3回続けて失敗した（Hub 依頼 #257）"""
+    out = os.environ.get("GITHUB_OUTPUT")
+    if out:
+        with open(out, "a") as f: f.write(f"due={'true' if due else 'false'}\n")
+
 def main(argv=None):
     a = parse_args(sys.argv[1:] if argv is None else argv)
     now = None
@@ -492,12 +500,15 @@ def main(argv=None):
     sch, posted, targets = pick_posts(a["slot"], now, a["ignore_posted"])
     d = sch["defaults"]
     now_ = now or dt.datetime.now(JST)
+    if a["check_due"]: write_due(bool(targets))
     if not targets:
         log("今日のこの時間帯に投稿なし")
         nx = next_api_post(sch, posted, now_, detail=True)
         write_hub_args(None, next_api=nx[0] if nx else None, keep_actions=True,  # 前の失敗の「やること」は消さない
                        summary=idle_summary(sch, now_, nx), outcome="idle", next_action=(f"{nx[0]}『{nx[1]}』を投稿", nx[2]) if nx else None)
         return 0
+    if a["check_due"]:
+        log("出す回あり：", ", ".join(k for k, _, _ in targets)); return 0
     if a["dry_run"]: return dry_run(targets, d, posted)
     failed = []
     fb_access, fb_result, results, actions = None, None, {}, []
