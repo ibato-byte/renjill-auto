@@ -590,7 +590,7 @@
     const closedFace = q.eyeShape === 'happy' || q.eyeShape === 'flat' || (q.eyeOpen != null && q.eyeOpen < 0.2);
     if (opt.blink !== false && !closedFace) q.eyeOpen = (q.eyeOpen != null ? q.eyeOpen : 1) * blinkAt(t, seed);
     if (opt.breathe !== false) { const zz = (p.eyeOpen != null && p.eyeOpen < 0.2) || SLEEPY.test(p.pose || ''); q.bodySquash = (q.bodySquash || 0) + (zz ? 0.026 : 0.018) * Math.sin(t * (zz ? 2.4 : Math.abs(opt.vx || 0) > 30 ? 5.2 : 3.6) + seed); const w = (t + seed * 7) % 19; if (w < 1.6) q.bodySquash += 0.03 * Math.sin(w / 1.6 * Math.PI); }   // 呼吸：1 分に約 34 回（うさぎの休んでいる時は 30〜60 回）。移動中は少し速く、寝ている時はゆっくり深い。19 秒に 1 回、少し深く息をつく
-    if (opt.nose !== false && !(p.eyeOpen != null && p.eyeOpen < 0.2) && !SLEEPY.test(p.pose || '')) { const b = Math.floor(t / 1.6 + seed * 0.37), u = t / 1.6 + seed * 0.37 - b; q.nose = hash(b + seed * 5) > (Math.abs(opt.vx || 0) > 30 ? 0.05 : 0.35) && u < 0.45 ? Math.max(0, Math.sin(u / 0.45 * Math.PI * 4)) * (0.65 + 0.35 * hash(Math.floor(u / 0.45 * 4) + b * 4.1)) : 0; }   // ひくひくの大きさは毎回少し変わる   // 鼻のひくひく：1.6 秒ごとに、6 割ほどの確率で 4 回ひくひく（寝ている時・目を閉じている時はしない）
+    if (opt.nose !== false && !(p.eyeOpen != null && p.eyeOpen < 0.2) && !SLEEPY.test(p.pose || '')) { const b = Math.floor(t / 1.6 + seed * 0.37), u = t / 1.6 + seed * 0.37 - b; q.nose = hash(b + seed * 5) > (Math.abs(opt.vx || 0) > 30 ? 0.05 : q.eyeShape === 'happy' ? 0.75 : 0.35) && u < 0.45 ? Math.max(0, Math.sin(u / 0.45 * Math.PI * 4)) * (0.65 + 0.35 * hash(Math.floor(u / 0.45 * 4) + b * 4.1)) : 0; }   // ひくひくの大きさは毎回少し変わる   // 鼻のひくひく：1.6 秒ごとに、6 割ほどの確率で 4 回ひくひく（寝ている時・目を閉じている時はしない）
     if (opt.head !== false && !(p.eyeOpen != null && p.eyeOpen < 0.2) && !SLEEPY.test(p.pose || '')) { const b = Math.floor(t / 2.7 + seed), u = (t / 2.7 + seed) - b, tgt = (k) => (hash(k * 3.7 + seed) - 0.5) * 6, a = tgt(b - 1), z = tgt(b); q.headTilt = (q.headTilt || 0) + a + (z - a) * Math.min(1, u * 2.7 / 0.14); const w = u * 2.7; q.__lag = w < 0.7 ? -(z - a) * 1.6 * Math.sin(w / 0.7 * Math.PI * 1.5) * (1 - w / 0.7) : 0; }   // 耳は頭より遅れてゆれ、落ち着く   // 頭の向きを数秒ごとに小さく「くいっ」と変える（±3°、0.14 秒で。うさぎの頭の動きは短く素早い）
     if (opt.ears !== false) {
       const isRen = q.char === 'ren';
@@ -600,7 +600,8 @@
       const one = hash(Math.floor(t * 0.7) + seed * 9) > 0.5;   // ぴくっとするのは片耳ずつ（本物は片耳ずつ音の方へ向ける）
       q.earL = (q.earL || 0) + idle - drag - (one ? twitch : 0) + (q.__lag || 0);
       q.earR = (q.earR || 0) - idle * 0.8 - drag + (one ? 0 : twitch) + (q.__lag || 0);
-      if (!isRen && (q.eyeShape === 'happy' || (p.eyeOpen != null && p.eyeOpen < 0.2))) { q.earL += 5; q.earR -= 5; }   // うれしい時・寝ている時は、耳の力がぬけて少し開く
+      if (!isRen && (q.eyeShape === 'happy' || (p.eyeOpen != null && p.eyeOpen < 0.2))) { q.earL += 5; q.earR -= 5; }
+      if (p.eyeOpen != null && p.eyeOpen < 0.2) { if (isRen) { q.earL += 3; q.earR -= 3; } else { q.earL += 1.5 * Math.sin(t * 2.4 + seed); q.earR -= 1.5 * Math.sin(t * 2.4 + seed); } q.headNod = (q.headNod || 0) + 4; }   // 寝ている時：たれ耳も力がぬける・立ち耳は呼吸に合わせてわずかに上下・頭が少し下がる   // うれしい時・寝ている時は、耳の力がぬけて少し開く
       if (!isRen) { const w = (t + seed * 3) % 9.5; if (w < 2.2) q.earR += 9 * Math.min(1, w / 0.25, (2.2 - w) / 0.35); }   // ジルは 9.5 秒に 1 回、右耳だけ 2 秒ほど後ろへ向けて音を聞く
     }
     return q;
@@ -616,7 +617,7 @@
     const g = 0.12, ka = Math.min(1, Math.max(0, (k - g) / (1 - 2 * g)));   // 1 回の跳びの前後に、地面についている時間（ため・着地）を作る。前へ進むのは宙にいる間だけ
     const x = x0 + (x1 - x0) * (n + easeIO(ka)) / hops;
     const yOff = -h * (0.88 + 0.24 * hash(n * 5.3 + 1)) * Math.sin(Math.PI * ka);   // 跳ぶ高さは 1 回ごとに少し変わる
-    const squash = k < 0.15 ? -0.3 * (1 - k / 0.15) : k > 0.85 ? -0.3 * ((k - 0.85) / 0.15) : 0.18 * Math.sin(Math.PI * k);
+    const hk = 0.88 + 0.24 * hash(n * 5.3 + 1), squash = k < 0.15 ? -0.3 * (1 - k / 0.15) : k > 0.85 ? -0.3 * hk * ((k - 0.85) / 0.15) : 0.18 * Math.sin(Math.PI * k);   // 高く跳んだ回ほど、着地で深く沈む
     const vAir = ka > 0 && ka < 1 ? (x1 - x0) / (t1 - t0) * 1.6 * Math.sin(Math.PI * ka) : 0;   // その時の速さ（宙で速く、地面で 0）。耳は跳ぶたびに流れて、着地で戻る
     return { x, yOff, squash, vx: vAir, vAvg: (x1 - x0) / (t1 - t0), moving: true };
   }
