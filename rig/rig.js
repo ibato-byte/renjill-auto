@@ -575,7 +575,7 @@
     let tt = 0.6 + hash(seed) * 1.5, k = 0;
     while (tt < t + 1) {
       const d = t - tt;
-      if (d >= 0 && d < 0.14) return 1 - Math.sin(Math.PI * d / 0.14);
+      if (d >= 0 && d < 0.14) return 1 - Math.sin(Math.PI * d / 0.14) * (hash(seed + k * 5.9) > 0.75 ? 0.5 : 1);   // 4 回に 1 回は半分だけ閉じる（半目のまばたき）
       if (hash(seed + k * 7.3) > 0.8) { const d2 = d - 0.22; if (d2 >= 0 && d2 < 0.14) return 1 - Math.sin(Math.PI * d2 / 0.14); }
       tt += 3.5 + hash(seed + k * 3.1) * 3.0; k++;
     }
@@ -600,6 +600,7 @@
       const one = hash(Math.floor(t * 0.7) + seed * 9) > 0.5;   // ぴくっとするのは片耳ずつ（本物は片耳ずつ音の方へ向ける）
       q.earL = (q.earL || 0) + idle - drag - (one ? twitch : 0) + (q.__lag || 0);
       q.earR = (q.earR || 0) - idle * 0.8 - drag + (one ? 0 : twitch) + (q.__lag || 0);
+      if (!isRen && (q.eyeShape === 'happy' || (p.eyeOpen != null && p.eyeOpen < 0.2))) { q.earL += 5; q.earR -= 5; }   // うれしい時・寝ている時は、耳の力がぬけて少し開く
       if (!isRen) { const w = (t + seed * 3) % 9.5; if (w < 2.2) q.earR += 9 * Math.min(1, w / 0.25, (2.2 - w) / 0.35); }   // ジルは 9.5 秒に 1 回、右耳だけ 2 秒ほど後ろへ向けて音を聞く
     }
     return q;
