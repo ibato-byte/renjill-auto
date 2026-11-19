@@ -1,5 +1,24 @@
 [
  {
+  "ep": "elevator",
+  "date": "2026-11-19",
+  "title": {
+   "ja": "エレベーターで上司と2人 Part 1",
+   "en": "Elevator with the boss, Part 1",
+   "zh": "和主管單獨搭電梯",
+   "ko": "상사와 단둘이 엘리베이터"
+  },
+  "caption": {
+   "ja": "エレベーターで上司と2人きり。沈黙に耐えていたら、課長の耳が全部の階を押しました。（つづく）",
+   "en": "Alone in the elevator with the boss. Then his ear pressed every floor. (to be continued)",
+   "zh": "和課長單獨搭電梯。忍著沉默時，課長的耳朵按了每一層樓。（待續）",
+   "ko": "과장님과 단둘이 엘리베이터. 침묵을 견디는 사이, 과장님 귀가 모든 층을 눌렀어요. (계속)"
+  },
+  "cover": "20261119_elevator_cover.jpg",
+  "video": "20261119_elevator.mp4",
+  "youtube_id": "4vZtQrAbZ30"
+ },
+ {
   "ep": "monday",
   "date": "2026-11-16",
   "title": {
