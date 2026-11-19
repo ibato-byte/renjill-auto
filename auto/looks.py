@@ -10,14 +10,26 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 N = 4
 
 
-def assign(posts):
-    seen, out = set(), {}
+def is_office(ep):
+    """台本が会社の部屋（L.office）を使う回か。台本が読めないときは会社の部屋とみなす"""
+    try:
+        return "L.office(" in (ROOT / "rig/ep" / f"{ep}.js").read_text(encoding="utf-8")
+    except OSError:
+        return True
+
+
+def assign(posts, office=is_office):
+    """会社の部屋を使う回だけで 0→1→2→3 と回す。専用のセットの回（エレベーターなど）は数えない
+    （2026-11-19 総見直し：エレベーター3話を数えていたため、こたつ第1話が3話前の「月曜の朝」と同じ部屋になった。epcheck は会社の部屋の回どうしで比べる）"""
+    seen, out, n = set(), {}, 0
     for p in sorted(posts, key=lambda p: (p.get("date", ""), p.get("slot", ""))):
         ep = p.get("ep")
         if not ep or ep in seen:
             continue
         seen.add(ep)
-        out[ep] = len(out) % N
+        out[ep] = n % N
+        if office(ep):
+            n += 1
     return out
 
 
