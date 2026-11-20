@@ -81,3 +81,13 @@
 2026-11-16,renjill-weekly-pdca,4,きまり,11/30 締め切り前夜：作り直しの理由（remake.why）を記録し、novelty.py のきまり違反（11/9 から出ていた）を解消,auto/schedule.json deadline,python auto/novelty.py の要対応が消えた
 2026-11-16,renjill-weekly-pdca,5,記録,週報を docs/weekly/2026-11-16.md に（数字・試すこと・BGM・個人情報の点検）,docs/weekly/2026-11-16.md,週次PDCAの指示文
 2026-11-16,hub-agent,1,冒頭,11/24 ミュート：短くした冒頭（ミュートで熱弁）では表紙の検査（背景のごちゃつき）が全部のコマで不合格になったため、元の文字に戻し試しを外した（11/22 エアコンの試しは残す）,auto/schedule.json mute・rig/pace.js・content/experiments.csv,手元の thumbnail() で新しい文字は9コマとも THUMB_BUSY_BACKGROUND、元の文字は合格（Hub 依頼 #254）
+2026-11-19,renjill-midweek-check,1,多言語化,第1話の公式サイト用タイトル（繁体字・韓国語）に「Part 1」を足し、第2・3話とそろえた,auto/schedule.json elevator.site_i18n,第2・3話は Part 2・3 が入っていた
+2026-11-19,renjill-midweek-check,2,多言語化,第1話の YouTube 多言語タイトル（ko・zh-Hant・es・pt）に Part 1／Parte 1 を足した（連載の何話目かが分かるように）,auto/schedule.json elevator.title_i18n,第2・3話のタイトルとの食い違い
+2026-11-19,renjill-midweek-check,3,表記ゆれ,第1話の日本語 YouTube タイトルの連載名を「エレベーターで上司と2人」から「上司とエレベーター」にそろえた,auto/schedule.json elevator.title_i18n.ja,docs/series/2026-11-19_elevator.md の連載名
+2026-11-19,renjill-midweek-check,4,キャプション,第2話の最後の一言を「月曜の朝のために保存して」（土曜の連載に合わない写し間違い）から「第3話を見逃さないようにフォローしてね」に,auto/schedule.json elevator2.cta,docs/SERIES.md：第1・2話はフォローのお願い
+2026-11-19,renjill-midweek-check,5,キャプション,第3話の最後の一言を話の中身（ほおぶくろから仕事）に合う「いつも仕事を持ち帰る同僚に送ろう」に,auto/schedule.json elevator3.cta,送る型の一言は 11/4〜11/16 で毎回使っている型
+2026-11-19,renjill-midweek-check,6,計測,第1話の打ち手（cta）の記録の投稿日が 11/17 のままで、投稿後に評価されない状態だったのを 11/19 に直した,content/experiments.csv,daily_review.py evaluate は「投稿日_ep」で posted.json を探す
+2026-11-19,renjill-midweek-check,7,計測,第3話の表紙の試し（文字を下に置く B）は全コマで表紙の検査に通らず自動で A に戻るため、比べられない試しとして A に直し理由を記録,auto/schedule.json elevator3・content/experiments.csv,rig/thumb.js：B は 13 通りのコマ・寄りで THUMB_BUSY_BACKGROUND
+2026-11-19,renjill-midweek-check,8,計測,連載への切りかえで予定表から外れた5回（printer・wifi・bonenkai・aircon・kairo）の打ち手の記録を「取りやめ」にし、次に試す変数の選び方がずれないようにした,content/experiments.csv,daily_review.py next_variable は記録の日付で選ぶ
+2026-11-19,renjill-midweek-check,9,きまり,新作の判定で、連載の第2・3話が「第1話の2日後の作り直し」と誤って止められていたのを直した（新作 1/3→3/3）,auto/novelty.py,python auto/novelty.py の要対応2件が消えた
+2026-11-19,renjill-midweek-check,10,テスト,連載の各話は新作・同じ話数の作り直しは作り直し、のテストを2つ追加,tests/test_novelty.py,全333件のテストが合格

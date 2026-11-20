@@ -34,6 +34,18 @@ class Judge(unittest.TestCase):
         r = nv.judge([post("2026-11-01", "x_new"), post("2026-11-05", "x_new2")], D(2026, 10, 26), PUB)
         self.assertEqual([x["kind"] for x in r["rows"]], ["new", "remake"])
 
+    def test_series_parts_are_not_remakes(self):
+        ser = lambda n: {"series": {"id": "elevator", "part": n, "of": 3}}
+        posts = [post("2026-11-19", "elevator", **ser(1)), post("2026-11-21", "elevator2", **ser(2)), post("2026-11-23", "elevator3", **ser(3))]
+        r = nv.judge(posts, D(2026, 11, 19), PUB)
+        self.assertEqual([x["kind"] for x in r["rows"]], ["new", "new", "new"])
+        self.assertEqual(r["violations"], [])
+
+    def test_series_part_repeated_is_still_a_remake(self):
+        ser = {"series": {"id": "elevator", "part": 2, "of": 3}}
+        r = nv.judge([post("2026-11-21", "elevator2", **ser), post("2026-11-28", "elevator2b", **ser)], D(2026, 11, 19), PUB)
+        self.assertEqual([x["kind"] for x in r["rows"]], ["new", "remake"])
+
 
 class Published(unittest.TestCase):
     def test_unposted_posted_json_entry_is_not_published(self):
