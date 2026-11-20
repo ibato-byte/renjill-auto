@@ -81,11 +81,18 @@ def groups(start, end, pol=None):
 
 
 def series_ok(p, pol=None):
-    """投稿してよい回か（series_start 以降は、連載の欄 series がある回だけ）"""
+    """投稿してよい回か（series_start 以降は、連載の欄 series がある回だけ。approval_from 以降は、オーナーが絵コンテをOKした回だけ）"""
     pol = policy() if pol is None else pol
     if not pol or p["date"] < pol["series_start"]: return True
     s = p.get("series") or {}
-    return bool(s.get("id") and s.get("part"))
+    return bool(s.get("id") and s.get("part")) and storyboard_ok(p, pol)
+
+
+def storyboard_ok(p, pol=None):
+    """オーナーが絵コンテをOKしたか（2026-11-20 オーナー：動画にする前に絵コンテを見せる）。approval_from より前の回は問わない"""
+    pol = policy() if pol is None else pol
+    if not pol or not pol.get("approval_from") or p["date"] < pol["approval_from"]: return True
+    return bool((p.get("series") or {}).get("storyboard_ok"))
 
 
 def _src(ep):
@@ -116,6 +123,9 @@ def check(posts, today, days=21, pol=None, src=_src):
             issues.append(f'{tag}: 連載の欄 series（id・part・of）がない（{label(pol)}の3本で1つの話。この日は第{n}話）')
             continue
         if s["part"] != n: issues.append(f'{tag}: 第{s["part"]}話になっているが、この日は第{n}話（{pol["series_start"]} から投稿日の順に 1→2→3）')
+        if not storyboard_ok(p, pol):
+            days_left = (dt.date.fromisoformat(p["date"]) - today).days
+            (issues if days_left <= 3 else warns).append(f"{tag}: オーナーの絵コンテのOK（series.storyboard_ok）がまだ。OKが出るまで動画を作らず、投稿もしない")
         hook = (p.get("thumb") or {}).get("hook", "")
         if f'Part {s["part"]}' not in hook: issues.append(f'{tag}: 冒頭の一言（thumb.hook）に「Part {s["part"]}」がない（途中から見た人にも何話目か分かるように）')
         if s["part"] < pol["parts"]:

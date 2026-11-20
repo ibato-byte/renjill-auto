@@ -113,3 +113,16 @@ def post_entry(date):
 
 if __name__ == "__main__":
     unittest.main()
+
+    def test_no_post_without_storyboard_ok(self):
+        """2026-11-20 オーナー：絵コンテは動画にする前に見せる。approval_from 以降、OK（storyboard_ok）がない連載の回は出さない"""
+        pol = dict(POL, series_start="2026-11-19", approval_from="2026-11-21")
+        p_old = post("2026-11-19", "a1", 1)
+        p_new = post("2026-11-26", "k1", 1)
+        self.assertTrue(series.series_ok(p_old, pol))
+        self.assertFalse(series.series_ok(p_new, pol))
+        p_new["series"]["storyboard_ok"] = "2026-11-21"
+        self.assertTrue(series.series_ok(p_new, pol))
+        r = series.check([post("2026-11-26", "k1", 1)], dt.date(2026, 11, 24), 6, pol, src=SRC.get)
+        self.assertTrue(any("絵コンテのOK" in x for x in r["issues"]), r)
+

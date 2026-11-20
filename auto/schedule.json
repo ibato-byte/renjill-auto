@@ -666,7 +666,8 @@
       "series": {
         "id": "elevator",
         "part": 1,
-        "of": 3
+        "of": 3,
+        "storyboard_ok": "2026-11-16"
       }
     },
     {
@@ -706,7 +707,8 @@
       "series": {
         "id": "elevator",
         "part": 2,
-        "of": 3
+        "of": 3,
+        "storyboard_ok": "2026-11-17"
       },
       "experiment": {
         "var": "tag_set",
@@ -752,7 +754,8 @@
       "series": {
         "id": "elevator",
         "part": 3,
-        "of": 3
+        "of": 3,
+        "storyboard_ok": "2026-11-17"
       },
       "cta": "Send this to the coworker who always brings work home./いつも仕事を持ち帰る同僚に送ろう",
       "experiment": {
