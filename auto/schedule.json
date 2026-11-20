@@ -789,7 +789,7 @@
           "ko": "추운 아침, 사무실에 코타츠가 떨어졌어요. 과장님은 들어가서 나오질 않고, 일은 전부 질의 머리 위로. (계속)"
         }
       },
-      "cta": "Save this for your next Monday./月曜の朝のために保存して",
+      "cta": "Which one is your boss?/あなたの職場のレンは誰？",
       "title_i18n": {
         "ja": "会社にこたつ、課長が出てこない Part 1 | レンとジル「こたつと上司」",
         "ko": "사무실 코타츠에서 안 나오는 과장님 Part 1 | 렌과 질 Ren & Jill",
@@ -801,6 +801,12 @@
         "id": "kotatsu",
         "part": 1,
         "of": 3
+      },
+      "experiment": {
+        "var": "cta",
+        "std": "Which one is your boss?/あなたの職場のレンは誰？",
+        "value": "Which one is your boss?/あなたの職場のレンは誰？",
+        "why": "最後の一言を足して、送る・保存する人が増えるか比べる"
       }
     }
   ]
