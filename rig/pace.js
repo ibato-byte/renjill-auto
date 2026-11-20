@@ -100,3 +100,5 @@ window.PACE_ALL.nekutai = { start: 0.0, speed: 1.0, hook: 'TIE A TIE/ネクタ�
 window.PACE_ALL.mezamashi = { start: 0.0, speed: 1.0, hook: 'ALARM CLOCK/目覚まし、上司のは' };
 window.PACE_ALL.elevator2 = { start: 0.0, speed: 1.0, hook: 'BOSS. ELEVATOR./上司とエレベーター Part 2' };   // 2026-11-17 連載・第2話
 window.PACE_ALL.elevator3 = { start: 0.0, speed: 1.0, hook: 'BOSS. ELEVATOR./上司とエレベーター Part 3' };   // 2026-11-17 連載・第3話（最終話）
+window.PACE_ALL.kotatsu1 = { start: 0.0, speed: 1.0, hook: 'KOTATSU. BOSS./こたつと上司 Part 1' };   // 2026-11-19 連載・第2弾 第1話（総見直しの企画）
+window.PACE_ALL.kotatsu2 = { start: 0.0, speed: 1.0, hook: 'KOTATSU. BOSS./こたつと上司 Part 2' };   // 2026-11-20 連載・第2弾 第2話（総見直しの企画）

@@ -418,6 +418,47 @@
       }
     },
     {
+      "date": "2026-11-12",
+      "slot": "18:00",
+      "ep": "hanko",
+      "no": 31,
+      "title": "ハンコ8個",
+      "caption_ja": "書類にハンコが8個。課長が押していく、7個目で朱肉が切れた。8個目はにくきゅう。受理されました。",
+      "caption_en": "The form needs 8 stamps. The boss runs out of ink at 7. Stamp 8 is a paw print. Approved.",
+      "tag_set": "B",
+      "thumb": {
+        "t": 6.6,
+        "cam": "1.4,546,1100",
+        "hook": "STAMP 8: NO INK/ハンコ8個、朱肉が切れた"
+      },
+      "first_comment": "ハンコ、一番多く押した書類は何個？ / Most stamps you've ever needed on one form?\n【あいことば】ゲームの「あいことば」に「にくきゅう」を入れると牧草300本（11/30まで）/ Secret word for the game: にくきゅう (300 hay, until Nov 30)",
+      "site_i18n": {
+        "title": {
+          "en": "Eight stamps",
+          "zh": "八個印章",
+          "ko": "도장 8개"
+        },
+        "caption": {
+          "zh": "文件要蓋8個章。課長蓋到第7個沒印泥了。第8個是肉球。通過。",
+          "ko": "서류에 도장 8개. 과장님이 찍다가 7개째에 인주가 떨어졌어요. 8개째는 발바닥. 접수 완료."
+        }
+      },
+      "cta": "Send this to whoever approves your forms/書類を承認してくれる人に送ろう",
+      "experiment": {
+        "var": "tag_set",
+        "std": "A",
+        "value": "B",
+        "why": "ハッシュタグの組み合わせを変えて、見つかり方を比べる"
+      },
+      "title_i18n": {
+        "ja": "ハンコ8個、7個目で朱肉が切れた上司 | レンとジル「ハンコ8個」",
+        "ko": "도장 8개, 7개째에 인주가 떨어졌다 | 렌과 질 Ren & Jill",
+        "zh-Hant": "八個印章，第七個就沒印泥了 | 蓮與吉兒 Ren & Jill",
+        "es": "8 sellos y la tinta se acaba en el 7 | Ren & Jill",
+        "pt": "8 carimbos e a tinta acaba no 7º | Ren & Jill"
+      }
+    },
+    {
       "date": "2026-11-13",
       "slot": "18:00",
       "ep": "teiji",
@@ -686,7 +727,8 @@
       "thumb": {
         "t": 6.6,
         "cam": "1.12,480,1180",
-        "hook": "BOSS. ELEVATOR./上司とエレベーター Part 3"
+        "hook": "BOSS. ELEVATOR./上司とエレベーター Part 3",
+        "variant": "A"
       },
       "first_comment": "仕事を持って帰ってきた新人、どうする？ / What would you do with this new hire?",
       "site_i18n": {
@@ -717,48 +759,95 @@
         "var": "thumb_variant",
         "std": "A",
         "value": "A",
-        "why": "2026-11-19 週なか再検査：B は表紙の下の文字がレンとポムにかかり、全コマで表紙の検査（背景のごちゃつき）に通らないため A で出す（比較に使わない）"
+        "why": "中止（2026-11-19 総見直し）：B 型（文字が下）は、どのコマでも表紙の検査（文字の後ろがごちゃつく）に通らないため A 型で出す。比べる実験にはしない"
       }
     },
     {
-      "date": "2026-11-12",
+      "date": "2026-11-26",
       "slot": "18:00",
-      "ep": "hanko",
-      "no": 31,
-      "title": "ハンコ8個",
-      "caption_ja": "書類にハンコが8個。課長が押していく、7個目で朱肉が切れた。8個目はにくきゅう。受理されました。",
-      "caption_en": "The form needs 8 stamps. The boss runs out of ink at 7. Stamp 8 is a paw print. Approved.",
-      "tag_set": "B",
+      "ep": "kotatsu1",
+      "no": 97,
+      "title": "こたつと上司 Part 1",
+      "caption_ja": "寒い朝、会社にこたつが落ちてきた。課長は入ったきり出てこない。仕事はぜんぶジルの頭の上へ。（つづく）",
+      "caption_en": "A kotatsu lands in the office on a cold morning. The boss climbs in and never comes out. His work piles up on Jill's head. (to be continued)",
+      "tag_set": "C",
       "thumb": {
-        "t": 6.6,
-        "cam": "1.4,546,1100",
-        "hook": "STAMP 8: NO INK/ハンコ8個、朱肉が切れた"
+        "t": 8.5,
+        "cam": "1.1,480,640",
+        "hook": "KOTATSU. BOSS./こたつと上司 Part 1",
+        "variant": "A"
       },
-      "first_comment": "ハンコ、一番多く押した書類は何個？ / Most stamps you've ever needed on one form?\n【あいことば】ゲームの「あいことば」に「にくきゅう」を入れると牧草300本（11/30まで）/ Secret word for the game: にくきゅう (300 hay, until Nov 30)",
+      "first_comment": "会社にこたつがあったら、仕事できる？ / Could you work with a kotatsu in the office?",
       "site_i18n": {
         "title": {
-          "en": "Eight stamps",
-          "zh": "八個印章",
-          "ko": "도장 8개"
+          "en": "The kotatsu boss, Part 1",
+          "zh": "暖桌與課長 Part 1",
+          "ko": "코타츠와 과장님 Part 1"
         },
         "caption": {
-          "zh": "文件要蓋8個章。課長蓋到第7個沒印泥了。第8個是肉球。通過。",
-          "ko": "서류에 도장 8개. 과장님이 찍다가 7개째에 인주가 떨어졌어요. 8개째는 발바닥. 접수 완료."
+          "zh": "寒冷的早晨，辦公室掉下來一張暖桌。課長鑽進去就不出來了，工作全堆到吉兒頭上。（待續）",
+          "ko": "추운 아침, 사무실에 코타츠가 떨어졌어요. 과장님은 들어가서 나오질 않고, 일은 전부 질의 머리 위로. (계속)"
         }
       },
-      "cta": "Send this to whoever approves your forms/書類を承認してくれる人に送ろう",
-      "experiment": {
-        "var": "tag_set",
-        "std": "A",
-        "value": "B",
-        "why": "ハッシュタグの組み合わせを変えて、見つかり方を比べる"
-      },
+      "cta": "Which one is your boss?/あなたの職場のレンは誰？",
       "title_i18n": {
-        "ja": "ハンコ8個、7個目で朱肉が切れた上司 | レンとジル「ハンコ8個」",
-        "ko": "도장 8개, 7개째에 인주가 떨어졌다 | 렌과 질 Ren & Jill",
-        "zh-Hant": "八個印章，第七個就沒印泥了 | 蓮與吉兒 Ren & Jill",
-        "es": "8 sellos y la tinta se acaba en el 7 | Ren & Jill",
-        "pt": "8 carimbos e a tinta acaba no 7º | Ren & Jill"
+        "ja": "会社にこたつ、課長が出てこない Part 1 | レンとジル「こたつと上司」",
+        "ko": "사무실 코타츠에서 안 나오는 과장님 Part 1 | 렌과 질 Ren & Jill",
+        "zh-Hant": "辦公室暖桌，課長不出來 Part 1 | 蓮與吉兒 Ren & Jill",
+        "es": "El jefe no sale del kotatsu, Parte 1 | Ren & Jill",
+        "pt": "O chefe não sai do kotatsu, Parte 1 | Ren & Jill"
+      },
+      "series": {
+        "id": "kotatsu",
+        "part": 1,
+        "of": 3
+      },
+      "experiment": {
+        "var": "cta",
+        "std": "Which one is your boss?/あなたの職場のレンは誰？",
+        "value": "Which one is your boss?/あなたの職場のレンは誰？",
+        "why": "最後の一言を足して、送る・保存する人が増えるか比べる"
+      }
+    },
+    {
+      "date": "2026-11-28",
+      "slot": "18:00",
+      "ep": "kotatsu2",
+      "no": 98,
+      "title": "こたつと上司 Part 2",
+      "caption_ja": "翌朝。ジルは課長の耳をくわえて、こたつから引っぱり出そうとする。綱引きの結果は…（つづく）",
+      "caption_en": "Next morning, Jill grabs the boss's ear and tries to pull him out of the kotatsu. Who wins the tug-of-war? (to be continued)",
+      "tag_set": "B",
+      "thumb": {
+        "t": 5.1,
+        "cam": "1.0,420,880",
+        "hook": "KOTATSU. BOSS./こたつと上司 Part 2",
+        "variant": "A"
+      },
+      "first_comment": "こたつから出られる派？出られない派？ / Could you ever leave a kotatsu?",
+      "site_i18n": {
+        "title": {
+          "en": "The kotatsu boss, Part 2",
+          "zh": "暖桌與課長 Part 2",
+          "ko": "코타츠와 과장님 Part 2"
+        },
+        "caption": {
+          "zh": "隔天早上，吉兒咬住課長的耳朵，想把他從暖桌裡拉出來。拔河的結果是…（待續）",
+          "ko": "다음 날 아침, 질은 과장님 귀를 물고 코타츠에서 끌어내려고 해요. 줄다리기의 결과는…(계속)"
+        }
+      },
+      "cta": "Send this to someone who can't leave the kotatsu./こたつから出られない人に送って",
+      "title_i18n": {
+        "ja": "こたつの綱引き、勝つのは？ Part 2 | レンとジル「こたつと上司」",
+        "ko": "코타츠 줄다리기, 이기는 쪽은? Part 2 | 렌과 질 Ren & Jill",
+        "zh-Hant": "暖桌拔河，誰會贏？ Part 2 | 蓮與吉兒 Ren & Jill",
+        "es": "Tira y afloja en el kotatsu, Parte 2 | Ren & Jill",
+        "pt": "Cabo de guerra no kotatsu, Parte 2 | Ren & Jill"
+      },
+      "series": {
+        "id": "kotatsu",
+        "part": 2,
+        "of": 3
       }
     }
   ]
