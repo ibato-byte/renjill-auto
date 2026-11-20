@@ -808,6 +808,47 @@
         "value": "Which one is your boss?/あなたの職場のレンは誰？",
         "why": "最後の一言を足して、送る・保存する人が増えるか比べる"
       }
+    },
+    {
+      "date": "2026-11-28",
+      "slot": "18:00",
+      "ep": "kotatsu2",
+      "no": 98,
+      "title": "こたつと上司 Part 2",
+      "caption_ja": "翌朝。ジルは課長の耳をくわえて、こたつから引っぱり出そうとする。綱引きの結果は…（つづく）",
+      "caption_en": "Next morning, Jill grabs the boss's ear and tries to pull him out of the kotatsu. Who wins the tug-of-war? (to be continued)",
+      "tag_set": "B",
+      "thumb": {
+        "t": 5.1,
+        "cam": "1.0,420,880",
+        "hook": "KOTATSU. BOSS./こたつと上司 Part 2",
+        "variant": "A"
+      },
+      "first_comment": "こたつから出られる派？出られない派？ / Could you ever leave a kotatsu?",
+      "site_i18n": {
+        "title": {
+          "en": "The kotatsu boss, Part 2",
+          "zh": "暖桌與課長 Part 2",
+          "ko": "코타츠와 과장님 Part 2"
+        },
+        "caption": {
+          "zh": "隔天早上，吉兒咬住課長的耳朵，想把他從暖桌裡拉出來。拔河的結果是…（待續）",
+          "ko": "다음 날 아침, 질은 과장님 귀를 물고 코타츠에서 끌어내려고 해요. 줄다리기의 결과는…(계속)"
+        }
+      },
+      "cta": "Send this to someone who can't leave the kotatsu./こたつから出られない人に送って",
+      "title_i18n": {
+        "ja": "こたつの綱引き、勝つのは？ Part 2 | レンとジル「こたつと上司」",
+        "ko": "코타츠 줄다리기, 이기는 쪽은? Part 2 | 렌과 질 Ren & Jill",
+        "zh-Hant": "暖桌拔河，誰會贏？ Part 2 | 蓮與吉兒 Ren & Jill",
+        "es": "Tira y afloja en el kotatsu, Parte 2 | Ren & Jill",
+        "pt": "Cabo de guerra no kotatsu, Parte 2 | Ren & Jill"
+      },
+      "series": {
+        "id": "kotatsu",
+        "part": 2,
+        "of": 3
+      }
     }
   ]
 }
