@@ -23,6 +23,14 @@ def story_key(ep):
     return ALIASES.get(k, k)
 
 
+def post_key(p):
+    """予定表の回から「話」の名前を取る。3話連載の第2話・第3話は、第1話の作り直しではなく別の話として数える
+    （elevator2 → elevator と見なすと、連載の続きが「2日で作り直し」と誤って止められていた。2026-11-19 週なか再検査）"""
+    s = p.get("series") or {}
+    if s.get("id") and int(s.get("part") or 1) >= 2: return f'{s["id"]}#{int(s["part"])}'
+    return story_key(p["ep"])
+
+
 def published(root=ROOT):
     """話の名前 → 最後に出した日。出した記録のあるものだけ"""
     out = {story_key(k): FIRST_DAY for k in ORIGINALS}
@@ -48,7 +56,7 @@ def judge(posts, today, pub=None):
     pub = dict(pub if pub is not None else published())
     rows, seen, violations = [], dict(pub), []
     for p in sorted(posts, key=lambda p: (p["date"], p["slot"])):
-        d = dt.date.fromisoformat(p["date"]); k = story_key(p["ep"])
+        d = dt.date.fromisoformat(p["date"]); k = post_key(p)
         prev = seen.get(k)
         if prev is None:
             kind, gap = "new", None
