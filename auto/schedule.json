@@ -820,7 +820,7 @@
       "title": "こたつと上司 Part 2",
       "caption_ja": "翌朝。ジルは課長の耳をくわえて、こたつから引っぱり出そうとする。綱引きの結果は…（つづく）",
       "caption_en": "Next morning, Jill grabs the boss's ear and tries to pull him out of the kotatsu. Who wins the tug-of-war? (to be continued)",
-      "tag_set": "B",
+      "tag_set": "A",
       "thumb": {
         "t": 5.1,
         "cam": "1.0,420,880",
@@ -851,6 +851,12 @@
         "id": "kotatsu",
         "part": 2,
         "of": 3
+      },
+      "experiment": {
+        "var": "tag_set",
+        "std": "B",
+        "value": "A",
+        "why": "ハッシュタグの組み合わせを変えて、見つかり方を比べる"
       }
     }
   ]
