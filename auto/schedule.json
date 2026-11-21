@@ -768,96 +768,125 @@
     {
       "date": "2026-11-26",
       "slot": "18:00",
-      "ep": "kotatsu1",
-      "no": 97,
-      "title": "こたつと上司 Part 1",
-      "caption_ja": "寒い朝、会社にこたつが落ちてきた。課長は入ったきり出てこない。仕事はぜんぶジルの頭の上へ。（つづく）",
-      "caption_en": "A kotatsu lands in the office on a cold morning. The boss climbs in and never comes out. His work piles up on Jill's head. (to be continued)",
+      "ep": "breakroom1",
+      "no": 99,
+      "title": "休憩室のこたつ Part 1「いま、蹴った？」",
+      "caption_ja": "寒い朝の休憩室。こたつで仕事中、足に「コツン」。いま、蹴った？…じゃない。布団の中に、誰かいる。（つづく）",
+      "caption_en": "A cold morning at the office kotatsu. Something bumps a foot. \"Did you just kick me?\" Not her. Someone is under the futon... (to be continued)",
       "tag_set": "C",
       "thumb": {
-        "t": 8.5,
-        "cam": "1.1,480,640",
-        "hook": "KOTATSU. BOSS./こたつと上司 Part 1",
-        "variant": "A"
+        "t": 12.5,
+        "cam": "1.3,535,1100",
+        "hook": "KOTATSU./休憩室のこたつ Part 1"
       },
-      "first_comment": "会社にこたつがあったら、仕事できる？ / Could you work with a kotatsu in the office?",
+      "first_comment": "布団の中には誰がいると思う？ / Who do you think is under the futon?",
       "site_i18n": {
         "title": {
-          "en": "The kotatsu boss, Part 1",
-          "zh": "暖桌與課長 Part 1",
-          "ko": "코타츠와 과장님 Part 1"
+          "en": "Kotatsu in the break room, Part 1",
+          "zh": "休息室的暖桌 Part 1",
+          "ko": "휴게실 코타츠 Part 1"
         },
         "caption": {
-          "zh": "寒冷的早晨，辦公室掉下來一張暖桌。課長鑽進去就不出來了，工作全堆到吉兒頭上。（待續）",
-          "ko": "추운 아침, 사무실에 코타츠가 떨어졌어요. 과장님은 들어가서 나오질 않고, 일은 전부 질의 머리 위로. (계속)"
+          "zh": "寒冷早晨的休息室。在暖桌裡工作時，腳被「咚」了一下。剛剛是你踢的嗎？…不是。被子裡有人。（待續）",
+          "ko": "추운 아침 휴게실. 코타츠에서 일하는데 발에 「톡」. 방금 찼어? …아니다. 이불 속에 누가 있다. (계속)"
         }
       },
-      "cta": "Which one is your boss?/あなたの職場のレンは誰？",
       "title_i18n": {
-        "ja": "会社にこたつ、課長が出てこない Part 1 | レンとジル「こたつと上司」",
-        "ko": "사무실 코타츠에서 안 나오는 과장님 Part 1 | 렌과 질 Ren & Jill",
-        "zh-Hant": "辦公室暖桌，課長不出來 Part 1 | 蓮與吉兒 Ren & Jill",
-        "es": "El jefe no sale del kotatsu, Parte 1 | Ren & Jill",
-        "pt": "O chefe não sai do kotatsu, Parte 1 | Ren & Jill"
+        "ja": "休憩室のこたつ Part 1「いま、蹴った？」 | レンとジル",
+        "ko": "휴게실 코타츠 Part 1 | 렌과 질 Ren & Jill",
+        "zh-Hant": "休息室的暖桌 Part 1 | 蓮與吉兒 Ren & Jill",
+        "es": "El kotatsu de la sala de descanso, Parte 1 | Ren & Jill",
+        "pt": "O kotatsu da sala de descanso, Parte 1 | Ren & Jill"
       },
       "series": {
-        "id": "kotatsu",
+        "id": "breakroom",
         "part": 1,
-        "of": 3
+        "of": 3,
+        "storyboard_ok": "2026-11-21"
       },
-      "experiment": {
-        "var": "cta",
-        "std": "Which one is your boss?/あなたの職場のレンは誰？",
-        "value": "Which one is your boss?/あなたの職場のレンは誰？",
-        "why": "最後の一言を足して、送る・保存する人が増えるか比べる"
-      }
+      "cta": "Send this to the coworker who always brings work home./いつも仕事を持ち帰る同僚に送ろう"
     },
     {
       "date": "2026-11-28",
-      "slot": "18:00",
-      "ep": "kotatsu2",
-      "no": 98,
-      "title": "こたつと上司 Part 2",
-      "caption_ja": "翌朝。ジルは課長の耳をくわえて、こたつから引っぱり出そうとする。綱引きの結果は…（つづく）",
-      "caption_en": "Next morning, Jill grabs the boss's ear and tries to pull him out of the kotatsu. Who wins the tug-of-war? (to be continued)",
-      "tag_set": "A",
+      "slot": "12:00",
+      "ep": "breakroom2",
+      "no": 100,
+      "title": "休憩室のこたつ Part 2「先客は新人」",
+      "caption_ja": "布団の中で寝ていたのは、新人のポム。ジルの足を抱えたまま、すやすや。起こさずに足を抜けるか…（つづく）",
+      "caption_en": "Under the futon: new hire Pom, fast asleep, hugging Jill's foot. Can she get it back without waking him? (to be continued)",
+      "tag_set": "C",
       "thumb": {
-        "t": 5.1,
-        "cam": "1.0,420,880",
-        "hook": "KOTATSU. BOSS./こたつと上司 Part 2",
-        "variant": "A"
+        "t": 3.0,
+        "cam": "1.3,535,1100",
+        "hook": "KOTATSU./休憩室のこたつ Part 2"
       },
-      "first_comment": "こたつから出られる派？出られない派？ / Could you ever leave a kotatsu?",
+      "first_comment": "ジルの足、どうやって抜く？ / How would you get Jill's foot back?",
       "site_i18n": {
         "title": {
-          "en": "The kotatsu boss, Part 2",
-          "zh": "暖桌與課長 Part 2",
-          "ko": "코타츠와 과장님 Part 2"
+          "en": "Kotatsu in the break room, Part 2",
+          "zh": "休息室的暖桌 Part 2",
+          "ko": "휴게실 코타츠 Part 2"
         },
         "caption": {
-          "zh": "隔天早上，吉兒咬住課長的耳朵，想把他從暖桌裡拉出來。拔河的結果是…（待續）",
-          "ko": "다음 날 아침, 질은 과장님 귀를 물고 코타츠에서 끌어내려고 해요. 줄다리기의 결과는…(계속)"
+          "zh": "睡在被子裡的是新人波姆。抱著吉兒的腳睡得正香。能不吵醒他把腳抽出來嗎…（待續）",
+          "ko": "이불 속에서 자고 있던 건 신입 폼. 질의 발을 껴안은 채 새근새근. 깨우지 않고 발을 뺄 수 있을까…(계속)"
         }
       },
-      "cta": "Send this to someone who can't leave the kotatsu./こたつから出られない人に送って",
       "title_i18n": {
-        "ja": "こたつの綱引き、勝つのは？ Part 2 | レンとジル「こたつと上司」",
-        "ko": "코타츠 줄다리기, 이기는 쪽은? Part 2 | 렌과 질 Ren & Jill",
-        "zh-Hant": "暖桌拔河，誰會贏？ Part 2 | 蓮與吉兒 Ren & Jill",
-        "es": "Tira y afloja en el kotatsu, Parte 2 | Ren & Jill",
-        "pt": "Cabo de guerra no kotatsu, Parte 2 | Ren & Jill"
+        "ja": "休憩室のこたつ Part 2「先客は新人」 | レンとジル",
+        "ko": "휴게실 코타츠 Part 2 | 렌과 질 Ren & Jill",
+        "zh-Hant": "休息室的暖桌 Part 2 | 蓮與吉兒 Ren & Jill",
+        "es": "El kotatsu de la sala de descanso, Parte 2 | Ren & Jill",
+        "pt": "O kotatsu da sala de descanso, Parte 2 | Ren & Jill"
       },
       "series": {
-        "id": "kotatsu",
+        "id": "breakroom",
         "part": 2,
-        "of": 3
+        "of": 3,
+        "storyboard_ok": "2026-11-21"
       },
-      "experiment": {
-        "var": "tag_set",
-        "std": "B",
-        "value": "A",
-        "why": "ハッシュタグの組み合わせを変えて、見つかり方を比べる"
-      }
+      "cta": "Send this to the coworker who always brings work home./いつも仕事を持ち帰る同僚に送ろう"
+    },
+    {
+      "date": "2026-11-30",
+      "slot": "18:00",
+      "ep": "breakroom3",
+      "no": 101,
+      "title": "休憩室のこたつ Part 3「課長の席」",
+      "caption_ja": "みかんでポムを布団から出して、ジルの足は無事に。課長もやっと仕事…と思ったら、膝の上で二度寝。",
+      "caption_en": "A mikan lures Pom out and Jill gets her foot back. Back to work, boss... until Pom curls up on his lap for a second nap.",
+      "tag_set": "C",
+      "thumb": {
+        "t": 21.0,
+        "cam": "1.3,535,1100",
+        "hook": "KOTATSU./休憩室のこたつ Part 3"
+      },
+      "first_comment": "ハンコ、押せると思う？ / Do you think he can stamp it now?",
+      "site_i18n": {
+        "title": {
+          "en": "Kotatsu in the break room, Part 3",
+          "zh": "休息室的暖桌 Part 3",
+          "ko": "휴게실 코타츠 Part 3"
+        },
+        "caption": {
+          "zh": "用橘子把波姆引出被子，吉兒的腳得救了。課長終於要工作了…結果波姆在他腿上睡回籠覺。",
+          "ko": "귤로 폼을 이불에서 꺼내 질의 발은 무사히. 과장님도 드디어 일…인 줄 알았는데, 무릎 위에서 두 번째 낮잠."
+        }
+      },
+      "title_i18n": {
+        "ja": "休憩室のこたつ Part 3「課長の席」 | レンとジル",
+        "ko": "휴게실 코타츠 Part 3 | 렌과 질 Ren & Jill",
+        "zh-Hant": "休息室的暖桌 Part 3 | 蓮與吉兒 Ren & Jill",
+        "es": "El kotatsu de la sala de descanso, Parte 3 | Ren & Jill",
+        "pt": "O kotatsu da sala de descanso, Parte 3 | Ren & Jill"
+      },
+      "series": {
+        "id": "breakroom",
+        "part": 3,
+        "of": 3,
+        "storyboard_ok": "2026-11-21"
+      },
+      "cta": "Send this to the coworker who always brings work home./いつも仕事を持ち帰る同僚に送ろう"
     }
   ]
 }

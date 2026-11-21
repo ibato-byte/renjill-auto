@@ -29,7 +29,7 @@ const STEP = 0.125, W = 1080, H = 1920;
   try { const src = fs.readFileSync(path.join(__dirname, 'ep', ep + '.js'), 'utf8');
     const thick = (src.match(/'stroke-width':\s*(2[8-9]|[3-9]\d)\b[^)]*'stroke-linecap':\s*'round'|'stroke-linecap':\s*'round'[^)]*'stroke-width':\s*(2[8-9]|[3-9]\d)\b/g) || []);
     if (thick.length) issues.push(`腕のような太い線を直接描いている（${thick.length}か所）：腕は limb() で、体のふちから短く`); } catch (e) { }
-  if (!(dur >= 8 && dur <= 21)) issues.push(`尺が範囲外: ${dur.toFixed(1)}s（8〜21s＝本編20秒＋エンドカード1秒まで。2026-11-16 オーナー：エレベーター第1話を20秒に。目安は7〜12s、最後まで見られる長さに）`);
+  if (!(dur >= 8 && dur <= 28.2)) issues.push(`尺が範囲外: ${dur.toFixed(1)}s（8〜28s＝本編24秒＋締めテロップ3秒＋エンドカード1秒まで。2026-11-21 オーナー：休憩室のこたつは各話27秒。2026-11-16 オーナー：エレベーター第1話を20秒に。目安は7〜12s、最後まで見られる長さに）`);
   else if (dur > 17) {   // 3話連載の回は 7〜21 秒が目安（docs/SERIES.md・2026-11-16 オーナー）。連載の回にこの警告を出すと見張りにならない（2026-11-17）
     let serial = false; try { serial = (JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'auto', 'schedule.json'), 'utf8')).posts || []).some(q => q.ep === ep && q.series); } catch (e) { }
     if (!serial) warns.push(`尺が長め: ${dur.toFixed(1)}s（目安は7〜12s。3話連載の回は21秒まで）`);

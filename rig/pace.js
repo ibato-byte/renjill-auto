@@ -102,3 +102,7 @@ window.PACE_ALL.elevator2 = { start: 0.0, speed: 1.0, hook: 'BOSS. ELEVATOR./上
 window.PACE_ALL.elevator3 = { start: 0.0, speed: 1.0, hook: 'BOSS. ELEVATOR./上司とエレベーター Part 3' };   // 2026-11-17 連載・第3話（最終話）
 window.PACE_ALL.kotatsu1 = { start: 0.0, speed: 1.0, hook: 'KOTATSU. BOSS./こたつと上司 Part 1' };   // 2026-11-19 連載・第2弾 第1話（総見直しの企画）
 window.PACE_ALL.kotatsu2 = { start: 0.0, speed: 1.0, hook: 'KOTATSU. BOSS./こたつと上司 Part 2' };   // 2026-11-20 連載・第2弾 第2話（総見直しの企画）
+// 2026-11-21 連載「休憩室のこたつ」（オーナーの絵コンテ）。タイトルの日本語は大きく（ep.html の fit を大きくした）
+window.PACE_ALL.breakroom1 = { start: 0.0, speed: 1.0, hook: 'KOTATSU./休憩室のこたつ Part 1' };
+window.PACE_ALL.breakroom2 = { start: 0.0, speed: 1.0, hook: 'KOTATSU./休憩室のこたつ Part 2' };
+window.PACE_ALL.breakroom3 = { start: 0.0, speed: 1.0, hook: 'KOTATSU./休憩室のこたつ Part 3' };

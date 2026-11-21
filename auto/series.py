@@ -123,6 +123,9 @@ def check(posts, today, days=21, pol=None, src=_src):
             issues.append(f'{tag}: 連載の欄 series（id・part・of）がない（{label(pol)}の3本で1つの話。この日は第{n}話）')
             continue
         if s["part"] != n: issues.append(f'{tag}: 第{s["part"]}話になっているが、この日は第{n}話（{pol["series_start"]} から投稿日の順に 1→2→3）')
+        want = (pol.get("slots") or {}).get(str(dt.date.fromisoformat(p["date"]).weekday()))
+        if want and p["date"] >= pol.get("slots_from", "9999") and p.get("slot") != want:
+            issues.append(f'{tag}: 投稿時刻が {p.get("slot")}（{DAYS_JA[dt.date.fromisoformat(p["date"]).weekday()]}曜日は {want}。2026-11-21 オーナー：月・木 18:00、土 12:00）')
         if not storyboard_ok(p, pol):
             days_left = (dt.date.fromisoformat(p["date"]) - today).days
             (issues if days_left <= 3 else warns).append(f"{tag}: オーナーの絵コンテのOK（series.storyboard_ok）がまだ。OKが出るまで動画を作らず、投稿もしない")
@@ -134,7 +137,8 @@ def check(posts, today, days=21, pol=None, src=_src):
         code = src(p["ep"])
         if code is None: continue  # 台本がまだない回は preflight が止める
         if "フォロー" not in code: issues.append(f"{tag}: 最後にフォローをうながすテロップ（「フォロー」の文字）がない")
-        if s["part"] < pol["parts"] and "次回" not in code: issues.append(f"{tag}: 最後に次回予告（「次回」の文字）がない")
+        NEXT = ("次回", "第2話へ", "第3話へ", "最終話へ", "次の話")   # 2026-11-21 オーナーのテロップ「フォローして第2話へ」「フォローして最終話へ」も次回予告
+        if s["part"] < pol["parts"] and not any(w in code for w in NEXT): issues.append(f"{tag}: 最後に次回予告（「次回」「第2話へ」「最終話へ」などの文字）がない")
         if s["part"] >= 2 and not re.search(r"^\s*//\s*前回[：:]", code, re.M):
             issues.append(f"{tag}: 冒頭のあらすじがない（台本の頭のコメントに「// 前回：」の1行を書き、最初の1〜2秒で前回を見せる）")
     # 3本の組ごとに、3話そろっているか・同じ話か（series_start から投稿日の順に3本ずつ）

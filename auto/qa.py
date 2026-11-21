@@ -51,7 +51,7 @@ def main(ep, yt, loop):
         if v.get("pix_fmt") != "yuv420p": issues.append(f"{name}: 画素の形式 {v.get('pix_fmt')}")
         if v.get("color_space") not in ("bt709",): warns.append(f"{name}: 色の印がない（{v.get('color_space')}）")
         if not a: issues.append(f"{name}: 音声トラックなし"); continue
-        if not (8 <= d <= 21.2): issues.append(f"{name}: 尺 {d:.1f}s")   # 本編20秒＋エンドカード1秒まで（2026-11-16 オーナー：エレベーター第1話を20秒に）
+        if not (8 <= d <= 28.2): issues.append(f"{name}: 尺 {d:.1f}s")   # 2026-11-21 オーナー：各話27秒（本編24＋締め3）＋エンドカード1秒   # 本編20秒＋エンドカード1秒まで（2026-11-16 オーナー：エレベーター第1話を20秒に）
         peak, rms, longest = audio_stats(path)
         if peak > 0.99: issues.append(f"{name}: 音がクリップ（peak {peak:.2f}）")
         if rms < 0.01: issues.append(f"{name}: ほぼ無音（rms {rms:.3f}）")

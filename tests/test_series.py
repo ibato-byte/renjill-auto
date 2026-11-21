@@ -126,3 +126,14 @@ if __name__ == "__main__":
         r = series.check([post("2026-11-26", "k1", 1)], dt.date(2026, 11, 24), 6, pol, src=SRC.get)
         self.assertTrue(any("絵コンテのOK" in x for x in r["issues"]), r)
 
+    def test_weekday_slots(self):
+        """2026-11-21 オーナー：投稿時刻は 月・木 18:00、土 12:00（slots_from 以降）"""
+        pol = dict(POL, series_start="2026-11-19", slots={"0": "18:00", "3": "18:00", "5": "12:00"}, slots_from="2026-11-26")
+        a, b, c = post("2026-11-26", "b1", 1), post("2026-11-28", "b2", 2), post("2026-11-30", "b3", 3, ja="", en="")
+        a["slot"], b["slot"], c["slot"] = "18:00", "18:00", "18:00"
+        r = series.check([a, b, c], dt.date(2026, 11, 21), 12, pol, src=SRC.get)
+        self.assertTrue(any("2026-11-28" in x and "12:00" in x for x in r["issues"]), r)
+        b["slot"] = "12:00"
+        r = series.check([a, b, c], dt.date(2026, 11, 21), 12, pol, src=SRC.get)
+        self.assertFalse(any("投稿時刻" in x for x in r["issues"]), r)
+

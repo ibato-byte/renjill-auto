@@ -111,6 +111,23 @@ def S(kind):
         d = float(kind[4:]); t = t_(d); y = 0.010 * np.sin(2 * np.pi * 98 * t) * (1 + .15 * np.sin(2 * np.pi * .3 * t)) + 0.006 * lp(noise(d), 400)
         f = int(SR * .4); y[:f] *= np.linspace(0, 1, f); g = int(SR * .25); y[-g:] *= np.linspace(1, 0, g)
         return y
+    # 2026-11-21「休憩室のこたつ」で追加
+    if kind == 'kotsun':  # コツン（布団の中で足が触れる。こもった小さなノック）
+        a = 0.42 * modal(520, [1, 2.3], [1, .25], [.05, .02], .08); b = 0.35 * lp(noise(.03), 900) * env(int(SR * .03), .001, .012)
+        return A(a, b)
+    if kind == 'mozo':    # もぞっ（布団がこすれる・動く）
+        d = .5; t = t_(d); w = np.sin(np.pi * t / d) ** 1.5 * (1 + .5 * np.sin(2 * np.pi * 7 * t))
+        return 0.2 * bp(noise(d), 250, 2200) * w
+    if kind == 'key':     # キーボードの小さな音
+        a = 0.12 * hp(noise(.012), 3000) * env(int(SR * .012), .0005, .004); b = 0.06 * modal(2300, [1, 2.1], [1, .3], [.012, .006], .02)
+        return A(a, b)
+    if kind == 'slide':   # ずるずる（座布団の上を布がこすれる）
+        d = .9; t = t_(d); w = np.sin(np.pi * t / d) ** .8 * (1 + .35 * np.sin(2 * np.pi * 5 * t))
+        return 0.16 * bp(noise(d), 400, 3000) * w
+    if kind == 'sniff':   # ひくひく（鼻）
+        out = np.zeros(int(SR * .4))
+        for i in range(2): a = 0.12 * bp(noise(.06), 2500, 7000) * env(int(SR * .06), .01, .03); o = int(SR * (.02 + i * .15)); out[o:o + len(a)] += a
+        return out
     if kind.startswith('beep'):  # ピッ（ボタン。beep / beep2 / beep3 … で少しずつ高くなる）
         n = int(kind[4:] or 1); f = 1760 * 2 ** ((n - 1) * 2 / 12); d = .09; t = t_(d)
         return 0.32 * (np.sin(2 * np.pi * f * t) + .25 * np.sin(4 * np.pi * f * t)) * env(len(t), .002, .05)
@@ -129,7 +146,62 @@ def pluck(f, d=.9):
     if k not in _pl: _pl[k] = ks_pluck(f, d)
     return _pl[k]
 def note(m): return 440 * 2 ** ((m - 69) / 12)
-def bgm(dur, holds):
+def bgm_warm(dur, o):
+    # 2026-11-21「休憩室のこたつ」用：歌詞なし・暖かく軽やか（エレピ風の和音・やわらかいベース・小さなシェイカー・ときどき鉄琴）。
+    # o = { bpm, mel（鉄琴の多さ 0〜1）, shaker（0〜1） }。全体の音量・下げる所は main の level・dips で
+    bpm = o.get('bpm', 92); beat = 60 / bpm; n = int(SR * (dur + 1)); L = np.zeros(n); R = np.zeros(n)
+    chords = [[65, 69, 72, 76], [62, 65, 69, 72], [58, 62, 65, 69], [60, 64, 67, 70]]  # Fmaj7 Dm7 Bbmaj7 C7
+    mel = [81, 79, 77, 76, 77, 74, 72, 74, 76, 77, 79, 76, 74, 72, 70, 72]
+    def add(x, at, pan=0, g=1.0):
+        i = int(at * SR); x = x[:max(0, n - i)]
+        L[i:i + len(x)] += x * g * (1 - pan) * .5 ** .5; R[i:i + len(x)] += x * g * (1 + pan) * .5 ** .5
+    def ep_(m, d):  # エレピ風：やわらかい2つの倍音＋ゆっくり消える
+        t = t_(d); f = note(m)
+        return (np.sin(2 * np.pi * f * t) + .3 * np.sin(4 * np.pi * f * t) * np.exp(-t * 3) + .08 * np.sin(6 * np.pi * f * t) * np.exp(-t * 6)) * env(len(t), .01, d * .6)
+    b = 0
+    while b * beat < dur + .5:
+        t0 = b * beat; ch = chords[(b // 4) % 4]
+        if b % 4 == 0:
+            for j, m in enumerate(ch): add(ep_(m - 12, beat * 3.6), t0 + j * .018, -.15 + j * .1, .07)
+        if b % 4 == 2:
+            for j, m in enumerate(ch[1:]): add(ep_(m - 12, beat * 1.6), t0 + .5 * beat + j * .012, .15, .045)
+        if b % 2 == 0:
+            t = t_(beat * 1.8); bs = np.sin(2 * np.pi * note(ch[0] - 24) * t) * env(len(t), .02, .5)
+            add(bs, t0, 0, .22)
+        if o.get('shaker', .6) > 0:
+            for h in (0, .5):
+                sh = hp(noise(.05), 7000) * env(int(SR * .05), .004, .018)
+                add(sh, t0 + h * beat, .3, (.026 if h else .018) * o.get('shaker', .6))
+        if (b % 2 == 1) and o.get('mel', .5) > 0 and ((b * 7) % 10) / 10 < o.get('mel', .5):
+            add(.5 * modal(note(mel[b % 16]), [1, 2.76, 5.4], [1, .22, .06], [.6, .25, .1], .9), t0, .25, .05)
+        b += 1
+    return np.stack([L, R], 1)[:int(SR * dur)]
+
+
+def bgm(dur, holds, opt=None):
+    if opt and opt.get('style') == 'warm':
+        st = bgm_warm(dur, opt); g = np.ones(len(st))
+        for h in (holds or '').split(','):
+            if not h: continue
+            a, c = (int(float(x) * SR) for x in h.split('-')); f = int(SR * .06)
+            g[a:c] = 0; g[max(0, a - f):a] = np.minimum(g[max(0, a - f):a], np.linspace(1, 0, len(g[max(0, a - f):a])))
+            g[c:c + f] = np.minimum(g[c:c + f], np.linspace(0, 1, len(g[c:c + f])))
+        # dips：[開始, 終わり, 音量]。0.25 秒かけて下げて戻す（「コツン」の直前・布団が動く所など、絵と小さな音を立たせる）
+        env_ = np.ones(len(st))
+        for a, c, lv in opt.get('dips', []):
+            a, c = int(a * SR), int(c * SR); f = int(SR * .25)
+            seg = np.full(len(st), 1.0); seg[a:c] = lv
+            if a - f > 0: seg[a - f:a] = np.linspace(1, lv, f)
+            seg[c:min(len(st), c + f)] = np.linspace(lv, 1, len(seg[c:min(len(st), c + f)]))
+            env_ = np.minimum(env_, seg)
+        # lift：[時間, 倍率]。その時間から少し軽やかに（音量を上げる）
+        for tt, k in opt.get('lift', []):
+            a = int(tt * SR); env_[a:] *= k
+        return st * (g * env_ * opt.get('level', .6))[:, None]
+    return bgm_old(dur, holds)
+
+
+def bgm_old(dur, holds):
     bpm = 104; beat = 60 / bpm; n = int(SR * (dur + 1)); L = np.zeros(n); R = np.zeros(n)
     chords = [[60, 64, 67], [57, 60, 64], [53, 57, 60], [55, 59, 62]]  # C Am F G
     mel = [76, 79, 81, 79, 76, 74, 72, 74, 76, 72, 69, 72, 74, 71, 67, 71]  # 鉄琴のくり返し
@@ -178,7 +250,7 @@ def main():
         fx[at:at + len(x), 0] += x * (1 - pan) ** .5; fx[at:at + len(x), 1] += x * (1 + pan) ** .5
         duck[at:at + len(x)] = np.maximum(duck[at:at + len(x)], np.abs(x))
     fx = reverb(fx, .5, .14)
-    m = bgm(dur, meta.get('bgmHolds'))
+    m = bgm(dur, meta.get('bgmHolds'), meta.get('bgm'))
     m = np.pad(m, ((0, n - len(m)), (0, 0)))
     # 効果音が鳴っている間は BGM を最大 -5dB 下げる（なめらかに）
     de = lp(np.minimum(1, duck * 4), 12, 1); gain = 10 ** (-5 * np.clip(de, 0, 1) / 20)

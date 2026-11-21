@@ -8,7 +8,7 @@ svg{position:absolute;left:0;top:0;overflow:visible}
 /* 冒頭の一言（依頼 #97）：サムネと同じ文字を、最初の約1.7秒だけ画面中央寄り（Instagram の上下に隠れる範囲の内側）に大きく出す */
 #hook{position:absolute;left:0;right:0;top:450px;text-align:center;pointer-events:none;opacity:0;font-family:'Noto Sans','Noto Sans CJK JP',sans-serif;font-weight:900;line-height:1.05;color:#FFF7E8;-webkit-text-stroke:14px #5A3A1E;paint-order:stroke fill;text-shadow:0 16px 0 #5A3A1E,0 30px 40px rgba(60,35,10,.35)}
 #hook span{display:block;white-space:nowrap}
-#hook small{display:block;margin-top:14px;color:#FFD86B;font-family:'Noto Sans CJK JP',sans-serif;letter-spacing:.04em;white-space:nowrap}
+#hook small{display:block;margin-top:18px;-webkit-text-stroke:12px #5A3A1E;color:#FFD86B;font-family:'Noto Sans CJK JP',sans-serif;letter-spacing:.04em;white-space:nowrap}
 #end{position:absolute;left:0;top:0;width:1080px;height:1920px;background:#F4ECE0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:26px;color:#3B2E22;opacity:0}
 #end .t{font-size:104px;font-weight:900;letter-spacing:6px}
 #end .s{font-size:40px;color:#7A6550;font-weight:700;letter-spacing:6px}
@@ -49,7 +49,7 @@ if(PACE.hook){const [l1,l2]=PACE.hook.split('/');hookEl.innerHTML='<span></span>
   hookEl.style.opacity=0.01;
   // inline-block で幅を測る
   hookEl.firstChild.style.display='inline-block';fit(hookEl.firstChild,860,138,70);hookEl.firstChild.style.display='block';
-  const sm=hookEl.querySelector('small');if(sm){sm.style.display='inline-block';fit(sm,540,66,40);sm.style.display='block'}
+  const sm=hookEl.querySelector('small');if(sm){sm.style.display='inline-block';fit(sm,900,92,56);sm.style.display='block'}
   hookEl.style.opacity=0}
 window.drawHook=o=>{ if(!PACE.hook){hookEl.style.opacity=0;return}
   const a=1*(1-Math.min(1,Math.max(0,(o-(HOOK_END-0.3))/0.3)));   // 最初のコマから見え（サムネと同じ）、0.12秒で全部の濃さに、最後の0.3秒で消える

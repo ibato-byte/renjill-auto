@@ -10,6 +10,7 @@ const meta=await p.evaluate(()=>{const {start,speed}=window.PACE,f=t=>Math.round
   return {dur:Math.round(outDur()*1000)/1000,
     sfx:EP.sfx.filter(s=>s.t>=start).map(s=>Object.assign({},s,{t:f(s.t)})),
     bgmHolds:EP.bgmHolds?EP.bgmHolds.split(',').map(h=>h.split('-').map(Number)).filter(([a,c])=>c>start).map(([a,c])=>Math.max(0,f(a))+'-'+f(c)).join(',')||null:null,
+    bgm:EP.bgm?Object.assign({},EP.bgm,{dips:(EP.bgm.dips||[]).map(([a,c,l])=>[Math.max(0,f(a)),f(c),l]),lift:(EP.bgm.lift||[]).map(([a,k])=>[Math.max(0,f(a)),k])}):null,   // 2026-11-21 BGM の種類・音量・下げる所
     pace:window.PACE}});
 meta.fps=fps;
 const base=`${__dirname}/out/${ep}`, dir=nohook?base+'_nohook':base; fs.mkdirSync(dir,{recursive:true}); fs.writeFileSync(dir+'/meta.json',JSON.stringify(meta));

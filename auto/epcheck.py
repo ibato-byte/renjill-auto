@@ -13,13 +13,14 @@
 - 冒頭の一言（pace.js の hook）：日本語 14 文字以上は WARN（13 文字まで。2026-11-15）
 - 冒頭の一言（pace.js の hook）：英語 5 語以上は WARN（3〜4 語）            … 136
 - 週3本（月・木・土）・3話連載の決まり（auto/series.py。2026-11-16 オーナー決定）：曜日の外の回・連載の欄・Part N・次回予告・フォロー・あらすじは ISSUE
-- 尺：画面に出る長さが 7〜12 秒（3話連載の回は 21 秒まで）の外なら WARN                               … 5・143
+- 尺：画面に出る長さが 7〜12 秒（3話連載の回は 21 秒まで。2026-11-21 以降に絵コンテOKの連載は 28.2 秒まで）の外なら WARN                               … 5・143
 - 同じ効果音の組み合わせ：「目立つ音」（pon/boing/chime/thump/flop）が3日続けて同じなら WARN … 127
 - 同じ部屋：前の3話と同じ見た目（rig/v2/looks.js）なら WARN                … 179
 - 小物の名前（L.xxx の小物）が3日続けて同じなら WARN                        … 15・180
 - 字幕でオチを言う言葉（DONE / FINALLY / 結局 / オチ など）が2回目の字幕にあれば WARN … 26・157
 - 腕（common.js の limb()）を使う回は ISSUE（レンとジルには元のデザインに腕がない。2026-11-10「変なところから腕が生える」→ 11-11 最後の1枚を口でくわえる形に作り直し。
-  まだ出ていない回で二度と使わない。持つ・運ぶは口でくわえる・頭や体で押す・鼻で押す）… 298
+  まだ出ていない回で二度と使わない。持つ・運ぶは口でくわえる・頭や体で押す・鼻で押す）
+  ただし 2026-11-21 オーナー決定：絵コンテOK（storyboard_ok 2026-11-21〜）の連載の回は、公式の長さの前足（limb の max 120 以下）で押す・支える・挟むのは可… 298
 - 冒頭の一言（pace.js）と表紙の文字（schedule.json の thumb.hook）が違えば WARN（2026-11-12）… 138
 - 字幕が画面に出ている時間が 1.2 秒未満なら WARN（読み切れない。画面上の秒＝台本の秒÷速さ。2026-11-12）… 161
 - 「…」を3回以上使う回は WARN（間を文字で埋めない。2026-11-12）… 164
@@ -120,6 +121,7 @@ def info(ep, pc):
         "ellipsis": sum(line.split("//", 1)[0].count("…") for line in src.splitlines()),
         "speed": p["speed"],
         "limb": uses_limb(src),
+        "longpaw": max([int(m) for m in re.findall(r"max:\s*(\d+)", src) if int(m) > 120] or [0]),
         "shrink": shrinks(src),
         "jump": jump_without_yoff(src),
         "out": (dur - p["start"]) / p["speed"] if dur else None,
@@ -150,7 +152,12 @@ def check(posts, today, days=14, pc=None, lk=None):
         cur = d >= today.isoformat() and d < end
         tag = f"{d} {ep}"
         if cur:
-            if i["limb"]:
+            # 2026-11-21 オーナー：前足は公式の形・長さのまま「押す・支える・両前足で挟む」なら使ってよい（オーナーが絵コンテをOKした連載の回だけ）。
+            # その時も長い腕（max 120 より長い）は ISSUE
+            ok_paw = bool((p.get("series") or {}).get("storyboard_ok", "") >= "2026-11-21")
+            if i["limb"] and ok_paw and i.get("longpaw"):
+                issues.append(f"{tag}: 前足が長すぎる（limb の max が {i['longpaw']}。公式の長さのまま＝120以下に）")
+            if i["limb"] and not ok_paw:
                 issues.append(f"{tag}: 腕（limb()）を描いている。レンとジルには腕がない：口でくわえる・頭や体で押す形に作り直す")
             if i.get("shrink"):
                 issues.append(f"{tag}: キャラを CSS で縮めて置いている（画面の中のキャラが小さくなる）：pose の x・y・scale で大きく置く（画面の高さの35%以上）")
@@ -184,7 +191,8 @@ def check(posts, today, days=14, pc=None, lk=None):
             ja_h = re.sub(r"\s*Part\s*\d+$", "", ja_h)   # 連載の印「 Part N」は数えない（tests/test_video_quality.py と同じ数え方）
             if len(ja_h) > 13: warns.append(f"{tag}: 冒頭の日本語が{len(ja_h)}文字（13文字までに。1.7秒で読み切れない）")
             # 3話連載の回（2026-11-16〜）は、あらすじ・次回予告・フォローのテロップが入るので 21 秒まで（エレベーター第1話＝20秒＋エンドカード1秒）
-            hi = 21 if p.get("series") else 12
+            # 2026-11-21 オーナー：連載は 27 秒（話24＋テロップ3）＋エンドカード1秒
+            hi = (28.2 if (p.get("series") or {}).get("storyboard_ok", "") >= "2026-11-21" else 21) if p.get("series") else 12
             if i["out"] and not (7 <= i["out"] <= hi): warns.append(f"{tag}: 尺 {i['out']:.1f}秒（7〜{hi}秒に）")
             # 3話連載の同じ話の回どうしは、わざと同じセット・小物・効果音を使う（docs/series/。2026-11-18 総見直し）。
             # 部屋・効果音・小物の「続けない」見張りは、ほかの話の回とだけ比べる

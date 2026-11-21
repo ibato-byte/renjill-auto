@@ -40,7 +40,7 @@ const [ep, t, cam, hook, no, out, variant = 'A'] = process.argv.slice(2);
         while (width(fs) > target && fs > min) fs -= 1;                          // 目標の幅を超えない大きさに詰める
         return fs; };
       const sm = d.querySelector('small'); const main = document.createElement('span'); main.textContent = d.firstChild.textContent; d.replaceChild(main, d.firstChild); main.style.display = 'block';
-      fit(main, 860, 138, 70); if (sm) fit(sm, 540, 66, 40);
+      fit(main, 860, 138, 70); if (sm) fit(sm, 900, 92, 56);
       const r = d.getBoundingClientRect(); const chip = document.querySelector('.chip'); if (chip && variant === 'A') chip.style.top = Math.round(r.bottom + 28) + 'px';
     }
   }, { hook, no, variant });
