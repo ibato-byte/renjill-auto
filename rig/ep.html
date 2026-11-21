@@ -8,6 +8,7 @@ svg{position:absolute;left:0;top:0;overflow:visible}
 /* 冒頭の一言（依頼 #97）：サムネと同じ文字を、最初の約1.7秒だけ画面中央寄り（Instagram の上下に隠れる範囲の内側）に大きく出す */
 #hook{position:absolute;left:0;right:0;top:450px;text-align:center;pointer-events:none;opacity:0;font-family:'Noto Sans','Noto Sans CJK JP',sans-serif;font-weight:900;line-height:1.05;color:#FFF7E8;-webkit-text-stroke:14px #5A3A1E;paint-order:stroke fill;text-shadow:0 16px 0 #5A3A1E,0 30px 40px rgba(60,35,10,.35)}
 #hook span{display:block;white-space:nowrap}
+#hook .part{display:block;margin-top:14px;font-style:normal;font-size:64px;-webkit-text-stroke:10px #5A3A1E;color:#FFF7E8;font-family:'Noto Sans',sans-serif;letter-spacing:.06em}
 #hook small{display:block;margin-top:18px;-webkit-text-stroke:12px #5A3A1E;color:#FFD86B;font-family:'Noto Sans CJK JP',sans-serif;letter-spacing:.04em;white-space:nowrap}
 #end{position:absolute;left:0;top:0;width:1080px;height:1920px;background:#F4ECE0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:26px;color:#3B2E22;opacity:0}
 #end .t{font-size:104px;font-weight:900;letter-spacing:6px}
@@ -44,12 +45,15 @@ if(new URLSearchParams(location.search).get('nohook'))PACE.hook='';
 window.PACE=PACE; window.outDur=()=>(EP.dur-PACE.start)/PACE.speed;
 window.HOOK_END=1.7;
 const hookEl=document.getElementById('hook');
-if(PACE.hook){const [l1,l2]=PACE.hook.split('/');hookEl.innerHTML='<span></span>'+(l2?'<small></small>':'');hookEl.firstChild.textContent=l1;if(l2)hookEl.querySelector('small').textContent=l2;
+if(PACE.hook){const [l1,l2r]=PACE.hook.split('/');
+  // 2026-11-21 オーナー：各話のタイトル（日本語）を大きく。「〇〇 Part N」は、タイトルを1行で大きく・Part N はその下に小さく
+  const pm=(l2r||'').match(/^(.*?)\s*(Part\s*\d+)$/), l2=pm?pm[1]:l2r;
+  hookEl.innerHTML='<span></span>'+(l2?'<small></small>':'')+(pm?'<i class="part"></i>':'');hookEl.firstChild.textContent=l1;if(l2)hookEl.querySelector('small').textContent=l2;if(pm)hookEl.querySelector('.part').textContent=pm[2];
   const fit=(el,target,base,min)=>{const w=fs=>{el.style.fontSize=fs+'px';return el.getBoundingClientRect().width||(el.scrollWidth)};let fs=Math.floor(base*target/w(base));fs=Math.max(min,Math.min(Math.floor(base*1.3),fs));while(w(fs)>target&&fs>min)fs--;el.style.fontSize=fs+'px'};
   hookEl.style.opacity=0.01;
   // inline-block で幅を測る
   hookEl.firstChild.style.display='inline-block';fit(hookEl.firstChild,860,138,70);hookEl.firstChild.style.display='block';
-  const sm=hookEl.querySelector('small');if(sm){sm.style.display='inline-block';fit(sm,900,92,56);sm.style.display='block'}
+  const sm=hookEl.querySelector('small');if(sm){sm.style.display='inline-block';if(pm)fit(sm,820,110,80);else fit(sm,900,92,56);sm.style.display='block'}
   hookEl.style.opacity=0}
 window.drawHook=o=>{ if(!PACE.hook){hookEl.style.opacity=0;return}
   const a=1*(1-Math.min(1,Math.max(0,(o-(HOOK_END-0.3))/0.3)));   // 最初のコマから見え（サムネと同じ）、0.12秒で全部の濃さに、最後の0.3秒で消える

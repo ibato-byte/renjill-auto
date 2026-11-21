@@ -51,10 +51,10 @@ document.write('<script src="v2/lib.js"><\/script><script src="v2/elevator_set.j
   const footX = t => lerp(F2.foot.x, 240, L.ease(sm(7.6, 8.6, t)));
   function renPose(t) {
     const R = BR.REN, F = RIG.FACES;
-    let face = Object.assign({}, F.neutral, { mouth: 'line' }), look = .2, nod = 28, eyeOpen = 1.15, x = R.x + 24, y = R.y + 104, tilt = -6;
+    let face = Object.assign({}, F.neutral, { mouth: 'line' }), look = .2, nod = 28, eyeOpen = 1.15, x = R.x + BR.CROUCH.dx, y = R.y + BR.CROUCH.dy, tilt = BR.CROUCH.tilt;
     if (t < 5.2) { look = .2; }
     if (t >= 5.2 && t < 11) { look = .4; eyeOpen = 1.05; face = Object.assign({}, F.neutral, { mouth: 'w' }); if (t > 9) { look = lerp(.4, -1, sm(9.0, 9.3, t)); } }   // 少しずつ引く → ジルのうなずきを受ける
-    if (t >= 11 && t < 12.9) { const k = L.ease(sm(11.8, 12.8, t)); x = R.x + 24 * (1 - k); y = R.y + 104 * (1 - k); tilt = -6 * (1 - k); nod = lerp(28, 12, k); look = .1; face = F.neutral; }   // 仕事に戻る
+    if (t >= 11 && t < 12.9) { const k = L.ease(sm(11.8, 12.8, t)); x = R.x + BR.CROUCH.dx * (1 - k); y = R.y + BR.CROUCH.dy * (1 - k); tilt = BR.CROUCH.tilt * (1 - k); nod = lerp(28, 12, k); look = .1; face = F.neutral; }   // 仕事に戻る
     if (t >= 12.9 && t < 19.2) { x = R.x; y = R.y; tilt = 0; nod = 12; look = -.1; face = Object.assign({}, F.sharp); eyeOpen = .9; }   // 今度こそ
     if (t >= 19.2) { x = R.x; y = R.y; tilt = 0; const k = sm(19.2, 19.5, t); nod = lerp(12, 22, k); look = lerp(-.1, .5, k); face = Object.assign({}, F.neutral, { mouth: 'line' }); eyeOpen = 1.22; }   // 膝を見て、固まる
     return Object.assign({}, RIG.POSES.sit, face, { x, y, scale: R.s, flip: R.flip, eyeLook: look, headNod: nod, bodyTilt: tilt, eyeOpen, blush: t > 19.2 ? .5 : .2 });
@@ -76,7 +76,7 @@ document.write('<script src="v2/lib.js"><\/script><script src="v2/elevator_set.j
     { t: 13.3, type: 'tap', pan: .35 }, { t: 13.9, type: 'tap', pan: .35 }, { t: 14.5, type: 'tap', pan: .35 }, { t: 15.2, type: 'swish', pan: .35 },
     { t: 17.9, type: 'mozo', pan: .4 }, { t: 18.8, type: 'pop', pan: .3 }, { t: 19.25, type: 'blink', pan: .3 }, { t: 20.3, type: 'twitch', pan: -.35 },
     { t: CUT + .02, type: 'pop', pan: 0 }];
-  const TELOP = k => k <= 0 ? '' : `<g transform="translate(520 470) scale(${L.outBack(Math.min(1, k * 1.6))})" opacity="${Math.min(1, k * 3)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle">
+  const TELOP = k => k <= 0 ? '' : `<g transform="translate(520 330) scale(${L.outBack(Math.min(1, k * 1.6))})" opacity="${Math.min(1, k * 3)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle">
     <rect x="-430" y="-150" width="860" height="300" rx="48" fill="#3B2412" opacity=".22" transform="translate(6 10)"/><rect x="-430" y="-150" width="860" height="300" rx="48" fill="#3A2414" opacity=".92"/>
     <text y="-22" font-size="80" fill="#FFF7E8">次のお話も、</text><text y="82" font-size="80" fill="#F2D3A8">フォローして待っててね</text></g>`;
   window.EP = {
@@ -97,10 +97,9 @@ document.write('<script src="v2/lib.js"><\/script><script src="v2/elevator_set.j
       if (p.mode === 'out' || p.mode === 'lap') fx += pomSvg(tt);
       // みかんの房：レンの前足で（11.8 まで）→ ポムが抱える
       const sg = segAt(tt);
-      if (tt < 11.8) { if (tt < 11.0) fx += BR.paw(1000, 1330, sg.x + 22, sg.y + 6, { bend: 20, w: 26 }); fx += BR.segment(tt < 11.0 ? sg.x : lerp(sg.x, OUT.x, sm(11.0, 11.6, tt)), tt < 11.0 ? sg.y : lerp(sg.y, OUT.y - 110, sm(11.0, 11.6, tt)), 1.3, -30); }
+      if (tt < 11.8) { fx += BR.segment(tt < 11.0 ? sg.x : lerp(sg.x, OUT.x, sm(11.0, 11.6, tt)), tt < 11.0 ? sg.y : lerp(sg.y, OUT.y - 110, sm(11.0, 11.6, tt)), 1.3, -30); }
       else if (p.mode === 'out') fx += BR.segment(p.x, p.y - 112 * p.s / 1.3, 1.3, -10);
       else if (p.mode === 'lap') fx += BR.segment(p.x - 20, p.y - 40, 1.1, 30);
-      if (lift > 0) fx += BR.paw(996, 1420, BR.LIFT.cx + 120, BR.K.floor - 40 - 230 * lift, { bend: 14, w: 30 });   // 布団のはしを持ったまま
       // 鼻ひくひく・前足をのばす
       let fx2 = '';
       if (tt < 5.2) { for (const t0 of [0.5, 1.4, 2.3]) if (tt >= t0 && tt < t0 + .5) { const a = L.pulse(tt, t0, t0 + .5); fx2 += `<g transform="translate(${nose2.x - 26} ${nose2.y + 6})" opacity="${a.toFixed(2)}" stroke="#FFF7E8" stroke-width="5" stroke-linecap="round"><path d="M-10 -14 l-8 -6 M-12 0 h-10 M-10 14 l-8 6"/></g>`; }
@@ -108,9 +107,9 @@ document.write('<script src="v2/lib.js"><\/script><script src="v2/elevator_set.j
       // ハンコ（構えて浮かせたまま）
       if (hanko) { const k = L.ease(sm(15.0, 15.8, tt)); const hx = lerp(P.hanko.x, P.papers.x + 12, k), hy = lerp(P.hanko.y, P.papers.y - 80, k); fx2 += BR.hanko(hx, hy); }
       const cam = L.camAt([
-        { t: 0, z: 1.7, cx: 780, cy: 1420 },                    // 第2話の最後（鼻先にみかん）
-        { t: 0.01, z: 1.62, cx: 770, cy: 1420, d: 4.5 },        // ひくひく（最初のコマからゆっくり）
-        { t: 5.0, z: 1.25, cx: 640, cy: 1360, d: .8 },          // 引く → 出てくる・ジル
+        { t: 0, z: 1.6, cx: 860, cy: 1420 },                    // 第2話の最後（鼻先にみかん）
+        { t: 0.01, z: 1.62, cx: 850, cy: 1420, d: 4.5 },        // ひくひく（最初のコマからゆっくり）
+        { t: 5.0, z: 1.04, cx: 660, cy: 1330, d: .8 },          // 引く → 出てくる・ジル
         { t: 10.9, z: 1.35, cx: 600, cy: 1260, d: .6 },         // 渡す → 仕事に戻る
         { t: 17.0, z: 1.3, cx: 640, cy: 1360, d: .5 },          // 布団のはしへ
         { t: 18.9, z: 1.42, cx: 560, cy: 1200, d: .6 },         // 膝で二度寝・固まるレン・ふせるジル
@@ -118,6 +117,8 @@ document.write('<script src="v2/lib.js"><\/script><script src="v2/elevator_set.j
       const dim = t >= CUT ? `<rect x="0" y="0" width="1080" height="1920" fill="#1E140C" opacity="${(.42 * sm(CUT, CUT + .2, t)).toFixed(2)}"/>` : '';
       L.mount({ bg, fx: fx + fx2, ui: t < 27 ? dim + TELOP(L.seg(t, CUT + .05, CUT + .5)) : dim, cam, t: tt });
       const fxl = document.getElementById('fx');
+      // レンの前足（公式の長さ）：みかんの房をそっと支えて、少しずつ手前へ（11.0 まで）
+      if (tt < 11.0) limb(fxl, 'ren', { x: sg.x + 22, y: sg.y + 6 }, { max: 120, w: 26, bend: 12 });
       // レンの前足：書類をそろえる（トントン）→ ハンコを持つ
       if (tt >= 12.9 && tt < 15.0) { const lift = Math.max(...[13.1, 13.7, 14.3].map(a => .6 * L.pulse(tt, a, a + .36))); for (const dx of [-58, 62]) limb(fxl, 'ren', { x: P.papers.x + dx, y: P.papers.y - 14 - 40 * lift }, { max: 110, w: 32 }); }
       if (hanko) { const k = L.ease(sm(15.0, 15.8, tt)); limb(fxl, 'ren', { x: lerp(P.hanko.x, P.papers.x + 12, k) + 16, y: lerp(P.hanko.y, P.papers.y - 80, k) - 26 }, { max: 120, w: 32 }); limb(fxl, 'ren', { x: P.papers.x + 50, y: P.papers.y - 8 }, { max: 110, w: 32 }); }

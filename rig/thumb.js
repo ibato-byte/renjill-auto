@@ -26,7 +26,9 @@ const [ep, t, cam, hook, no, out, variant = 'A'] = process.argv.slice(2);
       const [l1, l2] = hook.split('/');
       const d = document.createElement('div'); d.className = 'th hook';
       d.style[variant === 'A' ? 'top' : 'bottom'] = variant === 'A' ? '450px' : '500px'; // 中央3:4／1:1の切り抜き（プロフィールのグリッド）でも文字が見える安全域に置く
-      d.innerHTML = l2 ? `${l1}<small>${l2}</small>` : l1; document.body.appendChild(d);
+      // 2026-11-21 オーナー：各話のタイトル（日本語）を大きく。「〇〇 Part N」はタイトルを大きく・Part N はその下に小さく
+      const pm = (l2 || '').match(/^(.*?)\s*(Part\s*\d+)$/);
+      d.innerHTML = l2 ? (pm ? `${l1}<small>${pm[1]}</small><small class="part" style="font-size:64px;color:#FFF7E8;font-family:'Noto Sans',sans-serif;letter-spacing:.06em">${pm[2]}</small>` : `${l1}<small>${l2}</small>`) : l1; d.dataset.part = pm ? '1' : ''; document.body.appendChild(d);
     }
     // 自動フィット（2026-10-21）：文字数に関係なく、英語の見出しは枠の幅の約80%（既存の「CAMERA OFF」「APPROVED.」と同じくらい）、
     // 日本語は約50%の幅になるよう文字の大きさを合わせる。ただし大きくするのは元の大きさ（英語138px・日本語66px）の1.3倍まで。
@@ -40,7 +42,7 @@ const [ep, t, cam, hook, no, out, variant = 'A'] = process.argv.slice(2);
         while (width(fs) > target && fs > min) fs -= 1;                          // 目標の幅を超えない大きさに詰める
         return fs; };
       const sm = d.querySelector('small'); const main = document.createElement('span'); main.textContent = d.firstChild.textContent; d.replaceChild(main, d.firstChild); main.style.display = 'block';
-      fit(main, 860, 138, 70); if (sm) fit(sm, 900, 92, 56);
+      fit(main, 860, 138, 70); if (sm) { if (d.dataset.part) fit(sm, 820, 110, 80); else fit(sm, 900, 92, 56); }
       const r = d.getBoundingClientRect(); const chip = document.querySelector('.chip'); if (chip && variant === 'A') chip.style.top = Math.round(r.bottom + 28) + 'px';
     }
   }, { hook, no, variant });

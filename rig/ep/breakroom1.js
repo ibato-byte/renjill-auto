@@ -26,7 +26,7 @@ document.write('<script src="v2/lib.js"><\/script><script src="v2/elevator_set.j
     if (t >= 16.0) { look = -1; nod = 4; face = Object.assign({}, F.neutral, { mouth: 'line' }); eyeOpen = 1.1; }   // 顔を見合わせる
     if (t >= PULL && t < PULL + .35) { sq = -.12 * L.pulse(t, PULL, PULL + .35); x += 14 * L.pulse(t, PULL, PULL + .35); }   // 足を引く（腰が少し後ろへ）
     if (t >= 18.3) { look = -.3; nod = 18 * sm(18.3, 18.6, t); eyeOpen = 1.2; face = Object.assign({}, F.neutral, { mouth: 'line' }); }   // 布団を見る
-    if (t >= 20.4) { const k = L.ease(sm(20.4, 22.6, t)); x = R.x + 24 * k; tilt = -6 * k; nod = 20 + 6 * k; y = R.y + 104 * k; }   // そっと身をかがめて、布団のはしをのぞく
+    if (t >= 20.4) { const k = L.ease(sm(20.4, 22.6, t)); const C = BR.CROUCH; x = R.x + C.dx * k; tilt = C.tilt * k; nod = 20 + 6 * k; y = R.y + C.dy * k; }   // そっと身をかがめて、布団のはしをのぞく
     return Object.assign({}, RIG.POSES.sit, face, { x, y, scale: R.s, flip: R.flip, eyeLook: look, headNod: nod, headTilt: htilt, bodySquash: sq, earL, earR, eyeOpen, bodyTilt: tilt, blush: .2 });
   }
   // ---- ジル（左・右向き）----
@@ -77,7 +77,7 @@ document.write('<script src="v2/lib.js"><\/script><script src="v2/elevator_set.j
     else if (t < 16.6) { const h = hankoAt(t); limb(fx, 'ren', { x: h.x + 16, y: h.y - 26 }, { max: 120, w: 32 }); limb(fx, 'ren', { x: P.papers.x + 50, y: P.papers.y - 8 }, { max: 110, w: 32 }); }
     else if (t < 20.4) limb(fx, 'ren', { x: P.papers.x + 40, y: P.papers.y - 8 }, { max: 110, w: 32 });
     else if (t < 21.2) limb(fx, 'ren', { x: P.papers.x + 40, y: P.papers.y - 8 }, { max: 110, w: 32 });
-    else { const k = L.ease(sm(21.2, 23.6, t)); fx.insertAdjacentHTML('beforeend', BR.paw(996, 1420, lerp(1004, BR.LIFT.cx + 120, k), lerp(1450, BR.K.floor - 40, k), { bend: 14, w: 30 })); }   // 布団の右の外（レンの体の見えている所）から、そっと布団のはしへ（めくる寸前）
+    else if (t >= 21.9) { const k = L.ease(sm(21.9, 23.6, t)); limb(fx, 'ren', { x: lerp(BR.LIFT.cx + 190, BR.LIFT.cx + 120, k), y: lerp(BR.K.floor - 170, BR.K.floor - 40, k) }, { max: 120, w: 30, bend: 10 }); }   // 布団の右の外（レンの体の見えている所）から、そっと布団のはしへ（めくる寸前）
     // ジル：PCを開く（画面のふちを前足で押し上げる）→ キーボード（両前足を交互に、軽く）
     const kb = { x: P.laptop.x + 20, y: P.laptop.y + 4 };
     if (t >= 2.9 && t < 4.4) { const lid = BR.laptopLid(sm(3.1, 4.3, t)); limb(fx, 'jil', { x: lid.x1, y: lid.y1 + 6 }, { max: 120, w: 30 }); }
@@ -105,7 +105,7 @@ document.write('<script src="v2/lib.js"><\/script><script src="v2/elevator_set.j
   for (const m of MOZO) SFX.push({ t: m, type: 'mozo', pan: 0 });
   SFX.push({ t: 20.5, type: 'swish', pan: .2 }, { t: CUT + .02, type: 'pop', pan: 0 });
   // 締めテロップ（2行）。下のはしと右のはしを避ける（Instagram の表示と重なりやすい）
-  const TELOP = k => k <= 0 ? '' : `<g transform="translate(520 470) scale(${L.outBack(Math.min(1, k * 1.6))})" opacity="${Math.min(1, k * 3)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle">
+  const TELOP = k => k <= 0 ? '' : `<g transform="translate(520 330) scale(${L.outBack(Math.min(1, k * 1.6))})" opacity="${Math.min(1, k * 3)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle">
     <rect x="-430" y="-150" width="860" height="300" rx="48" fill="#3B2412" opacity=".22" transform="translate(6 10)"/><rect x="-430" y="-150" width="860" height="300" rx="48" fill="#3A2414" opacity=".92"/>
     <text y="-22" font-size="84" fill="#FFF7E8">こたつの中に誰かいる？</text><text y="82" font-size="66" fill="#F2D3A8">フォローして第2話へ</text></g>`;
   window.EP = {
@@ -125,15 +125,15 @@ document.write('<script src="v2/lib.js"><\/script><script src="v2/elevator_set.j
       let mark = '';
       for (const [t0, x] of [[KOTSUN1, 700], [KOTSUN2, 420]]) if (tt >= t0 && tt < t0 + .4) { const a = 1 - (tt - t0) / .4; mark += `<g transform="translate(${x} ${BR.K.floor - 120})" opacity="${a.toFixed(2)}" stroke="#FFF7E8" stroke-width="7" stroke-linecap="round"><path d="M-40 -10 l-18 -10 M0 -26 v-20 M40 -10 l18 -10"/></g>`; }
       const cam = L.camAt([
-        { t: 0, z: 2.3, cx: BR.SIGN.x, cy: BR.SIGN.y + 40 },
-        { t: 0.01, z: 2.2, cx: BR.SIGN.x + 30, cy: BR.SIGN.y + 60, d: 1.5 },     // 札「休憩室」（最初のコマからゆっくり動く）
+        { t: 0, z: 2.3, cx: BR.SIGN.x, cy: BR.SIGN.y - 150 },
+        { t: 0.01, z: 2.2, cx: BR.SIGN.x + 30, cy: BR.SIGN.y - 120, d: 1.5 },     // 札「休憩室」（最初のコマからゆっくり動く）
         { t: 1.5, z: 1.3, cx: 535, cy: 1090, d: 1.4 },                          // 室内へ（2人の顔と天板）
         { t: 4.9, z: 1.6, cx: 660, cy: 1080, d: .6 },                            // レンとハンコ
         { t: 6.9, z: 1.3, cx: 535, cy: 1090, d: .5 },                           // ジロリ（2人）
         { t: 13.0, z: 1.6, cx: 420, cy: 1100, d: .45 },                          // ジル
         { t: 15.8, z: 1.3, cx: 535, cy: 1130, d: .6 },                          // 顔を見合わせる・足を引く
         { t: 18.1, z: 1.24, cx: 560, cy: 1300, d: .7 },                          // 布団のもぞっ（顔と布団が入る）
-        { t: 20.4, z: 1.26, cx: 600, cy: 1330, d: 2.6 },                         // そっと前足を
+        { t: 20.4, z: 1.04, cx: 690, cy: 1290, d: 2.4 },                         // そっと身をかがめて、前足を（こたつの右の外のレンまで入る）
       ], tt);
       const dim = t >= CUT ? `<rect x="0" y="0" width="1080" height="1920" fill="#1E140C" opacity="${(.42 * sm(CUT, CUT + .2, t)).toFixed(2)}"/>` : '';
       L.mount({ bg, fx: fxs + mark, ui: t < 27.0 ? dim + TELOP(L.seg(t, CUT + .05, CUT + .5)) : dim, cam, t: tt });

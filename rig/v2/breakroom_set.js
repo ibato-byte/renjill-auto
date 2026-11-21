@@ -150,10 +150,13 @@
   };
   // 前足（肩の位置を決めて描く。common.js の limb と同じ形・色。体のうしろの布団から棒が生えて見えないように、体の見えている所から出す）
   BR.paw = (sx, sy, hx, hy, o = {}) => {
+    { const len = Math.hypot(hx - sx, hy - sy); if (len > 120) window.__LIMBCUT = Math.max(window.__LIMBCUT || 0, len); }   // 公式の長さ（120）より長い前足は QA で止める（2026-11-21：棒のような長い腕）
     const col = o.col || '#C7A077', w = o.w || 32, mx = (sx + hx) / 2, my = (sy + hy) / 2 + (o.bend || 0), ang = Math.atan2(hy - my, hx - mx) * 180 / Math.PI, pw = w * .68, ph = w * .58;
     return `<g><path d="M${sx} ${sy} Q${mx} ${my} ${hx} ${hy}" fill="none" stroke="${col}" stroke-width="${w}" stroke-linecap="round"/><path d="M${sx} ${sy} Q${mx} ${my} ${hx} ${hy}" fill="none" stroke="#6E5034" stroke-width="${w * .28}" stroke-linecap="round" opacity=".12" transform="translate(0 ${w * .3})"/>`
       + `<g transform="translate(${hx} ${hy}) rotate(${ang})"><ellipse rx="${pw}" ry="${ph}" fill="${col}"/><ellipse cx="${-pw * .1}" cy="${-ph * .35}" rx="${pw * .62}" ry="${ph * .38}" fill="#fff" opacity=".32"/>`
       + [-.32, .18].map(k => `<path d="M${pw * .98} ${ph * k} Q${pw * .78} ${ph * (k + .04)} ${pw * .6} ${ph * k}" fill="none" stroke="#8E7052" stroke-width="${w * .055}" stroke-linecap="round" opacity=".6"/>`).join('') + `</g></g>`;
   };
+  // レンが身をかがめた形（第1話の最後〜第3話の途中。3話で同じ値）
+  BR.CROUCH = { dx: 280, dy: 360, tilt: -30 };   // 2026-11-21：こたつの右の外へ身をかがめる（前足を公式の長さのまま布団のはしへ届かせるため）
   window.BR = BR;
 })();
