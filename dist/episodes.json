@@ -1,5 +1,24 @@
 [
  {
+  "ep": "elevator2",
+  "date": "2026-11-21",
+  "title": {
+   "ja": "上司とエレベーター Part 2",
+   "en": "Elevator with the boss, Part 2",
+   "zh": "和主管單獨搭電梯 Part 2",
+   "ko": "상사와 단둘이 엘리베이터 Part 2"
+  },
+  "caption": {
+   "ja": "全部の階で止まるエレベーター。ジルの名案で、課長の耳をまとめてみたら…（つづく）",
+   "en": "It stops at every floor. Jill has a plan for the boss's ears... (to be continued)",
+   "zh": "每一層都停的電梯。吉兒想到好主意，把課長的耳朵綁起來…（待續）",
+   "ko": "모든 층에서 서는 엘리베이터. 질의 묘안으로 과장님 귀를 묶어 봤더니…(계속)"
+  },
+  "cover": "20261121_elevator2_cover.jpg",
+  "video": "20261121_elevator2.mp4",
+  "youtube_id": "3rlI0noPSQ4"
+ },
+ {
   "ep": "elevator",
   "date": "2026-11-19",
   "title": {
