@@ -78,7 +78,7 @@ document.write('<script src="v2/lib.js"><\/script><script src="v2/elevator_set.j
     { t: CUT + .02, type: 'pop', pan: 0 }];
   const TELOP = k => k <= 0 ? '' : `<g transform="translate(520 330) scale(${L.outBack(Math.min(1, k * 1.6))})" opacity="${Math.min(1, k * 3)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle">
     <rect x="-430" y="-150" width="860" height="300" rx="48" fill="#3B2412" opacity=".22" transform="translate(6 10)"/><rect x="-430" y="-150" width="860" height="300" rx="48" fill="#3A2414" opacity=".92"/>
-    <text y="-22" font-size="80" fill="#FFF7E8">次のお話も、</text><text y="82" font-size="80" fill="#F2D3A8">フォローして待っててね</text></g>`;
+    <text y="-22" font-size="80" fill="#FFF7E8">次のお話も、</text><text y="82" font-size="70" fill="#F2D3A8">フォローして待っててね</text></g>`;
   window.EP = {
     dur: 28.0,
     bgm: { style: 'warm', bpm: 88, level: .5, mel: .45, shaker: .4, lift: [[7.0, 1.25]], dips: [[18.7, 21.2, .3], [CUT, 27, .7]] },   // ポムが布団から出たら少し軽やかに。膝で丸くなる瞬間に引く
