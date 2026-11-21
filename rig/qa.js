@@ -22,6 +22,8 @@ const STEP = 0.125, W = 1080, H = 1920;
   //   EP.qaAllow = { hidden_ren: [[開始, 終わり], …], still: [[開始, 終わり]] }（見える時間・秒）。理由は台本のコメントに書く
   const ALLOW = await p.evaluate(() => (window.EP && window.EP.qaAllow) || {});
   const allowAt = (k, t) => (ALLOW[k] || []).some(([a, b]) => t >= a && t <= b);
+  // EP.qaAllow.cuts = [秒, …]：絵コンテが指定したカット（場面の切り替え）。その前後 0.2 秒だけ「急に切り替わる」「瞬間移動」を通す（2026-11-21「金のチモシー」：コトッでカット・同じ画角の短いカット）
+  const cutAt = t => (ALLOW.cuts || []).some(c => Math.abs(t - c) <= 0.2);
   const issues = [], warns = [];
   // ---- 腕（2026-11-10 の報告「変なところから腕が生える」）：レンとジルには元のデザインに腕がない。
   //   ① エピソードの中で太い丸い線（腕のような物）を直接描かない → common.js の limb()（体のふちから・長さに上限）を使う
@@ -66,7 +68,7 @@ const STEP = 0.125, W = 1080, H = 1920;
     for (let i = 0; i < Math.round(dur * 24); i++) {
       const tt = i / 24; await p.evaluate(t => window.setOut(t), tt);
       const c = await p.evaluate(() => { const m = getComputedStyle(document.getElementById('world')).transform; const v = m && m !== 'none' ? m.split('(')[1].split(')')[0].split(',').map(Number) : [1, 0, 0, 1, 0, 0]; return { z: v[0], tx: v[4], ty: v[5], end: parseFloat(getComputedStyle(document.getElementById('end')).opacity) }; });
-      if (pz !== null && c.end < 0.5 && (Math.abs(c.z - pz) / pz > 0.35 || Math.abs(c.tx - ptx) > 0.3 * W || Math.abs(c.ty - pty) > 0.3 * H)) issues.push(`画面が急に切り替わる t=${tt.toFixed(2)}（z ${pz.toFixed(2)}→${c.z.toFixed(2)}）`);
+      if (pz !== null && c.end < 0.5 && !cutAt(tt) && (Math.abs(c.z - pz) / pz > 0.35 || Math.abs(c.tx - ptx) > 0.3 * W || Math.abs(c.ty - pty) > 0.3 * H)) issues.push(`画面が急に切り替わる t=${tt.toFixed(2)}（z ${pz.toFixed(2)}→${c.z.toFixed(2)}）`);
       pz = c.z; ptx = c.tx; pty = c.ty;
     }
   }
@@ -122,7 +124,7 @@ const STEP = 0.125, W = 1080, H = 1920;
         const dx = (f.cx - r.tx) / r.z - (pf.cx - prevTx) / prevZ, dy = (f.cy - r.ty) / r.z - (pf.cy - prevTy) / prevZ; // ワールド座標での移動
         const d = Math.hypot(dx, dy); const pd = prevD[id] || 0;
         // 直前のコマがほぼ止まっていたのに急に大きく動く＝ポップ。落下や走りなど連続した速い動きは通す
-        if (d > 240 && pd < d * 0.35) issues.push(`${id === 'ren' ? 'レン' : 'ジル'}が瞬間移動 t=${t.toFixed(2)}（${Math.round(d)}px/コマ）`);
+        if (d > 240 && pd < d * 0.35 && !cutAt(t)) issues.push(`${id === 'ren' ? 'レン' : 'ジル'}が瞬間移動 t=${t.toFixed(2)}（${Math.round(d)}px/コマ）`);
         prevD[id] = d;
       }
     }

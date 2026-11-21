@@ -764,6 +764,129 @@
         "value": "A",
         "why": "中止（2026-11-19 総見直し）：B 型（文字が下）は、どのコマでも表紙の検査（文字の後ろがごちゃつく）に通らないため A 型で出す。比べる実験にはしない"
       }
+    },
+    {
+      "date": "2026-11-26",
+      "slot": "18:00",
+      "ep": "timothy1",
+      "no": 99,
+      "title": "ポムのお土産『金のチモシー』 Part 1「ひとくちだけ」",
+      "caption_ja": "新人ポムの旅行のお土産は「金のチモシー」。ジルがひとくちだけ…のはずが、皿はみるみる3分の1に。そこへ課長が。（つづく）",
+      "caption_en": "Pom brought back \"Golden Timothy\" from his trip. Jill takes just one bite... then the plate is down to a third. And here comes the boss. (to be continued)",
+      "tag_set": "C",
+      "thumb": {
+        "t": 1.0,
+        "cam": "2.2,700,1010",
+        "hook": "GOLDEN TIMOTHY./金のチモシー Part 1"
+      },
+      "first_comment": "最後のお土産、どうなると思う？ / What happens to the last of the souvenir?",
+      "site_i18n": {
+        "title": {
+          "en": "Pom's souvenir: Golden Timothy, Part 1",
+          "zh": "波姆的伴手禮「黃金提摩西草」Part 1",
+          "ko": "폼의 기념품 「황금 티모시」 Part 1"
+        },
+        "caption": {
+          "zh": "新人波姆旅行帶回的伴手禮是「黃金提摩西草」。吉兒只吃一口…盤子卻剩下三分之一。這時課長來了。（待續）",
+          "ko": "신입 폼의 여행 기념품은 「황금 티모시」. 질이 한 입만… 접시는 어느새 3분의 1. 그때 과장님이. (계속)"
+        }
+      },
+      "title_i18n": {
+        "ja": "ポムのお土産『金のチモシー』 Part 1「ひとくちだけ」 | レンとジル",
+        "ko": "폼의 기념품 「황금 티모시」 Part 1 | 렌과 질 Ren & Jill",
+        "zh-Hant": "波姆的伴手禮「黃金提摩西草」Part 1 | 蓮與吉兒 Ren & Jill",
+        "es": "El recuerdo de Pom: Heno Dorado, Parte 1 | Ren & Jill",
+        "pt": "A lembrancinha do Pom: Feno Dourado, Parte 1 | Ren & Jill"
+      },
+      "series": {
+        "id": "timothy",
+        "of": 3,
+        "storyboard_ok": "2026-11-21",
+        "part": 1
+      },
+      "cta": "Send this to the coworker who can't stop at one bite./ひとくちで止まれない同僚に送ろう"
+    },
+    {
+      "date": "2026-11-28",
+      "slot": "12:00",
+      "ep": "timothy2",
+      "no": 100,
+      "title": "ポムのお土産『金のチモシー』 Part 2「課長が預かります」",
+      "caption_ja": "「これは課長が預かります」…のはずが、デスクでひとくち、もうひとくち。口の端に1本、残ってますよ課長。（つづく）",
+      "caption_en": "The boss \"confiscates\" the souvenir. At his desk: one bite, then another. Boss, there's a strand sticking out of your mouth. (to be continued)",
+      "tag_set": "C",
+      "thumb": {
+        "t": 15.6,
+        "cam": "2.4,620,1000",
+        "hook": "GOLDEN TIMOTHY./金のチモシー Part 2"
+      },
+      "first_comment": "課長もハマったと思う？ / Is the boss hooked too?",
+      "site_i18n": {
+        "title": {
+          "en": "Pom's souvenir: Golden Timothy, Part 2",
+          "zh": "波姆的伴手禮「黃金提摩西草」Part 2",
+          "ko": "폼의 기념품 「황금 티모시」 Part 2"
+        },
+        "caption": {
+          "zh": "「這由課長保管」…結果在座位上一口、再一口。課長，嘴角還有一根喔。（待續）",
+          "ko": "「과장이 맡아둘게」… 그런데 자리에서 한 입, 또 한 입. 과장님, 입가에 한 가닥 남아 있어요. (계속)"
+        }
+      },
+      "title_i18n": {
+        "ja": "ポムのお土産『金のチモシー』 Part 2「課長が預かります」 | レンとジル",
+        "ko": "폼의 기념품 「황금 티모시」 Part 2 | 렌과 질 Ren & Jill",
+        "zh-Hant": "波姆的伴手禮「黃金提摩西草」Part 2 | 蓮與吉兒 Ren & Jill",
+        "es": "El recuerdo de Pom: Heno Dorado, Parte 2 | Ren & Jill",
+        "pt": "A lembrancinha do Pom: Feno Dourado, Parte 2 | Ren & Jill"
+      },
+      "series": {
+        "id": "timothy",
+        "of": 3,
+        "storyboard_ok": "2026-11-21",
+        "part": 2
+      },
+      "cta": "Send this to the coworker who can't stop at one bite./ひとくちで止まれない同僚に送ろう"
+    },
+    {
+      "date": "2026-11-30",
+      "slot": "18:00",
+      "ep": "timothy3",
+      "no": 101,
+      "title": "ポムのお土産『金のチモシー』 Part 3「業務用」",
+      "caption_ja": "翌日、お土産の皿は空っぽ。…と思ったら、右から大きな「ザクッ」。課長、それ業務用ですよね。（おわり）",
+      "caption_en": "Next day, the souvenir plate is empty. Then a loud CRUNCH from the right. Boss... is that the bulk size? (the end)",
+      "tag_set": "C",
+      "thumb": {
+        "t": 16.2,
+        "cam": "0.98,610,1080",
+        "hook": "GOLDEN TIMOTHY./金のチモシー Part 3"
+      },
+      "first_comment": "あなたの職場にも「業務用」を買う人いる？ / Anyone at your office who buys the bulk size?",
+      "site_i18n": {
+        "title": {
+          "en": "Pom's souvenir: Golden Timothy, Part 3",
+          "zh": "波姆的伴手禮「黃金提摩西草」Part 3",
+          "ko": "폼의 기념품 「황금 티모시」 Part 3"
+        },
+        "caption": {
+          "zh": "隔天，伴手禮的盤子空了。…這時右邊傳來好大一聲「喀滋」。課長，那是業務用的吧。（完）",
+          "ko": "다음 날, 기념품 접시는 텅. …그런데 오른쪽에서 큰 「와삭」. 과장님, 그거 업소용이죠. (끝)"
+        }
+      },
+      "title_i18n": {
+        "ja": "ポムのお土産『金のチモシー』 Part 3「業務用」 | レンとジル",
+        "ko": "폼의 기념품 「황금 티모시」 Part 3 | 렌과 질 Ren & Jill",
+        "zh-Hant": "波姆的伴手禮「黃金提摩西草」Part 3 | 蓮與吉兒 Ren & Jill",
+        "es": "El recuerdo de Pom: Heno Dorado, Parte 3 | Ren & Jill",
+        "pt": "A lembrancinha do Pom: Feno Dourado, Parte 3 | Ren & Jill"
+      },
+      "series": {
+        "id": "timothy",
+        "of": 3,
+        "storyboard_ok": "2026-11-21",
+        "part": 3
+      },
+      "cta": "Send this to the coworker who can't stop at one bite./ひとくちで止まれない同僚に送ろう"
     }
   ]
 }

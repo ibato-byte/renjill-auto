@@ -118,6 +118,20 @@ def S(kind):
     if kind == 'mozo':    # もぞっ（布団がこすれる・動く）
         d = .5; t = t_(d); w = np.sin(np.pi * t / d) ** 1.5 * (1 + .5 * np.sin(2 * np.pi * 7 * t))
         return 0.2 * bp(noise(d), 250, 2200) * w
+    if kind == 'koto':    # コトッ（紙の箱をテーブルに置く。軽い木の音）
+        a = 0.5 * modal(330, [1, 2.4, 3.9], [1, .3, .12], [.07, .03, .015], .12); b = 0.3 * lp(noise(.04), 1600) * env(int(SR * .04), .001, .015)
+        return A(a, b)
+    if kind == 'saku':    # サクッ（チモシーを小さくかむ。乾いた草の短い音を2つ）
+        x = np.zeros(int(SR * .14))
+        for at, g in ((0, .26), (.055, .18)):
+            nn = bp(noise(.035), 1800, 5200) * env(int(SR * .035), .001, .012) * g; i = int(at * SR); x[i:i + len(nn)] += nn
+        return x
+    if kind == 'zaku':    # ザクッ（大きく、やけに力強くかむ。低めで長い）
+        x = np.zeros(int(SR * .3))
+        for at, g in ((0, .55), (.07, .42), (.15, .3)):
+            nn = bp(noise(.06), 700, 3200) * env(int(SR * .06), .001, .03) * g; i = int(at * SR); x[i:i + len(nn)] += nn
+        x += .25 * lp(noise(.3), 400)[:len(x)] * env(len(x), .002, .1)
+        return x
     if kind == 'key':     # キーボードの小さな音
         a = 0.12 * hp(noise(.012), 3000) * env(int(SR * .012), .0005, .004); b = 0.06 * modal(2300, [1, 2.1], [1, .3], [.012, .006], .02)
         return A(a, b)
@@ -179,8 +193,9 @@ def bgm_warm(dur, o):
 
 
 def bgm(dur, holds, opt=None):
-    if opt and opt.get('style') == 'warm':
-        st = bgm_warm(dur, opt); g = np.ones(len(st))
+    # style：warm（休憩室のこたつ）・comedy（2026-11-21「金のチモシー」：いつものウクレレと鉄琴の軽いオフィスコメディ曲に、dips・level を効かせる）
+    if opt and opt.get('style') in ('warm', 'comedy'):
+        st = bgm_warm(dur, opt) if opt.get('style') == 'warm' else bgm_old(dur, ''); g = np.ones(len(st))
         for h in (holds or '').split(','):
             if not h: continue
             a, c = (int(float(x) * SR) for x in h.split('-')); f = int(SR * .06)

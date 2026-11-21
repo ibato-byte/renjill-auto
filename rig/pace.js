@@ -106,3 +106,7 @@ window.PACE_ALL.kotatsu2 = { start: 0.0, speed: 1.0, hook: 'KOTATSU. BOSS./こ�
 window.PACE_ALL.breakroom1 = { start: 0.0, speed: 1.0, hook: 'KOTATSU./休憩室のこたつ Part 1' };
 window.PACE_ALL.breakroom2 = { start: 0.0, speed: 1.0, hook: 'KOTATSU./休憩室のこたつ Part 2' };
 window.PACE_ALL.breakroom3 = { start: 0.0, speed: 1.0, hook: 'KOTATSU./休憩室のこたつ Part 3' };
+// 2026-11-21「ポムのお土産『金のチモシー』」：タイトルのデザインと大きさを3話でそろえる（同じ文字列＝同じ大きさ。Part だけ変わる）
+window.PACE_ALL.timothy1 = { start: 0.0, speed: 1.0, hook: 'GOLDEN TIMOTHY./金のチモシー Part 1' };
+window.PACE_ALL.timothy2 = { start: 0.0, speed: 1.0, hook: 'GOLDEN TIMOTHY./金のチモシー Part 2' };
+window.PACE_ALL.timothy3 = { start: 0.0, speed: 1.0, hook: 'GOLDEN TIMOTHY./金のチモシー Part 3' };
