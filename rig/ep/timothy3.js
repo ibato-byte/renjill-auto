@@ -83,7 +83,8 @@ document.write('<script src="v2/lib.js"><\/script><script src="v2/elevator_set.j
       if (tt >= WIDE) { const B = BAG(); fx += TM.bag(B.x, B.y, B.s, { biz: 1, rot: B.rot, open: 1 }); }
       for (const z of ZAKU) if (tt >= z && tt < z + .3) fx += TM.crunch(770, 880, (tt - z) / .3, 1.2);   // 右の外から（画面のはし）
       if (tt >= LASTZ && tt < LASTZ + .35) fx += TM.crunch(TM.DISH_IN.x + 30, TM.DISH_IN.y - 90, (tt - LASTZ) / .35, 1.1);
-      let shake = 0; for (const z of ZAKU) if (tt >= z && tt < z + .22) shake = 9 * (1 - (tt - z) / .22);
+      // 画面をほんの少し揺らす：カメラをゆっくり（6Hz）左右に。速くゆらすと1コマごとに絵が変わって「ちかちか」になる（2026-11-21 qa.py）
+      let sx = 0, sy = 0; for (const z of ZAKU) if (tt >= z && tt < z + .4) { const u = (tt - z) / .4, a = 7 * (1 - u); sx = a * Math.sin(u * 2 * Math.PI * 2.4); sy = a * .5 * Math.sin(u * 2 * Math.PI * 2.4 + 1.3); }
       const cam = L.camAt([
         { t: 0, z: 1.7, cx: 470, cy: 990 },                                    // 翌日：ジルとポムと箱
         { t: 0.01, z: 1.78, cx: 480, cy: 995, d: 2.6 },
@@ -94,8 +95,9 @@ document.write('<script src="v2/lib.js"><\/script><script src="v2/elevator_set.j
         { t: NOTICE, z: .98, cx: 610, cy: 1080, d: .01 },                       // 引き：にっこり → 呆れ顔
         { t: LAST, z: 2.0, cx: TM.DISH_IN.x + 60, cy: 990, d: .01 },             // 補充したばかりの皿に、もうひとくち
       ], tt);
+      cam.cx += sx; cam.cy += sy;
       const dim = t >= CUT ? `<rect x="0" y="0" width="1080" height="1920" fill="#1E140C" opacity="${(.42 * sm(CUT, CUT + .2, t)).toFixed(2)}"/>` : '';
-      L.mount({ bg, fx, ui: t < 23.0 ? dim + TELOP(L.seg(t, CUT + .05, CUT + .5)) : dim, cam, t: tt, shake });
+      L.mount({ bg, fx, ui: t < 23.0 ? dim + TELOP(L.seg(t, CUT + .05, CUT + .5)) : dim, cam, t: tt });
       if (typeof endcard === 'function') endcard(t, EP.dur);
     }
   };
