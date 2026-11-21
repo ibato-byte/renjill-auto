@@ -107,7 +107,7 @@ document.write('<script src="v2/lib.js"><\/script><script src="v2/elevator_set.j
   // 締めテロップ（2行）。下のはしと右のはしを避ける（Instagram の表示と重なりやすい）
   const TELOP = k => k <= 0 ? '' : `<g transform="translate(520 330) scale(${L.outBack(Math.min(1, k * 1.6))})" opacity="${Math.min(1, k * 3)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle">
     <rect x="-430" y="-150" width="860" height="300" rx="48" fill="#3B2412" opacity=".22" transform="translate(6 10)"/><rect x="-430" y="-150" width="860" height="300" rx="48" fill="#3A2414" opacity=".92"/>
-    <text y="-22" font-size="84" fill="#FFF7E8">こたつの中に誰かいる？</text><text y="82" font-size="66" fill="#F2D3A8">フォローして第2話へ</text></g>`;
+    <text y="-22" font-size="72" fill="#FFF7E8">こたつの中に誰かいる？</text><text y="82" font-size="66" fill="#F2D3A8">フォローして第2話へ</text></g>`;
   window.EP = {
     dur: 28.0,   // 本編 24 秒＋締めテロップ 3 秒（＝Instagram 用 27 秒）＋エンドカード 1 秒（YouTube 用）
     bgm: { style: 'warm', bpm: 100, level: .52, mel: .55, shaker: .7, dips: [[5.75, 6.7, .25], [12.9, 13.85, .25], [16.9, 21.2, .32], [CUT, 27.0, .7]] },   // 朝の仕事の軽い曲。「コツン」の直前・布団が動く所で少し引く
