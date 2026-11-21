@@ -61,12 +61,19 @@ jobs:
           IN_FORCE: ${{ github.event.inputs.force }}
           IN_PUBLISH: ${{ github.event.inputs.publish }}
           IN_RELABEL: ${{ github.event.inputs.relabel }}
+          EVENT: ${{ github.event_name }}
         run: |
           python3 - <<'PY' >> "$GITHUB_OUTPUT"
           import datetime as dt, json, os, pathlib
           cfg = {"days": [2, 5], "enabled": True, **(json.loads(pathlib.Path("auto/bgm_config.json").read_text()) if pathlib.Path("auto/bgm_config.json").exists() else {})}
           st = json.loads(pathlib.Path("auto/bgm_state.json").read_text()) if pathlib.Path("auto/bgm_state.json").exists() else {"episodes": {}}
           date = os.environ.get("IN_DATE") or dt.datetime.now(dt.timezone(dt.timedelta(hours=9))).date().isoformat()
+          def due_on(d): return cfg["enabled"] and dt.date.fromisoformat(d).weekday() in cfg["days"] and not (st["episodes"].get(d) or {}).get("yt")
+          # 予約の遅れで日付をまたいだ日（2026-11-21：土 20:23 の予約が日曜 3:05 に動き「予定の曜日でない」で土曜の回が出なかった。11/18 も同じ）。
+          # 予約で動いて今日が出す日でなければ、前の日が出す日で、まだ出していなければ前の日の回を出す
+          if not os.environ.get("IN_DATE") and os.environ.get("EVENT") == "schedule" and not due_on(date):
+              prev = (dt.date.fromisoformat(date) - dt.timedelta(days=1)).isoformat()
+              if due_on(prev): date = prev
           done = bool((st["episodes"].get(date) or {}).get("yt"))
           due = not done and (os.environ.get("IN_FORCE") == "true" or (cfg["enabled"] and dt.date.fromisoformat(date).weekday() in cfg["days"]))
           todo = any(r.get("yt") and r.get("todo") for r in st["episodes"].values()) or os.environ.get("IN_PUBLISH") == "true" or os.environ.get("IN_RELABEL") == "true"   # 前の回のやり残し（再生リストなど）・公開への切り替え
