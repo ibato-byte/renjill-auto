@@ -160,6 +160,27 @@ const STEP = 0.125, W = 1080, H = 1920;
     //   エンドカードは不透明で全面をおおうので、見るべきは「エンドカードの上に何か出ていないか」。下の『エンドカードの上』で、不合格として見る
     if (Math.abs((t / dur) * 12 - Math.round((t / dur) * 12)) < STEP / dur * 6 && sheet.length < 12) sheet.push({ t, buf: await p.screenshot({ type: 'jpeg', quality: 70 }) });
   }
+  // テロップの文字が帯（同じ <g> の中の四角）からはみ出さないこと（2026-11-21：休憩室のこたつ第1話の締めテロップ
+  //   「こたつの中に誰かいる？」84px×11字が幅860の帯から左右にはみ出していた → 文字を小さく。1回の失敗を2度起こさない）
+  for (let t = 0; t < dur - 1.0; t += 0.25) {
+    await p.evaluate(x => window.setOut(x), t);
+    const over = await p.evaluate(() => {
+      const u = document.getElementById('ui'); if (!u) return null;
+      for (const tx of u.querySelectorAll('text')) {
+        if (!tx.textContent.trim()) continue;
+        const g = tx.parentNode; const tb = tx.getBoundingClientRect(); if (tb.width < 1) continue;
+        const cx = tb.x + tb.width / 2, cy = tb.y + tb.height / 2;
+        const boxes = [...g.children].filter(e => e.tagName === 'rect' && parseFloat(e.getAttribute('opacity') || '1') >= 0.5).map(e => e.getBoundingClientRect())
+          .filter(b => cx > b.x && cx < b.x + b.width && cy > b.y && cy < b.y + b.height);
+        if (!boxes.length) continue;
+        const b = boxes.reduce((a, c) => c.width * c.height > a.width * a.height ? c : a);
+        const out = Math.max(b.x - tb.x, tb.x + tb.width - (b.x + b.width));
+        if (out > 4) return { text: tx.textContent.trim(), out: Math.round(out) };
+      }
+      return null;
+    });
+    if (over) { issues.push(`テロップの文字が帯からはみ出している t=${t.toFixed(2)}「${over.text}」（左右に${over.out}px）：文字を小さくするか帯を広げる`); break; }
+  }
   // エンドカードが出ること
   await p.evaluate(t => window.setOut(t), dur - 0.05);
   const endOp = await p.evaluate(() => parseFloat(getComputedStyle(document.getElementById('end')).opacity));
