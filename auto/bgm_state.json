@@ -174,23 +174,19 @@
     "Quiet One More Task｜静かなもうひと仕事",
     "Stone Path｜石だたみ",
     "Usual Paper Screen｜いつもの障子"
-   ]
-  }
- },
- "stock": {
+   ],
+   "links_ok": 1
+  },
   "2026-11-21": {
-   "run": "43702508125",
-   "artifact": "bgm-stock-2026-11-21",
-   "code": "03b5cd63ce08",
-   "no": 4,
+   "yt": "aH_ypYR89w0",
+   "privacy": "public",
+   "title": "Office Dance Night – 1 Hour Upbeat House Mix to Get Things Done with Ren & Jill | 作業用BGM オフィス・ダンスナイト",
    "theme": "dance_night",
    "style": "club",
-   "title": "Office Dance Night – 1 Hour Upbeat House Mix to Get Things Done with Ren & Jill | 作業用BGM オフィス・ダンスナイト",
    "seed": 20261121,
    "look": 3,
    "minutes": 60,
-   "mb": 1653,
-   "made": "2026-11-15T21:23+09:00",
+   "at": "2026-11-22T06:17+09:00",
    "track_keys": [
     "F minor|8maj7-107-0m7-0m7|125.0",
     "D minor|0m7-5m7-8maj7-107|124.0",
@@ -231,7 +227,9 @@
     "Late Dance Floor｜夜ふけのダンスフロア",
     "Late Spotlight｜夜ふけのスポットライト"
    ]
-  },
+  }
+ },
+ "stock": {
   "2026-11-25": {
    "run": "43702508125",
    "artifact": "bgm-stock-2026-11-25",
