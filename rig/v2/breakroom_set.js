@@ -98,7 +98,7 @@
   BR.kotatsu = (o = {}) => {
     const K = BR.K, cx = K.cx, by = K.backY, fy = K.frontY, fl = K.floor;
     const x0 = cx - K.frontHalf - 90, x1 = cx + K.frontHalf + 90;
-    const lift = o.lift || 0, L = BR.LIFT;
+    const lift = (o.lift || 0) < .04 ? 0 : o.lift, L = BR.LIFT;   // ほとんど閉じた布団は閉じて描く（2026-11-21：めくれが 0 に近いと床に赤と白の細い線が残った）
     // 布団の前の下のすそ：めくる所は上へ持ち上がる。bumps は上へふくらむ
     const hemY = x => { let y = fl + 6; for (const b of (o.bumps || [])) y -= 46 * b.k * Math.exp(-Math.pow((x - b.x) / 110, 2)); const d = (x - L.cx) / (L.w / 2); if (lift > 0 && Math.abs(d) < 1) y -= 320 * lift * Math.pow(Math.cos(d * Math.PI / 2), 1.1); return y; };
     let hem = ''; for (let x = x0 + 30; x <= x1 - 30; x += 20) hem += ` L${x} ${hemY(x).toFixed(1)}`;
