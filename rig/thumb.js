@@ -28,7 +28,7 @@ const [ep, t, cam, hook, no, out, variant = 'A'] = process.argv.slice(2);
       d.style[variant === 'A' ? 'top' : 'bottom'] = variant === 'A' ? '450px' : '500px'; // 中央3:4／1:1の切り抜き（プロフィールのグリッド）でも文字が見える安全域に置く
       // 2026-11-21 オーナー：各話のタイトル（日本語）を大きく。「〇〇 Part N」はタイトルを大きく・Part N はその下に小さく
       const pm = (l2 || '').match(/^(.*?)\s*(Part\s*\d+)$/);
-      d.innerHTML = l2 ? (pm ? `${l1}<small>${pm[1]}</small><small class="part" style="font-size:64px;color:#FFF7E8;font-family:'Noto Sans',sans-serif;letter-spacing:.06em">${pm[2]}</small>` : `${l1}<small>${l2}</small>`) : l1; d.dataset.part = pm ? '1' : ''; document.body.appendChild(d);
+      d.innerHTML = l2 ? (pm ? `${l1}<small>${pm[1]}</small><small class="part" style="display:inline-block;margin-top:22px;padding:6px 40px 10px;border-radius:999px;background:#C8263C;font-size:76px;-webkit-text-stroke:0;color:#FFF7E8;text-shadow:none;box-shadow:0 10px 0 #5A3A1E;font-family:'Noto Sans',sans-serif;letter-spacing:.06em">${pm[2]}</small>` : `${l1}<small>${l2}</small>`) : l1; d.dataset.part = pm ? '1' : ''; document.body.appendChild(d);
     }
     // 自動フィット（2026-10-21）：文字数に関係なく、英語の見出しは枠の幅の約80%（既存の「CAMERA OFF」「APPROVED.」と同じくらい）、
     // 日本語は約50%の幅になるよう文字の大きさを合わせる。ただし大きくするのは元の大きさ（英語138px・日本語66px）の1.3倍まで。

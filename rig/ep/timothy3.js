@@ -24,11 +24,11 @@ document.write('<script src="v2/lib.js"><\/script><script src="v2/elevator_set.j
     const J = TM.JIL, F = RIG.FACES;
     let face = F.neutral, look = .6, nod = 6, earL = 0, earR = 0, eyeOpen = 1, lean = 0, tilt = 0;
     lean = L.ease(sm(PEER, PEER + .5, t)) * (1 - L.ease(sm(SAD + .6, SAD + 1.0, t)));                        // 皿をのぞき込む
-    if (t >= PEER) { look = .5; eyeOpen = 1.15; }
+    if (t >= PEER) { look = .5; eyeOpen = 1; }
     if (t >= SAD) { const k = L.ease(sm(SAD, SAD + .5, t)); earL = 40 * k; earR = -40 * k; face = Object.assign({}, F.oops, { sweat: 0, mouth: 'wavy' }); eyeOpen = .8; }   // がっかり（耳が下がる）
     if (t >= EYES) look = 1;                                                                                    // ポムと顔を見合わせる
-    if (t >= TURN) { const k = L.outBack(sm(TURN, TURN + .2, t)); look = 1; earL = lerp(40, -14, k); earR = lerp(-40, 14, k); eyeOpen = 1.3; face = Object.assign({}, F.neutral, { mouth: 'pout' }); nod = 0; tilt = 4 * k; }   // 右を向く（耳ぴん）
-    if (t >= WIDE) { look = 1; eyeOpen = 1.2; face = Object.assign({}, F.neutral, { mouth: 'line' }); earL = -8; earR = 8; }
+    if (t >= TURN) { const k = L.outBack(sm(TURN, TURN + .2, t)); look = 1; earL = lerp(40, -14, k); earR = lerp(-40, 14, k); eyeOpen = 1;   // 目の大きさはほかの場面とそろえる（2026-11-22 オーナー：大きすぎ） face = Object.assign({}, F.neutral, { mouth: 'pout' }); nod = 0; tilt = 4 * k; }   // 右を向く（耳ぴん）
+    if (t >= WIDE) { look = 1; eyeOpen = 1; face = Object.assign({}, F.neutral, { mouth: 'line' }); earL = -8; earR = 8; }
     if (t >= AKIRE) { const k = sm(AKIRE, AKIRE + .3, t); look = 1; eyeOpen = .65; face = Object.assign({}, F.annoyed, { sweat: .7 }); earL = 26 * k; earR = -26 * k; }     // 呆れた顔
     const back = L.ease(sm(LAST, LAST + .4, t));   // 最後：レンが割りこむので、ジルは少し身を引く
     return Object.assign({}, RIG.POSES.sit, face, { x: J.x + 150 * lean - 90 * back, y: J.y - 50 * lean, scale: J.s, flip: J.flip, eyeLook: look, headNod: nod + 10 * lean, earL, earR, eyeOpen, bodyTilt: tilt + 6 * lean });

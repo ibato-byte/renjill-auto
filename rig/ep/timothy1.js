@@ -1,7 +1,8 @@
 // 「ポムのお土産『金のチモシー』第1話（Part 1）ひとくちだけ」（本編20秒＋締めテロップ3秒＋エンドカード1秒・セリフなし）2026-11-21 オーナーの絵コンテ
 // 状況：新人ポムが旅行のお土産「金のチモシー」を休憩室に持ってきた
 // オチ：ジルが「ひとくちだけ」のつもりで3分の2を食べたところへ、課長レンが現れてジロッ
-// 0–5    休憩室。旅行のお土産を買ってきたポムが、テーブルのそばで得意げに胸を張る →「コトッ」でカット → テーブルの「お土産」の箱（中に金色の袋と、チモシー山盛りの浅い皿）→ ジルの鼻がひくひく
+// 0–5    休憩室。旅行から戻ったポムが、お土産の紙袋を口にくわえてテーブルの上をとことこ登場（2026-11-22 オーナー）→「コトッ」でカット →
+//        同じカットに「お土産」の箱（中に金色の袋と、チモシー山盛りの浅い皿）と、その横で得意げに胸を張るポム（空の紙袋はたたんで横に）→ ジルの鼻がひくひく
 // 5–12   ジルが皿に顔を近づけてひとくち。耳がぴん。同じ画角の短いカットで、皿の中身が 山盛り → 半分 → 約3分の1。カットに合わせて小さな「サクッ」
 // 12–20  もうひとくち…の所で、画面の端にレン課長。減った箱を見て、一拍、目だけでジルをジロッ。ジルは顔を上げ、耳がへにゃっ。最後の一拍はふたりの目線
 // 20–23  締めテロップ「最後のお土産、どうなる？」「フォローして第2話へ」
@@ -49,7 +50,13 @@ document.write('<script src="v2/lib.js"><\/script><script src="v2/elevator_set.j
   // ---- ポム（テーブルの上、箱の右）----
   function pomAt(t) {
     const P = TM.POM;
-    if (t < KOTO) { const k = L.outBack(sm(.15, .7, t)); return { x: P.x, y: P.y, s: P.s, q: { eye: 'happy', squash: -.16 * k, wob: -4 * k, blush: .8 } }; }   // 得意げに胸を張る
+    if (t < KOTO) {   // 紙袋をくわえて右からとことこ（手は使わない）→ 止まる
+      const k = sm(.1, 1.7, t), x = lerp(P.x + 230, P.x, k), walking = t > .1 && t < 1.7, ph = (t - .1) * 6;
+      const hop = walking ? Math.abs(Math.sin(ph * Math.PI)) : 0;
+      return { x, y: P.y - 16 * hop, s: P.s, bag: { swing: walking ? 7 * Math.sin(ph * Math.PI) : 3 * Math.sin((t - 1.7) * 9) * Math.exp(-(t - 1.7) * 3) },
+        q: { eye: t > 1.75 ? 'happy' : 'round', look: -.6, squash: walking ? .06 - .1 * hop : -.06 * sm(1.7, 2.0, t), wob: walking ? 5 * Math.sin(ph * Math.PI) : 0, blush: .6 } };
+    }
+    if (t < 3.0) { const k = L.outBack(sm(KOTO + .05, KOTO + .4, t)); return { x: P.x, y: P.y, s: P.s, q: { eye: 'happy', squash: -.18 * k, wob: -4 * k, blush: .8 } }; }   // 箱の横で得意げに胸を張る
     if (t < UP) return { x: P.x, y: P.y, s: P.s, q: { eye: t > 5.6 && t < AGAIN ? 'happy' : 'round', look: -1, squash: -.05, blush: .6 } };                           // ジルが食べるのを見る
     return { x: P.x, y: P.y, s: P.s, q: { eye: 'big', look: 1, squash: .04, blush: .3 } };                                                                              // レンを見る
   }
@@ -59,7 +66,7 @@ document.write('<script src="v2/lib.js"><\/script><script src="v2/elevator_set.j
   // 締めテロップ（2行・下のはしと右のはしを避ける。3話とも同じデザイン）
   const TELOP = k => k <= 0 ? '' : `<g transform="translate(520 330) scale(${L.outBack(Math.min(1, k * 1.6))})" opacity="${Math.min(1, k * 3)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle">
     <rect x="-440" y="-150" width="880" height="300" rx="48" fill="#3B2412" opacity=".22" transform="translate(6 10)"/><rect x="-440" y="-150" width="880" height="300" rx="48" fill="#3A2414" opacity=".92"/>
-    <text y="-22" font-size="80" fill="#FFF7E8">最後のお土産、どうなる？</text><text y="82" font-size="66" fill="#F2D3A8">フォローして第2話へ</text></g>`;
+    <text y="-22" font-size="68" fill="#FFF7E8">最後のお土産、どうなる？</text><text y="82" font-size="66" fill="#F2D3A8">フォローして第2話へ</text></g>`;
   window.EP = {
     dur: 24.0,   // 本編 20 秒＋締めテロップ 3 秒（＝Instagram 用 23 秒）＋エンドカード 1 秒（YouTube 用）
     bgm: { style: 'comedy', level: .5, dips: [[KOTO - .25, KOTO + .3, .3], [BITES[0] - .1, BITES[0] + .7, .45], [BITES[1] - .1, BITES[1] + .7, .45], [BITES[2] - .1, BITES[2] + .7, .45], [14.3, 17.2, .3], [CUT, 23.0, .65]] },   // 「コトッ」・かむ音・ジロッの間で引く
@@ -72,14 +79,15 @@ document.write('<script src="v2/lib.js"><\/script><script src="v2/elevator_set.j
       L.char('jil', jilPose(tt), tt, '', { twitch: false, shadow: false, blink: t < CUT, breathe: t < CUT, ears: false });
       if (tt >= REN_IN) L.char('ren', renPose(tt), tt, '', { twitch: false, shadow: false, blink: t < CUT, breathe: t < CUT, ears: false }); else L.char('ren', Object.assign({}, RIG.POSES.sit, { x: 3000, y: 0, scale: 1 }), tt, '', { shadow: false });
       const p = pomAt(tt);
-      let fx = TM.table() + (tt >= KOTO ? TM.box(TM.BOX.x, TM.BOX.y, { dish: dishAt(tt) }) : '') + ELV.pom(p.x, p.y, p.s, p.q);
+      let fx = TM.table() + (tt >= KOTO ? TM.box(TM.BOX.x, TM.BOX.y, { dish: dishAt(tt) }) + TM.paperBag(TM.POM.x + 120, TM.T.top + 2, .9, { flat: 1 }) : '') + ELV.pom(p.x, p.y, p.s, p.q);
+      if (p.bag) fx += TM.paperBag(p.x, p.y - 112 * p.s, 1.0, { swing: p.bag.swing });   // 口にくわえた紙袋（持ち手が口元）
       for (const b of BITES) if (tt >= b && tt < b + .35) fx += TM.crunch(TM.DISH_IN.x - 10, TM.DISH_IN.y - 70, (tt - b) / .35, .8);
-      if (tt >= .3 && tt < KOTO) fx += L.sparkles(p.x, p.y - 120, tt, .9, 5);   // 得意げのきらきら
+      if (tt >= KOTO + .1 && tt < 3.0) fx += L.sparkles(p.x, p.y - 120, tt, .9, 5);   // 得意げのきらきら
       const cam = L.camAt([
-        { t: 0, z: 2.2, cx: 700, cy: 1010 },                                    // ポム（得意げに胸を張る）
-        { t: 0.01, z: 2.3, cx: 710, cy: 1000, d: 2.1 },
-        { t: KOTO, z: 2.4, cx: TM.BOX.x, cy: 1060, d: .01 },                     // コトッ → 箱（カット）
-        { t: KOTO + .01, z: 2.3, cx: TM.BOX.x + 10, cy: 1050, d: .8 },
+        { t: 0, z: 1.3, cx: 600, cy: 1000 },                                    // 紙袋をくわえたポムが右から登場（ジルも画面に）
+        { t: 0.01, z: 1.45, cx: 660, cy: 1005, d: 2.0 },
+        { t: KOTO, z: 1.75, cx: 600, cy: 1040, d: .01 },                          // コトッ → 箱と、胸を張るポム（同じカット）
+        { t: KOTO + .01, z: 1.8, cx: 602, cy: 1035, d: .8 },
         { t: 3.0, z: 2.1, cx: 300, cy: 990, d: .01 },                            // ジルの鼻がひくひく（カット）
         { t: 5.0, z: 1.9, cx: 420, cy: 1000, d: .01 },                           // 食べる（ここから同じ画角）
         { t: REN_IN - .3, z: 1.3, cx: 560, cy: 1000, d: .5 },                    // 画面の端にレン

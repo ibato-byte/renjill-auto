@@ -123,12 +123,13 @@
     <radialGradient id="pombody" cx="0.4" cy="0.3" r="0.8"><stop offset="0" stop-color="${POM.a}"/><stop offset="0.6" stop-color="${POM.b}"/><stop offset="1" stop-color="${POM.deep}"/></radialGradient>
     <radialGradient id="pomhead" cx="0.5" cy="0.4" r="0.65"><stop offset="0" stop-color="#F7E9D3"/><stop offset="0.6" stop-color="${POM.a}"/><stop offset="1" stop-color="${POM.b}"/></radialGradient>
     <radialGradient id="pomcheek" cx="0.45" cy="0.4" r="0.6"><stop offset="0" stop-color="#FFFFFF"/><stop offset="0.62" stop-color="${POM.cream}"/><stop offset="0.9" stop-color="#EBDCC6"/><stop offset="1" stop-color="#D9C4A4"/></radialGradient></defs>`;
-  // q = { eye 'round'|'big'|'happy', look -1〜1, wob（首のかしげ deg）, squash, blush, cheek 0〜1.6（ほおぶくろ。1 をこえると風船）, band（はちまき。false で外した頭）, paws 1（バンザイ）, mouth 'w'|'o' }
+  // q = { eye 'round'|'big'|'happy'|'half', look -1〜1, wob（首のかしげ deg）, squash, blush, cheek 0〜1.6（ほおぶくろ。1 をこえると風船）, band（はちまき。false で外した頭）, paws 1（バンザイ）, mouth 'w'|'o' }
   ELV.pom = (x, y, s, q = {}) => {
     const fur = { filter: 'url(#pomfur)' }, sq = q.squash || 0, sy = 1 + sq * .6, sx = 1 - sq * .4, hy = -128, c = q.cheek || 0;
     const ear = sd => `<g transform="translate(${sd * 42} ${hy - 44}) rotate(${sd * 22})">${E(0, 0, 17, 18, POM.earO, fur)}${E(0, 2, 12, 13, POM.earI)}</g>`;
     const eyeY = hy - 6, ex = 22 + 2 * Math.min(c, 1), look = 2.5 * (q.look || 0);
     const eye = sd => { const cx = sd * ex + look; if (q.eye === 'happy') return `<path d="M${cx - 9} ${eyeY + 3} Q${cx} ${eyeY - 9} ${cx + 9} ${eyeY + 3}" fill="none" stroke="${POM.eye}" stroke-width="4" stroke-linecap="round"/>`;
+      if (q.eye === 'half') return E(cx, eyeY + 3, 8.8, 5.2, POM.eye) + E(cx + 2.5, eyeY + 1.5, 2.4, 1.6, '#FFFFFF') + `<path d="M${cx - 11} ${eyeY - 1} Q${cx} ${eyeY - 3} ${cx + 11} ${eyeY - 1}" fill="none" stroke="${POM.eye}" stroke-width="3.4" stroke-linecap="round"/>`;   // じろり（半目・あきれ顔）
       const r = q.eye === 'big' ? 12 : 9.5; return E(cx, eyeY, r * .92, r * 1.05, POM.eye) + E(cx + 3, eyeY - 4, r * .32, r * .3, '#FFFFFF') + E(cx - 2.5, eyeY + 4, r * .14, r * .12, '#FFFFFF', { opacity: .7 }); };
     const cr = 1 + 1.45 * c, cheek = sd => E(sd * (34 + 24 * c), hy + 18 + 8 * c, 26 * cr, 22 * (1 + 1.1 * c), 'url(#pomcheek)', fur)
       + (c > .6 ? E(sd * (30 + 24 * c), hy + 6 + 4 * c, 10 * cr, 6 * cr, '#FFFFFF', { opacity: Math.min(.6, (c - .6)) }) : '');   // ふくらんだほおのつや
@@ -144,7 +145,8 @@
       + `<path d="M-14 ${hy + 18} L-${54 + 20 * c} ${hy + 10} M-14 ${hy + 22} L-${52 + 20 * c} ${hy + 26} M14 ${hy + 18} L${54 + 20 * c} ${hy + 10} M14 ${hy + 22} L${52 + 20 * c} ${hy + 26}" fill="none" stroke="#FFFFFF" stroke-width="1.3" opacity=".85"/>`
       + (q.band === false ? '' : ELV.bandOnHead(hy)) + `</g>`;
     const paws = q.paws ? E(-26, -96, 11, 9, POM.pink) + E(26, -96, 11, 9, POM.pink) : E(-20, -70, 10, 8, POM.pink) + E(20, -70, 10, 8, POM.pink);
-    return `<g transform="translate(${x} ${y}) scale(${s * sx} ${s * sy})">${body}${head}${paws}</g>`;
+    // 体の色（pombody などのグラデーション）を必ず一緒に入れる：入れ忘れると体が透明になった（2026-11-22「金のチモシー」）
+    return ELV.pomDefs() + `<g transform="translate(${x} ${y}) scale(${s * sx} ${s * sy})">${body}${head}${paws}</g>`;
   };
   // ポムの赤いはちまき（公式と同じ色・形）。頭に巻いた形（ポムの頭の座標）
   ELV.BAND = POM.band;

@@ -77,6 +77,16 @@
       + `<rect x="-78" y="${-h + 12}" width="156" height="54" rx="9" fill="#FFFFFF" stroke="${C.ribbon}" stroke-width="5"/>` + TXT(0, -h + 54, 40, 'お土産', { ls: 4 });
     return `<g transform="translate(${x} ${y})"><ellipse cx="0" cy="4" rx="${w / 2 + 20}" ry="14" fill="${C.ink}" opacity=".2"/>${flaps}${inner}${bag}${dish}${front}</g>`;
   };
+  // ---- 紙袋（お土産を入れてきた茶色い紙袋）。(x, y) は持ち手のてっぺん（ポムがくわえる所）。o.flat = たたんで置いた（中身を出したあと）----
+  TM.paperBag = (x, y, s = 1, o = {}) => {
+    if (o.flat) return `<g transform="translate(${x} ${y}) scale(${s})"><ellipse cx="0" cy="4" rx="70" ry="9" fill="${C.ink}" opacity=".16"/><path d="M-62 0 L-54 -26 H54 L62 0Z" fill="#C79A63"/><path d="M-54 -26 H54 L48 -32 H-48Z" fill="#B38450"/><path d="M-30 -28 q30 -26 60 0" stroke="#8C603C" stroke-width="5" fill="none"/></g>`;
+    const sw = o.swing || 0;
+    return `<g transform="translate(${x} ${y}) rotate(${sw.toFixed(1)}) scale(${s})">`
+      + `<path d="M-26 34 Q-24 -6 0 -2 Q24 -6 26 34" stroke="#8C603C" stroke-width="6" fill="none" stroke-linecap="round"/>`   // 持ち手（ひも）
+      + `<path d="M-48 34 H48 L52 124 H-52Z" fill="#C79A63"/><path d="M-48 34 H48 L46 44 H-46Z" fill="#B38450"/><path d="M14 40 L18 120" stroke="#B38450" stroke-width="4" opacity=".6"/>`
+      + `<rect x="-24" y="62" width="48" height="34" rx="6" fill="#FFF7E8" stroke="#C8263C" stroke-width="3"/><path d="M-10 79 h20 M0 69 v20" stroke="#C8263C" stroke-width="4"/>`   // 赤いリボンのシール
+      + `<path d="M-46 118 H46" stroke="${C.ink}" stroke-width="3" opacity=".15"/></g>`;
+  };
   // ---- 画面の小さなしるし ----
   TM.crunch = (x, y, k, s = 1) => k <= 0 || k >= 1 ? '' : `<g transform="translate(${x} ${y}) scale(${s * (.8 + .4 * k)})" opacity="${(1 - k).toFixed(2)}" stroke="#FFF7E8" stroke-width="7" stroke-linecap="round"><path d="M-40 -6 l-18 -10 M0 -24 v-20 M40 -6 l18 -10"/></g>`;
   window.TM = TM;
