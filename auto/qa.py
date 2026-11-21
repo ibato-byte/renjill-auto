@@ -34,6 +34,7 @@ def main(ep, yt, loop):
     issues, warns = [], []
     rep, sheet = DIST / f"{ep}_qa.json", DIST / f"{ep}_sheet.jpg"
     env = dict(os.environ, NODE_PATH=os.environ.get("NODE_PATH") or subprocess.check_output(["npm", "root", "-g"]).decode().strip())
+    rep.unlink(missing_ok=True)  # 前の結果を消してから：qa.js が落ちても古い「合格」を読まない（2026-11-22：こわれた台本が古い結果で合格になりかけた）
     r = subprocess.run(["node", str(RIG / "qa.js"), ep, str(rep), str(sheet)], env=env, capture_output=True, text=True)
     try: rj = json.loads(rep.read_text())
     except Exception: rj = {"pass": False, "issues": [f"qa.js が失敗: {r.stderr[-300:]}"], "warns": []}
