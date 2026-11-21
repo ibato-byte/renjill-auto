@@ -236,6 +236,26 @@ class WorkflowTest(unittest.TestCase):
         for _, h, _ in crons: self.assertLess(int(h) + 9, 24)
         self.assertIn("done = bool((st[\"episodes\"].get(date) or {}).get(\"yt\"))", self.y)   # 出し終えた日は準備をせずに終わる
 
+    def test_delayed_schedule_catches_up_previous_day(self):
+        # 2026-11-21：土 20:23 の予約が GitHub の遅れで日曜 3:05 に動き、「予定の曜日でない」で土曜の回が出なかった。
+        # 「出す回があるか」の部分を実際に動かし、日付をまたいだ予約の実行が前の日の回を出すことを確かめる
+        import os, subprocess, tempfile, textwrap
+        code = textwrap.dedent(self.y.split("python3 - <<'PY' >> \"$GITHUB_OUTPUT\"\n")[1].split("\n          PY\n")[0])
+        code = code.replace("dt.datetime.now(dt.timezone(dt.timedelta(hours=9))).date().isoformat()", "os.environ['FAKE_TODAY']")
+        def run(today, event, eps):
+            with tempfile.TemporaryDirectory() as d:
+                (pathlib.Path(d) / "auto").mkdir()
+                (pathlib.Path(d) / "auto" / "bgm_config.json").write_text(json.dumps({"days": [2, 5], "enabled": True}))
+                (pathlib.Path(d) / "auto" / "bgm_state.json").write_text(json.dumps({"episodes": eps}))
+                env = {**os.environ, "FAKE_TODAY": today, "EVENT": event, "IN_DATE": "", "IN_FORCE": "", "IN_PUBLISH": "", "IN_RELABEL": ""}
+                out = subprocess.run(["python3", "-c", code], cwd=d, env=env, capture_output=True, text=True, check=True).stdout
+                return dict(l.split("=", 1) for l in out.split())
+        self.assertEqual(run("2026-11-22", "schedule", {}), {"date": "2026-11-21", "due": "true", "todo": "false"})       # 日曜に遅れて動いた → 土曜の回
+        self.assertEqual(run("2026-11-22", "schedule", {"2026-11-21": {"yt": "x"}})["due"], "false")                  # 出し終えていれば何もしない
+        self.assertEqual(run("2026-11-22", "workflow_dispatch", {})["due"], "false")                                  # 手で動かしたときは今日のまま
+        self.assertEqual(run("2026-11-21", "schedule", {})["date"], "2026-11-21")                                     # 遅れていなければ今日
+        self.assertEqual(run("2026-11-23", "schedule", {})["due"], "false")                                           # 2日前はさかのぼらない
+
 
 class StockTest(unittest.TestCase):
     """作り置き（先の回を前もって作る。オーナー依頼 2026-11-14）：順番・記録・当日の使い方"""
