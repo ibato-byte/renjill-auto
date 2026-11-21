@@ -60,7 +60,7 @@ document.write('<script src="v2/lib.js"><\/script><script src="v2/elevator_set.j
     let look = 1, eyeOpen = 1.1, face = Object.assign({}, F.neutral, { mouth: 'line' });
     if (t >= LOOK) { look = .9; eyeOpen = 1.1; face = Object.assign({}, F.neutral, { mouth: 'pout' }); }
     let nod = 4, earL = 0, earR = 0;
-    if (t >= JIRO2) { const j = sm(JIRO2, JIRO2 + .3, t); look = 1; eyeOpen = 1; nod = 4 + 6 * j; earL = 18 * j; earR = -18 * j; face = Object.assign({}, F.annoyed, { sweat: .6 }); }   // 課長をじろり（あきれ顔）
+    if (t >= JIRO2) { const j = sm(JIRO2, JIRO2 + .3, t); look = 1; eyeOpen = 1; nod = 4 + 6 * j; earL = 18 * j; earR = -18 * j; face = Object.assign({}, F.annoyed, { eyeShape: 'half', sweat: .6 }); }   // 課長をじろり（半目のあきれ顔）
     return Object.assign({}, RIG.POSES.sit, face, { x: JP.x, y: JP.y + 260 * (1 - k), scale: JP.s, flip: true, eyeLook: look, headNod: nod, eyeOpen, earL, earR });
   }
   const pomPeek = t => { const k = L.ease(sm(PEEK + .25, PEEK + .8, t)); return { x: 420, y: DESK + 30 + 150 * (1 - k), s: 1.15, q: t >= JIRO2 ? { eye: 'half', look: 1, squash: .06, wob: 4, blush: 0, mouth: 'w' } : { eye: t >= LOOK ? 'big' : 'round', look: 1, squash: 0, blush: .4 } }; };   // 17.4〜 課長をじろり（あきれ顔）
