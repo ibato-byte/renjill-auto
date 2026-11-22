@@ -48,7 +48,7 @@ RULES = [
     (r'(모찌|유자|쿠리|Mochi|Yuzu|Kuri)과', r'\1와'), (r'(모찌|유자|쿠리|Mochi|Yuzu|Kuri)은', r'\1는'),
     (r'(모찌|유자|쿠리|Mochi|Yuzu|Kuri)이(?=[ ,.]|$)', r'\1가'), (r'(모찌|유자|쿠리|Mochi|Yuzu|Kuri)을', r'\1를'),
     (r'(모찌|유자|쿠리|Mochi|Yuzu|Kuri)으로', r'\1로'), (r'(모찌|유자|쿠리|Mochi|Yuzu|Kuri)이에요', r'\1예요'),
-    (r'도쿄 토끼 오피스과', '도쿄 토끼 오피스와'), (r'도쿄 토끼 오피스은', '도쿄 토끼 오피스는'), (r'도쿄 토끼 오피스이(?=[ ,.]|$)', '도쿄 토끼 오피스가'),
+    (r'도쿄 토끼 오피스과', '도쿄 토끼 오피스와'), (r'도쿄 토끼 오피스은', '도쿄 토끼 오피스는'), (r'도쿄 토끼 오피스이(?=[ ,.]|$)', '도쿄 토끼 오피스가'),  # 旧名（直す前の形）
 ]
 RULES = [(re.compile(a, re.M), b) for a, b in RULES]
 P_RE = re.compile('|'.join([re.escape(w) for w in PROTECT] + PROTECT_RE))
