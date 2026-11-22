@@ -24,7 +24,7 @@ def links(d):
     out = []
     if s.get("youtube"): out.append(("YouTube", s["youtube"]))
     out += [("Instagram", "https://www.instagram.com/tokyo_usagi_office/"), ("TikTok", "https://www.tiktok.com/@tokyo_usagi_office"),
-            ("X", "https://x.com/tokyo_usagi_office"), ("Facebook", "https://www.facebook.com/profile.php?id=1358515160686321")]
+            ("X", "https://x.com/tokyo_usagi_ofc"), ("Facebook", "https://www.facebook.com/profile.php?id=1358515160686321")]
     if s.get("bluesky"): out.append(("Bluesky", s["bluesky"]))
     return out
 
