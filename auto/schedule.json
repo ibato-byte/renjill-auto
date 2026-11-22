@@ -777,7 +777,8 @@
       "thumb": {
         "t": 1.0,
         "cam": "2.2,700,1010",
-        "hook": "GOLDEN TIMOTHY./金のチモシー Part 1"
+        "hook": "GOLDEN TIMOTHY./金のチモシー Part 1",
+        "variant": "B"
       },
       "first_comment": "最後のお土産、どうなると思う？ / What happens to the last of the souvenir?",
       "site_i18n": {
@@ -804,7 +805,13 @@
         "storyboard_ok": "2026-11-21",
         "part": 1
       },
-      "cta": "Send this to the coworker who can't stop at one bite./ひとくちで止まれない同僚に送ろう"
+      "cta": "Send this to the coworker who can't stop at one bite./ひとくちで止まれない同僚に送ろう",
+      "experiment": {
+        "var": "thumb_variant",
+        "std": "A",
+        "value": "B",
+        "why": "サムネの文字の位置（上と下）を変えて、プロフィール一覧からの見られ方を比べる"
+      }
     },
     {
       "date": "2026-11-28",
