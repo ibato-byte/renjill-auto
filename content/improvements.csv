@@ -91,3 +91,14 @@
 2026-11-19,renjill-midweek-check,8,計測,連載への切りかえで予定表から外れた5回（printer・wifi・bonenkai・aircon・kairo）の打ち手の記録を「取りやめ」にし、次に試す変数の選び方がずれないようにした,content/experiments.csv,daily_review.py next_variable は記録の日付で選ぶ
 2026-11-19,renjill-midweek-check,9,きまり,新作の判定で、連載の第2・3話が「第1話の2日後の作り直し」と誤って止められていたのを直した（新作 1/3→3/3）,auto/novelty.py,python auto/novelty.py の要対応2件が消えた
 2026-11-19,renjill-midweek-check,10,テスト,連載の各話は新作・同じ話数の作り直しは作り直し、のテストを2つ追加,tests/test_novelty.py,全333件のテストが合格
+2026-11-23,renjill-weekly-pdca,1,不具合,連載の表紙が直近の回との揃いの検査で必ず落ちるのを直した（チップの位置は同じ形の回どうしで比べる）,rig/thumb.js,11/22 preflight の記録で elevator3 が全コマ THUMB_NOT_ALIGNED
+2026-11-23,renjill-weekly-pdca,2,表紙,11/23 上司とエレベーター Part 3 の表紙のカメラを合格するもの（1.0,480,1180）に,auto/schedule.json,手元で thumb.js を通した
+2026-11-23,renjill-weekly-pdca,3,表紙,11/26 金のチモシー Part 1 の表紙を 14.0秒・3匹とも見えるコマに,auto/schedule.json,手元で thumb.js を通した
+2026-11-23,renjill-weekly-pdca,4,表紙,11/28 金のチモシー Part 2 の表紙のカメラを 1.2 に,auto/schedule.json,手元で thumb.js を通した
+2026-11-23,renjill-weekly-pdca,5,表紙,11/30 金のチモシー Part 3 の表紙を 3.0秒・1.8 に（合格した唯一の候補）,auto/schedule.json,手元で thumb.js を通した
+2026-11-23,renjill-weekly-pdca,6,打ち手,11/26 の表紙 B 型の試しを中止（どのコマでも検査に通らない）,auto/schedule.json・content/experiments.csv,手元で全コマ確認
+2026-11-23,renjill-weekly-pdca,7,打ち手,連載の回には thumb_variant と slot を割り当てないようにした,auto/daily_review.py,series_policy の slots 固定・B 型が検査に通らない
+2026-11-23,renjill-weekly-pdca,8,打ち手,11/28 Part 2 のキャプションに第1話への案内を入れて比べる,auto/schedule.json・content/experiments.csv,第1話→第2話の再生 69%
+2026-11-23,renjill-weekly-pdca,9,テスト,表紙のチップの比べ方のテスト,tests/test_thumb_rules.py,全348件合格
+2026-11-23,renjill-weekly-pdca,10,テスト,連載の回の打ち手の選び方のテスト,tests/test_daily_review.py,全348件合格
+2026-11-23,renjill-weekly-pdca,11,計測,取りやめたこたつの回に残っていた打ち手の記録2件を整理,content/experiments.csv,2026-11-21 こたつ取りやめ

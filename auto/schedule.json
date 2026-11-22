@@ -728,7 +728,7 @@
       "tag_set": "C",
       "thumb": {
         "t": 6.6,
-        "cam": "1.12,480,1180",
+        "cam": "1.0,480,1180",
         "hook": "BOSS. ELEVATOR./上司とエレベーター Part 3",
         "variant": "A"
       },
@@ -775,10 +775,10 @@
       "caption_en": "Kuri brought back \"Golden Timothy\" from his trip. Yuzu takes just one bite... then the plate is down to a third. And here comes the boss. (to be continued)",
       "tag_set": "C",
       "thumb": {
-        "t": 1.0,
-        "cam": "2.2,700,1010",
+        "t": 14.0,
+        "cam": "1.2,700,810",
         "hook": "GOLDEN TIMOTHY./金のチモシー Part 1",
-        "variant": "B"
+        "variant": "A"
       },
       "first_comment": "最後のお土産、どうなると思う？ / What happens to the last of the souvenir?",
       "site_i18n": {
@@ -809,8 +809,8 @@
       "experiment": {
         "var": "thumb_variant",
         "std": "A",
-        "value": "B",
-        "why": "サムネの文字の位置（上と下）を変えて、プロフィール一覧からの見られ方を比べる"
+        "value": "A",
+        "why": "中止（2026-11-23 週次）：B 型（文字が下）は「Part N」の札で文字の塊が高くなり、どのコマでも表紙の検査に通らない（手元で全コマを確認）。A で出す。連載の回には thumb_variant を割り当てないよう daily_review を直した"
       }
     },
     {
@@ -819,12 +819,12 @@
       "ep": "timothy2",
       "no": 100,
       "title": "クリのお土産『金のチモシー』 Part 2「課長が預かります」",
-      "caption_ja": "「これは課長が預かります」…のはずが、デスクでひとくち、もうひとくち。口の端に1本、残ってますよ課長。（つづく）",
-      "caption_en": "The boss \"confiscates\" the souvenir. At his desk: one bite, then another. Boss, there's a strand sticking out of your mouth. (to be continued)",
+      "caption_ja": "（第1話はプロフィールから）「これは課長が預かります」…のはずが、デスクでひとくち、もうひとくち。口の端に1本、残ってますよ課長。（つづく）",
+      "caption_en": "(Part 1 is on our profile) The boss \"confiscates\" the souvenir. At his desk: one bite, then another. Boss, there's a strand sticking out of your mouth. (to be continued)",
       "tag_set": "C",
       "thumb": {
         "t": 15.6,
-        "cam": "2.4,620,1000",
+        "cam": "1.2,620,1000",
         "hook": "GOLDEN TIMOTHY./金のチモシー Part 2"
       },
       "first_comment": "課長もハマったと思う？ / Is the boss hooked too?",
@@ -852,7 +852,13 @@
         "storyboard_ok": "2026-11-21",
         "part": 2
       },
-      "cta": "Send this to the coworker who can't stop at one bite./ひとくちで止まれない同僚に送ろう"
+      "cta": "Send this to the coworker who can't stop at one bite./ひとくちで止まれない同僚に送ろう",
+      "experiment": {
+        "var": "caption_link",
+        "std": "なし",
+        "value": "キャプションの1行目に「第1話はプロフィールから」",
+        "why": "2026-11-23 週次：連載第1弾は第1話→第2話で Instagram の再生が 201→139（69%）に減った。第2話から見た人を第1話へ戻す一言で、第2話のプロフィール訪問と第1話の再生の伸びを比べる"
+      }
     },
     {
       "date": "2026-11-30",
@@ -864,8 +870,8 @@
       "caption_en": "Next day, the souvenir plate is empty. Then a loud CRUNCH from the right. Boss... is that the bulk size? (the end)",
       "tag_set": "C",
       "thumb": {
-        "t": 16.2,
-        "cam": "0.98,610,1080",
+        "t": 3.0,
+        "cam": "1.8,610,880",
         "hook": "GOLDEN TIMOTHY./金のチモシー Part 3"
       },
       "first_comment": "あなたの職場にも「業務用」を買う人いる？ / Anyone at your office who buys the bulk size?",

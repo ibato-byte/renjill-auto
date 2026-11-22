@@ -121,18 +121,22 @@ const [ep, t, cam, hook, no, out, variant = 'A'] = process.argv.slice(2);
   //     英語の見出しの幅・高さ・位置、チップの位置が大きくずれていたら NG
   const fs = require('fs'), path = require('path');
   const dir = path.dirname(path.resolve(out));
-  const me = { ep, en: m.en && { width: m.en.width, height: m.en.height, top: Math.round(m.text.top) }, chipTop: m.chip ? Math.round(m.chip.top) : null, busy, made: new Date().toISOString() };
+  // part：見出しの下に「Part N」の札がある形（連載。2026-11-21〜）。札のぶんチップが約190px下がるので、チップの位置は同じ形の回どうしでだけ比べる
+  //（2026-11-23 週次：1話完結の回の中央値と比べて、連載の表紙がどのコマでも THUMB_NOT_ALIGNED になり、11/22 の事前の動画づくりが止まっていた）
+  const isPart = await p.evaluate(() => { const h = document.querySelector('.hook'); return !!(h && h.dataset.part); });
+  const me = { ep, en: m.en && { width: m.en.width, height: m.en.height, top: Math.round(m.text.top) }, chipTop: m.chip ? Math.round(m.chip.top) : null, part: isPart, busy, made: new Date().toISOString() };
   const others = fs.readdirSync(dir).filter(f => f.endsWith('_thumb.json') && f !== `${ep}_thumb.json`)
     .map(f => { try { return JSON.parse(fs.readFileSync(path.join(dir, f), 'utf8')); } catch { return null; } })
     .filter(o => o && o.en).sort((a, b) => String(b.made).localeCompare(String(a.made))).slice(0, 6);
   if (variant !== 'C' && me.en && others.length >= 3) {
     const med = a => { const s = [...a].sort((x, y) => x - y); return s[Math.floor(s.length / 2)]; };
-    const ref = { width: med(others.map(o => o.en.width)), height: med(others.map(o => o.en.height)), top: med(others.map(o => o.en.top)), chipTop: med(others.map(o => o.chipTop)) };
+    const same = others.filter(o => !!o.part === me.part && o.chipTop != null);
+    const ref = { width: med(others.map(o => o.en.width)), height: med(others.map(o => o.en.height)), top: med(others.map(o => o.en.top)), chipTop: same.length >= 3 ? med(same.map(o => o.chipTop)) : null };
     const off = [];
     if (Math.abs(me.en.width - ref.width) > ref.width * 0.08) off.push('幅');
     if (me.en.height < ref.height * 0.55 || me.en.height > ref.height * 1.6) off.push('高さ');
     if (Math.abs(me.en.top - ref.top) > 60) off.push('位置');
-    if (Math.abs(me.chipTop - ref.chipTop) > 160) off.push('チップの位置');
+    if (ref.chipTop != null && Math.abs(me.chipTop - ref.chipTop) > 160) off.push('チップの位置');
     if (off.length) { console.error('THUMB_NOT_ALIGNED', JSON.stringify({ off, me: { ...me.en, chipTop: me.chipTop }, ref, compared: others.map(o => o.ep) })); await b.close(); process.exit(8); }
   }
 
