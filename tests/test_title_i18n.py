@@ -22,16 +22,16 @@ class TitleI18n(unittest.TestCase):
             for k, v in p["title_i18n"].items():
                 self.assertTrue(v.strip(), f'{p["ep"]}:{k} が空')
                 self.assertLessEqual(len(v), 100, f'{p["ep"]}:{k} が100文字を超える（YouTube の上限）')
-                self.assertTrue("Ren & Jill" in v or "レンとジル" in v, f'{p["ep"]}:{k} に作品名がない')
-                self.assertNotIn("＆", v, "日本語は「レンとジル」（＆を使わない）")
+                self.assertTrue("Tokyo Usagi Office" in v or "東京うさぎオフィス" in v, f'{p["ep"]}:{k} に作品名がない')
+                self.assertNotIn("＆", v, "日本語は「東京うさぎオフィス」（＆を使わない）")
 
     def test_no_simplified_in_zh_hant(self):
         bad = [p["ep"] for p in self.posts if SIMPLIFIED & set(p["title_i18n"].get("zh-Hant", ""))]
         self.assertEqual(bad, [], "zh-Hant に簡体字：" + ", ".join(bad))
 
     def test_localizations_use_title_i18n(self):
-        p = self.posts[0] if self.posts else {"title_i18n": {"ko": "테스트 | Ren & Jill"}}
-        loc = growth.youtube_localizations(p, {}, "EN | Ren & Jill", "desc")
+        p = self.posts[0] if self.posts else {"title_i18n": {"ko": "테스트 | Tokyo Usagi Office"}}
+        loc = growth.youtube_localizations(p, {}, "EN | Tokyo Usagi Office", "desc")
         for k, v in p["title_i18n"].items():
             self.assertEqual(loc[k]["title"], v[:100])
 

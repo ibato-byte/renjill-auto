@@ -1,7 +1,7 @@
 // 第5話 v2「マグカップを探す課長（頭の上）」（約23秒）
 // ゲーム：マグは課長の頭の上にあるのに、本人は気づかない。
-// ①ジルが上を指す→課長が見上げるがマグも一緒に動いて見えない ②小さい足ダン→しずくが鼻に→窓を見て「雨？」
-// ③ジルが自分の頭を指す→課長がおじぎ→マグが顔にすっぽり→見えずにうろうろ→机の脚にゴン
+// ①ユズが上を指す→課長が見上げるがマグも一緒に動いて見えない ②小さい足ダン→しずくが鼻に→窓を見て「雨？」
+// ③ユズが自分の頭を指す→課長がおじぎ→マグが顔にすっぽり→見えずにうろうろ→机の脚にゴン
 // （間）→大足ダン→マグが宙を舞って机に着地 → オチの後のオチ：課長、安心してまた頭に乗せる
 window.EP = {
   dur: 23.0,
@@ -19,7 +19,7 @@ window.EP = {
     office({ clock: [11, 30], shake: S, mug: onDesk });
     const f = clear('fx'), ui = clear('ui'); clear('back');
 
-    // ---- レン（床、机の手前）
+    // ---- モチ（床、机の手前）
     const RX = 180, RY = 1160;
     let R = Object.assign({}, RIG.POSES.sit, RIG.FACES.think, { scale: 1.45, x: RX + S.x, y: RY + S.y, question: t < 1.8 ? 0.8 + 0.2 * Math.sin(t * 5) : 0, eyeLook: Math.sin(t * 2.2) * 0.8, headTilt: Math.sin(t * 2.2) * 8 });
     // ① 見上げる（マグも一緒に上を向く）
@@ -64,7 +64,7 @@ window.EP = {
       for (let i = 0; i < 3; i++) { const v = (t * 0.6 + i / 3) % 1; f.appendChild(el('path', { d: `M${585 + i * 10} ${1110 - 80 * v} q12 -12 0 -24`, fill: 'none', stroke: '#C9B79E', 'stroke-width': 4, 'stroke-linecap': 'round', opacity: 0.6 * (1 - v) })); }
     }
 
-    // ---- ジル
+    // ---- ユズ
     const JX = 680;
     const hp = RIG.hop(t, 1.9, 3.3, 1150, JX, { hops: 3, height: 40 });
     let J = Object.assign({}, RIG.POSES.sit, RIG.FACES.neutral, { scale: 1.25, flip: true, x: hp.x + S.x, y: 1240 + hp.yOff + S.y, bodySquash: hp.squash, eyeLook: 0.9 });
@@ -87,7 +87,7 @@ window.EP = {
     sparkle(f, t, 14.3, 595, 1150, 1.2);
     const shots = [
       { t: 0.0, cx: 440, cy: 1240, z: 2.0, z2: 2.15 },                 // A 寄り：頭にマグ、本人は探す
-      { t: 1.9, cx: 560, cy: 1250, z: 1.3 },                           // B 中：ジル登場
+      { t: 1.9, cx: 560, cy: 1250, z: 1.3 },                           // B 中：ユズ登場
       { t: 4.2, cx: 440, cy: 1220, z: 1.9 },                           // C 寄り：見上げる（マグも上へ）
       { t: 6.3, cx: 560, cy: 1250, z: 1.3 },                           // D 中：小さい足ダン、しずく
       { t: 7.4, cx: 420, cy: 1240, z: 2.1 },                           // E 寄り：窓を見て雨？
@@ -96,7 +96,7 @@ window.EP = {
       { t: 13.3, cx: 560, cy: 1150, z: 1.0 },                          // H 引き：大足ダン、マグが舞う
       { t: 14.8, cx: 560, cy: 1180, z: 1.6 },                          // I 中：マグ着地、課長にっこり
       { t: 18.2, cx: 560, cy: 1220, z: 1.4 },                          // J 中：また頭に乗せる
-      { t: 19.6, cx: FACE_JIL.x - 20, cy: FACE_JIL.y, z: 2.4 },        // K 寄り：ジルの諦め顔
+      { t: 19.6, cx: FACE_JIL.x - 20, cy: FACE_JIL.y, z: 2.4 },        // K 寄り：ユズの諦め顔
       { t: 21.0, cx: 560, cy: 1200, z: 1.2 }                           // L 引き
     ];
     camera(cameraAt(shots, t), punch);

@@ -1,5 +1,5 @@
 // 「身長測定」（約9.5秒・セリフなし）v2 演出／キャラは本番の rig.js
-// 状況：健康診断の日。壁の身長計の前で、ジルがぴしっと立つ → 目もりに「ジル」の印
+// 状況：健康診断の日。壁の身長計の前で、ユズがぴしっと立つ → 目もりに「ユズ」の印
 // ひっくり返し：課長の番。せのびしても低い → 足もとに箱を置いてから、すっと乗る（ご満悦）
 // オチ：目もりの印は、ずっと上に「課長（箱こみ）」。字幕「身長：箱こみ」
 document.write('<script src="v2/lib.js"><\/script>');
@@ -21,11 +21,11 @@ var EP = {
     const { seg, ease, outBack } = L;
     const FLOOR = 1640, RX = 760;                                  // 身長計の位置
     const bg = L.office({ sky: 'day', clock: [10, 0], noClock: true });
-    // ジル：身長計の前（0.4〜2.6）→ 左へ戻って見ている
+    // ユズ：身長計の前（0.4〜2.6）→ 左へ戻って見ている
     const jIn = ease(seg(t, .3, .8)) - ease(seg(t, 2.2, 2.7));
     const jface = t < 2.6 ? RIG.FACES.sharp : t < 4.9 ? RIG.FACES.neutral : t < 6.6 ? Object.assign({}, RIG.FACES.surprised, { excl: 0 }) : RIG.FACES.annoyed;
     L.char('jil', Object.assign({}, t > .8 && t < 2.2 ? RIG.POSES.stand : RIG.POSES.sit, jface, { x: -60 + 440 * jIn, y: FLOOR - 413 * 1.3, scale: 1.3, eyeLook: t > 2.6 ? .9 : 0 }), t, '', {});
-    // レン：2.7 から身長計の前へ → せのび（stand）→ 箱を置く → 箱の上へ（ご満悦）
+    // モチ：2.7 から身長計の前へ → せのび（stand）→ 箱を置く → 箱の上へ（ご満悦）
     const rIn = ease(seg(t, 2.6, 3.1)), onBox = ease(seg(t, 4.6, 5.0)), boxIn = ease(seg(t, 3.9, 4.3));
     const rface = t < 3.4 ? RIG.FACES.neutral : t < 3.9 ? Object.assign({}, RIG.FACES.oops, { sweat: 1 }) : t < 4.6 ? RIG.FACES.sharp : Object.assign({}, RIG.FACES.smug, { sparkle: t < 6.6 ? 1 : 0 });
     L.char('ren', Object.assign({}, t > 3.1 && t < 3.9 ? RIG.POSES.stand : RIG.POSES.sit, rface, { x: 830 - 350 * rIn, y: FLOOR - 413 * 1.35 - 230 * onBox - Math.sin(onBox * Math.PI) * 80, scale: 1.35, flip: true, eyeLook: -.2 }), t, '', {});
@@ -34,8 +34,8 @@ var EP = {
     const back = RULER(RX + 330); // 身長計は壁の物なので、キャラクターの後ろに描く（2026-11-15：前に描いていて、出番を待つ課長の顔にかぶっていた）
     // 箱（課長の足もと）
     if (boxIn > 0) fx += `<g transform="translate(${760} ${FLOOR + 40 - 0})" opacity="${boxIn}"><rect x="-150" y="-${230 * boxIn + 10}" width="300" height="${230 * boxIn + 10}" rx="8" fill="#C79A6C" stroke="#9C7448" stroke-width="6"/><rect x="-30" y="-${230 * boxIn + 10}" width="60" height="${230 * boxIn + 10}" fill="#D9B48A" opacity=".6"/></g>`;
-    // 印：ジル（低め）・課長（箱こみで高い）
-    fx += MARK(RX + 290, 1400 - 9.5 * 48, 'ジル', seg(t, 1.4, 1.8), '#5BA6D6');
+    // 印：ユズ（低め）・課長（箱こみで高い）
+    fx += MARK(RX + 290, 1400 - 9.5 * 48, 'ユズ', seg(t, 1.4, 1.8), '#5BA6D6');
     fx += MARK(RX + 290, 1400 - 15.5 * 48, '課長', seg(t, 5.4, 5.8), '#E8473A');
     if (t > 5.4) fx += `<text x="${RX + 125}" y="${1400 - 15.5 * 48 + 62}" text-anchor="middle" font-family="Noto Sans CJK JP" font-weight="900" font-size="30" fill="#E8473A" opacity="${Math.min(1, (t - 5.4) * 3)}">（箱こみ）</text>`;
     if (t > 5.6 && t < 6.8) fx += L.sparkles(RX + 200, 1400 - 15.5 * 48, t, 1.2, 6);

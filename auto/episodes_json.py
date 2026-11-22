@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""公式サイト（https://renjill.coana.co.jp/、リポジトリ ibato-byte/renjill-site）のエピソード一覧 episodes.json を、公開リポジトリ renjill-media に書く。
+"""公式サイト（https://usagi.coana.co.jp/、リポジトリ ibato-byte/renjill-site）のエピソード一覧 episodes.json を、公開リポジトリ renjill-media に書く。
 サイトのエピソード一覧・ヒーローの動画・PICKUP・関係カードのリンクは、すべてこのファイルを読む（renjill-site の README「自動で更新されるもの」）。
 - 1件の形：{ep, date, title:{ja,en,zh,ko}, caption:{ja,en,zh,ko}, cover, video, youtube_id}
   - 題・一言の4言語：ja は title・caption_ja、en は caption_en（題は site_i18n.title.en）、zh・ko は schedule.json の回の site_i18n（週次PDCAが書く）

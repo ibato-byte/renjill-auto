@@ -1,5 +1,5 @@
 // 「紙飛行機」（約9.5秒・セリフなし）v2 演出／キャラは本番の rig.js
-// 状況：ジルが書きそんじの紙で紙飛行機。すーっと飛んで、ごみ箱にストン（きりっ）
+// 状況：ユズが書きそんじの紙で紙飛行機。すーっと飛んで、ごみ箱にストン（きりっ）
 // ひっくり返し：課長も大きな紙飛行機（自信まんまん）→ ぐるっと宙返りして……戻ってくる
 // オチ：紙飛行機は課長の頭の上に着陸。課長はなぜかご満悦。字幕「上司の紙飛行機：自分に戻る」
 document.write('<script src="v2/lib.js"><\/script>');
@@ -21,17 +21,17 @@ var EP = {
     const { seg, ease, outBack } = L;
     const DESK = 1400, RN = [858, 1156];
     const bg = L.office({ sky: 'day', clock: [15, 0] });
-    // ジル（左）：折る（lean）→ 投げる → ごみ箱にストンで満足 → 課長の宙返りに「！」→ ジト目
+    // ユズ（左）：折る（lean）→ 投げる → ごみ箱にストンで満足 → 課長の宙返りに「！」→ ジト目
     const jl = t > .4 && t < 1.2;
     const jface = t < 2.2 ? RIG.FACES.sharp : t < 3.6 ? Object.assign({}, RIG.FACES.smile, { sparkle: t < 3.0 ? 1 : 0 }) : t < 5.6 ? Object.assign({}, RIG.FACES.surprised, { excl: 1 }) : RIG.FACES.annoyed;
     L.char('jil', Object.assign({}, jl ? RIG.POSES.lean : RIG.POSES.sit, jface, { x: 20, y: DESK - 413 * 1.3, scale: 1.3, eyeLook: t > 2.4 ? .9 : .4, bodyTilt: jl ? -8 : t > 1.2 && t < 1.5 ? 8 : 0 }), t, '', {});
-    // レン（右）：見ている → 大きな紙飛行機で自信まんまん → 投げる（nudge）→ 戻ってきて頭に → ご満悦
+    // モチ（右）：見ている → 大きな紙飛行機で自信まんまん → 投げる（nudge）→ 戻ってきて頭に → ご満悦
     const throwR = t > 3.7 && t < 4.0;
     const rface = t < 3.0 ? RIG.FACES.neutral : t < 3.7 ? Object.assign({}, RIG.FACES.smug, { sparkle: 1 }) : t < 5.5 ? Object.assign({}, RIG.FACES.surprised, { excl: 0 }) : t < 6.2 ? RIG.FACES.oops : Object.assign({}, RIG.FACES.smug, { sparkle: t < 7.4 ? 1 : 0 });
     L.char('ren', Object.assign({}, throwR ? RIG.POSES.nudge : RIG.POSES.sit, rface, { x: 560, y: DESK - 413 * 1.35, scale: 1.35, flip: true, eyeLook: t > 3.9 && t < 5.5 ? Math.sin((t - 3.9) * 4) * .7 : -.3, headNod: t > 5.4 && t < 5.7 ? 10 : 0 }), t, '', {});
     let fx = DESKFX(L, DESK);
     fx += BIN(540, DESK + 330);
-    // ジルの紙飛行機：手もとで折る → ごみ箱へすーっと
+    // ユズの紙飛行機：手もとで折る → ごみ箱へすーっと
     const jf = seg(t, 1.25, 2.1);
     if (t < 1.25) fx += t < .9 ? `<rect x="360" y="${DESK - 30}" width="${120 - 60 * seg(t, .5, .9)}" height="80" rx="4" fill="#FFFDF7" stroke="#CFC3B0" stroke-width="3" transform="rotate(-6 400 ${DESK})"/>` : PLANE(410, DESK - 40, -10, 1, '#FFFDF7');
     else if (jf < 1) { const [x, y, r] = ALONG([[410, DESK - 40], [470, DESK - 140], [520, DESK - 60], [540, DESK + 200]], ease(jf)); fx += PLANE(x, y, r, 1, '#FFFDF7'); }
@@ -44,7 +44,7 @@ var EP = {
     else if (rf >= 1) fx += PLANE(top[0], top[1] + (t < 5.7 ? -Math.sin(seg(t, 5.5, 5.7) * Math.PI) * 20 : 0), 180, 1.6, '#FFFDF7');
     if (t > 6.2 && t < 7.4) fx += L.sparkles(RN[0] + 40, RN[1] - 300, t, 1.3, 6);
     if (t > 7.2 && t < 8.6) fx += L.emark(220, DESK - 660, 1.0, '…');
-    let ui = (t > 0.8 && t < 2.6 ? CHIP(L, 'PAPER PLANE', 'ジル、ごみ箱にストン', 1650, seg(t, .8, 1.1)) : '')
+    let ui = (t > 0.8 && t < 2.6 ? CHIP(L, 'PAPER PLANE', 'ユズ、ごみ箱にストン', 1650, seg(t, .8, 1.1)) : '')
       + (t > 6.0 && t < 8.6 ? CHIP_OFF(L, "BOSS'S PLANE: RETURNS", '上司の紙飛行機：自分に戻る', 1650, seg(t, 6.0, 6.3)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.3, cx: 380, cy: 1180 },

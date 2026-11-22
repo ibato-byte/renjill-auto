@@ -1,6 +1,6 @@
 // 「お弁当が入れ替わった」（約9.5秒・セリフなし）v2 演出／キャラは本番の rig.js
-// 状況：12:00、二人の机にお弁当。ふたを開けると、ジルの箱には牧草の山（レンの）、レンの箱には小さなサラダ（ジルの）
-// ひっくり返し：取り替える → レンは3秒で完食、ジルのサラダまで見る → オチ：ジルがサラダを抱えて後ろを向く。字幕「3秒で完食」
+// 状況：12:00、二人の机にお弁当。ふたを開けると、ユズの箱には牧草の山（モチの）、モチの箱には小さなサラダ（ユズの）
+// ひっくり返し：取り替える → モチは3秒で完食、ユズのサラダまで見る → オチ：ユズがサラダを抱えて後ろを向く。字幕「3秒で完食」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
 const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
@@ -21,20 +21,20 @@ var EP = {
     const open = outBack(seg(t, 3.4, 3.8));
     const swap = ease(seg(t, 5.8, 6.3));                     // 箱を取り替える
     const eat = t >= 6.6;
-    const gone = t >= 7.2;                                   // レンの箱、空
-    // ジル（左）：ふたを開けて牧草の山にびっくり → 取り替えて一口 → レンの視線に気づいてサラダを抱える
+    const gone = t >= 7.2;                                   // モチの箱、空
+    // ユズ（左）：ふたを開けて牧草の山にびっくり → 取り替えて一口 → モチの視線に気づいてサラダを抱える
     const jface = t < 3.8 ? RIG.FACES.neutral : t < 5.8 ? RIG.FACES.annoyed : t < 7.8 ? RIG.FACES.smile : RIG.FACES.sharp;
     const jp = Object.assign({}, RIG.POSES.sit, jface, { x: 60, y: DESK - 413 * 1.3, scale: 1.3, eyeLook: t < 3.4 ? .3 : t >= 7.8 ? .9 : .5, headTilt: t >= 7.8 ? -14 : 0, bodyTilt: t >= 8.2 ? -10 : 0, sweat: t > 3.8 && t < 5.8 ? .6 : 0 });
     L.char('jil', jp, t, '', {});
-    // レン（右）：小さなサラダに「？」→ 取り替えて大よろこび、もぐもぐ → 空っぽ、ジルのサラダを見る
+    // モチ（右）：小さなサラダに「？」→ 取り替えて大よろこび、もぐもぐ → 空っぽ、ユズのサラダを見る
     const rface = t < 3.8 ? RIG.FACES.smile : t < 5.8 ? RIG.FACES.think : t < 7.2 ? RIG.FACES.smile : RIG.FACES.shy;
     const rp = Object.assign({}, RIG.POSES.sit, rface, { x: 560, y: DESK - 413 * 1.35, scale: 1.35, flip: true, eyeLook: t >= 7.2 ? .9 : .2, headNod: eat && t < 7.2 ? Math.abs(Math.sin(t * 16)) * 10 : 0, bodySquash: eat && t < 7.2 ? Math.sin(t * 16) * .15 : 0, headTilt: t >= 7.6 ? 12 : 0 });
     L.char('ren', rp, t, '', {});
     let fx = `${L.deskFront(DESK)}`
       + [60, 560].map(x => `${L.drawer(x, DESK)}`).join('');
-    // 箱の位置：左（ジルの前 x=300）と右（レンの前 x=800）。swap で入れ替わる
+    // 箱の位置：左（ユズの前 x=300）と右（モチの前 x=800）。swap で入れ替わる
     const xL = 300 + 500 * swap, xR = 800 - 500 * swap, yB = DESK - 20 - Math.sin(swap * Math.PI) * 80;
-    // 左の箱（ピンクの目印＝ジルの箱）の中身は牧草の山。右の箱（青＝レンの箱）の中身は小さなサラダ
+    // 左の箱（ピンクの目印＝ユズの箱）の中身は牧草の山。右の箱（青＝モチの箱）の中身は小さなサラダ
     const hayK = gone ? 0 : eat ? Math.max(0, 1 - seg(t, 6.6, 7.2)) : 1;
     fx += BENTO(xL, yB, open, open > 0 ? HAYIN(open * hayK) : '', '#E86CB0');
     fx += BENTO(xR, DESK - 20 - Math.sin(swap * Math.PI) * 40, open, open > 0 ? SALAD(open) : '', '#4A90D9');
@@ -44,7 +44,7 @@ var EP = {
     if (t > 7.2 && t < 7.7) fx += L.impact(800, DESK - 120, seg(t, 7.2, 7.7), .7, '#F2B544');
     let ui = (t > 1.8 && t < 3.4 ? CHIP(L, 'LUNCH TIME: 12:00', 'お弁当、ふたを開けると…', 1380, seg(t, 1.8, 2.1)) : '')
       + (t > 4.2 && t < 5.6 ? CHIP_OFF(L, 'SWAPPED', '入れ替わってる', 1380, seg(t, 4.2, 4.5)) : '')
-      + (t > 7.4 && t < 8.6 ? CHIP_OFF(L, 'GONE IN 3 SECONDS', '3秒で完食。次はジルのサラダ', 1380, seg(t, 7.4, 7.7)) : '');
+      + (t > 7.4 && t < 8.6 ? CHIP_OFF(L, 'GONE IN 3 SECONDS', '3秒で完食。次はユズのサラダ', 1380, seg(t, 7.4, 7.7)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.4, cx: 540, cy: 1150 },
       { t: 0.01, z: 1.05, cx: 540, cy: 1120, d: .9 },

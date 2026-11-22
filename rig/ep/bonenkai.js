@@ -1,11 +1,11 @@
 // 「忘年会の幹事」（約9.5秒・セリフなし）v2 演出／キャラは本番の rig.js
-// 状況：忘年会の幹事はジル。電話でお店を探す（レンはジョッキを持って待っている）
-// ひっくり返し：お店のカードが3枚出て、全部に赤い×（満席）→ ジルがへたる
-// オチ：レンが机に牧草の山とジョッキを置き、電飾が灯る。会場はこの机。字幕「会場、ここ」。乾杯の音、ジルは呆れ顔
+// 状況：忘年会の幹事はユズ。電話でお店を探す（モチはジョッキを持って待っている）
+// ひっくり返し：お店のカードが3枚出て、全部に赤い×（満席）→ ユズがへたる
+// オチ：モチが机に牧草の山とジョッキを置き、電飾が灯る。会場はこの机。字幕「会場、ここ」。乾杯の音、ユズは呆れ顔
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
 const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
-// 受話器（ジルの耳元）
+// 受話器（ユズの耳元）
 const PHONE = (x, y, s = 1, rot = -30) => `<g transform="translate(${x} ${y}) rotate(${rot}) scale(${s})"><path d="M-70 -20 q0 -40 40 -40 l10 0 l14 34 l-22 14 q10 40 50 50 l14 -22 l34 14 l0 10 q0 40 -40 40 q-100 -10 -100 -100 Z" fill="#3B4252" stroke="#1F2630" stroke-width="5" stroke-linejoin="round"/><path d="M-58 -24 q2 -24 26 -26" stroke="#8A93A6" stroke-width="5" fill="none" stroke-linecap="round" opacity=".8"/><path d="M-52 30 q20 44 62 54" stroke="#6B7488" stroke-width="4" fill="none" stroke-linecap="round" opacity=".6"/></g>`;
 // お店のカード（看板の絵：器＋湯気 ／ ジョッキ ／ フォーク）と×
 const SHOP = (x, y, kind, k, xk) => {
@@ -31,13 +31,13 @@ var EP = {
     const bg = L.office({ sky: 'night', clock: [18, 30] });
     const cards = [3.4, 4.0, 4.6];                          // お店のカードが出る時刻（×はその 0.3 秒後）
     const allX = t >= 4.9;                                  // 3枚とも満席
-    const party = t >= 5.6;                                 // レンが会場を作る
+    const party = t >= 5.6;                                 // モチが会場を作る
     const lit = t >= 6.9;
-    // ジル（左）：電話で探す（受話器） → 全部×でへたる → 最後は呆れ顔
+    // ユズ（左）：電話で探す（受話器） → 全部×でへたる → 最後は呆れ顔
     const jface = t < 4.9 ? RIG.FACES.sharp : t < 6.9 ? Object.assign({}, RIG.FACES.oops, { sweat: 1 }) : RIG.FACES.annoyed;
     const jp = Object.assign({}, t < 4.9 ? RIG.POSES.sit : RIG.POSES.loaf, jface, { x: 60, y: DESK - 413 * 1.3, scale: 1.3, eyeLook: t < 4.9 ? .3 : .8, headTilt: t < 4.9 ? -8 : 0, headNod: t >= 4.9 && t < 6.9 ? 18 : t >= 6.9 ? 4 : 0 });
     L.char('jil', jp, t, t < 4.9 ? PHONE(222, DESK - 290, .85, -20) : '', {});
-    // レン（右）：ジョッキを持って待つ（にこにこ）→ ×で心配顔 → 5.6 立って会場づくり → 乾杯
+    // モチ（右）：ジョッキを持って待つ（にこにこ）→ ×で心配顔 → 5.6 立って会場づくり → 乾杯
     const rface = t < 4.9 ? RIG.FACES.smile : t < 5.6 ? Object.assign({}, RIG.FACES.oops, { sweat: 0 }) : RIG.FACES.smile;
     const rpose = party && t < 6.9 ? RIG.POSES.stand : RIG.POSES.sit;
     const rp = Object.assign({}, rpose, rface, { x: 520, y: DESK - 413 * 1.35, scale: 1.35, flip: true, bodyTilt: party && t < 6.9 ? Math.sin(t * 12) * 5 : 0, headTilt: t >= 7.6 ? -10 : 0, eyeLook: t < 4.9 ? .2 : .6 });
@@ -45,7 +45,7 @@ var EP = {
     // 手前：机
     let fx = `${L.deskFront(DESK)}`
       + [60, 560].map(x => `${L.drawer(x, DESK)}`).join('');
-    // レンのジョッキ（最初から机の上。乾杯で持ち上げる）
+    // モチのジョッキ（最初から机の上。乾杯で持ち上げる）
     const lift = t >= 7.6 ? outBack(seg(t, 7.6, 7.9)) : 0;
     // お店のカード（3枚）と×
     cards.forEach((c, i) => { const k = outBack(seg(t, c, c + .3)), xk = outBack(seg(t, c + .3, c + .5)); fx += SHOP(260 + i * 230, DESK - 820 - (party ? 60 * ease(seg(t, 5.6, 6.0)) : 0), i, k * (party ? 1 - seg(t, 5.6, 6.0) : 1), xk); });
@@ -58,14 +58,14 @@ var EP = {
     if (allX && t < 5.6) fx += L.emark(230, DESK - 650, 1.0, '…');
     // 電飾（背景の上、キャラの後ろではなく手前に。灯る前も線だけ見える＝会社の中とわかる）
     fx = LIGHTS(t, lit) + fx;
-    let ui = (t > 1.8 && t < 3.4 ? CHIP(L, 'YEAR-END PARTY: 12/26', '忘年会の幹事はジル。お店を探し中', 1380, seg(t, 1.8, 2.1)) : '')
+    let ui = (t > 1.8 && t < 3.4 ? CHIP(L, 'YEAR-END PARTY: 12/26', '忘年会の幹事はユズ。お店を探し中', 1380, seg(t, 1.8, 2.1)) : '')
       + (t > 4.9 && t < 5.6 ? CHIP_OFF(L, 'ALL FULL', '全部、満席', 1380, seg(t, 4.9, 5.2)) : '')
       + (t > 6.9 && t < 8.6 ? CHIP_OFF(L, 'VENUE: THIS DESK', '会場、この机', 1380, seg(t, 6.9, 7.2)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.4, cx: 300, cy: 1050 },
       { t: 0.01, z: 1.1, cx: 500, cy: 1100, d: .9 },
       { t: 3.3, z: 1.25, cx: 540, cy: 900, d: .4 },                 // お店のカード
-      { t: 4.9, z: 1.3, cx: 430, cy: 1080, d: .4 },                 // へたるジル
+      { t: 4.9, z: 1.3, cx: 430, cy: 1080, d: .4 },                 // へたるユズ
       { t: 5.6, z: 1.0, cx: 540, cy: 1050, d: .5 },                 // 引き：会場づくり
       { t: 7.5, z: 1.05, cx: 600, cy: 1100, d: .5 },                 // 乾杯
     ], t);

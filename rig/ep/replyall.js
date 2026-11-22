@@ -1,7 +1,7 @@
 // 「全員に返信」（約11.5秒・セリフなし）
 // ゲーム：返信ボタンを押し間違える。宛先の小さな顔が ①小さくびっくり ②中くらい ③大きくびっくり（上がり方は三段）
-//   レンは取り消しを連打（押すほど速くなる）。ジルは無言で画面を閉じる（呆れ顔で、でも黙って後始末をする）
-// （間）画面は消えた。固まったレン。尻尾だけが小さく震え始める → 全力で震える（オチ）
+//   モチは取り消しを連打（押すほど速くなる）。ユズは無言で画面を閉じる（呆れ顔で、でも黙って後始末をする）
+// （間）画面は消えた。固まったモチ。尻尾だけが小さく震え始める → 全力で震える（オチ）
 // オチの後のオチ：閉じた画面の小窓に「了解」の親指が全員分ぽんぽん返ってくる。尻尾はまだ震えている
 const NAME = n => document.createTextNode(n);
 const PRESS = [1.0];                                              // 返信ボタン
@@ -10,7 +10,7 @@ const T_ST1 = 1.3, T_ST2 = 2.5, T_ST3 = 3.5;                      // びっく�
 const T_CLOSE = 4.78, T_TAIL = 5.5, T_BIG = 6.25, T_THUMB = 8.0;
 
 const RX = 150, RY = 668;
-const TAIL = { x: RX + 392 * 1.3, y: RY + 300 * 1.3 };            // レンの尻尾の付け根
+const TAIL = { x: RX + 392 * 1.3, y: RY + 300 * 1.3 };            // モチの尻尾の付け根
 const MON = { x: 690, y: 860, w: 370, h: 300 }, SCR = { x: 706, y: 876, w: 338, h: 254 };
 const HEADS = ['#F2D3B0', '#D9C2A5', '#E8B9A0', '#C9D8E8', '#EBD9A8', '#D8B7C9'], EARS = ['#D9B48C', '#B79F82', '#C99A85', '#9FB5CC', '#C9B57F', '#B890A6'];
 const NF = 18;
@@ -159,7 +159,7 @@ window.EP = {
     const f = clear('fx'), back = clear('back'), ui = clear('ui');
     drawScreen(back, t);
 
-    // ---- レン
+    // ---- モチ
     const clk = pressAt(t, PRESS.concat(UNDO), 0.1);
     let R = Object.assign({}, RIG.POSES.nudge, RIG.FACES.neutral, { scale: 1.3, x: RX, y: RY, eyeLook: 0.8, bodyTilt: 4 + 6 * clk, headNod: 8 + 6 * clk + 3 * Math.sin(t * 9) });
     if (t < 1.0) Object.assign(R, { eyeLook: 0.8 - 0.3 * Math.sin(t * 7), mouth: 'line', sweat: seg(t, 0.4, 0.9) * 0.6 });
@@ -184,7 +184,7 @@ window.EP = {
         [-1, 1].forEach(sd => { document.getElementById('ren').appendChild(m(sd * 58, -22, sd * 78, -34)); document.getElementById('ren').appendChild(m(sd * 62, 2, sd * 86, 2)); document.getElementById('ren').appendChild(m(sd * 58, 26, sd * 78, 38)); }); }
     }
 
-    // ---- ジル（下の席。呆れ顔だが、黙って後始末をする）
+    // ---- ユズ（下の席。呆れ顔だが、黙って後始末をする）
     const JX = 640, JY = 1240;
     let J = Object.assign({}, RIG.POSES.sit, RIG.FACES.neutral, { scale: 1.25, flip: true, x: JX, y: JY, eyeLook: 0.9, mouth: 'line' });
     const lk = seg(t, 3.7, 4.2);
@@ -205,14 +205,14 @@ window.EP = {
 
         const FACE_REN2 = { x: 400, y: 960 };
     const shots = [
-      { t: 0.0, cx: 640, cy: 1040, z: 1.45, z2: 1.55 },             // A 状況：レンと画面の宛先（小さな顔がずらり）。カーソルが迷う
+      { t: 0.0, cx: 640, cy: 1040, z: 1.45, z2: 1.55 },             // A 状況：モチと画面の宛先（小さな顔がずらり）。カーソルが迷う
       { t: 1.9, cx: 880, cy: 1020, z: 2.45, z2: 2.6 },              // B 画面に寄る：びっくりが 小→中→大。取り消し連打
-      { t: 3.85, cx: 780, cy: 1440, z: 2.1 },                       // C ジル：呆れ顔。無言
-      { t: 4.4, cx: 880, cy: 1230, z: 1.3, z2: 1.35 },              // D 引き：ジルが手を伸ばして画面を閉じる
-      { t: 5.15, cx: 480, cy: 980, z: 2.1, z2: 2.4 },               // E （間）固まったレン。画面は消えた。尻尾が右端でぷるっ
+      { t: 3.85, cx: 780, cy: 1440, z: 2.1 },                       // C ユズ：呆れ顔。無言
+      { t: 4.4, cx: 880, cy: 1230, z: 1.3, z2: 1.35 },              // D 引き：ユズが手を伸ばして画面を閉じる
+      { t: 5.15, cx: 480, cy: 980, z: 2.1, z2: 2.4 },               // E （間）固まったモチ。画面は消えた。尻尾が右端でぷるっ
       { t: 6.15, cx: 540, cy: TAIL.y - 60, z: 2.3 },        // F オチ：尻尾だけが全力で震える
       { t: 7.45, cx: 890, cy: 1010, z: 2.4, z2: 2.55 },             // G オチの後：小窓に親指が次々
-      { t: 9.4, cx: 700, cy: 1150, z: 1.2 }                         // H 引き：尻尾はまだ震えている。ジルはやれやれ
+      { t: 9.4, cx: 700, cy: 1150, z: 1.2 }                         // H 引き：尻尾はまだ震えている。ユズはやれやれ
     ];
     camera(cameraAt(shots, t), 0);
     endcard(t, dur);

@@ -169,4 +169,4 @@ jobs:
           # 次の予定：水・土 11:23 UTC のうち近いほう
           next=$(python3 -c "import datetime as d;n=d.datetime.now(d.timezone.utc);c=[(n+d.timedelta(days=i)).replace(hour=11,minute=23,second=0,microsecond=0) for i in range(8)];print(min(x for x in c if x>n and x.weekday() in (2,5)).strftime('%Y-%m-%dT%H:%M:00Z'))")
           bash "$RUNNER_TEMP/hub/scripts/gha.sh" report renjill-bgm "$JOB_STATUS" "$PAUSED" "$summary" --outcome "$outcome" \
-            --does "水・土の夜に、レンとジルの作業用BGM（1時間・横長）を作って検査し、YouTube に出す" --next-run-at "$next"
+            --does "水・土の夜に、東京うさぎオフィスの作業用BGM（1時間・横長）を作って検査し、YouTube に出す" --next-run-at "$next"

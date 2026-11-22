@@ -1,6 +1,6 @@
 // 「ボーナスの日」（約9.5秒・セリフなし）v2 演出／キャラは本番の rig.js
-// 状況：ボーナスの封筒が2つ（12月）→ レンがわくわく開ける → 中は「牧草 ×3」（レンの目が点）
-// ひっくり返し：ジルも開ける → 「牧草 ×30」の山 → オチ：レン固まる。ジルは無表情でもぐもぐ（字幕「部下のほうが多い」）
+// 状況：ボーナスの封筒が2つ（12月）→ モチがわくわく開ける → 中は「牧草 ×3」（モチの目が点）
+// ひっくり返し：ユズも開ける → 「牧草 ×30」の山 → オチ：モチ固まる。ユズは無表情でもぐもぐ（字幕「部下のほうが多い」）
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
 const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
@@ -18,7 +18,7 @@ var EP = {
     const { seg, ease, outBack, pulse } = L;
     const DESK = 1400;
     const bg = L.office({ sky: 'day', clock: [12, 0] });
-    // レン（右）：0.7 封筒を見てわくわく → 1.3〜1.9 開ける → 2.6 目が点 → 3.1 しおれる → 5.6 ジルの中身を見て固まる
+    // モチ（右）：0.7 封筒を見てわくわく → 1.3〜1.9 開ける → 2.6 目が点 → 3.1 しおれる → 5.6 ユズの中身を見て固まる
     const rOpen = ease(seg(t, 1.3, 1.9));
     let rp;
     if (t < 2.6) rp = Object.assign({}, RIG.POSES.sit, RIG.FACES.smile, { sparkle: t > .7 ? 1 : 0, bodySquash: t > .7 && t < 1.3 ? .08 * Math.sin(t * 18) : 0 });
@@ -27,7 +27,7 @@ var EP = {
     else rp = Object.assign({}, RIG.POSES.loaf, RIG.FACES.surprised, { excl: 0, eyeLook: -.9, sweat: 1, headNod: 24 });
     Object.assign(rp, { x: 620, y: DESK - 413 * 1.5, scale: 1.5, flip: true }); // 2026-11-15：80 内側へ（体の 3 割が舞台の外にあり、引きの絵でいつも切れていた）
     L.char('ren', rp, t, '', {});
-    // ジル（左）：4.0 封筒に手を伸ばす → 4.6〜5.2 開ける → 5.6 大きな束 → 6.2〜 もぐもぐ
+    // ユズ（左）：4.0 封筒に手を伸ばす → 4.6〜5.2 開ける → 5.6 大きな束 → 6.2〜 もぐもぐ
     const jOpen = ease(seg(t, 4.6, 5.2));
     let jp;
     if (t < 5.6) jp = Object.assign({}, RIG.POSES.sit, RIG.FACES.sharp, { eyeLook: .3 });
@@ -44,13 +44,13 @@ var EP = {
     if (t > 5.3 && t < 6.6) fx += L.sparkles(300, DESK - 360, t, 1.6, 7);
     if (t > 6.2 && t < 8.6) fx += L.munch(200, DESK - 320, t, 1.3);
     let ui = (t > 1.8 && t < 3.4 ? CHIP(L, 'BONUS DAY', 'ボーナスの日。上司と部下に封筒が1通ずつ', 1380, seg(t, 1.8, 2.1)) : '')
-      + (t > 5.8 && t < 8.6 ? CHIP_OFF(L, "JILL'S IS 10× BIGGER", '部下のほうが10倍多い', 1380, seg(t, 5.8, 6.1)) : '');
+      + (t > 5.8 && t < 8.6 ? CHIP_OFF(L, "YUZU'S IS 10× BIGGER", '部下のほうが10倍多い', 1380, seg(t, 5.8, 6.1)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.5, cx: 640, cy: 1150 },
       { t: 0.01, z: 1.25, cx: 620, cy: 1200, d: .8 },
-      { t: 1.3, z: 1.6, cx: 660, cy: 1240, d: .5 },                 // レンの封筒に寄る
+      { t: 1.3, z: 1.6, cx: 660, cy: 1240, d: .5 },                 // モチの封筒に寄る
       { t: 3.1, z: 1.15, cx: 600, cy: 1200, d: .5 },
-      { t: 4.4, z: 1.6, cx: 320, cy: 1230, d: .5 },                 // ジルの封筒に寄る
+      { t: 4.4, z: 1.6, cx: 320, cy: 1230, d: .5 },                 // ユズの封筒に寄る
       { t: 5.6, z: 1.1, cx: 580, cy: 1180, d: .5 },                 // 引き：両方見える
       { t: 7.2, z: 1.35, cx: 690, cy: 1200, d: .6 },
     ], t);

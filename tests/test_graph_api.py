@@ -36,7 +36,7 @@ def run_token_check(debug, page, extra_env=None):
     return cm.exception.code, keys, [a.decode() for a in raw.split(b"\0")], raw
 
 
-PAGE = {"id": fb.PAGE_ID, "name": "レンとジル Ren & Jill", "access_token": "EAApage1234567890", "instagram_business_account": {"id": "17841400000"}}
+PAGE = {"id": fb.PAGE_ID, "name": "東京うさぎオフィス Tokyo Usagi Office", "access_token": "EAApage1234567890", "instagram_business_account": {"id": "17841400000"}}
 OK = {"is_valid": True, "type": "SYSTEM_USER", "expires_at": 0, "data_access_expires_at": 0, "scopes": list(fb.ALL_SCOPES)}
 
 

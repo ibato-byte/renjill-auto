@@ -1,7 +1,7 @@
 // 「日なた」（約9.5秒・セリフなし）v2 演出／キャラは本番の rig.js
 // 状況：冬の朝。窓から床に日なたの四角。課長はその中で香箱すわり（ぬくぬく）
 // ひっくり返し：時計が進むと日なたが動く → 課長も少しずつ動く（座ったまま、すーっと）
-// オチ：夕方、日なたはジルの席へ。課長もジルの横にぴったり。字幕「上司の席：日なたのある所」
+// オチ：夕方、日なたはユズの席へ。課長もユズの横にぴったり。字幕「上司の席：日なたのある所」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
 const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
@@ -18,10 +18,10 @@ var EP = {
     const bg = L.office({ sky: move > .8 ? 'dusk' : 'day', clock: [Math.floor(hour), Math.round((hour % 1) * 60 / 15) * 15 % 60] });
     // 日なた（床＝机の天板の上の明るい四角）：右から左へ
     const sx = 860 - 560 * move;
-    // レン：日なたの中で香箱 → 日なたについていく（座ったまま横へ）→ ジルの横にぴったり
+    // モチ：日なたの中で香箱 → 日なたについていく（座ったまま横へ）→ ユズの横にぴったり
     const rx = 560 - 330 * move;
     const rface = t < 5.6 ? Object.assign({}, RIG.FACES.sleepy, { zzz: 0, eyeOpen: .25, blush: .5 }) : t < 7.0 ? Object.assign({}, RIG.FACES.smile, { blush: .7 }) : Object.assign({}, RIG.FACES.sleepy, { zzz: 1 });
-    // ジル（左）：書類 → 課長がだんだん近づいてきて「？」→ 横にぴったりで「…」→ にが笑い
+    // ユズ（左）：書類 → 課長がだんだん近づいてきて「？」→ 横にぴったりで「…」→ にが笑い
     const jface = t < 3.6 ? RIG.FACES.neutral : t < 5.6 ? Object.assign({}, RIG.FACES.think, { question: 1 }) : t < 7.0 ? Object.assign({}, RIG.FACES.surprised, { excl: 0 }) : Object.assign({}, RIG.FACES.smile, { blush: .3 });
     L.char('jil', Object.assign({}, RIG.POSES.sit, jface, { x: 20 - 60 * move, y: DESK - 413 * 1.3, scale: 1.3, eyeLook: t < 3.6 ? 0 : .9 }), t, '', {});
     L.char('ren', Object.assign({}, RIG.POSES.loaf, rface, { x: rx, y: DESK - 413 * 1.35, scale: 1.35, flip: true, eyeLook: -.4 }), t, '', {});
@@ -41,7 +41,7 @@ var EP = {
       { t: 0, z: 1.3, cx: 780, cy: 1150 },
       { t: 0.01, z: 1.05, cx: 600, cy: 1100, d: .9 },
       { t: 2.0, z: 1.0, cx: 540, cy: 1000, d: .6 },                 // 時間が進む（引き）
-      { t: 5.8, z: 1.25, cx: 360, cy: 1150, d: .5 },                // ジルの横にぴったり
+      { t: 5.8, z: 1.25, cx: 360, cy: 1150, d: .5 },                // ユズの横にぴったり
       { t: 7.4, z: 1.1, cx: 420, cy: 1120, d: .5 },
     ], t);
     if (t > 8.6) { fx = ''; ui = ''; }

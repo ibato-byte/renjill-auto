@@ -1,27 +1,27 @@
 // 休憩室のセット（2026-11-21 新規）。連載「休憩室のこたつ」（breakroom1・2・3）で共通に使う。
 // オーナーの決まり：前の話の最後と次の話の冒頭がつながるように、座る位置・布団のめくれ方・書類・ハンコ・ノートPC・みかんの位置をそろえる → ここで1か所に決める。
-// 使い方：document.write('<script src="v2/breakroom_set.js"><\/script>')（ポムを使うので v2/elevator_set.js も読む）
+// 使い方：document.write('<script src="v2/breakroom_set.js"><\/script>')（クリを使うので v2/elevator_set.js も読む）
 //   BR.bg(o) … 部屋（壁・窓・時計・札「休憩室」・床）
 //   BR.kotatsu(o) … こたつ（天板・布団）と天板の上の小物。キャラの前（#fx）に描く。o は下の STATE を参照
 (function () {
   const BR = {};
-  // ---- 立ち位置（3話とも同じ）。ジルは左で右向き（flip）、レンは右で左向き ----
+  // ---- 立ち位置（3話とも同じ）。ユズは左で右向き（flip）、モチは右で左向き ----
   BR.JIL = { x: 56, y: 776, s: 1.15, flip: true };
   BR.REN = { x: 546, y: 740, s: 1.3, flip: false };
   // ---- こたつ ----
   BR.K = { cx: 540, backY: 1168, frontY: 1244, backHalf: 285, frontHalf: 325, floor: 1650 };
   // 天板の上の小物の位置（3話とも同じ）
   BR.P = {
-    papers: { x: 736, y: 1222 },   // レンの書類の束
+    papers: { x: 736, y: 1222 },   // モチの書類の束
     hanko: { x: 818, y: 1224 },    // ハンコ（朱肉はその奥）
     pad: { x: 842, y: 1198 },      // 朱肉
-    laptop: { x: 362, y: 1220 },   // ジルのノートPC（画面はジルの方＝左を向いて開く）
+    laptop: { x: 362, y: 1220 },   // ユズのノートPC（画面はユズの方＝左を向いて開く）
     bowl: { x: 540, y: 1196 },     // みかんのかご
     peeled: { x: 640, y: 1218 },   // むいてあるみかん
   };
-  // 布団の中（ジルの後ろ足・ポム）。めくった所から見える
-  BR.FOOT = { x0: 330, y: 1560 };          // ジルの後ろ足の付け根（左の布団の中）
-  BR.LIFT = { cx: 800, w: 380 };           // レンがめくる所（布団の前の右はし＝レンの近く）
+  // 布団の中（ユズの後ろ足・クリ）。めくった所から見える
+  BR.FOOT = { x0: 330, y: 1560 };          // ユズの後ろ足の付け根（左の布団の中）
+  BR.LIFT = { cx: 800, w: 380 };           // モチがめくる所（布団の前の右はし＝モチの近く）
   const C = { wall: '#F3E6D2', wall2: '#E9D6BC', base: '#C9A57E', floor1: '#D8C2A2', floor2: '#C4A985', wood: '#A36A40', wood2: '#6E4428', fut1: '#7FA3C7', fut2: '#5E83AA', futL: '#E8F0F7', ink: '#3B2412' };
   const A = o => Object.entries(o).map(([k, v]) => `${k}="${v}"`).join(' ');
   // ---- 部屋 ----
@@ -70,7 +70,7 @@
     return `<g transform="translate(${x} ${y}) rotate(${k.rot || 0})"><ellipse cx="0" cy="2" rx="16" ry="5" fill="${C.ink}" opacity="${k.y != null ? .0 : .18}"/><rect x="-11" y="-58" width="22" height="58" rx="9" fill="#C8263C"/><rect x="-11" y="-58" width="8" height="58" rx="4" fill="#fff" opacity=".25"/><circle cx="0" cy="-60" r="10" fill="#A81E31"/><rect x="-13" y="-6" width="26" height="8" rx="3" fill="#7A1422"/></g>`;
   }
   function laptopSvg(p, k) {   // k = { open 0〜1（画面の開き）, glow }
-    const o = k.open == null ? 1 : k.open, ang = -8 - 96 * o;   // 開くと画面がジル（左）の方へ立つ。こちらからは画面の裏が見える
+    const o = k.open == null ? 1 : k.open, ang = -8 - 96 * o;   // 開くと画面がユズ（左）の方へ立つ。こちらからは画面の裏が見える
     return `<g transform="translate(${p.x} ${p.y})"><path d="M-88 0 L80 0 L96 16 L-72 16Z" fill="#C9CED3" stroke="#9AA3AB" stroke-width="2"/><path d="M-70 4 L70 4 L80 12 L-60 12Z" fill="#AEB6BE" opacity=".7"/>`
       + `<g transform="translate(-84 2) rotate(${ang})"><rect x="0" y="-8" width="172" height="12" rx="5" fill="#B9C0C7"/><rect x="0" y="-8" width="${172}" height="12" rx="5" fill="none" stroke="#8C959E" stroke-width="2"/></g>`
       + `<g transform="translate(-84 2) rotate(${ang})"><rect x="6" y="-6" width="160" height="10" rx="4" fill="#D7DDE2"/></g>`
@@ -93,7 +93,7 @@
   }
   BR.segment = (x, y, s = 1, rot = 0) => `<g transform="translate(${x} ${y}) rotate(${rot}) scale(${s})"><ellipse rx="10" ry="15" fill="#F7B04C" stroke="#E08A22" stroke-width="2"/><path d="M0 -12 Q4 0 0 12" stroke="#FFE2A8" stroke-width="2" fill="none"/></g>`;
   BR.mikan = mikanSvg;
-  // ---- 布団の中（めくった所の中。ジルの後ろ足・ポム）を描く関数を外から渡せる：o.inside(clipId) ----
+  // ---- 布団の中（めくった所の中。ユズの後ろ足・クリ）を描く関数を外から渡せる：o.inside(clipId) ----
   // o = { lift（めくり 0〜1）, bumps:[{x, k}]（布団のもぞもぞ。x と強さ 0〜1）, futL/futR（左右のすその動き）, props:{…}, inside: 文字列 }
   BR.kotatsu = (o = {}) => {
     const K = BR.K, cx = K.cx, by = K.backY, fy = K.frontY, fl = K.floor;
@@ -137,13 +137,13 @@
   };
   BR.hanko = (x, y, rot = 0) => hankoSvg(BR.P.hanko, { x, y, rot });
   BR.papers = (k) => papersSvg(BR.P.papers, k);
-  // ジルの後ろ足（布団の中で、左から中へのびる。付け根 FOOT・足先 tip）
+  // ユズの後ろ足（布団の中で、左から中へのびる。付け根 FOOT・足先 tip）
   BR.foot = (tipX, tipY, o = {}) => {
     const f = BR.FOOT, mx = (f.x0 + tipX) / 2, my = Math.min(f.y, tipY) - 14;
     return `<g><path d="M${f.x0 - 60} ${f.y + 10} Q${mx} ${my} ${tipX} ${tipY}" stroke="#D2A877" stroke-width="56" fill="none" stroke-linecap="round"/><path d="M${f.x0 - 60} ${f.y + 4} Q${mx} ${my - 8} ${tipX - 10} ${tipY - 8}" stroke="#E6C49A" stroke-width="18" fill="none" stroke-linecap="round" opacity=".7"/>`
       + `<ellipse cx="${tipX + 14}" cy="${tipY + 4}" rx="40" ry="26" fill="#F3E3CC"/><ellipse cx="${tipX + 22}" cy="${tipY + 10}" rx="10" ry="7" fill="#E7B9A8" opacity=".7"/></g>`;
   };
-  // ポムが寝ている姿（横になって、両前足で何かを抱える）。(x, y) が体の真ん中。rot で寝返り
+  // クリが寝ている姿（横になって、両前足で何かを抱える）。(x, y) が体の真ん中。rot で寝返り
   BR.pomSleep = (x, y, s, o = {}) => {
     const q = Object.assign({ eye: 'happy', blush: .6, paws: 0 }, o.q || {});
     return `<g transform="translate(${x} ${y}) rotate(${o.rot != null ? o.rot : -78}) scale(${o.flip ? -1 : 1} 1)">${ELV.pom(0, 70, s, q)}</g>`;
@@ -156,7 +156,7 @@
       + `<g transform="translate(${hx} ${hy}) rotate(${ang})"><ellipse rx="${pw}" ry="${ph}" fill="${col}"/><ellipse cx="${-pw * .1}" cy="${-ph * .35}" rx="${pw * .62}" ry="${ph * .38}" fill="#fff" opacity=".32"/>`
       + [-.32, .18].map(k => `<path d="M${pw * .98} ${ph * k} Q${pw * .78} ${ph * (k + .04)} ${pw * .6} ${ph * k}" fill="none" stroke="#8E7052" stroke-width="${w * .055}" stroke-linecap="round" opacity=".6"/>`).join('') + `</g></g>`;
   };
-  // レンが身をかがめた形（第1話の最後〜第3話の途中。3話で同じ値）
+  // モチが身をかがめた形（第1話の最後〜第3話の途中。3話で同じ値）
   BR.CROUCH = { dx: 280, dy: 360, tilt: -30 };   // 2026-11-21：こたつの右の外へ身をかがめる（前足を公式の長さのまま布団のはしへ届かせるため）
   window.BR = BR;
 })();

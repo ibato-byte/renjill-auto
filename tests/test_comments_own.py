@@ -16,7 +16,7 @@ class H:
 
 class OwnCommentTest(unittest.TestCase):
     def test_instagram(self):
-        r = comments.fetch_meta("ig", "1", "t", H({"data": [{"id": "a", "text": "x", "username": "renjill_office"}, {"id": "b", "text": "y", "username": "fan"}]}))
+        r = comments.fetch_meta("ig", "1", "t", H({"data": [{"id": "a", "text": "x", "username": "tokyo_usagi_office"}, {"id": "b", "text": "y", "username": "fan"}]}))
         self.assertEqual([c["own"] for c in r], [True, False])
 
     def test_facebook(self):

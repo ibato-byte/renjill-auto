@@ -18,7 +18,7 @@ const STEP = 0.125, W = 1080, H = 1920;
   p.on('console', m => { if (m.type() === 'error') errors.push('console: ' + m.text()); });
   await p.goto('file://' + __dirname + '/ep.html?ep=' + ep); await p.waitForTimeout(600);
   const dur = await p.evaluate(() => outDur());   // 画面に出る長さ（頭を削り、速くしたあと。依頼 #97）
-  // 台本が「わざと」と宣言した時間（EP.qaAllow）は、その検査だけ通す（2026-11-17 オーナーの絵コンテ：エレベーター第3話でレンが書類に埋もれる・最後の静止とテロップ）。
+  // 台本が「わざと」と宣言した時間（EP.qaAllow）は、その検査だけ通す（2026-11-17 オーナーの絵コンテ：エレベーター第3話でモチが書類に埋もれる・最後の静止とテロップ）。
   //   EP.qaAllow = { hidden_ren: [[開始, 終わり], …], still: [[開始, 終わり]] }（見える時間・秒）。理由は台本のコメントに書く
   const ALLOW = await p.evaluate(() => (window.EP && window.EP.qaAllow) || {});
   const allowAt = (k, t) => (ALLOW[k] || []).some(([a, b]) => t >= a && t <= b);
@@ -27,7 +27,7 @@ const STEP = 0.125, W = 1080, H = 1920;
   const issues = [], warns = [];
   // 台本が読めない（文法のまちがいなど）のに合格にしない（2026-11-22：第3話の台本がこわれていたのに qa.js が通った）
   if (!(await p.evaluate(() => !!(window.EP && typeof window.EP.frame === 'function')))) issues.push('台本が読めない（window.EP が無い。node --check rig/ep/<回>.js で文法を確かめる）');
-  // ---- 腕（2026-11-10 の報告「変なところから腕が生える」）：レンとジルには元のデザインに腕がない。
+  // ---- 腕（2026-11-10 の報告「変なところから腕が生える」）：モチとユズには元のデザインに腕がない。
   //   ① エピソードの中で太い丸い線（腕のような物）を直接描かない → common.js の limb()（体のふちから・長さに上限）を使う
   //   ② limb() で届かず、腕を短く切った所があれば知らせる（手と持ち物が離れて見える）
   try { const src = fs.readFileSync(path.join(__dirname, 'ep', ep + '.js'), 'utf8');
@@ -126,16 +126,16 @@ const STEP = 0.125, W = 1080, H = 1920;
         const dx = (f.cx - r.tx) / r.z - (pf.cx - prevTx) / prevZ, dy = (f.cy - r.ty) / r.z - (pf.cy - prevTy) / prevZ; // ワールド座標での移動
         const d = Math.hypot(dx, dy); const pd = prevD[id] || 0;
         // 直前のコマがほぼ止まっていたのに急に大きく動く＝ポップ。落下や走りなど連続した速い動きは通す
-        if (d > 240 && pd < d * 0.35 && !cutAt(t)) issues.push(`${id === 'ren' ? 'レン' : 'ジル'}が瞬間移動 t=${t.toFixed(2)}（${Math.round(d)}px/コマ）`);
+        if (d > 240 && pd < d * 0.35 && !cutAt(t)) issues.push(`${id === 'ren' ? 'モチ' : 'ユズ'}が瞬間移動 t=${t.toFixed(2)}（${Math.round(d)}px/コマ）`);
         prevD[id] = d;
       }
     }
     prevFaces = r.faces; prevTx = r.tx; prevTy = r.ty; prevZ = r.z;
     // 顔が他のもの（書類・相手・fx）に隠れる：9点中5点以上が他レイヤーに覆われる状態が0.75秒以上
     for (const [id, f] of Object.entries(r.faces)) {
-      if (f.vis >= 0.6 && f.covered >= 0.55 && r.end < 0.5 && !allowAt('hidden_' + id, t)) { occl[id] = (occl[id] || 0) + STEP; if (Math.abs(occl[id] - 0.75) < 1e-6) issues.push(`${id === 'ren' ? 'レン' : 'ジル'}の顔が隠れている t=${(t - 0.75).toFixed(2)}〜`); } else occl[id] = 0;
+      if (f.vis >= 0.6 && f.covered >= 0.55 && r.end < 0.5 && !allowAt('hidden_' + id, t)) { occl[id] = (occl[id] || 0) + STEP; if (Math.abs(occl[id] - 0.75) < 1e-6) issues.push(`${id === 'ren' ? 'モチ' : 'ユズ'}の顔が隠れている t=${(t - 0.75).toFixed(2)}〜`); } else occl[id] = 0;
       // テロップ・字幕（#ui）が顔を半分以上かくすのが1秒以上：まずは警告（在庫を確かめたら不合格に上げる）
-      if (f.vis >= 0.6 && f.byUi >= 0.55 && r.end < 0.5) { uiOver[id] = (uiOver[id] || 0) + STEP; if (Math.abs(uiOver[id] - 1.0) < 1e-6) warns.push(`テロップが${id === 'ren' ? 'レン' : 'ジル'}の顔にかかっている t=${(t - 1.0).toFixed(2)}〜（帯を空いた所へ動かす）`); } else uiOver[id] = 0;
+      if (f.vis >= 0.6 && f.byUi >= 0.55 && r.end < 0.5) { uiOver[id] = (uiOver[id] || 0) + STEP; if (Math.abs(uiOver[id] - 1.0) < 1e-6) warns.push(`テロップが${id === 'ren' ? 'モチ' : 'ユズ'}の顔にかかっている t=${(t - 1.0).toFixed(2)}〜（帯を空いた所へ動かす）`); } else uiOver[id] = 0;
     }
     if (r.dimGap && r.dimGap.length) issues.push(`暗い幕が画面の端まで届いていない（${r.dimGap.join('・')}）t=${t.toFixed(2)}`);
     if (r.z < 0.9 || r.z > 4.2) issues.push(`カメラ倍率が範囲外 t=${t.toFixed(2)} z=${r.z.toFixed(2)}`);
@@ -193,14 +193,14 @@ const STEP = 0.125, W = 1080, H = 1920;
     await p.evaluate(() => { for (const id of ['world', 'ui', 'hook']) { const e = document.getElementById(id); if (e) e.style.visibility = ''; } });
     if (endOp >= 0.9 && Math.abs(full.length - base.length) > 200) issues.push(`エンドカードの上に物が残っている（そのまま ${full.length} バイト／エンドカードだけ ${base.length} バイト）`);
   }
-  { const cut = await p.evaluate(() => window.__LIMBCUT || 0); if (cut > 0) issues.push(`腕を長く伸ばす所がある（必要な長さ ${Math.round(cut)}px）：レンとジルには腕がない。持ち物は体のすぐ前に置き、前足だけで持つ`); }
+  { const cut = await p.evaluate(() => window.__LIMBCUT || 0); if (cut > 0) issues.push(`腕を長く伸ばす所がある（必要な長さ ${Math.round(cut)}px）：モチとユズには腕がない。持ち物は体のすぐ前に置き、前足だけで持つ`); }
   if (capSet.size > 2) warns.push(`字幕が${capSet.size}種類（決まりは2回まで。オチは絵で見せる）：${[...capSet].map(x => x.split(/\s+/)[0]).join('／')}`);
   // 体が半分切れたまま映る時間：1 秒以上は知らせる、2.5 秒以上は不合格（2026-11-15：在庫の 40 話のカメラを rig/camfit.js で直し終えたので、長い物は通さない。
   //   寄りへ動く途中に相手が切れるのは自然なので、短い物は知らせるだけ）
-  for (const id of ['ren', 'jil']) { if ((cutT[id] || 0) >= 2.5) issues.push(`${id === 'ren' ? 'レン' : 'ジル'}の体が、半分切れたまま ${cutT[id].toFixed(1)} 秒映っている（寄りの演出を除く）：node rig/camfit.js <回> --write でカメラを直すか、立ち位置を内側へ`);
-    else if ((cutT[id] || 0) >= 1) warns.push(`${id === 'ren' ? 'レン' : 'ジル'}の体が画面から4割以上切れている時間が${cutT[id].toFixed(1)}秒（寄りの演出を除く）`);
+  for (const id of ['ren', 'jil']) { if ((cutT[id] || 0) >= 2.5) issues.push(`${id === 'ren' ? 'モチ' : 'ユズ'}の体が、半分切れたまま ${cutT[id].toFixed(1)} 秒映っている（寄りの演出を除く）：node rig/camfit.js <回> --write でカメラを直すか、立ち位置を内側へ`);
+    else if ((cutT[id] || 0) >= 1) warns.push(`${id === 'ren' ? 'モチ' : 'ユズ'}の体が画面から4割以上切れている時間が${cutT[id].toFixed(1)}秒（寄りの演出を除く）`);
     // 2026-11-13：在庫76話がすべて20%以上になったので不合格に上げた（wifi・mute を作り直し）
-    if (sizeN[id] >= 8 && sizeSum[id] / sizeN[id] < 0.2) issues.push(`${id === 'ren' ? 'レン' : 'ジル'}が小さい（画面の高さの平均${Math.round(100 * sizeSum[id] / sizeN[id])}%。35%以上が目安・20%未満は不合格）`); }
+    if (sizeN[id] >= 8 && sizeSum[id] / sizeN[id] < 0.2) issues.push(`${id === 'ren' ? 'モチ' : 'ユズ'}が小さい（画面の高さの平均${Math.round(100 * sizeSum[id] / sizeN[id])}%。35%以上が目安・20%未満は不合格）`); }
   await b.close();
   if (errors.length) issues.push(...[...new Set(errors)].slice(0, 5));
   // コンタクトシート（4x3）

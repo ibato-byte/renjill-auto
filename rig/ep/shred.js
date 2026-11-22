@@ -1,7 +1,7 @@
 // 「シュレッダーの紙くず」（約9.5秒・セリフなし）v2 演出／キャラは本番の rig.js
-// 状況：年末の書類整理。ジルが書類をシュレッダーへ（束が減る・紙くずがごみ箱にたまる）
-// ひっくり返し：紙くずが山盛り → レンの目がきらっ → ごみ箱に飛び込む（ぽすっ）
-// オチ：紙くずの巣でレンがすやすや（顔だけ出して zzz）。ジルは手を止めてジト目 → でもそっと書類を追加（♥）。字幕「紙くず：上司の巣」
+// 状況：年末の書類整理。ユズが書類をシュレッダーへ（束が減る・紙くずがごみ箱にたまる）
+// ひっくり返し：紙くずが山盛り → モチの目がきらっ → ごみ箱に飛び込む（ぽすっ）
+// オチ：紙くずの巣でモチがすやすや（顔だけ出して zzz）。ユズは手を止めてジト目 → でもそっと書類を追加（♥）。字幕「紙くず：上司の巣」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
 const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
@@ -21,11 +21,11 @@ var EP = {
     const shredding = t >= 1.2 && t < 4.3;
     const fill = Math.min(1, Math.max(0, (t - 1.2) / 3.1));                 // ごみ箱の紙くず
     const inBin = t >= 5.1;
-    // ジル（左）：書類を入れる（lean・小さく頭が上下）→ 飛び込みに驚く → ジト目 → 書類をそっと足す（にこ・♥）
+    // ユズ（左）：書類を入れる（lean・小さく頭が上下）→ 飛び込みに驚く → ジト目 → 書類をそっと足す（にこ・♥）
     const jface = t < 4.6 ? RIG.FACES.sharp : t < 5.7 ? Object.assign({}, RIG.FACES.surprised, { excl: 0 }) : t < 7.0 ? RIG.FACES.annoyed : RIG.FACES.shy;
     const jp = Object.assign({}, shredding || (t >= 7.0 && t < 7.6) ? RIG.POSES.lean : RIG.POSES.sit, jface, { x: 40, y: DESK - 413 * 1.3, scale: 1.3, eyeLook: .8, bodyTilt: shredding ? -12 : 0, headNod: shredding ? Math.abs(Math.sin(t * 10)) * 6 : 0 });
     L.char('jil', jp, t, '', {});
-    // レン（右）：見ている → 紙くずに目がきらっ（4.3）→ 4.7 ジャンプ → 5.1 ごみ箱の中へ（下へ沈む）→ すやすや
+    // モチ（右）：見ている → 紙くずに目がきらっ（4.3）→ 4.7 ジャンプ → 5.1 ごみ箱の中へ（下へ沈む）→ すやすや
     const h = t >= 4.7 && t < 5.1 ? RIG.hop(t, 4.7, 5.1, 540, 540, { hops: 1, height: 160 }) : { x: 540, yOff: 0, squash: 0 };
     const sink = 70 * ease(seg(t, 4.9, 5.35));                                 // 着地しながら箱の中へ沈む（瞬間移動しない）
     const rface = t < 4.3 ? RIG.FACES.neutral : t < 5.1 ? Object.assign({}, RIG.FACES.smile, { sparkle: 1 }) : t < 5.6 ? RIG.FACES.smile : RIG.FACES.sleepy;
@@ -33,13 +33,13 @@ var EP = {
     L.char('ren', rp, t, '', {});
     let fx = `${L.deskFront(DESK)}`
       + [60, 560].map(x => `${L.drawer(x, DESK)}`).join('');
-    // 書類の束（ジルの手元）：入れるたびに減る
+    // 書類の束（ユズの手元）：入れるたびに減る
     const left = Math.max(0, 14 - Math.floor(fill * 14) + (t >= 7.4 ? 3 : 0));
     fx += L.papers(250, DESK - 4, left);
     // シュレッダー（机の中央）と、入っていく紙
     fx += SHREDDER(560, DESK + 6, shredding);
     if (shredding) { const u = ((t - 1.2) % .6) / .6; fx += `<rect x="${520}" y="${DESK - 210 + u * 90}" width="80" height="${100 * (1 - u)}" fill="#fff" stroke="#D7CCBB" stroke-width="3"/>`; fx += STRIPS(700, DESK - 30, 120, 6, t, 10); }
-    // ごみ箱（レンの前）：中の紙くずが増える → レンが入ると周りにあふれる。レンの顔より下に置く
+    // ごみ箱（モチの前）：中の紙くずが増える → モチが入ると周りにあふれる。モチの顔より下に置く
     const BX = 840, BT = 1330;
     fx += `<g pointer-events="none">${inBin ? STRIPS(BX - 175, BT + 5, 110, 14, t, 2) + STRIPS(BX + 175, BT + 5, 110, 14, t, 2) + (t > 5.35 ? STRIPS(830, 1040, 150, 5, t, 1) : '') : STRIPS(BX, BT + 10 - fill * 50, 300, Math.round(10 + fill * 40), t)}<path d="M${BX - 170} ${BT} L${BX + 170} ${BT} L${BX + 140} ${DESK + 6} L${BX - 140} ${DESK + 6} Z" fill="#8FA7C2" stroke="#5A7FA8" stroke-width="6"/><path d="M${BX - 120} ${BT + 20} v40 M${BX - 40} ${BT + 20} v40 M${BX + 40} ${BT + 20} v40 M${BX + 120} ${BT + 20} v40" stroke="#5A7FA8" stroke-width="5" opacity=".5"/></g>`;
     if (t > 4.3 && t < 4.7) fx += L.sparkles(837, 1100, t, 1.0, 5);
@@ -54,7 +54,7 @@ var EP = {
       { t: 2.4, z: 1.2, cx: 700, cy: 1250, d: .5 },                 // ごみ箱がいっぱいに
       { t: 4.6, z: 1.05, cx: 600, cy: 1150, d: .3 },                // 飛び込み
       { t: 5.6, z: 1.4, cx: 620, cy: 1280, d: .5 },                 // 巣ですやすや
-      { t: 6.9, z: 1.1, cx: 560, cy: 1200, d: .5 },                 // ジルが書類を足す
+      { t: 6.9, z: 1.1, cx: 560, cy: 1200, d: .5 },                 // ユズが書類を足す
     ], t);
     if (t > 8.6) { fx = ''; ui = ''; }
     L.mount({ bg, fx, ui, cam, t, shake: t > 5.1 && t < 5.2 ? 5 : 0 });

@@ -1,4 +1,4 @@
-# X（@renjill_office）への投稿（2026-11-15 から）
+# X（@tokyo_usagi_office）への投稿（2026-11-15 から）
 
 - X の自動投稿の仕組み（API）は有料なので使わない。Claude が翔太さんの Chrome から手で出す（無料）。オーナー了承済み（2026-11-15）。
 - 説明文は `post.x_caption(p, defaults)`（X の数え方で 280 以内。英語・日本語の一言＋タグ 2 個＋ゲームの案内）。手で書かない。試験 tests/test_x_caption.py。

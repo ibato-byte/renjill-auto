@@ -1,8 +1,8 @@
 {
-  "_comment": "2026-11-16 オーナー決定：投稿は毎週 月・木・土 の週3本、1週間の3本で1つの話（3話連載。docs/SERIES.md・auto/series_policy.json）。ほかの曜日には回を入れない（post.py が出さない）。連載の回には series（id・part・of）を書く。\n毎週のPDCAでClaudeがここを更新する。dateはJST。slotは 12:00 / 18:00 / 19:00。platformsは ig / tt / yt / facebook（Facebook ページ「レンとジル」のリール。Instagram と同じ動画・同じ時刻。キャプションは caption_en→caption_ja→fb_cta→fb_tag_sets のハッシュタグ3個以内）。tag_setはA/Bの交互で効果を比較し、勝った方を翌週のdefaultsに昇格させる。thumbはサムネ（t=秒, cam=ズーム,中心x,中心y, hook='英語の一言(12文字以内)/日本語の補足(10文字以内)'）。海外にも届くよう英語を主、日本語を従にする。 camは顔が画面の下寄り（y 900〜1300）に来るよう cy を小さめにする（文字は上、チップはその下、全部が中央3:4に収まる）。 caption_tail_en はキャプションの最後の行（Instagram・TikTok・Threads はリンクが押せないので「プロフィールのリンクから」）。yt_description と fb_cta にはゲームのリンクを入れる（押せる）。",
+  "_comment": "2026-11-16 オーナー決定：投稿は毎週 月・木・土 の週3本、1週間の3本で1つの話（3話連載。docs/SERIES.md・auto/series_policy.json）。ほかの曜日には回を入れない（post.py が出さない）。連載の回には series（id・part・of）を書く。\n毎週のPDCAでClaudeがここを更新する。dateはJST。slotは 12:00 / 18:00 / 19:00。platformsは ig / tt / yt / facebook（Facebook ページ「東京うさぎオフィス」のリール。Instagram と同じ動画・同じ時刻。キャプションは caption_en→caption_ja→fb_cta→fb_tag_sets のハッシュタグ3個以内）。tag_setはA/Bの交互で効果を比較し、勝った方を翌週のdefaultsに昇格させる。thumbはサムネ（t=秒, cam=ズーム,中心x,中心y, hook='英語の一言(12文字以内)/日本語の補足(10文字以内)'）。海外にも届くよう英語を主、日本語を従にする。 camは顔が画面の下寄り（y 900〜1300）に来るよう cy を小さめにする（文字は上、チップはその下、全部が中央3:4に収まる）。 caption_tail_en はキャプションの最後の行（Instagram・TikTok・Threads はリンクが押せないので「プロフィールのリンクから」）。yt_description と fb_cta にはゲームのリンクを入れる（押せる）。",
   "defaults": {
-    "yt_description": "▶ Play the free game – Ren & Jill: Hay Dash (no download): https://hay-dash.coana.co.jp/?lang=en\n▶ 無料ゲーム「レンとジルのチモシーダッシュ」（登録なし・スマホですぐ遊べる）: https://hay-dash.coana.co.jp/\n\nA wordless office comedy about two bunnies: Ren, the absent-minded boss (Holland Lop), and Jill, his sharp assistant (Netherland Dwarf).\nうさぎの課長レン（たれ耳）と、しっかり者の部下ジル。セリフなしのオフィスコメディ。\n\nNew episodes every Mon, Thu & Sat — a 3-part story each week / 新作は毎週 月・木・土（3話で1つのお話）\nInstagram / TikTok / X: @renjill_office\nFacebook: レンとジル Ren & Jill",
-    "caption_tail_en": "Follow for more Ren & Jill 🐰\n▶ Free game: link in bio / 無料ゲームはプロフィールのリンクから",
+    "yt_description": "▶ Play the free game – Tokyo Usagi Office: Hay Dash (no download): https://hay-dash.coana.co.jp/?lang=en\n▶ 無料ゲーム「東京うさぎオフィスのチモシーダッシュ」（登録なし・スマホですぐ遊べる）: https://hay-dash.coana.co.jp/\n\nA wordless office comedy about two bunnies: Mochi, the absent-minded boss (Holland Lop), and Yuzu, his sharp assistant (Netherland Dwarf).\nうさぎの課長モチ（たれ耳）と、しっかり者の部下ユズ。セリフなしのオフィスコメディ。\n\nNew episodes every Mon, Thu & Sat — a 3-part story each week / 新作は毎週 月・木・土（3話で1つのお話）\nInstagram / TikTok / X: @tokyo_usagi_office\nFacebook: 東京うさぎオフィス Tokyo Usagi Office",
+    "caption_tail_en": "Follow for more Tokyo Usagi Office 🐰\n▶ Free game: link in bio / 無料ゲームはプロフィールのリンクから",
     "platforms": [
       "ig",
       "tt",
@@ -109,7 +109,7 @@
       "slot": "12:00",
       "ep": "jil_morning2",
       "no": 2,
-      "title": "ジルの朝",
+      "title": "ユズの朝",
       "caption_ja": "メガネをかけたらスイッチが入る。課長のスイッチはどこ？",
       "caption_en": "Glasses on, switch on. Where's the boss's switch?",
       "tag_set": "B",
@@ -120,9 +120,9 @@
       },
       "site_i18n": {
         "title": {
-          "en": "Jill's morning",
-          "zh": "Jill 的早晨",
-          "ko": "Jill의 아침"
+          "en": "Yuzu's morning",
+          "zh": "Yuzu 的早晨",
+          "ko": "Yuzu의 아침"
         },
         "caption": {
           "zh": "戴上眼鏡就開啟工作模式。課長的開關在哪？",
@@ -187,14 +187,14 @@
       "slot": "19:00",
       "ep": "pom_debut",
       "no": 10,
-      "title": "新人のポム",
+      "title": "新人のクリ",
       "caption_ja": "断れない新人のほおぶくろは、もう満杯です。",
       "caption_en": "The new hire never says no. His cheeks can't either.",
       "tag_set": "A",
       "thumb": {
         "t": 6.5,
         "cam": "1.2,540,960",
-        "hook": "NEW HIRE/新人のポム",
+        "hook": "NEW HIRE/新人のクリ",
         "variant": "B"
       },
       "experiment": {
@@ -205,9 +205,9 @@
       },
       "site_i18n": {
         "title": {
-          "en": "New hire: Pom",
-          "zh": "新人 Pom",
-          "ko": "신입 Pom"
+          "en": "New hire: Kuri",
+          "zh": "新人 Kuri",
+          "ko": "신입 Kuri"
         },
         "caption": {
           "zh": "不會拒絕的新人，頰囊已經塞滿了。",
@@ -254,7 +254,7 @@
       "ep": "vending",
       "no": 12,
       "title": "自販機のにんじんジュース",
-      "caption_ja": "自販機にコインを入れたのに、にんじんジュースが出ない。叩いて、蹴って、そして缶の雨。（ジルは全部持っていった）",
+      "caption_ja": "自販機にコインを入れたのに、にんじんジュースが出ない。叩いて、蹴って、そして缶の雨。（ユズは全部持っていった）",
       "caption_en": "He just wanted a carrot juice. He got every can except that one.",
       "tag_set": "A",
       "thumb": {
@@ -296,7 +296,7 @@
         "cam": "1.3,600,930",
         "hook": "REPLY ALL?!/全員に返信"
       },
-      "first_comment": "ジルが無言で画面を閉じたのは、やさしさ？それとも巻き込まれたくなかった？",
+      "first_comment": "ユズが無言で画面を閉じたのは、やさしさ？それとも巻き込まれたくなかった？",
       "experiment": {
         "var": "slot",
         "std": "18:00",
@@ -330,7 +330,7 @@
         "hook": "THUMBS UP./了解です",
         "variant": "B"
       },
-      "first_comment": "ジルの「辞めます」に、あなたの職場でやりがちなのは？ A: 親指だけ返す B: 既読スルー",
+      "first_comment": "ユズの「辞めます」に、あなたの職場でやりがちなのは？ A: 親指だけ返す B: 既読スルー",
       "experiment": {
         "var": "thumb_variant",
         "std": "A",
@@ -355,15 +355,15 @@
       "ep": "lastsheet",
       "no": 15,
       "title": "最後の1枚",
-      "caption_ja": "最後の1枚をレンもジルも譲らない。結局ポムがテープで貼って「1枚」。",
-      "caption_en": "One sheet left. Two bunnies. Zero compromise. Pom tapes it all back together.",
+      "caption_ja": "最後の1枚をモチもユズも譲らない。結局クリがテープで貼って「1枚」。",
+      "caption_en": "One sheet left. Two bunnies. Zero compromise. Kuri tapes it all back together.",
       "tag_set": "B",
       "thumb": {
         "t": 3.0,
         "cam": "1.15,540,1270",
         "hook": "LAST SHEET/最後の1枚"
       },
-      "first_comment": "あなたなら？ ①ジルみたいに半分でも堂々と出す ②レンみたいに最後まで引っぱる",
+      "first_comment": "あなたなら？ ①ユズみたいに半分でも堂々と出す ②モチみたいに最後まで引っぱる",
       "experiment": {
         "var": "tag_set",
         "std": "A",
@@ -377,8 +377,8 @@
           "ko": "마지막 한 장"
         },
         "caption": {
-          "zh": "最後一張紙，Ren 和 Jill 誰都不讓。最後 Pom 用膠帶貼成「一張」。",
-          "ko": "마지막 한 장, 렌도 질도 양보하지 않아요. 결국 폼이 테이프로 붙여서 \"한 장\"."
+          "zh": "最後一張紙，Mochi 和 Yuzu 誰都不讓。最後 Kuri 用膠帶貼成「一張」。",
+          "ko": "마지막 한 장, 모찌도 유자도 양보하지 않아요. 결국 쿠리가 테이프로 붙여서 \"한 장\"."
         }
       }
     },
@@ -388,7 +388,7 @@
       "ep": "nenmatsu",
       "no": 18,
       "title": "年末調整",
-      "caption_ja": "年末調整の書類、読むほど長くなる気がする。レン課長、倒れました。",
+      "caption_ja": "年末調整の書類、読むほど長くなる気がする。モチ課長、倒れました。",
       "caption_en": "Year-end tax forms. The more the boss reads, the longer they get.",
       "tag_set": "C",
       "thumb": {
@@ -451,11 +451,11 @@
         "why": "ハッシュタグの組み合わせを変えて、見つかり方を比べる"
       },
       "title_i18n": {
-        "ja": "ハンコ8個、7個目で朱肉が切れた上司 | レンとジル「ハンコ8個」",
-        "ko": "도장 8개, 7개째에 인주가 떨어졌다 | 렌과 질 Ren & Jill",
-        "zh-Hant": "八個印章，第七個就沒印泥了 | 蓮與吉兒 Ren & Jill",
-        "es": "8 sellos y la tinta se acaba en el 7 | Ren & Jill",
-        "pt": "8 carimbos e a tinta acaba no 7º | Ren & Jill"
+        "ja": "ハンコ8個、7個目で朱肉が切れた上司 | 東京うさぎオフィス「ハンコ8個」",
+        "ko": "도장 8개, 7개째에 인주가 떨어졌다 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "八個印章，第七個就沒印泥了 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "8 sellos y la tinta se acaba en el 7 | Tokyo Usagi Office",
+        "pt": "8 carimbos e a tinta acaba no 7º | Tokyo Usagi Office"
       }
     },
     {
@@ -464,8 +464,8 @@
       "ep": "teiji",
       "no": 19,
       "title": "定時1分前",
-      "caption_ja": "金曜17:59、書類の山を抱えた課長が来た。ジルは18:00ちょうどに消えました。",
-      "caption_en": "Friday, 17:59. The boss shows up with a stack of papers. Jill was gone at 18:00 sharp.",
+      "caption_ja": "金曜17:59、書類の山を抱えた課長が来た。ユズは18:00ちょうどに消えました。",
+      "caption_en": "Friday, 17:59. The boss shows up with a stack of papers. Yuzu was gone at 18:00 sharp.",
       "tag_set": "C",
       "thumb": {
         "t": 3.4,
@@ -481,8 +481,8 @@
           "ko": "퇴근 1분 전"
         },
         "caption": {
-          "zh": "星期五17:59，課長抱著一疊文件走過來。吉兒在18:00準時消失了。",
-          "ko": "금요일 17:59, 과장님이 서류 더미를 안고 왔어요. 질은 18:00 정각에 사라졌어요."
+          "zh": "星期五17:59，課長抱著一疊文件走過來。柚子在18:00準時消失了。",
+          "ko": "금요일 17:59, 과장님이 서류 더미를 안고 왔어요. 유자는 18:00 정각에 사라졌어요."
         }
       },
       "cta": "Tag the coworker who vanishes at 6/定時で消える同僚に送ろう",
@@ -493,11 +493,11 @@
         "why": "サムネの文字の位置（上と下）を変えて、プロフィール一覧からの見られ方を比べる"
       },
       "title_i18n": {
-        "ja": "定時1分前に仕事を持ってくる上司 | レンとジル「定時1分前」",
-        "ko": "퇴근 1분 전에 일을 들고 온 과장님 | 렌과 질 Ren & Jill",
-        "zh-Hant": "下班前一分鐘拿工作來的課長 | 蓮與吉兒 Ren & Jill",
-        "es": "El jefe trae trabajo a las 17:59 | Ren & Jill",
-        "pt": "O chefe traz trabalho às 17:59 | Ren & Jill"
+        "ja": "定時1分前に仕事を持ってくる上司 | 東京うさぎオフィス「定時1分前」",
+        "ko": "퇴근 1분 전에 일을 들고 온 과장님 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "下班前一分鐘拿工作來的課長 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "El jefe trae trabajo a las 17:59 | Tokyo Usagi Office",
+        "pt": "O chefe traz trabalho às 17:59 | Tokyo Usagi Office"
       }
     },
     {
@@ -526,19 +526,19 @@
           "ko": "종이컵, 머그, 양동이. 과장의 \"조금만\"에 바닥이 물바다가 됐어요."
         }
       },
-      "cta": "Which one is your boss?/あなたの職場のレンは誰？",
+      "cta": "Which one is your boss?/あなたの職場のモチは誰？",
       "experiment": {
         "var": "cta",
         "std": "Send this to the coworker who needs it./あの同僚に送ってあげて",
-        "value": "Which one is your boss?/あなたの職場のレンは誰？",
+        "value": "Which one is your boss?/あなたの職場のモチは誰？",
         "why": "最後の一言を足して、送る・保存する人が増えるか比べる"
       },
       "title_i18n": {
-        "ja": "「ちょっとだけ」で床が水びたし | レンとジル「ウォーターサーバー」",
-        "ko": "\"조금만\" 했는데 바닥이 물바다 | 렌과 질 Ren & Jill",
-        "zh-Hant": "「只要一點點」，地板變成水池 | 蓮與吉兒 Ren & Jill",
-        "es": "\"Solo un poco de agua\" y la oficina se inunda | Ren & Jill",
-        "pt": "\"Só um pouquinho de água\" e o escritório alaga | Ren & Jill"
+        "ja": "「ちょっとだけ」で床が水びたし | 東京うさぎオフィス「ウォーターサーバー」",
+        "ko": "\"조금만\" 했는데 바닥이 물바다 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "「只要一點點」，地板變成水池 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "\"Solo un poco de agua\" y la oficina se inunda | Tokyo Usagi Office",
+        "pt": "\"Só um pouquinho de água\" e o escritório alaga | Tokyo Usagi Office"
       }
     },
     {
@@ -547,8 +547,8 @@
       "ep": "meeting",
       "no": 20,
       "title": "10分の会議",
-      "caption_ja": "「10分だけ」の会議、2時間後。ジルはコーヒー3杯目で寝落ちです。",
-      "caption_en": "\"Just 10 minutes,\" the boss said. Two hours later, Jill is asleep on her third coffee.",
+      "caption_ja": "「10分だけ」の会議、2時間後。ユズはコーヒー3杯目で寝落ちです。",
+      "caption_en": "\"Just 10 minutes,\" the boss said. Two hours later, Yuzu is asleep on her third coffee.",
       "tag_set": "A",
       "thumb": {
         "t": 6.2,
@@ -563,8 +563,8 @@
           "ko": "딱 10분만"
         },
         "caption": {
-          "zh": "「只要10分鐘」的會議，兩小時後。吉兒喝到第三杯咖啡就睡著了。",
-          "ko": "\"딱 10분만\"이라던 회의, 두 시간 뒤. 질은 세 잔째 커피에서 잠들었어요."
+          "zh": "「只要10分鐘」的會議，兩小時後。柚子喝到第三杯咖啡就睡著了。",
+          "ko": "\"딱 10분만\"이라던 회의, 두 시간 뒤. 유자는 세 잔째 커피에서 잠들었어요."
         }
       },
       "cta": "Tag the coworker who always says \"just 10 minutes\"/「10分だけ」が口ぐせの人に送ろう",
@@ -575,11 +575,11 @@
         "why": "ハッシュタグの組み合わせを変えて、見つかり方を比べる"
       },
       "title_i18n": {
-        "ja": "「10分だけ」の会議が2時間 | レンとジル「10分の会議」",
-        "ko": "\"딱 10분만\"이라던 회의가 2시간 | 렌과 질 Ren & Jill",
-        "zh-Hant": "「只要10分鐘」的會議開了兩小時 | 蓮與吉兒 Ren & Jill",
-        "es": "\"Solo 10 minutos\": la reunión dura 2 horas | Ren & Jill",
-        "pt": "\"Só 10 minutos\": a reunião dura 2 horas | Ren & Jill"
+        "ja": "「10分だけ」の会議が2時間 | 東京うさぎオフィス「10分の会議」",
+        "ko": "\"딱 10분만\"이라던 회의가 2시간 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "「只要10分鐘」的會議開了兩小時 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "\"Solo 10 minutos\": la reunión dura 2 horas | Tokyo Usagi Office",
+        "pt": "\"Só 10 minutos\": a reunião dura 2 horas | Tokyo Usagi Office"
       }
     },
     {
@@ -588,8 +588,8 @@
       "ep": "monday",
       "no": 21,
       "title": "月曜の朝",
-      "caption_ja": "月曜7:00の目覚まし。3回止めて、8:59。ジルはもう席にいます。",
-      "caption_en": "Monday, 7:00 AM alarm. Snoozed three times. 8:59, and Jill is already at her desk.",
+      "caption_ja": "月曜7:00の目覚まし。3回止めて、8:59。ユズはもう席にいます。",
+      "caption_en": "Monday, 7:00 AM alarm. Snoozed three times. 8:59, and Yuzu is already at her desk.",
       "tag_set": "C",
       "thumb": {
         "t": 6,
@@ -604,17 +604,17 @@
           "ko": "월요일 아침"
         },
         "caption": {
-          "zh": "星期一7:00的鬧鐘。按了三次貪睡，8:59。吉兒已經在座位上了。",
-          "ko": "월요일 7:00 알람. 세 번 끄고, 8:59. 질은 벌써 자리에 있어요."
+          "zh": "星期一7:00的鬧鐘。按了三次貪睡，8:59。柚子已經在座位上了。",
+          "ko": "월요일 7:00 알람. 세 번 끄고, 8:59. 유자는 벌써 자리에 있어요."
         }
       },
       "cta": "Send this to the one who is always late on Mondays/月曜にいつも遅れる人に送ろう",
       "title_i18n": {
-        "ja": "月曜7:00、目覚ましを3回止めた上司 | レンとジル「月曜の朝」",
-        "ko": "월요일 7시 알람, 세 번 끈 과장님 | 렌과 질 Ren & Jill",
-        "zh-Hant": "星期一7:00的鬧鐘，課長按掉三次 | 蓮與吉兒 Ren & Jill",
-        "es": "Lunes, 7:00: el jefe apaga la alarma 3 veces | Ren & Jill",
-        "pt": "Segunda, 7:00: o chefe adia o alarme 3 vezes | Ren & Jill"
+        "ja": "月曜7:00、目覚ましを3回止めた上司 | 東京うさぎオフィス「月曜の朝」",
+        "ko": "월요일 7시 알람, 세 번 끈 과장님 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "星期一7:00的鬧鐘，課長按掉三次 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "Lunes, 7:00: el jefe apaga la alarma 3 veces | Tokyo Usagi Office",
+        "pt": "Segunda, 7:00: o chefe adia o alarme 3 vezes | Tokyo Usagi Office"
       },
       "experiment": {
         "var": "thumb_variant",
@@ -651,11 +651,11 @@
       },
       "cta": "Save this for your next Monday./月曜の朝のために保存して",
       "title_i18n": {
-        "ja": "エレベーターで上司と2人きり Part 1 | レンとジル「上司とエレベーター」",
-        "ko": "엘리베이터에 과장님과 단둘이 Part 1 | 렌과 질 Ren & Jill",
-        "zh-Hant": "和課長單獨搭電梯 Part 1 | 蓮與吉兒 Ren & Jill",
-        "es": "Solos en el ascensor con el jefe, Parte 1 | Ren & Jill",
-        "pt": "Sozinhos no elevador com o chefe, Parte 1 | Ren & Jill"
+        "ja": "エレベーターで上司と2人きり Part 1 | 東京うさぎオフィス「上司とエレベーター」",
+        "ko": "엘리베이터에 과장님과 단둘이 Part 1 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "和課長單獨搭電梯 Part 1 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "Solos en el ascensor con el jefe, Parte 1 | Tokyo Usagi Office",
+        "pt": "Sozinhos no elevador com o chefe, Parte 1 | Tokyo Usagi Office"
       },
       "experiment": {
         "var": "cta",
@@ -676,15 +676,15 @@
       "ep": "elevator2",
       "no": 95,
       "title": "上司とエレベーター Part 2",
-      "caption_ja": "全部の階で止まるエレベーター。ジルの名案で、課長の耳をまとめてみたら…（つづく）",
-      "caption_en": "It stops at every floor. Jill has a plan for the boss's ears... (to be continued)",
+      "caption_ja": "全部の階で止まるエレベーター。ユズの名案で、課長の耳をまとめてみたら…（つづく）",
+      "caption_en": "It stops at every floor. Yuzu has a plan for the boss's ears... (to be continued)",
       "tag_set": "A",
       "thumb": {
         "t": 8.6,
         "cam": "1.2,560,1150",
         "hook": "BOSS. ELEVATOR./上司とエレベーター Part 2"
       },
-      "first_comment": "ジルの作戦、どう思う？ / What do you think of Jill's plan?",
+      "first_comment": "ユズの作戦、どう思う？ / What do you think of Yuzu's plan?",
       "site_i18n": {
         "title": {
           "en": "Elevator with the boss, Part 2",
@@ -692,17 +692,17 @@
           "ko": "상사와 단둘이 엘리베이터 Part 2"
         },
         "caption": {
-          "zh": "每一層都停的電梯。吉兒想到好主意，把課長的耳朵綁起來…（待續）",
-          "ko": "모든 층에서 서는 엘리베이터. 질의 묘안으로 과장님 귀를 묶어 봤더니…(계속)"
+          "zh": "每一層都停的電梯。柚子想到好主意，把課長的耳朵綁起來…（待續）",
+          "ko": "모든 층에서 서는 엘리베이터. 유자의 묘안으로 과장님 귀를 묶어 봤더니…(계속)"
         }
       },
       "cta": "Follow so you don't miss Part 3./第3話を見逃さないようにフォローしてね",
       "title_i18n": {
-        "ja": "全部の階で止まるエレベーター Part 2 | レンとジル「上司とエレベーター」",
-        "ko": "모든 층에 서는 엘리베이터 Part 2 | 렌과 질 Ren & Jill",
-        "zh-Hant": "每層都停的電梯 Part 2 | 蓮與吉兒 Ren & Jill",
-        "es": "El ascensor que para en cada piso, Parte 2 | Ren & Jill",
-        "pt": "O elevador que para em todo andar, Parte 2 | Ren & Jill"
+        "ja": "全部の階で止まるエレベーター Part 2 | 東京うさぎオフィス「上司とエレベーター」",
+        "ko": "모든 층에 서는 엘리베이터 Part 2 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "每層都停的電梯 Part 2 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "El ascensor que para en cada piso, Parte 2 | Tokyo Usagi Office",
+        "pt": "O elevador que para em todo andar, Parte 2 | Tokyo Usagi Office"
       },
       "series": {
         "id": "elevator",
@@ -723,8 +723,8 @@
       "ep": "elevator3",
       "no": 96,
       "title": "上司とエレベーター Part 3",
-      "caption_ja": "新人ポムが、はちまきで課長の耳を結んで解決！やっと1階…と思ったら、ほおぶくろから仕事がポポポポン。",
-      "caption_en": "New hire Pom ties up the boss's ears with his headband. Finally, the ground floor... then the work pops out of his cheeks.",
+      "caption_ja": "新人クリが、はちまきで課長の耳を結んで解決！やっと1階…と思ったら、ほおぶくろから仕事がポポポポン。",
+      "caption_en": "New hire Kuri ties up the boss's ears with his headband. Finally, the ground floor... then the work pops out of his cheeks.",
       "tag_set": "C",
       "thumb": {
         "t": 6.6,
@@ -740,16 +740,16 @@
           "ko": "상사와 단둘이 엘리베이터 Part 3"
         },
         "caption": {
-          "zh": "新人波姆用頭帶把課長的耳朵綁起來！終於到1樓了…結果頰囊裡的工作噗噗噗地彈出來。",
-          "ko": "신입 폼이 머리띠로 과장님 귀를 묶어서 해결! 드디어 1층… 이라고 생각했더니 볼주머니에서 일이 퐁퐁퐁."
+          "zh": "新人栗子用頭帶把課長的耳朵綁起來！終於到1樓了…結果頰囊裡的工作噗噗噗地彈出來。",
+          "ko": "신입 쿠리가 머리띠로 과장님 귀를 묶어서 해결! 드디어 1층… 이라고 생각했더니 볼주머니에서 일이 퐁퐁퐁."
         }
       },
       "title_i18n": {
-        "ja": "はちまきで解決…と思ったら Part 3 | レンとジル「上司とエレベーター」",
-        "ko": "머리띠로 해결…인 줄 알았는데 Part 3 | 렌과 질 Ren & Jill",
-        "zh-Hant": "用頭帶解決…才怪 Part 3 | 蓮與吉兒 Ren & Jill",
-        "es": "Resuelto con una cinta... o no, Parte 3 | Ren & Jill",
-        "pt": "Resolvido com a faixa... ou não, Parte 3 | Ren & Jill"
+        "ja": "はちまきで解決…と思ったら Part 3 | 東京うさぎオフィス「上司とエレベーター」",
+        "ko": "머리띠로 해결…인 줄 알았는데 Part 3 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "用頭帶解決…才怪 Part 3 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "Resuelto con una cinta... o no, Parte 3 | Tokyo Usagi Office",
+        "pt": "Resolvido com a faixa... ou não, Parte 3 | Tokyo Usagi Office"
       },
       "series": {
         "id": "elevator",
@@ -770,9 +770,9 @@
       "slot": "18:00",
       "ep": "timothy1",
       "no": 99,
-      "title": "ポムのお土産『金のチモシー』 Part 1「ひとくちだけ」",
-      "caption_ja": "新人ポムの旅行のお土産は「金のチモシー」。ジルがひとくちだけ…のはずが、皿はみるみる3分の1に。そこへ課長が。（つづく）",
-      "caption_en": "Pom brought back \"Golden Timothy\" from his trip. Jill takes just one bite... then the plate is down to a third. And here comes the boss. (to be continued)",
+      "title": "クリのお土産『金のチモシー』 Part 1「ひとくちだけ」",
+      "caption_ja": "新人クリの旅行のお土産は「金のチモシー」。ユズがひとくちだけ…のはずが、皿はみるみる3分の1に。そこへ課長が。（つづく）",
+      "caption_en": "Kuri brought back \"Golden Timothy\" from his trip. Yuzu takes just one bite... then the plate is down to a third. And here comes the boss. (to be continued)",
       "tag_set": "C",
       "thumb": {
         "t": 1.0,
@@ -782,21 +782,21 @@
       "first_comment": "最後のお土産、どうなると思う？ / What happens to the last of the souvenir?",
       "site_i18n": {
         "title": {
-          "en": "Pom's souvenir: Golden Timothy, Part 1",
-          "zh": "波姆的伴手禮「黃金提摩西草」Part 1",
-          "ko": "폼의 기념품 「황금 티모시」 Part 1"
+          "en": "Kuri's souvenir: Golden Timothy, Part 1",
+          "zh": "栗子的伴手禮「黃金提摩西草」Part 1",
+          "ko": "쿠리의 기념품 「황금 티모시」 Part 1"
         },
         "caption": {
-          "zh": "新人波姆旅行帶回的伴手禮是「黃金提摩西草」。吉兒只吃一口…盤子卻剩下三分之一。這時課長來了。（待續）",
-          "ko": "신입 폼의 여행 기념품은 「황금 티모시」. 질이 한 입만… 접시는 어느새 3분의 1. 그때 과장님이. (계속)"
+          "zh": "新人栗子旅行帶回的伴手禮是「黃金提摩西草」。柚子只吃一口…盤子卻剩下三分之一。這時課長來了。（待續）",
+          "ko": "신입 쿠리의 여행 기념품은 「황금 티모시」. 유자가 한 입만… 접시는 어느새 3분의 1. 그때 과장님이. (계속)"
         }
       },
       "title_i18n": {
-        "ja": "ポムのお土産『金のチモシー』 Part 1「ひとくちだけ」 | レンとジル",
-        "ko": "폼의 기념품 「황금 티모시」 Part 1 | 렌과 질 Ren & Jill",
-        "zh-Hant": "波姆的伴手禮「黃金提摩西草」Part 1 | 蓮與吉兒 Ren & Jill",
-        "es": "El recuerdo de Pom: Heno Dorado, Parte 1 | Ren & Jill",
-        "pt": "A lembrancinha do Pom: Feno Dourado, Parte 1 | Ren & Jill"
+        "ja": "クリのお土産『金のチモシー』 Part 1「ひとくちだけ」 | 東京うさぎオフィス",
+        "ko": "쿠리의 기념품 「황금 티모시」 Part 1 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "栗子的伴手禮「黃金提摩西草」Part 1 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "El recuerdo de Kuri: Heno Dorado, Parte 1 | Tokyo Usagi Office",
+        "pt": "A lembrancinha do Kuri: Feno Dourado, Parte 1 | Tokyo Usagi Office"
       },
       "series": {
         "id": "timothy",
@@ -811,7 +811,7 @@
       "slot": "12:00",
       "ep": "timothy2",
       "no": 100,
-      "title": "ポムのお土産『金のチモシー』 Part 2「課長が預かります」",
+      "title": "クリのお土産『金のチモシー』 Part 2「課長が預かります」",
       "caption_ja": "「これは課長が預かります」…のはずが、デスクでひとくち、もうひとくち。口の端に1本、残ってますよ課長。（つづく）",
       "caption_en": "The boss \"confiscates\" the souvenir. At his desk: one bite, then another. Boss, there's a strand sticking out of your mouth. (to be continued)",
       "tag_set": "C",
@@ -823,9 +823,9 @@
       "first_comment": "課長もハマったと思う？ / Is the boss hooked too?",
       "site_i18n": {
         "title": {
-          "en": "Pom's souvenir: Golden Timothy, Part 2",
-          "zh": "波姆的伴手禮「黃金提摩西草」Part 2",
-          "ko": "폼의 기념품 「황금 티모시」 Part 2"
+          "en": "Kuri's souvenir: Golden Timothy, Part 2",
+          "zh": "栗子的伴手禮「黃金提摩西草」Part 2",
+          "ko": "쿠리의 기념품 「황금 티모시」 Part 2"
         },
         "caption": {
           "zh": "「這由課長保管」…結果在座位上一口、再一口。課長，嘴角還有一根喔。（待續）",
@@ -833,11 +833,11 @@
         }
       },
       "title_i18n": {
-        "ja": "ポムのお土産『金のチモシー』 Part 2「課長が預かります」 | レンとジル",
-        "ko": "폼의 기념품 「황금 티모시」 Part 2 | 렌과 질 Ren & Jill",
-        "zh-Hant": "波姆的伴手禮「黃金提摩西草」Part 2 | 蓮與吉兒 Ren & Jill",
-        "es": "El recuerdo de Pom: Heno Dorado, Parte 2 | Ren & Jill",
-        "pt": "A lembrancinha do Pom: Feno Dourado, Parte 2 | Ren & Jill"
+        "ja": "クリのお土産『金のチモシー』 Part 2「課長が預かります」 | 東京うさぎオフィス",
+        "ko": "쿠리의 기념품 「황금 티모시」 Part 2 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "栗子的伴手禮「黃金提摩西草」Part 2 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "El recuerdo de Kuri: Heno Dorado, Parte 2 | Tokyo Usagi Office",
+        "pt": "A lembrancinha do Kuri: Feno Dourado, Parte 2 | Tokyo Usagi Office"
       },
       "series": {
         "id": "timothy",
@@ -852,7 +852,7 @@
       "slot": "18:00",
       "ep": "timothy3",
       "no": 101,
-      "title": "ポムのお土産『金のチモシー』 Part 3「業務用」",
+      "title": "クリのお土産『金のチモシー』 Part 3「業務用」",
       "caption_ja": "翌日、お土産の皿は空っぽ。…と思ったら、右から大きな「ザクッ」。課長、それ業務用ですよね。（おわり）",
       "caption_en": "Next day, the souvenir plate is empty. Then a loud CRUNCH from the right. Boss... is that the bulk size? (the end)",
       "tag_set": "C",
@@ -864,9 +864,9 @@
       "first_comment": "あなたの職場にも「業務用」を買う人いる？ / Anyone at your office who buys the bulk size?",
       "site_i18n": {
         "title": {
-          "en": "Pom's souvenir: Golden Timothy, Part 3",
-          "zh": "波姆的伴手禮「黃金提摩西草」Part 3",
-          "ko": "폼의 기념품 「황금 티모시」 Part 3"
+          "en": "Kuri's souvenir: Golden Timothy, Part 3",
+          "zh": "栗子的伴手禮「黃金提摩西草」Part 3",
+          "ko": "쿠리의 기념품 「황금 티모시」 Part 3"
         },
         "caption": {
           "zh": "隔天，伴手禮的盤子空了。…這時右邊傳來好大一聲「喀滋」。課長，那是業務用的吧。（完）",
@@ -874,11 +874,11 @@
         }
       },
       "title_i18n": {
-        "ja": "ポムのお土産『金のチモシー』 Part 3「業務用」 | レンとジル",
-        "ko": "폼의 기념품 「황금 티모시」 Part 3 | 렌과 질 Ren & Jill",
-        "zh-Hant": "波姆的伴手禮「黃金提摩西草」Part 3 | 蓮與吉兒 Ren & Jill",
-        "es": "El recuerdo de Pom: Heno Dorado, Parte 3 | Ren & Jill",
-        "pt": "A lembrancinha do Pom: Feno Dourado, Parte 3 | Ren & Jill"
+        "ja": "クリのお土産『金のチモシー』 Part 3「業務用」 | 東京うさぎオフィス",
+        "ko": "쿠리의 기념품 「황금 티모시」 Part 3 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "栗子的伴手禮「黃金提摩西草」Part 3 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "El recuerdo de Kuri: Heno Dorado, Parte 3 | Tokyo Usagi Office",
+        "pt": "A lembrancinha do Kuri: Feno Dourado, Parte 3 | Tokyo Usagi Office"
       },
       "series": {
         "id": "timothy",

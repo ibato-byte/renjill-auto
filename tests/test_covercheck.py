@@ -12,7 +12,7 @@ class JudgeTest(unittest.TestCase):
     def test_correct_styles_pass(self):
         self.assertEqual(covercheck.judge(self.ALL_OK, {}), [])
 
-    def test_youtube_with_text_is_ng(self):  # 10/26「ジルの朝」の事故
+    def test_youtube_with_text_is_ng(self):  # 10/26「ユズの朝」の事故
         probs = covercheck.judge(dict(self.ALL_OK, yt="text"), {})
         self.assertEqual([s for s, _ in probs], ["yt"])
 

@@ -27,7 +27,7 @@ def days_left(ts):
 # ---- Meta（Instagram・Facebook 共通。システムユーザーのトークン IG_ACCESS_TOKEN）----
 # debug_token で有効か・期限（期限なしなら expires_at=0）・権限（fb.ALL_SCOPES）を見て、
 # ページ 1358515160686321 からページトークン（Facebook の投稿用）と Instagram の ID が取れるかを確かめる。
-FIX_META = "docs/setup/facebook-reels.md の手順で、ビジネス設定（renjill_office）→ システムユーザー renjill-auto のトークンを期限なし・必要な権限つきで生成し直し、renjill-auto の Settings → Secrets → Actions の IG_ACCESS_TOKEN を差し替える"
+FIX_META = "docs/setup/facebook-reels.md の手順で、ビジネス設定（tokyo_usagi_office）→ システムユーザー renjill-auto のトークンを期限なし・必要な権限つきで生成し直し、renjill-auto の Settings → Secrets → Actions の IG_ACCESS_TOKEN を差し替える"
 meta_manual = [x for x in ("ig", "facebook") if mode.is_manual(x)]
 if meta_manual:
     kpis.append("Instagram・Facebook=手動予約モード中")  # API を使わないので、無効でもエラー・メールにしない（auto/mode.json）
@@ -65,7 +65,7 @@ else:
                 print(f"Facebook: ページ「{m['page_name']}」（{fb.PAGE_ID}）のページトークンを取れた")
             elif not missing:
                 problems.append("Facebook"); kpis.append("Facebook=ページトークンが取れない")
-                actions.append(f"Facebook ページ {fb.PAGE_ID} のページトークンが取れない（" + "; ".join(m["reasons"])[:120] + "）。ビジネス設定 → システムユーザー renjill-auto にページ「レンとジル Ren & Jill」をフルアクセスで割り当てる")
+                actions.append(f"Facebook ページ {fb.PAGE_ID} のページトークンが取れない（" + "; ".join(m["reasons"])[:120] + "）。ビジネス設定 → システムユーザー renjill-auto にページ「東京うさぎオフィス Tokyo Usagi Office」をフルアクセスで割り当てる")
             # Instagram の ID（ページにつながった Instagram）
             sec_ig = os.environ.get("IG_USER_ID", "").strip()
             if m["ig_user_id"]:
@@ -74,7 +74,7 @@ else:
                 print(f"Instagram: ページにつながった Instagram の ID={m['ig_user_id']}（IG_USER_ID：{same}）")
             elif m["page_name"] or m["ok"]:
                 problems.append("Instagram"); kpis.append("Instagram=ID が取れない")
-                actions.append(f"Instagram の ID が取れない（ページ {fb.PAGE_ID} の instagram_business_account が空）。ページの設定 → リンク済みのアカウントで @renjill_office をつなぎ、システムユーザーにも Instagram を割り当てる")
+                actions.append(f"Instagram の ID が取れない（ページ {fb.PAGE_ID} の instagram_business_account が空）。ページの設定 → リンク済みのアカウントで @tokyo_usagi_office をつなぎ、システムユーザーにも Instagram を割り当てる")
     except Exception as e:
         problems.append("Meta"); kpis.append("Meta トークン=確認失敗")
         print("Meta check error:", type(e).__name__)

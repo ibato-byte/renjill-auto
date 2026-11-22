@@ -22,7 +22,7 @@ var EP = {
     const stare = t >= 4.4 && t < 5.8;                        // 見合わせて固まる
     const swap = ease(seg(t, 5.8, 6.3));
     const eat = t >= 6.6;
-    // ジル（左）：箱を見て「？」→ 開けて牧草 → 固まる（レンを見る）→ 交換 → もぐもぐ（にこ）
+    // ユズ（左）：箱を見て「？」→ 開けて牧草 → 固まる（モチを見る）→ 交換 → もぐもぐ（にこ）
     const jface = t < 3.8 ? RIG.FACES.think : t < 4.4 ? RIG.FACES.surprised : stare ? RIG.FACES.neutral : RIG.FACES.smile;
     const jp = Object.assign({}, RIG.POSES.sit, jface, { x: 40, y: DESK - 413 * 1.3, scale: 1.3, eyeLook: stare ? .95 : .5, headNod: eat ? Math.abs(Math.sin(t * 16)) * 8 : 0, bodySquash: eat ? Math.sin(t * 16) * .12 : 0, question: t < 3.4 ? 1 : 0 });
     L.char('jil', jp, t, '', {});

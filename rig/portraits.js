@@ -17,7 +17,7 @@ const { chromium } = require('playwright'); const fs = require('fs'); const out 
       await p.evaluate(who => { const r = document.getElementById(who); const hp = [...r.querySelectorAll('path')].find(e => /head\)$/.test(e.getAttribute('fill') || '')); r.querySelectorAll('*').forEach(e => e.style.visibility = 'hidden');
         let n = hp.parentNode; n.style.visibility = 'visible'; n.querySelectorAll('*').forEach(e => { e.style.visibility = 'visible'; }); }, who);
       await p.waitForTimeout(150); await p.screenshot({ path: `${out}/${who}_headmask.png`, omitBackground: true }); } }
-  // 寝る姿勢（のびて寝る）：アニメの「のび」（体が長く低い）に、目を閉じた顔。公式サイトの動く 3D で、レンが居眠りする時に使う（2026-11-17）
+  // 寝る姿勢（のびて寝る）：アニメの「のび」（体が長く低い）に、目を閉じた顔。公式サイトの動く 3D で、モチが居眠りする時に使う（2026-11-17）
   // ふだんの絵と同じ場所・同じ大きさで撮る（サイトの tools/char_from_rig.py が、ふだんの絵と同じ縮尺で切り出す）
   // 体が横に長いので、ふだんより小さく（1.7 倍）・内側で撮る。同じ場所で「ふだんの絵」（flatref）も撮り、サイトの道具はそれに合わせて切る
   for (const who of ['ren', 'jil']) for (const [m, flat] of [['flatref', 0], ['flat', 1], ['bow', 2], ['flop', 3]]) {

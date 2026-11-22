@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""コメントへの自動返信（依頼 #37-2）。Instagram・Facebook・YouTube の自分たちの投稿に付いたコメントに、レンとジルらしい短い返事を返す。
+"""コメントへの自動返信（依頼 #37-2）。Instagram・Facebook・YouTube の自分たちの投稿に付いたコメントに、東京うさぎオフィスらしい短い返事を返す。
 決まり：
 - 最初は「候補を記録するだけ」（auto/reply_mode.json の mode が "draft"）。問題がないことを確かめて "live" にしてから実際に返す
 - 1日に返す数の上限（SNS ごと）。同じ文を 14 日以内に繰り返さない
@@ -19,18 +19,18 @@ NOT_ID = ("manual", "bs-scheduled")
 DAILY_LIMIT = 8            # SNS ごとの 1 日の返信（または候補）の上限
 LOOKBACK_DAYS = 7          # 何日前までの投稿を見るか
 NO_REPEAT_DAYS = 14
-OWN_IG_NAME = "renjill_office"      # 自分たちの Instagram のアカウント名
+OWN_IG_NAMES = {"tokyo_usagi_office", "renjill_office"}  # 自分たちの Instagram のアカウント名（旧ID も：2026-11-22 に改名。古いコメントは旧ID のまま）
 OWN_FB_PAGE_ID = "1358515160686321"  # 自分たちの Facebook ページ
 MAX_LEN = 60               # 長いコメントは、意図が読み取れないので返さない
 
 REPLIES = {
-    "praise": ["ありがとうございます！課長も喜びます🐰", "見てくださって嬉しいです。ジルも小さくうなずいています", "Thank you! Ren is pretending he knew it all along 🐰",
-               "ありがとうございます。次の回もお楽しみに", "Jill says thank you (silently) 🐰", "うれしいです。課長には内緒にしておきます"],
-    "relate": ["わかります…職場にもいますよね", "あるあるですよね。ジルも深くうなずいています", "Right? Every office has a Ren 🐰",
-               "ご共感ありがとうございます。月曜もがんばりましょう", "Same here! Jill sees everything 🐰", "そうなんです。課長は悪気がないんです"],
-    "cute": ["かわいいと言ってもらえて、レンが耳をぴくぴくさせています", "ありがとうございます！たれ耳が自慢です", "Thanks! The lop ears are Ren's pride 🐰",
-             "ジルも照れています", "うさぎ好きさんに届いて嬉しいです", "Aww, thank you 🐰"],
-    "laugh": ["笑ってもらえて嬉しいです", "ありがとうございます。次もどうぞ", "Glad it made you smile 🐰", "くすっとしてもらえたら大成功です", "Ren will be thrilled (he won't notice) 🐰"],
+    "praise": ["ありがとうございます！課長も喜びます🐰", "見てくださって嬉しいです。ユズも小さくうなずいています", "Thank you! Mochi is pretending he knew it all along 🐰",
+               "ありがとうございます。次の回もお楽しみに", "Yuzu says thank you (silently) 🐰", "うれしいです。課長には内緒にしておきます"],
+    "relate": ["わかります…職場にもいますよね", "あるあるですよね。ユズも深くうなずいています", "Right? Every office has a Mochi 🐰",
+               "ご共感ありがとうございます。月曜もがんばりましょう", "Same here! Yuzu sees everything 🐰", "そうなんです。課長は悪気がないんです"],
+    "cute": ["かわいいと言ってもらえて、モチが耳をぴくぴくさせています", "ありがとうございます！たれ耳が自慢です", "Thanks! The lop ears are Mochi's pride 🐰",
+             "ユズも照れています", "うさぎ好きさんに届いて嬉しいです", "Aww, thank you 🐰"],
+    "laugh": ["笑ってもらえて嬉しいです", "ありがとうございます。次もどうぞ", "Glad it made you smile 🐰", "くすっとしてもらえたら大成功です", "Mochi will be thrilled (he won't notice) 🐰"],
 }
 KEYWORDS = {
     "praise": ["好き", "最高", "すごい", "良い", "いい", "素敵", "ありがとう", "love", "great", "nice", "best", "👏", "❤", "💕", "🥰"],
@@ -125,7 +125,7 @@ def fetch_meta(platform, media_id, tok, http=requests):
         key = "message"
     if "error" in r: raise PermissionError(str(r["error"].get("message", ""))[:120])
     # 自分たちのコメントには返さない（Instagram は投稿者名、Facebook はページの ID で見分ける）
-    own = lambda c: (c.get("username") == OWN_IG_NAME) if platform == "ig" else (str((c.get("from") or {}).get("id", "")) == OWN_FB_PAGE_ID)
+    own = lambda c: (c.get("username") in OWN_IG_NAMES) if platform == "ig" else (str((c.get("from") or {}).get("id", "")) == OWN_FB_PAGE_ID)
     return [{"platform": platform, "id": c["id"], "text": c.get(key, ""), "media": media_id, "own": own(c)} for c in r.get("data", [])]
 
 

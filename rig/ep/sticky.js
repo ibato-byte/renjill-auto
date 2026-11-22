@@ -1,7 +1,7 @@
 // 「付箋だらけ」（セリフなし・約11秒）
-// ゲーム：レンがジルのモニターに付箋を投げて貼る。①1枚 ②3枚 ③ドサッと12枚（ジルの顔にも貼れる）
-// （間：音が止まり、付箋で片目をふさがれたジルの顔に寄る）→ ジルが付箋をぜんぶはがす
-// オチ：ジルが付箋に小さなハートを描き、レンのおでこへ投げ返す。レンは大喜びで、新しい付箋の束を持ってまた投げる（冒頭につながる）
+// ゲーム：モチがユズのモニターに付箋を投げて貼る。①1枚 ②3枚 ③ドサッと12枚（ユズの顔にも貼れる）
+// （間：音が止まり、付箋で片目をふさがれたユズの顔に寄る）→ ユズが付箋をぜんぶはがす
+// オチ：ユズが付箋に小さなハートを描き、モチのおでこへ投げ返す。モチは大喜びで、新しい付箋の束を持ってまた投げる（冒頭につながる）
 const MON = { x0: 728, y0: 988, x1: 972, y1: 1128 };   // モニター画面
 const COL = ['#FFE98A', '#FFD3E0', '#C9F0D0', '#FFE98A'];
 // [投げる時刻, 着く時刻, 着地x, 着地y, 回転, 色]
@@ -73,7 +73,7 @@ window.EP = {
       (onJ ? f : back).appendChild(el('g', { transform: `translate(${x} ${y}) rotate(${r}) scale(${pop})` }, [noteShape(0.9, COL[ci])]));
     });
 
-    // ---- オチ：ジルのハート付箋 → レンのおでこへ
+    // ---- オチ：ユズのハート付箋 → モチのおでこへ
     if (t >= 7.2 && t < 8.1) { const u = seg(t, 7.2, 7.7); f.appendChild(el('g', { transform: `translate(${jt.x - 30} ${jt.y + 170 - 10 * u}) rotate(-6) scale(${0.7 + 0.2 * ease(u)})` }, [noteShape(1, COL[0], u > 0.5 ? 'heart' : null)])); }
     if (t >= 8.1 && t < 8.5) { const p = flyPos(t, 8.1, 8.5, jt.x - 30, jt.y + 160, rt.x, rt.y + 70, 120); f.appendChild(el('g', { transform: `translate(${p.x} ${p.y}) rotate(${-6 + 540 * p.u})` }, [noteShape(0.9, COL[0], 'heart')])); }
     if (t >= 8.5 && t < 9.7) f.appendChild(el('g', { transform: `translate(${rt.x} ${rt.y + 70}) rotate(-4) scale(${1 + 0.2 * pulse(t, 8.5, 8.7)})` }, [noteShape(0.9, COL[0], 'heart')]));

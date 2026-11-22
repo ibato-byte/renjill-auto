@@ -1,7 +1,7 @@
 // 第N話 v2「自販機」（約11.5秒）
-// ゲーム：自販機を叩けば出る（はず）。①ぺちっ→缶1本 ②どんっ→缶3本 ③（間）→大足ダン→缶がどさどさ8本。ジルが全部抱えて受け止める
-// → ジルは1本だけ飲んで、残りを抱えて去る。レンの手は空のまま
-// オチ：缶が1本だけ転がってレンの足元へ（にんじんジュース！）→ オチの後のオチ：開けたら、さんざん揺れた缶が顔にぷしゅー
+// ゲーム：自販機を叩けば出る（はず）。①ぺちっ→缶1本 ②どんっ→缶3本 ③（間）→大足ダン→缶がどさどさ8本。ユズが全部抱えて受け止める
+// → ユズは1本だけ飲んで、残りを抱えて去る。モチの手は空のまま
+// オチ：缶が1本だけ転がってモチの足元へ（にんじんジュース！）→ オチの後のオチ：開けたら、さんざん揺れた缶が顔にぷしゅー
 window.EP = {
   dur: 11.5,
   bgmHolds: '4.3-5.0',
@@ -31,7 +31,7 @@ window.EP = {
       el('path', { d: 'M0 -14 q-12 -16 -4 -24 M0 -14 q12 -16 4 -24', fill: 'none', stroke: '#4E9E4A', 'stroke-width': 6, 'stroke-linecap': 'round' })
     ]);
 
-    // ---- 自販機（レンの手前の床に置く）
+    // ---- 自販機（モチの手前の床に置く）
     const mx = 540 + S.x, my = 1000 + S.y;
     const rumble = t > 0.85 && t < 1.5 ? Math.sin(t * 90) * 3 : 0;
     const lit = t > 0.7;
@@ -65,7 +65,7 @@ window.EP = {
     // コイン投入口
     const slot = { x: mx + 70, y: my + 252 };
 
-    // ---- レン
+    // ---- モチ
     const RX = 60, RY = 1180;
     let R = Object.assign({}, RIG.POSES.stand, RIG.FACES.neutral, { scale: 1.3, x: RX + S.x, y: RY + S.y, eyeLook: 0.9, headNod: -4 });
     // コインを入れる（前に寄る）
@@ -79,7 +79,7 @@ window.EP = {
     const bump = goBack(t, 2.65, 2.85, 3.0, 3.4);
     if (t >= 2.8 && t < 3.5) Object.assign(R, RIG.POSES.lean, RIG.FACES.angry, { excl: 0, bodyTilt: 18 * bump, x: RX + 90 * bump + S.x, eyeLook: 0.9 });
     if (t >= 2.6 && t < 2.8) Object.assign(R, RIG.POSES.lean, RIG.FACES.sharp, { bodyTilt: 18 * bump, x: RX + 90 * bump + S.x, eyeLook: 0.9 });
-    // 缶3本→ほしいのはこれじゃない。ジルが来る間、ふるえる
+    // 缶3本→ほしいのはこれじゃない。ユズが来る間、ふるえる
     if (t >= 3.5 && t < 4.3) Object.assign(R, RIG.FACES.angry, { excl: 0, sweat: 0, eyeLook: 0.9 });
     // ③ 足ダン構え→ドン
     thumpPose(R, t, 4.35, 5.0, S, RY);
@@ -88,7 +88,7 @@ window.EP = {
     if (t >= 5.0 && t < 6.4) Object.assign(R, RIG.POSES.stand, RIG.FACES.surprised, { x: RX + S.x, y: RY - 40 * pulse(t, 5.0, 5.5) + S.y, eyeLook: 0.9, excl: 1 - seg(t, 5.6, 6.0) });
     // 期待のきらきら（缶の山を見る）
     if (t >= 6.4 && t < 7.3) Object.assign(R, RIG.POSES.stand, RIG.FACES.smile, { blush: 0, eyeShape: 'round', mouth: 'open', eyeOpen: 1.2, sparkle: pulse(t, 6.4, 7.2), eyeLook: 0.9, x: RX + S.x });
-    // ジルが1本飲んで去る。レンは手を出したまま固まる→しょんぼり
+    // ユズが1本飲んで去る。モチは手を出したまま固まる→しょんぼり
     if (t >= 7.3) Object.assign(R, RIG.POSES.stand, RIG.FACES.oops, { sweat: 0.6, eyeOpen: 0.6, eyeLook: 0.9, x: RX + S.x, headNod: 2, earL: 14 * seg(t, 7.8, 8.4), earR: 14 * seg(t, 7.8, 8.4) });
     // 缶が足元へ→見る→拾う→開ける→ぷしゅー
     const lookDown = seg(t, 9.0, 9.4);
@@ -107,7 +107,7 @@ window.EP = {
     }
     if (t >= 0.62 && t < 1.0) sparkle(f, t, 0.62, slot.x, slot.y - 10, 0.5);
 
-    // ---- ジル
+    // ---- ユズ
     const JC = 470;           // 受け止める位置（左端）
     const hpIn = RIG.hop(t, 2.9, 3.6, 1150, JC, { hops: 3, height: 34 });
     const hpOut = RIG.hop(t, 7.7, 8.8, JC, 1250, { hops: 4, height: 34 });
@@ -133,7 +133,7 @@ window.EP = {
       [2.05, 0], [2.85, 1], [2.88, 2], [2.91, 3],
       [5.0, 4], [5.15, 5], [5.3, 6], [5.45, 7], [5.6, 8], [5.75, 9], [5.9, 10], [6.05, 11]
     ];
-    // 山に入った缶は、ジルが来る前は受け皿に、来たらジルの腕の中に。去るときはジルと一緒に動く
+    // 山に入った缶は、ユズが来る前は受け皿に、来たらユズの腕の中に。去るときはユズと一緒に動く
     const SIP = 11;       // 飲む1本（山のてっぺん）
     const DROPPED = 10;   // 途中で落とす1本（にんじん）
     cans.forEach(([t0, idx], n) => {
@@ -157,7 +157,7 @@ window.EP = {
       const behind = u < 1 && t >= 3.6 && y < 1500;
       (behind ? back : f).appendChild(canShape(x, y, s, rot, CAN_COL[(idx + 1) % 6], false));
     });
-    // 転がる1本（ジルの山から落ちて、レンの足元へ）
+    // 転がる1本（ユズの山から落ちて、モチの足元へ）
     if (t >= 8.3) {
       const s0 = pileSlot(DROPPED), ex = faceR.x + 60 + 0, ey = 1660;
       let x, y, rot;
@@ -182,7 +182,7 @@ window.EP = {
     // 顔にしたたり
     if (t >= 10.5) { const d = seg(t, 10.5, 11.4); f.appendChild(el('path', { d: `M${faceR.x - 70} ${faceR.y - 110 + 70 * d} q-9 14 0 22 q9 -8 0 -22 Z`, fill: '#F6A640', opacity: 0.9 })); }
 
-    if (t >= 3.8 && t < 4.5) { // ため息のふわっ（レンにあきれている）
+    if (t >= 3.8 && t < 4.5) { // ため息のふわっ（モチにあきれている）
       const d = seg(t, 3.8, 4.5);
       for (let i = 0; i < 3; i++) { const v = clamp(d * 1.3 - i * 0.18, 0, 1); if (v <= 0 || v >= 1) continue;
         f.appendChild(el('circle', { cx: Jq.x + 150 - 120 * v - i * 20, cy: Jq.y + 200 * Jq.scale + 10 * v, r: 16 + 14 * v + i * 4, fill: '#FFFFFF', stroke: '#C9B79E', 'stroke-width': 3, opacity: 0.9 * (1 - v) })); }
@@ -193,11 +193,11 @@ window.EP = {
     const shots = [
       { t: 0.0, cx: 560, cy: 1300, z: 1.3, z2: 1.42 },              // A 寄り：自販機とコイン
       { t: 2.7, cx: 620, cy: 1320, z: 1.4 },                        // B 中：どんっ→缶3本
-      { t: 3.5, cx: 760, cy: 1340, z: 2.5 },                        // C 寄り：ジルの呆れ顔（レンのことをどう思っているか）
-      { t: 4.4, cx: 420, cy: 1440, z: 1.7, z2: 2.0 },               // D 寄り：ため（レンが足を上げる・無音）
+      { t: 3.5, cx: 760, cy: 1340, z: 2.5 },                        // C 寄り：ユズの呆れ顔（モチのことをどう思っているか）
+      { t: 4.4, cx: 420, cy: 1440, z: 1.7, z2: 2.0 },               // D 寄り：ため（モチが足を上げる・無音）
       { t: 4.75, cx: 560, cy: 1330, z: 1.2 },                      // E 引き：大足ダン→缶どさどさ
-      { t: 6.3, cx: 740, cy: 1380, z: 1.85 },                       // F 寄り：ジルが山を抱えて1本飲む
-      { t: 7.6, cx: 640, cy: 1290, z: 1.2 },                        // G 引き：ジルが缶を抱えて去る
+      { t: 6.3, cx: 740, cy: 1380, z: 1.85 },                       // F 寄り：ユズが山を抱えて1本飲む
+      { t: 7.6, cx: 640, cy: 1290, z: 1.2 },                        // G 引き：ユズが缶を抱えて去る
       { t: 8.6, cx: 400, cy: 1560, z: 1.9 },                        // H 寄り：足元へ缶が転がる
       { t: 9.8, cx: 340, cy: 1450, z: 2.3, z2: 2.0 }                // I 寄り：ぷしゅー
     ];

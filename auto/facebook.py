@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Facebook ページ「レンとジル Ren & Jill」（ID 1358515160686321）へのリール投稿（Meta 公式の Reels Publishing API）。
+"""Facebook ページ「東京うさぎオフィス Tokyo Usagi Office」（ID 1358515160686321）へのリール投稿（Meta 公式の Reels Publishing API）。
 
 流れ（https://developers.facebook.com/docs/video-api/guides/reels-publishing）:
   0. GET  graph.facebook.com/{page-id}?fields=access_token,instagram_business_account
@@ -11,7 +11,7 @@
   4. POST graph.facebook.com/{page-id}/video_reels  upload_phase=finish, video_state=PUBLISHED, description
   5. GET  graph.facebook.com/{video_id}?fields=status で公開まで確認（読み取りのみ）
 
-必要なもの: ビジネスポートフォリオ renjill_office のシステムユーザー renjill-auto の期限なしトークン（Secrets の IG_ACCESS_TOKEN）。
+必要なもの: ビジネスポートフォリオ tokyo_usagi_office のシステムユーザー renjill-auto の期限なしトークン（Secrets の IG_ACCESS_TOKEN）。
   ページ・Instagram・アプリが割り当て済みで、権限は ALL_SCOPES（Facebook の投稿に要るのは REQUIRED_SCOPES）。
   ページトークン（期限なし）を直接入れた場合も使える。
 権限・設定がなければ FbSkip を投げ、呼び出し側は Facebook だけ飛ばして他SNSの投稿を続ける。
@@ -24,10 +24,10 @@ import requests
 GRAPH_VER = "v21.0"  # 既存の Instagram 投稿と同じ版
 G = f"https://graph.facebook.com/{GRAPH_VER}"
 RUPLOAD = f"https://rupload.facebook.com/video-upload/{GRAPH_VER}"
-PAGE_ID = "1358515160686321"  # Facebook ページ「レンとジル Ren & Jill」（2026-10-21 オーナー確認。1386940331166810 は重複で削除済み）
+PAGE_ID = "1358515160686321"  # Facebook ページ「東京うさぎオフィス Tokyo Usagi Office」（2026-10-21 オーナー確認。1386940331166810 は重複で削除済み）
 REQUIRED_SCOPES = ("pages_show_list", "pages_read_engagement", "pages_manage_posts")  # Facebook のリール投稿
 ALL_SCOPES = REQUIRED_SCOPES + ("business_management", "instagram_basic", "instagram_content_publish", "instagram_manage_insights")
-PAGE_NAMES = ("レンとジル", "Ren & Jill", "REN & JILL")
+PAGE_NAMES = ("東京うさぎオフィス", "Tokyo Usagi Office", "TOKYO USAGI OFFICE")
 MAX_TAGS = 3  # Facebook ではハッシュタグ3個以内
 DEFAULT_CTA = "Who in your office does this? Tell us in the comments.\nあなたの職場にもいますか？コメントで教えてください"
 
@@ -62,9 +62,11 @@ def _err(j):
 
 # ---------- キャプション ----------
 def normalize_brand(text):
-    """表記ルール：日本語は「レンとジル」、英語は「Ren & Jill」"""
-    text = re.sub(r"レン\s*[＆&]\s*ジル", "レンとジル", text)
-    return re.sub(r"\bRen\s+(?:and|＆)\s+Jill\b", "Ren & Jill", text)
+    """表記ルール：日本語は「東京うさぎオフィス」、英語は「Tokyo Usagi Office」"""
+    # 旧名（2026-11-22 に改名）が混ざっても新しい名前にそろえる
+    text = re.sub("\u30ec\u30f3\\s*(?:[＆&と]|アンド)\\s*\u30b8\u30eb", "東京うさぎオフィス", text)
+    text = re.sub("\\bR" "en\\s+(?:and|&|＆)\\s+J" "ill\\b", "Tokyo Usagi Office", text)
+    return re.sub(r"\bTokyo\s+Usagi\s+Office\b", "Tokyo Usagi Office", text, flags=re.I)
 
 
 def fb_tags(p, d):

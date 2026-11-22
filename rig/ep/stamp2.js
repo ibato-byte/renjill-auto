@@ -1,5 +1,5 @@
 // v2フォーマット試作：ハンコ（三段エスカレーション版・約25秒）
-// ゲーム：「課長はハンコ欄を体で押す」。①鼻 → ②耳 → ③全身ダイブ（エスカレーション）→ 間 → 足ダン → ジルが正しく押す → ほっこりオチ
+// ゲーム：「課長はハンコ欄を体で押す」。①鼻 → ②耳 → ③全身ダイブ（エスカレーション）→ 間 → 足ダン → ユズが正しく押す → ほっこりオチ
 // 文法：寄り（リアクション）と引き（アクション）を2〜3秒ごとに切り替える。オチ前に音楽を止めて「間」を作る
 window.EP = {
   dur: 25.0,
@@ -39,7 +39,7 @@ window.EP = {
     if (t >= 17.4) back.appendChild(el('g', {}, [el('circle', { cx: box1.x, cy: box1.y, r: 24, fill: 'none', stroke: '#C8463C', 'stroke-width': 6 }), el('circle', { cx: box1.x, cy: box1.y, r: 9, fill: '#C8463C' })]));
     if (t >= 20.6) back.appendChild(el('path', { d: `M${box2.x - 20} ${box2.y - 9} Q${box2.x} ${box2.y - 16} ${box2.x + 20} ${box2.y - 9} Q${box2.x + 5} ${box2.y + 16} ${box2.x} ${box2.y + 18} Q${box2.x - 5} ${box2.y + 16} ${box2.x - 20} ${box2.y - 9} Z`, fill: '#E39A9A', opacity: 0.9 }));
 
-    // ---- レン
+    // ---- モチ
     let R = Object.assign({}, RIG.POSES.sit, RIG.FACES.neutral, { scale: 1.3, x: RX + sh.x, y: 668 + sh.y, eyeLook: 0.8 });
     const press = (a, b, c) => { const p = seg(t, a, b), r = seg(t, b + 0.2, c); return ease(p) * (1 - ease(r)); };
     // ① 鼻（0.3〜2.0）
@@ -62,14 +62,14 @@ window.EP = {
     if (t >= 12.0 && t < 13.05) Object.assign(R, RIG.FACES.smug, { eyeLook: 0.9 });
     if (fright > 0) Object.assign(R, RIG.FACES.surprised, { sparkle: 0, eyeLook: 0.9, y: 668 - 120 * Math.sin(Math.PI * fright) + sh.y, earL: -30 * (1 - seg(t, 13.7, 14.3)), earR: 30 * (1 - seg(t, 13.7, 14.3)) });
     if (t >= 14.3) Object.assign(R, RIG.FACES.oops, { excl: 0, eyeLook: 0.9 });
-    // ジルの正しいハンコを見て、隣にそっと鼻ハンコ（20.0〜）
+    // ユズの正しいハンコを見て、隣にそっと鼻ハンコ（20.0〜）
     if (t >= 18.0) Object.assign(R, RIG.FACES.think, { excl: 0, sweat: 0, question: pulse(t, 18.0, 19.0), eyeLook: 0.8, headTilt: 10 });
     const e4 = press(19.6, 20.6, 21.2);
     if (t >= 19.6 && t < 21.4) Object.assign(R, RIG.POSES.nudge, { question: 0, eyeShape: 'happy', mouth: 'w', bodyTilt: 16 * e4, headTilt: 30 * e4, headNod: 46 * e4, x: RX + (PUSH - 60) * e4 + sh.x });
     if (t >= 21.4) Object.assign(R, RIG.FACES.shy, { heart: 0, blush: 0.8, eyeLook: 0.9 });
     draw('ren', 'ren', R, t, {});
 
-    // ---- ジル（最初から床にいる）
+    // ---- ユズ（最初から床にいる）
     const JX = 640;
     let J = Object.assign({}, RIG.POSES.sit, RIG.FACES.neutral, { scale: 1.25, flip: true, x: JX + sh.x, y: 1240 + sh.y, eyeLook: 0.9 });
     if (t >= 2.4 && t < 4.0) Object.assign(J, RIG.FACES.annoyed, { sweat: 0, eyeLook: 0.9, eyeOpen: t > 3.0 && t < 3.15 ? 0.05 : 0.5 });   // 無言の凝視＋ゆっくりまばたき
@@ -89,16 +89,16 @@ window.EP = {
     const renFace = { x: 360, y: 900 }, jilFace = { x: 860, y: 1470 }, both = { x: 560, y: 1150 };
     const shots = [
       { t: 0.0, cx: 520, cy: 1000, z: 1.9, z2: 2.1 },          // A 寄り：鼻ハンコ（フック）
-      { t: 2.3, cx: jilFace.x, cy: jilFace.y, z: 2.2, z2: 2.4 }, // B 寄り：ジルの無言の凝視
+      { t: 2.3, cx: jilFace.x, cy: jilFace.y, z: 2.2, z2: 2.4 }, // B 寄り：ユズの無言の凝視
       { t: 4.0, cx: 500, cy: 1020, z: 1.6 },                  // C 中：耳ハンコ
       { t: 6.6, cx: jilFace.x, cy: jilFace.y, z: 2.5, z2: 2.7 }, // D 寄り：目がピクッ
       { t: 8.0, cx: both.x, cy: 1050, z: 1.15 },              // E 引き：全身ダイブ
       { t: 10.8, cx: jilFace.x, cy: jilFace.y, z: 2.0, z2: 3.0 }, // F 寄り：怒りのため（音楽が止まる）
       { t: 12.9, cx: both.x, cy: 1150, z: 1.0 },              // G 引き：足ダン（ズームパンチ）
       { t: 14.6, cx: renFace.x + 60, cy: renFace.y + 60, z: 2.0 }, // H 寄り：しゅん
-      { t: 16.2, cx: 600, cy: 1150, z: 1.25 },                // I 中：ジルが正しく押す
-      { t: 19.2, cx: 520, cy: 1000, z: 1.8 },                 // J 寄り：レンが隣に鼻ハンコ
-      { t: 21.2, cx: jilFace.x, cy: jilFace.y, z: 2.3 },      // K 寄り：ジル照れ
+      { t: 16.2, cx: 600, cy: 1150, z: 1.25 },                // I 中：ユズが正しく押す
+      { t: 19.2, cx: 520, cy: 1000, z: 1.8 },                 // J 寄り：モチが隣に鼻ハンコ
+      { t: 21.2, cx: jilFace.x, cy: jilFace.y, z: 2.3 },      // K 寄り：ユズ照れ
       { t: 22.6, cx: both.x, cy: 1100, z: 1.2, z2: 1.1 }      // L 引き：2匹（締め）
     ];
     const punch = Math.max(0, 1 - Math.abs(t - 13.0) / 0.25);

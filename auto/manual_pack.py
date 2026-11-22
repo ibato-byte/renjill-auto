@@ -174,7 +174,7 @@ def main(argv):
     manual = "・".join(sorted(mode.NAMES[x] for x in mode.manual_platforms())) or "なし"
     (out / "一覧.txt").write_text(
         f"Business Suite に予約する回（{start:%m/%d %H:%M}〜{end:%m/%d %H:%M}。手動予約モード：{manual}）\n"
-        "予約は iMac の Chrome の Claude（スケジュールタスク「レンとジル Business Suite 自動予約」）が manifest.json を読んで行う。\n\n"
+        "予約は iMac の Chrome の Claude（スケジュールタスク「東京うさぎオフィス Business Suite 自動予約」）が manifest.json を読んで行う。\n\n"
         + ("\n".join(lines) if lines else "- 予約が必要な回はありません") + "\n", encoding="utf-8")
     print("\n".join(lines) or "予約が必要な回はありません")
     args = ["--kpi", f"今週の予約={len(posts)}本", "--kpi", f"手動予約モード={manual}", "--kpi", "予約するところ=Chrome（Business Suite）"]

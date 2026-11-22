@@ -1,5 +1,5 @@
 // 「エアコン戦争」（約9.5秒・セリフなし）v2 演出／キャラは本番の rig.js
-// 状況：壁のエアコンの表示は 26。レンがリモコンで 18 に下げる（寒い！ジルがマフラー）→ ジルが 28 に上げる（暑い！レンが汗）→ 18 → 28 …
+// 状況：壁のエアコンの表示は 26。モチがリモコンで 18 に下げる（寒い！ユズがマフラー）→ ユズが 28 に上げる（暑い！モチが汗）→ 18 → 28 …
 // ひっくり返し：二人が同時にボタンを押して、表示が「－－」（壊れた／止まった）→ オチ：二人そろって窓を開ける。字幕「決着：窓」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
@@ -18,24 +18,24 @@ var EP = {
     const { seg, ease, outBack } = L;
     const DESK = 1400;
     const bg = L.office({ sky: 'day', clock: [14, 30] });
-    // 表示の流れ：26 → 1.6 レンが 18 → 3.2 ジルが 28 → 4.7 レン 18 → 5.2 ジル 28 → 5.6 同時押し「--」
+    // 表示の流れ：26 → 1.6 モチが 18 → 3.2 ユズが 28 → 4.7 モチ 18 → 5.2 ユズ 28 → 5.6 同時押し「--」
     const stage = t < 1.6 ? 0 : t < 3.2 ? 1 : t < 4.7 ? 2 : t < 5.2 ? 3 : t < 5.6 ? 4 : 5;
     const txt = ['26', '18', '28', '18', '28', '--'][stage], col = stage === 0 ? '#5DBB63' : stage === 5 ? '#B8B2A8' : (stage % 2 ? '#4A90D9' : '#E8473A');
     const windK = stage === 0 || stage === 5 ? 0 : 1;
     const openWin = t >= 7.2;                                 // 二人で窓を開ける
-    // ジル（左）：寒い（マフラー・震え）→ リモコンで上げる → 暑い顔のレンを見る → 窓へ
+    // ユズ（左）：寒い（マフラー・震え）→ リモコンで上げる → 暑い顔のモチを見る → 窓へ
     const jcold = stage === 1 || stage === 3;
     const jface = stage === 5 ? (t < 6.4 ? RIG.FACES.surprised : RIG.FACES.annoyed) : jcold ? Object.assign({}, RIG.FACES.annoyed, { sweat: 0 }) : RIG.FACES.sharp;
     const jp = Object.assign({}, openWin ? RIG.POSES.stand : RIG.POSES.sit, jface, { x: 60 + (openWin ? 60 * ease(seg(t, 7.2, 7.8)) : 0), y: DESK - 413 * 1.3, scale: 1.3, eyeLook: .5, bodyTilt: jcold ? Math.sin(t * 40) * 3 : 0, headTilt: openWin ? -6 : 0 });
     L.char('jil', jp, t, '', {});
-    // レン（右）：暑い（汗）→ リモコンで下げる → 「--」にきょとん → 窓へ
+    // モチ（右）：暑い（汗）→ リモコンで下げる → 「--」にきょとん → 窓へ
     const rhot = stage === 0 || stage === 2 || stage === 4;
     const rface = stage === 5 ? (t < 6.4 ? RIG.FACES.surprised : RIG.FACES.oops) : rhot ? Object.assign({}, RIG.FACES.oops, { sweat: 1, mouth: 'w', browAngle: 4 }) : RIG.FACES.smile;
     const rp = Object.assign({}, openWin ? RIG.POSES.stand : RIG.POSES.sit, rface, { x: 560 - (openWin ? 60 * ease(seg(t, 7.2, 7.8)) : 0), y: DESK - 413 * 1.35, scale: 1.35, flip: true, eyeLook: .4, headNod: rhot && !openWin ? 6 : 0 });
     L.char('ren', rp, t, '', {});
     let fx = `${L.deskFront(DESK)}`
       + [60, 560].map(x => `${L.drawer(x, DESK)}`).join('');
-    // 手前のリモコン：押す側の前に出る（1.6 レン、3.2 ジル、4.7 レン、5.2 ジル、5.6 両方）
+    // 手前のリモコン：押す側の前に出る（1.6 モチ、3.2 ユズ、4.7 モチ、5.2 ユズ、5.6 両方）
     const press = (at, x) => (t > at && t < at + .5) ? REMOTE(x, DESK - 180 - Math.sin(seg(t, at, at + .5) * Math.PI) * 60, x < 540 ? -20 : 20, 1.0) : '';
     fx += press(1.6, 760) + press(3.2, 320) + press(4.7, 760) + press(5.2, 320);
     if (t > 5.6 && t < 6.6) fx += REMOTE(320, DESK - 200, -20) + REMOTE(760, DESK - 200, 20);
@@ -50,14 +50,14 @@ var EP = {
     // 背景の上にエアコン（壁の高いところ）
     fx = AC(540, 660, txt, col, windK) + fx;
     let ui = (t > 1.8 && t < 3.2 ? CHIP(L, 'A/C: 26 → 18', '上司がリモコンで18度に', 1380, seg(t, 1.8, 2.1)) : '')
-      + (t > 3.4 && t < 4.6 ? CHIP_OFF(L, '→ 28', 'ジルが28度に戻す', 1380, seg(t, 3.4, 3.7)) : '')
+      + (t > 3.4 && t < 4.6 ? CHIP_OFF(L, '→ 28', 'ユズが28度に戻す', 1380, seg(t, 3.4, 3.7)) : '')
       + (t > 6.4 && t < 7.2 ? CHIP_OFF(L, 'A/C: --', '同時押しで、止まった', 1380, seg(t, 6.4, 6.7)) : '')
       + (t > 7.6 && t < 8.6 ? CHIP_OFF(L, 'SOLVED: WINDOW', '決着：窓を開ける', 1380, seg(t, 7.6, 7.9)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.3, cx: 540, cy: 800 },
       { t: 0.01, z: 1.0, cx: 540, cy: 1000, d: .9 },
-      { t: 1.5, z: 1.25, cx: 700, cy: 1050, d: .4 },                // レンのリモコン
-      { t: 3.1, z: 1.25, cx: 470, cy: 1050, d: .4 },                // ジルのリモコン
+      { t: 1.5, z: 1.25, cx: 700, cy: 1050, d: .4 },                // モチのリモコン
+      { t: 3.1, z: 1.25, cx: 470, cy: 1050, d: .4 },                // ユズのリモコン
       { t: 4.6, z: 1.0, cx: 540, cy: 980, d: .4 },
       { t: 5.5, z: 1.15, cx: 540, cy: 900, d: .3 },                 // 「--」
       { t: 7.0, z: 1.0, cx: 540, cy: 980, d: .6 },

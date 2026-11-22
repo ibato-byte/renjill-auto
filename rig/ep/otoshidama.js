@@ -1,7 +1,7 @@
 // 「お年玉」（約9.5秒・セリフなし）v2 演出／キャラは本番の rig.js
-// 状況：課長がにこにこと、ポチ袋をジルの机へすべらせる。ジルはうれしい（きらきら）
+// 状況：課長がにこにこと、ポチ袋をユズの机へすべらせる。ユズはうれしい（きらきら）
 // ひっくり返し：中から出てきたのは手作りの「かたたたき券」……ただし「課長の肩を」
-// オチ：課長は背中を向けて待つ。ジルがしぶしぶトントン。課長はうっとり。字幕「お年玉：たたく券（上司の肩を）」
+// オチ：課長は背中を向けて待つ。ユズがしぶしぶトントン。課長はうっとり。字幕「お年玉：たたく券（上司の肩を）」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
 const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
@@ -22,20 +22,20 @@ var EP = {
     const DESK = 1400;
     const bg = L.office({ sky: 'day', clock: [13, 0] });
     const tapping = t >= 5.8 && t < 7.3;
-    // ジル（左）：ポチ袋にきらきら → あける（lean）→ 券を読んで「！」→ ジト目 → しぶしぶトントン（lean）
+    // ユズ（左）：ポチ袋にきらきら → あける（lean）→ 券を読んで「！」→ ジト目 → しぶしぶトントン（lean）
     const jface = t < 1.4 ? RIG.FACES.neutral : t < 3.6 ? Object.assign({}, RIG.FACES.smile, { sparkle: 1 }) : t < 4.4 ? Object.assign({}, RIG.FACES.surprised, { excl: 1 }) : RIG.FACES.annoyed;
     const jl = (t > 2.8 && t < 3.6) || tapping;
     L.char('jil', Object.assign({}, jl ? RIG.POSES.lean : RIG.POSES.sit, jface, { x: 20 + 300 * ease(seg(t, 5.3, 5.8) - seg(t, 7.3, 7.7)),   // 課長のうしろまで行ってトントン、終わったら席へ
        y: DESK - 413 * 1.3, scale: 1.3, eyeLook: .8, bodyTilt: tapping ? -12 + Math.sin(t * 20) * 5 : jl ? -10 : 0 }), t, '', {});
-    // レン（右）：にこにこでポチ袋をすべらせる → 「どう？」のご満悦 → くるっと背中を向けて待つ → うっとり（ハート）
+    // モチ（右）：にこにこでポチ袋をすべらせる → 「どう？」のご満悦 → くるっと背中を向けて待つ → うっとり（ハート）
     const turned = t >= 5.0 && t < 7.4;
     const rface = t < 3.6 ? Object.assign({}, RIG.FACES.smile, { sparkle: t < 1.6 ? 1 : 0 }) : t < 5.0 ? RIG.FACES.smug : tapping ? Object.assign({}, RIG.FACES.shy, { eyeOpen: .3 }) : RIG.FACES.shy;
     L.char('ren', Object.assign({}, t > .4 && t < 1.2 ? RIG.POSES.lean : RIG.POSES.sit, rface, { x: 560, y: DESK - 413 * 1.35, scale: 1.35, flip: !turned, eyeLook: -.4, headNod: tapping ? Math.sin(t * 20) * 4 : 0, bodyTilt: t > .4 && t < 1.2 ? -10 : 0 }), t, '', {});
     let fx = `${L.deskFront(DESK)}`
       + [60, 560].map(x => `${L.drawer(x, DESK)}`).join('');
-    // ポチ袋：課長の机 → ジルの机へすべる → 開く
+    // ポチ袋：課長の机 → ユズの机へすべる → 開く
     { const u = ease(seg(t, .6, 1.4)), o = seg(t, 2.9, 3.3); fx += POCHI(760 - 320 * u, DESK - 70, -6 + 10 * u, o); }
-    if (t > 3.3) { const k = outBack(seg(t, 3.4, 3.8)), out = seg(t, 5.0, 5.4); fx += TICKET(540 - 110 * out, 720 + 600 * out, .9 * k * (1 - out * .8)); }   // 読んだら、ジルの机の上（ポチ袋のとなり）へ
+    if (t > 3.3) { const k = outBack(seg(t, 3.4, 3.8)), out = seg(t, 5.0, 5.4); fx += TICKET(540 - 110 * out, 720 + 600 * out, .9 * k * (1 - out * .8)); }   // 読んだら、ユズの机の上（ポチ袋のとなり）へ
     if (t > 1.4 && t < 2.6) fx += L.sparkles(440, DESK - 120, t, .8, 6);
     if (tapping) { const k = ((t - 5.8) % .3) / .3; fx += L.impact(700, 1150, k, .35, '#F2C230'); }
     if (t > 7.4 && t < 8.6) fx += L.emark(220, DESK - 650, 1.0, '…');

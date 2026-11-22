@@ -72,7 +72,7 @@ class TokenCheckTest(unittest.TestCase):
         def get(url, params=None, timeout=None, headers=None):
             if url.endswith("/debug_token"):
                 return R({"data": {"is_valid": True, "type": "SYSTEM_USER", "expires_at": exp, "scopes": list(fb.ALL_SCOPES)}})
-            return R({"id": fb.PAGE_ID, "name": "レンとジル Ren & Jill", "access_token": "EAApage1234567890", "instagram_business_account": {"id": "17841"}})
+            return R({"id": fb.PAGE_ID, "name": "東京うさぎオフィス Tokyo Usagi Office", "access_token": "EAApage1234567890", "instagram_business_account": {"id": "17841"}})
         with tempfile.TemporaryDirectory() as d:
             env = {"IG_ACCESS_TOKEN": "EAAtest1234567890", "ALERTS_FILE": f"{d}/a.jsonl", "MANUAL_PLATFORMS": ""}
             cwd = os.getcwd(); os.chdir(d)

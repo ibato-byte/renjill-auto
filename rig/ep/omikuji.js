@@ -1,7 +1,7 @@
 // 「おみくじ」（約9.5秒・セリフなし）v2 演出／キャラは本番の rig.js
-// 状況：お正月。ジルがおみくじの箱をふる → 「大吉」（きらっ）
+// 状況：お正月。ユズがおみくじの箱をふる → 「大吉」（きらっ）
 // ひっくり返し：課長が勢いよくふる → 棒がばらばら飛び出す → 出てきた紙は「牧草吉」
-// オチ：課長は大喜びで紙を高くかかげる。ジルは「…それ、ある？」の顔。字幕「上司のおみくじ：牧草吉」
+// オチ：課長は大喜びで紙を高くかかげる。ユズは「…それ、ある？」の顔。字幕「上司のおみくじ：牧草吉」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
 const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
@@ -22,18 +22,18 @@ var EP = {
     const { seg, ease, outBack } = L;
     const DESK = 1400;
     const bg = L.office({ sky: 'day', clock: [10, 0] });
-    // ジル（左）：ふる（lean）→ 大吉にきらっ → 課長のばらばらに「！」→ 牧草吉に「…」→ ジト目（にが笑い）
+    // ユズ（左）：ふる（lean）→ 大吉にきらっ → 課長のばらばらに「！」→ 牧草吉に「…」→ ジト目（にが笑い）
     const jshake = t >= .7 && t < 1.7;
     const jface = t < 1.8 ? RIG.FACES.sharp : t < 2.8 ? Object.assign({}, RIG.FACES.smile, { sparkle: 1 }) : t < 4.3 ? RIG.FACES.smile : t < 5.6 ? Object.assign({}, RIG.FACES.surprised, { excl: 1 }) : t < 6.4 ? RIG.FACES.think : RIG.FACES.annoyed;
     L.char('jil', Object.assign({}, jshake ? RIG.POSES.lean : RIG.POSES.sit, jface, { x: 20, y: DESK - 413 * 1.3, scale: 1.3, eyeLook: .8, bodyTilt: jshake ? -10 + Math.sin(t * 22) * 4 : 0 }), t, '', {});
-    // レン（右）：わくわく → 激しくふる（lean・体ごと）→ 牧草吉で大喜び（binky）→ かかげて得意げ
+    // モチ（右）：わくわく → 激しくふる（lean・体ごと）→ 牧草吉で大喜び（binky）→ かかげて得意げ
     const rshake = t >= 2.9 && t < 4.3;
     const rface = t < 2.9 ? Object.assign({}, RIG.FACES.smile, { sparkle: t > 2.2 ? 1 : 0 }) : rshake ? RIG.FACES.sharp : t < 5.4 ? Object.assign({}, RIG.FACES.surprised, { excl: 0 }) : Object.assign({}, RIG.FACES.smile, { sparkle: 1, heart: t > 6.4 ? 1 : 0 });
     const rpose = rshake ? RIG.POSES.lean : t >= 5.4 && t < 6.2 ? RIG.POSES.binky : RIG.POSES.sit;
     L.char('ren', Object.assign({}, rpose, rface, { x: 560, y: DESK - 413 * 1.35, scale: 1.35, flip: true, eyeLook: -.3, bodyTilt: rshake ? -14 + Math.sin(t * 34) * 9 : 0 }), t, '', {});
     let fx = `${L.deskFront(DESK)}`
       + [60, 560].map(x => `${L.drawer(x, DESK)}`).join('');
-    // ジルの箱と紙
+    // ユズの箱と紙
     if (t < 2.0) fx += BOX(430, DESK - 120, jshake ? Math.sin(t * 22) * 25 + 160 : 0);
     if (t >= 1.8) fx += SLIP(430, DESK - 190, '大吉', outBack(seg(t, 1.8, 2.1)) * .8, '#C9483C');
     if (t > 2.0 && t < 2.8) fx += L.sparkles(430, DESK - 190, t, .9, 6);

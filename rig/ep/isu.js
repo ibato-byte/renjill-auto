@@ -1,5 +1,5 @@
 // 「新しいイス」（約9.5秒・セリフなし）v2 演出／キャラは本番の rig.js
-// 状況：新しいオフィスチェアが届く（右はしでくるっと回って見せる）。ジルはうれしい（にこ）
+// 状況：新しいオフィスチェアが届く（右はしでくるっと回って見せる）。ユズはうれしい（にこ）
 // ひっくり返し：課長のイスは……課長は乗らずに、届いた段ボール箱の中へ
 // オチ：箱の中でご満悦。イスはからっぽ。字幕「新しいイス：箱のほうが人気」
 document.write('<script src="v2/lib.js"><\/script>');
@@ -26,9 +26,9 @@ var EP = {
     const arrive = outBack(seg(t, .4, .9));
     const spin = t >= 1.8 && t < 3.4 ? (t - 1.8) * 9 : 0;
     const hop = seg(t, 4.3, 4.9), inBox = t >= 4.9;
-    // ジル（左）：イスにすわる → くるくる（にこ）→ 課長を見て「？」→ 箱に「…」
+    // ユズ（左）：イスにすわる → くるくる（にこ）→ 課長を見て「？」→ 箱に「…」
     const jface = t < 1.6 ? RIG.FACES.neutral : t < 3.4 ? Object.assign({}, RIG.FACES.smile, { sparkle: 1 }) : t < 4.9 ? Object.assign({}, RIG.FACES.think, { question: 1 }) : t < 6.4 ? Object.assign({}, RIG.FACES.surprised, { excl: 0 }) : RIG.FACES.annoyed;
-    // レン：イスを見る → 箱を見て目がきらきら → ぴょんと箱の中へ（binky）→ 箱の中でご満悦
+    // モチ：イスを見る → 箱を見て目がきらきら → ぴょんと箱の中へ（binky）→ 箱の中でご満悦
     const rface = t < 3.4 ? RIG.FACES.neutral : t < 4.3 ? Object.assign({}, RIG.FACES.smile, { sparkle: 1 }) : t < 4.9 ? RIG.FACES.smile : Object.assign({}, RIG.FACES.smug, { sparkle: t < 6.6 ? 1 : 0 });
     const rx0 = 560, rx1 = 520, ry0 = DESK - 413 * 1.35 - 40, ry1 = FLOOR - 413 * 1.1 - 150;
     const rx = rx0 + (rx1 - rx0) * hop, ry = ry0 + (ry1 - ry0) * hop - Math.sin(hop * Math.PI) * 220;

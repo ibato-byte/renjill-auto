@@ -1,7 +1,7 @@
 // 「凧あげ」（約9.5秒・セリフなし）v2 演出／キャラは本番の rig.js
-// 状況：お正月。窓から風。ジルが小さな凧（赤い四角）をあげる → すいすい（にこ）
+// 状況：お正月。窓から風。ユズが小さな凧（赤い四角）をあげる → すいすい（にこ）
 // ひっくり返し：課長もやりたい → 強い風 → たれ耳がばたばた → 課長がふわっと浮く
-// オチ：ジルの凧糸の先は、浮いた課長（ネクタイに結ばれている）。課長はご満悦。字幕「よくあがる凧：上司」
+// オチ：ユズの凧糸の先は、浮いた課長（ネクタイに結ばれている）。課長はご満悦。字幕「よくあがる凧：上司」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
 const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
@@ -21,10 +21,10 @@ var EP = {
     const gust = seg(t, 2.6, 3.2);                         // 強い風
     const lift = ease(seg(t, 4.2, 5.6));                    // 課長が浮く
     const wob = Math.sin(t * 3) * 14 * lift;
-    // ジル（左）：凧糸を持つ（にこ）→ 強い風に「！」→ 課長が浮いて「…」→ 糸をしっかり持ってにが笑い
+    // ユズ（左）：凧糸を持つ（にこ）→ 強い風に「！」→ 課長が浮いて「…」→ 糸をしっかり持ってにが笑い
     const jface = t < 2.6 ? Object.assign({}, RIG.FACES.smile, { sparkle: t > 1.2 && t < 2.2 ? 1 : 0 }) : t < 4.2 ? RIG.FACES.sharp : t < 5.8 ? Object.assign({}, RIG.FACES.surprised, { excl: 1 }) : RIG.FACES.annoyed;
     L.char('jil', Object.assign({}, RIG.POSES.sit, jface, { x: 20, y: DESK - 413 * 1.3, scale: 1.3, eyeLook: t < 4.2 ? .9 : .6 }), t, '', {});
-    // レン（右）：見ている → 風で耳がばたばた（体がゆれる）→ ふわっと浮く（binky）→ 空中でご満悦
+    // モチ（右）：見ている → 風で耳がばたばた（体がゆれる）→ ふわっと浮く（binky）→ 空中でご満悦
     const flap = t >= 2.6 && t < 5.6;
     const rface = t < 2.6 ? Object.assign({}, RIG.FACES.smile, { sparkle: t > 1.8 ? 1 : 0 }) : t < 4.2 ? RIG.FACES.oops : t < 5.6 ? Object.assign({}, RIG.FACES.surprised, { excl: 0 }) : Object.assign({}, RIG.FACES.smug, { sparkle: t < 7.0 ? 1 : 0 });
     const rx = 560 - 60 * lift, ry = DESK - 413 * 1.35 - 520 * lift + wob;
@@ -32,7 +32,7 @@ var EP = {
     let fx = `${L.deskFront(DESK)}`
       + [60, 560].map(x => `${L.drawer(x, DESK)}`).join('');
     fx += WIND(t, t < 2.6 ? .5 : t < 6.0 ? 1 : .5);
-    // ジルの凧（〜4.2）→ 課長が浮いたら糸の先は課長
+    // ユズの凧（〜4.2）→ 課長が浮いたら糸の先は課長
     const hand = [330, DESK - 200];
     if (t < 4.6) { const kx = 420 + Math.sin(t * 2) * 30, ky = 760 - 60 * seg(t, .6, 1.6) + Math.cos(t * 2.4) * 20 - gust * 80; fx += `<path d="M${hand[0]} ${hand[1]} Q${(hand[0] + kx) / 2 + 40} ${(hand[1] + ky) / 2 + 60} ${kx} ${ky + 70}" stroke="#7A5634" stroke-width="3" fill="none"/>` + KITE(kx, ky, Math.sin(t * 3) * 10); }
     else { const tie = [rx + 300, ry + 470]; fx += `<path d="M${hand[0]} ${hand[1]} Q${(hand[0] + tie[0]) / 2} ${(hand[1] + tie[1]) / 2 + 80} ${tie[0]} ${tie[1]}" stroke="#7A5634" stroke-width="3" fill="none"/>`;

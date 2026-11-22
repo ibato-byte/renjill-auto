@@ -13,7 +13,7 @@ window.EP = {
     office({ clock: [15, 0], shake: S });
     const f = clear('fx'), back = clear('back'), ui = clear('ui');
 
-    // ---- レン
+    // ---- モチ
     const RX = 250, RY = 668;
     let R = Object.assign({}, RIG.POSES.sit, RIG.FACES.neutral, { scale: 1.3, x: RX + S.x, y: RY + S.y, eyeLook: 0.7 });
     const d1 = seg(t, 0.6, 2.8);
@@ -59,7 +59,7 @@ window.EP = {
       if (turn) back.appendChild(el('rect', { x: x - 2, y: y - 2, width: tw + 4, height: th + 4, rx: 5, fill: 'none', stroke: '#F2C14E', 'stroke-width': 4 + 2 * Math.sin(t * 12) }));
     }
 
-    // ---- ジル
+    // ---- ユズ
     const JX = 640;
     let J = Object.assign({}, RIG.POSES.sit, RIG.FACES.sharp, { scale: 1.25, flip: true, x: JX + S.x, y: 1240 + S.y, eyeLook: 0.9 });
     thumpPose(J, t, 3.2, 3.6, S);
@@ -81,11 +81,11 @@ window.EP = {
     const shots = [
       { t: 0.0, cx: 620, cy: 1000, z: 1.8, z2: 1.9 },                  // A 寄り：うとうと＋カメラオフの画面
       { t: 3.0, cx: 560, cy: 1120, z: 1.25 },                          // B 中：小さい足ダン→起きる→また寝る
-      { t: 5.6, cx: FACE_JIL.x - 60, cy: FACE_JIL.y, z: 2.3 },         // C 寄り：ジル無言
+      { t: 5.6, cx: FACE_JIL.x - 60, cy: FACE_JIL.y, z: 2.3 },         // C 寄り：ユズ無言
       { t: 6.4, cx: SCREEN.x, cy: SCREEN.y, z: 2.9 },                  // D 寄り：画面、自分の番が光る
       { t: 7.2, cx: 600, cy: 1020, z: 1.6 },                           // E 中：寝ぼけてボタン
       { t: 8.2, cx: SCREEN.x, cy: SCREEN.y, z: 3.0 },                  // F 寄り：寝顔が全員に、みんなびっくり
-      { t: 9.6, cx: FACE_JIL.x - 60, cy: FACE_JIL.y, z: 2.5 },         // G 寄り：ジル青ざめ
+      { t: 9.6, cx: FACE_JIL.x - 60, cy: FACE_JIL.y, z: 2.5 },         // G 寄り：ユズ青ざめ
       { t: 10.2, cx: FACE_JIL.x - 60, cy: FACE_JIL.y, z: 2.0, z2: 3.0 },// H 寄り：ため（無音）
       { t: 11.9, cx: 560, cy: 1120, z: 1.0 },                          // I 引き：大足ダン
       { t: 13.0, cx: 600, cy: 990, z: 1.8 },                           // J 中：キリッ（画面もキリッ）

@@ -1,4 +1,4 @@
-// レンとジル リグ v1 — SVGパーツ分け + ボーン（transformグループ）+ パラメータ駆動
+// 東京うさぎオフィス リグ v1 — SVGパーツ分け + ボーン（transformグループ）+ パラメータ駆動
 // 使い方: RIG.render(svgEl, { char:'ren'|'jil', ...params })  / RIG.pose(name) / RIG.face(name)
 (function (global) {
   const NS = 'http://www.w3.org/2000/svg';
@@ -21,11 +21,11 @@
     bodyTilt: 0,        // 体の傾き deg
     headTilt: 0,        // 首の傾き deg
     headNod: 0,         // 頭の上下 px
-    earL: 0, earR: 0,   // 耳の角度 deg（レン:垂れ耳の揺れ / ジル:立ち耳の向き）
+    earL: 0, earR: 0,   // 耳の角度 deg（モチ:垂れ耳の揺れ / ユズ:立ち耳の向き）
     eyeOpen: 1,         // 0(閉じ)〜1(開き)
     eyeLook: 0,         // 瞳の左右 -1〜1
     eyeShape: 'round',  // round | happy | flat | angry | half
-    browAngle: 0,       // 眉（レンは目の上の陰で表現）
+    browAngle: 0,       // 眉（モチは目の上の陰で表現）
     mouth: 'w',         // w | smile | open | line | wavy | pout
     strand: 0,          // 口の片はしから出たチモシー1本（0〜1 の長さ。2026-11-21「金のチモシー」第2話）
     blush: 0,           // 0〜1
@@ -153,7 +153,7 @@
   // ---------- のびて寝る（スプルート）2026-11-17 ----------
   // オーナー：「のびて寝る姿がただの丸い体」。本物のうさぎ（RSPCA・House Rabbit Society などの解説、写真）：
   // おなかを床にべったり付け、体は長く低い。後ろ足 2 本はまっすぐ後ろへ投げ出し、足の裏が上を向く。前足は前へ。あごは前足か床にのせる。
-  // たれ耳は床に広がり、立ち耳は首のうしろへ寝かせる。頭（顔）はアニメの形のまま下げるだけ。ここでは体・足・しっぽを描く（数字はレンの大きさ。ジルは縮める）
+  // たれ耳は床に広がり、立ち耳は首のうしろへ寝かせる。頭（顔）はアニメの形のまま下げるだけ。ここでは体・足・しっぽを描く（数字はモチの大きさ。ユズは縮める）
   function splootBody(isRen, p, c, u, fur) {
     const S = isRen ? 1 : 0.8, hx = isRen ? 180 : 188, gy = 398, sx = isRen ? 1 : 0.86, sy = isRen ? 1.06 : 1; // 体つき：ホーランドロップはずんぐり（少し高く）、ネザーランドドワーフは小さくまとまる（横に短い）
     const wrap = kids => G({ transform: `translate(${hx} ${gy}) scale(${S * sx} ${S * sy}) translate(-180 -398)` }, kids);
@@ -319,7 +319,7 @@
     return { back: G({}, [wrap(back), cheekShadow]), body: wrap(body) };
   }
 
-  // ---------- レン（ホーランドロップ） ----------
+  // ---------- モチ（ホーランドロップ） ----------
   function buildRen(p, id) {
     const c = C.ren, u = n => `url(#${id}${n})`;
     const fur = p.fur ? { filter: u('fur') } : {};
@@ -339,7 +339,7 @@
       // 前足
       ...[[150, 390], [204, 392]].map(([x, y]) => { const k = (x - bodyCx) / bw; return frontPaw(x, y, 24, 13, u, fur, c.cream, 304 + bh * Math.sqrt(Math.max(0, 1 - k * k))); })
     ]);
-    // 足ダン（レンはほぼ使わない）
+    // 足ダン（モチはほぼ使わない）
     // ネクタイ
     const tie = p.prop ? G({ transform: `rotate(${10 + p.bodyTilt} 182 286)` }, [
       P('M175 282 L189 282 L187 293 L177 293 Z', c.theme),
@@ -430,9 +430,9 @@
     return G({}, [shadow, body, tie, head]);
   }
 
-  // ---------- ジル（ネザーランドドワーフ） ----------
+  // ---------- ユズ（ネザーランドドワーフ） ----------
   function buildJil(p, id) {
-    if (p.pose === 'flop') p = Object.assign({}, p, { headNod: 40, headX: -30, earL: 0, earR: 0 }); // ばたん（ジル）：頭が小さめなので少し下げる。立ち耳は頭と一緒に背中側へ寝る
+    if (p.pose === 'flop') p = Object.assign({}, p, { headNod: 40, headX: -30, earL: 0, earR: 0 }); // ばたん（ユズ）：頭が小さめなので少し下げる。立ち耳は頭と一緒に背中側へ寝る
     const c = C.jil, u = n => `url(#${id}${n})`;
     const fur = p.fur ? { filter: u('fur') } : {};
     const sq = p.bodySquash;
@@ -605,7 +605,7 @@
       q.earR = (q.earR || 0) - idle * 0.8 - drag + (one ? 0 : twitch) + (q.__lag || 0);
       if (!isRen && (q.eyeShape === 'happy' || (p.eyeOpen != null && p.eyeOpen < 0.2))) { q.earL += 5; q.earR -= 5; }
       if (p.eyeOpen != null && p.eyeOpen < 0.2) { if (isRen) { q.earL += 3; q.earR -= 3; } else { q.earL += 1.5 * Math.sin(t * 2.4 + seed); q.earR -= 1.5 * Math.sin(t * 2.4 + seed); } q.headNod = (q.headNod || 0) + 4; }   // 寝ている時：たれ耳も力がぬける・立ち耳は呼吸に合わせてわずかに上下・頭が少し下がる   // うれしい時・寝ている時は、耳の力がぬけて少し開く
-      if (!isRen) { const w = (t + seed * 3) % 9.5; if (w < 2.2) q.earR += 9 * Math.min(1, w / 0.25, (2.2 - w) / 0.35); }   // ジルは 9.5 秒に 1 回、右耳だけ 2 秒ほど後ろへ向けて音を聞く
+      if (!isRen) { const w = (t + seed * 3) % 9.5; if (w < 2.2) q.earR += 9 * Math.min(1, w / 0.25, (2.2 - w) / 0.35); }   // ユズは 9.5 秒に 1 回、右耳だけ 2 秒ほど後ろへ向けて音を聞く
     }
     return q;
   }

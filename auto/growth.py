@@ -6,11 +6,11 @@ import pathlib, subprocess, tempfile
 
 # YouTube に付ける翻訳の言語（YouTube Data API の localizations。無料）。既定の言語は英語
 LOCALE_DESC = {
-    "ja": "うさぎの課長レン（たれ耳）と、しっかり者の部下ジル。セリフなしのオフィスコメディ。",
-    "ko": "덜렁이 렌 과장(홀랜드 롭)과 똑 부러지는 부하 질(네덜란드 드워프). 대사 없는 오피스 코미디예요.",
-    "zh-Hant": "迷糊的蓮課長（垂耳兔）和精明的部下吉兒（侏儒兔）。沒有台詞的辦公室喜劇。",
-    "es": "Una comedia de oficina sin palabras sobre dos conejos: Ren, el jefe despistado, y Jill, su ayudante lista.",
-    "pt": "Uma comédia de escritório sem falas sobre dois coelhos: Ren, o chefe distraído, e Jill, sua assistente esperta.",
+    "ja": "うさぎの課長モチ（たれ耳）と、しっかり者の部下ユズ。セリフなしのオフィスコメディ。",
+    "ko": "덜렁이 모찌 과장(홀랜드 롭)과 똑 부러지는 부하 유자(네덜란드 드워프). 대사 없는 오피스 코미디예요.",
+    "zh-Hant": "迷糊的麻糬課長（垂耳兔）和精明的部下柚子（侏儒兔）。沒有台詞的辦公室喜劇。",
+    "es": "Una comedia de oficina sin palabras sobre dos conejos: Mochi, el jefe despistado, y Yuzu, su ayudante lista.",
+    "pt": "Uma comédia de escritório sem falas sobre dois coelhos: Mochi, o chefe distraído, e Yuzu, sua assistente esperta.",
 }
 LOCALE_FOLLOW = {
     "ja": "続きを見るにはチャンネル登録を！",
@@ -19,7 +19,7 @@ LOCALE_FOLLOW = {
     "es": "¡Suscríbete para ver más!",
     "pt": "Inscreva-se para ver mais!",
 }
-DEFAULT_TAIL_EN = "Follow for more Ren & Jill 🐰"
+DEFAULT_TAIL_EN = "Follow for more Tokyo Usagi Office 🐰"
 
 
 def tail_en(d):

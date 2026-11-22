@@ -1,7 +1,7 @@
 // 「仕事始め」（約9.5秒・セリフなし）v2 演出／キャラは本番の rig.js
-// 状況：1月4日、仕事始め。ジルが壁のカレンダーを「1/4」にする（きりっ）
-// ひっくり返し：課長がそっと「12/31」に戻す → ジルが「1/4」に → また戻す（休みが恋しい）
-// オチ：ジルがカレンダーをテープでぺたぺた固定。課長はしょんぼり。字幕「上司の心は、まだ12月」
+// 状況：1月4日、仕事始め。ユズが壁のカレンダーを「1/4」にする（きりっ）
+// ひっくり返し：課長がそっと「12/31」に戻す → ユズが「1/4」に → また戻す（休みが恋しい）
+// オチ：ユズがカレンダーをテープでぺたぺた固定。課長はしょんぼり。字幕「上司の心は、まだ12月」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
 const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
@@ -23,16 +23,16 @@ var EP = {
     const { seg, ease, outBack } = L;
     const DESK = 1400, CX = 540, CY = 760;
     const bg = L.office({ sky: 'day', clock: [9, 0], noClock: true });
-    // めくる時刻：ジル 0.8 → 1月、課長 2.3 → 12月、ジル 3.1 → 1月、課長 4.1 → 12月、ジル 4.9 → 1月（その後テープ）
+    // めくる時刻：ユズ 0.8 → 1月、課長 2.3 → 12月、ユズ 3.1 → 1月、課長 4.1 → 12月、ユズ 4.9 → 1月（その後テープ）
     const F = [[.8, 1], [2.3, 0], [3.1, 1], [4.1, 0], [4.9, 1]];
     let jan = 0, flip = 0; for (const [ft, v] of F) { if (t >= ft + .25) jan = v; if (t >= ft && t < ft + .5) flip = (t - ft) / .5; }
     const tape = seg(t, 5.7, 6.9);
     const jReach = F.some(([ft, v]) => v === 1 && t >= ft - .1 && t < ft + .5) || (t >= 5.7 && t < 6.9);
     const rReach = F.some(([ft, v]) => v === 0 && t >= ft - .1 && t < ft + .5);
-    // ジル（左）：きりっ → 戻されて「？」→ むっ → テープでぺたぺた → 満足（にこ）
+    // ユズ（左）：きりっ → 戻されて「？」→ むっ → テープでぺたぺた → 満足（にこ）
     const jface = t < 2.3 ? RIG.FACES.sharp : t < 3.1 ? Object.assign({}, RIG.FACES.surprised, { excl: 0 }) : t < 5.7 ? RIG.FACES.annoyed : t < 7.0 ? RIG.FACES.sharp : RIG.FACES.smile;
     L.char('jil', Object.assign({}, jReach ? RIG.POSES.stand : RIG.POSES.sit, jface, { x: 20, y: DESK - 413 * 1.3, scale: 1.3, eyeLook: .9, question: t >= 2.5 && t < 3.1 ? 1 : 0 }), t, '', {});
-    // レン（右）：眠そう（休みぼけ）→ そっと戻す（stand・目をそらす）→ テープで固定されてしょんぼり
+    // モチ（右）：眠そう（休みぼけ）→ そっと戻す（stand・目をそらす）→ テープで固定されてしょんぼり
     const rface = t < 2.0 ? RIG.FACES.sleepy : t < 5.7 ? Object.assign({}, RIG.FACES.neutral, { eyeLook: -.6 }) : RIG.FACES.oops;
     L.char('ren', Object.assign({}, rReach ? RIG.POSES.stand : RIG.POSES.sit, rface, { x: 560, y: DESK - 413 * 1.35, scale: 1.35, flip: true, eyeLook: -.5, headNod: t >= 7.2 ? 18 : 0 }), t, '', {});
     let fx = `${L.deskFront(DESK)}`

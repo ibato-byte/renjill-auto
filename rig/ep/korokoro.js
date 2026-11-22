@@ -1,5 +1,5 @@
 // 「コロコロ」（約9.5秒・セリフなし）v2 演出／キャラは本番の rig.js
-// 状況：年末の大そうじ。ジルが粘着ローラー（コロコロ）で机をきれいに
+// 状況：年末の大そうじ。ユズが粘着ローラー（コロコロ）で机をきれいに
 // ひっくり返し：ふわふわの課長にもコロコロ → 毛がどんどん取れて、横に毛の山。課長はだんだん細く（気持ちよさそう）
 // オチ：毛の山が課長より大きくなって、目がついたように見える。字幕「毛だけで、上司もう1匹」
 // （うさぎは毛が生えかわる。ブラッシングで取れる毛が多いのは本当）
@@ -30,15 +30,15 @@ var EP = {
     const bg = L.office({ sky: 'day', clock: [15, 0] });
     const groom = t >= 2.8 && t < 5.4, g = ease(seg(t, 2.8, 5.4));
     const rs = 1.35 - .28 * g;                                   // 課長がだんだん細く
-    // ジル（左）：机をコロコロ（にこ）→ 課長の毛に気づく「！」→ 課長をコロコロ（lean）→ 毛の山を見て固まる → ジト目
+    // ユズ（左）：机をコロコロ（にこ）→ 課長の毛に気づく「！」→ 課長をコロコロ（lean）→ 毛の山を見て固まる → ジト目
     const jface = t < 2.2 ? RIG.FACES.smile : t < 2.8 ? Object.assign({}, RIG.FACES.surprised, { excl: 1 }) : t < 5.4 ? RIG.FACES.sharp : t < 6.8 ? Object.assign({}, RIG.FACES.surprised, { excl: 0 }) : RIG.FACES.annoyed;
     L.char('jil', Object.assign({}, groom || t < 2.0 ? RIG.POSES.lean : RIG.POSES.sit, jface, { x: 30, y: DESK - 413 * 1.3, scale: 1.3, eyeLook: .8, bodyTilt: groom ? -14 : t < 2.0 ? -8 : 0 }), t, '', {});
-    // レン（右）：ふわふわ → コロコロされて気持ちよさそう（照れ）→ 細くなってご満悦
+    // モチ（右）：ふわふわ → コロコロされて気持ちよさそう（照れ）→ 細くなってご満悦
     const rface = t < 2.8 ? RIG.FACES.neutral : t < 5.4 ? Object.assign({}, RIG.FACES.shy, { heart: 1 }) : RIG.FACES.smug;
     L.char('ren', Object.assign({}, RIG.POSES.sit, rface, { x: 540 + (1.35 - rs) * 260, y: DESK - 413 * rs, scale: rs, flip: true, eyeLook: .2 }), t, '', {});
     let fx = `${L.deskFront(DESK)}`
       + [60, 560].map(x => `${L.drawer(x, DESK)}`).join('');
-    // 毛の山（課長とジルの間）
+    // 毛の山（課長とユズの間）
     const pile = groom ? g * .95 : t >= 5.4 ? .95 + .25 * outBack(seg(t, 5.4, 5.8)) : 0;
     fx += FURBALL(560, DESK + 6, pile * .9, t >= 6.4 ? Math.min(1, (t - 6.4) * 4) : 0, t);
     // コロコロ：机 → 課長の体（上下に動く）

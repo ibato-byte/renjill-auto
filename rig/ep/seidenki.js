@@ -1,7 +1,7 @@
 // 「静電気」（約9.5秒・セリフなし）v2 演出／キャラは本番の rig.js
-// 状況：冬の乾いたオフィス。ジルが課長に書類をわたそうとして、パチッ！
+// 状況：冬の乾いたオフィス。ユズが課長に書類をわたそうとして、パチッ！
 // ひっくり返し：課長の毛がパチパチ → 机の上の物が次々と課長にくっつく（ふせん・ペン・書類・クリップ）
-// オチ：ジルがさがしていたペンも課長にくっついていた。課長はご満悦。字幕「なくし物：ぜんぶ上司に」
+// オチ：ユズがさがしていたペンも課長にくっついていた。課長はご満悦。字幕「なくし物：ぜんぶ上司に」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
 const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
@@ -22,19 +22,19 @@ var EP = {
   frame(t) {
     const L = window.L; if (!L || !window.RIG) return;
     const { seg, ease, outBack } = L;
-    const DESK = 1400, RN = [858, 1156];                 // レンの鼻（座った姿勢）
+    const DESK = 1400, RN = [858, 1156];                 // モチの鼻（座った姿勢）
     const bg = L.office({ sky: 'day', clock: [10, 30] });
-    // ジル（左）：書類をわたす（lean）→ パチッで「！」→ くっつくのをぽかん → ペンを見つけてジト目
+    // ユズ（左）：書類をわたす（lean）→ パチッで「！」→ くっつくのをぽかん → ペンを見つけてジト目
     const reach = t > .4 && t < 1.1;
     const jface = t < 1.0 ? RIG.FACES.smile : t < 2.2 ? Object.assign({}, RIG.FACES.surprised, { excl: 1 }) : t < 5.6 ? Object.assign({}, RIG.FACES.surprised, { excl: 0 }) : t < 6.8 ? Object.assign({}, RIG.FACES.think, { question: 1 }) : RIG.FACES.annoyed;
     L.char('jil', Object.assign({}, reach ? RIG.POSES.lean : RIG.POSES.sit, jface, { x: 20, y: DESK - 413 * 1.3, scale: 1.3, eyeLook: .8, bodyTilt: reach ? -14 : t > 1.0 && t < 1.4 ? 8 : 0 }), t, '', {});
-    // レン（右）：パチッ → 毛がパチパチ（あせ）→ 物がくっつく → ご満悦
+    // モチ（右）：パチッ → 毛がパチパチ（あせ）→ 物がくっつく → ご満悦
     const crackle = t >= 1.0 && t < 5.4;
     const rface = t < 1.0 ? RIG.FACES.neutral : t < 3.0 ? RIG.FACES.oops : t < 5.6 ? Object.assign({}, RIG.FACES.surprised, { excl: 0 }) : Object.assign({}, RIG.FACES.smug, { sparkle: t < 7.2 ? 1 : 0 });
     L.char('ren', Object.assign({}, RIG.POSES.sit, rface, { x: 560, y: DESK - 413 * 1.35, scale: 1.35, flip: true, eyeLook: -.3, bodyTilt: crackle && t < 3.0 ? Math.sin(t * 40) * 2 : 0 }), t, '', {});
     let fx = `${L.deskFront(DESK)}`
       + [60, 560].map(x => `${L.drawer(x, DESK)}`).join('');
-    // ジルの書類（わたしかけて、パチッで机に落ちる）
+    // ユズの書類（わたしかけて、パチッで机に落ちる）
     { const u = ease(seg(t, .4, 1.0)), d = seg(t, 1.1, 1.5); fx += THING('paper', 380 + 200 * u - 120 * d, DESK - 160 * u + 120 * d - 40 * (1 - u), -10 + 30 * d); }
     if (t > 1.0 && t < 1.5) fx += ZAP(600, 1180, seg(t, 1.0, 1.5), 1.2);
     // 毛のパチパチ（顔のまわりではなく、体の外がわ）
@@ -42,7 +42,7 @@ var EP = {
     // 物が飛んできて、くっつく（3.2 から 0.35 秒ごと）
     STICK.forEach(([k, a, b, r], i) => { const t0 = 3.2 + i * .35, u = ease(seg(t, t0, t0 + .3)); const x = a[0] + (b[0] - a[0]) * u, y = a[1] + (b[1] - a[1]) * u - Math.sin(u * Math.PI) * 140;
       fx += THING(k, x, t >= 5.4 ? y + Math.sin(t * 3 + i) * 3 : y, r * u); });
-    // さいごのペンに「！」マーク（ジルのペン）
+    // さいごのペンに「！」マーク（ユズのペン）
     if (t > 6.0 && t < 8.6) fx += `<g transform="translate(900 1290)"><circle r="34" fill="#E8473A"/><text y="16" text-anchor="middle" font-family="Noto Sans CJK JP" font-weight="900" font-size="46" fill="#FFF7E8">!</text></g>`;
     if (t > 5.8 && t < 7.0) fx += L.sparkles(RN[0], RN[1] - 40, t, 1.7, 8);
     if (t > 7.2 && t < 8.6) fx += L.emark(220, DESK - 650, 1.0, '…');
@@ -54,7 +54,7 @@ var EP = {
       { t: 0.01, z: 1.1, cx: 520, cy: 1150, d: .9 },
       { t: 1.0, z: 1.25, cx: 560, cy: 1150, d: .3 },                // パチッ
       { t: 3.0, z: 1.1, cx: 720, cy: 1180, d: .5 },                 // くっつく
-      { t: 6.0, z: 1.3, cx: 630, cy: 1220, d: .5 },                // ジルのペン
+      { t: 6.0, z: 1.3, cx: 630, cy: 1220, d: .5 },                // ユズのペン
       { t: 7.2, z: 1.05, cx: 540, cy: 1120, d: .5 },
     ], t);
     if (t > 8.6) { fx = ''; ui = ''; }

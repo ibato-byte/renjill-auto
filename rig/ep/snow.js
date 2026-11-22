@@ -1,7 +1,7 @@
 // 「窓を3秒開けた」（約9.5秒・セリフなし）v2 演出／キャラは本番の rig.js
-// 状況：外は雪（窓の向こうに雪）。暖房でぽかぽかの部屋。レンが「ちょっと換気」と窓を開ける（レンが窓際へ）
-// ひっくり返し：3秒（数字）で雪が吹き込む → 机とジルの頭に雪が積もる
-// オチ：レンは机の雪で小さな雪うさぎを作ってご満悦。字幕「換気：3秒。雪うさぎ：1羽」
+// 状況：外は雪（窓の向こうに雪）。暖房でぽかぽかの部屋。モチが「ちょっと換気」と窓を開ける（モチが窓際へ）
+// ひっくり返し：3秒（数字）で雪が吹き込む → 机とユズの頭に雪が積もる
+// オチ：モチは机の雪で小さな雪うさぎを作ってご満悦。字幕「換気：3秒。雪うさぎ：1羽」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
 const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
@@ -21,12 +21,12 @@ var EP = {
     const open = t >= 1.6 && t < 4.9;                        // 窓が開いている（3秒ちょっと）
     const snowK = t < 2.0 ? 0 : Math.min(1, (t - 2.0) / 2.9);  // 積もり具合
     const bunny = t >= 7.0 ? outBack(seg(t, 7.0, 7.6)) : 0;
-    // レン：1.0 窓際へ（右の窓の下に立つ：x 700）→ 1.6 開ける（lean）→ 4.9 閉めて戻る → 6.2〜 机の雪で雪うさぎ（頭を上下）→ ご満悦
+    // モチ：1.0 窓際へ（右の窓の下に立つ：x 700）→ 1.6 開ける（lean）→ 4.9 閉めて戻る → 6.2〜 机の雪で雪うさぎ（頭を上下）→ ご満悦
     const rh = t >= 1.0 && t < 1.5 ? RIG.hop(t, 1.0, 1.5, 540, 700, { hops: 1, height: 30 }) : t >= 5.0 && t < 5.5 ? RIG.hop(t, 5.0, 5.5, 700, 540, { hops: 1, height: 30 }) : { x: t >= 1.5 && t < 5.0 ? 700 : 540, yOff: 0, squash: 0 };
     const rface = t < 4.4 ? RIG.FACES.smile : t < 6.2 ? Object.assign({}, RIG.FACES.oops, { sweat: 0 }) : t < 7.6 ? RIG.FACES.neutral : RIG.FACES.smug;
     const rp = Object.assign({}, t >= 1.5 && t < 5.0 ? RIG.POSES.stand : RIG.POSES.sit, rface, { x: rh.x, y: DESK - 413 * 1.35 + rh.yOff, scale: 1.35, flip: true, bodySquash: rh.squash, eyeLook: .4, headNod: t >= 6.2 && t < 7.0 ? Math.abs(Math.sin(t * 14)) * 10 : 0 });
     L.char('ren', rp, t, '', {});
-    // ジル（左）：ぽかぽか（にこ）→ 雪が頭に積もる → ジト目でレンを見る
+    // ユズ（左）：ぽかぽか（にこ）→ 雪が頭に積もる → ジト目でモチを見る
     const jface = t < 2.6 ? RIG.FACES.smile : t < 4.4 ? Object.assign({}, RIG.FACES.surprised, { excl: 0 }) : RIG.FACES.annoyed;
     const jp = Object.assign({}, RIG.POSES.sit, jface, { x: 40, y: DESK - 413 * 1.3, scale: 1.3, eyeLook: .8, bodyTilt: t >= 2.6 && t < 4.9 ? Math.sin(t * 40) * 2 : 0 });
     L.char('jil', jp, t, snowK > .3 ? DRIFT(40 + 350, DESK - 413 * 1.3 + 110, 200, 36 * snowK) : '', {});

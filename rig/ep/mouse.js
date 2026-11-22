@@ -1,5 +1,5 @@
 // 「マウス」（約9.5秒・セリフなし）v2 演出／キャラは本番の rig.js
-// 状況：ジルがマウスで、画面の矢印をすいすい動かしてクリック（きりっ）
+// 状況：ユズがマウスで、画面の矢印をすいすい動かしてクリック（きりっ）
 // ひっくり返し：課長は画面の矢印が気になって、目と頭で追いかける……そして、えいっ
 // オチ：画面に肉球のあと、矢印は逃げていく。字幕「上司とマウス：矢印を追いかける」
 document.write('<script src="v2/lib.js"><\/script>');
@@ -19,16 +19,16 @@ var EP = {
     const { seg, ease, outBack } = L;
     const DESK = 1400, MX = 540, MY = 1250, SX0 = MX - 128, SY0 = MY - 268;   // 画面（左上）
     const bg = L.office({ sky: 'day', clock: [13, 30] });
-    // 矢印の動き：ジルの番はアイコンへ、課長の番は画面をぐるぐる → 肉球の後は逃げる
+    // 矢印の動き：ユズの番はアイコンへ、課長の番は画面をぐるぐる → 肉球の後は逃げる
     let cx, cy;
     if (t < 2.6) { const k = ease(seg(t, .5, 1.4)); cx = SX0 + 40 + 150 * k; cy = SY0 + 200 - 120 * k; }
     else if (t < 5.3) { const a = (t - 2.6) * 2.4; cx = SX0 + 128 + Math.cos(a) * 80; cy = SY0 + 128 + Math.sin(a * 1.3) * 70; }
     else { const k = ease(seg(t, 5.5, 6.2)); cx = SX0 + 128 + 100 * k; cy = SY0 + 128 - 100 * k; }
-    // ジル（左）：マウス（lean・きりっ）→ 満足 → 課長が矢印を追うのに「？」→ 肉球に「！」→ ジト目
+    // ユズ（左）：マウス（lean・きりっ）→ 満足 → 課長が矢印を追うのに「？」→ 肉球に「！」→ ジト目
     const jl = t > .4 && t < 2.1;
     const jface = t < 2.1 ? RIG.FACES.sharp : t < 3.4 ? Object.assign({}, RIG.FACES.smile, { sparkle: t < 2.8 ? 1 : 0 }) : t < 5.3 ? Object.assign({}, RIG.FACES.think, { question: 1 }) : t < 6.6 ? Object.assign({}, RIG.FACES.surprised, { excl: 1 }) : RIG.FACES.annoyed;
     L.char('jil', Object.assign({}, jl ? RIG.POSES.lean : RIG.POSES.sit, jface, { x: 20, y: DESK - 413 * 1.3, scale: 1.3, eyeLook: t > 2.6 ? .9 : .6, bodyTilt: jl ? -6 : 0 }), t, '', {});
-    // レン（右）：矢印を目で追う（eyeLook・頭も）→ 身をかがめる → えいっ（nudge）→ ご満悦
+    // モチ（右）：矢印を目で追う（eyeLook・頭も）→ 身をかがめる → えいっ（nudge）→ ご満悦
     const watch = t > 2.9 && t < 5.2, pounce = t >= 5.2 && t < 5.6;
     const rface = t < 2.9 ? RIG.FACES.neutral : watch ? Object.assign({}, RIG.FACES.sharp, { eyeOpen: 1.15 }) : pounce ? Object.assign({}, RIG.FACES.surprised, { excl: 0 }) : Object.assign({}, RIG.FACES.smug, { sparkle: t < 7.4 ? 1 : 0 });
     L.char('ren', Object.assign({}, pounce ? RIG.POSES.nudge : watch && t > 4.4 ? RIG.POSES.loaf : RIG.POSES.sit, rface, { x: 560 - (pounce ? 60 : 0), y: DESK - 413 * 1.35, scale: 1.35, flip: true, eyeLook: watch ? -.4 - .5 * Math.cos((t - 2.6) * 2.4) : -.3, headTilt: watch ? Math.sin((t - 2.6) * 2.4 * 1.3) * 12 : 0 }), t, '', {});
@@ -39,12 +39,12 @@ var EP = {
     // 肉球のあと（画面に）
     if (t > 5.4) fx += PAW(SX0 + 128, SY0 + 140, 1.2, Math.min(1, (t - 5.4) * 4));
     fx += CURSOR(cx, cy, 1.4);
-    // マウス（ジルの手もと）
+    // マウス（ユズの手もと）
     fx += `<g transform="translate(330 ${DESK - 16})"><ellipse cx="0" cy="0" rx="34" ry="22" fill="#E9ECEF" stroke="#9AA3AE" stroke-width="4"/><path d="M0 -22 L0 -4" stroke="#9AA3AE" stroke-width="3"/></g>`;
     if (watch) fx += `<text x="${MX + 250}" y="${MY - 330}" text-anchor="middle" font-family="Noto Sans CJK JP" font-weight="900" font-size="60" fill="#E8473A" stroke="#FFF7E8" stroke-width="10" paint-order="stroke">じーっ</text>`;
     fx += L.impact(SX0 + 128, SY0 + 140, seg(t, 5.4, 5.8), .7, '#E8473A');
     if (t > 7.2 && t < 8.6) fx += L.emark(220, DESK - 660, 1.0, '…');
-    let ui = (t > 0.8 && t < 2.6 ? CHIP(L, 'MOUSE CLICK', 'ジル、マウスですいすい', 1650, seg(t, .8, 1.1)) : '')
+    let ui = (t > 0.8 && t < 2.6 ? CHIP(L, 'MOUSE CLICK', 'ユズ、マウスですいすい', 1650, seg(t, .8, 1.1)) : '')
       + (t > 6.0 && t < 8.6 ? CHIP_OFF(L, 'BOSS VS. THE CURSOR', '上司とマウス：矢印を追いかける', 1650, seg(t, 6.0, 6.3)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.3, cx: 400, cy: 1120 },

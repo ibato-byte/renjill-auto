@@ -37,7 +37,7 @@ def privacy_for(state):
 
 def build_title(items, wk):
     first, last = items[0][0][5:].replace("-", "/"), items[-1][0][5:].replace("-", "/")
-    return f"Ren & Jill weekly: {len(items)} episodes ({first}–{last}) | レンとジル 今週のまとめ"[:100]
+    return f"Tokyo Usagi Office weekly: {len(items)} episodes ({first}–{last}) | 東京うさぎオフィス 今週のまとめ"[:100]
 
 
 def concat(paths, out, run=subprocess.run):

@@ -1,6 +1,6 @@
 // 「Wi-Fiが切れた」（約9.5秒・セリフなし）v2 演出／キャラは本番の rig.js
-// 状況：オンライン会議。画面の中でレンが話している（口パク）→ Wi-Fi の印に×、レンの顔が変な表情で固まる
-// ひっくり返し：固まったままの顔を、ジルがスクリーンショット（カシャ）→ オチ：つながった瞬間、レンはにこにこ。ジルの手元には保存した変顔。字幕「スクショ、保存しました」
+// 状況：オンライン会議。画面の中でモチが話している（口パク）→ Wi-Fi の印に×、モチの顔が変な表情で固まる
+// ひっくり返し：固まったままの顔を、ユズがスクリーンショット（カシャ）→ オチ：つながった瞬間、モチはにこにこ。ユズの手元には保存した変顔。字幕「スクショ、保存しました」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
 const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
@@ -16,13 +16,13 @@ var EP = {
     const DESK = 1400;
     const cut = t >= 2.6 && t < 6.4;                    // 切れている間
     const bg = L.office({ sky: 'day', clock: [14, 0] });
-    // ジル（左・実物）：聞く → 固まった顔を見てにやり → 5.2 スクショ（カシャ）→ 保存した絵を手元に
+    // ユズ（左・実物）：聞く → 固まった顔を見てにやり → 5.2 スクショ（カシャ）→ 保存した絵を手元に
     const jface = t < 3.6 ? RIG.FACES.sharp : t < 6.4 ? RIG.FACES.smug : RIG.FACES.smile;
     const jp = Object.assign({}, RIG.POSES.sit, jface, { x: -60, y: DESK - 426 * 1.4 + 20, scale: 1.4, eyeLook: .8, blush: t > 3.6 ? .5 : 0 }, L.startle(t, 2.65));
     if (jp.yOff) jp.y += jp.yOff;   // 2026-11-15：部品の yOff は rig が使わない。y に足さないと飛び上がらない（前は顔だけ驚いていた）
     L.char('jil', jp, t, '', {});
-    // レン（画面の中）：口パク → 2.6 固まる（変顔：目が片方閉じ、口が「う」）→ 6.4 復帰（にこにこ）
-    // 総見直し 11/13：画面を大きく（780×720）、レンを1.75倍に（前は画面の高さの20%で小さかった）。画面の中は自宅の壁（会議の相手だと一目で分かる）
+    // モチ（画面の中）：口パク → 2.6 固まる（変顔：目が片方閉じ、口が「う」）→ 6.4 復帰（にこにこ）
+    // 総見直し 11/13：画面を大きく（780×720）、モチを1.75倍に（前は画面の高さの20%で小さかった）。画面の中は自宅の壁（会議の相手だと一目で分かる）
     const MX = 260, MY = 420, MW = 760, MH = 720;
     const talk = Math.floor(t * 6) % 2 === 0;
     let rface = t < 2.6 ? Object.assign({}, talk ? RIG.FACES.smile : RIG.FACES.neutral, { mouth: talk ? 'open' : 'w' }) : cut ? Object.assign({}, RIG.FACES.oops, { eyeOpen: .35, mouth: 'pout', browAngle: 18, sweat: 0 }) : RIG.FACES.smile;
@@ -43,17 +43,17 @@ var EP = {
     fx += WIFI(MX + MW - 120, MY + 80, !cut, 1.1);
     if (cut && t < 3.4) fx += L.emark(MX + MW / 2, MY - 40, 1.2, '!?');
     if (cut) fx += `<g transform="translate(${MX + MW / 2} ${MY + MH - 40})">${Array.from({ length: 3 }, (_, i) => `<circle cx="${-40 + i * 40}" cy="0" r="${12 + 6 * Math.max(0, Math.sin(t * 6 - i * 1.2))}" fill="#fff" opacity=".9"/>`).join('')}</g>`;   // つながるのを待つ点々
-    // スクショ：5.2 に白いフラッシュ → ジルの手元に紙（固まった顔の小さな絵）
+    // スクショ：5.2 に白いフラッシュ → ユズの手元に紙（固まった顔の小さな絵）
     if (t > 5.3) { const k = outBack(seg(t, 5.3, 5.7)); fx += `<g transform="translate(${400} ${DESK + 150}) rotate(-8) scale(${1.3 * k})"><rect x="-120" y="-150" width="240" height="190" rx="10" fill="#fff" stroke="#D7CCBB" stroke-width="5"/><ellipse cx="0" cy="-70" rx="56" ry="48" fill="#DEC9A8"/><path d="M-28 -78 q8 -10 16 0 M12 -84 L34 -74" stroke="#3A2414" stroke-width="5" fill="none" stroke-linecap="round"/><ellipse cx="0" cy="-48" rx="10" ry="7" fill="#C88D85"/><path d="M-8 -36 q8 6 16 0" stroke="#5A3826" stroke-width="4" fill="none"/><rect x="-100" y="0" width="200" height="12" rx="6" fill="#E2D8C8"/></g>`; }
     if (t > 5.2 && t < 5.6) fx += L.impact(400, DESK + 40, seg(t, 5.2, 5.6), .9, '#F2A33A');
     let ui = (t > 1.8 && t < 3.4 ? CHIP(L, 'ONLINE MEETING', 'オンライン会議。上司は画面の中', 1380, seg(t, 1.8, 2.1)) : '')
-      + (t > 5.6 && t < 8.6 ? CHIP_OFF(L, 'FROZEN FACE: SAVED', '固まった顔、ジルが保存', 1380, seg(t, 5.6, 5.9)) : '');
+      + (t > 5.6 && t < 8.6 ? CHIP_OFF(L, 'FROZEN FACE: SAVED', '固まった顔、ユズが保存', 1380, seg(t, 5.6, 5.9)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.35, cx: 620, cy: 860 },
       { t: 0.01, z: 1.08, cx: 525, cy: 940, d: .9 },
       { t: 2.6, z: 1.6, cx: MX + MW / 2, cy: MY + MH * .45, d: .4 },   // 固まった顔に寄る
       { t: 3.6, z: 1.12, cx: 510, cy: 960, d: .5 },
-      { t: 5.1, z: 1.35, cx: 380, cy: 1180, d: .4 },                    // スクショの紙とジル
+      { t: 5.1, z: 1.35, cx: 380, cy: 1180, d: .4 },                    // スクショの紙とユズ
       { t: 6.4, z: 1.1, cx: 525, cy: 940, d: .5 },
       { t: 7.6, z: 1.3, cx: 470, cy: 1100, d: .6 },
     ], t);

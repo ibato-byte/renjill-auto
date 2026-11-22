@@ -1,21 +1,21 @@
 // 「エレベーター 第1話：気まずい2人」（20秒＋エンドカード1秒・セリフなし）2026-11-16 オーナーの絵コンテで作り直し（同日、20秒に）
 // 状況：エレベーターで上司と2人きり。気まずい沈黙
-// オチ：ごまかして耳をゆらしていたら、課長の耳が全部の階のボタンを押していた（ジルの無言のツッコミ・つづく）
+// オチ：ごまかして耳をゆらしていたら、課長の耳が全部の階のボタンを押していた（ユズの無言のツッコミ・つづく）
 // 0.0–3.0   扉が閉まる（チーン・ウィーン）→ 2人だけ。チラッと見て、同時に反対へ目をそらす
-// 3.0–7.5   沈黙。レンはキョロキョロ・モゾモゾ、ジルは真顔で階の表示。4〜6秒は上に「・・・。」。最後の 0.6 秒は完全に止まる
-// 7.5–13.3  レンは気まずさをごまかすように、天井を見ながら耳を左右にゆらす（無意識・♪）。ゆれるたびに耳の先がボタンにふれ、
-//           何回かに分けて上から順に押される（ピッ…ピッピッ…ピッピッ…ピピピッ）。全部光った後、レンが固まる
-// 13.6–17.0 ジルが光るボタンを見る → ゆっくりレンへ（無言のツッコミ）→ レンもおそるおそる → 目が合って静止
+// 3.0–7.5   沈黙。モチはキョロキョロ・モゾモゾ、ユズは真顔で階の表示。4〜6秒は上に「・・・。」。最後の 0.6 秒は完全に止まる
+// 7.5–13.3  モチは気まずさをごまかすように、天井を見ながら耳を左右にゆらす（無意識・♪）。ゆれるたびに耳の先がボタンにふれ、
+//           何回かに分けて上から順に押される（ピッ…ピッピッ…ピッピッ…ピピピッ）。全部光った後、モチが固まる
+// 13.6–17.0 ユズが光るボタンを見る → ゆっくりモチへ（無言のツッコミ）→ モチもおそるおそる → 目が合って静止
 // 17.4–20.0 テロップ「続きは次回！ フォローして待っててね」。全部の階が光ったまま（第2話へ続く）
 // セット（内装・ボタン・照明・立ち位置）は rig/v2/elevator_set.js を共通で使う
 document.write('<script src="v2/lib.js"><\/script><script src="v2/elevator_set.js"><\/script>');
 (function () {
   const sm = (a, b, t) => { const k = Math.max(0, Math.min(1, (t - a) / (b - a))); return k * k * (3 - 2 * k); };
-  // 耳の角度 → 耳の先のいちばん右の x（レンを x=392 に置いて実測。2026-11-16）。耳の先をボタンの列に重ねるための x を出す
+  // 耳の角度 → 耳の先のいちばん右の x（モチを x=392 に置いて実測。2026-11-16）。耳の先をボタンの列に重ねるための x を出す
   const EAR_X = [[-100, 1060], [-96, 1067], [-92, 1073], [-88, 1077], [-84, 1080], [-80, 1082], [-76, 1083], [-72, 1082], [-68, 1080], [-64, 1077], [-60, 1072], [-56, 1066], [-52, 1059], [-40, 1031], [-30, 1002], [-20, 969], [-10, 934], [0, 902]];
   const earRight = e => { for (let i = 0; i < EAR_X.length - 1; i++) { const [e0, r0] = EAR_X[i], [e1, r1] = EAR_X[i + 1]; if (e <= e1) return L.lerp(r0, r1, (e - e0) / (e1 - e0)); } return 902; };
   const xFor = e => 392 + (ELV.BX + 14) - earRight(e);
-  // 耳のゆれ：[外へ振る開始, 外のいちばん端の時間, 戻り終わり, 外の角度, そのときのレンの x（null＝届かない位置）]
+  // 耳のゆれ：[外へ振る開始, 外のいちばん端の時間, 戻り終わり, 外の角度, そのときのモチの x（null＝届かない位置）]
   //   外へ振るとき、x も少しずつ右へ（モゾモゾ）→ いちばん外に振れた瞬間だけ耳の先がボタンの列にかかる。戻るときは耳がボタンからはなれる
   const SW = [
     [7.85, 8.25, 8.7, -40, 'far'],     // 1回目：まだ届かない（ゆらし始め）
@@ -28,7 +28,7 @@ document.write('<script src="v2/lib.js"><\/script><script src="v2/elevator_set.j
   // 体も耳と一緒に左右にゆれる：外へ振るときは x を遅れて右へ（u^3）、戻るときは耳より先に左へ 70px もどす。
   //   こうしないと、耳が外へ振れる途中（-80° あたりが耳のいちばん外）で、ねらっていない下のボタンまでふれてしまう（2026-11-16 実測）
   const BACK = 70;
-  function earAt(t) {   // { e: 耳の角度, x: レンの x }
+  function earAt(t) {   // { e: 耳の角度, x: モチの x }
     const R = ELV.REN; let e = 0, prevX = R.x;
     for (const [a, p, b, ep, mode] of SW) {
       const tx = mode === 'far' ? R.x : xFor(ep), back = mode === 'far' ? R.x : tx - BACK;
@@ -42,11 +42,11 @@ document.write('<script src="v2/lib.js"><\/script><script src="v2/elevator_set.j
     const u = Math.pow(sm(p, b, t), 1.4), ee = L.lerp(-55, HOLD_E, u);
     return { e: ee, x: xFor(ee) };
   }
-  // ---- レンの動き（耳がボタンにふれるかは、この動きの実際の耳の形で判定する）----
+  // ---- モチの動き（耳がボタンにふれるかは、この動きの実際の耳の形で判定する）----
   function renPose(t) {
     const R = ELV.REN, F = RIG.FACES;
     let x = R.x, tilt = 0, sq = 0, nod = 0, earR = 0, earL = 0, look = 0, eyeOpen = 1, face = F.neutral, extra = {};
-    // 2.2–2.6 チラッ（ジルの方＝左）→ 2.6 同時に反対（右）へ。目だけだと小さいので首も少しかしげる
+    // 2.2–2.6 チラッ（ユズの方＝左）→ 2.6 同時に反対（右）へ。目だけだと小さいので首も少しかしげる
     if (t >= 2.2 && t < 2.6) { look = -sm(2.2, 2.3, t); extra.headTilt = -7 * sm(2.2, 2.35, t); }
     else if (t >= 2.6 && t < 3.0) { look = sm(2.6, 2.68, t); extra.headTilt = L.lerp(-7, 7, sm(2.6, 2.72, t)); }
     // 3.0–6.2：キョロキョロ（0.3 秒ごとに目線が飛ぶ）＋モゾモゾ
@@ -74,20 +74,20 @@ document.write('<script src="v2/lib.js"><\/script><script src="v2/elevator_set.j
       earR = HOLD_E; earL = .3 * HOLD_E; x = xFor(HOLD_E); tilt = 4; extra.headTilt = 5; nod = -12 * (1 - f) + 6 * f; sq = -.1 * f + .05 * L.pulse(t, 13.3, 13.5); look = .3;
       face = Object.assign({}, F.neutral, { mouth: 'line' }); eyeOpen = 1 + .22 * f; extra.sweat = f;
     }
-    // 16.2–16.9：おそるおそるジルを見る
+    // 16.2–16.9：おそるおそるユズを見る
     if (t >= 16.2) { const g = sm(16.2, 16.9, t); look = L.lerp(.3, -1, g); extra.headTilt = L.lerp(5, -6, g); }
     return Object.assign({}, RIG.POSES.sit, face, { x, y: ELV.y(R) + nod * .3, scale: R.s, bodyTilt: tilt, bodySquash: sq, headNod: nod * .5, earL, earR, eyeLook: look, eyeOpen, blush: face.blush ?? .25 }, extra.sweat ? { sweat: extra.sweat } : {}, extra.headTilt != null ? { headTilt: extra.headTilt } : {});
   }
-  // ジル：真顔で階の表示 → 光るボタンをじっと → ゆっくりレンへ
+  // ユズ：真顔で階の表示 → 光るボタンをじっと → ゆっくりモチへ
   function jilPose(t) {
     const J = ELV.JIL, F = RIG.FACES;
     let look = 0, nod = 0, htilt = 0, face = F.neutral, eyeOpen = 1;
-    if (t >= 2.2 && t < 2.6) { look = sm(2.2, 2.3, t); htilt = 7 * sm(2.2, 2.35, t); }                                // チラッ（レンの方＝右）
+    if (t >= 2.2 && t < 2.6) { look = sm(2.2, 2.3, t); htilt = 7 * sm(2.2, 2.35, t); }                                // チラッ（モチの方＝右）
     else if (t >= 2.6 && t < 3.0) { look = -sm(2.6, 2.68, t); htilt = L.lerp(7, -7, sm(2.6, 2.72, t)); }              // 同時に反対へ
     if (t >= 3.0 && t < 13.6) { look = L.lerp(-1, 0, sm(3.0, 3.3, t)); htilt = -7 * (1 - sm(3.0, 3.3, t)); nod = -16 * sm(3.0, 3.4, t); face = F.sharp; } // 階の表示をじっと
     if (t >= 13.6) {
       const a = sm(13.6, 14.1, t); look = L.lerp(0, .9, a); nod = L.lerp(-16, 8, a); face = F.sharp;                    // 光るボタンを見る（右下）
-      const b = sm(15.2, 16.4, t); htilt = 10 * b; nod = L.lerp(nod, 2, b); look = L.lerp(look, 1, b);                  // ゆっくりレンへ（無言のツッコミ）
+      const b = sm(15.2, 16.4, t); htilt = 10 * b; nod = L.lerp(nod, 2, b); look = L.lerp(look, 1, b);                  // ゆっくりモチへ（無言のツッコミ）
       if (b > 0) face = Object.assign({}, F.sharp, { eyeShape: 'half', mouth: 'line' }); eyeOpen = L.lerp(1, .6, sm(15.4, 15.9, t));
     }
     return Object.assign({}, RIG.POSES.sit, face, { x: J.x, y: ELV.y(J), scale: J.s, eyeLook: look, headNod: nod, headTilt: htilt, eyeOpen });
@@ -157,7 +157,7 @@ document.write('<script src="v2/lib.js"><\/script><script src="v2/elevator_set.j
       const cam = L.camAt([
         { t: 0, z: 1.08, cx: 540, cy: 1110 },                  // 扉が閉まる（扉と2人）。最初のコマからゆっくり寄る（qa：最初の 0.5 秒で動きを出す）
         { t: 0.01, z: 1.32, cx: 510, cy: 1300, d: 2.4 },       // 2人
-        { t: 7.4, z: 1.62, cx: 770, cy: 1250, d: .7 },          // レンの耳とボタン
+        { t: 7.4, z: 1.62, cx: 770, cy: 1250, d: .7 },          // モチの耳とボタン
         { t: 13.6, z: 1.13, cx: 525, cy: 1290, d: .6 },        // 2人＋光るボタン（全身と表情とボタンが入る）
         { t: 16.85, z: 1.2, cx: 530, cy: 1300, d: .5 },        // 目が合う
       ], t);

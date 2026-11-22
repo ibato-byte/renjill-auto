@@ -1,7 +1,7 @@
 // 「祝日出社」（約9.5秒・セリフなし）v2 演出／キャラは本番の rig.js
-// 状況：月曜日の朝。ジルが出社（左から入ってくる）。課長はもう席にいる（早い！）
+// 状況：月曜日の朝。ユズが出社（左から入ってくる）。課長はもう席にいる（早い！）
 // ひっくり返し：壁のカレンダーは赤い「11」——今日は成人の日（祝日）
-// オチ：ふたりとも気づいて「！」→ 顔を見合わせ、そのままのんびり（課長は香箱、ジルはにが笑い）。字幕「祝日に出社：ふたりとも」
+// オチ：ふたりとも気づいて「！」→ 顔を見合わせ、そのままのんびり（課長は香箱、ユズはにが笑い）。字幕「祝日に出社：ふたりとも」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
 const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
@@ -20,12 +20,12 @@ var EP = {
     const { seg, ease, outBack } = L;
     const DESK = 1400;
     const bg = L.office({ sky: 'day', clock: [9, 0], noClock: true });
-    const jx = -360 + 380 * ease(seg(t, .2, 1.3));          // ジルが左から入ってくる
+    const jx = -360 + 380 * ease(seg(t, .2, 1.3));          // ユズが左から入ってくる
     const shock = t >= 3.8 && t < 5.0;
-    // ジル（左）：にこにこ出社 → 課長が早くて「？」→ カレンダーを見て「！」→ 見合わせる → にが笑い
+    // ユズ（左）：にこにこ出社 → 課長が早くて「？」→ カレンダーを見て「！」→ 見合わせる → にが笑い
     const jface = t < 1.6 ? RIG.FACES.smile : t < 2.8 ? Object.assign({}, RIG.FACES.think, { question: 1 }) : t < 3.8 ? RIG.FACES.neutral : t < 5.0 ? Object.assign({}, RIG.FACES.surprised, { excl: 1 }) : t < 6.2 ? RIG.FACES.oops : Object.assign({}, RIG.FACES.smile, { blush: .3 });
     L.char('jil', Object.assign({}, t < 1.3 ? RIG.POSES.stand : RIG.POSES.sit, jface, { x: jx, y: DESK - 413 * 1.3, scale: 1.3, eyeLook: t >= 2.8 && t < 3.8 ? .4 : .8, bodyTilt: t < 1.3 ? Math.sin(t * 18) * 4 : 0 }), t, '', {});
-    // レン（右）：もう座っている（ご満悦・早い）→ カレンダーで「！」→ 見合わせる → 香箱すわりでのんびり
+    // モチ（右）：もう座っている（ご満悦・早い）→ カレンダーで「！」→ 見合わせる → 香箱すわりでのんびり
     const rface = t < 2.8 ? Object.assign({}, RIG.FACES.smug, { sparkle: t > 1.4 && t < 2.6 ? 1 : 0 }) : t < 3.8 ? RIG.FACES.neutral : t < 5.0 ? Object.assign({}, RIG.FACES.surprised, { excl: 1 }) : t < 6.2 ? RIG.FACES.oops : Object.assign({}, RIG.FACES.smile, { sparkle: 0 });
     L.char('ren', Object.assign({}, t >= 6.2 ? RIG.POSES.loaf : RIG.POSES.sit, rface, { x: 560, y: DESK - 413 * 1.35, scale: 1.35, flip: true, eyeLook: t >= 2.8 && t < 3.8 ? .3 : -.4 }), t, '', {});
     let fx = `${L.deskFront(DESK)}`

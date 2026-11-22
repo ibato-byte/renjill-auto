@@ -1,8 +1,8 @@
 // 「10分の会議」（約9.5秒・セリフなし）v2 演出／キャラは本番の rig.js
-// 状況：ホワイトボードが落ちてきて「10 min」。レンが張り切って話す（吹き出しの「・」が増える・ビンキー）
+// 状況：ホワイトボードが落ちてきて「10 min」。モチが張り切って話す（吹き出しの「・」が増える・ビンキー）
 // ひっくり返し：時計の針がぐるぐる（14:00→16:00）、ボードは「2 h」、コーヒーは3杯
-// オチ：ジルはうとうと→机に突っ伏す（体で見せる）。レンはまだ跳ねている
-// オチの後のオチ（ループ）：レンが寝ているジルを見て、にっこりボードを「10 min」に戻す（最初に戻る）
+// オチ：ユズはうとうと→机に突っ伏す（体で見せる）。モチはまだ跳ねている
+// オチの後のオチ（ループ）：モチが寝ているユズを見て、にっこりボードを「10 min」に戻す（最初に戻る）
 // 2026-11-14 総見直し：キャラを 1.3→1.7 倍（画面の高さの35%）・字幕なし（ボードと時計で分かる）・
 //   ボードは冒頭の一言が消えてから（1.7秒）落ちてくる（前は一言と重なっていた）・動きの部品（L.binky・L.droop・L.land・L.anticip）
 document.write('<script src="v2/lib.js"><\/script>');
@@ -20,14 +20,14 @@ var EP = {
     // 時計：14:00 → 3.6〜5.2 で針がぐるぐる → 16:00
     const spin = ease(seg(t, 3.6, 5.2));
     const minutes = 14 * 60 + spin * 120;
-    // ボード：1.45〜1.8 で上から落ちてくる → 5.2 で「2 h」 → 7.9〜8.1 でレンが「10 min」に戻す（くるっと回る）
+    // ボード：1.45〜1.8 で上から落ちてくる → 5.2 で「2 h」 → 7.9〜8.1 でモチが「10 min」に戻す（くるっと回る）
     const drop = outBack(seg(t, 1.7, 2.05));
     const flip1 = seg(t, 5.0, 5.25), flip2 = seg(t, 7.45, 7.7);
     const txt = t < 5.12 ? '10 min' : t < 7.57 ? '2 h' : '10 min';
     const bs = Math.max(.04, Math.abs(Math.cos(Math.PI * (flip1 > 0 && flip1 < 1 ? flip1 : flip2 > 0 && flip2 < 1 ? flip2 : 0))));
     const board = t < 1.7 ? '' : `<g transform="translate(0 ${-700 * (1 - drop)})"><g transform="translate(-210 0) translate(540 540) scale(${bs} 1) translate(-540 -540)">${BOARD(txt, 540, .78)}</g></g>`;
     const bg = L.office({ sky: spin > .5 ? 'dusk' : 'day', noClock: true }) + L.clock(880, 260, [Math.floor(minutes / 60), minutes % 60], 1.0) + board;
-    // レン（右）：ずっと話している（口パク）。2.6 と 6.3 で張り切ってビンキー。6.95 ジルに気づく → 7.3 にっこり → 7.45 ボードを戻す
+    // モチ（右）：ずっと話している（口パク）。2.6 と 6.3 で張り切ってビンキー。6.95 ユズに気づく → 7.3 にっこり → 7.45 ボードを戻す
     const talk = t < 6.95 && Math.floor(t * 6) % 2 === 0;
     const notice = t >= 6.95 && t < 7.3, reset = t >= 7.3;
     const rface = notice ? Object.assign({}, RIG.FACES.neutral, { eyeOpen: 1.1 }) : reset ? RIG.FACES.smile : talk ? RIG.FACES.smile : RIG.FACES.neutral;
@@ -35,7 +35,7 @@ var EP = {
     const rp = Object.assign({}, RIG.POSES.sit, rface, { mouth: notice ? 'w' : talk ? 'open' : 'w', x: 430, y: DESK - 413 * S, scale: S, flip: true, headTilt: t < 6.95 ? Math.sin(t * 3) * 4 : 0, earL: Math.sin(t * 2.5) * 4, eyeLook: notice ? -1 : 0, sparkle: reset ? 1 : 0 }, rmove);
     if (rmove.yOff) rp.y += rmove.yOff;
     L.char('ren', rp, t, '', {});
-    // ジル（左）：聞く → 4.2 まぶたが重い → 5.3 うとうと（頭がかくっ）→ 5.6 体がしぼむ → 6.0 ばたっと横に伸びて寝る（うさぎの「フロップ」・着地のつぶれ）
+    // ユズ（左）：聞く → 4.2 まぶたが重い → 5.3 うとうと（頭がかくっ）→ 5.6 体がしぼむ → 6.0 ばたっと横に伸びて寝る（うさぎの「フロップ」・着地のつぶれ）
     const asleep = t >= 6.0;
     const nod = t >= 5.3 && t < 6.0 ? 22 * Math.max(0, Math.sin((t - 5.3) * 14)) : 0;
     const jface = t < 4.2 ? RIG.FACES.sharp : t < 6.0 ? Object.assign({}, RIG.FACES.sleepy, { zzz: 0, eyeOpen: t < 5.3 ? .35 : .15 }) : RIG.FACES.sleepy;
@@ -45,10 +45,10 @@ var EP = {
     L.char('jil', jp, t, '', {});
     let fx = `${L.deskFront(DESK)}`
       + [60, 560].map(x => `${L.drawer(x, DESK)}`).join('');
-    // コーヒー：ジルの前に。1杯 → 2杯 → 2時間後は3杯（最後だけ中身あり）
+    // コーヒー：ユズの前に。1杯 → 2杯 → 2時間後は3杯（最後だけ中身あり）
     const cups = spin < .5 ? 1 : spin < .9 ? 2 : 3;
     for (let i = 0; i < cups; i++) fx += CUP(110 + i * 105, DESK - 6, .85, i === cups - 1 && spin < 1);
-    // レンの吹き出し：「・」が増える（話しているあいだだけ）
+    // モチの吹き出し：「・」が増える（話しているあいだだけ）
     const dots = Math.min(5, 1 + Math.floor(t / 1.5));
     if (t < 6.95) fx += L.bubble(880, DESK - 780, `<text y="22" text-anchor="middle" font-size="90" font-weight="900" font-family="Noto Sans CJK JP" fill="#3A2414">${'・'.repeat(dots)}</text>`, { w: 150 + dots * 50, h: 140, tail: 40, s: outBack(seg(t, .8, 1.1)) });
     if (asleep) fx += `<text x="60" y="${DESK - 430}" font-size="${84 + Math.sin(t * 4) * 8}" font-weight="900" font-family="Noto Sans CJK JP" fill="#5F6B8C" opacity=".9">Zz</text>`;
@@ -58,8 +58,8 @@ var EP = {
       { t: 0, z: 1.2, cx: 560, cy: 1120 },
       { t: 0.01, z: .95, cx: 565, cy: 1060, d: .8 },
       { t: 3.5, z: 1.7, cx: 820, cy: 360, d: .5 },                 // 時計に寄る（演出の寄り）
-      { t: 5.3, z: 1.05, cx: 480, cy: 1130, d: .5 },               // うとうとのジル
-      { t: 6.85, z: .95, cx: 565, cy: 1000, d: .45 },               // レンとボードが入る引き
+      { t: 5.3, z: 1.05, cx: 480, cy: 1130, d: .5 },               // うとうとのユズ
+      { t: 6.85, z: .95, cx: 565, cy: 1000, d: .45 },               // モチとボードが入る引き
     ], t);
     if (t > 8.6) { fx = ''; ui = ''; }
     L.mount({ bg, fx, ui, cam, t, shake: t > 6.0 && t < 6.2 ? 8 : 0 });

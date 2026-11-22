@@ -1,7 +1,7 @@
 // 「締め切り前夜」（約9.5秒・セリフなし）v2 演出／キャラは本番の rig.js
 // 状況：22:00、締め切りは明日 9:00（壁の時計＋カレンダーの赤丸）。二人の机に同じ高さの書類の山
-// ひっくり返し：時計が回る（22:00→8:59）。ジルの山はどんどん低く（✓の束に）、レンの山は変わらず（寝ている）
-// オチ：8:59、ジルが✓の束を出す。レンは1枚目のまま、机の上で寝ている。字幕「ジル：完了。上司：1枚目」
+// ひっくり返し：時計が回る（22:00→8:59）。ユズの山はどんどん低く（✓の束に）、モチの山は変わらず（寝ている）
+// オチ：8:59、ユズが✓の束を出す。モチは1枚目のまま、机の上で寝ている。字幕「ユズ：完了。上司：1枚目」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
 const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
@@ -20,13 +20,13 @@ var EP = {
     const mins = 22 * 60 + Math.round(k * (11 * 60 - 1));
     const morning = t >= 6.2;
     const bg = L.office({ sky: morning ? 'day' : 'night', clock: [Math.floor(mins / 60) % 24, mins % 60] });
-    // 山：ジルは 20 → 0（✓ の束が増える）、レンは 20 のまま
+    // 山：ユズは 20 → 0（✓ の束が増える）、モチは 20 のまま
     const jn = Math.round(12 * (1 - k)), jdone = 12 - jn;
-    // ジル（左）：黙々と（頭を小さく上下）→ 朝、✓の束をぽん（smug）
+    // ユズ（左）：黙々と（頭を小さく上下）→ 朝、✓の束をぽん（smug）
     const jface = t < 6.2 ? RIG.FACES.sharp : RIG.FACES.smug;
     const jp = Object.assign({}, RIG.POSES.sit, jface, { x: 40, y: DESK - 413 * 1.3, scale: 1.3, eyeLook: t < 6.2 ? .2 : .8, headNod: t > 1.0 && t < 6.2 ? Math.abs(Math.sin(t * 14)) * 6 : 0, bodyTilt: t > 1.0 && t < 6.2 ? -4 : 0 });
     L.char('jil', jp, t, '', {});
-    // レン（右）：1枚目をじっと見る → 2.6 こっくり → 寝る（机に突っ伏す＝loaf＋頭を下げる）→ 7.6 チャイムで飛び起きて、1枚目を見て汗
+    // モチ（右）：1枚目をじっと見る → 2.6 こっくり → 寝る（机に突っ伏す＝loaf＋頭を下げる）→ 7.6 チャイムで飛び起きて、1枚目を見て汗
     const asleep = t >= 2.6 && t < 7.0;
     const rface = t < 2.0 ? RIG.FACES.neutral : t < 2.6 ? Object.assign({}, RIG.FACES.sleepy, { zzz: 0 }) : asleep ? RIG.FACES.sleepy : t < 8.0 ? RIG.FACES.surprised : Object.assign({}, RIG.FACES.oops, { sweat: 1 });
     const rp = Object.assign({}, asleep ? RIG.POSES.loaf : RIG.POSES.sit, rface, { x: 540, y: DESK - 413 * 1.35, scale: 1.35, flip: true, eyeLook: .5, headNod: asleep ? 28 : t < 2.6 ? 10 : 0, headTilt: asleep ? 12 : 0, bodySquash: t >= 8.0 ? -.15 : 0 });
@@ -42,15 +42,15 @@ var EP = {
     if (t > 7.0 && t < 7.5) fx += L.impact(300, DESK - 170, seg(t, 7.0, 7.5), .9, '#5DBB63');
     if (t > 7.6 && t < 8.2) fx += L.emark(900, DESK - 700, 1.0);
     let ui = (t > 1.8 && t < 3.4 ? CHIP(L, 'DEADLINE: 9:00 AM', '締め切り前夜、22:00。山は同じ高さ', 1380, seg(t, 1.8, 2.1)) : '')
-      + (t > 4.2 && t < 6.0 ? CHIP_OFF(L, '22:00 → 8:59', 'ジルの山は減る。上司の山は、寝ている', 1380, seg(t, 4.2, 4.5)) : '')
-      + (t > 7.2 && t < 8.6 ? CHIP_OFF(L, 'JILL: DONE. BOSS: PAGE 1', 'ジル：完了。上司：1枚目', 1380, seg(t, 7.2, 7.5)) : '');
+      + (t > 4.2 && t < 6.0 ? CHIP_OFF(L, '22:00 → 8:59', 'ユズの山は減る。上司の山は、寝ている', 1380, seg(t, 4.2, 4.5)) : '')
+      + (t > 7.2 && t < 8.6 ? CHIP_OFF(L, 'YUZU: DONE. BOSS: PAGE 1', 'ユズ：完了。上司：1枚目', 1380, seg(t, 7.2, 7.5)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.35, cx: 540, cy: 1150 },
       { t: 0.01, z: 1.05, cx: 540, cy: 1100, d: .9 },
       { t: 2.5, z: 1.0, cx: 540, cy: 1000, d: .5 },                 // 時計と山
       { t: 6.1, z: 1.15, cx: 540, cy: 1120, d: .4 },
       { t: 7.0, z: 1.3, cx: 360, cy: 1200, d: .4 },                 // ✓の束
-      { t: 7.8, z: 1.2, cx: 640, cy: 1150, d: .5 },                 // 寝起きのレン
+      { t: 7.8, z: 1.2, cx: 640, cy: 1150, d: .5 },                 // 寝起きのモチ
     ], t);
     if (t > 8.6) { fx = ''; ui = ''; }
     L.mount({ bg, fx, ui, cam, t, dim: morning ? 0 : .12, shake: t > 6.2 && t < 6.3 ? 4 : 0 });

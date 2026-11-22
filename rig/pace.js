@@ -8,7 +8,7 @@ window.PACE_ALL = {
   jil_morning2:{ start: 0.0, speed: 1.25, hook: 'GLASSES ON./スイッチが入る' },
   receipts2:   { start: 0.9, speed: 1.25, hook: 'EXPENSES: HAY/経費はぜんぶ牧草' },
   deadline2:   { start: 0.8, speed: 1.25, hook: 'DEADLINE? NO./見なければ来ない' },
-  pom_debut:   { start: 0.0, speed: 1.25, hook: 'NEW HIRE/新人のポム' },
+  pom_debut:   { start: 0.0, speed: 1.25, hook: 'NEW HIRE/新人のクリ' },
   meeting2:    { start: 1.8, speed: 1.25, hook: '5 MIN LEFT/会議の5分前' },
   stamp2:      { start: 0.9, speed: 1.25, hook: 'STAMP IT/鼻でハンコ' },
   camera_off2: { start: 1.6, speed: 1.25, hook: 'NAP TIME/カメラオフの正体' },
@@ -30,7 +30,7 @@ window.PACE_ALL.elevator = { start: 0.0, speed: 1.0, hook: 'BOSS. ELEVATOR./上�
 window.PACE_ALL.printer = { start: 0.0, speed: 1.0, hook: 'PRINT: 1 PAGE/「1枚だけ印刷」の上司' };
 window.PACE_ALL.osouji = { start: 0.0, speed: 1.0, hook: 'CLEANING DAY/大掃除、上司の机' };
 window.PACE_ALL.wifi = { start: 0.0, speed: 1.0, hook: 'WI-FI: OFF/会議中に上司が固まった' };
-window.PACE_ALL.bonenkai = { start: 0.0, speed: 1.0, hook: 'PARTY PLANNER/忘年会の幹事はジル' };
+window.PACE_ALL.bonenkai = { start: 0.0, speed: 1.0, hook: 'PARTY PLANNER/忘年会の幹事はユズ' };
 window.PACE_ALL.lunchbox = { start: 0.0, speed: 1.0, hook: 'LUNCH SWAP/お弁当が入れ替わった' };
 window.PACE_ALL.aircon = { start: 0.0, speed: 1.0, hook: 'AIRCON WAR/エアコン戦争' };
 window.PACE_ALL.holiday = { start: 0.0, speed: 1.0, hook: 'DAY OFF. 9:00/祝日に出社した上司' };
@@ -45,7 +45,7 @@ window.PACE_ALL.deadline = { start: 0.0, speed: 1.0, hook: 'DEADLINE 9:00/締め
 window.PACE_ALL.kotatsu = { start: 0.0, speed: 1.0, hook: 'KOTATSU DAY/こたつから出ない上司' };
 window.PACE_ALL.tree = { start: 0.0, speed: 1.0, hook: 'OFFICE TREE/ツリーに上司の飾り' };
 window.PACE_ALL.santa = { start: 0.0, speed: 1.0, hook: 'SECRET SANTA/プレゼント交換、上司と部下' };
-window.PACE_ALL.scarf = { start: 0.0, speed: 1.0, hook: 'HAND-KNIT SCARF/ジルの手編み、上司に5周' };
+window.PACE_ALL.scarf = { start: 0.0, speed: 1.0, hook: 'HAND-KNIT SCARF/ユズの手編み、上司に5周' };
 window.PACE_ALL.snow = { start: 0.0, speed: 1.0, hook: 'WINDOW: 3 SEC/上司が窓を3秒開けた' };
 window.PACE_ALL.photo = { start: 0.0, speed: 1.0, hook: 'SAY CHEESE/写真で目をつぶる上司' };
 window.PACE_ALL.advent = { start: 0.0, speed: 1.0, hook: 'ADVENT: DAY 1/上司が1日で24日分' };
@@ -106,7 +106,7 @@ window.PACE_ALL.kotatsu2 = { start: 0.0, speed: 1.0, hook: 'KOTATSU. BOSS./こ�
 window.PACE_ALL.breakroom1 = { start: 0.0, speed: 1.0, hook: 'KOTATSU./休憩室のこたつ Part 1' };
 window.PACE_ALL.breakroom2 = { start: 0.0, speed: 1.0, hook: 'KOTATSU./休憩室のこたつ Part 2' };
 window.PACE_ALL.breakroom3 = { start: 0.0, speed: 1.0, hook: 'KOTATSU./休憩室のこたつ Part 3' };
-// 2026-11-21「ポムのお土産『金のチモシー』」：タイトルのデザインと大きさを3話でそろえる（同じ文字列＝同じ大きさ。Part だけ変わる）
+// 2026-11-21「クリのお土産『金のチモシー』」：タイトルのデザインと大きさを3話でそろえる（同じ文字列＝同じ大きさ。Part だけ変わる）
 window.PACE_ALL.timothy1 = { start: 0.0, speed: 1.0, hook: 'GOLDEN TIMOTHY./金のチモシー Part 1' };
 window.PACE_ALL.timothy2 = { start: 0.0, speed: 1.0, hook: 'GOLDEN TIMOTHY./金のチモシー Part 2' };
 window.PACE_ALL.timothy3 = { start: 0.0, speed: 1.0, hook: 'GOLDEN TIMOTHY./金のチモシー Part 3' };

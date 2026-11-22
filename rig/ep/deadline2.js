@@ -1,5 +1,5 @@
 // 第9話 v2「締め切りのカレンダー」（約22秒）
-// ゲーム：課長は締め切りを見ないふり。①ジルが指さす→反対を向く ②小さい足ダンでカレンダーが机に落ちる→裏返す ③カレンダーがぱたっと起き上がる→耳で目隠し
+// ゲーム：課長は締め切りを見ないふり。①ユズが指さす→反対を向く ②小さい足ダンでカレンダーが机に落ちる→裏返す ③カレンダーがぱたっと起き上がる→耳で目隠し
 // （間）→大足ダン→猛スピードで仕事（時計が早回し）→ オチの後のオチ：赤丸の日に大きなチェック、2匹ともぐったり
 window.EP = {
   dur: 22.0,
@@ -40,7 +40,7 @@ window.EP = {
       if (t >= 7.0 && t < 7.3) f.appendChild(el('path', { d: `M${x + 20} ${y + 190} q115 -40 230 0`, fill: 'none', stroke: '#C9B79E', 'stroke-width': 4, opacity: 1 - rise }));
     }
 
-    // ---- レン（机の上、カレンダーの左）
+    // ---- モチ（机の上、カレンダーの左）
     const RX = 250, RY = 668;
     let R = Object.assign({}, RIG.POSES.lean, RIG.FACES.smug, { scale: 1.3, x: RX + S.x, y: RY + S.y, eyeLook: 0, sparkle: 0 });
     if (t >= 1.6 && t < 3.4) Object.assign(R, RIG.POSES.sit, RIG.FACES.smug, { flip: true, eyeLook: 0.6, sparkle: pulse(t, 2.2, 3.0) });   // 反対を向く
@@ -57,7 +57,7 @@ window.EP = {
     draw('ren', 'ren', R, t, { blink: !(rush > 0 && rush < 1) && !(t >= 7.9 && t < 10.6) && t < 16.8 });
     if (rush > 0 && rush < 1) for (let i = 0; i < 5; i++) { const u = ((t * 1.6 + i * 0.2) % 1); f.appendChild(el('rect', { x: 760 + 200 * u + i * 16, y: 960 - 320 * Math.sin(Math.PI * u), width: 70, height: 46, rx: 4, fill: '#FFFFFF', stroke: '#D8CBB6', 'stroke-width': 3, transform: `rotate(${u * 300 + i * 40} ${795 + 200 * u} ${983 - 320 * Math.sin(Math.PI * u)})`, opacity: 1 - u })); }
 
-    // ---- ジル
+    // ---- ユズ
     const JX = 640;
     let J = Object.assign({}, RIG.POSES.sit, RIG.FACES.sharp, { scale: 1.25, flip: true, x: JX + S.x, y: 1240 + S.y, eyeLook: 0.9 });
     const point = goBack(t, 0.8, 1.2, 2.6, 3.0);
@@ -77,11 +77,11 @@ window.EP = {
     speedLines(ui, rush > 0 && rush < 1 ? 0.7 : 0);
     sparkle(f, t, 16.0, 770, 1080, 1.4);
     const shots = [
-      { t: 0.0, cx: 560, cy: 1000, z: 1.2 },                            // A 中：ジルが指さす
+      { t: 0.0, cx: 560, cy: 1000, z: 1.2 },                            // A 中：ユズが指さす
       { t: 1.6, cx: 420, cy: 960, z: 2.0 },                             // B 寄り：反対を向く課長
       { t: 3.2, cx: 600, cy: 1050, z: 1.2 },                            // C 中：足ダン→カレンダー落下
       { t: 4.6, cx: 560, cy: 1000, z: 1.7 },                            // D 中：裏返す
-      { t: 6.0, cx: FACE_JIL.x - 60, cy: FACE_JIL.y, z: 2.3 },          // E 寄り：ジル無言
+      { t: 6.0, cx: FACE_JIL.x - 60, cy: FACE_JIL.y, z: 2.3 },          // E 寄り：ユズ無言
       { t: 6.9, cx: 600, cy: 1020, z: 1.7 },                            // F 中：起き上がる→耳で目隠し
       { t: 8.4, cx: FACE_JIL.x - 60, cy: FACE_JIL.y, z: 2.0, z2: 3.0 }, // G 寄り：ため（無音）
       { t: 10.5, cx: 560, cy: 1100, z: 1.0 },                           // H 引き：足ダン

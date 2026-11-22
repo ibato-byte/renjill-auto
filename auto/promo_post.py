@@ -3,7 +3,7 @@
 - エピソード（rig で描く回）ではないので post.py の予定表には入れず、このファイルだけで出す（新作の数え方 novelty にも入らない）
 - 動画と表紙は公開済みの URL から取る（PROMO_BASE。既定は https://hay-dash.coana.co.jp/promo/）
   promo_s.mp4＝文字入り（Instagram・Facebook・ストーリーズ）、promo_yt.mp4＝文字なし（YouTube。依頼 #124）、
-  promo_cover.jpg＝いつもの型の表紙（金の枠・英語の一言・REN & JILL。Instagram・Facebook）
+  promo_cover.jpg＝いつもの型の表紙（金の枠・英語の一言・TOKYO USAGI OFFICE。Instagram・Facebook）
 - 二重投稿しない：auto/posted.json の "<最初に出した日>_<PROMO_ID>" に出した SNS を記録し、記録がある SNS は飛ばす
 - `python auto/promo_post.py --dry-run` で送る内容だけ表示（API を呼ばない・何も書かない）
 - 1つの SNS が失敗しても他は続ける。失敗があれば終了コード 1
@@ -28,7 +28,7 @@ def promo(today):
     return {"ep": PROMO_ID, "no": 0, "date": today, "slot": "promo", "tag_set": "A", "title": "チモシーダッシュ",
             "caption_en": "The boss overslept. Run! Our free bunny game is here.",
             "caption_ja": "寝坊した課長と、東京を走って出社。無料のゲームができました。",
-            "cta": "Ren or Jill — who do you run as? / レンとジル、どっちで走る？"}
+            "cta": "Mochi or Yuzu — who do you run as? / 東京うさぎオフィス、どっちで走る？"}
 
 
 def fetch(name):
@@ -54,11 +54,11 @@ def post_youtube(p, d, path):
     creds = Credentials(None, refresh_token=os.environ["YT_REFRESH_TOKEN"], token_uri="https://oauth2.googleapis.com/token",
                         client_id=os.environ["YT_CLIENT_ID"], client_secret=os.environ["YT_CLIENT_SECRET"])
     yt = build("youtube", "v3", credentials=creds)
-    title = "Free bunny running game | Ren & Jill: Hay Dash #Shorts"
+    title = "Free bunny running game | Tokyo Usagi Office: Hay Dash #Shorts"
     desc = f"{p['caption_en']}\n{p['caption_ja']}\n\nPlay free (no sign-up): {GAME}\n無料・登録なしで遊べます：{GAME}\n\n{P.tags(p, d)}"
-    loc = {"ja": {"title": "寝坊した課長と東京ダッシュ｜無料ゲーム『レンとジルのチモシーダッシュ』 #Shorts", "description": desc},
-           "zh-Hant": {"title": "和睡過頭的課長衝過東京｜免費遊戲「Ren & Jill：Hay Dash」 #Shorts", "description": desc},
-           "ko": {"title": "늦잠 잔 과장님과 도쿄 질주｜무료 게임 「Ren & Jill: Hay Dash」 #Shorts", "description": desc}}
+    loc = {"ja": {"title": "寝坊した課長と東京ダッシュ｜無料ゲーム『東京うさぎオフィスのチモシーダッシュ』 #Shorts", "description": desc},
+           "zh-Hant": {"title": "和睡過頭的課長衝過東京｜免費遊戲「Tokyo Usagi Office：Hay Dash」 #Shorts", "description": desc},
+           "ko": {"title": "늦잠 잔 과장님과 도쿄 질주｜무료 게임 「Tokyo Usagi Office: Hay Dash」 #Shorts", "description": desc}}
     body = {"snippet": {"title": title, "description": desc, "categoryId": "20", "defaultLanguage": "en"}, "localizations": loc,
             "status": {"privacyStatus": "public", "selfDeclaredMadeForKids": False}}
     res = yt.videos().insert(part="snippet,status,localizations", body=body,

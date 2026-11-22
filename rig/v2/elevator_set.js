@@ -10,17 +10,17 @@
   ELV.JIL = { x: 0, s: 1.28 };     // 左どなり
   ELV.y = c => ELV.GROUND - 413 * c.s;
   // ---- ボタン（たてに 1 列。上が高い階）----
-  // 位置は、レンのたれ耳の先が届く高さ（耳を振り上げた -88° 〜 たらした -30° の間）に合わせてある
+  // 位置は、モチのたれ耳の先が届く高さ（耳を振り上げた -88° 〜 たらした -30° の間）に合わせてある
   ELV.PANEL = { x: 922, y: 1040, w: 72, h: 450 };
   ELV.FLOORS = [8, 7, 6, 5, 4, 3, 2, 1];
   ELV.BTN = ELV.FLOORS.map((n, i) => ({ n, x: 958, y: 1160 + i * 29, r: 11.5 }));
   ELV.BX = 958;
   ELV.OPEN = { n: 'open', x: 958, y: 1440, r: 12 };   // 開ボタン（第2話で耳が当たる）。閉は y 1472
-  // 耳の角度 → 耳の先のいちばん右の x（レンを x=392・体のかたむき 6°・首 6° で実測。2026-11-16）
+  // 耳の角度 → 耳の先のいちばん右の x（モチを x=392・体のかたむき 6°・首 6° で実測。2026-11-16）
   ELV.EAR_X = [[-100, 1060], [-96, 1067], [-92, 1073], [-88, 1077], [-84, 1080], [-80, 1082], [-76, 1083], [-72, 1082], [-68, 1080], [-64, 1077], [-60, 1072], [-56, 1066], [-52, 1059], [-40, 1031], [-30, 1002], [-20, 969], [-10, 934], [0, 902]];
   ELV.earRight = e => { const T = ELV.EAR_X; for (let i = 0; i < T.length - 1; i++) { const [e0, r0] = T[i], [e1, r1] = T[i + 1]; if (e <= e1) return r0 + (r1 - r0) * (e - e0) / (e1 - e0); } return 902; };
   ELV.xFor = e => 392 + (ELV.BX + 14) - ELV.earRight(e);
-  ELV.REN_END = ELV.xFor(-30);   // 第1話の終わりのレンの位置（耳をボタンにのせたまま）。第2話はここから
+  ELV.REN_END = ELV.xFor(-30);   // 第1話の終わりのモチの位置（耳をボタンにのせたまま）。第2話はここから
   // ---- 色 ----
   const K = { wall1: '#ECE8E1', wall2: '#D8D2C8', seam: '#C2BBB0', steel1: '#F2F1EE', steel2: '#C9C6C0', steel3: '#A7A49E', floor1: '#CFC8BC', floor2: '#B9B1A4', ink: '#3B2412' };
   const defs = `<defs>
@@ -90,7 +90,7 @@
       + ELV.indicator(o.floor == null ? 1 : o.floor, o.up !== false && !o.down, o.pulse || 0, !!o.down)
       + ELV.panel(o.lit || [], o.glow || {}, o.openLit || 0);
   };
-  // レンの右の耳（たれ耳）が、ボタン b にふれているか（DOM の実際の耳の形で判定する＝絵と音が必ず合う）
+  // モチの右の耳（たれ耳）が、ボタン b にふれているか（DOM の実際の耳の形で判定する＝絵と音が必ず合う）
   ELV.earTouch = function (list) {
     const svg = document.getElementById('ren'); if (!svg) return [];
     const ear = [...svg.querySelectorAll('path')].find(p => /^M\s*226 112/.test(p.getAttribute('d') || ''));
@@ -114,7 +114,7 @@
     const g = path.parentNode, px = side === 'R' ? 230 : 130, py = 120;
     g.setAttribute('transform', (g.getAttribute('transform') || '') + ` translate(${px} ${py}) scale(${(1 / Math.sqrt(k)).toFixed(4)} ${k.toFixed(4)}) translate(${-px} ${-py})`);
   };
-  // ポム（キンクマハムスターの新人。ゲーム・これまでの回と同じ見た目）。足もとが (x, y)。q = { eye 'round'|'big'|'happy', look -1〜1, wob（首のかしげ deg）, squash, blush }
+  // クリ（キンクマハムスターの新人。ゲーム・これまでの回と同じ見た目）。足もとが (x, y)。q = { eye 'round'|'big'|'happy', look -1〜1, wob（首のかしげ deg）, squash, blush }
   const POM = { a: '#F3E3CA', b: '#DCC29E', deep: '#C9A57A', cream: '#FAF1E4', earO: '#8E786C', earI: '#E9A9A2', nose: '#E58F98', pink: '#F2B8B0', band: '#C8263C', eye: '#0B0D10' };
   const A = o => Object.entries(o).map(([k, v]) => `${k}="${v}"`).join(' ');
   const E = (cx, cy, rx, ry, fill, ex) => `<ellipse ${A(Object.assign({ cx, cy, rx, ry, fill }, ex || {}))}/>`;
@@ -148,7 +148,7 @@
     // 体の色（pombody などのグラデーション）を必ず一緒に入れる：入れ忘れると体が透明になった（2026-11-22「金のチモシー」）
     return ELV.pomDefs() + `<g transform="translate(${x} ${y}) scale(${s * sx} ${s * sy})">${body}${head}${paws}</g>`;
   };
-  // ポムの赤いはちまき（公式と同じ色・形）。頭に巻いた形（ポムの頭の座標）
+  // クリの赤いはちまき（公式と同じ色・形）。頭に巻いた形（クリの頭の座標）
   ELV.BAND = POM.band;
   ELV.bandOnHead = hy => `<path d="M-54 ${hy - 24} Q0 ${hy - 44} 54 ${hy - 24}" fill="none" stroke="${POM.band}" stroke-width="10" stroke-linecap="round"/><path d="M-44 ${hy - 28} Q0 ${hy - 45} 44 ${hy - 28}" fill="none" stroke="#FFFFFF" stroke-width="2" opacity=".4"/>`
     + `<path d="M50 ${hy - 26} q16 2 22 12 l-6 4 q-6 -8 -16 -10 Z M50 ${hy - 26} q18 -6 26 0 l-4 6 q-8 -4 -20 0 Z" fill="${POM.band}"/>`;

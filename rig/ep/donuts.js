@@ -1,7 +1,7 @@
 // 「差し入れの牧草リング」（約9.5秒・セリフなし）v2 演出／キャラは本番の rig.js
 // （2026-11-08：うさぎに甘いドーナツは良くないので、中身をドーナツ形の牧草リングに変更。オーナー了承）
-// 状況：ジルが差し入れの牧草リング（ドーナツ形・箱に6個）を机に置く。レンの目がきらっ
-// ひっくり返し：ジルが後ろを向く（棚の方）2秒 → 向き直ると箱は空。レンは「知らない顔」
+// 状況：ユズが差し入れの牧草リング（ドーナツ形・箱に6個）を机に置く。モチの目がきらっ
+// ひっくり返し：ユズが後ろを向く（棚の方）2秒 → 向き直ると箱は空。モチは「知らない顔」
 // オチ：口のまわりに牧草のかけら。字幕「証拠：口のまわりの牧草」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
@@ -20,14 +20,14 @@ var EP = {
     const DESK = 1400;
     const bg = L.office({ sky: 'day', clock: [15, 0] });
     const open = outBack(seg(t, 1.6, 2.0));
-    const away = t >= 3.4 && t < 5.9;                         // ジルが後ろを向いている間
+    const away = t >= 3.4 && t < 5.9;                         // ユズが後ろを向いている間
     const n = t < 3.9 ? 6 : Math.max(0, 6 - Math.floor((t - 3.6) / 0.3));   // 3.9〜5.4 で 1 個ずつ消える
     const back = t >= 5.9;
-    // ジル（左）：箱を置く → 棚の方を向く（flip・背中はないので横向き＋目を閉じる代わりに向こうを見る）→ 向き直って空箱に目を丸く → 粉を見てジト目
+    // ユズ（左）：箱を置く → 棚の方を向く（flip・背中はないので横向き＋目を閉じる代わりに向こうを見る）→ 向き直って空箱に目を丸く → 粉を見てジト目
     const jface = t < 3.4 ? RIG.FACES.smile : away ? RIG.FACES.neutral : t < 7.2 ? Object.assign({}, RIG.FACES.surprised, { excl: 1 }) : RIG.FACES.annoyed;
     const jp = Object.assign({}, RIG.POSES.sit, jface, { x: 40, y: DESK - 413 * 1.3, scale: 1.3, flip: away, eyeLook: away ? -.9 : .8, headTilt: t >= 7.2 ? -10 : 0, bodyTilt: away ? -6 : 0 });
     L.char('jil', jp, t, '', {});
-    // レン（右）：牧草リングにきらきら → ジルが向こうを向いたら、頭を下げてもぐもぐ（6回）→ 何食わぬ顔（口のまわりに粉）→ 7.8 ばれて照れ
+    // モチ（右）：牧草リングにきらきら → ユズが向こうを向いたら、頭を下げてもぐもぐ（6回）→ 何食わぬ顔（口のまわりに粉）→ 7.8 ばれて照れ
     const eating = t >= 3.9 && t < 5.6;
     const rface = t < 2.0 ? RIG.FACES.neutral : t < 3.4 ? RIG.FACES.shy : eating ? RIG.FACES.smile : t < 7.8 ? Object.assign({}, RIG.FACES.neutral, { eyeLook: -.6 }) : Object.assign({}, RIG.FACES.shy, { heart: 0 });
     const chomp = eating ? Math.abs(Math.sin((t - 3.6) / 0.3 * Math.PI)) : 0;
@@ -35,23 +35,23 @@ var EP = {
     L.char('ren', rp, t, '', {});
     let fx = `${L.deskFront(DESK)}`
       + [60, 560].map(x => `${L.drawer(x, DESK)}`).join('');
-    // 箱（ジルが 1.0 に置く：上から降りてくる）
+    // 箱（ユズが 1.0 に置く：上から降りてくる）
     const drop = t < 1.0 ? 0 : outBack(seg(t, 1.0, 1.4));
     if (t >= 1.0) fx += BOX(540, DESK - 20 - 400 * (1 - drop), open, n);
     if (t > 1.0 && t < 1.5) fx += L.dust(540, DESK, seg(t, 1.0, 1.5));
     if (t > 2.0 && t < 3.4) fx += L.sparkles(540, DESK - 150, t, 1.0, 6);
     if (eating) fx += L.munch(760, DESK - 160, t, 1.0);
-    // 口のまわりの牧草のかけら（レンの口元に緑の点々）
+    // 口のまわりの牧草のかけら（モチの口元に緑の点々）
     if (t >= 5.6) fx += `<g fill="#A8B84E" opacity=".95">${[0, 1, 2, 3, 4, 5].map(i => `<circle cx="${905 + Math.cos(i * 1.05) * 42}" cy="${DESK - 235 + Math.sin(i * 1.05) * 20}" r="${6 + (i % 3) * 2}"/>`).join('')}</g>`;
     if (t > 7.2 && t < 7.7) fx += L.impact(905, DESK - 235, seg(t, 7.2, 7.7), .8, '#F2A33A');
     if (t > 5.9 && t < 7.2) fx += L.emark(230, DESK - 650, 1.0);
     let ui = (t > 1.8 && t < 3.4 ? CHIP(L, 'HAY RINGS: 6', '差し入れの牧草リング、6個', 1380, seg(t, 1.8, 2.1)) : '')
-      + (t > 3.6 && t < 5.8 ? CHIP_OFF(L, 'JILL LOOKS AWAY: 2 SEC', 'ジルが後ろを向いた2秒間', 1380, seg(t, 3.6, 3.9)) : '')
+      + (t > 3.6 && t < 5.8 ? CHIP_OFF(L, 'YUZU LOOKS AWAY: 2 SEC', 'ユズが後ろを向いた2秒間', 1380, seg(t, 3.6, 3.9)) : '')
       + (t > 7.3 && t < 8.6 ? CHIP_OFF(L, 'EVIDENCE: HAY BITS', '証拠：口のまわりの牧草', 1380, seg(t, 7.3, 7.6)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.35, cx: 540, cy: 1150 },
       { t: 0.01, z: 1.05, cx: 540, cy: 1120, d: .9 },
-      { t: 3.4, z: 1.25, cx: 640, cy: 1150, d: .5 },                // レンともぐもぐ
+      { t: 3.4, z: 1.25, cx: 640, cy: 1150, d: .5 },                // モチともぐもぐ
       { t: 5.9, z: 1.05, cx: 540, cy: 1100, d: .4 },
       { t: 7.2, z: 1.35, cx: 630, cy: 1120, d: .4 },                 // 口のまわりの牧草
       { t: 8.2, z: 1.1, cx: 540, cy: 1100, d: .4 },

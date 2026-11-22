@@ -1,7 +1,7 @@
 // 「日めくり」（約9.5秒・セリフなし）v2 演出／キャラは本番の rig.js
-// 状況：12/15。机の日めくりカレンダー「15」。レンが1枚めくる（16）
-// ひっくり返し：止まらない → 17・18・…・28（仕事納め）まで高速でめくる。紙が舞う。レンはのんびり（冬休み気分・ご満悦）
-// オチ：ジルが「15」の紙を拾って、カレンダーにぺたっと貼り直す。レン、がーん。字幕「今日：12/15。上司の気分：12/28」
+// 状況：12/15。机の日めくりカレンダー「15」。モチが1枚めくる（16）
+// ひっくり返し：止まらない → 17・18・…・28（仕事納め）まで高速でめくる。紙が舞う。モチはのんびり（冬休み気分・ご満悦）
+// オチ：ユズが「15」の紙を拾って、カレンダーにぺたっと貼り直す。モチ、がーん。字幕「今日：12/15。上司の気分：12/28」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
 const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
@@ -22,14 +22,14 @@ var EP = {
     const bg = L.office({ sky: 'day', clock: [11, 0] });
     // めくった枚数：2.2 で 16、2.6〜4.8 で 0.2 秒ごとに 17〜28
     const torn = t < 2.2 ? 0 : t < 2.6 ? 1 : Math.min(13, 2 + Math.floor((t - 2.6) / .2));
-    const back = t >= 7.3;                                                  // ジルが 15 を貼り直す
+    const back = t >= 7.3;                                                  // ユズが 15 を貼り直す
     const day = back ? 15 : 15 + torn;
     const tearing = t >= 2.5 && t < 4.9;
-    // ジル（左）：仕事中（にこ）→ めくる音に「？」→ ジト目 → 紙を拾って貼り直す（lean）→ 満足（smug）
+    // ユズ（左）：仕事中（にこ）→ めくる音に「？」→ ジト目 → 紙を拾って貼り直す（lean）→ 満足（smug）
     const jface = t < 3.0 ? RIG.FACES.smile : t < 4.9 ? RIG.FACES.think : t < 7.3 ? RIG.FACES.annoyed : RIG.FACES.smug;
     const jp = Object.assign({}, t >= 6.6 && t < 7.5 ? RIG.POSES.lean : RIG.POSES.sit, jface, { x: 40, y: DESK - 413 * 1.3, scale: 1.3, eyeLook: .8, bodyTilt: t >= 6.6 && t < 7.5 ? -16 : 0, question: t >= 3.0 && t < 4.9 ? 1 : 0 });
     L.char('jil', jp, t, '', {});
-    // レン（右）：1枚めくる → 止まらない（lean・頭が小刻み）→ 28 で冬休み気分（ご満悦・のんびり揺れる）→ 15 に戻されて がーん
+    // モチ（右）：1枚めくる → 止まらない（lean・頭が小刻み）→ 28 で冬休み気分（ご満悦・のんびり揺れる）→ 15 に戻されて がーん
     const rface = t < 2.3 ? RIG.FACES.neutral : t < 4.9 ? RIG.FACES.sharp : t < 7.3 ? Object.assign({}, RIG.FACES.smug, { blush: .8 }) : Object.assign({}, RIG.FACES.surprised, { excl: 1 });
     const rp = Object.assign({}, tearing || (t >= 2.0 && t < 2.4) ? RIG.POSES.lean : RIG.POSES.sit, rface, { x: 540, y: DESK - 413 * 1.35, scale: 1.35, flip: true, eyeLook: .5, bodyTilt: tearing ? -12 + Math.sin(t * 40) * 3 : 0, headTilt: t >= 4.9 && t < 7.3 ? Math.sin(t * 2.5) * 8 : 0 });
     L.char('ren', rp, t, '', {});
@@ -41,7 +41,7 @@ var EP = {
     // 飛んでいる紙
     for (let i = 0; i < torn; i++) { const ts = i === 0 ? 2.2 : 2.6 + (i - 1) * .2; fx += FLY(CX, CY - 120, 15 + i, seg(t, ts, ts + .55), i); }
     if (tearing) fx += L.speed(CX, CY - 120, .3, 16);
-    // 「15」の紙を貼り直す（6.6〜7.3：ジルの手元から）＋ テープ
+    // 「15」の紙を貼り直す（6.6〜7.3：ユズの手元から）＋ テープ
     if (t >= 6.6 && t < 7.3) { const k = ease(seg(t, 6.6, 7.3)); fx += `<g transform="translate(${330 + (CX - 330) * k} ${DESK - 60 + (CY - 125 - DESK + 60) * k}) rotate(${-20 * (1 - k)}) scale(${.5 + .5 * k})"><g transform="translate(0 125)">${PAGE(15, false)}</g></g>`; }
     if (back) fx += `<rect x="${CX - 60}" y="${CY - 262}" width="120" height="26" fill="#F2E3A0" opacity=".85" transform="rotate(-6 ${CX} ${CY - 250})"/>`;
     if (t > 4.9 && t < 5.4) fx += L.impact(CX, CY - 140, seg(t, 4.9, 5.4), .8, '#E8473A');

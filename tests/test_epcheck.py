@@ -32,7 +32,7 @@ class Arms(unittest.TestCase):
 
 
 class Small(unittest.TestCase):
-    """画面の中のキャラを縮めない（2026-11-13：wifi・mute のレンが画面の高さの20%だった）"""
+    """画面の中のキャラを縮めない（2026-11-13：wifi・mute のモチが画面の高さの20%だった）"""
     def test_shrink_detected(self):
         self.assertTrue(epcheck.shrinks("if (rs) rs.style.transform = `translate(${x}px, ${y}px) scale(.95)`;"))
         self.assertFalse(epcheck.shrinks("rs.style.transform = `scale(1.5)`;"))

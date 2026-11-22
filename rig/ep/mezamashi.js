@@ -1,7 +1,7 @@
 // 「目覚まし時計」（約9.5秒・セリフなし）v2 演出／キャラは本番の rig.js
-// 状況：昼休みの10分仮眠。ジルの小さな目覚ましが「ピピッ」→ ぱっと起きる（きりっ）
+// 状況：昼休みの10分仮眠。ユズの小さな目覚ましが「ピピッ」→ ぱっと起きる（きりっ）
 // ひっくり返し：課長は大きなベルの目覚まし。「ジリリリリ！」机も書類もゆれる……課長はぐっすり
-// オチ：飛び起きたのはジル（毛が逆立つ）、課長は寝たまま。字幕「上司の目覚まし：ほかの人が起きる」
+// オチ：飛び起きたのはユズ（毛が逆立つ）、課長は寝たまま。字幕「上司の目覚まし：ほかの人が起きる」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
 const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
@@ -20,10 +20,10 @@ var EP = {
     const DESK = 1400, JN = [263, 1165], RN = [858, 1156];
     const bg = L.office({ sky: 'day', clock: [12, 10] });
     const ring = t >= 4.4 && t < 6.2, jump = seg(t, 4.5, 4.8) * (1 - seg(t, 5.3, 5.7));
-    // ジル（左）：仮眠 → ピピッでぱっと起きる（きりっ）→ 課長のベルで飛び上がる（毛が逆立つ）→ ジト目
+    // ユズ（左）：仮眠 → ピピッでぱっと起きる（きりっ）→ 課長のベルで飛び上がる（毛が逆立つ）→ ジト目
     const jface = t < 1.2 ? RIG.FACES.sleepy : t < 2.6 ? RIG.FACES.sharp : t < 4.4 ? Object.assign({}, RIG.FACES.smile, { sparkle: 0 }) : t < 6.4 ? Object.assign({}, RIG.FACES.surprised, { excl: 1 }) : RIG.FACES.annoyed;
     L.char('jil', Object.assign({}, jump > .1 ? RIG.POSES.binky : t < 1.2 ? RIG.POSES.loaf : RIG.POSES.sit, jface, { x: 20, y: DESK - 413 * 1.3 - 160 * jump, scale: 1.3, eyeLook: t > 2.6 ? .9 : 0 }), t, '', {});
-    // レン（右）：起きている → ベルをセットして寝る → ジリリリでもぐっすり
+    // モチ（右）：起きている → ベルをセットして寝る → ジリリリでもぐっすり
     const rface = t < 2.6 ? RIG.FACES.neutral : t < 3.6 ? Object.assign({}, RIG.FACES.smug, { sparkle: 0 }) : Object.assign({}, RIG.FACES.sleepy, { zzz: 1 });
     L.char('ren', Object.assign({}, t < 3.6 ? RIG.POSES.sit : RIG.POSES.loaf, rface, { x: 560, y: DESK - 413 * 1.35, scale: 1.35, flip: true, eyeLook: -.3 }), t, '', {});
     let fx = DESKFX(L, DESK);
@@ -33,7 +33,7 @@ var EP = {
     if (t > 2.6) fx += BELLCLK(700, DESK, outBack(seg(t, 2.6, 3.0)) * 1.15, sh);
     if (ring) fx += L.impact(700, DESK - 150, ((t - 4.4) * 3) % 1, 1.1, '#E8473A')
       + `<text x="${560}" y="${DESK - 560}" text-anchor="middle" font-family="Noto Sans CJK JP" font-weight="900" font-size="${100 * outBack(seg(t, 4.4, 4.6))}" fill="#E8473A" stroke="#FFF7E8" stroke-width="12" paint-order="stroke" transform="rotate(${Math.sin(t * 30) * 4} 560 ${DESK - 560})">ジリリリリ！</text>`;
-    // ジルの毛が逆立つ（頭の上の線）
+    // ユズの毛が逆立つ（頭の上の線）
     if (t > 4.5 && t < 6.6) fx += `<g transform="translate(${JN[0]} ${JN[1] - 200 - 160 * jump})" stroke="#B98A5E" stroke-width="9" stroke-linecap="round">` + [-60, -30, 0, 30, 60].map(a => `<path d="M0 0 L${Math.sin(a * Math.PI / 180) * 60} ${-Math.cos(a * Math.PI / 180) * 60}" transform="translate(${a} 0)"/>`).join('') + '</g>';
     if (t > 7.2 && t < 8.6) fx += L.emark(220, DESK - 660, 1.0, '…');
     let ui = (t > 1.4 && t < 2.8 ? CHIP(L, 'POWER NAP', '昼休みの10分仮眠', 1650, seg(t, 1.4, 1.7)) : '')

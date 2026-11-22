@@ -1,35 +1,35 @@
 // 「こたつと上司 第2話（Part 2）」（約11秒＋テロップ・セリフなし）2026-11-20 総見直し（Claude）の企画。全体は docs/series/2026-11-26_kotatsu.md
-// 前回：寒い朝、会社にこたつ。課長（レン）はもぐったまま出てこず、仕事はジルの頭に積もり、最後はジルもこたつを見てとろけた（最初の0.9秒は、その終わりの夜の絵）
-// 状況：翌朝。ジルが課長のたれ耳を口でくわえて、こたつから引っぱり出そうとする（腕なし。エレベーター第2話と同じやり方）
-// オチ：綱引きの末、寝たままの課長の耳がボヨンと戻り、ジルがこたつの中へ吸いこまれる → 一瞬でとろける
-//       書類を頭にのせて来た新人ポムも、のぞいた瞬間に吸いこまれる（書類が天板に降る）→ こたつから頭が3つ
+// 前回：寒い朝、会社にこたつ。課長（モチ）はもぐったまま出てこず、仕事はユズの頭に積もり、最後はユズもこたつを見てとろけた（最初の0.9秒は、その終わりの夜の絵）
+// 状況：翌朝。ユズが課長のたれ耳を口でくわえて、こたつから引っぱり出そうとする（腕なし。エレベーター第2話と同じやり方）
+// オチ：綱引きの末、寝たままの課長の耳がボヨンと戻り、ユズがこたつの中へ吸いこまれる → 一瞬でとろける
+//       書類を頭にのせて来た新人クリも、のぞいた瞬間に吸いこまれる（書類が天板に降る）→ こたつから頭が3つ
 // オチの後のオチ：3人の耳が同時に、ぴくっ
-// 0.0–0.9   前回の終わり（夜・とろけたジル・こたつ）。カメラがゆっくり引く
+// 0.0–0.9   前回の終わり（夜・とろけたユズ・こたつ）。カメラがゆっくり引く
 // 0.9–1.8   時計が 18:00 → 翌朝 9:00（窓は夜 → 朝）
-// 1.9–2.5   ジルがはっと起きる（L.startle）→ 寝てしまった、の顔
-// 2.5–3.3   レンの頭がこたつから、ぽこっ。天板にあごをのせて寝たまま（Zz）。ジルがじろっ
-// 3.4–3.9   ジルがため（L.anticip）→ ぴょんと耳の先へ → くわえる
-// 4.1–6.3   綱引き：引く（耳がのびる）→ 寝たまま引き返される → 全力で引く（耳がさらにのびる・汗）。レンは目を閉じたまま
-// 6.35–7.0  耳がボヨンと戻る → ジルが弧をえがいて、こたつの中へ（すぽっ）
-// 7.0–7.6   こたつの左からジルの頭がぽこっ → とろける（ハート）
-// 7.8–9.0   右から新人ポムが書類を頭にのせて、ぴょこぴょこ → 2人の頭を見て「？」→ のぞきこむ
-// 9.1–9.5   すぽっ（ポムも中へ）→ 書類が宙に舞って天板に降る
-// 9.7–10.4  ポムの頭がぽこっ → 頭が3つ並んで寝ている
+// 1.9–2.5   ユズがはっと起きる（L.startle）→ 寝てしまった、の顔
+// 2.5–3.3   モチの頭がこたつから、ぽこっ。天板にあごをのせて寝たまま（Zz）。ユズがじろっ
+// 3.4–3.9   ユズがため（L.anticip）→ ぴょんと耳の先へ → くわえる
+// 4.1–6.3   綱引き：引く（耳がのびる）→ 寝たまま引き返される → 全力で引く（耳がさらにのびる・汗）。モチは目を閉じたまま
+// 6.35–7.0  耳がボヨンと戻る → ユズが弧をえがいて、こたつの中へ（すぽっ）
+// 7.0–7.6   こたつの左からユズの頭がぽこっ → とろける（ハート）
+// 7.8–9.0   右から新人クリが書類を頭にのせて、ぴょこぴょこ → 2人の頭を見て「？」→ のぞきこむ
+// 9.1–9.5   すぽっ（クリも中へ）→ 書類が宙に舞って天板に降る
+// 9.7–10.4  クリの頭がぽこっ → 頭が3つ並んで寝ている
 // 10.6      オチの後のオチ：3人の耳が同時に、ぴくっ
 // 11.2–14.2 その構図のまま。テロップ（画面の上の空いた所）「続きは次回！フォローして待っててね／To be continued! Follow us」
-// 第3話へ引きつぐ最後の状態：こたつ KX=650・天板 TOP_Y。3人ともこたつの中（左からジル・レン・ポム。頭だけ出して寝ている）。天板に書類。朝
+// 第3話へ引きつぐ最後の状態：こたつ KX=650・天板 TOP_Y。3人ともこたつの中（左からユズ・モチ・クリ。頭だけ出して寝ている）。天板に書類。朝
 document.write('<script src="v2/lib.js"><\/script><script src="v2/elevator_set.js"><\/script>');
 (function () {
   const sm = (a, b, t) => { const k = Math.max(0, Math.min(1, (t - a) / (b - a))); return k * k * (3 - 2 * k); };
   const lerp = (a, b, k) => a + (b - a) * k;
   const keys = (K, t) => { if (t <= K[0][0]) return K[0][1]; for (let i = 0; i < K.length - 1; i++) { const [t0, v0] = K[i], [t1, v1] = K[i + 1]; if (t <= t1) return lerp(v0, v1, sm(t0, t1, t)); } return K[K.length - 1][1]; };
   const FLOOR = 1500, KX = 650, TOP_Y = FLOOR - 165, KW = 265;   // 第1話と同じこたつ
-  const RS = 1.5, JS = 1.42, PS = 1.5;                             // レン・ジル・ポムの大きさ
-  const REN_X = KX - 200 * RS + 40;                               // 第1話より少し右（左にジルの頭が出る場所をあける。こたつの中なので、つながりは変わらない）
-  const JX0 = 50;                                                  // 前回の終わりのジル（こたつの左でとろけている）
+  const RS = 1.5, JS = 1.42, PS = 1.5;                             // モチ・ユズ・クリの大きさ
+  const REN_X = KX - 200 * RS + 40;                               // 第1話より少し右（左にユズの頭が出る場所をあける。こたつの中なので、つながりは変わらない）
+  const JX0 = 50;                                                  // 前回の終わりのユズ（こたつの左でとろけている）
   const T = { spin0: 0.9, spin1: 1.8, wake: 1.9, pop: 2.5, glare: 2.95, hop: 3.4, bite: 3.85, pull1: 4.1, slack: 4.9, pull2: 5.3, snap: 6.35, fly1: 6.85, jpop: 7.05, pomIn: 7.8, pomStop: 8.35, peek: 8.95, suck: 9.15, suck1: 9.45, ppop: 9.7, twitch: 10.6, telop: 11.2, freeze: 11.5 };
-  const JIN = { x: 150, y: TOP_Y - 140 - 195 * JS };               // こたつの中のジル（頭の中心が天板の少し上）          // こたつの中のジル（頭だけ出る）
-  const POM0 = 1260, POM1 = 1000, PIN = { x: 895, y: TOP_Y - 105 + 128 * PS }; // ポム：入ってくる所・止まる所・こたつの中
+  const JIN = { x: 150, y: TOP_Y - 140 - 195 * JS };               // こたつの中のユズ（頭の中心が天板の少し上）          // こたつの中のユズ（頭だけ出る）
+  const POM0 = 1260, POM1 = 1000, PIN = { x: 895, y: TOP_Y - 105 + 128 * PS }; // クリ：入ってくる所・止まる所・こたつの中
 
   // ---- こたつ（第1話の kotatsu() と同じ形。ふくらみ bulge：中で何かが動くと布団がゆれる）----
   function kotatsu(t, bulge) {
@@ -48,29 +48,29 @@ document.write('<script src="v2/lib.js"><\/script><script src="v2/elevator_set.j
       + `<path d="M${KX - KW + 60} ${TOP_Y - 12} H${KX + 40} M${KX + 90} ${TOP_Y - 6} H${KX + KW - 50}" stroke="#7A4A2A" stroke-width="3" opacity=".4"/></g>`;
     s += `<g transform="translate(${KX + KW - 70} ${TOP_Y - 44})"><circle r="26" fill="#F29A2E"/><circle cx="-8" cy="-8" r="8" fill="#fff" opacity=".35"/><path d="M0 -26 q6 -10 14 -8" stroke="#4E7A2E" stroke-width="5" fill="none" stroke-linecap="round"/></g>`;
     for (let i = 0; i < 3; i++) { const u = ((t * .6) + i / 3) % 1; s += `<path d="M${KX - 200 + i * 200} ${TOP_Y - 40 - u * 120} q14 -20 0 -40 q-14 -20 0 -40" stroke="#F2A33A" stroke-width="6" fill="none" stroke-linecap="round" opacity="${(.4 * Math.sin(Math.PI * u)).toFixed(2)}" data-nb="1"/>`; }
-    // 天板の書類（ポムが落とした分。9.45 から降ってきて積もる）
+    // 天板の書類（クリが落とした分。9.45 から降ってきて積もる）
     if (t >= T.suck1 + .35) { const k = sm(T.suck1 + .35, T.suck1 + .6, t); for (let i = 0; i < 7; i++) s += `<g transform="rotate(${(i % 2 ? 1 : -1) * (3 + i * 2)} ${KX - 160 + i * 52} ${TOP_Y - 30})" opacity="${k.toFixed(2)}"><rect x="${KX - 230 + i * 52}" y="${TOP_Y - 38 - (i % 3) * 7}" width="150" height="11" rx="3" fill="${i % 2 ? '#FFFFFF' : '#F4EFE6'}" stroke="#D7CCBB" stroke-width="2"/></g>`; }
     return s;
   }
   const SWITCH = `<g transform="translate(${KX + KW + 90} ${FLOOR - 6})"><path d="M-60 -10 q30 -20 60 -4" stroke="#3B2F2A" stroke-width="7" fill="none"/><rect x="-6" y="-30" width="54" height="34" rx="10" fill="#EFE8DC" stroke="#B9AE9C" stroke-width="4"/><circle cx="21" cy="-13" r="9" fill="#FF5A3C"/></g>`;
 
-  // ---- レン：ずっと寝ている。2.5 に頭がぽこっと出て、天板にあごをのせる ----
-  // 耳ののび（ジルが引っぱる量）
+  // ---- モチ：ずっと寝ている。2.5 に頭がぽこっと出て、天板にあごをのせる ----
+  // 耳ののび（ユズが引っぱる量）
   const STRETCH = [[T.bite, 1], [T.pull1 + .1, 1], [T.slack, 1.45], [T.slack + .3, 1.22], [T.pull2, 1.22], [T.pull2 + .8, 1.8], [T.snap, 1.85], [T.snap + .12, .82], [T.snap + .26, 1.1], [T.snap + .4, .96], [T.snap + .55, 1]];
   const stretchAt = t => (t < T.bite || t > T.snap + .55) ? 1 : keys(STRETCH, t) + (t > T.pull2 + .6 && t < T.snap ? .03 * Math.sin(t * 60) : 0);
   function renPose(t) {
     const F = RIG.FACES; let x = REN_X, y = FLOOR - 413 * RS + 52, extra = {};
     const up = sm(T.pop, T.pop + .6, t) + .04 * L.pulse(t, T.pop + .5, T.pop + .8);   // ゆっくり、ぽこっ（qa：1コマで跳ばない）
     y += 460 * (1 - up);                                    // こたつの中 → あごを天板に
-    const pull = Math.max(0, stretchAt(t) - 1);             // ジルに引かれて、頭が少し左上へ
+    const pull = Math.max(0, stretchAt(t) - 1);             // ユズに引かれて、頭が少し左上へ
     if (t >= T.bite && t < T.snap + .1) { x -= 34 * pull; y -= 26 * pull; }
     let htilt = 8 + (t >= T.bite && t < T.snap ? 10 * pull : 0), face = Object.assign({}, F.sleepy, { zzz: 0, blush: .8 });
     if (t >= T.snap && t < T.snap + .3) htilt = 8 - 12 * L.pulse(t, T.snap, T.snap + .3);
     if (t >= T.slack && t < T.slack + .3) x += 10 * L.pulse(t, T.slack, T.slack + .3);   // 寝たまま、むにゃっと引き返す
     extra.earL = 40; extra.earR = -40;
-    if (t >= T.hop && t < T.snap + .2) extra.earR = -40 - 38 * sm(T.hop, T.bite, t) * (1 - sm(T.snap, T.snap + .2, t));   // 画面の左の耳（flip なので earR）を、ジルの口のほうへ持ち上げる
+    if (t >= T.hop && t < T.snap + .2) extra.earR = -40 - 38 * sm(T.hop, T.bite, t) * (1 - sm(T.snap, T.snap + .2, t));   // 画面の左の耳（flip なので earR）を、ユズの口のほうへ持ち上げる
     if (t >= T.twitch && t < T.twitch + .3) { const p = L.pulse(t, T.twitch, T.twitch + .25); extra.earL = 40 - 22 * p; extra.earR = -40 + 22 * p; }
-    if (t >= T.peek + .1 && t < T.suck) extra.earR = -40 - 6 * Math.sin((t - T.peek) * 40);   // ポムが来て、右の耳がぴくぴく
+    if (t >= T.peek + .1 && t < T.suck) extra.earR = -40 - 6 * Math.sin((t - T.peek) * 40);   // クリが来て、右の耳がぴくぴく
     return Object.assign({}, RIG.POSES.sit, face, { x, y, scale: RS, flip: true, eyeLook: 0, headNod: 16, headTilt: htilt, bodySquash: -.55 }, extra);
   }
   // 耳の伸び縮み（elevator_set.js の ELV.stretchEar と同じやり方。左右は描いたあとに、画面の左にある耳を探す）
@@ -90,7 +90,7 @@ document.write('<script src="v2/lib.js"><\/script><script src="v2/elevator_set.j
     g.setAttribute('transform', (g.getAttribute('transform') || '') + ` translate(${px} ${py}) scale(${(1 / Math.sqrt(k)).toFixed(4)} ${k.toFixed(4)}) translate(${-px} ${-py})`);
   }
 
-  // ---- ジル ----
+  // ---- ユズ ----
   // 口の位置（大きさ JS・体の左上 x,y のとき。頭でつんつん nudge のかまえ）
   const MOUTH = { x: 236, y: 250 };
   function jilPose(t, tip) {
@@ -138,7 +138,7 @@ document.write('<script src="v2/lib.js"><\/script><script src="v2/elevator_set.j
   let SNAP_TIP = null;
   const JIL_TIP_AT_SNAP = () => SNAP_TIP;
 
-  // ---- ポム ----
+  // ---- クリ ----
   function pomAt(t) {
     let x = POM0, y = FLOOR, q = { eye: 'round', look: -1, blush: .35, wob: 0, squash: 0 }, layer = 'fx', papers = 5;
     if (t >= T.pomIn) { const h = RIG.hop(t, T.pomIn, T.pomStop, POM0, POM1, { height: 40 }); x = h.x; y = FLOOR + (h.yOff || 0); q.squash = (h.squash || 0) * .8; }
@@ -179,7 +179,7 @@ document.write('<script src="v2/lib.js"><\/script><script src="v2/elevator_set.j
   window.EP = {
     dur: 14.6,
     bgmHolds: '0.0-0.9',
-    // 中に入ったジル・ポムは頭だけ（オチそのもの）。最後のテロップの間は、わざと止める
+    // 中に入ったユズ・クリは頭だけ（オチそのもの）。最後のテロップの間は、わざと止める
     qaAllow: { hidden_jil: [[6.6, 14.6]], still: [[11.2, 14.6]] },
     sfx: [{ t: 0.0, type: 'hum' }, { t: T.spin0, type: 'swish' }, { t: T.spin1, type: 'chime' }, { t: T.wake, type: 'twitch' }, { t: T.pop, type: 'puku' },
       { t: T.hop, type: 'boing' }, { t: T.bite, type: 'tap' }, { t: T.pull1, type: 'swish' }, { t: T.slack, type: 'flop' }, { t: T.pull2, type: 'swish' },
@@ -194,10 +194,10 @@ document.write('<script src="v2/lib.js"><\/script><script src="v2/elevator_set.j
       const bulge = .6 * (L.pulse(t, T.fly1 - .1, T.fly1 + .25) + L.pulse(t, T.suck1 - .1, T.suck1 + .25) + .5 * L.pulse(t, T.pop - .05, T.pop + .2));
       const front = kotatsu(t, bulge) + SWITCH;
       { const rs = document.getElementById('ren'); if (rs) rs.style.clipPath = `inset(0 0 ${1920 - (FLOOR + 60)}px 0)`; }
-      // こたつの中のジル・ポム：天板より下は、布団の形の内がわだけ見せる（布団の外に体がはみ出さない）
+      // こたつの中のユズ・クリ：天板より下は、布団の形の内がわだけ見せる（布団の外に体がはみ出さない）
       { const bk = document.getElementById('back'); if (bk) { const x0 = KX - KW - 40, x1 = KX + KW + 40, y = TOP_Y + 12; bk.style.clipPath = `polygon(-800px -800px, 1880px -800px, 1880px ${y}px, ${KX + KW}px ${y}px, ${x1 + 6}px ${TOP_Y + 60}px, ${x1 + 30}px ${FLOOR + 50}px, ${x0 - 30}px ${FLOOR + 50}px, ${x0 - 6}px ${TOP_Y + 60}px, ${KX - KW}px ${y}px, -800px ${y}px)`; } }
       drawRen(t, front);
-      // ジル：くわえる所＝描いたレンの左の耳の先
+      // ユズ：くわえる所＝描いたモチの左の耳の先
       let tip = null;
       if (t >= T.hop && t < T.snap) { const e = leftEar(); tip = e && e.tip; }
       if (t >= T.snap && !SNAP_TIP) { const keep = t; drawRen(T.snap - .01, front); const e = leftEar(); SNAP_TIP = e && e.tip; drawRen(keep, front); }
@@ -220,20 +220,20 @@ document.write('<script src="v2/lib.js"><\/script><script src="v2/elevator_set.j
       if (t > T.pull2 + .2 && t < T.snap) fx += `<g opacity=".85">${[0, 1, 2].map(i => `<path d="M${(J.p.x + 90 - i * 30).toFixed(0)} ${(J.p.y + 120 + i * 40).toFixed(0)} l-60 ${-10 + i * 10}" stroke="#7FA7D9" stroke-width="8" stroke-linecap="round"/>`).join('')}</g>`;   // ふんばる線
       if (k > 0 && k < 1) fx += L.speed(540, 300, .6 * Math.sin(Math.PI * k), 30);
       const cam = L.camAt([
-        { t: 0, z: 1.3, cx: 430, cy: 1080 },                   // 前回の終わり（とろけたジル）
+        { t: 0, z: 1.3, cx: 430, cy: 1080 },                   // 前回の終わり（とろけたユズ）
         { t: 0.01, z: 1.18, cx: 470, cy: 1060, d: .85 },
         { t: T.spin0, z: 1.55, cx: 560, cy: 520, d: .35 },      // 時計
-        { t: T.spin1 + .05, z: 1.08, cx: 500, cy: 1040, d: .4 }, // 朝。ジルとこたつ
+        { t: T.spin1 + .05, z: 1.08, cx: 500, cy: 1040, d: .4 }, // 朝。ユズとこたつ
         { t: T.bite + .1, z: 1.14, cx: 420, cy: 1080, d: .6 },  // 綱引き
-        { t: T.pull2, z: 1.1, cx: 420, cy: 1060, d: .6 },       // 全力で引く（ジルが左へ下がる）
+        { t: T.pull2, z: 1.1, cx: 420, cy: 1060, d: .6 },       // 全力で引く（ユズが左へ下がる）
         { t: T.snap, z: 1.04, cx: 500, cy: 1020, d: .4 },       // 吸いこまれる
-        { t: T.pomIn - .1, z: 1.0, cx: 600, cy: 1020, d: .5 },  // ポムが来る
+        { t: T.pomIn - .1, z: 1.0, cx: 600, cy: 1020, d: .5 },  // クリが来る
         { t: T.ppop + .2, z: 1.22, cx: 570, cy: 1200, d: .7 },  // 頭が3つ
       ], t);
       if (still(t)) cam.z /= 1 + .004 * Math.sin(t * .9);
       const ui = t < 14.2 ? TELOP(L.seg(t, T.telop, T.telop + .5)) : '';
       L.mount({ bg, back: `<ellipse cx="${KX + 10}" cy="${FLOOR + 56}" rx="${KW + 110}" ry="22" fill="#3B2412" opacity=".22" data-nb="1"/>`, fx, ui, cam, t, shake: t > T.snap && t < T.snap + .14 ? 7 : 0 });
-      // こたつの中（レンの層＝こたつの手前より奥）：ジルとポム
+      // こたつの中（モチの層＝こたつの手前より奥）：ユズとクリ
       const b = document.getElementById('back');
       if (b && (J.layer === 'back' || P.layer === 'back')) {
         if (J.layer === 'back') RIG.render(b, RIG.alive(Object.assign({}, RIG.DEFAULTS, { char: 'jil' }, J.p), t, charOpt(t, { ears: !still(t) })));

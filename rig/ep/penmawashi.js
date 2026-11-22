@@ -1,5 +1,5 @@
 // 「ペン回し」（約9.5秒・セリフなし）v2 演出／キャラは本番の rig.js
-// 状況：考えごと中のジル。指先でペンをくるくる（きりっ）
+// 状況：考えごと中のユズ。指先でペンをくるくる（きりっ）
 // ひっくり返し：課長もやってみる → ペンは回らず、課長のほうがくるくる回る（イスごと）
 // オチ：目が回ってふらふら、ペンは机に立ったまま。字幕「上司のペン回し：本人が回る」
 document.write('<script src="v2/lib.js"><\/script>');
@@ -17,16 +17,16 @@ var EP = {
     const DESK = 1400, RN = [858, 1156];
     const bg = L.office({ sky: 'day', clock: [15, 0] });
     const jspin = t > .6 && t < 2.4, rspin = t >= 3.8 && t < 5.6, dizzy = t >= 5.6;
-    // ジル（左）：ペン回し（きりっ）→ 課長を見て「？」→ くるくる回る課長に「！」→ ジト目
+    // ユズ（左）：ペン回し（きりっ）→ 課長を見て「？」→ くるくる回る課長に「！」→ ジト目
     const jface = t < 2.4 ? RIG.FACES.sharp : t < 3.8 ? Object.assign({}, RIG.FACES.smile, { sparkle: t < 3.0 ? 1 : 0 }) : t < 5.6 ? Object.assign({}, RIG.FACES.surprised, { excl: 1 }) : RIG.FACES.annoyed;
     L.char('jil', Object.assign({}, RIG.POSES.sit, jface, { x: 20, y: DESK - 413 * 1.3, scale: 1.3, eyeLook: t > 2.4 ? .9 : .2 }), t, '', {});
-    // レン（右）：見ている → やる気（きらきら）→ 体ごとくるくる（向きが左右に入れかわる）→ 目が回ってふらふら
+    // モチ（右）：見ている → やる気（きらきら）→ 体ごとくるくる（向きが左右に入れかわる）→ 目が回ってふらふら
     const sp = rspin ? (t - 3.8) * (8 + 10 * seg(t, 3.8, 4.6)) : 0;
     const rface = t < 3.2 ? RIG.FACES.neutral : t < 3.8 ? Object.assign({}, RIG.FACES.smile, { sparkle: 1 }) : rspin ? Object.assign({}, RIG.FACES.surprised, { excl: 0 }) : Object.assign({}, RIG.FACES.oops, { eyeOpen: .4 });
     L.char('ren', Object.assign({}, RIG.POSES.sit, rface, { x: 560, y: DESK - 413 * 1.35, scale: 1.35, flip: rspin ? Math.cos(sp) > 0 : true, eyeLook: -.3, bodyTilt: rspin ? Math.sin(sp) * 8 : dizzy && t < 7.6 ? Math.sin(t * 6) * 9 : 0, headTilt: dizzy && t < 7.6 ? Math.sin(t * 6 + 1) * 10 : 0 }), t, '', {});
     let fx = `${L.deskFront(DESK)}`
       + [60, 560].map(x => `${L.drawer(x, DESK)}`).join('');
-    // ジルのペン：顔の右の上で、くるくる
+    // ユズのペン：顔の右の上で、くるくる
     fx += PEN(430, 1000, jspin ? (t - .6) * 900 : 30, '#5BA6D6');
     if (jspin) fx += `<circle cx="430" cy="1000" r="96" fill="none" stroke="#5BA6D6" stroke-width="4" stroke-dasharray="14 18" opacity=".45"/>`;
     // 課長のペン：机に立ったまま（回らない）
@@ -37,7 +37,7 @@ var EP = {
     // 目が回った：頭の上でぐるぐる
     if (dizzy && t < 7.6) fx += `<g transform="translate(${RN[0] - 10} ${RN[1] - 290}) rotate(${t * 200})"><path d="M0 -30 A30 30 0 1 1 -30 0 A20 20 0 1 1 0 -20 A10 10 0 1 1 -10 0" stroke="#8C7B66" stroke-width="7" fill="none" stroke-linecap="round"/></g>`;
     if (t > 7.4 && t < 8.6) fx += L.emark(220, DESK - 650, 1.0, '…');
-    let ui = (t > 0.8 && t < 2.6 ? CHIP(L, 'PEN SPINNING', 'ジルのペン回し', 1600, seg(t, .8, 1.1)) : '')
+    let ui = (t > 0.8 && t < 2.6 ? CHIP(L, 'PEN SPINNING', 'ユズのペン回し', 1600, seg(t, .8, 1.1)) : '')
       + (t > 6.0 && t < 8.6 ? CHIP_OFF(L, 'BOSS: HE SPINS INSTEAD', '上司のペン回し：本人が回る', 1600, seg(t, 6.0, 6.3)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.3, cx: 380, cy: 1080 },

@@ -1,6 +1,6 @@
 // 「年末調整」（約9.5秒・セリフなし・文字なし）v2 演出／キャラは本番の rig.js
-// 書類を読むレン → 書類がどんどん伸びて机から床まで垂れる → レン、伸びて倒れる → ジルが跳ねて来て無言でハンコ3回、書類はシュッと1枚に
-// → 生き返ったレン（跳ねる）がお礼に牧草を1本 → ジル、無表情のまま…もぐもぐ（ちょっとうれしい）
+// 書類を読むモチ → 書類がどんどん伸びて机から床まで垂れる → モチ、伸びて倒れる → ユズが跳ねて来て無言でハンコ3回、書類はシュッと1枚に
+// → 生き返ったモチ（跳ねる）がお礼に牧草を1本 → ユズ、無表情のまま…もぐもぐ（ちょっとうれしい）
 document.write('<script src="v2/lib.js"><\/script>');
 // 分かりやすさの決まり（docs/CLARITY.md）：キャラはしゃべらない。そのかわり「状況」と「オチ」を短い字幕（英＋日）で1回ずつ出す
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
@@ -26,7 +26,7 @@ var EP = {
     const stamps = SS.filter(s => t >= s && (t < 5.0 || s === SS[0])).map((s, i) => t < 5.0 ? L.stamp(-30 + i * 34, 120 + i * 170, outBack(seg(t, s, s + .15))) : L.stamp(40, 80, 1)).join('');
     const curl = Math.min(len, 230);
     const form = `<g transform="translate(${FX} ${DESK - 6})"><rect x="-110" y="0" width="220" height="${len}" rx="6" fill="#FFFDF8" stroke="#D7CCBB" stroke-width="3"/><rect x="-110" y="0" width="220" height="40" rx="6" fill="#7FA6D6"/><g fill="#fff"><rect x="-80" y="14" width="70" height="12" rx="6"/><rect x="0" y="14" width="40" height="12" rx="6"/></g>${lines}${stamps}${len > 700 ? `<ellipse cx="0" cy="${len}" rx="${110 + (len - 700) * .3}" ry="26" fill="#FFFDF8" stroke="#D7CCBB" stroke-width="3"/>` : ''}</g>`;
-    // レン（机の上）：読む → 2.25 驚く → 2.75 伸びて倒れる → 5.6 生き返って跳ねる → 6.3 牧草を差し出す
+    // モチ（机の上）：読む → 2.25 驚く → 2.75 伸びて倒れる → 5.6 生き返って跳ねる → 6.3 牧草を差し出す
     const down = t > 2.75 && t < 5.6;
     let rp;
     if (t < 2.25) rp = Object.assign({}, RIG.POSES.loaf, RIG.FACES.think, { question: 0, eyeLook: -.4, headNod: 18 + 10 * grow });
@@ -38,7 +38,7 @@ var EP = {
     Object.assign(rp, { x: 470, y: DESK - 413 * rs + jump, scale: rs, flip: true });
     const hay = t > 6.3 && t < 7.15 ? `<g transform="translate(${560 - 80 * outBack(seg(t, 6.3, 6.6))} ${DESK - 200}) scale(1.6)">${L.hayStrand(0, 0, 150, 180)}</g>` : '';
     L.char('ren', rp, t, '', {});
-    // ジル（左から跳ねて来る 3.2〜3.8）
+    // ユズ（左から跳ねて来る 3.2〜3.8）
     const h = RIG.hop(t, 3.2, 3.8, -420, 40, { hops: 2, height: 50 });
     const js = 1.3;
     let jp = null;
@@ -67,11 +67,11 @@ var EP = {
       { t: 2.6, z: 1.25, cx: 640, cy: 1180, d: .5 },
       { t: 3.3, z: 1.0, cx: 480, cy: 1250, d: .5 },
       { t: 5.6, z: 1.15, cx: 560, cy: 1150, d: .5 },
-      { t: 7.1, z: 1.45, cx: 330, cy: 1170, d: .6 },                // もぐもぐのジル
+      { t: 7.1, z: 1.45, cx: 330, cy: 1170, d: .6 },                // もぐもぐのユズ
     ], t);
     // 状況とオチの字幕（各1回）
     let ui = (t > 1.8 && t < 3.4 ? CHIP(L, 'THE FORMS KEEP GOING...', '読んでも読んでも終わらない', 1380, seg(t, 1.8, 2.1)) : '')
-      + (t > 5.2 && t < 6.9 ? CHIP_OFF(L, 'JILL: DONE IN 3 SECONDS', 'ジル、3秒で終わらせる', 1380, seg(t, 5.2, 5.5)) : '');
+      + (t > 5.2 && t < 6.9 ? CHIP_OFF(L, 'YUZU: DONE IN 3 SECONDS', 'ユズ、3秒で終わらせる', 1380, seg(t, 5.2, 5.5)) : '');
     if (t > 8.6) { fx = ''; ui = ''; }
     L.mount({ bg, fx, ui, cam, t, shake: SS.some(s => t > s && t < s + .12) ? 9 : 0 });
     if (typeof endcard === 'function') endcard(t, EP.dur);
