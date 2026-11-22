@@ -8,7 +8,7 @@ OLD_BRAND = "レンとジル"  # 旧名（ブランド）
 
 class RebrandTest(unittest.TestCase):
     def test_names_ids_urls(self):
-        s = OLD_BRAND + "｜書類の山 #" + OLD_BRAND + " @" + "renjill_office https://x.com/" + "renjill_office https://renjill" + ".coana.co.jp/"
+        s = OLD_BRAND + "｜書類の山 #" + OLD_BRAND + " @" + "renjill_office https://x.com/" + "renjill_office https://renjill" + ".coana.co.jp/"  # 旧ID
         self.assertEqual(rebrand.rebrand(s), "東京うさぎオフィス｜書類の山 #東京うさぎオフィス @tokyo_usagi_office https://x.com/tokyo_usagi_ofc https://usagi.coana.co.jp/")
         self.assertEqual(rebrand.rebrand("R" "en & J" "ill"), "Tokyo Usagi Office")
         self.assertEqual(rebrand.rebrand("the boss R" "en and his J" "ill"), "the boss Mochi and his Yuzu")

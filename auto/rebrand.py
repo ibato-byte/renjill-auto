@@ -1,6 +1,6 @@
 """旧名（2026-11-22 に改名）を新しい名前にする置き換え。公開済みの投稿の題・説明を直すとき（auto/rebrand_posts.py）に使う。
 旧名の一覧はこの下の RULES（この説明の行は「旧名」を含むので、置き換えの道具は書き換えない）。
-レン→モチ・ジル→ユズ・ポム→クリ、ブランド→東京うさぎオフィス、SNS の ID→@tokyo_usagi_office（X は @tokyo_usagi_ofc）、公式サイト→usagi.coana.co.jp
+旧名：レン→モチ・ジル→ユズ・ポム→クリ、ブランド→東京うさぎオフィス、SNS の ID→@tokyo_usagi_office（X は @tokyo_usagi_ofc）、公式サイト→usagi.coana.co.jp
 """
 import re
 
