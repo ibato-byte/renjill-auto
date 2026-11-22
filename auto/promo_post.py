@@ -28,7 +28,7 @@ def promo(today):
     return {"ep": PROMO_ID, "no": 0, "date": today, "slot": "promo", "tag_set": "A", "title": "チモシーダッシュ",
             "caption_en": "The boss overslept. Run! Our free bunny game is here.",
             "caption_ja": "寝坊した課長と、東京を走って出社。無料のゲームができました。",
-            "cta": "Mochi or Yuzu — who do you run as? / 東京うさぎオフィス、どっちで走る？"}
+            "cta": "Mochi or Yuzu — who do you run as? / モチとユズ、どっちで走る？"}
 
 
 def fetch(name):
