@@ -4,7 +4,7 @@ import os, re, subprocess, unittest
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # 旧名の一覧（この行は「旧名」を含むので置き換えの道具が変えない）
-OLD = re.compile("レンとジル|(?<![ァ-ー])(?:レン|ジル|ポム)(?![ァ-ー])|(?<![A-Za-z0-9_.$/-])(?:R" "en|J" "ill|P" "om|R" "EN|J" "ILL)(?![A-Za-z0-9_/-])|renjill_office|renjill\\.coana\\.co\\.jp")
+OLD = re.compile("レンとジル|(?<![ァ-ー])(?:レン|ジル|ポム)(?![ァ-ー])|(?<![A-Za-z0-9_.$/-])(?:R" "en|J" "ill|P" "om|R" "EN|J" "ILL)(?![A-Za-z0-9_/-])|renjill_office|renjill\\.coana\\.co\\.jp")  # 旧名
 SKIP = re.compile(r"^(content/.*\.csv|auto/posted\.json|auto/bgm_state\.json|dist/.*\.json|docs/|tests/test_brand\.py|README\.md)")
 
 
