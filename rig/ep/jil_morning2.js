@@ -1,7 +1,7 @@
-// 第2話 v2「ジルの朝」（約22秒）
-// ゲーム：ジルはメガネでスイッチが入る。課長は自分のスイッチが見つからない。
-// ①寝ぼけジルが机の脚にゴン→メガネをかけて一瞬でキリッ ②課長もネクタイを締めてキリッ…がすぐ目が閉じる ③頬をぷくっと膨らませて気合→立ったまま寝る
-// （間）→足ダン→課長ついにキリッ → オチの後のオチ：ジルのメガネがずり落ちて寝ぼけ→課長がまね足ダン→ジル復活
+// 第2話 v2「ユズの朝」（約22秒）
+// ゲーム：ユズはメガネでスイッチが入る。課長は自分のスイッチが見つからない。
+// ①寝ぼけユズが机の脚にゴン→メガネをかけて一瞬でキリッ ②課長もネクタイを締めてキリッ…がすぐ目が閉じる ③頬をぷくっと膨らませて気合→立ったまま寝る
+// （間）→足ダン→課長ついにキリッ → オチの後のオチ：ユズのメガネがずり落ちて寝ぼけ→課長がまね足ダン→ユズ復活
 window.EP = {
   dur: 22.0,
   bgmHolds: '10.8-11.8',
@@ -15,7 +15,7 @@ window.EP = {
     office({ clock: [8, t < 12 ? 59 : 0].map((v, i) => i === 0 && t >= 12 ? 9 : v), shake: S });
     const f = clear('fx'), ui = clear('ui'); clear('back');
 
-    // ---- ジル
+    // ---- ユズ
     const JX = 620;
     const hp = RIG.hop(t, 0.0, 1.3, 1060, JX, { hops: 3, height: 34 });
     let J = Object.assign({}, RIG.POSES.sit, { scale: 1.25, flip: true, prop: false, eyeOpen: 0.3, eyeShape: 'round', mouth: 'w', x: hp.x + S.x, y: 1240 + hp.yOff + S.y, bodySquash: hp.squash });
@@ -35,7 +35,7 @@ window.EP = {
     if (t >= 18.6) Object.assign(J, RIG.FACES.shy, { heart: 0, eyeLook: 0.9, prop: true });
     const Jq = draw('jil', 'jil', J, t, { vx: hp.vx, blink: t > 3.9 && !(t >= 6.4 && t < 7.6) && !(t >= 9.2 && t < 10.4) && !(t >= 14.6 && t < 17.4) });
 
-    // ---- レン（机の上）
+    // ---- モチ（机の上）
     const RX = 430, RY = 668;
     let R = Object.assign({}, RIG.POSES.loaf, RIG.FACES.sleepy, { scale: 1.3, x: RX + S.x, y: RY + S.y, zzz: 0.6 + 0.3 * Math.sin(t * 3) });
     if (t >= 3.7 && t < 5.0) Object.assign(R, RIG.FACES.surprised, { pose: 'sit', zzz: 0, eyeLook: 0.7, excl: pulse(t, 3.7, 4.3) });
@@ -62,7 +62,7 @@ window.EP = {
     thumpWave(f, t, 11.8, Jq.x + 250, 1730);
     const punch = impactAt(ui, t, 11.8);
     const shots = [
-      { t: 0.0, cx: 860, cy: 1450, z: 1.8 },                          // A 寄り：寝ぼけジル入場→ゴン（最初の1秒で顔が見える）
+      { t: 0.0, cx: 860, cy: 1450, z: 1.8 },                          // A 寄り：寝ぼけユズ入場→ゴン（最初の1秒で顔が見える）
       { t: 2.4, cx: FACE_JIL.x - 60, cy: FACE_JIL.y, z: 2.6, z2: 2.8 },// B 寄り：あくび→メガネでキリッ
       { t: 4.4, cx: 560, cy: 1100, z: 1.3 },                          // C 中：課長が見てる
       { t: 5.0, cx: 640, cy: 960, z: 2.0 },                           // D 寄り：ネクタイでキリッ→閉じる
@@ -71,9 +71,9 @@ window.EP = {
       { t: 10.4, cx: FACE_JIL.x - 60, cy: FACE_JIL.y, z: 2.0, z2: 3.0 },// G 寄り：ため（無音）
       { t: 11.7, cx: 560, cy: 1120, z: 1.0 },                         // H 引き：足ダン
       { t: 13.0, cx: 640, cy: 940, z: 2.1 },                          // I 寄り：課長ついにキリッ
-      { t: 14.4, cx: FACE_JIL.x - 60, cy: FACE_JIL.y, z: 2.4 },       // J 寄り：ジルのメガネがずり落ちる
-      { t: 16.4, cx: 600, cy: 1120, z: 1.25 },                        // K 中：課長のまね足ダン→ジル復活
-      { t: 18.6, cx: FACE_JIL.x - 60, cy: FACE_JIL.y, z: 2.3 },       // L 寄り：ジル照れ
+      { t: 14.4, cx: FACE_JIL.x - 60, cy: FACE_JIL.y, z: 2.4 },       // J 寄り：ユズのメガネがずり落ちる
+      { t: 16.4, cx: 600, cy: 1120, z: 1.25 },                        // K 中：課長のまね足ダン→ユズ復活
+      { t: 18.6, cx: FACE_JIL.x - 60, cy: FACE_JIL.y, z: 2.3 },       // L 寄り：ユズ照れ
       { t: 20.0, cx: 560, cy: 1120, z: 1.15 }                         // M 引き
     ];
     camera(cameraAt(shots, t), punch);

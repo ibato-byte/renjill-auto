@@ -1,7 +1,7 @@
 // 「机の片付け」（約9.5秒・セリフなし）v2 演出／キャラは本番の rig.js
-// 状況：年末。レンの机は書類の山（2つ）。ジルは自分の机がきれい（✓）
-// ひっくり返し：レンが目にもとまらぬ速さで片付け → 3秒で机がピカピカ（きらきら）。ジル感心
-// オチ：ジルが引き出しを開けると、書類がどさーっと雪崩。字幕「片付け：3秒。行き先：引き出し」
+// 状況：年末。モチの机は書類の山（2つ）。ユズは自分の机がきれい（✓）
+// ひっくり返し：モチが目にもとまらぬ速さで片付け → 3秒で机がピカピカ（きらきら）。ユズ感心
+// オチ：ユズが引き出しを開けると、書類がどさーっと雪崩。字幕「片付け：3秒。行き先：引き出し」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
 const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
@@ -20,21 +20,21 @@ var EP = {
     const pile = Math.round(10 * (1 - clean));
     const fast = t >= 2.6 && t < 4.3;
     const open = ease(seg(t, 6.4, 6.8));                                   // 引き出しが開く
-    // ジル（左）：自分の机はきれい（smug）→ レンの山にジト目 → ピカピカに驚く → 感心（にこ・♥）→ 引き出しを開ける（lean）→ 雪崩にがーん
+    // ユズ（左）：自分の机はきれい（smug）→ モチの山にジト目 → ピカピカに驚く → 感心（にこ・♥）→ 引き出しを開ける（lean）→ 雪崩にがーん
     const jface = t < 2.4 ? RIG.FACES.annoyed : t < 4.4 ? Object.assign({}, RIG.FACES.surprised, { excl: 0 }) : t < 6.4 ? RIG.FACES.shy : t < 7.0 ? RIG.FACES.smile : Object.assign({}, RIG.FACES.surprised, { excl: 1 });
     const jp = Object.assign({}, t >= 6.0 && t < 7.0 ? RIG.POSES.lean : RIG.POSES.sit, jface, { x: 40, y: DESK - 413 * 1.3, scale: 1.3, eyeLook: .8, bodyTilt: t >= 6.0 && t < 7.0 ? -16 : 0 });
     L.char('jil', jp, t, '', {});
-    // レン（右）：山の前でのんびり → 本気（sharp・高速で左右に揺れる）→ どや顔 → 雪崩で目をそらす（汗）
+    // モチ（右）：山の前でのんびり → 本気（sharp・高速で左右に揺れる）→ どや顔 → 雪崩で目をそらす（汗）
     const rface = t < 2.4 ? RIG.FACES.neutral : t < 4.4 ? RIG.FACES.sharp : t < 7.0 ? RIG.FACES.smug : Object.assign({}, RIG.FACES.oops, { sweat: 1, eyeLook: -.7 });
     const rp = Object.assign({}, fast ? RIG.POSES.lean : RIG.POSES.sit, rface, { x: 540, y: DESK - 413 * 1.35, scale: 1.35, flip: true, eyeLook: t >= 7.0 ? -.7 : .4, bodyTilt: fast ? Math.sin(t * 45) * 10 : 0 });
     L.char('ren', rp, t, '', {});
     let fx = `${L.deskFront(DESK)}`
       + `<rect x="60" y="${DESK + 90}" width="460" height="170" rx="14" fill="none" stroke="${L.PAL.wood2}" stroke-width="6" opacity=".55"/><rect x="250" y="${DESK + 160}" width="80" height="16" rx="8" fill="#E9D2A8"/>`;
-    // レンの引き出し（右）：開くと手前・下へ出てくる
+    // モチの引き出し（右）：開くと手前・下へ出てくる
     fx += `<g transform="translate(0 ${open * 60})"><rect x="560" y="${DESK + 90}" width="460" height="170" rx="14" fill="${open > 0 ? '#B98A5E' : 'none'}" stroke="${L.PAL.wood2}" stroke-width="6" opacity="${open > 0 ? 1 : .55}"/><rect x="750" y="${DESK + 160}" width="80" height="16" rx="8" fill="#E9D2A8"/></g>`;
-    // ジルの机のきれいな✓
+    // ユズの机のきれいな✓
     if (t < 2.4) fx += L.check(250, DESK - 80, 1, .5);
-    // 書類の山（レンの机の上、2つ）
+    // 書類の山（モチの机の上、2つ）
     fx += L.papers(640, DESK - 4, pile) + L.papers(1030, DESK - 4, Math.round(pile * .8));
     // 片付け中：書類がびゅんびゅん引き出しへ
     if (fast) for (let i = 0; i < 4; i++) { const u = ((t * 3 + i * .25) % 1); fx += SHEET(820 + Math.sin(i * 2) * 120 * (1 - u), DESK - 140 + u * 260, u * 300, .7); }

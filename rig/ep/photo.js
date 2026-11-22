@@ -1,13 +1,13 @@
 // 「年賀状の写真」（約9.5秒・セリフなし）v2 演出／キャラは本番の rig.js
-// 状況：年賀状用の写真。ジルがカメラをセット（三脚）。タイマー 3・2・1
-// ひっくり返し：フラッシュのたびにレンが目をつぶる（1回目・2回目）→ ジルがだんだんジト目
-// オチ：3回目、ジルがレンの目を指で開けたまま撮影。できた写真：ジルは完璧、レンは白目気味の変顔。字幕「3回目：目を開けたまま固定」
+// 状況：年賀状用の写真。ユズがカメラをセット（三脚）。タイマー 3・2・1
+// ひっくり返し：フラッシュのたびにモチが目をつぶる（1回目・2回目）→ ユズがだんだんジト目
+// オチ：3回目、ユズがモチの目を指で開けたまま撮影。できた写真：ユズは完璧、モチは白目気味の変顔。字幕「3回目：目を開けたまま固定」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
 const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
 const CAMERA = (x, y, s = 1) => `<g transform="translate(${x} ${y}) scale(${s})"><line x1="0" y1="40" x2="-70" y2="260" stroke="#3B4252" stroke-width="10" stroke-linecap="round"/><line x1="0" y1="40" x2="70" y2="260" stroke="#3B4252" stroke-width="10" stroke-linecap="round"/><line x1="0" y1="40" x2="0" y2="270" stroke="#3B4252" stroke-width="10" stroke-linecap="round"/><rect x="-80" y="-50" width="160" height="100" rx="18" fill="#3B4252"/><circle r="34" fill="#1F2630" stroke="#C9CFD8" stroke-width="6"/><circle r="14" fill="#5A6B8C"/><rect x="40" y="-70" width="34" height="24" rx="6" fill="#C9CFD8"/></g>`;
 const COUNT = (x, y, n) => `<g transform="translate(${x} ${y})"><circle r="60" fill="#fff" stroke="#5A3A1E" stroke-width="8"/><text y="22" text-anchor="middle" font-family="Noto Sans CJK JP" font-weight="900" font-size="60" fill="#5A3A1E">${n}</text></g>`;
-// できた写真（ジルは完璧・レンは…）
+// できた写真（ユズは完璧・モチは…）
 const PHOTO = (x, y, k, renEyes) => k <= 0 ? '' : `<g transform="translate(${x} ${y}) rotate(-6) scale(${k})"><rect x="-200" y="-150" width="400" height="300" rx="10" fill="#fff" stroke="#D7CCBB" stroke-width="6"/><rect x="-180" y="-130" width="360" height="220" fill="#F4ECE0"/><ellipse cx="-80" cy="-10" rx="62" ry="54" fill="#DEC9A8"/><ellipse cx="90" cy="-10" rx="70" ry="60" fill="#D9B48C"/><circle cx="-100" cy="-20" r="7" fill="#3A2414"/><circle cx="-60" cy="-20" r="7" fill="#3A2414"/><path d="M-90 8 q10 8 20 0" stroke="#5A3826" stroke-width="4" fill="none"/>${renEyes}<rect x="-160" y="110" width="320" height="12" rx="6" fill="#E2D8C8"/></g>`;
 var EP = {
   dur: 9.5,
@@ -24,13 +24,13 @@ var EP = {
     const take = takes.findIndex(([a, f]) => t >= a && t < f + .4);
     const flash = takes.some(([a, f]) => t >= f && t < f + .18);
     const counting = takes.find(([a, f]) => t >= a && t < f);
-    const held = t >= 6.2;                                    // 3回目：ジルが目を開けたまま固定
-    // レン（右）：ポーズ（にこ）→ フラッシュの瞬間に目をぎゅっ（1・2回目）→ 3回目は目を開けさせられて変顔
+    const held = t >= 6.2;                                    // 3回目：ユズが目を開けたまま固定
+    // モチ（右）：ポーズ（にこ）→ フラッシュの瞬間に目をぎゅっ（1・2回目）→ 3回目は目を開けさせられて変顔
     const closedAt = takes.slice(0, 2).some(([a, f]) => t >= f - .1 && t < f + .9);
     const rface = held ? Object.assign({}, RIG.FACES.surprised, { excl: 0, mouth: 'w', browAngle: 18 }) : closedAt ? Object.assign({}, RIG.FACES.smile, { eyeOpen: .05 }) : RIG.FACES.smile;
     const rp = Object.assign({}, RIG.POSES.sit, rface, { x: 520, y: DESK - 413 * 1.35, scale: 1.35, flip: true, eyeLook: 0, headTilt: held ? 8 : 0, bodySquash: counting ? -.05 : 0 });
     L.char('ren', rp, t, '', {});
-    // ジル（左）：完璧な笑顔 → 2回失敗でジト目 → 3回目は横から手を伸ばす（lean）
+    // ユズ（左）：完璧な笑顔 → 2回失敗でジト目 → 3回目は横から手を伸ばす（lean）
     const jface = t < 3.2 ? RIG.FACES.smile : t < 6.2 ? RIG.FACES.annoyed : RIG.FACES.smile;
     const jp = Object.assign({}, held ? RIG.POSES.lean : RIG.POSES.sit, jface, { x: 60, y: DESK - 413 * 1.3, scale: 1.3, eyeLook: held ? .9 : 0, bodyTilt: held ? -14 : 0 });
     L.char('jil', jp, t, '', {});
@@ -39,10 +39,10 @@ var EP = {
     // カメラ（手前・中央下）
     fx += CAMERA(540, DESK + 120, 1.0);
     if (counting) { const n = 3 - Math.floor((t - counting[0]) / 0.4); fx += COUNT(540, 760, Math.max(1, Math.min(3, n))); }
-    // 3回目：ジルの指がレンの目を開ける（レンの顔の横に手）
+    // 3回目：ユズの指がモチの目を開ける（モチの顔の横に手）
     if (held && t < 7.9) fx += `<g transform="translate(${760} ${DESK - 330}) rotate(20)"><ellipse rx="26" ry="18" fill="#D9B48C" stroke="#B88A5C" stroke-width="4"/><circle cx="-16" cy="-14" r="8" fill="#D9B48C" stroke="#B88A5C" stroke-width="4"/><circle cx="0" cy="-20" r="8" fill="#D9B48C" stroke="#B88A5C" stroke-width="4"/><circle cx="16" cy="-14" r="8" fill="#D9B48C" stroke="#B88A5C" stroke-width="4"/></g>`;
     if (flash) fx += `<rect x="-500" y="-500" width="2080" height="3000" fill="#fff" opacity=".85" pointer-events="none"/>`;
-    // できた写真（7.9〜）：レンは目を見開いた変顔
+    // できた写真（7.9〜）：モチは目を見開いた変顔
     const pk = t >= 7.9 ? outBack(seg(t, 7.9, 8.3)) : 0;
     fx += PHOTO(540, DESK - 380, pk, `<circle cx="70" cy="-24" r="14" fill="#fff" stroke="#3A2414" stroke-width="3"/><circle cx="112" cy="-24" r="14" fill="#fff" stroke="#3A2414" stroke-width="3"/><circle cx="74" cy="-22" r="5" fill="#3A2414"/><circle cx="108" cy="-22" r="5" fill="#3A2414"/><path d="M80 14 q10 -6 20 0" stroke="#5A3826" stroke-width="4" fill="none"/>`);
     if (t > 3.2 && t < 3.8) fx += L.emark(230, DESK - 650, 1.0, '…');
@@ -53,7 +53,7 @@ var EP = {
     const cam = L.camAt([
       { t: 0, z: 1.35, cx: 540, cy: 1100 },
       { t: 0.01, z: 1.05, cx: 540, cy: 1050, d: .9 },
-      { t: 2.7, z: 1.3, cx: 760, cy: 1050, d: .3 },                 // フラッシュのレン
+      { t: 2.7, z: 1.3, cx: 760, cy: 1050, d: .3 },                 // フラッシュのモチ
       { t: 3.6, z: 1.05, cx: 540, cy: 1050, d: .4 },
       { t: 6.1, z: 1.25, cx: 640, cy: 1060, d: .4 },                // 指で固定
       { t: 7.9, z: 1.2, cx: 540, cy: 1000, d: .4 },                 // 写真

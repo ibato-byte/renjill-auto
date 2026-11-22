@@ -1,6 +1,6 @@
-# renjill-auto — レンとジル 自動投稿リポジトリ
+# renjill-auto — 東京うさぎオフィス 自動投稿リポジトリ
 
-うさぎの課長レンと部下ジルの、セリフなしオフィスコメディ（COANA TOKYO）。
+うさぎの課長モチと部下ユズの、セリフなしオフィスコメディ（COANA TOKYO）。
 このリポジトリが予定の日に「その日の回」を描画し、Instagram / TikTok / YouTube / Facebook（リール）に投稿し、数値を記録します。
 
 > **2026-11-16 オーナー決定：短い動画は毎週 月・木・土 の週3本、1週間の3本で1つの話（3話連載）。** 方針と仕組みは [docs/SERIES.md](docs/SERIES.md)。
@@ -10,11 +10,11 @@
 - `rig/` … SVGリグ・エピソード台本（`ep/*.js`）・描画と音の生成
 - `auto/schedule.json` … 投稿予定（Claudeの週次PDCAが更新）
 - `auto/post.py` … 描画→投稿。`auto/posted.json` に結果を記録（同じSNSに二重投稿しない）
-- `auto/facebook.py` … Facebook ページ「レンとジル」へのリール投稿（公式 Reels Publishing API）・権限確認・数値
+- `auto/facebook.py` … Facebook ページ「東京うさぎオフィス」へのリール投稿（公式 Reels Publishing API）・権限確認・数値
 - `tests/` … 単体テスト（`python -m unittest discover -s tests`。ネットワークに出ない）
 - `auto/metrics.py` … 投稿済み動画の数値を `content/metrics.csv` に追記
 - `auto/sns_policy.json` … SNS の多言語方針のスイッチ（YouTube の説明の公式サイトの行・TikTok だけの繁体字／韓国語ハッシュタグ・公式サイトの一覧 episodes.json）。項目を false にすると、その変更だけ止まる
-- `auto/episodes_json.py` … 公式サイト（https://renjill.coana.co.jp/）のエピソード一覧 `renjill-media/episodes.json` を作る。題・一言は4言語（ja・en・zh・ko。zh・ko は予定表の回の `site_i18n`）、カバー・動画・YouTube の ID つき。投稿のあとに毎回、今のファイルとまとめて書き直す（前の ID や回は消さない。失敗しても投稿は止めない）。`python auto/episodes_json.py` で中身だけ表示
+- `auto/episodes_json.py` … 公式サイト（https://usagi.coana.co.jp/）のエピソード一覧 `renjill-media/episodes.json` を作る。題・一言は4言語（ja・en・zh・ko。zh・ko は予定表の回の `site_i18n`）、カバー・動画・YouTube の ID つき。投稿のあとに毎回、今のファイルとまとめて書き直す（前の ID や回は消さない。失敗しても投稿は止めない）。`python auto/episodes_json.py` で中身だけ表示
 - `auto/series_policy.json`・`auto/series.py` … 週3本（月・木・土）・3話連載の決まりと検査（docs/SERIES.md）
 - `auto/stock.json` … 在庫（週3本に変えたとき予定表から外した1話完結の回。台本は rig/ep に残す）
 - `.github/workflows/post.yml` … 毎日 12:00 / 18:00 / 19:00 JST に起動（予定表にある 月・木・土 の回だけ出す）
@@ -23,14 +23,14 @@
 
 ## SNS の多言語方針（2026-10-31 オーナー決定）
 - アカウントは各SNSに1つのまま（言語別のアカウントは作らない）。キャプションは「日本語＋英語の一言」のまま（セリフのない作品なので十分）。
-- YouTube だけタイトル・説明を多言語に（`auto/growth.py` の LOCALE_DESC：ja・ko・zh-Hant・es・pt。簡体字は入れない）。説明の冒頭に公式サイト https://renjill.coana.co.jp/ の行。
+- YouTube だけタイトル・説明を多言語に（`auto/growth.py` の LOCALE_DESC：ja・ko・zh-Hant・es・pt。簡体字は入れない）。説明の冒頭に公式サイト https://usagi.coana.co.jp/ の行。
 - TikTok だけ、キャプションの末尾に繁体字・韓国語のハッシュタグを合計3つまで（#兔子 #療癒 #토끼。文字数の上限を超えるなら足さない）。Instagram・Facebook・Threads は変えない。
 - 投稿の曜日・時刻・素材・流れは変えない。確認は `DRY_RUN=1 python auto/post.py --date YYYY-MM-DD --slot HH:MM`（説明・キャプション・episodes.json の本数が出る）。
 
 ## Secrets（Settings → Secrets and variables → Actions）
 | 名前 | 取得元 |
 |---|---|
-| `IG_ACCESS_TOKEN` | Meta のシステムユーザー（ビジネスポートフォリオ renjill_office の renjill-auto）の期限なしトークン。Instagram と Facebook の両方に使う（[docs/setup/facebook-reels.md](docs/setup/facebook-reels.md)） |
+| `IG_ACCESS_TOKEN` | Meta のシステムユーザー（ビジネスポートフォリオ tokyo_usagi_office の renjill-auto）の期限なしトークン。Instagram と Facebook の両方に使う（[docs/setup/facebook-reels.md](docs/setup/facebook-reels.md)） |
 | `IG_USER_ID` | 任意。Instagram の ID はページの `instagram_business_account` から毎回取る（トークンの期限チェックで一致を確認） |
 | `MEDIA_TOKEN` | 公開リポジトリ renjill-media（Instagram が取りに来る動画・カバーの公開 URL）への書き込み |
 | `TT_ACCESS_TOKEN` | TikTok for Developers（video.publish スコープ） |
@@ -40,7 +40,7 @@
 ## Instagram・Facebook は Meta Graph API で自動投稿（2026-10-21〜）
 - GitHub Actions（`post.yml`）から投稿する。iMac・Chrome・Business Suite は使わない。
 - Instagram リール：動画とサムネ（`dist/<ep>_thumb.jpg`）を公開リポジトリ renjill-media に置き（`MEDIA_TOKEN`）、`video_url`・`cover_url` で投稿。
-- Facebook リール：ページ「レンとジル Ren & Jill」（ID 1358515160686321）のページトークンをシステムユーザーのトークンから取り、Reels Publishing API で投稿（サムネ付き）。
+- Facebook リール：ページ「東京うさぎオフィス Tokyo Usagi Office」（ID 1358515160686321）のページトークンをシステムユーザーのトークンから取り、Reels Publishing API で投稿（サムネ付き）。
 - Instagram・Facebook は全部 API で出す（2026-10-22 から Business Suite の予約は使わない。10/23・10/25・10/26・10/28・10/30 の `"bs-scheduled"` も外した）。Facebook は投稿直後に Graph API でカバーが付いたか確かめ、付いていなければ自動で付け直す。
 - 毎朝 6:00 の `tokens.yml` が `/debug_token` で有効か・期限・権限、ページと Instagram の ID を確認し、だめなら Hub で「エラー」＋メール。
 - 接続テスト（読み取りのみ）：Actions → **check** → Run workflow（`date` を入れると投稿内容のドライラン）。
@@ -55,7 +55,7 @@
 - 送る内容の確認だけ：`python auto/post.py --dry-run --date 2026-10-21 12:00`（または `DRY_RUN=1`）。API を呼ばず、posted.json も書かない。`--ignore-posted` を付けると投稿済みの SNS も表示する（ドライランだけ）。
 
 ## 週次PDCA（Claude）
-毎週月曜 7:00 JST に `content/metrics.csv` と計測シート（Google スプレッドシート「レン＆ジル 計測シート」ID `1_BVp-ROGA8X6dwvSlc9QLlIVe4jkgX0uVpOHnssFN4c`。） を読み、`auto/schedule.json` と `rig/ep/` に次週分を追加する。
+毎週月曜 7:00 JST に `content/metrics.csv` と計測シート（Google スプレッドシート「東京うさぎオフィス 計測シート」ID `1_BVp-ROGA8X6dwvSlc9QLlIVe4jkgX0uVpOHnssFN4c`。） を読み、`auto/schedule.json` と `rig/ep/` に次週分を追加する。
 笑いの設計ルール：ゲームは1本に1つ／三段エスカレーション／引きと寄り／オチ前の間／オチの後のオチ。
 
 ## 品質ルール（2026-10-19 決定）
@@ -77,9 +77,9 @@
 - ハッシュタグは5個（Facebook は3個以内）。A/Bセットを交互に使い、2週連続で勝った方を標準にする。
 
 ## 名称
-- 日本語表記は「レンとジル」（「＆」は使わない）。英語表記は「Ren & Jill」。
-- バナー（X / YouTube / Facebook）は英語見出し「REN & JILL」＋日本語小見出し「レンとジル」（`rig/banners.html`、出力は `assets/`）。
-- TikTokの表示名は 2026-10-26 以降に「レンとジル Ren & Jill」へ変更（7日に1回制限。リマインドをメールで送る）。
+- 日本語表記は「東京うさぎオフィス」（「＆」は使わない）。英語表記は「Tokyo Usagi Office」。
+- バナー（X / YouTube / Facebook）は英語見出し「TOKYO USAGI OFFICE」＋日本語小見出し「東京うさぎオフィス」（`rig/banners.html`、出力は `assets/`）。
+- TikTokの表示名は 2026-10-26 以降に「東京うさぎオフィス Tokyo Usagi Office」へ変更（7日に1回制限。リマインドをメールで送る）。
 
 ## 全自動のネタ作り→検査→ブラッシュアップ→投稿（2026-10-20 決定）
 | いつ | だれが | なにを |

@@ -1,7 +1,7 @@
 // 「サンタ帽」（約9.5秒・セリフなし）v2 演出／キャラは本番の rig.js
-// 状況：クリスマス週。ジルは小さなサンタ帽をちょこんと（にこ）
-// ひっくり返し：課長の帽子は特大。かぶったら全身が赤い三角に → よちよち歩いてジルにごつん
-// オチ：ジルが帽子を持ち上げると、中で課長がぐっすり。字幕「中で寝てた」
+// 状況：クリスマス週。ユズは小さなサンタ帽をちょこんと（にこ）
+// ひっくり返し：課長の帽子は特大。かぶったら全身が赤い三角に → よちよち歩いてユズにごつん
+// オチ：ユズが帽子を持ち上げると、中で課長がぐっすり。字幕「中で寝てた」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
 const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
@@ -23,17 +23,17 @@ var EP = {
     const bg = L.office({ sky: 'day', clock: [10, 0] });
     const drop = ease(seg(t, 2.2, 2.7));                       // 特大の帽子が上から
     const walk = ease(seg(t, 3.1, 4.8));                       // よちよち左へ
-    const lift = ease(seg(t, 5.4, 6.1));                       // ジルが持ち上げる
+    const lift = ease(seg(t, 5.4, 6.1));                       // ユズが持ち上げる
     const hx = 830 - 140 * walk, wob = t > 3.1 && t < 4.8 ? Math.sin(t * 14) * 7 : 0;
     const covered = t >= 2.65 && t < 5.7;
-    // ジル（左）：帽子をかぶる（にこ）→ 特大を見て「！」→ ごつん（びっくり）→ 持ち上げる（lean）→ ジト目
+    // ユズ（左）：帽子をかぶる（にこ）→ 特大を見て「！」→ ごつん（びっくり）→ 持ち上げる（lean）→ ジト目
     const jface = t < 2.2 ? Object.assign({}, RIG.FACES.smile, { sparkle: t > .8 && t < 1.6 ? 1 : 0 }) : t < 4.8 ? Object.assign({}, RIG.FACES.surprised, { excl: 0 }) : t < 5.4 ? Object.assign({}, RIG.FACES.surprised, { excl: 1 }) : t < 6.4 ? RIG.FACES.think : RIG.FACES.annoyed;
     const jlift = t >= 5.3 && t < 6.3;
     const jp = Object.assign({}, jlift ? RIG.POSES.lean : RIG.POSES.sit, jface, { x: 30, y: DESK - 413 * 1.3, scale: 1.3, eyeLook: .8, bodyTilt: jlift ? -10 : 0 });
-    // ジルの小さな帽子（頭の上）
+    // ユズの小さな帽子（頭の上）
     const jhat = t >= .8 ? `<g transform="translate(264 ${1012 - (jlift ? 0 : 0)}) scale(${outBack(seg(t, .8, 1.1))})">${HAT(0, 0, 120, 110, 50, 8)}</g>` : '';
     L.char('jil', jp, t, jhat, {});
-    // レン（右）：ふつう → 帽子の中（見えない）→ 中でぐっすり（loaf・sleepy）→ 起きずにご満悦
+    // モチ（右）：ふつう → 帽子の中（見えない）→ 中でぐっすり（loaf・sleepy）→ 起きずにご満悦
     if (!covered) {
       const rx = t < 3 ? 540 : 540 - 140;
       const rface = t < 2.2 ? Object.assign({}, RIG.FACES.smile, { sparkle: t > 1.6 ? 1 : 0 }) : t < 3 ? Object.assign({}, RIG.FACES.surprised, { excl: 0 }) : RIG.FACES.sleepy;
@@ -51,7 +51,7 @@ var EP = {
     if (t > 2.65 && t < 3.0) fx += L.impact(hx, DESK - 20, seg(t, 2.65, 3.0), .8, '#D9372E');
     if (t > 4.8 && t < 5.2) fx += L.impact(430, DESK - 300, seg(t, 4.8, 5.2), .8, '#F2C230');
     if (t > 6.6 && t < 8.6) fx += L.emark(220, DESK - 650, 1.0, '…');
-    let ui = (t > 1.0 && t < 2.3 ? CHIP(L, 'SANTA HATS', 'サンタ帽、ジルはちょこん', 1580, seg(t, 1.0, 1.3)) : '')
+    let ui = (t > 1.0 && t < 2.3 ? CHIP(L, 'SANTA HATS', 'サンタ帽、ユズはちょこん', 1580, seg(t, 1.0, 1.3)) : '')
       + (t > 2.9 && t < 4.6 ? CHIP_OFF(L, "BOSS'S HAT: XXL", '上司の帽子：特大', 1580, seg(t, 2.9, 3.2)) : '')
       + (t > 6.3 && t < 8.6 ? CHIP_OFF(L, 'INSIDE: ASLEEP', '中で寝てた', 1580, seg(t, 6.3, 6.6)) : '');
     const cam = L.camAt([

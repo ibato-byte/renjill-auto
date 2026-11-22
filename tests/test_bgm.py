@@ -37,7 +37,7 @@ class PlanTest(unittest.TestCase):
             st = {"episodes": {f"2026-01-{k + 1:02d}": {"yt": "x"} for k in range(i)}}
             p = bgm.plan("2026-11-14", st, CFG)
             self.assertLessEqual(len(p["title"]), 100); self.assertNotRegex(p["title"], "[<>]")
-            self.assertIn("Ren & Jill", p["title"]); self.assertIn(th["ja"], p["title"])
+            self.assertIn("Tokyo Usagi Office", p["title"]); self.assertIn(th["ja"], p["title"])
             for lang, v in bgm.localizations(p, p["title"], "x").items(): self.assertLessEqual(len(v["title"]), 100, lang)
 
     def test_themes_are_valid(self):

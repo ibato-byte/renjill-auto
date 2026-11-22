@@ -1,7 +1,7 @@
 // 「机の観葉植物」（約9.5秒・セリフなし）v2 演出／キャラは本番の rig.js
-// 状況：レンの机の植物がしおれている（葉が垂れる）。レンはコーヒーをかける（茶色の水）→ もっとしおれる
-// ひっくり返し：ジルがそっと造花（プラスチック、タグつき）に取り替える → 葉がピン
-// オチ：レンは気づかず、翌日もコーヒーをかける。字幕「造花。それでも水やり」
+// 状況：モチの机の植物がしおれている（葉が垂れる）。モチはコーヒーをかける（茶色の水）→ もっとしおれる
+// ひっくり返し：ユズがそっと造花（プラスチック、タグつき）に取り替える → 葉がピン
+// オチ：モチは気づかず、翌日もコーヒーをかける。字幕「造花。それでも水やり」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
 const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
@@ -22,19 +22,19 @@ var EP = {
     const pour1 = t > 1.6 && t < 2.4, pour2 = t > 7.8 && t < 8.5;
     const swap = t >= 4.8;
     const droop = t < 2.4 ? .6 : t < 4.8 ? Math.min(1, .6 + seg(t, 2.4, 3.2) * .4) : 1 - outBack(seg(t, 5.0, 5.6));
-    // レン（右）：植物をじっと見る → コーヒーをかける（lean）→ もっとしおれて汗 → 4.0〜5.6 席を外す（右へ消える）→ 翌日戻って、ピンとした葉ににこにこ → またコーヒー
+    // モチ（右）：植物をじっと見る → コーヒーをかける（lean）→ もっとしおれて汗 → 4.0〜5.6 席を外す（右へ消える）→ 翌日戻って、ピンとした葉ににこにこ → またコーヒー
     const out = t >= 4.0 && t < 6.6;
     const rface = t < 2.4 ? RIG.FACES.think : t < 4.0 ? Object.assign({}, RIG.FACES.oops, { sweat: 1 }) : RIG.FACES.smile;
     const rh = t >= 4.0 && t < 4.6 ? RIG.hop(t, 4.0, 4.6, 540, 1300, { hops: 2, height: 40 }) : t >= 6.6 && t < 7.2 ? RIG.hop(t, 6.6, 7.2, 1300, 540, { hops: 2, height: 40 }) : { x: out ? 1300 : 540, yOff: 0, squash: 0 };
     const rp = Object.assign({}, pour1 || pour2 ? RIG.POSES.lean : RIG.POSES.sit, rface, { x: rh.x, y: DESK - 413 * 1.35 + rh.yOff, scale: 1.35, flip: true, bodySquash: rh.squash, bodyTilt: pour1 || pour2 ? -10 : 0, eyeLook: .6, question: t < 2.4 ? 1 : 0 });
     L.char('ren', rp, t, '', { vx: t >= 4.0 && t < 4.6 ? 1200 : t >= 6.6 && t < 7.2 ? -1200 : 0 });
-    // ジル（左）：4.0 にそっと来て、4.8 鉢を取り替える（造花）→ 5.6 席へ戻る
+    // ユズ（左）：4.0 にそっと来て、4.8 鉢を取り替える（造花）→ 5.6 席へ戻る
     const jh = t >= 4.0 && t < 4.4 ? RIG.hop(t, 4.0, 4.4, 40, 200, { hops: 1, height: 30 }) : t >= 5.6 && t < 6.0 ? RIG.hop(t, 5.6, 6.0, 200, 40, { hops: 1, height: 30 }) : { x: t >= 4.4 && t < 5.6 ? 200 : 40, yOff: 0, squash: 0 };
     const jp = Object.assign({}, t >= 4.4 && t < 5.6 ? RIG.POSES.lean : RIG.POSES.sit, t < 6.6 ? RIG.FACES.sharp : RIG.FACES.smug, { x: jh.x, y: DESK - 413 * 1.3 + jh.yOff, scale: 1.3, bodySquash: jh.squash, bodyTilt: t >= 4.4 && t < 5.6 ? -12 : 0, eyeLook: .7 });
     L.char('jil', jp, t, '', {});
     let fx = `${L.deskFront(DESK)}`
       + [60, 560].map(x => `${L.drawer(x, DESK)}`).join('');
-    // 鉢（レンの机の手前・中央寄り）。取り替えの瞬間は上に持ち上がって入れ替わる
+    // 鉢（モチの机の手前・中央寄り）。取り替えの瞬間は上に持ち上がって入れ替わる
     const lift = t > 4.8 && t < 5.0 ? Math.sin(seg(t, 4.8, 5.0) * Math.PI) * 160 : 0;
     fx += POT(640, DESK - 40 - lift, droop, swap, 1.0);
     if (t > 4.8 && t < 5.2) fx += L.impact(640, DESK - 180, seg(t, 4.8, 5.2), .9, '#5DBB63');
@@ -44,13 +44,13 @@ var EP = {
     if (t > 2.4 && t < 4.0) fx += L.emark(900, DESK - 700, 1.0, '…');
     if (day2) fx += `<rect x="-500" y="-500" width="2080" height="1400" fill="#FFF0C8" opacity="${(.18 * Math.min(1, (t - 6.6) * 2)).toFixed(2)}" pointer-events="none"/>`;
     let ui = (t > 1.8 && t < 3.4 ? CHIP(L, 'DESK PLANT: WILTING', '上司の机の植物。水やりはコーヒー', 1580, seg(t, 1.8, 2.1)) : '')
-      + (t > 5.0 && t < 6.4 ? CHIP_OFF(L, 'JILL: SWAP. PLASTIC.', 'ジルがそっと造花に', 1580, seg(t, 5.0, 5.3)) : '')
+      + (t > 5.0 && t < 6.4 ? CHIP_OFF(L, 'YUZU: SWAP. PLASTIC.', 'ユズがそっと造花に', 1580, seg(t, 5.0, 5.3)) : '')
       + (t > 7.4 && t < 8.6 ? CHIP_OFF(L, 'NEXT DAY: COFFEE AGAIN', '翌日。それでも水やり（コーヒー）', 1580, seg(t, 7.4, 7.7)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.35, cx: 640, cy: 1150 },
       { t: 0.01, z: 1.1, cx: 600, cy: 1120, d: .9 },
       { t: 1.5, z: 1.3, cx: 650, cy: 1200, d: .5 },                 // コーヒー
-      { t: 3.9, z: 1.05, cx: 540, cy: 1100, d: .5 },                // ジルが来る
+      { t: 3.9, z: 1.05, cx: 540, cy: 1100, d: .5 },                // ユズが来る
       { t: 4.7, z: 1.3, cx: 600, cy: 1180, d: .4 },                 // 取り替え
       { t: 6.5, z: 1.05, cx: 600, cy: 1100, d: .5 },
       { t: 7.7, z: 1.3, cx: 650, cy: 1200, d: .5 },                 // またコーヒー

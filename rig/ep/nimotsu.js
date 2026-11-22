@@ -1,5 +1,5 @@
 // 「帰省の荷造り」（約9.5秒・セリフなし）v2 演出／キャラは本番の rig.js
-// 状況：年末。ジルは小さなスーツケースに服をきちんと。ふたがパチン（✓）
+// 状況：年末。ユズは小さなスーツケースに服をきちんと。ふたがパチン（✓）
 // ひっくり返し：課長のスーツケースは牧草だけ。あふれてふたが閉まらない → 上に乗ってぎゅっぎゅっ
 // オチ：ばーんと開いて牧草が舞う。課長は牧草の上でご満悦。字幕「上司の荷物：牧草だけ」
 document.write('<script src="v2/lib.js"><\/script>');
@@ -25,11 +25,11 @@ var EP = {
     const stuff = seg(t, 2.8, 4.2);                         // 牧草を詰める
     const sitting = t >= 4.2 && t < 5.8;
     const burst = t >= 5.8;
-    // ジル（左）：服をたたむ（lean）→ パチン（✓・にこ）→ 課長を見る → ばーんに「！」→ ジト目
+    // ユズ（左）：服をたたむ（lean）→ パチン（✓・にこ）→ 課長を見る → ばーんに「！」→ ジト目
     const jface = t < 2.2 ? RIG.FACES.smile : t < 5.8 ? RIG.FACES.think : t < 7.0 ? Object.assign({}, RIG.FACES.surprised, { excl: 1 }) : RIG.FACES.annoyed;
     const jlean = t > .7 && t < 1.8;
     L.char('jil', Object.assign({}, jlean ? RIG.POSES.lean : RIG.POSES.sit, jface, { x: 0, y: DESK - 413 * 1.3, scale: 1.3, eyeLook: .8, bodyTilt: jlean ? -10 : 0 }), t, '', {});
-    // レン：詰める（lean・にこ）→ ケースの上に乗ってぎゅっ（上下）→ ばーん（binky）→ 牧草の上でご満悦
+    // モチ：詰める（lean・にこ）→ ケースの上に乗ってぎゅっ（上下）→ ばーん（binky）→ 牧草の上でご満悦
     const bounce = sitting ? Math.abs(Math.sin((t - 4.2) * Math.PI / .4)) * 40 : 0;
     const ry = sitting ? DESK - 200 - 413 * 1.15 + bounce * .4 : burst ? DESK - 230 - 413 * 1.15 - 160 * (1 - ease(seg(t, 5.8, 6.6))) : DESK - 413 * 1.35;
     const rface = t < 2.8 ? RIG.FACES.neutral : t < 4.2 ? RIG.FACES.smile : sitting ? RIG.FACES.sharp : t < 6.6 ? Object.assign({}, RIG.FACES.surprised, { excl: 1 }) : Object.assign({}, RIG.FACES.smug, { sparkle: 1 });
@@ -37,7 +37,7 @@ var EP = {
     L.char('ren', Object.assign({}, rpose, rface, { x: sitting || burst ? RX - 270 : 600, y: ry, scale: sitting || burst ? 1.15 : 1.35, flip: true, eyeLook: -.3, bodyTilt: t >= 2.8 && t < 4.2 ? -10 : 0 }), t, '', {});
     let fx = `${L.deskFront(DESK)}`
       + [60, 560].map(x => `${L.drawer(x, DESK)}`).join('');
-    // ジルのスーツケース：たたんだ服（1.0〜1.6）→ 1.8 でパチン
+    // ユズのスーツケース：たたんだ服（1.0〜1.6）→ 1.8 でパチン
     const clothes = t >= .9 ? `<g>${[0, 1].map(i => `<rect x="${280 + i * 70}" y="${DESK - 150}" width="60" height="${18 + i * 4}" rx="6" fill="${i ? '#F07A8A' : '#9BC7E8'}"/>`).join('')}</g>` : '';
     fx += CASE(340, DESK, 200, 130, '#5BA6D6', t < 1.8 ? 1 : 0, t < 1.8 ? clothes : '');
     if (t > 1.8 && t < 2.6) fx += L.check(340, DESK - 260, outBack(seg(t, 1.8, 2.1)), .45);

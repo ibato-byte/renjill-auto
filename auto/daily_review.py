@@ -21,7 +21,7 @@ EXP_HEADER = ["投稿日", "ep", "変数", "標準", "試す値", "理由", "状
 SLOTS = ["12:00", "18:00", "19:00"]  # post.yml の cron がある時刻
 CTAS = [  # 一言（英語が先・日本語が後）。1つずつ試す
     "Send this to the coworker who needs it./あの同僚に送ってあげて",
-    "Which one is your boss?/あなたの職場のレンは誰？",
+    "Which one is your boss?/あなたの職場のモチは誰？",
     "Save this for your next Monday./月曜の朝のために保存して",
 ]
 VARIABLES = ["thumb_variant", "tag_set", "cta", "slot"]  # この順にめぐる（効かなかったものは後回し）

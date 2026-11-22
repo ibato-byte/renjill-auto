@@ -108,5 +108,5 @@ jobs:
           [ -s dist/comments_log.md ] && kp+=(--log "$(cat dist/comments_log.md)")
           [ -f dist/compile_summary.txt ] && sum="$sum。$(cat dist/compile_summary.txt)"
           bash "$RUNNER_TEMP/hub/scripts/gha.sh" report renjill-growth "$JOB_STATUS" "$PAUSED" "$sum" \
-            --does "毎日、フォロワーを増やすための追加の投稿・確認を行う（レンとジル）" "${kp[@]}" \
+            --does "毎日、フォロワーを増やすための追加の投稿・確認を行う（東京うさぎオフィス）" "${kp[@]}" \
             --next-run-at "$(bash "$RUNNER_TEMP/hub/scripts/gha.sh" next-daily 03:40 09:40 15:40 20:30 21:40)"

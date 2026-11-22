@@ -1,10 +1,10 @@
 // 「了解です」スタンプ（セリフなし・約11秒）
-// ゲーム：チャットの通知が来るたび、レンが親指スタンプをぽんと押す。①資料依頼(小) ②トラブル(中) ③ジルの「辞めます」(大)にも親指。
-// ジルが固まる → レンが気づいて土下座スタンプを連打（画面いっぱい）→（間）→ オチ：レンの親指だけが勝手に動いて親指スタンプを押し続ける。ジルはあきれ顔
+// ゲーム：チャットの通知が来るたび、モチが親指スタンプをぽんと押す。①資料依頼(小) ②トラブル(中) ③ユズの「辞めます」(大)にも親指。
+// ユズが固まる → モチが気づいて土下座スタンプを連打（画面いっぱい）→（間）→ オチ：モチの親指だけが勝手に動いて親指スタンプを押し続ける。ユズはあきれ顔
 const SCR = { x: 556, y: 396, w: 468, h: 738 };          // チャット画面（ワールド座標）
 const ROW0 = [485, 690, 895];                              // 3つの通知の行
 const ARR = [0.0, 2.55, 4.4];                              // 通知が来る時刻
-const TAP = [0.8, 3.3, 5.1];                               // レンが親指を押す時刻
+const TAP = [0.8, 3.3, 5.1];                               // モチが親指を押す時刻
 const DOG = [7.05, 7.28, 7.47, 7.63, 7.77, 7.89, 8.0];   // 土下座スタンプ連打
 const TH2 = [8.95, 9.4, 9.8, 10.1, 10.32];              // 勝手に押す親指（だんだん速く）
 
@@ -39,7 +39,7 @@ function stampDogeza(cx, cy, r, pop, rot) {                // 土下座スタン
 function bubbleBase(x, y, w, h, color, edge) {
   return [el('rect', { x, y, width: w, height: h, rx: 22, fill: color, stroke: edge, 'stroke-width': 5 }), el('path', { d: `M${x + 18} ${y + h - 4} l-12 18 l30 -14 Z`, fill: color, stroke: edge, 'stroke-width': 5, 'stroke-linejoin': 'round' })];
 }
-function msgIcon(kind, x, y, pop, t) {                     // 通知の中身（絵だけ）。0=資料依頼(小) 1=トラブル(中) 2=ジルの辞めます(大)
+function msgIcon(kind, x, y, pop, t) {                     // 通知の中身（絵だけ）。0=資料依頼(小) 1=トラブル(中) 2=ユズの辞めます(大)
   const g = [];
   if (kind === 0) {
     g.push(...bubbleBase(0, 0, 130, 96, '#FFFFFF', '#9FB3C8'));
@@ -100,7 +100,7 @@ window.EP = {
     // 勝手に押される親指スタンプ（だんだん大きく）
     TH2.forEach((a, i) => { const p = popK(a, 0.2); if (p > 0 && !(i < TH2.length - 1 && t > TH2[i] + 0.0 && false)) sc.appendChild(stampThumb(790 + (i % 2 ? 40 : -40), 760 + (i % 3) * 40 - 40, 90 + 24 * i, p)); });
 
-    // ---- レン
+    // ---- モチ
     const RX = 250, RY = 668;
     let R = Object.assign({}, RIG.POSES.sit, RIG.FACES.smile, { scale: 1.3, x: RX, y: RY, eyeLook: 0.7, blush: 0.2 });
     const fistT = [0, 0, 0];
@@ -117,7 +117,7 @@ window.EP = {
     if (t >= 10.3) Object.assign(R, RIG.FACES.oops, { eyeLook: 0.3, mouth: 'wavy', eyeOpen: 0.9 });
     const Rq = draw('ren', 'ren', R, t, { blink: false });
 
-    // ---- レンの親指（手前）。押すたびにぽんと動く／ラストは勝手に動く
+    // ---- モチの親指（手前）。押すたびにぽんと動く／ラストは勝手に動く
     let fx = 0, fy = 0, frot = 0;
     if (t < 8.9) { fy = 40 * fist; frot = -10 * fist; if (shake) { fy = 22 * Math.abs(Math.sin(t * 38)); frot = 14 * Math.sin(t * 38); } }
     else { fy = 46 * tw; frot = -14 * tw + 5 * Math.sin(t * 50) * (t > 9.2 ? 1 : 0); }
@@ -125,7 +125,7 @@ window.EP = {
     f.appendChild(el('g', { transform: `translate(${585 + fx} ${1120 + fy * 0.6}) rotate(${frot})` }, [thumbShape(1.5, '#E3C29C', '#8E7057')]));
     if (t >= 8.9 && tw > 0.2) for (let i = 0; i < 3; i++) f.appendChild(el('path', { d: `M${535 - i * 14} ${1080 + i * 22} q-18 6 -30 0`, stroke: '#8E7057', 'stroke-width': 5, fill: 'none', 'stroke-linecap': 'round', opacity: 0.8 }));
 
-    // ---- ジル
+    // ---- ユズ
     const JX = 640;
     let J = Object.assign({}, RIG.POSES.sit, RIG.FACES.neutral, { scale: 1.25, flip: true, x: JX, y: 1240, eyeLook: 0.9 });
     if (t >= 1.5 && t < 2.6) Object.assign(J, RIG.FACES.annoyed, { eyeOpen: 0.45, sweat: 0.4, eyeLook: -0.6 });   // 課長の返信を見て、ため息
@@ -139,16 +139,16 @@ window.EP = {
 
     // ---- カメラ
     const shots = [
-      { t: 0.0, cx: 650, cy: 850, z: 1.3, z2: 1.4 },                       // A 中：チャット画面とレンの親指
-      { t: 1.4, cx: FACE_JIL.x - 60, cy: FACE_JIL.y - 20, z: 2.3 },          // B 寄り：ジル、課長の返信にあきれ（心の声）
+      { t: 0.0, cx: 650, cy: 850, z: 1.3, z2: 1.4 },                       // A 中：チャット画面とモチの親指
+      { t: 1.4, cx: FACE_JIL.x - 60, cy: FACE_JIL.y - 20, z: 2.3 },          // B 寄り：ユズ、課長の返信にあきれ（心の声）
       { t: 2.4, cx: 600, cy: 840, z: 1.6 },                                  // C 中：トラブル通知、親指
-      { t: 4.2, cx: 790, cy: 860, z: 2.2, z2: 2.6 },                         // D 寄り：ジルの辞めます、親指
-      { t: 5.45, cx: FACE_JIL.x - 60, cy: FACE_JIL.y - 20, z: 2.6, z2: 2.9 },// E 寄り：ジル固まる
-      { t: 6.3, cx: 440, cy: 880, z: 2.0 },                                  // F 寄り：レン、気づく
+      { t: 4.2, cx: 790, cy: 860, z: 2.2, z2: 2.6 },                         // D 寄り：ユズの辞めます、親指
+      { t: 5.45, cx: FACE_JIL.x - 60, cy: FACE_JIL.y - 20, z: 2.6, z2: 2.9 },// E 寄り：ユズ固まる
+      { t: 6.3, cx: 440, cy: 880, z: 2.0 },                                  // F 寄り：モチ、気づく
       { t: 6.9, cx: 600, cy: 860, z: 1.4 },                                  // G 中：土下座連打
       { t: 8.1, cx: 440, cy: 900, z: 1.9, z2: 2.4 },                         // H 寄り：ため（無音）
       { t: 8.8, cx: 520, cy: 960, z: 1.6 },                                  // I 中：親指が勝手に動く
-      { t: 9.5, cx: 640, cy: 1160, z: 1.25, z2: 1.35 }                      // J 中：ジルあきれ顔と、止まらない親指が両方入る
+      { t: 9.5, cx: 640, cy: 1160, z: 1.25, z2: 1.35 }                      // J 中：ユズあきれ顔と、止まらない親指が両方入る
     ];
     camera(cameraAt(shots, t), 0);
     endcard(t, dur);

@@ -16,13 +16,13 @@ def episodes(o):
 
 class YtTitleTest(unittest.TestCase):
     def test_short_title_unchanged(self):
-        self.assertEqual(post.yt_title({"caption_en": "Short.", "title": "T"}), "Short. | Ren & Jill「T」")
+        self.assertEqual(post.yt_title({"caption_en": "Short.", "title": "T"}), "Short. | Tokyo Usagi Office「T」")
 
     def test_hanko_fits(self):
         p = {"caption_en": "The form needs 8 stamps. The boss runs out of ink at 7. Stamp 8 is a paw print. Approved.", "title": "ハンコ8個"}
         t = post.yt_title(p)
         self.assertLessEqual(len(t), 100)
-        self.assertTrue(t.endswith("| Ren & Jill「ハンコ8個」"), t)
+        self.assertTrue(t.endswith("| Tokyo Usagi Office「ハンコ8個」"), t)
         self.assertIn("…", t)
 
     def test_every_scheduled_title_is_valid(self):

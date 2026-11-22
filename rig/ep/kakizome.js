@@ -1,7 +1,7 @@
 // 「書き初め」（約9.5秒・セリフなし）v2 演出／キャラは本番の rig.js
-// 状況：1月5日。ジルが半紙に「努力」と書いて、壁にはる（にこ）
+// 状況：1月5日。ユズが半紙に「努力」と書いて、壁にはる（にこ）
 // ひっくり返し：課長も大きな筆で挑戦。机いっぱいにぶんぶん → 大きな紙が壁に
-// オチ：課長の抱負は「牧草」。課長はご満悦、ジルはジト目。字幕「今年の抱負：牧草」
+// オチ：課長の抱負は「牧草」。課長はご満悦、ユズはジト目。字幕「今年の抱負：牧草」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
 const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
@@ -21,24 +21,24 @@ var EP = {
     const { seg, ease, outBack } = L;
     const DESK = 1400;
     const bg = L.office({ sky: 'day', clock: [10, 0], noClock: true });
-    const write = seg(t, .8, 2.2);                          // ジルが書く
+    const write = seg(t, .8, 2.2);                          // ユズが書く
     const big = t >= 3.4 && t < 5.2;                        // 課長がぶんぶん
-    // ジル（左）：書く（lean・きりっ）→ はって満足（にこ）→ 課長を見る → 「牧草」にジト目
+    // ユズ（左）：書く（lean・きりっ）→ はって満足（にこ）→ 課長を見る → 「牧草」にジト目
     const jface = t < 2.3 ? RIG.FACES.sharp : t < 3.2 ? Object.assign({}, RIG.FACES.smile, { sparkle: 1 }) : t < 5.6 ? Object.assign({}, RIG.FACES.surprised, { excl: 0 }) : RIG.FACES.annoyed;
     const jw = t > .7 && t < 2.3;
     L.char('jil', Object.assign({}, jw ? RIG.POSES.lean : RIG.POSES.sit, jface, { x: 20, y: DESK - 413 * 1.3, scale: 1.3, eyeLook: t < 2.3 ? .3 : .9, bodyTilt: jw ? -10 : 0 }), t, '', {});
-    // レン（右）：じっと見る → やる気（stand・きらきら）→ 体ごとぶんぶん → ご満悦
+    // モチ（右）：じっと見る → やる気（stand・きらきら）→ 体ごとぶんぶん → ご満悦
     const rface = t < 2.6 ? RIG.FACES.neutral : t < 3.4 ? Object.assign({}, RIG.FACES.smile, { sparkle: 1 }) : t < 5.3 ? RIG.FACES.sharp : Object.assign({}, RIG.FACES.smug, { sparkle: t < 7.0 ? 1 : 0 });
     L.char('ren', Object.assign({}, t >= 2.8 && t < 5.3 ? RIG.POSES.stand : RIG.POSES.sit, rface, { x: 560, y: DESK - 413 * 1.35, scale: 1.35, flip: true, eyeLook: -.4, bodyTilt: big ? Math.sin(t * 16) * 9 : 0 }), t, '', {});
     let fx = `${L.deskFront(DESK)}`
       + [60, 560].map(x => `${L.drawer(x, DESK)}`).join('');
-    // 机の上：ジルの小さな半紙と硯、課長の大きな紙
+    // 机の上：ユズの小さな半紙と硯、課長の大きな紙
     fx += `<rect x="300" y="${DESK - 14}" width="200" height="16" fill="#FFFDF7" stroke="#D7CCBB" stroke-width="3"/><rect x="190" y="${DESK - 30}" width="80" height="32" rx="8" fill="#2E2A27"/>`;
     fx += `<rect x="640" y="${DESK - 14}" width="380" height="16" fill="#FFFDF7" stroke="#D7CCBB" stroke-width="3"/>`;
     if (jw) fx += BRUSH(330 + 140 * write + Math.sin(t * 14) * 12, DESK - 16, -20 + Math.sin(t * 10) * 10, 170);
     if (t >= 2.8 && t < 5.3) { const u = big ? Math.sin((t - 3.4) * 7) : 0; fx += BRUSH(830 + u * 170, DESK - 18 - (t < 3.4 ? 120 * (3.4 - t) / .6 : 0), u * 40, 420); }
     if (big) fx += `<g fill="#1E1A17">${[0, 1, 2, 3, 4].map(i => { const a = (t * 3 + i * 1.3) % 1; return `<circle cx="${700 + i * 70 + Math.sin(i * 7) * 30}" cy="${DESK - 40 - a * 160}" r="${9 * (1 - a)}" opacity="${(1 - a).toFixed(2)}"/>`; }).join('')}</g>`;
-    // 壁：ジルの「努力」→ 課長の「牧草」
+    // 壁：ユズの「努力」→ 課長の「牧草」
     fx += SHEET(250, 470, 170, 300, ['努', '力'], 1, outBack(seg(t, 2.2, 2.6)));
     fx += SHEET(800, 470, 260, 380, ['牧', '草'], seg(t, 5.5, 6.1), outBack(seg(t, 5.3, 5.7)));
     if (t > 5.3 && t < 5.7) fx += L.impact(800, 470, seg(t, 5.3, 5.7), 1.1, '#1E1A17');

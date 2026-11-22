@@ -1,12 +1,12 @@
 // 「鏡もち」（約9.5秒・セリフなし）v2 演出／キャラは本番の rig.js
-// 状況：年末。ジルが机に小さな鏡もち（飾り）を置く（にこ）
+// 状況：年末。ユズが机に小さな鏡もち（飾り）を置く（にこ）
 // ひっくり返し：課長も作る → 牧草の丸い束を2段重ね＋上ににんじんの葉 → 「上司の鏡もち：牧草製」
 // オチ：少し目を離すと、下の段から食べている → 上の段が傾いて落ちる。字幕「飾る前に、食べはじめ」
 // （うさぎにおもちは食べさせない。もちは飾りだけ、課長が食べるのは牧草）
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
 const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
-// ジルの鏡もち（飾り）：台＋白いもち2段＋だいだい（オレンジの丸）
+// ユズの鏡もち（飾り）：台＋白いもち2段＋だいだい（オレンジの丸）
 const MOCHI = (x, y, s) => `<g transform="translate(${x} ${y}) scale(${s})"><path d="M-80 0 L80 0 L64 -40 L-64 -40 Z" fill="#E9D2A8" stroke="#C9A06A" stroke-width="4"/><rect x="-74" y="-48" width="148" height="12" rx="4" fill="#FFFDF7" stroke="#E3D6C6" stroke-width="3"/>`
   + `<ellipse cx="0" cy="-74" rx="66" ry="30" fill="#FFFDF7" stroke="#E3D6C6" stroke-width="4"/><ellipse cx="0" cy="-110" rx="48" ry="24" fill="#FFFDF7" stroke="#E3D6C6" stroke-width="4"/><circle cx="0" cy="-140" r="20" fill="#F29A3A"/><path d="M0 -158 l10 -10" stroke="#5E9E4A" stroke-width="5" stroke-linecap="round"/></g>`;
 // 牧草の丸い束（中心 x,y・半径 r・かじられた量 bite 0〜1）
@@ -27,18 +27,18 @@ var EP = {
     const bite = seg(t, 4.4, 6.0);                      // 下の段をかじる
     const fall = ease(seg(t, 6.0, 6.6));                // 上の段が落ちる
     const munch = t >= 4.4 && t < 6.0;
-    // ジル（左）：飾る（lean）→ 満足 → 課長の牧草の鏡もちに「…」→ 書類を見る（目を離す）→ 落ちる音で顔を上げる → ジト目
+    // ユズ（左）：飾る（lean）→ 満足 → 課長の牧草の鏡もちに「…」→ 書類を見る（目を離す）→ 落ちる音で顔を上げる → ジト目
     const away = t >= 4.2 && t < 6.0;
     const jface = t < 2.2 ? RIG.FACES.smile : t < 4.2 ? RIG.FACES.think : away ? RIG.FACES.sharp : t < 7.0 ? Object.assign({}, RIG.FACES.surprised, { excl: 1 }) : RIG.FACES.annoyed;
     const jlean = t > .7 && t < 1.3;
     L.char('jil', Object.assign({}, jlean ? RIG.POSES.lean : RIG.POSES.sit, jface, { x: 0, y: DESK - 413 * 1.3, scale: 1.3, eyeLook: away ? 0 : .8, headNod: away ? 14 : 0, bodyTilt: jlean ? -10 : 0 }), t, '', {});
-    // レン（右）：牧草を積む（lean・得意げ）→ 見つめる（目がきらっ）→ 下の段をかじる（lean・もぐもぐ）→ 落ちて固まる → ご満悦
+    // モチ（右）：牧草を積む（lean・得意げ）→ 見つめる（目がきらっ）→ 下の段をかじる（lean・もぐもぐ）→ 落ちて固まる → ご満悦
     const build = t >= 2.0 && t < 3.3;
     const rface = t < 2.0 ? RIG.FACES.smile : t < 3.6 ? RIG.FACES.smug : t < 4.4 ? Object.assign({}, RIG.FACES.smile, { sparkle: 1 }) : munch ? RIG.FACES.smile : t < 7.0 ? Object.assign({}, RIG.FACES.surprised, { excl: 0 }) : RIG.FACES.smug;
     L.char('ren', Object.assign({}, build || munch ? RIG.POSES.lean : RIG.POSES.sit, rface, { x: 600, y: DESK - 413 * 1.35, scale: 1.35, flip: true, eyeLook: -.5, bodyTilt: build || munch ? -12 : 0, headNod: munch ? Math.abs(Math.sin(t * 16)) * 10 : 0 }), t, '', {});
     let fx = `${L.deskFront(DESK)}`
       + [60, 560].map(x => `${L.drawer(x, DESK)}`).join('');
-    // ジルの鏡もち（飾り）
+    // ユズの鏡もち（飾り）
     if (t >= .9) fx += MOCHI(400, DESK + 4, outBack(seg(t, .9, 1.2)) * .75);
     // 課長の鏡もち（牧草）：下の段 2.3、上の段 2.8、にんじんの葉 3.2
     if (t >= 2.3) fx += `<g transform="translate(0 ${-(1 - outBack(seg(t, 2.3, 2.6))) * 60})">${BALE(BX - 40 * bite, DESK - 70 + 14 * bite, 120 * (1 - .4 * bite), 70 * (1 - .2 * bite), 0)}</g>`;

@@ -1,5 +1,5 @@
 // 「窓のくもり」（約9.5秒・セリフなし）v2 演出／キャラは本番の rig.js
-// 状況：寒い朝。窓が白くくもっている。ジルが指で小さなハートをかく（ほっこり）
+// 状況：寒い朝。窓が白くくもっている。ユズが指で小さなハートをかく（ほっこり）
 // ひっくり返し：課長も窓へ。「はぁ〜」と息でもっとくもらせて、大きく、大きく……
 // オチ：窓いっぱいに課長の自画像（耳つき・どや顔）。字幕「上司のらくがき：窓いっぱいの自画像」
 document.write('<script src="v2/lib.js"><\/script>');
@@ -20,11 +20,11 @@ var EP = {
     const { seg, ease, outBack } = L;
     const DESK = 1400;
     const bg = L.office({ sky: 'day', clock: [8, 30] });
-    // ジル（左）：立って窓にハート（ほっこり）→ 課長の「はぁ〜」に「？」→ 自画像に「！」→ ジト目
+    // ユズ（左）：立って窓にハート（ほっこり）→ 課長の「はぁ〜」に「？」→ 自画像に「！」→ ジト目
     const jUp = t > .5 && t < 2.2;
     const jface = t < 2.2 ? Object.assign({}, RIG.FACES.smile, { blush: .4 }) : t < 3.8 ? Object.assign({}, RIG.FACES.think, { question: 1 }) : t < 5.6 ? Object.assign({}, RIG.FACES.surprised, { excl: 1 }) : RIG.FACES.annoyed;
     L.char('jil', Object.assign({}, jUp ? RIG.POSES.stand : RIG.POSES.sit, jface, { x: 20, y: DESK - 413 * 1.3, scale: 1.3, eyeLook: t > 2.4 ? .9 : .2 }), t, '', {});
-    // レン（右）：見ている → 立って窓へ「はぁ〜」→ かく（きりっ）→ ご満悦
+    // モチ（右）：見ている → 立って窓へ「はぁ〜」→ かく（きりっ）→ ご満悦
     const rUp = t > 2.8 && t < 5.6, breath = t > 3.0 && t < 3.7;
     const rface = t < 2.8 ? RIG.FACES.neutral : breath ? Object.assign({}, RIG.FACES.surprised, { excl: 0, eyeOpen: .3 }) : t < 5.6 ? RIG.FACES.sharp : Object.assign({}, RIG.FACES.smug, { sparkle: t < 7.2 ? 1 : 0 });
     L.char('ren', Object.assign({}, rUp ? RIG.POSES.stand : RIG.POSES.sit, rface, { x: 560, y: DESK - 413 * 1.35, scale: 1.35, flip: true, eyeLook: -.3, headNod: breath ? -10 : 0 }), t, '', {});
@@ -34,7 +34,7 @@ var EP = {
     fx += `<rect x="${WL}" y="${WY}" width="${WW}" height="${WH}" rx="6" fill="#F4F7FA" opacity=".6"/><rect x="${WR}" y="${WY}" width="${WW}" height="${WH}" rx="6" fill="#F4F7FA" opacity="${fogR}"/>`;
     if (breath) fx += [0, 1, 2, 3].map(i => `<circle cx="${WR + 160 + Math.sin(i * 2.1) * 70}" cy="${WY + 300 - i * 40 - (t - 3.0) * 60}" r="${40 + i * 14 + (t - 3.0) * 40}" fill="#FFFFFF" opacity="${.5 - i * .08}"/>`).join('')
       + `<text x="${WR + 160}" y="${WY + WH + 120}" text-anchor="middle" font-family="Noto Sans CJK JP" font-weight="900" font-size="72" fill="#8C7B66" stroke="#FFF7E8" stroke-width="10" paint-order="stroke">はぁ〜</text>`;
-    // ジルのハート（左の窓・小さく）
+    // ユズのハート（左の窓・小さく）
     const hx = WL + 160, hy = WY + 210;
     fx += DRAW(`M${hx} ${hy + 40} C${hx - 70} ${hy - 10} ${hx - 40} ${hy - 60} ${hx} ${hy - 26} C${hx + 40} ${hy - 60} ${hx + 70} ${hy - 10} ${hx} ${hy + 40}`, seg(t, .8, 1.8), 12);
     // 課長の自画像（右の窓いっぱい）：顔の輪 → 耳2本 → 目・鼻・どや口
@@ -48,7 +48,7 @@ var EP = {
       + (fk > .7 ? `<path d="M${cx - 40} ${cy + 52} Q${cx} ${cy + 80} ${cx + 40} ${cy + 46}" stroke="#8FC3E8" stroke-width="12" fill="none" stroke-linecap="round"/>` : '');
     if (t > 5.6 && t < 7.0) fx += L.sparkles(cx, cy, t, 1.8, 8);
     if (t > 7.0 && t < 8.6) fx += L.emark(220, DESK - 660, 1.0, '…');
-    let ui = (t > 0.8 && t < 2.6 ? CHIP(L, 'FOGGY WINDOW', 'ジル、窓に小さなハート', 1650, seg(t, .8, 1.1)) : '')
+    let ui = (t > 0.8 && t < 2.6 ? CHIP(L, 'FOGGY WINDOW', 'ユズ、窓に小さなハート', 1650, seg(t, .8, 1.1)) : '')
       + (t > 6.0 && t < 8.6 ? CHIP_OFF(L, 'BOSS DRAWS: HIMSELF', '上司のらくがき：窓いっぱいの自画像', 1650, seg(t, 6.0, 6.3)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.25, cx: 460, cy: 800 },

@@ -1,7 +1,7 @@
 // 「有給の申請」（約9.5秒・セリフなし）v2 演出／キャラは本番の rig.js
-// 状況：ジルが有給の申請書（カレンダーの絵＋日付の丸）を出す。レンは書類を見ずにハンコ（✓）
+// 状況：ユズが有給の申請書（カレンダーの絵＋日付の丸）を出す。モチは書類を見ずにハンコ（✓）
 // ひっくり返し：押した直後、壁のカレンダーを見る → その日は大事な会議の日（赤い丸＝同じ日）→ 取り消そうと振り向く
-// オチ：ジルはもう帽子とかばんで出発済み（0.5秒）。字幕「承認の0.5秒後、出発済み」
+// オチ：ユズはもう帽子とかばんで出発済み（0.5秒）。字幕「承認の0.5秒後、出発済み」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
 const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
@@ -22,12 +22,12 @@ var EP = {
     const ring = t >= 4.4 ? outBack(seg(t, 4.4, 4.8)) : 0;
     const bg = L.office({ sky: 'day', clock: [16, 0] }) + WALLCAL(540, 610, ring);
     const stamped = t >= 2.6;
-    const gone = t >= 6.0;                                     // ジル、出発済み
-    // レン（右）：書類を見ずにハンコ（にこにこ）→ 3.8 ふと壁のカレンダーを見る（上を向く）→ 4.4 赤い丸に気づく（！汗）→ 5.4 振り向く → 空席に固まる
+    const gone = t >= 6.0;                                     // ユズ、出発済み
+    // モチ（右）：書類を見ずにハンコ（にこにこ）→ 3.8 ふと壁のカレンダーを見る（上を向く）→ 4.4 赤い丸に気づく（！汗）→ 5.4 振り向く → 空席に固まる
     const rface = t < 3.8 ? RIG.FACES.smile : t < 4.4 ? RIG.FACES.neutral : t < 7.2 ? Object.assign({}, RIG.FACES.surprised, { excl: 0 }) : Object.assign({}, RIG.FACES.oops, { sweat: 1 });
     const rp = Object.assign({}, RIG.POSES.sit, rface, { x: 540, y: DESK - 413 * 1.35, scale: 1.35, flip: true, eyeLook: t < 3.8 ? .3 : t < 5.4 ? -.2 : .9, headNod: t >= 3.8 && t < 5.4 ? -22 : t >= 2.4 && t < 2.8 ? 16 : 0, headTilt: t >= 5.4 ? -10 : 0, bodySquash: t >= 7.2 ? -.2 : 0 });
     L.char('ren', rp, t, '', {});
-    // ジル（左）：1.0 書類を差し出す（lean）→ ✓ を見てにこ → 5.4〜5.8 で一気に左へ（帽子・かばん）
+    // ユズ（左）：1.0 書類を差し出す（lean）→ ✓ を見てにこ → 5.4〜5.8 で一気に左へ（帽子・かばん）
     if (!gone) {
       const dash = t >= 5.4 ? RIG.hop(t, 5.4, 6.0, 40, -800, { hops: 2, height: 60 }) : { x: 40, yOff: 0, squash: 0 };
       const jface = t < 2.6 ? RIG.FACES.sharp : RIG.FACES.smile;
@@ -48,14 +48,14 @@ var EP = {
     if (t >= 7.2) fx += L.qmark(900, DESK - 700, 1.0);
     let ui = (t > 1.8 && t < 3.4 ? CHIP(L, 'PAID LEAVE: NOV 27', '有給11/27。上司は見ずに承認', 1380, seg(t, 1.8, 2.1)) : '')
       + (t > 4.6 && t < 5.6 ? CHIP_OFF(L, 'NOV 27: THE BIG MEETING', '11/27は大事な会議の日', 1380, seg(t, 4.6, 4.9)) : '')
-      + (t > 6.2 && t < 8.6 ? CHIP_OFF(L, 'APPROVED. 0.5 SEC LATER:', '承認の0.5秒後、ジルは出発済み', 1380, seg(t, 6.2, 6.5)) : '');
+      + (t > 6.2 && t < 8.6 ? CHIP_OFF(L, 'APPROVED. 0.5 SEC LATER:', '承認の0.5秒後、ユズは出発済み', 1380, seg(t, 6.2, 6.5)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.35, cx: 540, cy: 1150 },
       { t: 0.01, z: 1.05, cx: 540, cy: 1100, d: .9 },
       { t: 2.2, z: 1.3, cx: 560, cy: 1250, d: .4 },                 // ハンコ
       { t: 3.8, z: 1.1, cx: 540, cy: 900, d: .5 },                  // 壁のカレンダー
       { t: 4.3, z: 1.4, cx: 550, cy: 670, d: .3 },
-      { t: 5.3, z: 1.0, cx: 500, cy: 1050, d: .4 },                 // 引き：ジルが消える
+      { t: 5.3, z: 1.0, cx: 500, cy: 1050, d: .4 },                 // 引き：ユズが消える
       { t: 7.0, z: 1.3, cx: 700, cy: 1120, d: .5 },
     ], t);
     if (t > 8.6) { fx = ''; ui = ''; }

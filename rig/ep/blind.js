@@ -1,5 +1,5 @@
 // 「ブラインド」（約9.5秒・セリフなし）v2 演出／キャラは本番の rig.js
-// 状況：朝。ジルがひもを引いて、ブラインドをすーっと上げる。光が入る（きりっ）
+// 状況：朝。ユズがひもを引いて、ブラインドをすーっと上げる。光が入る（きりっ）
 // ひっくり返し：課長も右の窓のひもを引く……ブラインドは上がらず、課長のほうが上がっていく（宙ぶらりん）
 // オチ：手をはなすとストン。ブラインドもバタンと全部しまる。字幕「上司のブラインド：本人が上がる」
 document.write('<script src="v2/lib.js"><\/script>');
@@ -27,11 +27,11 @@ var EP = {
     const lift = ease(seg(t, 3.5, 4.4)) * (1 - ease(seg(t, 5.0, 5.3)));   // 課長が上がる → ストン
     const shut = seg(t, 5.0, 5.3);                              // 右のブラインドがバタン
     const bg = L.office({ sky: 'day', clock: [9, 0] });
-    // ジル（左）：立ってひもを引く（きりっ）→ 光で満足 → 宙ぶらりんの課長に「！」→ ジト目
+    // ユズ（左）：立ってひもを引く（きりっ）→ 光で満足 → 宙ぶらりんの課長に「！」→ ジト目
     const jPull = t > .6 && t < 2.0;
     const jface = t < 2.0 ? RIG.FACES.sharp : t < 3.6 ? Object.assign({}, RIG.FACES.smile, { sparkle: t < 2.8 ? 1 : 0 }) : t < 5.6 ? Object.assign({}, RIG.FACES.surprised, { excl: 1 }) : RIG.FACES.annoyed;
     L.char('jil', Object.assign({}, jPull ? RIG.POSES.stand : RIG.POSES.sit, jface, { x: 20, y: DESK - 413 * 1.3, scale: 1.3, eyeLook: t > 2.4 ? .9 : .5 }), t, '', {});
-    // レン（右）：見ている → やる気で立つ → ひもを引くと本人が上がる（あせ）→ ストン → 目が回る
+    // モチ（右）：見ている → やる気で立つ → ひもを引くと本人が上がる（あせ）→ ストン → 目が回る
     const rface = t < 2.8 ? RIG.FACES.neutral : t < 3.5 ? Object.assign({}, RIG.FACES.smile, { sparkle: 1 }) : t < 5.0 ? Object.assign({}, RIG.FACES.oops, { sweat: 1 }) : t < 6.2 ? Object.assign({}, RIG.FACES.surprised, { excl: 0 }) : Object.assign({}, RIG.FACES.oops, { eyeOpen: .4 });
     L.char('ren', Object.assign({}, t > 2.8 && t < 5.3 ? RIG.POSES.stand : RIG.POSES.sit, rface, { x: 560, y: DESK - 413 * 1.35 - 300 * lift + (t > 5.3 && t < 5.5 ? 10 : 0), scale: 1.35, flip: true, eyeLook: -.2, bodyTilt: lift > .05 ? Math.sin(t * 7) * 6 : 0 }), t, '', {});
     let fx = '';
@@ -46,7 +46,7 @@ var EP = {
     if (t > 5.5 && t < 7.4) fx += `<g transform="translate(848 ${DESK - 520}) rotate(${t * 200})"><path d="M0 -30 A30 30 0 1 1 -30 0 A20 20 0 1 1 0 -20 A10 10 0 1 1 -10 0" stroke="#8C7B66" stroke-width="7" fill="none" stroke-linecap="round"/></g>`;
     if (t > 3.8 && t < 5.0) fx += `<text x="${400}" y="${820}" text-anchor="middle" font-family="Noto Sans CJK JP" font-weight="900" font-size="64" fill="#E8473A" stroke="#FFF7E8" stroke-width="10" paint-order="stroke" transform="rotate(${Math.sin(t * 8) * 6} 400 820)">ぷらーん</text>`;
     if (t > 7.2 && t < 8.6) fx += L.emark(220, DESK - 660, 1.0, '…');
-    let ui = (t > 0.8 && t < 2.6 ? CHIP(L, 'BLINDS UP', 'ジル、朝の光を入れる', 1650, seg(t, .8, 1.1)) : '')
+    let ui = (t > 0.8 && t < 2.6 ? CHIP(L, 'BLINDS UP', 'ユズ、朝の光を入れる', 1650, seg(t, .8, 1.1)) : '')
       + (t > 6.0 && t < 8.6 ? CHIP_OFF(L, 'BOSS PULLS: HE RISES', '上司のブラインド：本人が上がる', 1650, seg(t, 6.0, 6.3)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.2, cx: 330, cy: 900 },

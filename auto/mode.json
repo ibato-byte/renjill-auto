@@ -2,5 +2,5 @@
   "_comment": "手動予約モード。ここにある SNS は API で投稿・計測・トークン確認をしない。2026-10-21 に解除し、Instagram・Facebook も GitHub Actions から Meta Graph API で投稿する（システムユーザーのトークン）。2026-10-22 から Business Suite の予約は使わない（bs-scheduled は新しく作らない）。もう一度手動にするときの手順：docs/setup/manual-mode.md",
   "manual_platforms": [],
   "since": "2026-10-21",
-  "reason": "ビジネスポートフォリオ renjill_office のシステムユーザー renjill-auto のトークンで API 投稿に戻した"
+  "reason": "ビジネスポートフォリオ tokyo_usagi_office のシステムユーザー renjill-auto のトークンで API 投稿に戻した"
 }

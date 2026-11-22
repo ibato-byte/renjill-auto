@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# レンとジル v2 の音（効果音＋BGM）を作る。使い方: python3 audio.py meta.json out.wav
+# 東京うさぎオフィス v2 の音（効果音＋BGM）を作る。使い方: python3 audio.py meta.json out.wav
 # 旧版（sfx.py＋bgm2.py：モノラルの純音）からの改善：ステレオ・48kHz、効果音を「木・紙・ばね・鈴」などの質感で作り直し、
 # 部屋の響き、BGM はウクレレ風の和音＋ベース＋シェイカー＋鉄琴、効果音が鳴る間は BGM を少し下げる、
 # 「間」（bgmHolds）は BGM を止めて笑いの間を作る、最後は短く消して頭に戻っても途切れて聞こえないように。

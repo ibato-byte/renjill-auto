@@ -1,5 +1,5 @@
 // 「キーボード」（約9.5秒・セリフなし）v2 演出／キャラは本番の rig.js
-// 状況：ジルが資料をカタカタ。画面に文字がきれいに並ぶ（きりっ）
+// 状況：ユズが資料をカタカタ。画面に文字がきれいに並ぶ（きりっ）
 // ひっくり返し：課長もタイピング……と思ったら、キーボードの上に香箱すわり（あったかい）
 // オチ：画面は「あああああ」でいっぱい、ページ数はどんどん増える。課長はそのままお昼寝。字幕「上司のタイピング：座ると速い」
 document.write('<script src="v2/lib.js"><\/script>');
@@ -21,10 +21,10 @@ var EP = {
     const DESK = 1400, MX = 540, MY = 1250;                          // まんなかのモニター（下のふち）
     const bg = L.office({ sky: 'day', clock: [14, 0] });
     const type = t > .5 && t < 2.1, sitK = t >= 3.9;
-    // ジル（左）：カタカタ（lean・きりっ）→ 満足 → 課長がキーボードに乗って「！」→ ジト目
+    // ユズ（左）：カタカタ（lean・きりっ）→ 満足 → 課長がキーボードに乗って「！」→ ジト目
     const jface = t < 2.2 ? RIG.FACES.sharp : t < 3.6 ? Object.assign({}, RIG.FACES.smile, { sparkle: t < 3.0 ? 1 : 0 }) : t < 5.6 ? Object.assign({}, RIG.FACES.surprised, { excl: 1 }) : RIG.FACES.annoyed;
     L.char('jil', Object.assign({}, type ? RIG.POSES.lean : RIG.POSES.sit, jface, { x: 20, y: DESK - 413 * 1.3, scale: 1.3, eyeLook: t > 2.4 ? .9 : .5, bodyTilt: type ? -6 + Math.sin(t * 30) * 2 : 0 }), t, '', {});
-    // レン（右）：見ている → やる気（立つ）→ ぴょんとキーボードの上へ（香箱）→ ぬくぬく → お昼寝
+    // モチ（右）：見ている → やる気（立つ）→ ぴょんとキーボードの上へ（香箱）→ ぬくぬく → お昼寝
     const hop = seg(t, 3.6, 3.9);
     const rface = t < 3.0 ? RIG.FACES.neutral : t < 3.6 ? Object.assign({}, RIG.FACES.smile, { sparkle: 1 }) : t < 5.6 ? Object.assign({}, RIG.FACES.sleepy, { zzz: 0, eyeOpen: .35, blush: .5 }) : Object.assign({}, RIG.FACES.sleepy, { zzz: 1 });
     L.char('ren', Object.assign({}, sitK ? RIG.POSES.loaf : t > 3.0 ? RIG.POSES.stand : RIG.POSES.sit, rface, { x: 560 + 40 * ease(hop), y: DESK - 413 * 1.35 - Math.sin(hop * Math.PI) * 90, scale: 1.35, flip: true, eyeLook: -.4 }), t, '', {});
@@ -39,11 +39,11 @@ var EP = {
       else if (!nA && i < nJ) fx += `<rect x="${MX - 116}" y="${y - 6}" width="${i % 3 === 2 ? 120 : 220}" height="10" rx="5" fill="#9FB4C6"/>`;
     }
     fx += `<text x="${MX + 116}" y="${MY - 24}" text-anchor="end" font-family="Noto Sans" font-weight="900" font-size="22" fill="${pages > 1 ? '#E8473A' : '#8C97A6'}">p.${pages}</text></g>`;
-    // キーボード：ジルの手もと／課長のはおしりの下
+    // キーボード：ユズの手もと／課長のはおしりの下
     fx += KB(330, DESK - 8, 300, t, type) + KB(880, DESK - 8, 300, t, sitK && t < 7.6);
     if (t > 4.2 && t < 5.6) fx += `<text x="${MX}" y="${MY - 330}" text-anchor="middle" font-family="Noto Sans CJK JP" font-weight="900" font-size="64" fill="#E8473A" stroke="#FFF7E8" stroke-width="10" paint-order="stroke" transform="rotate(${Math.sin(t * 9) * 5} ${MX} ${MY - 330})">カタカタカタ</text>`;
     if (t > 7.2 && t < 8.6) fx += L.emark(220, DESK - 660, 1.0, '…');
-    let ui = (t > 0.8 && t < 2.6 ? CHIP(L, 'FAST TYPING', 'ジル、資料をカタカタ', 1650, seg(t, .8, 1.1)) : '')
+    let ui = (t > 0.8 && t < 2.6 ? CHIP(L, 'FAST TYPING', 'ユズ、資料をカタカタ', 1650, seg(t, .8, 1.1)) : '')
       + (t > 6.0 && t < 8.6 ? CHIP_OFF(L, 'BOSS TYPES BY SITTING', '上司のタイピング：座ると速い', 1650, seg(t, 6.0, 6.3)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.3, cx: 480, cy: 1150 },

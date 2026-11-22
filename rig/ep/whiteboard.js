@@ -1,7 +1,7 @@
 // 「ホワイトボード」（約9.5秒・セリフなし）v2 演出／キャラは本番の rig.js
-// 状況：ジルがホワイトボードに売上のグラフを書く。右肩上がり（きりっ）
+// 状況：ユズがホワイトボードに売上のグラフを書く。右肩上がり（きりっ）
 // ひっくり返し：課長がペンを持って「ちょっと足すね」→ グラフの山に耳を2本、目と鼻
-// オチ：グラフがうさぎの顔に。課長はご満悦、ジルはジト目。字幕「売上グラフ：うさぎになった」
+// オチ：グラフがうさぎの顔に。課長はご満悦、ユズはジト目。字幕「売上グラフ：うさぎになった」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
 const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
@@ -20,14 +20,14 @@ var EP = {
     const { seg, ease, outBack } = L;
     const DESK = 1400;
     const bg = L.office({ sky: 'day', clock: [14, 0], noClock: true });
-    const g = seg(t, .6, 2.2);                              // ジルがグラフを書く
+    const g = seg(t, .6, 2.2);                              // ユズがグラフを書く
     const e1 = seg(t, 3.8, 4.3), e2 = seg(t, 4.3, 4.8);     // 課長が耳を2本
     const face = seg(t, 4.8, 5.6);                           // 目・鼻・口
-    // ジル（左）：書く（lean・きりっ）→ 満足 → 課長が書き足すのに「？」→ うさぎの顔にジト目
+    // ユズ（左）：書く（lean・きりっ）→ 満足 → 課長が書き足すのに「？」→ うさぎの顔にジト目
     const jl = t > .5 && t < 2.3;
     const jface = t < 2.3 ? RIG.FACES.sharp : t < 3.6 ? Object.assign({}, RIG.FACES.smile, { sparkle: 1 }) : t < 5.8 ? Object.assign({}, RIG.FACES.think, { question: 1 }) : RIG.FACES.annoyed;
     L.char('jil', Object.assign({}, jl ? RIG.POSES.lean : RIG.POSES.sit, jface, { x: 20, y: DESK - 413 * 1.3, scale: 1.3, eyeLook: .4, bodyTilt: jl ? -10 : 0 }), t, '', {});
-    // レン（右）：見ている → ペンを持って立つ（stand）→ 書き足す（lean）→ ご満悦
+    // モチ（右）：見ている → ペンを持って立つ（stand）→ 書き足す（lean）→ ご満悦
     const rl = t > 3.7 && t < 5.7;
     const rface = t < 3.2 ? RIG.FACES.neutral : t < 3.7 ? Object.assign({}, RIG.FACES.smile, { sparkle: 1 }) : t < 5.7 ? RIG.FACES.sharp : Object.assign({}, RIG.FACES.smug, { sparkle: t < 7.2 ? 1 : 0 });
     L.char('ren', Object.assign({}, rl ? RIG.POSES.lean : t > 3.2 && t < 3.7 ? RIG.POSES.stand : RIG.POSES.sit, rface, { x: 560, y: DESK - 413 * 1.35, scale: 1.35, flip: true, eyeLook: -.5, bodyTilt: rl ? 10 : 0 }), t, '', {});
@@ -47,7 +47,7 @@ var EP = {
       + (face > .7 ? `<path d="M${px - 26} ${py + 140} Q${px - 13} ${py + 156} ${px} ${py + 140} Q${px + 13} ${py + 156} ${px + 26} ${py + 140}" stroke="#E8473A" stroke-width="7" fill="none" stroke-linecap="round"/>` : '');
     if (t > 5.8 && t < 7.0) fx += L.sparkles(px, py + 60, t, 1.6, 8);
     if (t > 7.0 && t < 8.6) fx += L.emark(220, DESK - 640, 1.0, '…');
-    let ui = (t > 0.8 && t < 2.6 ? CHIP(L, 'SALES ARE UP', 'ジル、売上のグラフ', 1600, seg(t, .8, 1.1)) : '')
+    let ui = (t > 0.8 && t < 2.6 ? CHIP(L, 'SALES ARE UP', 'ユズ、売上のグラフ', 1600, seg(t, .8, 1.1)) : '')
       + (t > 3.8 && t < 5.6 ? CHIP_OFF(L, 'BOSS ADDS A LITTLE…', '課長が少し書き足す', 1600, seg(t, 3.8, 4.1)) : '')
       + (t > 6.2 && t < 8.6 ? CHIP_OFF(L, 'THE CHART: A BUNNY', '売上グラフ：うさぎになった', 1600, seg(t, 6.2, 6.5)) : '');
     const cam = L.camAt([

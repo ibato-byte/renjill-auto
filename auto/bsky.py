@@ -23,7 +23,7 @@ def post_link_card(p, d, yt_id, thumb_path, env=None, http=requests):
     s = http.post(f"{PDS}/com.atproto.server.createSession", json={"identifier": handle, "password": pw}, timeout=30).json()
     if "accessJwt" not in s: raise RuntimeError(f'ログイン失敗: {s.get("error", "不明")}')
     H = {"Authorization": f'Bearer {s["accessJwt"]}'}
-    external = {"uri": f"https://www.youtube.com/shorts/{yt_id}", "title": f'Ren & Jill「{p["title"]}」', "description": p["caption_en"][:200]}
+    external = {"uri": f"https://www.youtube.com/shorts/{yt_id}", "title": f'Tokyo Usagi Office「{p["title"]}」', "description": p["caption_en"][:200]}
     if thumb_path and os.path.exists(thumb_path) and os.path.getsize(thumb_path) <= MAX_THUMB:
         with open(thumb_path, "rb") as f:
             b = http.post(f"{PDS}/com.atproto.repo.uploadBlob", headers={**H, "Content-Type": "image/jpeg"}, data=f.read(), timeout=60).json()

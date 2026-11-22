@@ -6,8 +6,8 @@
       "ep": "bonus",
       "no": 22,
       "title": "ボーナスの日",
-      "caption_ja": "ボーナスの封筒。課長は牧草3本、ジルは30本でした。",
-      "caption_en": "Bonus day. The boss gets 3 strands of hay. Jill gets 30.",
+      "caption_ja": "ボーナスの封筒。課長は牧草3本、ユズは30本でした。",
+      "caption_en": "Bonus day. The boss gets 3 strands of hay. Yuzu gets 30.",
       "tag_set": "C",
       "thumb": {
         "t": 6.6,
@@ -22,17 +22,17 @@
           "ko": "보너스 날"
         },
         "caption": {
-          "zh": "獎金信封。課長拿到3根牧草，吉兒拿到30根。",
-          "ko": "보너스 봉투. 과장님은 건초 3가닥, 질은 30가닥이었어요."
+          "zh": "獎金信封。課長拿到3根牧草，柚子拿到30根。",
+          "ko": "보너스 봉투. 과장님은 건초 3가닥, 유자는 30가닥이었어요."
         }
       },
       "cta": "Send this to whoever got the bigger bonus/ボーナスが多かった人に送ろう",
       "title_i18n": {
-        "ja": "ボーナスの封筒、ジルは課長の10倍だった | レンとジル「ボーナスの日」",
-        "ko": "보너스 봉투, 질은 과장님의 10배였다 | 렌과 질 Ren & Jill",
-        "zh-Hant": "打開獎金袋，吉兒是課長的十倍 | 蓮與吉兒 Ren & Jill",
-        "es": "Día de bono: Jill recibe 10 veces más que el jefe | Ren & Jill",
-        "pt": "Dia do bônus: Jill ganha 10 vezes mais que o chefe | Ren & Jill"
+        "ja": "ボーナスの封筒、ユズは課長の10倍だった | 東京うさぎオフィス「ボーナスの日」",
+        "ko": "보너스 봉투, 유자는 과장님의 10배였다 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "打開獎金袋，柚子是課長的十倍 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "Día de bono: Yuzu recibe 10 veces más que el jefe | Tokyo Usagi Office",
+        "pt": "Dia do bônus: Yuzu ganha 10 vezes mais que o chefe | Tokyo Usagi Office"
       },
       "planned_date": "2026-12-10"
     },
@@ -41,8 +41,8 @@
       "ep": "printer",
       "no": 24,
       "title": "1枚だけ印刷",
-      "caption_ja": "「1枚だけ」のはずが40枚。ジルはボタン1回で止めました。",
-      "caption_en": "\"Just one page.\" Forty pages later, Jill stops it with one button.",
+      "caption_ja": "「1枚だけ」のはずが40枚。ユズはボタン1回で止めました。",
+      "caption_en": "\"Just one page.\" Forty pages later, Yuzu stops it with one button.",
       "tag_set": "A",
       "thumb": {
         "t": 2.8,
@@ -57,17 +57,17 @@
           "ko": "딱 한 장만"
         },
         "caption": {
-          "zh": "「只印一張」結果印了40張。吉兒按一下按鈕就停了。",
-          "ko": "\"딱 한 장만\"이 40장. 질은 버튼 한 번으로 멈췄어요."
+          "zh": "「只印一張」結果印了40張。柚子按一下按鈕就停了。",
+          "ko": "\"딱 한 장만\"이 40장. 유자는 버튼 한 번으로 멈췄어요."
         }
       },
       "cta": "Tag the coworker who always fixes the printer/いつもプリンターを直してくれる人に送ろう",
       "title_i18n": {
-        "ja": "「1枚だけ」のはずが40枚 | レンとジル「1枚だけ印刷」",
-        "ko": "\"딱 한 장만\"이 40장으로 | 렌과 질 Ren & Jill",
-        "zh-Hant": "「只印一張」結果印了40張 | 蓮與吉兒 Ren & Jill",
-        "es": "\"Solo una hoja\" y salen 40 | Ren & Jill",
-        "pt": "\"Só uma folha\" e saem 40 | Ren & Jill"
+        "ja": "「1枚だけ」のはずが40枚 | 東京うさぎオフィス「1枚だけ印刷」",
+        "ko": "\"딱 한 장만\"이 40장으로 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "「只印一張」結果印了40張 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "\"Solo una hoja\" y salen 40 | Tokyo Usagi Office",
+        "pt": "\"Só uma folha\" e saem 40 | Tokyo Usagi Office"
       },
       "experiment": {
         "var": "tag_set",
@@ -104,11 +104,11 @@
       },
       "cta": "Send this to the coworker with the messiest desk/机が一番散らかっている人に送ろう",
       "title_i18n": {
-        "ja": "大掃除で出てきた去年のおにぎり | レンとジル「大掃除」",
-        "ko": "대청소에서 나온 작년 주먹밥 | 렌과 질 Ren & Jill",
-        "zh-Hant": "大掃除挖出去年的飯糰 | 蓮與吉兒 Ren & Jill",
-        "es": "Limpieza de fin de año: aparece el almuerzo del año pasado | Ren & Jill",
-        "pt": "Faxina de fim de ano: aparece o almoço do ano passado | Ren & Jill"
+        "ja": "大掃除で出てきた去年のおにぎり | 東京うさぎオフィス「大掃除」",
+        "ko": "대청소에서 나온 작년 주먹밥 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "大掃除挖出去年的飯糰 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "Limpieza de fin de año: aparece el almuerzo del año pasado | Tokyo Usagi Office",
+        "pt": "Faxina de fim de ano: aparece o almoço do ano passado | Tokyo Usagi Office"
       },
       "planned_date": "2026-12-28"
     },
@@ -117,13 +117,13 @@
       "ep": "bonenkai",
       "no": 27,
       "title": "忘年会の幹事",
-      "caption_ja": "忘年会の幹事はジル。お店は全部満席。課長が決めた会場は、この机でした。",
-      "caption_en": "Jill is in charge of the year-end party. Every place is full. The boss picks the venue: this desk.",
+      "caption_ja": "忘年会の幹事はユズ。お店は全部満席。課長が決めた会場は、この机でした。",
+      "caption_en": "Yuzu is in charge of the year-end party. Every place is full. The boss picks the venue: this desk.",
       "tag_set": "C",
       "thumb": {
         "t": 8.0,
         "cam": "1.2,600,800",
-        "hook": "PARTY PLANNER/忘年会の幹事はジル"
+        "hook": "PARTY PLANNER/忘年会の幹事はユズ"
       },
       "first_comment": "幹事をやったことある？一番大変だったのは？ / Ever had to organize the office party? Hardest part?",
       "site_i18n": {
@@ -133,21 +133,21 @@
           "ko": "송년회 총무"
         },
         "caption": {
-          "zh": "尾牙的主辦人是吉兒。每家店都客滿。課長決定的會場，是這張桌子。",
-          "ko": "송년회 총무는 질. 가게는 전부 만석. 과장님이 정한 장소는 이 책상이었어요."
+          "zh": "尾牙的主辦人是柚子。每家店都客滿。課長決定的會場，是這張桌子。",
+          "ko": "송년회 총무는 유자. 가게는 전부 만석. 과장님이 정한 장소는 이 책상이었어요."
         }
       },
       "cta": "Send this to the coworker who needs it./あの同僚に送ってあげて",
       "title_i18n": {
-        "ja": "忘年会の幹事はジル、会場は… | レンとジル「忘年会の幹事」",
-        "ko": "송년회 총무는 질, 장소는… | 렌과 질 Ren & Jill",
-        "zh-Hant": "尾牙主辦人是吉兒，會場是… | 蓮與吉兒 Ren & Jill",
-        "es": "Jill organiza la fiesta de fin de año | Ren & Jill",
-        "pt": "Jill organiza a festa de fim de ano | Ren & Jill"
+        "ja": "忘年会の幹事はユズ、会場は… | 東京うさぎオフィス「忘年会の幹事」",
+        "ko": "송년회 총무는 유자, 장소는… | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "尾牙主辦人是柚子，會場是… | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "Yuzu organiza la fiesta de fin de año | Tokyo Usagi Office",
+        "pt": "Yuzu organiza a festa de fim de ano | Tokyo Usagi Office"
       },
       "experiment": {
         "var": "cta",
-        "std": "Which one is your boss?/あなたの職場のレンは誰？",
+        "std": "Which one is your boss?/あなたの職場のモチは誰？",
         "value": "Send this to the coworker who needs it./あの同僚に送ってあげて",
         "why": "最後の一言を足して、送る・保存する人が増えるか比べる"
       },
@@ -158,8 +158,8 @@
       "ep": "aircon",
       "no": 29,
       "title": "エアコン戦争",
-      "caption_ja": "課長は18度、ジルは28度。同時に押したらエアコンが止まった。決着は、窓。",
-      "caption_en": "The boss wants 18. Jill wants 28. They press at the same time and the A/C gives up. The window wins.",
+      "caption_ja": "課長は18度、ユズは28度。同時に押したらエアコンが止まった。決着は、窓。",
+      "caption_en": "The boss wants 18. Yuzu wants 28. They press at the same time and the A/C gives up. The window wins.",
       "tag_set": "C",
       "thumb": {
         "t": 5.7,
@@ -174,17 +174,17 @@
           "ko": "에어컨 전쟁"
         },
         "caption": {
-          "zh": "課長要18度，吉兒要28度。同時按下去，冷氣停了。最後靠窗戶解決。",
-          "ko": "과장님은 18도, 질은 28도. 동시에 눌러서 에어컨이 멈췄어요. 결론은 창문."
+          "zh": "課長要18度，柚子要28度。同時按下去，冷氣停了。最後靠窗戶解決。",
+          "ko": "과장님은 18도, 유자는 28도. 동시에 눌러서 에어컨이 멈췄어요. 결론은 창문."
         }
       },
       "cta": "Tag your office's remote control hog/リモコンを独占する人に送ろう",
       "title_i18n": {
-        "ja": "エアコンの温度、上司と部下 | レンとジル「エアコン戦争」",
-        "ko": "에어컨 온도 전쟁, 과장님 vs 질 | 렌과 질 Ren & Jill",
-        "zh-Hant": "冷氣溫度大戰，課長對吉兒 | 蓮與吉兒 Ren & Jill",
-        "es": "Guerra del aire acondicionado | Ren & Jill",
-        "pt": "Guerra do ar-condicionado | Ren & Jill"
+        "ja": "エアコンの温度、上司と部下 | 東京うさぎオフィス「エアコン戦争」",
+        "ko": "에어컨 온도 전쟁, 과장님 vs 유자 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "冷氣溫度大戰，課長對柚子 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "Guerra del aire acondicionado | Tokyo Usagi Office",
+        "pt": "Guerra do ar-condicionado | Tokyo Usagi Office"
       },
       "experiment": {
         "var": "hook",
@@ -199,8 +199,8 @@
       "ep": "holiday",
       "no": 30,
       "title": "祝日に出社",
-      "caption_ja": "11月23日、勤労感謝の日。課長だけ出社していました。ジルも来ました（牧草つき）。",
-      "caption_en": "Nov 23, a national holiday. The boss came to work anyway. So did Jill, with hay.",
+      "caption_ja": "11月23日、勤労感謝の日。課長だけ出社していました。ユズも来ました（牧草つき）。",
+      "caption_en": "Nov 23, a national holiday. The boss came to work anyway. So did Yuzu, with hay.",
       "tag_set": "C",
       "thumb": {
         "t": 4.5,
@@ -215,17 +215,17 @@
           "ko": "공휴일 출근"
         },
         "caption": {
-          "zh": "11月23日，勞動感謝日。只有課長來上班。吉兒也來了（還帶了牧草）。",
-          "ko": "11월 23일, 근로감사의 날. 과장님만 출근했어요. 질도 왔어요(건초 들고)."
+          "zh": "11月23日，勞動感謝日。只有課長來上班。柚子也來了（還帶了牧草）。",
+          "ko": "11월 23일, 근로감사의 날. 과장님만 출근했어요. 유자도 왔어요(건초 들고)."
         }
       },
       "cta": "Send this to the one who never takes a day off/休みを取らない人に送ろう",
       "title_i18n": {
-        "ja": "祝日なのに出社した上司 | レンとジル「祝日に出社」",
-        "ko": "공휴일인데 출근한 과장님 | 렌과 질 Ren & Jill",
-        "zh-Hant": "國定假日還來上班的課長 | 蓮與吉兒 Ren & Jill",
-        "es": "El jefe va a trabajar en día feriado | Ren & Jill",
-        "pt": "O chefe vai trabalhar no feriado | Ren & Jill"
+        "ja": "祝日なのに出社した上司 | 東京うさぎオフィス「祝日に出社」",
+        "ko": "공휴일인데 출근한 과장님 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "國定假日還來上班的課長 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "El jefe va a trabajar en día feriado | Tokyo Usagi Office",
+        "pt": "O chefe vai trabalhar no feriado | Tokyo Usagi Office"
       },
       "planned_date": "2026-11-23"
     },
@@ -256,11 +256,11 @@
       },
       "cta": "Tag the coworker who is always on mute/いつもミュートのままの人に送ろう",
       "title_i18n": {
-        "ja": "ミュートのまま熱弁する上司 | レンとジル「ミュートのまま」",
-        "ko": "음소거인 채로 열변하는 과장님 | 렌과 질 Ren & Jill",
-        "zh-Hant": "開著靜音熱烈發言的課長 | 蓮與吉兒 Ren & Jill",
-        "es": "El jefe da un discurso en silencio (mute) | Ren & Jill",
-        "pt": "O chefe discursa no mudo | Ren & Jill"
+        "ja": "ミュートのまま熱弁する上司 | 東京うさぎオフィス「ミュートのまま」",
+        "ko": "음소거인 채로 열변하는 과장님 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "開著靜音熱烈發言的課長 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "El jefe da un discurso en silencio (mute) | Tokyo Usagi Office",
+        "pt": "O chefe discursa no mudo | Tokyo Usagi Office"
       },
       "planned_date": "2026-11-24"
     },
@@ -269,8 +269,8 @@
       "ep": "rain",
       "no": 33,
       "title": "雨の日の上司",
-      "caption_ja": "雨の朝、傘を忘れた課長がびしょ濡れで到着。タオルの前にぶるぶる。ジルも濡れました。",
-      "caption_en": "Rainy morning. The boss forgot his umbrella and arrives soaked. Before the towel: a big shake. Now Jill is wet too.",
+      "caption_ja": "雨の朝、傘を忘れた課長がびしょ濡れで到着。タオルの前にぶるぶる。ユズも濡れました。",
+      "caption_en": "Rainy morning. The boss forgot his umbrella and arrives soaked. Before the towel: a big shake. Now Yuzu is wet too.",
       "tag_set": "C",
       "thumb": {
         "t": 5.8,
@@ -285,17 +285,17 @@
           "ko": "비 오는 날의 과장님"
         },
         "caption": {
-          "zh": "雨天的早上，忘了帶傘的課長濕透著到公司。拿毛巾之前先用力一抖。吉兒也濕了。",
-          "ko": "비 오는 아침, 우산을 잊은 과장님이 흠뻑 젖어 도착. 수건 전에 부르르. 질도 젖었어요."
+          "zh": "雨天的早上，忘了帶傘的課長濕透著到公司。拿毛巾之前先用力一抖。柚子也濕了。",
+          "ko": "비 오는 아침, 우산을 잊은 과장님이 흠뻑 젖어 도착. 수건 전에 부르르. 유자도 젖었어요."
         }
       },
       "cta": "Send this to the one who never carries an umbrella/傘を持たない人に送ろう",
       "title_i18n": {
-        "ja": "傘を忘れてずぶぬれの上司 | レンとジル「雨の日の上司」",
-        "ko": "우산을 잊고 흠뻑 젖은 과장님 | 렌과 질 Ren & Jill",
-        "zh-Hant": "忘了帶傘、全身濕透的課長 | 蓮與吉兒 Ren & Jill",
-        "es": "El jefe olvida el paraguas | Ren & Jill",
-        "pt": "O chefe esquece o guarda-chuva | Ren & Jill"
+        "ja": "傘を忘れてずぶぬれの上司 | 東京うさぎオフィス「雨の日の上司」",
+        "ko": "우산을 잊고 흠뻑 젖은 과장님 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "忘了帶傘、全身濕透的課長 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "El jefe olvida el paraguas | Tokyo Usagi Office",
+        "pt": "O chefe esquece o guarda-chuva | Tokyo Usagi Office"
       },
       "planned_date": "2026-11-25"
     },
@@ -304,8 +304,8 @@
       "ep": "donuts",
       "no": 34,
       "title": "差し入れの牧草リング",
-      "caption_ja": "差し入れの牧草リング（ドーナツ形）、6個。ジルが後ろを向いた2秒で箱は空。課長の口のまわりに、牧草のかけら。",
-      "caption_en": "Six donut-shaped hay rings for the team. Jill looks away for two seconds. Box: empty. Boss: hay bits on his face.",
+      "caption_ja": "差し入れの牧草リング（ドーナツ形）、6個。ユズが後ろを向いた2秒で箱は空。課長の口のまわりに、牧草のかけら。",
+      "caption_en": "Six donut-shaped hay rings for the team. Yuzu looks away for two seconds. Box: empty. Boss: hay bits on his face.",
       "tag_set": "C",
       "thumb": {
         "t": 7.5,
@@ -320,17 +320,17 @@
           "ko": "건초 링 6개"
         },
         "caption": {
-          "zh": "同事送的甜甜圈造型牧草圈，六個。吉兒轉過身的兩秒，盒子空了。課長嘴邊全是牧草屑。",
-          "ko": "직원들 간식으로 도넛 모양 건초 링 6개. 질이 뒤돌아선 2초 만에 상자는 텅. 과장님 입가에 건초 부스러기."
+          "zh": "同事送的甜甜圈造型牧草圈，六個。柚子轉過身的兩秒，盒子空了。課長嘴邊全是牧草屑。",
+          "ko": "직원들 간식으로 도넛 모양 건초 링 6개. 유자가 뒤돌아선 2초 만에 상자는 텅. 과장님 입가에 건초 부스러기."
         }
       },
       "cta": "Send this to the office snack thief/おやつを持っていく人に送ろう",
       "title_i18n": {
-        "ja": "差し入れの牧草リング6個、2秒で | レンとジル「差し入れの牧草リング」",
-        "ko": "건초 링 6개가 2초 만에 | 렌과 질 Ren & Jill",
-        "zh-Hant": "六個牧草圈，兩秒就沒了 | 蓮與吉兒 Ren & Jill",
-        "es": "6 aros de heno desaparecen en 2 segundos | Ren & Jill",
-        "pt": "6 rosquinhas de feno somem em 2 segundos | Ren & Jill"
+        "ja": "差し入れの牧草リング6個、2秒で | 東京うさぎオフィス「差し入れの牧草リング」",
+        "ko": "건초 링 6개가 2초 만에 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "六個牧草圈，兩秒就沒了 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "6 aros de heno desaparecen en 2 segundos | Tokyo Usagi Office",
+        "pt": "6 rosquinhas de feno somem em 2 segundos | Tokyo Usagi Office"
       },
       "planned_date": "2026-11-26"
     },
@@ -339,8 +339,8 @@
       "ep": "yukyu",
       "no": 35,
       "title": "有給の申請",
-      "caption_ja": "ジルの有給申請。課長は見ずに承認。その日は大事な会議。気づいた0.5秒後、ジルは出発済み。",
-      "caption_en": "Jill’s leave request. The boss approves without looking. That day is the big meeting. 0.5 seconds later, Jill is already gone.",
+      "caption_ja": "ユズの有給申請。課長は見ずに承認。その日は大事な会議。気づいた0.5秒後、ユズは出発済み。",
+      "caption_en": "Yuzu’s leave request. The boss approves without looking. That day is the big meeting. 0.5 seconds later, Yuzu is already gone.",
       "tag_set": "C",
       "thumb": {
         "t": 4.7,
@@ -355,17 +355,17 @@
           "ko": "휴가 승인"
         },
         "caption": {
-          "zh": "吉兒的請假單。課長看都沒看就批了。那天是大會議。發現的半秒後，吉兒已經出發了。",
-          "ko": "질의 휴가 신청. 과장님은 보지도 않고 승인. 그날은 중요한 회의. 알아차린 0.5초 뒤, 질은 이미 출발."
+          "zh": "柚子的請假單。課長看都沒看就批了。那天是大會議。發現的半秒後，柚子已經出發了。",
+          "ko": "유자의 휴가 신청. 과장님은 보지도 않고 승인. 그날은 중요한 회의. 알아차린 0.5초 뒤, 유자는 이미 출발."
         }
       },
       "cta": "Tag the boss who approves everything/何でも承認する上司に送ろう",
       "title_i18n": {
-        "ja": "見ずに承認した有給、その日は大事な会議 | レンとジル「有給の申請」",
-        "ko": "안 보고 승인한 휴가, 그날은 중요한 회의 | 렌과 질 Ren & Jill",
-        "zh-Hant": "看都沒看就批的假，那天是重要會議 | 蓮與吉兒 Ren & Jill",
-        "es": "Aprobó su permiso sin ver: el día de la gran reunión | Ren & Jill",
-        "pt": "Aprovou a folga sem olhar: era o dia da grande reunião | Ren & Jill"
+        "ja": "見ずに承認した有給、その日は大事な会議 | 東京うさぎオフィス「有給の申請」",
+        "ko": "안 보고 승인한 휴가, 그날은 중요한 회의 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "看都沒看就批的假，那天是重要會議 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "Aprobó su permiso sin ver: el día de la gran reunión | Tokyo Usagi Office",
+        "pt": "Aprovou a folga sem olhar: era o dia da grande reunião | Tokyo Usagi Office"
       },
       "planned_date": "2026-11-27"
     },
@@ -396,11 +396,11 @@
       },
       "cta": "Send this to the one who falls asleep at the desk/机で寝落ちする人に送ろう",
       "title_i18n": {
-        "ja": "3分待つはずのカップ麺、気づけば23時 | レンとジル「残業の夜食」",
-        "ko": "3분만 기다리려던 컵라면, 눈 떠 보니 23시 | 렌과 질 Ren & Jill",
-        "zh-Hant": "說好等三分鐘的泡麵，醒來已經23點 | 蓮與吉兒 Ren & Jill",
-        "es": "Fideos de 3 minutos… y despertó a las 23:00 | Ren & Jill",
-        "pt": "Era só esperar 3 minutos pelo miojo… e acordou às 23h | Ren & Jill"
+        "ja": "3分待つはずのカップ麺、気づけば23時 | 東京うさぎオフィス「残業の夜食」",
+        "ko": "3분만 기다리려던 컵라면, 눈 떠 보니 23시 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "說好等三分鐘的泡麵，醒來已經23點 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "Fideos de 3 minutos… y despertó a las 23:00 | Tokyo Usagi Office",
+        "pt": "Era só esperar 3 minutos pelo miojo… e acordou às 23h | Tokyo Usagi Office"
       },
       "planned_date": "2026-11-28"
     },
@@ -409,8 +409,8 @@
       "ep": "plant",
       "no": 37,
       "title": "机の観葉植物",
-      "caption_ja": "課長の机の植物、水やりはコーヒー。ジルがそっと造花に。翌日も課長はコーヒーをかけます。",
-      "caption_en": "The boss waters his desk plant with coffee. Jill quietly swaps it for a plastic one. Next day: coffee again.",
+      "caption_ja": "課長の机の植物、水やりはコーヒー。ユズがそっと造花に。翌日も課長はコーヒーをかけます。",
+      "caption_en": "The boss waters his desk plant with coffee. Yuzu quietly swaps it for a plastic one. Next day: coffee again.",
       "tag_set": "C",
       "thumb": {
         "t": 6,
@@ -425,17 +425,17 @@
           "ko": "책상 위 화분"
         },
         "caption": {
-          "zh": "課長用咖啡給桌上的盆栽澆水。吉兒悄悄換成假花。隔天，課長又澆了咖啡。",
-          "ko": "과장님은 책상 화분에 커피를 줍니다. 질이 조용히 조화로 바꿨어요. 다음 날도 커피."
+          "zh": "課長用咖啡給桌上的盆栽澆水。柚子悄悄換成假花。隔天，課長又澆了咖啡。",
+          "ko": "과장님은 책상 화분에 커피를 줍니다. 유자가 조용히 조화로 바꿨어요. 다음 날도 커피."
         }
       },
       "cta": "Tag the plant killer in your office/植物を枯らす人に送ろう",
       "title_i18n": {
-        "ja": "観葉植物の水やりがコーヒーの上司 | レンとジル「机の観葉植物」",
-        "ko": "화분에 물 대신 커피를 주는 과장님 | 렌과 질 Ren & Jill",
-        "zh-Hant": "課長給盆栽澆的是咖啡 | 蓮與吉兒 Ren & Jill",
-        "es": "El jefe que riega su planta con café | Ren & Jill",
-        "pt": "O chefe que rega a planta com café | Ren & Jill"
+        "ja": "観葉植物の水やりがコーヒーの上司 | 東京うさぎオフィス「机の観葉植物」",
+        "ko": "화분에 물 대신 커피를 주는 과장님 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "課長給盆栽澆的是咖啡 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "El jefe que riega su planta con café | Tokyo Usagi Office",
+        "pt": "O chefe que rega a planta com café | Tokyo Usagi Office"
       },
       "planned_date": "2026-11-29"
     },
@@ -444,8 +444,8 @@
       "ep": "deadline",
       "no": 38,
       "title": "締め切り前夜",
-      "caption_ja": "締め切りは明日 9:00。22:00、二人の山は同じ高さ。8:59、ジルは完了。課長は1枚目で寝ています。",
-      "caption_en": "Deadline 9:00 AM. At 22:00 both piles are the same height. At 8:59, Jill is done. The boss is asleep on page 1.",
+      "caption_ja": "締め切りは明日 9:00。22:00、二人の山は同じ高さ。8:59、ユズは完了。課長は1枚目で寝ています。",
+      "caption_en": "Deadline 9:00 AM. At 22:00 both piles are the same height. At 8:59, Yuzu is done. The boss is asleep on page 1.",
       "tag_set": "C",
       "thumb": {
         "t": 7.3,
@@ -460,20 +460,20 @@
           "ko": "마감 전날 밤"
         },
         "caption": {
-          "zh": "截止是明天 9:00。22:00，兩人的文件山一樣高。8:59，吉兒完成。課長在第一頁睡著了。",
-          "ko": "마감은 내일 9:00. 22:00, 두 사람의 서류 더미는 같은 높이. 8:59, 질은 완료. 과장님은 1페이지에서 잠들었어요."
+          "zh": "截止是明天 9:00。22:00，兩人的文件山一樣高。8:59，柚子完成。課長在第一頁睡著了。",
+          "ko": "마감은 내일 9:00. 22:00, 두 사람의 서류 더미는 같은 높이. 8:59, 유자는 완료. 과장님은 1페이지에서 잠들었어요."
         }
       },
       "cta": "Send this to the one who starts the night before/前日に始める人に送ろう",
       "title_i18n": {
-        "ja": "締め切りは9時、22時の時点で山は同じ高さ | レンとジル「締め切り前夜」",
-        "ko": "마감은 9시, 22시엔 둘의 서류 더미가 같은 높이 | 렌과 질 Ren & Jill",
-        "zh-Hant": "早上9點截止，晚上10點兩人的文件一樣高 | 蓮與吉兒 Ren & Jill",
-        "es": "Entrega a las 9:00 y a las 22:00 van empatados | Ren & Jill",
-        "pt": "Prazo às 9h, e às 22h as pilhas estão empatadas | Ren & Jill"
+        "ja": "締め切りは9時、22時の時点で山は同じ高さ | 東京うさぎオフィス「締め切り前夜」",
+        "ko": "마감은 9시, 22시엔 둘의 서류 더미가 같은 높이 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "早上9點截止，晚上10點兩人的文件一樣高 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "Entrega a las 9:00 y a las 22:00 van empatados | Tokyo Usagi Office",
+        "pt": "Prazo às 9h, e às 22h as pilhas estão empatadas | Tokyo Usagi Office"
       },
       "remake": {
-        "why": "2026-11-16 週次：10/30 の「締め切りのカレンダー」（22秒・古い作り。見た割合は10月の回の 0.14〜0.17 の水準）と同じ「締め切り」の話なので作り直しとして記録。状況とオチは別（徹夜の書類の山／ジルは✓の束、課長は1枚目で寝ている）、長さは 9.5 秒・1秒目から動く今の冒頭の型で、見た割合 0.4〜0.6 の11月の回と同じ作り。前回から31日あけた"
+        "why": "2026-11-16 週次：10/30 の「締め切りのカレンダー」（22秒・古い作り。見た割合は10月の回の 0.14〜0.17 の水準）と同じ「締め切り」の話なので作り直しとして記録。状況とオチは別（徹夜の書類の山／ユズは✓の束、課長は1枚目で寝ている）、長さは 9.5 秒・1秒目から動く今の冒頭の型で、見た割合 0.4〜0.6 の11月の回と同じ作り。前回から31日あけた"
       },
       "planned_date": "2026-11-30"
     },
@@ -482,8 +482,8 @@
       "ep": "kotatsu",
       "no": 39,
       "title": "会社にこたつ",
-      "caption_ja": "12月。ジルがオフィスにこたつを持ち込んだ。14:00に入った課長、18:00になっても出てきません。",
-      "caption_en": "December. Jill brings a kotatsu to the office. The boss got in at 14:00. At 18:00 he still hasn't come out.",
+      "caption_ja": "12月。ユズがオフィスにこたつを持ち込んだ。14:00に入った課長、18:00になっても出てきません。",
+      "caption_en": "December. Yuzu brings a kotatsu to the office. The boss got in at 14:00. At 18:00 he still hasn't come out.",
       "tag_set": "C",
       "thumb": {
         "t": 5.0,
@@ -498,17 +498,17 @@
           "ko": "회사에 고타쓰"
         },
         "caption": {
-          "zh": "12月。吉兒把暖桌搬進辦公室。14:00鑽進去的課長，到了18:00還沒出來。",
-          "ko": "12월. 질이 사무실에 고타쓰를 들여왔어요. 14:00에 들어간 과장님, 18:00이 되어도 안 나옵니다."
+          "zh": "12月。柚子把暖桌搬進辦公室。14:00鑽進去的課長，到了18:00還沒出來。",
+          "ko": "12월. 유자가 사무실에 고타쓰를 들여왔어요. 14:00에 들어간 과장님, 18:00이 되어도 안 나옵니다."
         }
       },
       "cta": "Send this to the one who never leaves the kotatsu/こたつから出ない人に送ろう",
       "title_i18n": {
-        "ja": "14時にこたつに入った上司、18時になっても… | レンとジル「会社にこたつ」",
-        "ko": "14시에 고타쓰에 들어간 과장님, 18시가 되어도… | 렌과 질 Ren & Jill",
-        "zh-Hant": "課長下午2點鑽進暖桌，到了6點還是… | 蓮與吉兒 Ren & Jill",
-        "es": "Entró al kotatsu a las 14:00 y a las 18:00 sigue ahí | Ren & Jill",
-        "pt": "Entrou no kotatsu às 14h e às 18h ainda está lá | Ren & Jill"
+        "ja": "14時にこたつに入った上司、18時になっても… | 東京うさぎオフィス「会社にこたつ」",
+        "ko": "14시에 고타쓰에 들어간 과장님, 18시가 되어도… | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "課長下午2點鑽進暖桌，到了6點還是… | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "Entró al kotatsu a las 14:00 y a las 18:00 sigue ahí | Tokyo Usagi Office",
+        "pt": "Entrou no kotatsu às 14h e às 18h ainda está lá | Tokyo Usagi Office"
       },
       "planned_date": "2026-12-01"
     },
@@ -517,8 +517,8 @@
       "ep": "tree",
       "no": 40,
       "title": "ツリーの飾り",
-      "caption_ja": "オフィスのツリー。ジルは赤と金の玉、課長は締め切りの書類を吊るしました。てっぺんは「済」。",
-      "caption_en": "The office tree. Jill hangs red and gold balls. The boss hangs deadline paperwork. On top: a big check mark.",
+      "caption_ja": "オフィスのツリー。ユズは赤と金の玉、課長は締め切りの書類を吊るしました。てっぺんは「済」。",
+      "caption_en": "The office tree. Yuzu hangs red and gold balls. The boss hangs deadline paperwork. On top: a big check mark.",
       "tag_set": "C",
       "thumb": {
         "t": 5.0,
@@ -533,17 +533,17 @@
           "ko": "사무실 트리"
         },
         "caption": {
-          "zh": "辦公室的聖誕樹。吉兒掛上紅色和金色的球，課長掛上截止日的文件。樹頂是一個大勾。",
-          "ko": "사무실 트리. 질은 빨강과 금색 공을, 과장님은 마감 서류를 걸었어요. 꼭대기는 커다란 체크."
+          "zh": "辦公室的聖誕樹。柚子掛上紅色和金色的球，課長掛上截止日的文件。樹頂是一個大勾。",
+          "ko": "사무실 트리. 유자는 빨강과 금색 공을, 과장님은 마감 서류를 걸었어요. 꼭대기는 커다란 체크."
         }
       },
       "cta": "Tag the coworker who turns everything into work/何でも仕事にしてしまう人に送ろう",
       "title_i18n": {
-        "ja": "ツリーに締め切りの書類を吊るす上司 | レンとジル「ツリーの飾り」",
-        "ko": "트리에 마감 서류를 매다는 과장님 | 렌과 질 Ren & Jill",
-        "zh-Hant": "課長在聖誕樹上掛的是截止文件 | 蓮與吉兒 Ren & Jill",
-        "es": "El jefe decora el árbol de Navidad con papeles pendientes | Ren & Jill",
-        "pt": "O chefe enfeita a árvore de Natal com papelada urgente | Ren & Jill"
+        "ja": "ツリーに締め切りの書類を吊るす上司 | 東京うさぎオフィス「ツリーの飾り」",
+        "ko": "트리에 마감 서류를 매다는 과장님 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "課長在聖誕樹上掛的是截止文件 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "El jefe decora el árbol de Navidad con papeles pendientes | Tokyo Usagi Office",
+        "pt": "O chefe enfeita a árvore de Natal com papelada urgente | Tokyo Usagi Office"
       },
       "planned_date": "2026-12-02"
     },
@@ -574,11 +574,11 @@
       },
       "cta": "Send this to your Secret Santa/プレゼント交換の相手に送ろう",
       "title_i18n": {
-        "ja": "プレゼント交換、二人とも箱の中身が同じ | レンとジル「シークレットサンタ」",
-        "ko": "선물 교환, 열어 보니 둘 다 똑같은 선물 | 렌과 질 Ren & Jill",
-        "zh-Hant": "交換禮物，打開一看兩人送的一模一樣 | 蓮與吉兒 Ren & Jill",
-        "es": "Amigo secreto: los dos regalaron exactamente lo mismo | Ren & Jill",
-        "pt": "Amigo secreto: os dois deram exatamente o mesmo presente | Ren & Jill"
+        "ja": "プレゼント交換、二人とも箱の中身が同じ | 東京うさぎオフィス「シークレットサンタ」",
+        "ko": "선물 교환, 열어 보니 둘 다 똑같은 선물 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "交換禮物，打開一看兩人送的一模一樣 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "Amigo secreto: los dos regalaron exactamente lo mismo | Tokyo Usagi Office",
+        "pt": "Amigo secreto: os dois deram exatamente o mesmo presente | Tokyo Usagi Office"
       },
       "planned_date": "2026-12-03"
     },
@@ -587,13 +587,13 @@
       "ep": "scarf",
       "no": 42,
       "title": "手編みのマフラー",
-      "caption_ja": "ジルの手編みのマフラー。課長が5周巻いてもまだ余る。長さ5メートル、二人用でした。",
-      "caption_en": "A hand-knit scarf from Jill. Five wraps around the boss and it keeps going. Five meters: made for two.",
+      "caption_ja": "ユズの手編みのマフラー。課長が5周巻いてもまだ余る。長さ5メートル、二人用でした。",
+      "caption_en": "A hand-knit scarf from Yuzu. Five wraps around the boss and it keeps going. Five meters: made for two.",
       "tag_set": "C",
       "thumb": {
         "t": 8.2,
         "cam": "1.4,550,1096",
-        "hook": "HAND-KNIT SCARF/ジルの手編み、上司に5周"
+        "hook": "HAND-KNIT SCARF/ユズの手編み、上司に5周"
       },
       "first_comment": "手編み、もらったことある？作ったことある？ / Ever received or made something hand-knit?",
       "site_i18n": {
@@ -603,17 +603,17 @@
           "ko": "손뜨개 목도리"
         },
         "caption": {
-          "zh": "吉兒手織的圍巾。課長繞了五圈還有剩。長五公尺，兩個人用的。",
-          "ko": "질이 손으로 뜬 목도리. 과장님이 다섯 바퀴 감아도 남아요. 길이 5미터, 두 사람용이었어요."
+          "zh": "柚子手織的圍巾。課長繞了五圈還有剩。長五公尺，兩個人用的。",
+          "ko": "유자가 손으로 뜬 목도리. 과장님이 다섯 바퀴 감아도 남아요. 길이 5미터, 두 사람용이었어요."
         }
       },
       "cta": "Send this to someone who knits/編み物をする人に送ろう",
       "title_i18n": {
-        "ja": "5周巻いてもまだ余るマフラー | レンとジル「手編みのマフラー」",
-        "ko": "다섯 번 감아도 남는 질의 손뜨개 목도리 | 렌과 질 Ren & Jill",
-        "zh-Hant": "繞了五圈還有剩，吉兒親手織的圍巾 | 蓮與吉兒 Ren & Jill",
-        "es": "La bufanda tejida por Jill: 5 vueltas y aún sobra | Ren & Jill",
-        "pt": "O cachecol de tricô da Jill: 5 voltas e ainda sobra | Ren & Jill"
+        "ja": "5周巻いてもまだ余るマフラー | 東京うさぎオフィス「手編みのマフラー」",
+        "ko": "다섯 번 감아도 남는 유자의 손뜨개 목도리 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "繞了五圈還有剩，柚子親手織的圍巾 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "La bufanda tejida por Yuzu: 5 vueltas y aún sobra | Tokyo Usagi Office",
+        "pt": "O cachecol de tricô da Yuzu: 5 voltas e ainda sobra | Tokyo Usagi Office"
       },
       "planned_date": "2026-12-04"
     },
@@ -622,8 +622,8 @@
       "ep": "snow",
       "no": 43,
       "title": "窓を3秒開けた",
-      "caption_ja": "外は雪。課長が「ちょっと換気」と窓を開けました。3秒で机もジルの頭も雪。課長はその雪で雪うさぎを作りました。",
-      "caption_en": "Snow outside. The boss opens the window for \"a little fresh air.\" Three seconds later, the desk and Jill are covered. The boss makes a snow bunny.",
+      "caption_ja": "外は雪。課長が「ちょっと換気」と窓を開けました。3秒で机もユズの頭も雪。課長はその雪で雪うさぎを作りました。",
+      "caption_en": "Snow outside. The boss opens the window for \"a little fresh air.\" Three seconds later, the desk and Yuzu are covered. The boss makes a snow bunny.",
       "tag_set": "C",
       "thumb": {
         "t": 7.8,
@@ -638,17 +638,17 @@
           "ko": "창문을 3초 열었다"
         },
         "caption": {
-          "zh": "外面下雪。課長說「通個風」打開了窗。三秒後，桌子和吉兒的頭上都是雪。課長用那些雪做了一隻雪兔。",
-          "ko": "밖은 눈. 과장님이 \"환기 좀\" 하며 창문을 열었어요. 3초 만에 책상도 질의 머리도 눈. 과장님은 그 눈으로 눈토끼를 만들었어요."
+          "zh": "外面下雪。課長說「通個風」打開了窗。三秒後，桌子和柚子的頭上都是雪。課長用那些雪做了一隻雪兔。",
+          "ko": "밖은 눈. 과장님이 \"환기 좀\" 하며 창문을 열었어요. 3초 만에 책상도 유자의 머리도 눈. 과장님은 그 눈으로 눈토끼를 만들었어요."
         }
       },
       "cta": "Send this to the one who always opens the window/すぐ窓を開ける人に送ろう",
       "title_i18n": {
-        "ja": "雪の日に「ちょっと換気」と窓を開けた上司 | レンとジル「窓を3秒開けた」",
-        "ko": "눈 오는 날 '잠깐 환기'한다며 창문을 연 과장님 | 렌과 질 Ren & Jill",
-        "zh-Hant": "下雪天，課長說「通通風」就打開窗戶 | 蓮與吉兒 Ren & Jill",
-        "es": "Nieva afuera y el jefe abre la ventana para ventilar | Ren & Jill",
-        "pt": "Neva lá fora e o chefe abre a janela para arejar | Ren & Jill"
+        "ja": "雪の日に「ちょっと換気」と窓を開けた上司 | 東京うさぎオフィス「窓を3秒開けた」",
+        "ko": "눈 오는 날 '잠깐 환기'한다며 창문을 연 과장님 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "下雪天，課長說「通通風」就打開窗戶 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "Nieva afuera y el jefe abre la ventana para ventilar | Tokyo Usagi Office",
+        "pt": "Neva lá fora e o chefe abre a janela para arejar | Tokyo Usagi Office"
       },
       "planned_date": "2026-12-05"
     },
@@ -657,8 +657,8 @@
       "ep": "photo",
       "no": 44,
       "title": "年賀状の写真",
-      "caption_ja": "年賀状用の写真。3・2・1、フラッシュのたびに課長は目をつぶる。3回目はジルが目を開けたまま固定しました。",
-      "caption_en": "The New Year card photo. 3, 2, 1: every flash, the boss blinks. Take three: Jill holds his eyes open.",
+      "caption_ja": "年賀状用の写真。3・2・1、フラッシュのたびに課長は目をつぶる。3回目はユズが目を開けたまま固定しました。",
+      "caption_en": "The New Year card photo. 3, 2, 1: every flash, the boss blinks. Take three: Yuzu holds his eyes open.",
       "tag_set": "C",
       "thumb": {
         "t": 5.0,
@@ -673,17 +673,17 @@
           "ko": "연하장 사진"
         },
         "caption": {
-          "zh": "拍賀年卡的照片。3、2、1，每次閃光課長都閉眼。第三次，吉兒把他的眼睛撐開固定住了。",
-          "ko": "연하장용 사진. 3, 2, 1, 플래시가 터질 때마다 과장님은 눈을 감아요. 세 번째는 질이 눈을 뜬 채로 고정했어요."
+          "zh": "拍賀年卡的照片。3、2、1，每次閃光課長都閉眼。第三次，柚子把他的眼睛撐開固定住了。",
+          "ko": "연하장용 사진. 3, 2, 1, 플래시가 터질 때마다 과장님은 눈을 감아요. 세 번째는 유자가 눈을 뜬 채로 고정했어요."
         }
       },
       "cta": "Tag the one who blinks in every photo/写真で必ず目をつぶる人に送ろう",
       "title_i18n": {
-        "ja": "フラッシュのたびに目をつぶる上司 | レンとジル「年賀状の写真」",
-        "ko": "연하장 사진, 플래시마다 눈을 감는 과장님 | 렌과 질 Ren & Jill",
-        "zh-Hant": "拍賀年卡照片，閃光燈一亮課長就閉眼 | 蓮與吉兒 Ren & Jill",
-        "es": "Foto de Año Nuevo: el jefe parpadea en cada flash | Ren & Jill",
-        "pt": "Foto de Ano-Novo: o chefe pisca a cada flash | Ren & Jill"
+        "ja": "フラッシュのたびに目をつぶる上司 | 東京うさぎオフィス「年賀状の写真」",
+        "ko": "연하장 사진, 플래시마다 눈을 감는 과장님 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "拍賀年卡照片，閃光燈一亮課長就閉眼 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "Foto de Año Nuevo: el jefe parpadea en cada flash | Tokyo Usagi Office",
+        "pt": "Foto de Ano-Novo: o chefe pisca a cada flash | Tokyo Usagi Office"
       },
       "planned_date": "2026-12-06"
     },
@@ -692,8 +692,8 @@
       "ep": "advent",
       "no": 45,
       "title": "アドベントカレンダー",
-      "caption_ja": "12/1。ジルのアドベントカレンダー、1日1個。席を外した隙に、課長が2から24まで全部開けました。24日分、1日で。",
-      "caption_en": "Dec 1. Jill's advent calendar: one a day. While she's away, the boss opens 2 through 24. Twenty-four days, in one day.",
+      "caption_ja": "12/1。ユズのアドベントカレンダー、1日1個。席を外した隙に、課長が2から24まで全部開けました。24日分、1日で。",
+      "caption_en": "Dec 1. Yuzu's advent calendar: one a day. While she's away, the boss opens 2 through 24. Twenty-four days, in one day.",
       "tag_set": "C",
       "thumb": {
         "t": 7.8,
@@ -708,17 +708,17 @@
           "ko": "어드벤트 캘린더"
         },
         "caption": {
-          "zh": "12/1。吉兒的降臨曆，一天一個。趁她離開座位，課長把2到24全開了。24天的份，一天吃完。",
-          "ko": "12/1. 질의 어드벤트 캘린더, 하루에 하나. 자리를 비운 사이 과장님이 2부터 24까지 전부 열었어요. 24일 치를 하루에."
+          "zh": "12/1。柚子的降臨曆，一天一個。趁她離開座位，課長把2到24全開了。24天的份，一天吃完。",
+          "ko": "12/1. 유자의 어드벤트 캘린더, 하루에 하나. 자리를 비운 사이 과장님이 2부터 24까지 전부 열었어요. 24일 치를 하루에."
         }
       },
       "cta": "Send this to the one who can't wait/我慢できない人に送ろう",
       "title_i18n": {
-        "ja": "1日1個のはずが、ジルの留守中に課長が… | レンとジル「アドベントカレンダー」",
-        "ko": "하루에 하나씩인데, 질이 자리 비운 사이 과장님이… | 렌과 질 Ren & Jill",
-        "zh-Hant": "一天只能開一格，課長趁吉兒不在… | 蓮與吉兒 Ren & Jill",
-        "es": "Calendario de Adviento: uno por día, pero el jefe… | Ren & Jill",
-        "pt": "Calendário do Advento: um por dia, mas o chefe… | Ren & Jill"
+        "ja": "1日1個のはずが、ユズの留守中に課長が… | 東京うさぎオフィス「アドベントカレンダー」",
+        "ko": "하루에 하나씩인데, 유자가 자리 비운 사이 과장님이… | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "一天只能開一格，課長趁柚子不在… | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "Calendario de Adviento: uno por día, pero el jefe… | Tokyo Usagi Office",
+        "pt": "Calendário do Advento: um por dia, mas o chefe… | Tokyo Usagi Office"
       },
       "planned_date": "2026-12-07"
     },
@@ -727,8 +727,8 @@
       "ep": "nengajo",
       "no": 46,
       "title": "年賀状100枚",
-      "caption_ja": "年賀状100枚。15:00スタート、17:00にジルは100枚。課長はまだ1枚目。描いていたのは自分の似顔絵でした。",
-      "caption_en": "100 New Year cards. Start at 15:00. By 17:00, Jill is done with 100. The boss is still on card one: a self-portrait.",
+      "caption_ja": "年賀状100枚。15:00スタート、17:00にユズは100枚。課長はまだ1枚目。描いていたのは自分の似顔絵でした。",
+      "caption_en": "100 New Year cards. Start at 15:00. By 17:00, Yuzu is done with 100. The boss is still on card one: a self-portrait.",
       "tag_set": "C",
       "thumb": {
         "t": 7.8,
@@ -743,17 +743,17 @@
           "ko": "연하장 100장"
         },
         "caption": {
-          "zh": "100張賀年卡。15:00開始，17:00吉兒寫完100張。課長還在第一張：畫的是自己的肖像。",
-          "ko": "연하장 100장. 15:00 시작, 17:00에 질은 100장 완료. 과장님은 아직 첫 장. 그리고 있던 건 자기 초상화였어요."
+          "zh": "100張賀年卡。15:00開始，17:00柚子寫完100張。課長還在第一張：畫的是自己的肖像。",
+          "ko": "연하장 100장. 15:00 시작, 17:00에 유자는 100장 완료. 과장님은 아직 첫 장. 그리고 있던 건 자기 초상화였어요."
         }
       },
       "cta": "Tag the one who draws instead of writing/書かずに描く人に送ろう",
       "title_i18n": {
-        "ja": "2時間でジルは100枚、課長はまだ1枚目 | レンとジル「年賀状100枚」",
-        "ko": "2시간 만에 질은 100장, 과장님은 아직 1장째 | 렌과 질 Ren & Jill",
-        "zh-Hant": "兩小時吉兒寫完100張，課長還在第一張 | 蓮與吉兒 Ren & Jill",
-        "es": "Jill termina 100 tarjetas; el jefe sigue en la primera | Ren & Jill",
-        "pt": "Jill termina 100 cartões; o chefe ainda está no primeiro | Ren & Jill"
+        "ja": "2時間でユズは100枚、課長はまだ1枚目 | 東京うさぎオフィス「年賀状100枚」",
+        "ko": "2시간 만에 유자는 100장, 과장님은 아직 1장째 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "兩小時柚子寫完100張，課長還在第一張 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "Yuzu termina 100 tarjetas; el jefe sigue en la primera | Tokyo Usagi Office",
+        "pt": "Yuzu termina 100 cartões; o chefe ainda está no primeiro | Tokyo Usagi Office"
       },
       "planned_date": "2026-12-08"
     },
@@ -762,8 +762,8 @@
       "ep": "mikan",
       "no": 47,
       "title": "みかん5個",
-      "caption_ja": "冬のみかん5個。ジルが1個の皮をきれいにむいている間に、課長が残りを全部。ほっぺをつついたら1個出てきました。",
-      "caption_en": "Five winter mikan. While Jill carefully peels one, the boss takes the rest. A poke on the cheek: one pops out.",
+      "caption_ja": "冬のみかん5個。ユズが1個の皮をきれいにむいている間に、課長が残りを全部。ほっぺをつついたら1個出てきました。",
+      "caption_en": "Five winter mikan. While Yuzu carefully peels one, the boss takes the rest. A poke on the cheek: one pops out.",
       "tag_set": "C",
       "thumb": {
         "t": 6.5,
@@ -778,17 +778,17 @@
           "ko": "귤 다섯 개"
         },
         "caption": {
-          "zh": "冬天的五顆橘子。吉兒仔細剝一顆的時候，課長把剩下的全拿走了。戳一下臉頰，掉出來一顆。",
-          "ko": "겨울 귤 다섯 개. 질이 하나를 정성껏 까는 사이 과장님이 나머지를 전부. 볼을 콕 찌르니 하나가 톡 나왔어요."
+          "zh": "冬天的五顆橘子。柚子仔細剝一顆的時候，課長把剩下的全拿走了。戳一下臉頰，掉出來一顆。",
+          "ko": "겨울 귤 다섯 개. 유자가 하나를 정성껏 까는 사이 과장님이 나머지를 전부. 볼을 콕 찌르니 하나가 톡 나왔어요."
         }
       },
       "cta": "Send this to the one who hides snacks/お菓子を隠し持つ人に送ろう",
       "title_i18n": {
-        "ja": "ジルが1個むく間に、残りのみかんが消えた | レンとジル「みかん5個」",
-        "ko": "질이 귤 하나 까는 사이, 나머지가 사라졌다 | 렌과 질 Ren & Jill",
-        "zh-Hant": "吉兒剝一顆橘子的時間，其他四顆不見了 | 蓮與吉兒 Ren & Jill",
-        "es": "Jill pela una mandarina y las otras cuatro desaparecen | Ren & Jill",
-        "pt": "Jill descasca uma tangerina e as outras quatro somem | Ren & Jill"
+        "ja": "ユズが1個むく間に、残りのみかんが消えた | 東京うさぎオフィス「みかん5個」",
+        "ko": "유자가 귤 하나 까는 사이, 나머지가 사라졌다 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "柚子剝一顆橘子的時間，其他四顆不見了 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "Yuzu pela una mandarina y las otras cuatro desaparecen | Tokyo Usagi Office",
+        "pt": "Yuzu descasca uma tangerina e as outras quatro somem | Tokyo Usagi Office"
       },
       "planned_date": "2026-12-09"
     },
@@ -797,8 +797,8 @@
       "ep": "kairo",
       "no": 48,
       "title": "カイロ10個",
-      "caption_ja": "寒い朝。ジルが課長にカイロを1個。課長は引き出しから残りを出して体じゅうに10個。汗だく。ジルは0個でぶるぶる。",
-      "caption_en": "One heat pack. Nine more from his drawer. All ten on the boss. He's sweating. Jill has zero.",
+      "caption_ja": "寒い朝。ユズが課長にカイロを1個。課長は引き出しから残りを出して体じゅうに10個。汗だく。ユズは0個でぶるぶる。",
+      "caption_en": "One heat pack. Nine more from his drawer. All ten on the boss. He's sweating. Yuzu has zero.",
       "tag_set": "C",
       "thumb": {
         "t": 5.8,
@@ -813,22 +813,22 @@
           "ko": "핫팩 10개"
         },
         "caption": {
-          "zh": "寒冷的早晨。吉兒給了課長一個暖暖包。課長從抽屜拿出剩下的，全身貼了十個，滿頭大汗。吉兒一個都沒有，冷得發抖。",
-          "ko": "추운 아침. 질이 과장님께 핫팩을 하나. 과장님은 서랍에서 나머지를 꺼내 온몸에 10개. 땀범벅. 질은 0개로 발발."
+          "zh": "寒冷的早晨。柚子給了課長一個暖暖包。課長從抽屜拿出剩下的，全身貼了十個，滿頭大汗。柚子一個都沒有，冷得發抖。",
+          "ko": "추운 아침. 유자가 과장님께 핫팩을 하나. 과장님은 서랍에서 나머지를 꺼내 온몸에 10개. 땀범벅. 유자는 0개로 발발."
         }
       },
       "cta": "Send this to the one who's always cold/寒がりな人に送ろう",
       "title_i18n": {
-        "ja": "カイロ10個、全部自分に貼る上司 | レンとジル「カイロ10個」",
-        "ko": "핫팩 10개를 혼자 다 붙인 과장님 | 렌과 질 Ren & Jill",
-        "zh-Hant": "暖暖包10個，課長全貼在自己身上 | 蓮與吉兒 Ren & Jill",
-        "es": "10 parches de calor, todos para el jefe | Ren & Jill",
-        "pt": "10 bolsas de calor, todas para o chefe | Ren & Jill"
+        "ja": "カイロ10個、全部自分に貼る上司 | 東京うさぎオフィス「カイロ10個」",
+        "ko": "핫팩 10개를 혼자 다 붙인 과장님 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "暖暖包10個，課長全貼在自己身上 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "10 parches de calor, todos para el jefe | Tokyo Usagi Office",
+        "pt": "10 bolsas de calor, todas para o chefe | Tokyo Usagi Office"
       },
       "experiment": {
         "var": "caption_en",
-        "std": "A cold morning. Jill gives the boss one heat pack. He finds nine more in his drawer and sticks on all ten. He's sweating. Jill has zero.",
-        "value": "One heat pack. Nine more from his drawer. All ten on the boss. He's sweating. Jill has zero.",
+        "std": "A cold morning. Yuzu gives the boss one heat pack. He finds nine more in his drawer and sticks on all ten. He's sweating. Yuzu has zero.",
+        "value": "One heat pack. Nine more from his drawer. All ten on the boss. He's sweating. Yuzu has zero.",
         "why": "2026-11-16 週次：伸びたウォーターサーバー（1,333再生・見た割合0.72）は英語の書き出しが物の並び（A cup, a mug, a bucket.）。物が増える回で英語1行目だけ物の並びにして比べる"
       },
       "planned_date": "2026-12-11"
@@ -860,11 +860,11 @@
       },
       "cta": "Send this to the one who loves unboxing/開封が好きな人に送ろう",
       "title_i18n": {
-        "ja": "箱の中に箱、また箱…お歳暮の中身は | レンとジル「お歳暮の箱」",
-        "ko": "상자 속에 상자, 또 상자… 연말 선물의 정체 | 렌과 질 Ren & Jill",
-        "zh-Hant": "盒子裡還有盒子…年終禮盒裡是什麼 | 蓮與吉兒 Ren & Jill",
-        "es": "Una caja dentro de otra caja… ¿qué hay en el regalo? | Ren & Jill",
-        "pt": "Uma caixa dentro de outra caixa… o que há no presente? | Ren & Jill"
+        "ja": "箱の中に箱、また箱…お歳暮の中身は | 東京うさぎオフィス「お歳暮の箱」",
+        "ko": "상자 속에 상자, 또 상자… 연말 선물의 정체 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "盒子裡還有盒子…年終禮盒裡是什麼 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "Una caja dentro de otra caja… ¿qué hay en el regalo? | Tokyo Usagi Office",
+        "pt": "Uma caixa dentro de outra caixa… o que há no presente? | Tokyo Usagi Office"
       },
       "planned_date": "2026-12-12"
     },
@@ -873,8 +873,8 @@
       "ep": "kashitsu",
       "no": 50,
       "title": "加湿器MAX",
-      "caption_ja": "冬のオフィスは乾燥。課長が加湿器をMAXにしたら、湿度99%。ジルのメガネは真っ白、課長のお肌はつやつや。",
-      "caption_en": "Dry winter air. The boss turns the humidifier to MAX. Humidity: 99%. Jill's glasses fog up. The boss is glowing.",
+      "caption_ja": "冬のオフィスは乾燥。課長が加湿器をMAXにしたら、湿度99%。ユズのメガネは真っ白、課長のお肌はつやつや。",
+      "caption_en": "Dry winter air. The boss turns the humidifier to MAX. Humidity: 99%. Yuzu's glasses fog up. The boss is glowing.",
       "tag_set": "C",
       "thumb": {
         "t": 7.6,
@@ -889,17 +889,17 @@
           "ko": "가습기 MAX"
         },
         "caption": {
-          "zh": "冬天的辦公室很乾燥。課長把加濕器開到最大，濕度99%。吉兒的眼鏡一片白，課長的皮膚水潤發亮。",
-          "ko": "겨울 사무실은 건조. 과장님이 가습기를 MAX로 했더니 습도 99%. 질의 안경은 새하얗고, 과장님 피부는 촉촉."
+          "zh": "冬天的辦公室很乾燥。課長把加濕器開到最大，濕度99%。柚子的眼鏡一片白，課長的皮膚水潤發亮。",
+          "ko": "겨울 사무실은 건조. 과장님이 가습기를 MAX로 했더니 습도 99%. 유자의 안경은 새하얗고, 과장님 피부는 촉촉."
         }
       },
       "cta": "Send this to the one who blasts the humidifier/加湿器を全開にする人に送ろう",
       "title_i18n": {
-        "ja": "加湿器をMAXにしたら湿度99% | レンとジル「加湿器MAX」",
-        "ko": "가습기를 MAX로 했더니 습도 99% | 렌과 질 Ren & Jill",
-        "zh-Hant": "加濕器開到MAX，濕度99% | 蓮與吉兒 Ren & Jill",
-        "es": "Humidificador al máximo: 99% de humedad | Ren & Jill",
-        "pt": "Umidificador no máximo: 99% de umidade | Ren & Jill"
+        "ja": "加湿器をMAXにしたら湿度99% | 東京うさぎオフィス「加湿器MAX」",
+        "ko": "가습기를 MAX로 했더니 습도 99% | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "加濕器開到MAX，濕度99% | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "Humidificador al máximo: 99% de humedad | Tokyo Usagi Office",
+        "pt": "Umidificador no máximo: 99% de umidade | Tokyo Usagi Office"
       },
       "planned_date": "2026-12-13"
     },
@@ -908,8 +908,8 @@
       "ep": "shred",
       "no": 51,
       "title": "シュレッダーの紙くず",
-      "caption_ja": "年末の書類整理。ジルがシュレッダーにかけた紙くずが山盛りになったら、課長が飛び込んで寝ました。紙くず＝上司の巣。",
-      "caption_en": "Year-end shredding. Jill fills the bin with paper strips. The boss jumps in and falls asleep. Shredded paper = boss nest.",
+      "caption_ja": "年末の書類整理。ユズがシュレッダーにかけた紙くずが山盛りになったら、課長が飛び込んで寝ました。紙くず＝上司の巣。",
+      "caption_en": "Year-end shredding. Yuzu fills the bin with paper strips. The boss jumps in and falls asleep. Shredded paper = boss nest.",
       "tag_set": "C",
       "thumb": {
         "t": 7.0,
@@ -924,17 +924,17 @@
           "ko": "파쇄기 종이"
         },
         "caption": {
-          "zh": "年末整理文件。吉兒碎的紙屑堆成一座山，課長跳進去睡著了。紙屑＝上司的窩。",
-          "ko": "연말 서류 정리. 질이 파쇄한 종이가 수북해지자 과장님이 뛰어들어 잠들었어요. 파쇄 종이 = 상사의 둥지."
+          "zh": "年末整理文件。柚子碎的紙屑堆成一座山，課長跳進去睡著了。紙屑＝上司的窩。",
+          "ko": "연말 서류 정리. 유자가 파쇄한 종이가 수북해지자 과장님이 뛰어들어 잠들었어요. 파쇄 종이 = 상사의 둥지."
         }
       },
       "cta": "Send this to a bunny owner/うさぎを飼っている人に送ろう",
       "title_i18n": {
-        "ja": "シュレッダーの紙くずは上司の巣 | レンとジル「シュレッダーの紙くず」",
-        "ko": "파쇄 종이 더미는 과장님의 둥지 | 렌과 질 Ren & Jill",
-        "zh-Hant": "碎紙堆成了課長的窩 | 蓮與吉兒 Ren & Jill",
-        "es": "El papel triturado es el nido del jefe | Ren & Jill",
-        "pt": "O papel picado virou o ninho do chefe | Ren & Jill"
+        "ja": "シュレッダーの紙くずは上司の巣 | 東京うさぎオフィス「シュレッダーの紙くず」",
+        "ko": "파쇄 종이 더미는 과장님의 둥지 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "碎紙堆成了課長的窩 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "El papel triturado es el nido del jefe | Tokyo Usagi Office",
+        "pt": "O papel picado virou o ninho do chefe | Tokyo Usagi Office"
       },
       "planned_date": "2026-12-14"
     },
@@ -943,8 +943,8 @@
       "ep": "himekuri",
       "no": 52,
       "title": "日めくり",
-      "caption_ja": "今日は12/15。課長が日めくりをめくり始めたら止まらず、28（仕事納め）まで。ジルが15を貼り直しました。",
-      "caption_en": "Today is Dec 15. The boss tears one page off the calendar, then keeps going to Dec 28, the last workday. Jill tapes 15 back on.",
+      "caption_ja": "今日は12/15。課長が日めくりをめくり始めたら止まらず、28（仕事納め）まで。ユズが15を貼り直しました。",
+      "caption_en": "Today is Dec 15. The boss tears one page off the calendar, then keeps going to Dec 28, the last workday. Yuzu tapes 15 back on.",
       "tag_set": "C",
       "thumb": {
         "t": 6.0,
@@ -959,17 +959,17 @@
           "ko": "일력"
         },
         "caption": {
-          "zh": "今天是12/15。課長撕了一頁日曆就停不下來，一路撕到28號（年終最後上班日）。吉兒把15貼了回去。",
-          "ko": "오늘은 12/15. 과장님이 일력을 한 장 넘기더니 멈추지 않고 28일(종무일)까지. 질이 15를 다시 붙였어요."
+          "zh": "今天是12/15。課長撕了一頁日曆就停不下來，一路撕到28號（年終最後上班日）。柚子把15貼了回去。",
+          "ko": "오늘은 12/15. 과장님이 일력을 한 장 넘기더니 멈추지 않고 28일(종무일)까지. 유자가 15를 다시 붙였어요."
         }
       },
       "cta": "Send this to the one counting down to the holidays/冬休みを数えている人に送ろう",
       "title_i18n": {
-        "ja": "日めくりを仕事納めまでめくる上司 | レンとジル「日めくり」",
-        "ko": "달력을 종무일까지 넘겨 버린 과장님 | 렌과 질 Ren & Jill",
-        "zh-Hant": "課長把日曆一路撕到最後上班日 | 蓮與吉兒 Ren & Jill",
-        "es": "El jefe arranca el calendario hasta el último día laboral | Ren & Jill",
-        "pt": "O chefe arranca o calendário até o último dia de trabalho | Ren & Jill"
+        "ja": "日めくりを仕事納めまでめくる上司 | 東京うさぎオフィス「日めくり」",
+        "ko": "달력을 종무일까지 넘겨 버린 과장님 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "課長把日曆一路撕到最後上班日 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "El jefe arranca el calendario hasta el último día laboral | Tokyo Usagi Office",
+        "pt": "O chefe arranca o calendário até o último dia de trabalho | Tokyo Usagi Office"
       },
       "planned_date": "2026-12-15"
     },
@@ -978,8 +978,8 @@
       "ep": "wreath",
       "no": 53,
       "title": "クリスマスリース",
-      "caption_ja": "ジルが飾った、緑のクリスマスリース。仕事をしている間に、課長が横から少しずつ。残ったのは赤いリボンだけでした。",
-      "caption_en": "Jill sets up a green Christmas wreath. While she works, the boss nibbles it from the side. All that's left: the red ribbon.",
+      "caption_ja": "ユズが飾った、緑のクリスマスリース。仕事をしている間に、課長が横から少しずつ。残ったのは赤いリボンだけでした。",
+      "caption_en": "Yuzu sets up a green Christmas wreath. While she works, the boss nibbles it from the side. All that's left: the red ribbon.",
       "tag_set": "C",
       "thumb": {
         "t": 7.4,
@@ -994,17 +994,17 @@
           "ko": "크리스마스 리스"
         },
         "caption": {
-          "zh": "吉兒擺上綠色的聖誕花圈。她工作的時候，課長從旁邊一點一點地吃。最後只剩下紅色的蝴蝶結。",
-          "ko": "질이 장식한 초록 크리스마스 리스. 일하는 사이 과장님이 옆에서 조금씩. 남은 건 빨간 리본뿐이었어요."
+          "zh": "柚子擺上綠色的聖誕花圈。她工作的時候，課長從旁邊一點一點地吃。最後只剩下紅色的蝴蝶結。",
+          "ko": "유자가 장식한 초록 크리스마스 리스. 일하는 사이 과장님이 옆에서 조금씩. 남은 건 빨간 리본뿐이었어요."
         }
       },
       "cta": "Send this to the one who snacks on everything/何でも食べちゃう人に送ろう",
       "title_i18n": {
-        "ja": "クリスマスリースが少しずつ消える | レンとジル「クリスマスリース」",
-        "ko": "크리스마스 리스가 조금씩 사라진다 | 렌과 질 Ren & Jill",
-        "zh-Hant": "聖誕花圈一點一點不見了 | 蓮與吉兒 Ren & Jill",
-        "es": "La corona de Navidad desaparece poco a poco | Ren & Jill",
-        "pt": "A guirlanda de Natal some aos poucos | Ren & Jill"
+        "ja": "クリスマスリースが少しずつ消える | 東京うさぎオフィス「クリスマスリース」",
+        "ko": "크리스마스 리스가 조금씩 사라진다 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "聖誕花圈一點一點不見了 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "La corona de Navidad desaparece poco a poco | Tokyo Usagi Office",
+        "pt": "A guirlanda de Natal some aos poucos | Tokyo Usagi Office"
       },
       "planned_date": "2026-12-16"
     },
@@ -1013,8 +1013,8 @@
       "ep": "katazuke",
       "no": 54,
       "title": "机の片付け",
-      "caption_ja": "年末の片付け。書類の山だった課長の机が、3秒でピカピカに。ジルが引き出しを開けたら、書類が雪崩のように出てきました。",
-      "caption_en": "Year-end cleanup. The boss's desk goes from paper mountain to spotless in three seconds. Then Jill opens his drawer.",
+      "caption_ja": "年末の片付け。書類の山だった課長の机が、3秒でピカピカに。ユズが引き出しを開けたら、書類が雪崩のように出てきました。",
+      "caption_en": "Year-end cleanup. The boss's desk goes from paper mountain to spotless in three seconds. Then Yuzu opens his drawer.",
       "tag_set": "C",
       "thumb": {
         "t": 7.6,
@@ -1029,17 +1029,17 @@
           "ko": "책상 정리"
         },
         "caption": {
-          "zh": "年末大整理。課長堆滿文件的桌子，三秒就變得亮晶晶。吉兒一拉開抽屜，文件像雪崩一樣湧了出來。",
-          "ko": "연말 정리. 서류 산이던 과장님 책상이 3초 만에 반짝반짝. 질이 서랍을 열자 서류가 눈사태처럼 쏟아졌어요."
+          "zh": "年末大整理。課長堆滿文件的桌子，三秒就變得亮晶晶。柚子一拉開抽屜，文件像雪崩一樣湧了出來。",
+          "ko": "연말 정리. 서류 산이던 과장님 책상이 3초 만에 반짝반짝. 유자가 서랍을 열자 서류가 눈사태처럼 쏟아졌어요."
         }
       },
       "cta": "Send this to the one with the messy drawer/引き出しがパンパンな人に送ろう",
       "title_i18n": {
-        "ja": "机が3秒でピカピカ。引き出しを開けたら | レンとジル「机の片付け」",
-        "ko": "책상이 3초 만에 반짝반짝, 서랍을 열어 보니 | 렌과 질 Ren & Jill",
-        "zh-Hant": "桌子3秒變乾淨，打開抽屜卻… | 蓮與吉兒 Ren & Jill",
-        "es": "Escritorio limpio en 3 segundos… hasta abrir el cajón | Ren & Jill",
-        "pt": "Mesa limpa em 3 segundos… até abrir a gaveta | Ren & Jill"
+        "ja": "机が3秒でピカピカ。引き出しを開けたら | 東京うさぎオフィス「机の片付け」",
+        "ko": "책상이 3초 만에 반짝반짝, 서랍을 열어 보니 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "桌子3秒變乾淨，打開抽屜卻… | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "Escritorio limpio en 3 segundos… hasta abrir el cajón | Tokyo Usagi Office",
+        "pt": "Mesa limpa em 3 segundos… até abrir a gaveta | Tokyo Usagi Office"
       },
       "planned_date": "2026-12-17"
     },
@@ -1048,8 +1048,8 @@
       "ep": "tegami",
       "no": 55,
       "title": "サンタへの手紙",
-      "caption_ja": "サンタへの手紙。ジルは小さなカードに1行。課長の手紙は机からはみ出して、床を3メートル。書いてあるのは、ほぼ牧草。",
-      "caption_en": "Letters to Santa. Jill writes one line on a small card. The boss's letter runs off the desk and three meters across the floor. Mostly hay.",
+      "caption_ja": "サンタへの手紙。ユズは小さなカードに1行。課長の手紙は机からはみ出して、床を3メートル。書いてあるのは、ほぼ牧草。",
+      "caption_en": "Letters to Santa. Yuzu writes one line on a small card. The boss's letter runs off the desk and three meters across the floor. Mostly hay.",
       "tag_set": "C",
       "thumb": {
         "t": 7.2,
@@ -1064,17 +1064,17 @@
           "ko": "산타에게 쓰는 편지"
         },
         "caption": {
-          "zh": "給聖誕老人的信。吉兒在小卡片上寫了一行。課長的信超出桌子，在地上拖了三公尺。寫的幾乎都是牧草。",
-          "ko": "산타에게 쓰는 편지. 질은 작은 카드에 한 줄. 과장님 편지는 책상을 넘어 바닥에 3미터. 적힌 건 거의 건초."
+          "zh": "給聖誕老人的信。柚子在小卡片上寫了一行。課長的信超出桌子，在地上拖了三公尺。寫的幾乎都是牧草。",
+          "ko": "산타에게 쓰는 편지. 유자는 작은 카드에 한 줄. 과장님 편지는 책상을 넘어 바닥에 3미터. 적힌 건 거의 건초."
         }
       },
       "cta": "Send this to the one with a long wish list/ほしい物リストが長い人に送ろう",
       "title_i18n": {
-        "ja": "サンタへの手紙が3メートル | レンとジル「サンタへの手紙」",
-        "ko": "산타에게 쓴 편지가 3미터 | 렌과 질 Ren & Jill",
-        "zh-Hant": "給聖誕老人的信長達3公尺 | 蓮與吉兒 Ren & Jill",
-        "es": "Una carta a Papá Noel de 3 metros | Ren & Jill",
-        "pt": "Uma carta de 3 metros para o Papai Noel | Ren & Jill"
+        "ja": "サンタへの手紙が3メートル | 東京うさぎオフィス「サンタへの手紙」",
+        "ko": "산타에게 쓴 편지가 3미터 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "給聖誕老人的信長達3公尺 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "Una carta a Papá Noel de 3 metros | Tokyo Usagi Office",
+        "pt": "Uma carta de 3 metros para o Papai Noel | Tokyo Usagi Office"
       },
       "planned_date": "2026-12-18"
     },
@@ -1083,8 +1083,8 @@
       "ep": "present",
       "no": 56,
       "title": "プレゼント交換",
-      "caption_ja": "プレゼント交換。ジルあての大きな箱が届きました。リボンをほどいたら、中から課長。プレゼントは、上司本人でした。",
-      "caption_en": "Gift exchange. A big box arrives for Jill. She unties the ribbon, and out pops the boss. The gift is the boss himself.",
+      "caption_ja": "プレゼント交換。ユズあての大きな箱が届きました。リボンをほどいたら、中から課長。プレゼントは、上司本人でした。",
+      "caption_en": "Gift exchange. A big box arrives for Yuzu. She unties the ribbon, and out pops the boss. The gift is the boss himself.",
       "tag_set": "C",
       "thumb": {
         "t": 7.6,
@@ -1099,17 +1099,17 @@
           "ko": "선물 교환"
         },
         "caption": {
-          "zh": "交換禮物。一個寫著給吉兒的大箱子送到了。解開緞帶，課長從裡面跳了出來。禮物就是上司本人。",
-          "ko": "선물 교환. 질 앞으로 커다란 상자가 도착했어요. 리본을 풀자 안에서 과장님이. 선물은 상사 본인이었어요."
+          "zh": "交換禮物。一個寫著給柚子的大箱子送到了。解開緞帶，課長從裡面跳了出來。禮物就是上司本人。",
+          "ko": "선물 교환. 유자 앞으로 커다란 상자가 도착했어요. 리본을 풀자 안에서 과장님이. 선물은 상사 본인이었어요."
         }
       },
       "cta": "Send this to the one who's the gift/自分がプレゼントな人に送ろう",
       "title_i18n": {
-        "ja": "プレゼントの箱から出てきたのは上司 | レンとジル「プレゼント交換」",
-        "ko": "선물 상자에서 나온 건 과장님 | 렌과 질 Ren & Jill",
-        "zh-Hant": "禮物盒裡跳出來的是課長 | 蓮與吉兒 Ren & Jill",
-        "es": "Dentro de la caja de regalo: el jefe | Ren & Jill",
-        "pt": "Dentro da caixa de presente: o chefe | Ren & Jill"
+        "ja": "プレゼントの箱から出てきたのは上司 | 東京うさぎオフィス「プレゼント交換」",
+        "ko": "선물 상자에서 나온 건 과장님 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "禮物盒裡跳出來的是課長 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "Dentro de la caja de regalo: el jefe | Tokyo Usagi Office",
+        "pt": "Dentro da caixa de presente: o chefe | Tokyo Usagi Office"
       },
       "planned_date": "2026-12-19"
     },
@@ -1118,8 +1118,8 @@
       "ep": "lights",
       "no": 57,
       "title": "電飾",
-      "caption_ja": "ジルが窓に電飾をかざりました。課長がひもの端に飛びついて、くるくる。スイッチを入れたら、光ったのは課長でした。",
-      "caption_en": "Jill hangs Christmas lights by the window. The boss jumps at the end of the string and spins. She flips the switch: the boss lights up.",
+      "caption_ja": "ユズが窓に電飾をかざりました。課長がひもの端に飛びついて、くるくる。スイッチを入れたら、光ったのは課長でした。",
+      "caption_en": "Yuzu hangs Christmas lights by the window. The boss jumps at the end of the string and spins. She flips the switch: the boss lights up.",
       "tag_set": "C",
       "thumb": {
         "t": 7.0,
@@ -1134,17 +1134,17 @@
           "ko": "크리스마스 전구"
         },
         "caption": {
-          "zh": "吉兒在窗邊掛上聖誕燈飾。課長撲向燈串的尾端，轉啊轉。打開開關，亮起來的是課長。",
-          "ko": "질이 창가에 크리스마스 전구를 달았어요. 과장님이 줄 끝에 달려들어 빙글빙글. 스위치를 켜니 빛난 건 과장님이었어요."
+          "zh": "柚子在窗邊掛上聖誕燈飾。課長撲向燈串的尾端，轉啊轉。打開開關，亮起來的是課長。",
+          "ko": "유자가 창가에 크리스마스 전구를 달았어요. 과장님이 줄 끝에 달려들어 빙글빙글. 스위치를 켜니 빛난 건 과장님이었어요."
         }
       },
       "cta": "Send this to the one who sparkles/キラキラしている人に送ろう",
       "title_i18n": {
-        "ja": "電飾のスイッチを入れたら上司が光った | レンとジル「電飾」",
-        "ko": "전구 스위치를 켰더니 과장님이 빛났다 | 렌과 질 Ren & Jill",
-        "zh-Hant": "打開燈串開關，發亮的是課長 | 蓮與吉兒 Ren & Jill",
-        "es": "Enciende las luces de Navidad y se ilumina el jefe | Ren & Jill",
-        "pt": "Liga as luzes de Natal e quem acende é o chefe | Ren & Jill"
+        "ja": "電飾のスイッチを入れたら上司が光った | 東京うさぎオフィス「電飾」",
+        "ko": "전구 스위치를 켰더니 과장님이 빛났다 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "打開燈串開關，發亮的是課長 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "Enciende las luces de Navidad y se ilumina el jefe | Tokyo Usagi Office",
+        "pt": "Liga as luzes de Natal e quem acende é o chefe | Tokyo Usagi Office"
       },
       "planned_date": "2026-12-20"
     },
@@ -1153,8 +1153,8 @@
       "ep": "hat",
       "no": 58,
       "title": "サンタ帽",
-      "caption_ja": "クリスマスの週。ジルは小さなサンタ帽をちょこん。課長の帽子は特大で、全身すっぽり。よちよち歩いてごつん。持ち上げたら、中で寝ていました。",
-      "caption_en": "Christmas week. Jill wears a tiny Santa hat. The boss's hat is XXL and covers him completely. He waddles into Jill. She lifts it: he's asleep inside.",
+      "caption_ja": "クリスマスの週。ユズは小さなサンタ帽をちょこん。課長の帽子は特大で、全身すっぽり。よちよち歩いてごつん。持ち上げたら、中で寝ていました。",
+      "caption_en": "Christmas week. Yuzu wears a tiny Santa hat. The boss's hat is XXL and covers him completely. He waddles into Yuzu. She lifts it: he's asleep inside.",
       "tag_set": "C",
       "thumb": {
         "t": 7.2,
@@ -1169,17 +1169,17 @@
           "ko": "산타 모자"
         },
         "caption": {
-          "zh": "聖誕週。吉兒戴著小小的聖誕帽。課長的帽子是特大號，整個人都被蓋住，搖搖晃晃撞上吉兒。掀起來一看，他在裡面睡著了。",
-          "ko": "크리스마스 주간. 질은 작은 산타 모자를 쏙. 과장님 모자는 특대라 온몸이 쏙. 뒤뚱뒤뚱 걷다 쿵. 들어 보니 안에서 자고 있었어요."
+          "zh": "聖誕週。柚子戴著小小的聖誕帽。課長的帽子是特大號，整個人都被蓋住，搖搖晃晃撞上柚子。掀起來一看，他在裡面睡著了。",
+          "ko": "크리스마스 주간. 유자는 작은 산타 모자를 쏙. 과장님 모자는 특대라 온몸이 쏙. 뒤뚱뒤뚱 걷다 쿵. 들어 보니 안에서 자고 있었어요."
         }
       },
       "cta": "Send this to the one who naps anywhere/どこでも寝られる人に送ろう",
       "title_i18n": {
-        "ja": "サンタ帽が大きすぎて上司が消えた | レンとジル「サンタ帽」",
-        "ko": "산타 모자가 너무 커서 과장님이 사라졌다 | 렌과 질 Ren & Jill",
-        "zh-Hant": "聖誕帽太大，課長整個不見了 | 蓮與吉兒 Ren & Jill",
-        "es": "Un gorro de Papá Noel tan grande que el jefe desaparece | Ren & Jill",
-        "pt": "Um gorro de Papai Noel tão grande que o chefe some | Ren & Jill"
+        "ja": "サンタ帽が大きすぎて上司が消えた | 東京うさぎオフィス「サンタ帽」",
+        "ko": "산타 모자가 너무 커서 과장님이 사라졌다 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "聖誕帽太大，課長整個不見了 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "Un gorro de Papá Noel tan grande que el jefe desaparece | Tokyo Usagi Office",
+        "pt": "Um gorro de Papai Noel tão grande que o chefe some | Tokyo Usagi Office"
       },
       "planned_date": "2026-12-21"
     },
@@ -1188,8 +1188,8 @@
       "ep": "kakurenbo",
       "no": 59,
       "title": "かくれんぼ",
-      "caption_ja": "昼休みのかくれんぼ。ジルが3つ数える間に、課長はペンを1本、顔の前に立てただけ。本人はかくれたつもり。1秒で発見されました。",
-      "caption_en": "Hide and seek at lunch. While Jill counts to three, the boss stands one pen in front of his face and closes his eyes. Hidden, he thinks. Found in one second.",
+      "caption_ja": "昼休みのかくれんぼ。ユズが3つ数える間に、課長はペンを1本、顔の前に立てただけ。本人はかくれたつもり。1秒で発見されました。",
+      "caption_en": "Hide and seek at lunch. While Yuzu counts to three, the boss stands one pen in front of his face and closes his eyes. Hidden, he thinks. Found in one second.",
       "tag_set": "C",
       "thumb": {
         "t": 4.8,
@@ -1204,17 +1204,17 @@
           "ko": "숨바꼭질"
         },
         "caption": {
-          "zh": "午休時間玩捉迷藏。吉兒數到三的時候，課長只在臉前立了一支筆，自以為躲好了。一秒就被找到了。",
-          "ko": "점심시간 숨바꼭질. 질이 셋을 세는 동안 과장님은 얼굴 앞에 펜 한 자루를 세웠을 뿐. 본인은 숨었다고 생각해요. 1초 만에 발견."
+          "zh": "午休時間玩捉迷藏。柚子數到三的時候，課長只在臉前立了一支筆，自以為躲好了。一秒就被找到了。",
+          "ko": "점심시간 숨바꼭질. 유자가 셋을 세는 동안 과장님은 얼굴 앞에 펜 한 자루를 세웠을 뿐. 본인은 숨었다고 생각해요. 1초 만에 발견."
         }
       },
       "cta": "Send this to the worst hider you know/かくれるのが下手な人に送ろう",
       "title_i18n": {
-        "ja": "ペン1本でかくれたつもりの上司 | レンとジル「かくれんぼ」",
-        "ko": "펜 한 자루 뒤에 숨은 과장님 | 렌과 질 Ren & Jill",
-        "zh-Hant": "課長以為躲在一支筆後面就看不到 | 蓮與吉兒 Ren & Jill",
-        "es": "El jefe se esconde detrás de un bolígrafo | Ren & Jill",
-        "pt": "O chefe se esconde atrás de uma caneta | Ren & Jill"
+        "ja": "ペン1本でかくれたつもりの上司 | 東京うさぎオフィス「かくれんぼ」",
+        "ko": "펜 한 자루 뒤에 숨은 과장님 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "課長以為躲在一支筆後面就看不到 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "El jefe se esconde detrás de un bolígrafo | Tokyo Usagi Office",
+        "pt": "O chefe se esconde atrás de uma caneta | Tokyo Usagi Office"
       },
       "planned_date": "2026-12-22"
     },
@@ -1223,8 +1223,8 @@
       "ep": "kutsushita",
       "no": 60,
       "title": "くつした",
-      "caption_ja": "クリスマスイブ。ジルは小さなくつした、課長は床まで届く特大のくつした。次の朝、課長が頭から潜って見つけたのは牧草1本。それでもご満悦です。",
-      "caption_en": "Christmas Eve. Jill hangs a small stocking. The boss hangs one that reaches the floor. Next morning he dives in headfirst and finds one blade of hay. He's thrilled anyway.",
+      "caption_ja": "クリスマスイブ。ユズは小さなくつした、課長は床まで届く特大のくつした。次の朝、課長が頭から潜って見つけたのは牧草1本。それでもご満悦です。",
+      "caption_en": "Christmas Eve. Yuzu hangs a small stocking. The boss hangs one that reaches the floor. Next morning he dives in headfirst and finds one blade of hay. He's thrilled anyway.",
       "tag_set": "C",
       "thumb": {
         "t": 7.5,
@@ -1239,17 +1239,17 @@
           "ko": "크리스마스 양말"
         },
         "caption": {
-          "zh": "平安夜。吉兒掛上小小的襪子，課長掛上拖到地板的特大襪子。隔天早上，課長一頭鑽進去，找到的是一根牧草。他還是很開心。",
-          "ko": "크리스마스이브. 질은 작은 양말, 과장님은 바닥까지 닿는 특대 양말. 다음 날 아침 과장님이 머리부터 들어가 찾은 건 건초 한 가닥. 그래도 대만족이에요."
+          "zh": "平安夜。柚子掛上小小的襪子，課長掛上拖到地板的特大襪子。隔天早上，課長一頭鑽進去，找到的是一根牧草。他還是很開心。",
+          "ko": "크리스마스이브. 유자는 작은 양말, 과장님은 바닥까지 닿는 특대 양말. 다음 날 아침 과장님이 머리부터 들어가 찾은 건 건초 한 가닥. 그래도 대만족이에요."
         }
       },
       "cta": "Send this to the one who wants it all/欲ばりな人に送ろう",
       "title_i18n": {
-        "ja": "特大のくつしたに入っていたのは牧草1本 | レンとジル「くつした」",
-        "ko": "특대 양말 속에는 건초 한 가닥 | 렌과 질 Ren & Jill",
-        "zh-Hant": "特大聖誕襪裡只有一根牧草 | 蓮與吉兒 Ren & Jill",
-        "es": "En el calcetín gigante: una sola brizna de heno | Ren & Jill",
-        "pt": "Na meia gigante: um único fio de feno | Ren & Jill"
+        "ja": "特大のくつしたに入っていたのは牧草1本 | 東京うさぎオフィス「くつした」",
+        "ko": "특대 양말 속에는 건초 한 가닥 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "特大聖誕襪裡只有一根牧草 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "En el calcetín gigante: una sola brizna de heno | Tokyo Usagi Office",
+        "pt": "Na meia gigante: um único fio de feno | Tokyo Usagi Office"
       },
       "planned_date": "2026-12-24"
     },
@@ -1258,8 +1258,8 @@
       "ep": "tonakai",
       "no": 61,
       "title": "サンタとトナカイ",
-      "caption_ja": "クリスマス。サンタは課長、トナカイはジル。そりはびくともしません。ジルが棒の先に牧草をつるしたら、トナカイ交代。課長がご機嫌で引いています。",
-      "caption_en": "Christmas Day. The boss is Santa, Jill is the reindeer. The sled won't budge. Jill hangs hay on a stick, and the roles swap. Now the boss pulls, happily.",
+      "caption_ja": "クリスマス。サンタは課長、トナカイはユズ。そりはびくともしません。ユズが棒の先に牧草をつるしたら、トナカイ交代。課長がご機嫌で引いています。",
+      "caption_en": "Christmas Day. The boss is Santa, Yuzu is the reindeer. The sled won't budge. Yuzu hangs hay on a stick, and the roles swap. Now the boss pulls, happily.",
       "tag_set": "C",
       "thumb": {
         "t": 7.2,
@@ -1274,17 +1274,17 @@
           "ko": "산타와 순록"
         },
         "caption": {
-          "zh": "聖誕節。聖誕老人是課長，馴鹿是吉兒。雪橇動也不動。吉兒在棒子前端掛上牧草，馴鹿換人了。課長開開心心地拉著。",
-          "ko": "크리스마스. 산타는 과장님, 순록은 질. 썰매는 꿈쩍도 안 해요. 질이 막대 끝에 건초를 매달자 순록 교대. 과장님이 신나게 끌고 있어요."
+          "zh": "聖誕節。聖誕老人是課長，馴鹿是柚子。雪橇動也不動。柚子在棒子前端掛上牧草，馴鹿換人了。課長開開心心地拉著。",
+          "ko": "크리스마스. 산타는 과장님, 순록은 유자. 썰매는 꿈쩍도 안 해요. 유자가 막대 끝에 건초를 매달자 순록 교대. 과장님이 신나게 끌고 있어요."
         }
       },
       "cta": "Send this to the one who does all the pulling/いつも引っぱってくれる人に送ろう",
       "title_i18n": {
-        "ja": "サンタとトナカイが入れ替わった | レンとジル「サンタとトナカイ」",
-        "ko": "산타와 순록이 뒤바뀌었다 | 렌과 질 Ren & Jill",
-        "zh-Hant": "聖誕老人和馴鹿交換了 | 蓮與吉兒 Ren & Jill",
-        "es": "Papá Noel y el reno intercambian papeles | Ren & Jill",
-        "pt": "O Papai Noel e a rena trocam de lugar | Ren & Jill"
+        "ja": "サンタとトナカイが入れ替わった | 東京うさぎオフィス「サンタとトナカイ」",
+        "ko": "산타와 순록이 뒤바뀌었다 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "聖誕老人和馴鹿交換了 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "Papá Noel y el reno intercambian papeles | Tokyo Usagi Office",
+        "pt": "O Papai Noel e a rena trocam de lugar | Tokyo Usagi Office"
       },
       "planned_date": "2026-12-25"
     },
@@ -1293,8 +1293,8 @@
       "ep": "korokoro",
       "no": 62,
       "title": "コロコロ",
-      "caption_ja": "年末の大そうじ。ジルが粘着ローラーで机をコロコロ。ついでに課長もコロコロしたら、取れた毛で、もう1匹分の山ができました。",
-      "caption_en": "Year-end cleaning. Jill runs a lint roller over her desk, then over the boss. The fur that comes off makes a pile the size of a second boss.",
+      "caption_ja": "年末の大そうじ。ユズが粘着ローラーで机をコロコロ。ついでに課長もコロコロしたら、取れた毛で、もう1匹分の山ができました。",
+      "caption_en": "Year-end cleaning. Yuzu runs a lint roller over her desk, then over the boss. The fur that comes off makes a pile the size of a second boss.",
       "tag_set": "C",
       "thumb": {
         "t": 6.8,
@@ -1309,17 +1309,17 @@
           "ko": "돌돌이"
         },
         "caption": {
-          "zh": "年末大掃除。吉兒用黏毛滾筒滾桌子，順便也幫課長滾一滾，結果掉下來的毛堆成了另一隻課長。",
-          "ko": "연말 대청소. 질이 돌돌이로 책상을 돌돌. 내친김에 과장님도 돌돌했더니, 빠진 털로 과장님이 한 마리 더 생겼어요."
+          "zh": "年末大掃除。柚子用黏毛滾筒滾桌子，順便也幫課長滾一滾，結果掉下來的毛堆成了另一隻課長。",
+          "ko": "연말 대청소. 유자가 돌돌이로 책상을 돌돌. 내친김에 과장님도 돌돌했더니, 빠진 털로 과장님이 한 마리 더 생겼어요."
         }
       },
       "cta": "Send this to a bunny owner with a lint roller/コロコロが手放せない人に送ろう",
       "title_i18n": {
-        "ja": "コロコロしたら上司がもう1匹できた | レンとジル「コロコロ」",
-        "ko": "돌돌이를 굴렸더니 과장님이 한 마리 더 | 렌과 질 Ren & Jill",
-        "zh-Hant": "用黏毛滾輪滾一滾，多出一隻課長 | 蓮與吉兒 Ren & Jill",
-        "es": "Pasa el quitapelusas y sale otro jefe | Ren & Jill",
-        "pt": "Passa o rolo tira-pelos e aparece outro chefe | Ren & Jill"
+        "ja": "コロコロしたら上司がもう1匹できた | 東京うさぎオフィス「コロコロ」",
+        "ko": "돌돌이를 굴렸더니 과장님이 한 마리 더 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "用黏毛滾輪滾一滾，多出一隻課長 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "Pasa el quitapelusas y sale otro jefe | Tokyo Usagi Office",
+        "pt": "Passa o rolo tira-pelos e aparece outro chefe | Tokyo Usagi Office"
       },
       "planned_date": "2026-12-23"
     },
@@ -1328,8 +1328,8 @@
       "ep": "kagami",
       "no": 63,
       "title": "鏡もち",
-      "caption_ja": "年末の飾りつけ。ジルは小さな鏡もち。課長は牧草の束を2段重ねて、牧草の鏡もち。目を離したすきに下の段から食べはじめ、上の段がころん。",
-      "caption_en": "Year-end decorations. Jill sets out a small kagami mochi. The boss stacks two bundles of hay into his own. The moment she looks away, he eats the bottom one and the top rolls off.",
+      "caption_ja": "年末の飾りつけ。ユズは小さな鏡もち。課長は牧草の束を2段重ねて、牧草の鏡もち。目を離したすきに下の段から食べはじめ、上の段がころん。",
+      "caption_en": "Year-end decorations. Yuzu sets out a small kagami mochi. The boss stacks two bundles of hay into his own. The moment she looks away, he eats the bottom one and the top rolls off.",
       "tag_set": "C",
       "thumb": {
         "t": 4,
@@ -1344,17 +1344,17 @@
           "ko": "가가미모치"
         },
         "caption": {
-          "zh": "年末布置。吉兒擺上小小的鏡餅。課長把兩捆牧草疊起來，做成牧草鏡餅。一不注意，他就從下層開始吃，上層咕嚕滾了下來。",
-          "ko": "연말 장식. 질은 작은 가가미모치. 과장님은 건초 다발을 두 단으로 쌓아 건초 가가미모치. 한눈판 사이 아랫단부터 먹기 시작해서 윗단이 데굴."
+          "zh": "年末布置。柚子擺上小小的鏡餅。課長把兩捆牧草疊起來，做成牧草鏡餅。一不注意，他就從下層開始吃，上層咕嚕滾了下來。",
+          "ko": "연말 장식. 유자는 작은 가가미모치. 과장님은 건초 다발을 두 단으로 쌓아 건초 가가미모치. 한눈판 사이 아랫단부터 먹기 시작해서 윗단이 데굴."
         }
       },
       "cta": "Send this to the one who can't wait for New Year/お正月が待ちきれない人に送ろう",
       "title_i18n": {
-        "ja": "牧草でできた鏡もちを上司が食べた | レンとジル「鏡もち」",
-        "ko": "건초로 만든 가가미모치를 과장님이 먹었다 | 렌과 질 Ren & Jill",
-        "zh-Hant": "牧草做的鏡餅被課長吃掉了 | 蓮與吉兒 Ren & Jill",
-        "es": "El jefe se come su adorno de Año Nuevo hecho de heno | Ren & Jill",
-        "pt": "O chefe come o enfeite de Ano-Novo feito de feno | Ren & Jill"
+        "ja": "牧草でできた鏡もちを上司が食べた | 東京うさぎオフィス「鏡もち」",
+        "ko": "건초로 만든 가가미모치를 과장님이 먹었다 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "牧草做的鏡餅被課長吃掉了 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "El jefe se come su adorno de Año Nuevo hecho de heno | Tokyo Usagi Office",
+        "pt": "O chefe come o enfeite de Ano-Novo feito de feno | Tokyo Usagi Office"
       },
       "planned_date": "2026-12-26"
     },
@@ -1363,8 +1363,8 @@
       "ep": "fukubiki",
       "no": 64,
       "title": "福引き",
-      "caption_ja": "年末の福引き。ジルが回したら白い玉で、ティッシュ1個。課長が勢いよく回したら金の玉で、牧草1年分。課長は牧草の山にうもれてご満悦です。",
-      "caption_en": "The year-end lucky draw. Jill spins: a white ball, one pack of tissues. The boss spins hard: the gold ball, a year's supply of hay. He's buried in it and loving it.",
+      "caption_ja": "年末の福引き。ユズが回したら白い玉で、ティッシュ1個。課長が勢いよく回したら金の玉で、牧草1年分。課長は牧草の山にうもれてご満悦です。",
+      "caption_en": "The year-end lucky draw. Yuzu spins: a white ball, one pack of tissues. The boss spins hard: the gold ball, a year's supply of hay. He's buried in it and loving it.",
       "tag_set": "C",
       "thumb": {
         "t": 4.6,
@@ -1379,17 +1379,17 @@
           "ko": "경품 추첨"
         },
         "caption": {
-          "zh": "年末抽獎。吉兒轉出白球，得到一包面紙。課長用力一轉，轉出金球，得到一年份的牧草。他被牧草山埋住，開心極了。",
-          "ko": "연말 경품 추첨. 질이 돌리니 흰 공, 티슈 한 개. 과장님이 힘차게 돌리니 금색 공, 건초 1년 치. 과장님은 건초 산에 파묻혀 대만족이에요."
+          "zh": "年末抽獎。柚子轉出白球，得到一包面紙。課長用力一轉，轉出金球，得到一年份的牧草。他被牧草山埋住，開心極了。",
+          "ko": "연말 경품 추첨. 유자가 돌리니 흰 공, 티슈 한 개. 과장님이 힘차게 돌리니 금색 공, 건초 1년 치. 과장님은 건초 산에 파묻혀 대만족이에요."
         }
       },
       "cta": "Send this to the luckiest person you know/くじ運がいい人に送ろう",
       "title_i18n": {
-        "ja": "福引きで上司が当てたのは牧草1年分 | レンとジル「福引き」",
-        "ko": "경품 추첨에서 과장님이 뽑은 건 건초 1년 치 | 렌과 질 Ren & Jill",
-        "zh-Hant": "課長抽獎抽中一年份的牧草 | 蓮與吉兒 Ren & Jill",
-        "es": "El jefe gana un año de heno en el sorteo | Ren & Jill",
-        "pt": "O chefe ganha um ano de feno no sorteio | Ren & Jill"
+        "ja": "福引きで上司が当てたのは牧草1年分 | 東京うさぎオフィス「福引き」",
+        "ko": "경품 추첨에서 과장님이 뽑은 건 건초 1년 치 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "課長抽獎抽中一年份的牧草 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "El jefe gana un año de heno en el sorteo | Tokyo Usagi Office",
+        "pt": "O chefe ganha um ano de feno no sorteio | Tokyo Usagi Office"
       },
       "planned_date": "2026-12-27"
     },
@@ -1398,8 +1398,8 @@
       "ep": "osechi",
       "no": 65,
       "title": "おせちの重箱",
-      "caption_ja": "お正月の重箱。ジルのは色とりどりのおせち。課長のは、1段目も2段目も3段目も牧草。ジルが自分の3段目を開けたら、牧草が1本入っていました。",
-      "caption_en": "New Year boxes. Jill's is full of colorful osechi. The boss's: hay, hay, and hay, all three tiers. Then Jill opens her own third tier: one blade of hay, with a ribbon.",
+      "caption_ja": "お正月の重箱。ユズのは色とりどりのおせち。課長のは、1段目も2段目も3段目も牧草。ユズが自分の3段目を開けたら、牧草が1本入っていました。",
+      "caption_en": "New Year boxes. Yuzu's is full of colorful osechi. The boss's: hay, hay, and hay, all three tiers. Then Yuzu opens her own third tier: one blade of hay, with a ribbon.",
       "tag_set": "C",
       "thumb": {
         "t": 5,
@@ -1414,17 +1414,17 @@
           "ko": "오세치 찬합"
         },
         "caption": {
-          "zh": "新年的重箱。吉兒的是五顏六色的年菜。課長的第一層、第二層、第三層全都是牧草。吉兒打開自己的第三層，裡面有一根牧草。",
-          "ko": "설날 찬합. 질의 것은 알록달록한 오세치. 과장님 것은 1단도 2단도 3단도 건초. 질이 자기 3단째를 열어 보니 건초가 한 가닥 들어 있었어요."
+          "zh": "新年的重箱。柚子的是五顏六色的年菜。課長的第一層、第二層、第三層全都是牧草。柚子打開自己的第三層，裡面有一根牧草。",
+          "ko": "설날 찬합. 유자의 것은 알록달록한 오세치. 과장님 것은 1단도 2단도 3단도 건초. 유자가 자기 3단째를 열어 보니 건초가 한 가닥 들어 있었어요."
         }
       },
       "cta": "Send this to the one who shares their favorite things/好きな物を分けてくれる人に送ろう",
       "title_i18n": {
-        "ja": "上司のおせちは3段とも牧草 | レンとジル「おせちの重箱」",
-        "ko": "과장님의 오세치는 3단 모두 건초 | 렌과 질 Ren & Jill",
-        "zh-Hant": "課長的年菜三層全是牧草 | 蓮與吉兒 Ren & Jill",
-        "es": "La caja de Año Nuevo del jefe: heno, heno y más heno | Ren & Jill",
-        "pt": "A caixa de Ano-Novo do chefe: feno, feno e mais feno | Ren & Jill"
+        "ja": "上司のおせちは3段とも牧草 | 東京うさぎオフィス「おせちの重箱」",
+        "ko": "과장님의 오세치는 3단 모두 건초 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "課長的年菜三層全是牧草 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "La caja de Año Nuevo del jefe: heno, heno y más heno | Tokyo Usagi Office",
+        "pt": "A caixa de Ano-Novo do chefe: feno, feno e mais feno | Tokyo Usagi Office"
       },
       "planned_date": "2026-12-29"
     },
@@ -1433,8 +1433,8 @@
       "ep": "nimotsu",
       "no": 66,
       "title": "帰省の荷造り",
-      "caption_ja": "帰省の荷造り。ジルの小さなスーツケースはパチンと閉まりました。課長のは牧草だけで、あふれてふたが閉まらない。上に乗ってぎゅっぎゅっ…ばーん。",
-      "caption_en": "Packing to go home. Jill's small suitcase clicks shut. The boss packs nothing but hay, and the lid won't close. He sits on it, presses, presses... and it bursts open.",
+      "caption_ja": "帰省の荷造り。ユズの小さなスーツケースはパチンと閉まりました。課長のは牧草だけで、あふれてふたが閉まらない。上に乗ってぎゅっぎゅっ…ばーん。",
+      "caption_en": "Packing to go home. Yuzu's small suitcase clicks shut. The boss packs nothing but hay, and the lid won't close. He sits on it, presses, presses... and it bursts open.",
       "tag_set": "C",
       "thumb": {
         "t": 7.6,
@@ -1449,17 +1449,17 @@
           "ko": "귀성 짐 싸기"
         },
         "caption": {
-          "zh": "返鄉打包。吉兒的小行李箱啪地關上了。課長的只裝了牧草，滿出來蓋不上。他坐上去用力壓……砰地彈開了。",
-          "ko": "귀성 짐 싸기. 질의 작은 캐리어는 딸깍 닫혔어요. 과장님 것은 건초뿐이라 넘쳐서 뚜껑이 안 닫혀요. 위에 앉아 꾹꾹… 펑."
+          "zh": "返鄉打包。柚子的小行李箱啪地關上了。課長的只裝了牧草，滿出來蓋不上。他坐上去用力壓……砰地彈開了。",
+          "ko": "귀성 짐 싸기. 유자의 작은 캐리어는 딸깍 닫혔어요. 과장님 것은 건초뿐이라 넘쳐서 뚜껑이 안 닫혀요. 위에 앉아 꾹꾹… 펑."
         }
       },
       "cta": "Send this to the one who always overpacks/荷物が多い人に送ろう",
       "title_i18n": {
-        "ja": "牧草だけ詰めたスーツケースが閉まらない | レンとジル「帰省の荷造り」",
-        "ko": "건초만 넣은 캐리어가 닫히지 않는다 | 렌과 질 Ren & Jill",
-        "zh-Hant": "只塞牧草的行李箱關不起來 | 蓮與吉兒 Ren & Jill",
-        "es": "Una maleta llena de heno que no cierra | Ren & Jill",
-        "pt": "Uma mala cheia de feno que não fecha | Ren & Jill"
+        "ja": "牧草だけ詰めたスーツケースが閉まらない | 東京うさぎオフィス「帰省の荷造り」",
+        "ko": "건초만 넣은 캐리어가 닫히지 않는다 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "只塞牧草的行李箱關不起來 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "Una maleta llena de heno que no cierra | Tokyo Usagi Office",
+        "pt": "Uma mala cheia de feno que não fecha | Tokyo Usagi Office"
       },
       "planned_date": "2026-12-30"
     },
@@ -1468,8 +1468,8 @@
       "ep": "countdown",
       "no": 67,
       "title": "カウントダウン",
-      "caption_ja": "大みそか。ジルはクラッカーを持って3・2・1、パーン。課長は横でぐっすり。0:01、課長がはっと起きて、1人でパーン。1分遅れて新年です。よいお年を。",
-      "caption_en": "New Year's Eve. Jill counts down 3, 2, 1 and pops her party popper. The boss sleeps right through it. At 0:01 he wakes up and pops his alone. One minute late. Happy New Year!",
+      "caption_ja": "大みそか。ユズはクラッカーを持って3・2・1、パーン。課長は横でぐっすり。0:01、課長がはっと起きて、1人でパーン。1分遅れて新年です。よいお年を。",
+      "caption_en": "New Year's Eve. Yuzu counts down 3, 2, 1 and pops her party popper. The boss sleeps right through it. At 0:01 he wakes up and pops his alone. One minute late. Happy New Year!",
       "tag_set": "C",
       "thumb": {
         "t": 4.9,
@@ -1484,17 +1484,17 @@
           "ko": "카운트다운"
         },
         "caption": {
-          "zh": "除夕。吉兒拿著拉炮倒數三、二、一，砰！課長在旁邊睡得正熟。0:01，課長猛然醒來，一個人拉了拉炮。晚了一分鐘的新年。祝大家新年快樂。",
-          "ko": "섣달그믐. 질은 폭죽을 들고 3, 2, 1, 펑. 과장님은 옆에서 쿨쿨. 0시 1분, 과장님이 퍼뜩 깨서 혼자 펑. 1분 늦은 새해예요. 새해 복 많이 받으세요."
+          "zh": "除夕。柚子拿著拉炮倒數三、二、一，砰！課長在旁邊睡得正熟。0:01，課長猛然醒來，一個人拉了拉炮。晚了一分鐘的新年。祝大家新年快樂。",
+          "ko": "섣달그믐. 유자는 폭죽을 들고 3, 2, 1, 펑. 과장님은 옆에서 쿨쿨. 0시 1분, 과장님이 퍼뜩 깨서 혼자 펑. 1분 늦은 새해예요. 새해 복 많이 받으세요."
         }
       },
       "cta": "Send this to the one who always falls asleep before midnight/年越しまで起きていられない人に送ろう",
       "title_i18n": {
-        "ja": "年越しを寝すごして1分遅れの新年 | レンとジル「カウントダウン」",
-        "ko": "카운트다운 내내 자다가 1분 늦은 새해 | 렌과 질 Ren & Jill",
-        "zh-Hant": "睡過倒數，晚1分鐘的新年 | 蓮與吉兒 Ren & Jill",
-        "es": "Se duerme en la cuenta atrás: Año Nuevo con 1 minuto de retraso | Ren & Jill",
-        "pt": "Dorme na contagem regressiva: Ano-Novo com 1 minuto de atraso | Ren & Jill"
+        "ja": "年越しを寝すごして1分遅れの新年 | 東京うさぎオフィス「カウントダウン」",
+        "ko": "카운트다운 내내 자다가 1분 늦은 새해 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "睡過倒數，晚1分鐘的新年 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "Se duerme en la cuenta atrás: Año Nuevo con 1 minuto de retraso | Tokyo Usagi Office",
+        "pt": "Dorme na contagem regressiva: Ano-Novo com 1 minuto de atraso | Tokyo Usagi Office"
       },
       "planned_date": "2026-12-31"
     },
@@ -1503,8 +1503,8 @@
       "ep": "aisatsu",
       "no": 68,
       "title": "新年のごあいさつ",
-      "caption_ja": "あけましておめでとうございます。ジルはきちんとおじぎ。課長もおじぎ…深く、もっと深く、そのまま前にころん。今年もよろしくお願いします。",
-      "caption_en": "Happy New Year! Jill gives a neat bow. The boss bows too... deeper, deeper, and rolls right over. Here's to another year together.",
+      "caption_ja": "あけましておめでとうございます。ユズはきちんとおじぎ。課長もおじぎ…深く、もっと深く、そのまま前にころん。今年もよろしくお願いします。",
+      "caption_en": "Happy New Year! Yuzu gives a neat bow. The boss bows too... deeper, deeper, and rolls right over. Here's to another year together.",
       "tag_set": "C",
       "thumb": {
         "t": 5.15,
@@ -1519,17 +1519,17 @@
           "ko": "새해 인사"
         },
         "caption": {
-          "zh": "新年快樂。吉兒規規矩矩地鞠躬。課長也鞠躬……越來越深，然後直接往前滾了一圈。今年也請多多指教。",
-          "ko": "새해 복 많이 받으세요. 질은 반듯하게 인사. 과장님도 인사… 깊게, 더 깊게, 그대로 앞으로 데굴. 올해도 잘 부탁드려요."
+          "zh": "新年快樂。柚子規規矩矩地鞠躬。課長也鞠躬……越來越深，然後直接往前滾了一圈。今年也請多多指教。",
+          "ko": "새해 복 많이 받으세요. 유자는 반듯하게 인사. 과장님도 인사… 깊게, 더 깊게, 그대로 앞으로 데굴. 올해도 잘 부탁드려요."
         }
       },
       "cta": "Send this to someone you want to say Happy New Year to/新年のあいさつをしたい人に送ろう",
       "title_i18n": {
-        "ja": "新年のおじぎが深すぎた上司 | レンとジル「新年のごあいさつ」",
-        "ko": "새해 인사를 너무 깊이 한 과장님 | 렌과 질 Ren & Jill",
-        "zh-Hant": "課長新年鞠躬鞠得太深了 | 蓮與吉兒 Ren & Jill",
-        "es": "La reverencia de Año Nuevo del jefe: demasiado profunda | Ren & Jill",
-        "pt": "A reverência de Ano-Novo do chefe: funda demais | Ren & Jill"
+        "ja": "新年のおじぎが深すぎた上司 | 東京うさぎオフィス「新年のごあいさつ」",
+        "ko": "새해 인사를 너무 깊이 한 과장님 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "課長新年鞠躬鞠得太深了 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "La reverencia de Año Nuevo del jefe: demasiado profunda | Tokyo Usagi Office",
+        "pt": "A reverência de Ano-Novo do chefe: funda demais | Tokyo Usagi Office"
       },
       "planned_date": "2027-01-01"
     },
@@ -1538,8 +1538,8 @@
       "ep": "omikuji",
       "no": 69,
       "title": "おみくじ",
-      "caption_ja": "お正月のおみくじ。ジルは大吉。課長が勢いよくふったら、棒がばらばら。出てきた紙は「牧草吉」。課長は大喜びです。",
-      "caption_en": "New Year fortunes. Jill draws great luck. The boss shakes so hard the sticks fly everywhere. His slip says: hay luck. He's overjoyed.",
+      "caption_ja": "お正月のおみくじ。ユズは大吉。課長が勢いよくふったら、棒がばらばら。出てきた紙は「牧草吉」。課長は大喜びです。",
+      "caption_en": "New Year fortunes. Yuzu draws great luck. The boss shakes so hard the sticks fly everywhere. His slip says: hay luck. He's overjoyed.",
       "tag_set": "C",
       "thumb": {
         "t": 6.9,
@@ -1554,17 +1554,17 @@
           "ko": "새해 운세 뽑기"
         },
         "caption": {
-          "zh": "新年抽籤。吉兒抽到大吉。課長用力一搖，籤條散了一地。抽出來的紙寫著「牧草吉」。課長開心極了。",
-          "ko": "새해 운세 뽑기. 질은 대길. 과장님이 힘차게 흔들자 막대가 와르르. 나온 종이에는 '건초길'. 과장님은 크게 기뻐해요."
+          "zh": "新年抽籤。柚子抽到大吉。課長用力一搖，籤條散了一地。抽出來的紙寫著「牧草吉」。課長開心極了。",
+          "ko": "새해 운세 뽑기. 유자는 대길. 과장님이 힘차게 흔들자 막대가 와르르. 나온 종이에는 '건초길'. 과장님은 크게 기뻐해요."
         }
       },
       "cta": "Send this to the luckiest person you know/運がいい人に送ろう",
       "title_i18n": {
-        "ja": "おみくじを引いたら「牧草吉」 | レンとジル「おみくじ」",
-        "ko": "새해 운세를 뽑았더니 \"건초 길\" | 렌과 질 Ren & Jill",
-        "zh-Hant": "新年抽籤抽到「牧草吉」 | 蓮與吉兒 Ren & Jill",
-        "es": "La suerte de Año Nuevo del jefe: \"suerte de heno\" | Ren & Jill",
-        "pt": "A sorte de Ano-Novo do chefe: \"sorte de feno\" | Ren & Jill"
+        "ja": "おみくじを引いたら「牧草吉」 | 東京うさぎオフィス「おみくじ」",
+        "ko": "새해 운세를 뽑았더니 \"건초 길\" | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "新年抽籤抽到「牧草吉」 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "La suerte de Año Nuevo del jefe: \"suerte de heno\" | Tokyo Usagi Office",
+        "pt": "A sorte de Ano-Novo do chefe: \"sorte de feno\" | Tokyo Usagi Office"
       },
       "planned_date": "2027-01-02"
     },
@@ -1573,8 +1573,8 @@
       "ep": "tako",
       "no": 70,
       "title": "凧あげ",
-      "caption_ja": "お正月の凧あげ。ジルの小さな凧はすいすい。強い風が吹いて、課長のたれ耳がばたばた…課長がふわっと浮きました。いちばんよくあがる凧は、上司でした。",
-      "caption_en": "Kite flying for New Year. Jill's little kite sails up. Then a strong gust flaps the boss's floppy ears, and up he floats. The best kite of all: the boss.",
+      "caption_ja": "お正月の凧あげ。ユズの小さな凧はすいすい。強い風が吹いて、課長のたれ耳がばたばた…課長がふわっと浮きました。いちばんよくあがる凧は、上司でした。",
+      "caption_en": "Kite flying for New Year. Yuzu's little kite sails up. Then a strong gust flaps the boss's floppy ears, and up he floats. The best kite of all: the boss.",
       "tag_set": "C",
       "thumb": {
         "t": 4.8,
@@ -1589,17 +1589,17 @@
           "ko": "연날리기"
         },
         "caption": {
-          "zh": "新年放風箏。吉兒的小風箏飛得很順。一陣強風吹來，課長的垂耳啪噠啪噠……課長輕飄飄地浮起來了。飛得最高的風箏，是上司。",
-          "ko": "설날 연날리기. 질의 작은 연은 술술. 강한 바람이 불자 과장님의 처진 귀가 펄럭펄럭… 과장님이 둥실 떠올랐어요. 가장 잘 나는 연은 상사였어요."
+          "zh": "新年放風箏。柚子的小風箏飛得很順。一陣強風吹來，課長的垂耳啪噠啪噠……課長輕飄飄地浮起來了。飛得最高的風箏，是上司。",
+          "ko": "설날 연날리기. 유자의 작은 연은 술술. 강한 바람이 불자 과장님의 처진 귀가 펄럭펄럭… 과장님이 둥실 떠올랐어요. 가장 잘 나는 연은 상사였어요."
         }
       },
       "cta": "Send this to the one who gets carried away/すぐ舞い上がる人に送ろう",
       "title_i18n": {
-        "ja": "凧あげでいちばんあがったのは上司 | レンとジル「凧あげ」",
-        "ko": "연날리기에서 가장 높이 뜬 건 과장님 | 렌과 질 Ren & Jill",
-        "zh-Hant": "放風箏，飛最高的是課長 | 蓮與吉兒 Ren & Jill",
-        "es": "Día de cometas: el que más vuela es el jefe | Ren & Jill",
-        "pt": "Dia de pipas: quem voa mais alto é o chefe | Ren & Jill"
+        "ja": "凧あげでいちばんあがったのは上司 | 東京うさぎオフィス「凧あげ」",
+        "ko": "연날리기에서 가장 높이 뜬 건 과장님 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "放風箏，飛最高的是課長 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "Día de cometas: el que más vuela es el jefe | Tokyo Usagi Office",
+        "pt": "Dia de pipas: quem voa mais alto é o chefe | Tokyo Usagi Office"
       },
       "planned_date": "2027-01-03"
     },
@@ -1608,8 +1608,8 @@
       "ep": "hajime",
       "no": 71,
       "title": "仕事始め",
-      "caption_ja": "1月4日、仕事始め。ジルがカレンダーを1月にすると、課長がこっそり12月31日に戻します。何度も。最後はテープで固定。上司の心は、まだ12月です。",
-      "caption_en": "January 4, back to work. Jill turns the calendar to January; the boss quietly flips it back to December 31. Again and again. Finally: tape. His heart is still in December.",
+      "caption_ja": "1月4日、仕事始め。ユズがカレンダーを1月にすると、課長がこっそり12月31日に戻します。何度も。最後はテープで固定。上司の心は、まだ12月です。",
+      "caption_en": "January 4, back to work. Yuzu turns the calendar to January; the boss quietly flips it back to December 31. Again and again. Finally: tape. His heart is still in December.",
       "tag_set": "C",
       "thumb": {
         "t": 4.6,
@@ -1624,17 +1624,17 @@
           "ko": "새해 첫 출근"
         },
         "caption": {
-          "zh": "1月4日，新年開工。吉兒把月曆翻到1月，課長就偷偷翻回12月31日。一次又一次。最後用膠帶固定。上司的心，還在12月。",
-          "ko": "1월 4일, 새해 첫 출근. 질이 달력을 1월로 넘기면 과장님이 몰래 12월 31일로 돌려놓아요. 몇 번이고. 마지막엔 테이프로 고정. 상사의 마음은 아직 12월이에요."
+          "zh": "1月4日，新年開工。柚子把月曆翻到1月，課長就偷偷翻回12月31日。一次又一次。最後用膠帶固定。上司的心，還在12月。",
+          "ko": "1월 4일, 새해 첫 출근. 유자가 달력을 1월로 넘기면 과장님이 몰래 12월 31일로 돌려놓아요. 몇 번이고. 마지막엔 테이프로 고정. 상사의 마음은 아직 12월이에요."
         }
       },
       "cta": "Send this to the one who misses the holidays/休みが恋しい人に送ろう",
       "title_i18n": {
-        "ja": "仕事始めなのにカレンダーを12月に戻す上司 | レンとジル「仕事始め」",
-        "ko": "새해 첫 출근인데 달력을 12월로 되돌리는 과장님 | 렌과 질 Ren & Jill",
-        "zh-Hant": "開工日，課長偷偷把月曆翻回12月 | 蓮與吉兒 Ren & Jill",
-        "es": "Vuelta al trabajo: el jefe devuelve el calendario a diciembre | Ren & Jill",
-        "pt": "Volta ao trabalho: o chefe volta o calendário para dezembro | Ren & Jill"
+        "ja": "仕事始めなのにカレンダーを12月に戻す上司 | 東京うさぎオフィス「仕事始め」",
+        "ko": "새해 첫 출근인데 달력을 12월로 되돌리는 과장님 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "開工日，課長偷偷把月曆翻回12月 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "Vuelta al trabajo: el jefe devuelve el calendario a diciembre | Tokyo Usagi Office",
+        "pt": "Volta ao trabalho: o chefe volta o calendário para dezembro | Tokyo Usagi Office"
       },
       "planned_date": "2027-01-04"
     },
@@ -1643,8 +1643,8 @@
       "ep": "kakizome",
       "no": 72,
       "title": "書き初め",
-      "caption_ja": "書き初め。ジルは「努力」と書いて壁にはります。課長も大きな筆でぶんぶん。はり出された今年の抱負は……「牧草」。",
-      "caption_en": "New Year calligraphy. Jill writes \"effort\" and pins it on the wall. The boss grabs a giant brush. His goal for the year: \"HAY.\"",
+      "caption_ja": "書き初め。ユズは「努力」と書いて壁にはります。課長も大きな筆でぶんぶん。はり出された今年の抱負は……「牧草」。",
+      "caption_en": "New Year calligraphy. Yuzu writes \"effort\" and pins it on the wall. The boss grabs a giant brush. His goal for the year: \"HAY.\"",
       "tag_set": "C",
       "thumb": {
         "t": 4.6,
@@ -1659,17 +1659,17 @@
           "ko": "새해 첫 붓글씨"
         },
         "caption": {
-          "zh": "新春試筆。吉兒寫下「努力」貼在牆上。課長也拿起大毛筆揮來揮去。貼出來的今年目標是……「牧草」。",
-          "ko": "새해 첫 붓글씨. 질은 '노력'이라고 써서 벽에 붙여요. 과장님도 큰 붓을 휘두릅니다. 붙여진 올해의 목표는…… '목초'."
+          "zh": "新春試筆。柚子寫下「努力」貼在牆上。課長也拿起大毛筆揮來揮去。貼出來的今年目標是……「牧草」。",
+          "ko": "새해 첫 붓글씨. 유자는 '노력'이라고 써서 벽에 붙여요. 과장님도 큰 붓을 휘두릅니다. 붙여진 올해의 목표는…… '목초'."
         }
       },
       "cta": "Send this to someone with a clear New Year goal/今年の目標が決まっている人に送ろう",
       "title_i18n": {
-        "ja": "書き初めで上司が書いた今年の抱負 | レンとジル「書き初め」",
-        "ko": "새해 붓글씨, 과장님의 올해 목표는 | 렌과 질 Ren & Jill",
-        "zh-Hant": "新年書法，課長寫下的今年目標 | 蓮與吉兒 Ren & Jill",
-        "es": "Caligrafía de Año Nuevo: el propósito del jefe | Ren & Jill",
-        "pt": "Caligrafia de Ano-Novo: a meta do chefe | Ren & Jill"
+        "ja": "書き初めで上司が書いた今年の抱負 | 東京うさぎオフィス「書き初め」",
+        "ko": "새해 붓글씨, 과장님의 올해 목표는 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "新年書法，課長寫下的今年目標 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "Caligrafía de Año Nuevo: el propósito del jefe | Tokyo Usagi Office",
+        "pt": "Caligrafia de Ano-Novo: a meta do chefe | Tokyo Usagi Office"
       },
       "planned_date": "2027-01-05"
     },
@@ -1678,8 +1678,8 @@
       "ep": "nenga2",
       "no": 73,
       "title": "年賀状の仕分け",
-      "caption_ja": "届いた年賀状を仕分けるジル。課長あての山がどんどん高くなって、課長はご満悦。でも1枚めくると差出人は「課長」。もう1枚も「課長」。",
-      "caption_en": "Jill sorts the New Year cards. The boss's pile keeps growing and he looks very pleased. She flips one over: from the boss. Another: also from the boss.",
+      "caption_ja": "届いた年賀状を仕分けるユズ。課長あての山がどんどん高くなって、課長はご満悦。でも1枚めくると差出人は「課長」。もう1枚も「課長」。",
+      "caption_en": "Yuzu sorts the New Year cards. The boss's pile keeps growing and he looks very pleased. She flips one over: from the boss. Another: also from the boss.",
       "tag_set": "C",
       "thumb": {
         "t": 4.0,
@@ -1694,17 +1694,17 @@
           "ko": "연하장 정리"
         },
         "caption": {
-          "zh": "吉兒在整理收到的賀年卡。課長的那疊越來越高，課長得意洋洋。可是翻開一張，寄件人是「課長」。再翻一張，還是「課長」。",
-          "ko": "받은 연하장을 정리하는 질. 과장님 앞으로 온 더미가 점점 높아져서 과장님은 흐뭇해요. 그런데 한 장을 뒤집어 보니 보낸 사람은 '과장'. 또 한 장도 '과장'."
+          "zh": "柚子在整理收到的賀年卡。課長的那疊越來越高，課長得意洋洋。可是翻開一張，寄件人是「課長」。再翻一張，還是「課長」。",
+          "ko": "받은 연하장을 정리하는 유자. 과장님 앞으로 온 더미가 점점 높아져서 과장님은 흐뭇해요. 그런데 한 장을 뒤집어 보니 보낸 사람은 '과장'. 또 한 장도 '과장'."
         }
       },
       "cta": "Send this to someone who sends cards to themselves/自分あてに手紙を出しそうな人に送ろう",
       "title_i18n": {
-        "ja": "上司あての年賀状、差出人は全部上司 | レンとジル「年賀状の仕分け」",
-        "ko": "과장님 앞으로 온 연하장, 보낸 사람은 전부 과장님 | 렌과 질 Ren & Jill",
-        "zh-Hant": "寄給課長的賀年卡，寄件人全是課長 | 蓮與吉兒 Ren & Jill",
-        "es": "Las tarjetas de Año Nuevo del jefe: todas enviadas por él | Ren & Jill",
-        "pt": "Os cartões de Ano-Novo do chefe: todos enviados por ele | Ren & Jill"
+        "ja": "上司あての年賀状、差出人は全部上司 | 東京うさぎオフィス「年賀状の仕分け」",
+        "ko": "과장님 앞으로 온 연하장, 보낸 사람은 전부 과장님 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "寄給課長的賀年卡，寄件人全是課長 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "Las tarjetas de Año Nuevo del jefe: todas enviadas por él | Tokyo Usagi Office",
+        "pt": "Os cartões de Ano-Novo do chefe: todos enviados por ele | Tokyo Usagi Office"
       },
       "planned_date": "2027-01-06"
     },
@@ -1713,8 +1713,8 @@
       "ep": "fukuwarai",
       "no": 74,
       "title": "福笑い",
-      "caption_ja": "お正月の福笑い。目かくしのジルが置いた顔は、ばらばら。課長は大笑い。次は課長の番。できた顔は完ぺき……目かくしは、おでこの上でした。",
-      "caption_en": "A New Year blindfold game: place the eyes, nose and mouth on a face. Jill's face is a mess, and the boss laughs. His turn: a perfect face. His blindfold? On his forehead.",
+      "caption_ja": "お正月の福笑い。目かくしのユズが置いた顔は、ばらばら。課長は大笑い。次は課長の番。できた顔は完ぺき……目かくしは、おでこの上でした。",
+      "caption_en": "A New Year blindfold game: place the eyes, nose and mouth on a face. Yuzu's face is a mess, and the boss laughs. His turn: a perfect face. His blindfold? On his forehead.",
       "tag_set": "C",
       "thumb": {
         "t": 5.9,
@@ -1729,17 +1729,17 @@
           "ko": "눈 가리고 얼굴 만들기"
         },
         "caption": {
-          "zh": "新年的矇眼拼臉遊戲。矇著眼的吉兒拼出來的臉亂七八糟，課長大笑。輪到課長，拼出來的臉完美無缺……原來眼罩綁在額頭上。",
-          "ko": "새해 눈 가리고 얼굴 만들기 놀이. 눈을 가린 질이 만든 얼굴은 엉망이고, 과장님은 크게 웃어요. 과장님 차례, 완벽한 얼굴…… 안대는 이마 위에 있었어요."
+          "zh": "新年的矇眼拼臉遊戲。矇著眼的柚子拼出來的臉亂七八糟，課長大笑。輪到課長，拼出來的臉完美無缺……原來眼罩綁在額頭上。",
+          "ko": "새해 눈 가리고 얼굴 만들기 놀이. 눈을 가린 유자가 만든 얼굴은 엉망이고, 과장님은 크게 웃어요. 과장님 차례, 완벽한 얼굴…… 안대는 이마 위에 있었어요."
         }
       },
       "cta": "Send this to the friend who always peeks/いつもこっそり見る友だちに送ろう",
       "title_i18n": {
-        "ja": "福笑いで完ぺきな顔。目かくしはおでこ | レンとジル「福笑い」",
-        "ko": "눈 가리고 완벽한 얼굴? 눈가리개는 이마에 | 렌과 질 Ren & Jill",
-        "zh-Hant": "蒙眼拼出完美的臉？眼罩在額頭上 | 蓮與吉兒 Ren & Jill",
-        "es": "Una cara perfecta con los ojos vendados… ¿o no? | Ren & Jill",
-        "pt": "Um rosto perfeito de olhos vendados… será? | Ren & Jill"
+        "ja": "福笑いで完ぺきな顔。目かくしはおでこ | 東京うさぎオフィス「福笑い」",
+        "ko": "눈 가리고 완벽한 얼굴? 눈가리개는 이마에 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "蒙眼拼出完美的臉？眼罩在額頭上 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "Una cara perfecta con los ojos vendados… ¿o no? | Tokyo Usagi Office",
+        "pt": "Um rosto perfeito de olhos vendados… será? | Tokyo Usagi Office"
       },
       "planned_date": "2027-01-07"
     },
@@ -1748,8 +1748,8 @@
       "ep": "seidenki",
       "no": 75,
       "title": "静電気",
-      "caption_ja": "乾いた冬のオフィス。ジルが書類をわたそうとしたら、パチッ。課長の毛がパチパチして、ふせん・書類・クリップが次々くっつきます。さがしていたジルのペンも、課長にくっついていました。",
-      "caption_en": "A dry winter office. Jill hands the boss a paper and ZAP. Now his fur crackles, and sticky notes, papers and clips fly onto him. Jill's missing pen? Stuck to the boss too.",
+      "caption_ja": "乾いた冬のオフィス。ユズが書類をわたそうとしたら、パチッ。課長の毛がパチパチして、ふせん・書類・クリップが次々くっつきます。さがしていたユズのペンも、課長にくっついていました。",
+      "caption_en": "A dry winter office. Yuzu hands the boss a paper and ZAP. Now his fur crackles, and sticky notes, papers and clips fly onto him. Yuzu's missing pen? Stuck to the boss too.",
       "tag_set": "C",
       "thumb": {
         "t": 5.0,
@@ -1764,17 +1764,17 @@
           "ko": "정전기"
         },
         "caption": {
-          "zh": "乾燥的冬天辦公室。吉兒要把文件遞給課長，啪！課長的毛劈啪作響，便利貼、文件、迴紋針一個接一個黏上去。吉兒在找的筆，也黏在課長身上。",
-          "ko": "건조한 겨울 사무실. 질이 서류를 건네려는 순간 찌릿! 과장님 털이 파직파직, 포스트잇·서류·클립이 줄줄이 달라붙어요. 질이 찾던 펜도 과장님한테 붙어 있었어요."
+          "zh": "乾燥的冬天辦公室。柚子要把文件遞給課長，啪！課長的毛劈啪作響，便利貼、文件、迴紋針一個接一個黏上去。柚子在找的筆，也黏在課長身上。",
+          "ko": "건조한 겨울 사무실. 유자가 서류를 건네려는 순간 찌릿! 과장님 털이 파직파직, 포스트잇·서류·클립이 줄줄이 달라붙어요. 유자가 찾던 펜도 과장님한테 붙어 있었어요."
         }
       },
       "cta": "Send this to someone who always gets zapped/静電気によくやられる人に送ろう",
       "title_i18n": {
-        "ja": "静電気で上司に何でもくっつく | レンとジル「静電気」",
-        "ko": "정전기로 과장님에게 뭐든 달라붙는다 | 렌과 질 Ren & Jill",
-        "zh-Hant": "靜電讓什麼都黏到課長身上 | 蓮與吉兒 Ren & Jill",
-        "es": "Electricidad estática: todo se le pega al jefe | Ren & Jill",
-        "pt": "Eletricidade estática: tudo gruda no chefe | Ren & Jill"
+        "ja": "静電気で上司に何でもくっつく | 東京うさぎオフィス「静電気」",
+        "ko": "정전기로 과장님에게 뭐든 달라붙는다 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "靜電讓什麼都黏到課長身上 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "Electricidad estática: todo se le pega al jefe | Tokyo Usagi Office",
+        "pt": "Eletricidade estática: tudo gruda no chefe | Tokyo Usagi Office"
       },
       "planned_date": "2027-01-08"
     },
@@ -1783,8 +1783,8 @@
       "ep": "otoshidama",
       "no": 76,
       "title": "お年玉",
-      "caption_ja": "課長がにこにこ、ポチ袋をジルの机へ。ジルはうれしくて中をあけると、手作りの「かたたたき券」。ただし「※課長の肩を」。課長は背中を向けて待っています。",
-      "caption_en": "The boss slides Jill a little red New Year envelope. Inside: a handmade massage ticket. Fine print: the boss's shoulders. He is already waiting.",
+      "caption_ja": "課長がにこにこ、ポチ袋をユズの机へ。ユズはうれしくて中をあけると、手作りの「かたたたき券」。ただし「※課長の肩を」。課長は背中を向けて待っています。",
+      "caption_en": "The boss slides Yuzu a little red New Year envelope. Inside: a handmade massage ticket. Fine print: the boss's shoulders. He is already waiting.",
       "tag_set": "C",
       "thumb": {
         "t": 2.0,
@@ -1799,17 +1799,17 @@
           "ko": "세뱃돈 봉투"
         },
         "caption": {
-          "zh": "課長笑咪咪地把紅包推到吉兒桌上。吉兒開心地打開，裡面是手作的「按摩券」。但寫著「※按課長的肩」。課長已經轉過身等著了。",
-          "ko": "과장님이 싱글벙글 봉투를 질의 책상으로 밀어요. 질이 기쁘게 열어 보니 손수 만든 '어깨 안마권'. 단, '※과장님 어깨를'. 과장님은 벌써 등을 돌리고 기다려요."
+          "zh": "課長笑咪咪地把紅包推到柚子桌上。柚子開心地打開，裡面是手作的「按摩券」。但寫著「※按課長的肩」。課長已經轉過身等著了。",
+          "ko": "과장님이 싱글벙글 봉투를 유자의 책상으로 밀어요. 유자가 기쁘게 열어 보니 손수 만든 '어깨 안마권'. 단, '※과장님 어깨를'. 과장님은 벌써 등을 돌리고 기다려요."
         }
       },
       "cta": "Send this to someone who owes you a massage/肩たたきしてほしい人に送ろう",
       "title_i18n": {
-        "ja": "お年玉の中身は「課長の肩たたき券」 | レンとジル「お年玉」",
-        "ko": "세뱃돈 봉투 속에는 \"과장님 어깨 안마권\" | 렌과 질 Ren & Jill",
-        "zh-Hant": "紅包裡是「幫課長捶背券」 | 蓮與吉兒 Ren & Jill",
-        "es": "El sobre de Año Nuevo: un vale de masaje… para el jefe | Ren & Jill",
-        "pt": "O envelope de Ano-Novo: um vale-massagem… para o chefe | Ren & Jill"
+        "ja": "お年玉の中身は「課長の肩たたき券」 | 東京うさぎオフィス「お年玉」",
+        "ko": "세뱃돈 봉투 속에는 \"과장님 어깨 안마권\" | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "紅包裡是「幫課長捶背券」 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "El sobre de Año Nuevo: un vale de masaje… para el jefe | Tokyo Usagi Office",
+        "pt": "O envelope de Ano-Novo: um vale-massagem… para o chefe | Tokyo Usagi Office"
       },
       "planned_date": "2027-01-09"
     },
@@ -1818,8 +1818,8 @@
       "ep": "taiso",
       "no": 77,
       "title": "朝の体操",
-      "caption_ja": "朝の体操。ジルは1・2・3・4でせのび。課長もまねして、ぐーっと「のび」。……そのまま香箱すわりで、おやすみなさい。",
-      "caption_en": "Morning stretches. Jill counts 1, 2, 3, 4. The boss joins in with one long, long stretch... and settles into a loaf. Nap time.",
+      "caption_ja": "朝の体操。ユズは1・2・3・4でせのび。課長もまねして、ぐーっと「のび」。……そのまま香箱すわりで、おやすみなさい。",
+      "caption_en": "Morning stretches. Yuzu counts 1, 2, 3, 4. The boss joins in with one long, long stretch... and settles into a loaf. Nap time.",
       "tag_set": "C",
       "thumb": {
         "t": 4.2,
@@ -1834,17 +1834,17 @@
           "ko": "아침 체조"
         },
         "caption": {
-          "zh": "早操時間。吉兒喊著1、2、3、4伸展。課長也跟著用力「伸～」……然後就那樣縮成一團，睡著了。",
-          "ko": "아침 체조. 질은 하나, 둘, 셋, 넷 기지개. 과장님도 따라서 쭉~ 기지개…… 그대로 식빵 자세로 쿨쿨."
+          "zh": "早操時間。柚子喊著1、2、3、4伸展。課長也跟著用力「伸～」……然後就那樣縮成一團，睡著了。",
+          "ko": "아침 체조. 유자는 하나, 둘, 셋, 넷 기지개. 과장님도 따라서 쭉~ 기지개…… 그대로 식빵 자세로 쿨쿨."
         }
       },
       "cta": "Send this to someone who stretches, then naps/のびたら寝ちゃう人に送ろう",
       "title_i18n": {
-        "ja": "朝の体操でそのまま寝る上司 | レンとジル「朝の体操」",
-        "ko": "아침 체조를 하다 그대로 잠든 과장님 | 렌과 질 Ren & Jill",
-        "zh-Hant": "做早操做到直接睡著的課長 | 蓮與吉兒 Ren & Jill",
-        "es": "Estiramientos matutinos: el jefe acaba dormido | Ren & Jill",
-        "pt": "Alongamento matinal: o chefe acaba dormindo | Ren & Jill"
+        "ja": "朝の体操でそのまま寝る上司 | 東京うさぎオフィス「朝の体操」",
+        "ko": "아침 체조를 하다 그대로 잠든 과장님 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "做早操做到直接睡著的課長 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "Estiramientos matutinos: el jefe acaba dormido | Tokyo Usagi Office",
+        "pt": "Alongamento matinal: o chefe acaba dormindo | Tokyo Usagi Office"
       },
       "planned_date": "2027-01-10"
     },
@@ -1853,8 +1853,8 @@
       "ep": "shukujitsu",
       "no": 78,
       "title": "祝日出社",
-      "caption_ja": "月曜日の朝。ジルが出社すると、課長はもう席に。早い！……と思ったら、カレンダーは赤い11。今日は成人の日でした。ふたりとも、祝日に出社。",
-      "caption_en": "Monday morning. Jill arrives and the boss is already at his desk. So early! Then the calendar: a red 11. It's a public holiday. They both came in.",
+      "caption_ja": "月曜日の朝。ユズが出社すると、課長はもう席に。早い！……と思ったら、カレンダーは赤い11。今日は成人の日でした。ふたりとも、祝日に出社。",
+      "caption_en": "Monday morning. Yuzu arrives and the boss is already at his desk. So early! Then the calendar: a red 11. It's a public holiday. They both came in.",
       "tag_set": "C",
       "thumb": {
         "t": 2.0,
@@ -1869,17 +1869,17 @@
           "ko": "공휴일 출근"
         },
         "caption": {
-          "zh": "星期一早上。吉兒進辦公室，課長已經坐在位子上。好早！……結果月曆是紅色的11。今天是成人之日（國定假日）。兩個人都在假日來上班了。",
-          "ko": "월요일 아침. 질이 출근하니 과장님은 벌써 자리에. 빠르다! ……했는데 달력은 빨간 11. 오늘은 성인의 날(공휴일)이었어요. 둘 다 공휴일에 출근."
+          "zh": "星期一早上。柚子進辦公室，課長已經坐在位子上。好早！……結果月曆是紅色的11。今天是成人之日（國定假日）。兩個人都在假日來上班了。",
+          "ko": "월요일 아침. 유자가 출근하니 과장님은 벌써 자리에. 빠르다! ……했는데 달력은 빨간 11. 오늘은 성인의 날(공휴일)이었어요. 둘 다 공휴일에 출근."
         }
       },
       "cta": "Send this to someone who forgot it was a holiday/祝日を忘れていそうな人に送ろう",
       "title_i18n": {
-        "ja": "ふたりとも祝日に出社してしまった | レンとジル「祝日出社」",
-        "ko": "둘 다 공휴일에 출근해 버렸다 | 렌과 질 Ren & Jill",
-        "zh-Hant": "兩個都在國定假日來上班了 | 蓮與吉兒 Ren & Jill",
-        "es": "Los dos fueron a trabajar en día festivo | Ren & Jill",
-        "pt": "Os dois foram trabalhar no feriado | Ren & Jill"
+        "ja": "ふたりとも祝日に出社してしまった | 東京うさぎオフィス「祝日出社」",
+        "ko": "둘 다 공휴일에 출근해 버렸다 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "兩個都在國定假日來上班了 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "Los dos fueron a trabajar en día festivo | Tokyo Usagi Office",
+        "pt": "Os dois foram trabalhar no feriado | Tokyo Usagi Office"
       },
       "planned_date": "2027-01-11"
     },
@@ -1888,8 +1888,8 @@
       "ep": "hinata",
       "no": 79,
       "title": "日なた",
-      "caption_ja": "冬の朝。窓からの日なたで、課長は香箱すわり。時間がたつと日なたが動いて、課長もすーっと移動。夕方、日なたはジルの席へ。課長もジルの横にぴったり。",
-      "caption_en": "A winter morning. The boss loafs in a patch of sunlight. As the hours pass, the sunny spot drifts, and so does he. By evening it reaches Jill's desk. So does the boss.",
+      "caption_ja": "冬の朝。窓からの日なたで、課長は香箱すわり。時間がたつと日なたが動いて、課長もすーっと移動。夕方、日なたはユズの席へ。課長もユズの横にぴったり。",
+      "caption_en": "A winter morning. The boss loafs in a patch of sunlight. As the hours pass, the sunny spot drifts, and so does he. By evening it reaches Yuzu's desk. So does the boss.",
       "tag_set": "C",
       "thumb": {
         "t": 4.6,
@@ -1904,17 +1904,17 @@
           "ko": "양지"
         },
         "caption": {
-          "zh": "冬天的早晨。課長在窗邊的陽光裡縮成一團。時間一過，陽光移動，課長也跟著慢慢移動。到了傍晚，陽光照到吉兒的位子，課長也緊緊貼在吉兒旁邊。",
-          "ko": "겨울 아침. 창가 햇볕 속에서 과장님은 식빵 자세. 시간이 지나 햇볕이 움직이자 과장님도 스르륵 이동. 저녁 무렵, 햇볕은 질의 자리로. 과장님도 질 옆에 딱 붙었어요."
+          "zh": "冬天的早晨。課長在窗邊的陽光裡縮成一團。時間一過，陽光移動，課長也跟著慢慢移動。到了傍晚，陽光照到柚子的位子，課長也緊緊貼在柚子旁邊。",
+          "ko": "겨울 아침. 창가 햇볕 속에서 과장님은 식빵 자세. 시간이 지나 햇볕이 움직이자 과장님도 스르륵 이동. 저녁 무렵, 햇볕은 유자의 자리로. 과장님도 유자 옆에 딱 붙었어요."
         }
       },
       "cta": "Send this to someone who follows the sun/日なたを追いかけそうな人に送ろう",
       "title_i18n": {
-        "ja": "日なたを追いかけて移動する上司 | レンとジル「日なた」",
-        "ko": "햇볕을 따라 자리를 옮기는 과장님 | 렌과 질 Ren & Jill",
-        "zh-Hant": "跟著陽光移動的課長 | 蓮與吉兒 Ren & Jill",
-        "es": "El jefe sigue el rayo de sol por toda la oficina | Ren & Jill",
-        "pt": "O chefe segue o raio de sol pelo escritório | Ren & Jill"
+        "ja": "日なたを追いかけて移動する上司 | 東京うさぎオフィス「日なた」",
+        "ko": "햇볕을 따라 자리를 옮기는 과장님 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "跟著陽光移動的課長 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "El jefe sigue el rayo de sol por toda la oficina | Tokyo Usagi Office",
+        "pt": "O chefe segue o raio de sol pelo escritório | Tokyo Usagi Office"
       },
       "planned_date": "2027-01-12"
     },
@@ -1923,8 +1923,8 @@
       "ep": "isu",
       "no": 80,
       "title": "新しいイス",
-      "caption_ja": "新しいオフィスチェアが届きました。ジルはうれしそう。でも課長は、イスには目もくれず、届いた段ボール箱の中へ。新しいイスより、箱のほうが人気です。",
-      "caption_en": "A brand-new office chair arrives. Jill is thrilled. The boss ignores the chair and climbs into the cardboard box it came in. The box wins.",
+      "caption_ja": "新しいオフィスチェアが届きました。ユズはうれしそう。でも課長は、イスには目もくれず、届いた段ボール箱の中へ。新しいイスより、箱のほうが人気です。",
+      "caption_en": "A brand-new office chair arrives. Yuzu is thrilled. The boss ignores the chair and climbs into the cardboard box it came in. The box wins.",
       "tag_set": "C",
       "thumb": {
         "t": 4.0,
@@ -1939,17 +1939,17 @@
           "ko": "새 의자"
         },
         "caption": {
-          "zh": "新的辦公椅送來了。吉兒很開心。可是課長看都不看椅子，直接鑽進送來的紙箱裡。比起新椅子，箱子更受歡迎。",
-          "ko": "새 사무용 의자가 도착했어요. 질은 신났어요. 그런데 과장님은 의자는 거들떠보지도 않고 배달 온 상자 속으로. 새 의자보다 상자가 인기예요."
+          "zh": "新的辦公椅送來了。柚子很開心。可是課長看都不看椅子，直接鑽進送來的紙箱裡。比起新椅子，箱子更受歡迎。",
+          "ko": "새 사무용 의자가 도착했어요. 유자는 신났어요. 그런데 과장님은 의자는 거들떠보지도 않고 배달 온 상자 속으로. 새 의자보다 상자가 인기예요."
         }
       },
       "cta": "Send this to someone whose pet loves boxes/箱が大好きな子がいる人に送ろう",
       "title_i18n": {
-        "ja": "新しいイスより段ボール箱が人気 | レンとジル「新しいイス」",
-        "ko": "새 의자보다 종이 상자가 인기 | 렌과 질 Ren & Jill",
-        "zh-Hant": "比起新椅子，紙箱更受歡迎 | 蓮與吉兒 Ren & Jill",
-        "es": "Silla nueva en la oficina, pero gana la caja de cartón | Ren & Jill",
-        "pt": "Cadeira nova no escritório, mas a caixa de papelão vence | Ren & Jill"
+        "ja": "新しいイスより段ボール箱が人気 | 東京うさぎオフィス「新しいイス」",
+        "ko": "새 의자보다 종이 상자가 인기 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "比起新椅子，紙箱更受歡迎 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "Silla nueva en la oficina, pero gana la caja de cartón | Tokyo Usagi Office",
+        "pt": "Cadeira nova no escritório, mas a caixa de papelão vence | Tokyo Usagi Office"
       },
       "planned_date": "2027-01-13"
     },
@@ -1958,8 +1958,8 @@
       "ep": "whiteboard",
       "no": 81,
       "title": "売上グラフ",
-      "caption_ja": "ジルがホワイトボードに売上のグラフ。右肩上がりです。課長が「ちょっと足すね」とペンを持ち、山のてっぺんに耳を2本、目と鼻と口。売上グラフが、うさぎになりました。",
-      "caption_en": "Jill draws the sales chart on the whiteboard. Up and to the right. The boss adds a little: two ears on the peak, then eyes, a nose and a mouth. The chart is now a bunny.",
+      "caption_ja": "ユズがホワイトボードに売上のグラフ。右肩上がりです。課長が「ちょっと足すね」とペンを持ち、山のてっぺんに耳を2本、目と鼻と口。売上グラフが、うさぎになりました。",
+      "caption_en": "Yuzu draws the sales chart on the whiteboard. Up and to the right. The boss adds a little: two ears on the peak, then eyes, a nose and a mouth. The chart is now a bunny.",
       "tag_set": "C",
       "thumb": {
         "t": 5.8,
@@ -1974,17 +1974,17 @@
           "ko": "매출 그래프"
         },
         "caption": {
-          "zh": "吉兒在白板上畫業績圖表，一路往上。課長拿起筆說「我加一點」，在山頂畫上兩隻耳朵，再加眼睛、鼻子和嘴巴。業績圖表變成了兔子。",
-          "ko": "질이 화이트보드에 매출 그래프를 그려요. 쭉쭉 올라가요. 과장님이 '조금만 보탤게' 하며 펜을 들고 봉우리 위에 귀 두 개, 눈과 코와 입. 매출 그래프가 토끼가 됐어요."
+          "zh": "柚子在白板上畫業績圖表，一路往上。課長拿起筆說「我加一點」，在山頂畫上兩隻耳朵，再加眼睛、鼻子和嘴巴。業績圖表變成了兔子。",
+          "ko": "유자가 화이트보드에 매출 그래프를 그려요. 쭉쭉 올라가요. 과장님이 '조금만 보탤게' 하며 펜을 들고 봉우리 위에 귀 두 개, 눈과 코와 입. 매출 그래프가 토끼가 됐어요."
         }
       },
       "cta": "Send this to your favorite meeting doodler/会議で落書きしがちな人に送ろう",
       "title_i18n": {
-        "ja": "売上グラフがうさぎになった | レンとジル「売上グラフ」",
-        "ko": "매출 그래프가 토끼가 되었다 | 렌과 질 Ren & Jill",
-        "zh-Hant": "業績圖表變成了兔子 | 蓮與吉兒 Ren & Jill",
-        "es": "El gráfico de ventas se convierte en un conejo | Ren & Jill",
-        "pt": "O gráfico de vendas vira um coelho | Ren & Jill"
+        "ja": "売上グラフがうさぎになった | 東京うさぎオフィス「売上グラフ」",
+        "ko": "매출 그래프가 토끼가 되었다 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "業績圖表變成了兔子 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "El gráfico de ventas se convierte en un conejo | Tokyo Usagi Office",
+        "pt": "O gráfico de vendas vira um coelho | Tokyo Usagi Office"
       },
       "planned_date": "2027-01-14"
     },
@@ -1993,8 +1993,8 @@
       "ep": "kushami",
       "no": 82,
       "title": "くしゃみ",
-      "caption_ja": "ジルが書類をきれいに積み上げました。課長の鼻がむずむず……「へっ、へっ」……大きなくしゃみ！ 書類が全部まい上がって、ジルの頭に1枚ふわり。",
-      "caption_en": "Jill stacks her papers neatly. The boss's nose twitches... ah... ah... ACHOO! Every sheet flies, and one lands gently on Jill's head.",
+      "caption_ja": "ユズが書類をきれいに積み上げました。課長の鼻がむずむず……「へっ、へっ」……大きなくしゃみ！ 書類が全部まい上がって、ユズの頭に1枚ふわり。",
+      "caption_en": "Yuzu stacks her papers neatly. The boss's nose twitches... ah... ah... ACHOO! Every sheet flies, and one lands gently on Yuzu's head.",
       "tag_set": "C",
       "thumb": {
         "t": 3.6,
@@ -2009,17 +2009,17 @@
           "ko": "재채기"
         },
         "caption": {
-          "zh": "吉兒把文件疊得整整齊齊。課長的鼻子癢癢的……「哈、哈」……一個大噴嚏！文件全部飛起來，有一張輕輕落在吉兒頭上。",
-          "ko": "질이 서류를 가지런히 쌓았어요. 과장님 코가 간질간질…… '에, 에'…… 큰 재채기! 서류가 전부 날아오르고, 한 장이 질의 머리 위에 사뿐."
+          "zh": "柚子把文件疊得整整齊齊。課長的鼻子癢癢的……「哈、哈」……一個大噴嚏！文件全部飛起來，有一張輕輕落在柚子頭上。",
+          "ko": "유자가 서류를 가지런히 쌓았어요. 과장님 코가 간질간질…… '에, 에'…… 큰 재채기! 서류가 전부 날아오르고, 한 장이 유자의 머리 위에 사뿐."
         }
       },
       "cta": "Send this to someone who sneezes loudly/くしゃみが大きい人に送ろう",
       "title_i18n": {
-        "ja": "上司のくしゃみで書類が全部まい上がる | レンとジル「くしゃみ」",
-        "ko": "과장님의 재채기에 서류가 전부 날아간다 | 렌과 질 Ren & Jill",
-        "zh-Hant": "課長一個噴嚏，文件全飛起來 | 蓮與吉兒 Ren & Jill",
-        "es": "Un estornudo del jefe y vuelan todos los papeles | Ren & Jill",
-        "pt": "Um espirro do chefe e todos os papéis voam | Ren & Jill"
+        "ja": "上司のくしゃみで書類が全部まい上がる | 東京うさぎオフィス「くしゃみ」",
+        "ko": "과장님의 재채기에 서류가 전부 날아간다 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "課長一個噴嚏，文件全飛起來 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "Un estornudo del jefe y vuelan todos los papeles | Tokyo Usagi Office",
+        "pt": "Um espirro do chefe e todos os papéis voam | Tokyo Usagi Office"
       },
       "planned_date": "2027-01-15"
     },
@@ -2028,8 +2028,8 @@
       "ep": "shincho",
       "no": 83,
       "title": "身長測定",
-      "caption_ja": "健康診断の身長測定。ジルはぴしっと立って、目もりに印。課長の番はせのびしても低め……と思ったら、足もとに箱を置いて、すっと乗りました。記録は「課長（箱こみ）」。",
-      "caption_en": "Height check day. Jill stands straight and gets her mark. The boss stretches but comes up short... so he slides a box under his feet. Record: the boss (box included).",
+      "caption_ja": "健康診断の身長測定。ユズはぴしっと立って、目もりに印。課長の番はせのびしても低め……と思ったら、足もとに箱を置いて、すっと乗りました。記録は「課長（箱こみ）」。",
+      "caption_en": "Height check day. Yuzu stands straight and gets her mark. The boss stretches but comes up short... so he slides a box under his feet. Record: the boss (box included).",
       "tag_set": "C",
       "thumb": {
         "t": 3.4,
@@ -2044,17 +2044,17 @@
           "ko": "키 재기"
         },
         "caption": {
-          "zh": "健康檢查量身高。吉兒站得筆直，在刻度上留下記號。輪到課長，踮起腳還是矮一點……結果在腳下放了個箱子，輕輕站上去。紀錄是「課長（含箱子）」。",
-          "ko": "건강검진 키 재기. 질은 똑바로 서서 눈금에 표시. 과장님 차례, 까치발을 해도 좀 작아요…… 그러더니 발밑에 상자를 놓고 쓱 올라섰어요. 기록은 '과장(상자 포함)'."
+          "zh": "健康檢查量身高。柚子站得筆直，在刻度上留下記號。輪到課長，踮起腳還是矮一點……結果在腳下放了個箱子，輕輕站上去。紀錄是「課長（含箱子）」。",
+          "ko": "건강검진 키 재기. 유자는 똑바로 서서 눈금에 표시. 과장님 차례, 까치발을 해도 좀 작아요…… 그러더니 발밑에 상자를 놓고 쓱 올라섰어요. 기록은 '과장(상자 포함)'."
         }
       },
       "cta": "Send this to someone who always rounds up their height/身長をちょっと盛る人に送ろう",
       "title_i18n": {
-        "ja": "身長測定、上司の記録は「箱こみ」 | レンとジル「身長測定」",
-        "ko": "키 재는 날, 과장님의 기록은 \"상자 포함\" | 렌과 질 Ren & Jill",
-        "zh-Hant": "量身高，課長的紀錄「含箱子」 | 蓮與吉兒 Ren & Jill",
-        "es": "Medición de altura: el récord del jefe incluye la caja | Ren & Jill",
-        "pt": "Medição de altura: o recorde do chefe inclui a caixa | Ren & Jill"
+        "ja": "身長測定、上司の記録は「箱こみ」 | 東京うさぎオフィス「身長測定」",
+        "ko": "키 재는 날, 과장님의 기록은 \"상자 포함\" | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "量身高，課長的紀錄「含箱子」 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "Medición de altura: el récord del jefe incluye la caja | Tokyo Usagi Office",
+        "pt": "Medição de altura: o recorde do chefe inclui a caixa | Tokyo Usagi Office"
       },
       "planned_date": "2027-01-16"
     },
@@ -2063,8 +2063,8 @@
       "ep": "penmawashi",
       "no": 84,
       "title": "ペン回し",
-      "caption_ja": "考えごと中のジルは、指先でペンをくるくる。課長もまねしてみると、ペンは机に立ったまま、課長のほうがくるくる回りました。目が回って、ふらふら。",
-      "caption_en": "Jill spins her pen while she thinks. The boss tries it too. The pen stays still; the boss spins instead. Now he's dizzy.",
+      "caption_ja": "考えごと中のユズは、指先でペンをくるくる。課長もまねしてみると、ペンは机に立ったまま、課長のほうがくるくる回りました。目が回って、ふらふら。",
+      "caption_en": "Yuzu spins her pen while she thinks. The boss tries it too. The pen stays still; the boss spins instead. Now he's dizzy.",
       "tag_set": "C",
       "thumb": {
         "t": 4.4,
@@ -2079,17 +2079,17 @@
           "ko": "펜 돌리기"
         },
         "caption": {
-          "zh": "吉兒想事情的時候，用指尖轉著筆。課長也學著試試，結果筆立在桌上一動也不動，轉起來的是課長本人。轉到頭暈，搖搖晃晃。",
-          "ko": "생각에 잠긴 질은 손끝으로 펜을 빙글빙글. 과장님도 따라 해 보니 펜은 책상에 선 채로, 과장님이 빙글빙글 돌았어요. 어지러워서 비틀비틀."
+          "zh": "柚子想事情的時候，用指尖轉著筆。課長也學著試試，結果筆立在桌上一動也不動，轉起來的是課長本人。轉到頭暈，搖搖晃晃。",
+          "ko": "생각에 잠긴 유자는 손끝으로 펜을 빙글빙글. 과장님도 따라 해 보니 펜은 책상에 선 채로, 과장님이 빙글빙글 돌았어요. 어지러워서 비틀비틀."
         }
       },
       "cta": "Send this to your pen-spinning friend/ペン回しが得意な人に送ろう",
       "title_i18n": {
-        "ja": "ペン回しで回ったのは上司のほう | レンとジル「ペン回し」",
-        "ko": "펜 돌리기에서 돌아간 건 과장님 쪽 | 렌과 질 Ren & Jill",
-        "zh-Hant": "轉筆，結果轉的是課長自己 | 蓮與吉兒 Ren & Jill",
-        "es": "Girar el boli: el que da vueltas es el jefe | Ren & Jill",
-        "pt": "Girar a caneta: quem gira é o chefe | Ren & Jill"
+        "ja": "ペン回しで回ったのは上司のほう | 東京うさぎオフィス「ペン回し」",
+        "ko": "펜 돌리기에서 돌아간 건 과장님 쪽 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "轉筆，結果轉的是課長自己 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "Girar el boli: el que da vueltas es el jefe | Tokyo Usagi Office",
+        "pt": "Girar a caneta: quem gira é o chefe | Tokyo Usagi Office"
       },
       "planned_date": "2027-01-17"
     },
@@ -2098,8 +2098,8 @@
       "ep": "fusen",
       "no": 85,
       "title": "付箋",
-      "caption_ja": "ジルは付箋に「TODO」と書いて、パソコンのふちに1枚。課長も付箋の束を持って、ぺた、ぺた、ぺた……ぜんぶ自分に貼りました。どこに貼ったか、きょろきょろ。",
-      "caption_en": "Jill writes TODO on one sticky note and puts it on her laptop. The boss grabs a whole pad. Stick, stick, stick… all on himself. Now he can't find them.",
+      "caption_ja": "ユズは付箋に「TODO」と書いて、パソコンのふちに1枚。課長も付箋の束を持って、ぺた、ぺた、ぺた……ぜんぶ自分に貼りました。どこに貼ったか、きょろきょろ。",
+      "caption_en": "Yuzu writes TODO on one sticky note and puts it on her laptop. The boss grabs a whole pad. Stick, stick, stick… all on himself. Now he can't find them.",
       "tag_set": "C",
       "thumb": {
         "t": 5.6,
@@ -2114,17 +2114,17 @@
           "ko": "포스트잇"
         },
         "caption": {
-          "zh": "吉兒在便利貼上寫了「TODO」，貼在筆電邊上一張。課長也拿起一整疊便利貼，啪、啪、啪……全部貼在自己身上。貼在哪裡了呢？東張西望。",
-          "ko": "질은 포스트잇에 'TODO'라고 써서 노트북 가장자리에 한 장. 과장님도 포스트잇 묶음을 들고 착, 착, 착…… 전부 자기 몸에 붙였어요. 어디에 붙였는지 두리번두리번."
+          "zh": "柚子在便利貼上寫了「TODO」，貼在筆電邊上一張。課長也拿起一整疊便利貼，啪、啪、啪……全部貼在自己身上。貼在哪裡了呢？東張西望。",
+          "ko": "유자는 포스트잇에 'TODO'라고 써서 노트북 가장자리에 한 장. 과장님도 포스트잇 묶음을 들고 착, 착, 착…… 전부 자기 몸에 붙였어요. 어디에 붙였는지 두리번두리번."
         }
       },
       "cta": "Send this to someone covered in sticky notes/付箋だらけの人に送ろう",
       "title_i18n": {
-        "ja": "付箋をぜんぶ自分に貼る上司 | レンとジル「付箋」",
-        "ko": "포스트잇을 전부 자기 몸에 붙인 과장님 | 렌과 질 Ren & Jill",
-        "zh-Hant": "課長把便利貼全貼在自己身上 | 蓮與吉兒 Ren & Jill",
-        "es": "El jefe se pega todas las notas adhesivas a sí mismo | Ren & Jill",
-        "pt": "O chefe cola todos os post-its em si mesmo | Ren & Jill"
+        "ja": "付箋をぜんぶ自分に貼る上司 | 東京うさぎオフィス「付箋」",
+        "ko": "포스트잇을 전부 자기 몸에 붙인 과장님 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "課長把便利貼全貼在自己身上 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "El jefe se pega todas las notas adhesivas a sí mismo | Tokyo Usagi Office",
+        "pt": "O chefe cola todos os post-its em si mesmo | Tokyo Usagi Office"
       },
       "planned_date": "2027-01-18"
     },
@@ -2133,8 +2133,8 @@
       "ep": "kamihikoki",
       "no": 86,
       "title": "紙飛行機",
-      "caption_ja": "ジルの紙飛行機は、すーっと飛んでごみ箱にストン。課長も大きな紙飛行機を投げると、ぐるっと宙返りして……課長の頭の上に着陸。なぜかご満悦です。",
-      "caption_en": "Jill's paper plane glides right into the bin. The boss throws a big one. It loops all the way around… and lands on his own head. He looks proud anyway.",
+      "caption_ja": "ユズの紙飛行機は、すーっと飛んでごみ箱にストン。課長も大きな紙飛行機を投げると、ぐるっと宙返りして……課長の頭の上に着陸。なぜかご満悦です。",
+      "caption_en": "Yuzu's paper plane glides right into the bin. The boss throws a big one. It loops all the way around… and lands on his own head. He looks proud anyway.",
       "tag_set": "C",
       "thumb": {
         "t": 6.4,
@@ -2149,17 +2149,17 @@
           "ko": "종이비행기"
         },
         "caption": {
-          "zh": "吉兒的紙飛機咻地飛進了垃圾桶。課長也丟出一架大紙飛機，結果繞了一圈……降落在課長自己的頭上。不知為何一臉得意。",
-          "ko": "질의 종이비행기는 슝 날아가 쓰레기통에 쏙. 과장님도 큰 종이비행기를 던졌더니 빙글 한 바퀴 돌아서…… 과장님 머리 위에 착륙. 왠지 뿌듯한 얼굴이에요."
+          "zh": "柚子的紙飛機咻地飛進了垃圾桶。課長也丟出一架大紙飛機，結果繞了一圈……降落在課長自己的頭上。不知為何一臉得意。",
+          "ko": "유자의 종이비행기는 슝 날아가 쓰레기통에 쏙. 과장님도 큰 종이비행기를 던졌더니 빙글 한 바퀴 돌아서…… 과장님 머리 위에 착륙. 왠지 뿌듯한 얼굴이에요."
         }
       },
       "cta": "Send this to someone whose plans come back to them/投げたら戻ってくる人に送ろう",
       "title_i18n": {
-        "ja": "紙飛行機が上司の頭に着陸 | レンとジル「紙飛行機」",
-        "ko": "종이비행기가 과장님 머리 위에 착륙 | 렌과 질 Ren & Jill",
-        "zh-Hant": "紙飛機降落在課長頭上 | 蓮與吉兒 Ren & Jill",
-        "es": "El avión de papel aterriza en la cabeza del jefe | Ren & Jill",
-        "pt": "O avião de papel pousa na cabeça do chefe | Ren & Jill"
+        "ja": "紙飛行機が上司の頭に着陸 | 東京うさぎオフィス「紙飛行機」",
+        "ko": "종이비행기가 과장님 머리 위에 착륙 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "紙飛機降落在課長頭上 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "El avión de papel aterriza en la cabeza del jefe | Tokyo Usagi Office",
+        "pt": "O avião de papel pousa na cabeça do chefe | Tokyo Usagi Office"
       },
       "planned_date": "2027-01-19"
     },
@@ -2168,8 +2168,8 @@
       "ep": "keyboard",
       "no": 87,
       "title": "キーボード",
-      "caption_ja": "ジルは資料をカタカタ。課長もタイピング……と思ったら、キーボードの上に香箱すわり。画面は「あああああ」でいっぱい、ページはどんどん増えます。課長はそのままお昼寝。",
-      "caption_en": "Jill types up her report. The boss tries too… by sitting on the keyboard. The screen fills with letters and the pages keep growing. He falls asleep right there.",
+      "caption_ja": "ユズは資料をカタカタ。課長もタイピング……と思ったら、キーボードの上に香箱すわり。画面は「あああああ」でいっぱい、ページはどんどん増えます。課長はそのままお昼寝。",
+      "caption_en": "Yuzu types up her report. The boss tries too… by sitting on the keyboard. The screen fills with letters and the pages keep growing. He falls asleep right there.",
       "tag_set": "C",
       "thumb": {
         "t": 5.0,
@@ -2184,17 +2184,17 @@
           "ko": "키보드"
         },
         "caption": {
-          "zh": "吉兒喀噠喀噠地打著資料。課長也要打字……結果卻在鍵盤上縮成一團坐著。螢幕上滿滿的「啊啊啊啊」，頁數一直增加。課長就這樣睡著了。",
-          "ko": "질은 자료를 타닥타닥. 과장님도 타이핑을…… 하나 했더니 키보드 위에 식빵 자세로 앉았어요. 화면은 '아아아아'로 가득, 페이지는 계속 늘어나요. 과장님은 그대로 낮잠."
+          "zh": "柚子喀噠喀噠地打著資料。課長也要打字……結果卻在鍵盤上縮成一團坐著。螢幕上滿滿的「啊啊啊啊」，頁數一直增加。課長就這樣睡著了。",
+          "ko": "유자는 자료를 타닥타닥. 과장님도 타이핑을…… 하나 했더니 키보드 위에 식빵 자세로 앉았어요. 화면은 '아아아아'로 가득, 페이지는 계속 늘어나요. 과장님은 그대로 낮잠."
         }
       },
       "cta": "Send this to someone whose pet types for them/パソコンに乗るペットがいる人に送ろう",
       "title_i18n": {
-        "ja": "キーボードの上で寝る上司 | レンとジル「キーボード」",
-        "ko": "키보드 위에서 잠든 과장님 | 렌과 질 Ren & Jill",
-        "zh-Hant": "在鍵盤上睡著的課長 | 蓮與吉兒 Ren & Jill",
-        "es": "El jefe se duerme encima del teclado | Ren & Jill",
-        "pt": "O chefe dorme em cima do teclado | Ren & Jill"
+        "ja": "キーボードの上で寝る上司 | 東京うさぎオフィス「キーボード」",
+        "ko": "키보드 위에서 잠든 과장님 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "在鍵盤上睡著的課長 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "El jefe se duerme encima del teclado | Tokyo Usagi Office",
+        "pt": "O chefe dorme em cima do teclado | Tokyo Usagi Office"
       },
       "planned_date": "2027-01-20"
     },
@@ -2203,8 +2203,8 @@
       "ep": "kumori",
       "no": 88,
       "title": "窓のくもり",
-      "caption_ja": "寒い朝、窓が白くくもっています。ジルは指で小さなハート。課長も窓へ行って「はぁ〜」と息をかけ、大きく大きく……窓いっぱいに課長の自画像ができました。",
-      "caption_en": "A cold morning, and the windows are foggy. Jill draws a tiny heart. The boss breathes on the other window and draws big… a self-portrait that fills the whole window.",
+      "caption_ja": "寒い朝、窓が白くくもっています。ユズは指で小さなハート。課長も窓へ行って「はぁ〜」と息をかけ、大きく大きく……窓いっぱいに課長の自画像ができました。",
+      "caption_en": "A cold morning, and the windows are foggy. Yuzu draws a tiny heart. The boss breathes on the other window and draws big… a self-portrait that fills the whole window.",
       "tag_set": "C",
       "thumb": {
         "t": 5.6,
@@ -2219,17 +2219,17 @@
           "ko": "김 서린 창문"
         },
         "caption": {
-          "zh": "寒冷的早晨，窗戶起了白白的霧。吉兒用手指畫了一個小愛心。課長也走到窗邊「哈～」地呵氣，畫得大大的……整面窗戶都是課長的自畫像。",
-          "ko": "추운 아침, 창문에 하얗게 김이 서렸어요. 질은 손가락으로 작은 하트. 과장님도 창가로 가서 '하아~' 입김을 불고 크게 크게…… 창문 가득 과장님 자화상이 생겼어요."
+          "zh": "寒冷的早晨，窗戶起了白白的霧。柚子用手指畫了一個小愛心。課長也走到窗邊「哈～」地呵氣，畫得大大的……整面窗戶都是課長的自畫像。",
+          "ko": "추운 아침, 창문에 하얗게 김이 서렸어요. 유자는 손가락으로 작은 하트. 과장님도 창가로 가서 '하아~' 입김을 불고 크게 크게…… 창문 가득 과장님 자화상이 생겼어요."
         }
       },
       "cta": "Send this to someone who doodles on windows/窓にらくがきする人に送ろう",
       "title_i18n": {
-        "ja": "くもった窓いっぱいに上司の自画像 | レンとジル「窓のくもり」",
-        "ko": "김 서린 창문 가득 과장님의 자화상 | 렌과 질 Ren & Jill",
-        "zh-Hant": "起霧的窗戶上畫滿課長的自畫像 | 蓮與吉兒 Ren & Jill",
-        "es": "Un autorretrato del jefe en toda la ventana empañada | Ren & Jill",
-        "pt": "Um autorretrato do chefe em toda a janela embaçada | Ren & Jill"
+        "ja": "くもった窓いっぱいに上司の自画像 | 東京うさぎオフィス「窓のくもり」",
+        "ko": "김 서린 창문 가득 과장님의 자화상 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "起霧的窗戶上畫滿課長的自畫像 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "Un autorretrato del jefe en toda la ventana empañada | Tokyo Usagi Office",
+        "pt": "Um autorretrato do chefe em toda a janela embaçada | Tokyo Usagi Office"
       },
       "planned_date": "2027-01-21"
     },
@@ -2238,8 +2238,8 @@
       "ep": "blind",
       "no": 89,
       "title": "ブラインド",
-      "caption_ja": "朝、ジルがひもを引くと、ブラインドがすーっと上がって光が入ります。課長も右の窓のひもを引くと……ブラインドは上がらず、課長のほうが上がっていきました。手をはなすとストン。",
-      "caption_en": "Jill pulls the cord and the blinds go up. Morning light. The boss pulls the other cord… the blinds stay put, and he goes up instead. He lets go. Thud.",
+      "caption_ja": "朝、ユズがひもを引くと、ブラインドがすーっと上がって光が入ります。課長も右の窓のひもを引くと……ブラインドは上がらず、課長のほうが上がっていきました。手をはなすとストン。",
+      "caption_en": "Yuzu pulls the cord and the blinds go up. Morning light. The boss pulls the other cord… the blinds stay put, and he goes up instead. He lets go. Thud.",
       "tag_set": "C",
       "thumb": {
         "t": 4.4,
@@ -2254,17 +2254,17 @@
           "ko": "블라인드"
         },
         "caption": {
-          "zh": "早上，吉兒一拉繩子，百葉窗就順順地升起，陽光照了進來。課長也拉了右邊窗戶的繩子……百葉窗沒升起來，升起來的是課長自己。一放手，咚。",
-          "ko": "아침에 질이 줄을 당기자 블라인드가 스르르 올라가고 햇빛이 들어와요. 과장님도 오른쪽 창문의 줄을 당겼더니…… 블라인드는 그대로, 과장님이 올라갔어요. 손을 놓자 쿵."
+          "zh": "早上，柚子一拉繩子，百葉窗就順順地升起，陽光照了進來。課長也拉了右邊窗戶的繩子……百葉窗沒升起來，升起來的是課長自己。一放手，咚。",
+          "ko": "아침에 유자가 줄을 당기자 블라인드가 스르르 올라가고 햇빛이 들어와요. 과장님도 오른쪽 창문의 줄을 당겼더니…… 블라인드는 그대로, 과장님이 올라갔어요. 손을 놓자 쿵."
         }
       },
       "cta": "Send this to someone who loses to the blinds every morning/ブラインドに負ける人に送ろう",
       "title_i18n": {
-        "ja": "ブラインドのひもを引いたら上司が上がった | レンとジル「ブラインド」",
-        "ko": "블라인드 줄을 당겼더니 과장님이 올라갔다 | 렌과 질 Ren & Jill",
-        "zh-Hant": "拉百葉窗的繩子，升上去的是課長 | 蓮與吉兒 Ren & Jill",
-        "es": "Tira del cordón de la persiana y el que sube es el jefe | Ren & Jill",
-        "pt": "Puxa a corda da persiana e quem sobe é o chefe | Ren & Jill"
+        "ja": "ブラインドのひもを引いたら上司が上がった | 東京うさぎオフィス「ブラインド」",
+        "ko": "블라인드 줄을 당겼더니 과장님이 올라갔다 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "拉百葉窗的繩子，升上去的是課長 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "Tira del cordón de la persiana y el que sube es el jefe | Tokyo Usagi Office",
+        "pt": "Puxa a corda da persiana e quem sobe é o chefe | Tokyo Usagi Office"
       },
       "planned_date": "2027-01-22"
     },
@@ -2273,8 +2273,8 @@
       "ep": "balance",
       "no": 90,
       "title": "バランスボール",
-      "caption_ja": "健康のためにバランスボール。ジルはぴしっと座って、ゆらゆら。課長も座ってみると……ぽよん、ぽよん、どんどん高くはずんで、最後は目が回りました。",
-      "caption_en": "Jill sits on a balance ball, steady as can be. The boss tries it. Boing, boing, higher and higher... until he's dizzy.",
+      "caption_ja": "健康のためにバランスボール。ユズはぴしっと座って、ゆらゆら。課長も座ってみると……ぽよん、ぽよん、どんどん高くはずんで、最後は目が回りました。",
+      "caption_en": "Yuzu sits on a balance ball, steady as can be. The boss tries it. Boing, boing, higher and higher... until he's dizzy.",
       "tag_set": "C",
       "thumb": {
         "t": 4.4,
@@ -2289,17 +2289,17 @@
           "ko": "밸런스 볼"
         },
         "caption": {
-          "zh": "為了健康坐平衡球。吉兒坐得穩穩的，輕輕搖晃。課長也坐上去……噗咚、噗咚，越彈越高，最後頭都暈了。",
-          "ko": "건강을 위해 밸런스 볼. 질은 반듯하게 앉아 살랑살랑. 과장님도 앉아 보니…… 통, 통, 점점 높이 튀어 올라 결국 어지러워졌어요."
+          "zh": "為了健康坐平衡球。柚子坐得穩穩的，輕輕搖晃。課長也坐上去……噗咚、噗咚，越彈越高，最後頭都暈了。",
+          "ko": "건강을 위해 밸런스 볼. 유자는 반듯하게 앉아 살랑살랑. 과장님도 앉아 보니…… 통, 통, 점점 높이 튀어 올라 결국 어지러워졌어요."
         }
       },
       "cta": "Send this to someone who bounces off the walls/元気がありあまってる人に送ろう",
       "title_i18n": {
-        "ja": "バランスボールでどんどんはずむ上司 | レンとジル「バランスボール」",
-        "ko": "밸런스볼 위에서 점점 높이 튀는 과장님 | 렌과 질 Ren & Jill",
-        "zh-Hant": "坐上平衡球越彈越高的課長 | 蓮與吉兒 Ren & Jill",
-        "es": "El jefe rebota cada vez más alto en la pelota de equilibrio | Ren & Jill",
-        "pt": "O chefe quica cada vez mais alto na bola de equilíbrio | Ren & Jill"
+        "ja": "バランスボールでどんどんはずむ上司 | 東京うさぎオフィス「バランスボール」",
+        "ko": "밸런스볼 위에서 점점 높이 튀는 과장님 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "坐上平衡球越彈越高的課長 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "El jefe rebota cada vez más alto en la pelota de equilibrio | Tokyo Usagi Office",
+        "pt": "O chefe quica cada vez mais alto na bola de equilíbrio | Tokyo Usagi Office"
       },
       "planned_date": "2027-01-23"
     },
@@ -2308,8 +2308,8 @@
       "ep": "neguse",
       "no": 91,
       "title": "寝ぐせ",
-      "caption_ja": "朝、ジルの頭に寝ぐせが1本。くしでさっと直しました。課長もブラシで毛並みを整えると……ブラシをかけるほど、毛がふくらんでいきます。最後はまんまる。",
-      "caption_en": "Jill has one stray hair this morning. A quick comb, done. The boss brushes his fur too... and the more he brushes, the fluffier he gets.",
+      "caption_ja": "朝、ユズの頭に寝ぐせが1本。くしでさっと直しました。課長もブラシで毛並みを整えると……ブラシをかけるほど、毛がふくらんでいきます。最後はまんまる。",
+      "caption_en": "Yuzu has one stray hair this morning. A quick comb, done. The boss brushes his fur too... and the more he brushes, the fluffier he gets.",
       "tag_set": "C",
       "thumb": {
         "t": 5.8,
@@ -2324,17 +2324,17 @@
           "ko": "까치집 머리"
         },
         "caption": {
-          "zh": "早上，吉兒頭上翹起一撮頭髮，用梳子一梳就好了。課長也用刷子整理毛……越刷毛越蓬，最後變成圓滾滾的一團。",
-          "ko": "아침, 질의 머리에 삐친 머리 한 가닥. 빗으로 쓱 정리했어요. 과장님도 브러시로 털을 정리하니…… 빗을수록 털이 부풀어 올라요. 마지막엔 동글동글."
+          "zh": "早上，柚子頭上翹起一撮頭髮，用梳子一梳就好了。課長也用刷子整理毛……越刷毛越蓬，最後變成圓滾滾的一團。",
+          "ko": "아침, 유자의 머리에 삐친 머리 한 가닥. 빗으로 쓱 정리했어요. 과장님도 브러시로 털을 정리하니…… 빗을수록 털이 부풀어 올라요. 마지막엔 동글동글."
         }
       },
       "cta": "Send this to someone with fluffy morning hair/朝の髪がふわふわな人に送ろう",
       "title_i18n": {
-        "ja": "ブラシをかけるほどふくらむ上司 | レンとジル「寝ぐせ」",
-        "ko": "빗을수록 부풀어 오르는 과장님 | 렌과 질 Ren & Jill",
-        "zh-Hant": "越梳越蓬的課長 | 蓮與吉兒 Ren & Jill",
-        "es": "Cuanto más se cepilla el jefe, más esponjoso queda | Ren & Jill",
-        "pt": "Quanto mais o chefe se escova, mais fofo fica | Ren & Jill"
+        "ja": "ブラシをかけるほどふくらむ上司 | 東京うさぎオフィス「寝ぐせ」",
+        "ko": "빗을수록 부풀어 오르는 과장님 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "越梳越蓬的課長 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "Cuanto más se cepilla el jefe, más esponjoso queda | Tokyo Usagi Office",
+        "pt": "Quanto mais o chefe se escova, mais fofo fica | Tokyo Usagi Office"
       },
       "planned_date": "2027-01-24"
     },
@@ -2343,8 +2343,8 @@
       "ep": "mouse",
       "no": 92,
       "title": "マウス",
-      "caption_ja": "ジルはマウスで、画面の矢印をすいすい動かしてクリック。課長は画面の矢印が気になって、目で追いかけて……えいっ。画面に肉球のあとが残りました。",
-      "caption_en": "Jill zips the cursor around and clicks. The boss can't stop watching the little arrow... then he pounces. A paw print on the screen.",
+      "caption_ja": "ユズはマウスで、画面の矢印をすいすい動かしてクリック。課長は画面の矢印が気になって、目で追いかけて……えいっ。画面に肉球のあとが残りました。",
+      "caption_en": "Yuzu zips the cursor around and clicks. The boss can't stop watching the little arrow... then he pounces. A paw print on the screen.",
       "tag_set": "C",
       "thumb": {
         "t": 4.6,
@@ -2359,17 +2359,17 @@
           "ko": "마우스"
         },
         "caption": {
-          "zh": "吉兒用滑鼠把畫面上的游標移來移去點擊。課長很在意那個游標，用眼睛一直追……嘿！螢幕上留下了肉球的印子。",
-          "ko": "질은 마우스로 화면의 화살표를 쓱쓱 움직여 클릭. 과장님은 화면 속 화살표가 신경 쓰여 눈으로 쫓다가…… 얍! 화면에 발바닥 자국이 남았어요."
+          "zh": "柚子用滑鼠把畫面上的游標移來移去點擊。課長很在意那個游標，用眼睛一直追……嘿！螢幕上留下了肉球的印子。",
+          "ko": "유자는 마우스로 화면의 화살표를 쓱쓱 움직여 클릭. 과장님은 화면 속 화살표가 신경 쓰여 눈으로 쫓다가…… 얍! 화면에 발바닥 자국이 남았어요."
         }
       },
       "cta": "Send this to someone whose cat attacks the screen/画面にとびつくペットがいる人に送ろう",
       "title_i18n": {
-        "ja": "マウスの矢印に飛びかかる上司 | レンとジル「マウス」",
-        "ko": "마우스 커서에 달려드는 과장님 | 렌과 질 Ren & Jill",
-        "zh-Hant": "撲向滑鼠游標的課長 | 蓮與吉兒 Ren & Jill",
-        "es": "El jefe se lanza sobre el cursor del ratón | Ren & Jill",
-        "pt": "O chefe pula em cima do cursor do mouse | Ren & Jill"
+        "ja": "マウスの矢印に飛びかかる上司 | 東京うさぎオフィス「マウス」",
+        "ko": "마우스 커서에 달려드는 과장님 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "撲向滑鼠游標的課長 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "El jefe se lanza sobre el cursor del ratón | Tokyo Usagi Office",
+        "pt": "O chefe pula em cima do cursor do mouse | Tokyo Usagi Office"
       },
       "planned_date": "2027-01-25"
     },
@@ -2378,8 +2378,8 @@
       "ep": "nekutai",
       "no": 93,
       "title": "ネクタイ",
-      "caption_ja": "ジルはプレゼントの箱にリボンをきゅっ。課長もネクタイを結び直してみると、くるくる、くるくる……ネクタイはそのまま、頭の上に大きなリボンができました。",
-      "caption_en": "Jill ties a neat ribbon on a gift box. The boss tries to redo his tie. Twist, twist... the tie hasn't changed, but now there's a big bow on his head.",
+      "caption_ja": "ユズはプレゼントの箱にリボンをきゅっ。課長もネクタイを結び直してみると、くるくる、くるくる……ネクタイはそのまま、頭の上に大きなリボンができました。",
+      "caption_en": "Yuzu ties a neat ribbon on a gift box. The boss tries to redo his tie. Twist, twist... the tie hasn't changed, but now there's a big bow on his head.",
       "tag_set": "C",
       "thumb": {
         "t": 6.2,
@@ -2394,17 +2394,17 @@
           "ko": "넥타이"
         },
         "caption": {
-          "zh": "吉兒在禮物盒上綁好蝴蝶結。課長也想重新打領帶，轉啊轉、轉啊轉……領帶沒變，頭上卻多了一個大蝴蝶結。",
-          "ko": "질은 선물 상자에 리본을 꼭. 과장님도 넥타이를 다시 매 보는데, 빙글빙글, 빙글빙글…… 넥타이는 그대로, 머리 위에 커다란 리본이 생겼어요."
+          "zh": "柚子在禮物盒上綁好蝴蝶結。課長也想重新打領帶，轉啊轉、轉啊轉……領帶沒變，頭上卻多了一個大蝴蝶結。",
+          "ko": "유자는 선물 상자에 리본을 꼭. 과장님도 넥타이를 다시 매 보는데, 빙글빙글, 빙글빙글…… 넥타이는 그대로, 머리 위에 커다란 리본이 생겼어요."
         }
       },
       "cta": "Send this to someone who can't tie a tie/ネクタイが苦手な人に送ろう",
       "title_i18n": {
-        "ja": "ネクタイを結んだら頭にリボンができた | レンとジル「ネクタイ」",
-        "ko": "넥타이를 매다가 머리에 리본이 생겼다 | 렌과 질 Ren & Jill",
-        "zh-Hant": "打領帶打到頭上多了蝴蝶結 | 蓮與吉兒 Ren & Jill",
-        "es": "Intenta anudarse la corbata y acaba con un lazo en la cabeza | Ren & Jill",
-        "pt": "Tenta dar o nó na gravata e acaba com um laço na cabeça | Ren & Jill"
+        "ja": "ネクタイを結んだら頭にリボンができた | 東京うさぎオフィス「ネクタイ」",
+        "ko": "넥타이를 매다가 머리에 리본이 생겼다 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "打領帶打到頭上多了蝴蝶結 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "Intenta anudarse la corbata y acaba con un lazo en la cabeza | Tokyo Usagi Office",
+        "pt": "Tenta dar o nó na gravata e acaba com um laço na cabeça | Tokyo Usagi Office"
       },
       "planned_date": "2027-01-26"
     },
@@ -2413,8 +2413,8 @@
       "ep": "mezamashi",
       "no": 94,
       "title": "目覚まし時計",
-      "caption_ja": "昼休みの10分仮眠。ジルの小さな目覚ましが「ピピッ」と鳴って、ぱっと起きました。課長の大きなベルの目覚ましは「ジリリリリ！」……飛び起きたのはジル。課長はぐっすりです。",
-      "caption_en": "A ten-minute nap at lunch. Jill's little alarm beeps and she's up. The boss's big bell alarm rings like crazy... Jill jumps. The boss sleeps right through it.",
+      "caption_ja": "昼休みの10分仮眠。ユズの小さな目覚ましが「ピピッ」と鳴って、ぱっと起きました。課長の大きなベルの目覚ましは「ジリリリリ！」……飛び起きたのはユズ。課長はぐっすりです。",
+      "caption_en": "A ten-minute nap at lunch. Yuzu's little alarm beeps and she's up. The boss's big bell alarm rings like crazy... Yuzu jumps. The boss sleeps right through it.",
       "tag_set": "C",
       "thumb": {
         "t": 6.6,
@@ -2429,17 +2429,17 @@
           "ko": "알람 시계"
         },
         "caption": {
-          "zh": "午休小睡10分鐘。吉兒的小鬧鐘「嗶嗶」一響，她立刻起來了。課長的大鈴鐺鬧鐘「鈴鈴鈴鈴！」……跳起來的是吉兒，課長睡得正香。",
-          "ko": "점심시간 10분 낮잠. 질의 작은 알람이 '삐삐' 울리자 번쩍 일어났어요. 과장님의 커다란 벨 알람은 '따르르릉!'…… 벌떡 일어난 건 질. 과장님은 쿨쿨 자고 있어요."
+          "zh": "午休小睡10分鐘。柚子的小鬧鐘「嗶嗶」一響，她立刻起來了。課長的大鈴鐺鬧鐘「鈴鈴鈴鈴！」……跳起來的是柚子，課長睡得正香。",
+          "ko": "점심시간 10분 낮잠. 유자의 작은 알람이 '삐삐' 울리자 번쩍 일어났어요. 과장님의 커다란 벨 알람은 '따르르릉!'…… 벌떡 일어난 건 유자. 과장님은 쿨쿨 자고 있어요."
         }
       },
       "cta": "Send this to someone who sleeps through every alarm/目覚ましで起きられない人に送ろう",
       "title_i18n": {
-        "ja": "目覚ましが鳴っても起きない上司 | レンとジル「目覚まし時計」",
-        "ko": "알람이 울려도 일어나지 않는 과장님 | 렌과 질 Ren & Jill",
-        "zh-Hant": "鬧鐘響了也不醒的課長 | 蓮與吉兒 Ren & Jill",
-        "es": "La alarma suena a todo volumen y el jefe sigue dormido | Ren & Jill",
-        "pt": "O alarme toca bem alto e o chefe continua dormindo | Ren & Jill"
+        "ja": "目覚ましが鳴っても起きない上司 | 東京うさぎオフィス「目覚まし時計」",
+        "ko": "알람이 울려도 일어나지 않는 과장님 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "鬧鐘響了也不醒的課長 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "La alarma suena a todo volumen y el jefe sigue dormido | Tokyo Usagi Office",
+        "pt": "O alarme toca bem alto e o chefe continua dormindo | Tokyo Usagi Office"
       },
       "planned_date": "2027-01-27"
     },
@@ -2448,8 +2448,8 @@
       "ep": "wifi",
       "no": 26,
       "title": "オンライン会議で固まる上司",
-      "caption_ja": "オンライン会議、Wi-Fiが切れて課長の顔が固まった。ジルはその顔を保存しました。",
-      "caption_en": "Online meeting. The Wi-Fi drops and the boss's face freezes. Jill saved a screenshot.",
+      "caption_ja": "オンライン会議、Wi-Fiが切れて課長の顔が固まった。ユズはその顔を保存しました。",
+      "caption_en": "Online meeting. The Wi-Fi drops and the boss's face freezes. Yuzu saved a screenshot.",
       "tag_set": "C",
       "thumb": {
         "t": 3.2,
@@ -2465,17 +2465,17 @@
           "ko": "멈춘 과장님"
         },
         "caption": {
-          "zh": "線上會議，Wi-Fi斷線，課長的臉定格了。吉兒把那張臉存了下來。",
-          "ko": "온라인 회의, 와이파이가 끊겨 과장님 얼굴이 멈췄어요. 질은 그 얼굴을 저장했어요."
+          "zh": "線上會議，Wi-Fi斷線，課長的臉定格了。柚子把那張臉存了下來。",
+          "ko": "온라인 회의, 와이파이가 끊겨 과장님 얼굴이 멈췄어요. 유자는 그 얼굴을 저장했어요."
         }
       },
       "cta": "Send this to the coworker who always freezes mid-sentence/会議中によく固まる人に送ろう",
       "title_i18n": {
-        "ja": "オンライン会議で固まる上司 | レンとジル「オンライン会議で固まる上司」",
-        "ko": "화상 회의에서 멈춘 과장님 | 렌과 질 Ren & Jill",
-        "zh-Hant": "線上會議中當機的課長 | 蓮與吉兒 Ren & Jill",
-        "es": "El jefe se congela en la videollamada | Ren & Jill",
-        "pt": "O chefe trava na videochamada | Ren & Jill"
+        "ja": "オンライン会議で固まる上司 | 東京うさぎオフィス「オンライン会議で固まる上司」",
+        "ko": "화상 회의에서 멈춘 과장님 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "線上會議中當機的課長 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "El jefe se congela en la videollamada | Tokyo Usagi Office",
+        "pt": "O chefe trava na videochamada | Tokyo Usagi Office"
       },
       "experiment": {
         "var": "thumb_variant",
@@ -2490,8 +2490,8 @@
       "ep": "lunchbox",
       "no": 28,
       "title": "お弁当が入れ替わった",
-      "caption_ja": "12:00、お弁当が入れ替わっていた。取り替えたら、課長は3秒で完食。次はジルのサラダを見ています。",
-      "caption_en": "Lunch boxes got swapped. Swapped back, the boss finished his in 3 seconds. Now he's eyeing Jill's salad.",
+      "caption_ja": "12:00、お弁当が入れ替わっていた。取り替えたら、課長は3秒で完食。次はユズのサラダを見ています。",
+      "caption_en": "Lunch boxes got swapped. Swapped back, the boss finished his in 3 seconds. Now he's eyeing Yuzu's salad.",
       "tag_set": "C",
       "thumb": {
         "t": 4.0,
@@ -2506,17 +2506,17 @@
           "ko": "도시락이 바뀌었다"
         },
         "caption": {
-          "zh": "12:00，便當換錯了。換回來之後，課長三秒吃完，現在盯著吉兒的沙拉。",
-          "ko": "12:00, 도시락이 바뀌어 있었어요. 다시 바꾸자 과장님은 3초 만에 완식. 이제 질의 샐러드를 보고 있어요."
+          "zh": "12:00，便當換錯了。換回來之後，課長三秒吃完，現在盯著柚子的沙拉。",
+          "ko": "12:00, 도시락이 바뀌어 있었어요. 다시 바꾸자 과장님은 3초 만에 완식. 이제 유자의 샐러드를 보고 있어요."
         }
       },
       "cta": "Send this to the fastest eater in your office/会社で一番食べるのが速い人に送ろう",
       "title_i18n": {
-        "ja": "お弁当が入れ替わった | レンとジル「お弁当が入れ替わった」",
-        "ko": "도시락이 바뀌었다 | 렌과 질 Ren & Jill",
-        "zh-Hant": "便當拿錯了 | 蓮與吉兒 Ren & Jill",
-        "es": "Se cambiaron los almuerzos | Ren & Jill",
-        "pt": "As marmitas foram trocadas | Ren & Jill"
+        "ja": "お弁当が入れ替わった | 東京うさぎオフィス「お弁当が入れ替わった」",
+        "ko": "도시락이 바뀌었다 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "便當拿錯了 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "Se cambiaron los almuerzos | Tokyo Usagi Office",
+        "pt": "As marmitas foram trocadas | Tokyo Usagi Office"
       },
       "planned_date": "2026-11-21"
     },
@@ -2525,8 +2525,8 @@
       "ep": "kotatsu1",
       "no": 97,
       "title": "こたつと上司 Part 1",
-      "caption_ja": "寒い朝、会社にこたつが落ちてきた。課長は入ったきり出てこない。仕事はぜんぶジルの頭の上へ。（つづく）",
-      "caption_en": "A kotatsu lands in the office on a cold morning. The boss climbs in and never comes out. His work piles up on Jill's head. (to be continued)",
+      "caption_ja": "寒い朝、会社にこたつが落ちてきた。課長は入ったきり出てこない。仕事はぜんぶユズの頭の上へ。（つづく）",
+      "caption_en": "A kotatsu lands in the office on a cold morning. The boss climbs in and never comes out. His work piles up on Yuzu's head. (to be continued)",
       "tag_set": "C",
       "thumb": {
         "t": 8.5,
@@ -2542,17 +2542,17 @@
           "ko": "코타츠와 과장님 Part 1"
         },
         "caption": {
-          "zh": "寒冷的早晨，辦公室掉下來一張暖桌。課長鑽進去就不出來了，工作全堆到吉兒頭上。（待續）",
-          "ko": "추운 아침, 사무실에 코타츠가 떨어졌어요. 과장님은 들어가서 나오질 않고, 일은 전부 질의 머리 위로. (계속)"
+          "zh": "寒冷的早晨，辦公室掉下來一張暖桌。課長鑽進去就不出來了，工作全堆到柚子頭上。（待續）",
+          "ko": "추운 아침, 사무실에 코타츠가 떨어졌어요. 과장님은 들어가서 나오질 않고, 일은 전부 유자의 머리 위로. (계속)"
         }
       },
-      "cta": "Which one is your boss?/あなたの職場のレンは誰？",
+      "cta": "Which one is your boss?/あなたの職場のモチは誰？",
       "title_i18n": {
-        "ja": "会社にこたつ、課長が出てこない Part 1 | レンとジル「こたつと上司」",
-        "ko": "사무실 코타츠에서 안 나오는 과장님 Part 1 | 렌과 질 Ren & Jill",
-        "zh-Hant": "辦公室暖桌，課長不出來 Part 1 | 蓮與吉兒 Ren & Jill",
-        "es": "El jefe no sale del kotatsu, Parte 1 | Ren & Jill",
-        "pt": "O chefe não sai do kotatsu, Parte 1 | Ren & Jill"
+        "ja": "会社にこたつ、課長が出てこない Part 1 | 東京うさぎオフィス「こたつと上司」",
+        "ko": "사무실 코타츠에서 안 나오는 과장님 Part 1 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "辦公室暖桌，課長不出來 Part 1 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "El jefe no sale del kotatsu, Parte 1 | Tokyo Usagi Office",
+        "pt": "O chefe não sai do kotatsu, Parte 1 | Tokyo Usagi Office"
       },
       "series": {
         "id": "kotatsu",
@@ -2561,8 +2561,8 @@
       },
       "experiment": {
         "var": "cta",
-        "std": "Which one is your boss?/あなたの職場のレンは誰？",
-        "value": "Which one is your boss?/あなたの職場のレンは誰？",
+        "std": "Which one is your boss?/あなたの職場のモチは誰？",
+        "value": "Which one is your boss?/あなたの職場のモチは誰？",
         "why": "最後の一言を足して、送る・保存する人が増えるか比べる"
       },
       "planned_date": "2026-11-26",
@@ -2573,8 +2573,8 @@
       "ep": "kotatsu2",
       "no": 98,
       "title": "こたつと上司 Part 2",
-      "caption_ja": "翌朝。ジルは課長の耳をくわえて、こたつから引っぱり出そうとする。綱引きの結果は…（つづく）",
-      "caption_en": "Next morning, Jill grabs the boss's ear and tries to pull him out of the kotatsu. Who wins the tug-of-war? (to be continued)",
+      "caption_ja": "翌朝。ユズは課長の耳をくわえて、こたつから引っぱり出そうとする。綱引きの結果は…（つづく）",
+      "caption_en": "Next morning, Yuzu grabs the boss's ear and tries to pull him out of the kotatsu. Who wins the tug-of-war? (to be continued)",
       "tag_set": "A",
       "thumb": {
         "t": 5.1,
@@ -2590,17 +2590,17 @@
           "ko": "코타츠와 과장님 Part 2"
         },
         "caption": {
-          "zh": "隔天早上，吉兒咬住課長的耳朵，想把他從暖桌裡拉出來。拔河的結果是…（待續）",
-          "ko": "다음 날 아침, 질은 과장님 귀를 물고 코타츠에서 끌어내려고 해요. 줄다리기의 결과는…(계속)"
+          "zh": "隔天早上，柚子咬住課長的耳朵，想把他從暖桌裡拉出來。拔河的結果是…（待續）",
+          "ko": "다음 날 아침, 유자는 과장님 귀를 물고 코타츠에서 끌어내려고 해요. 줄다리기의 결과는…(계속)"
         }
       },
       "cta": "Send this to someone who can't leave the kotatsu./こたつから出られない人に送って",
       "title_i18n": {
-        "ja": "こたつの綱引き、勝つのは？ Part 2 | レンとジル「こたつと上司」",
-        "ko": "코타츠 줄다리기, 이기는 쪽은? Part 2 | 렌과 질 Ren & Jill",
-        "zh-Hant": "暖桌拔河，誰會贏？ Part 2 | 蓮與吉兒 Ren & Jill",
-        "es": "Tira y afloja en el kotatsu, Parte 2 | Ren & Jill",
-        "pt": "Cabo de guerra no kotatsu, Parte 2 | Ren & Jill"
+        "ja": "こたつの綱引き、勝つのは？ Part 2 | 東京うさぎオフィス「こたつと上司」",
+        "ko": "코타츠 줄다리기, 이기는 쪽은? Part 2 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "暖桌拔河，誰會贏？ Part 2 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "Tira y afloja en el kotatsu, Parte 2 | Tokyo Usagi Office",
+        "pt": "Cabo de guerra no kotatsu, Parte 2 | Tokyo Usagi Office"
       },
       "series": {
         "id": "kotatsu",
@@ -2643,11 +2643,11 @@
         }
       },
       "title_i18n": {
-        "ja": "休憩室のこたつ Part 1「いま、蹴った？」 | レンとジル",
-        "ko": "휴게실 코타츠 Part 1 | 렌과 질 Ren & Jill",
-        "zh-Hant": "休息室的暖桌 Part 1 | 蓮與吉兒 Ren & Jill",
-        "es": "El kotatsu de la sala de descanso, Parte 1 | Ren & Jill",
-        "pt": "O kotatsu da sala de descanso, Parte 1 | Ren & Jill"
+        "ja": "休憩室のこたつ Part 1「いま、蹴った？」 | 東京うさぎオフィス",
+        "ko": "휴게실 코타츠 Part 1 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "休息室的暖桌 Part 1 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "El kotatsu de la sala de descanso, Parte 1 | Tokyo Usagi Office",
+        "pt": "O kotatsu da sala de descanso, Parte 1 | Tokyo Usagi Office"
       },
       "series": {
         "id": "breakroom",
@@ -2665,15 +2665,15 @@
       "ep": "breakroom2",
       "no": 100,
       "title": "休憩室のこたつ Part 2「先客は新人」",
-      "caption_ja": "布団の中で寝ていたのは、新人のポム。ジルの足を抱えたまま、すやすや。起こさずに足を抜けるか…（つづく）",
-      "caption_en": "Under the futon: new hire Pom, fast asleep, hugging Jill's foot. Can she get it back without waking him? (to be continued)",
+      "caption_ja": "布団の中で寝ていたのは、新人のクリ。ユズの足を抱えたまま、すやすや。起こさずに足を抜けるか…（つづく）",
+      "caption_en": "Under the futon: new hire Kuri, fast asleep, hugging Yuzu's foot. Can she get it back without waking him? (to be continued)",
       "tag_set": "C",
       "thumb": {
         "t": 3.0,
         "cam": "1.3,535,1100",
         "hook": "KOTATSU./休憩室のこたつ Part 2"
       },
-      "first_comment": "ジルの足、どうやって抜く？ / How would you get Jill's foot back?",
+      "first_comment": "ユズの足、どうやって抜く？ / How would you get Yuzu's foot back?",
       "site_i18n": {
         "title": {
           "en": "Kotatsu in the break room, Part 2",
@@ -2681,16 +2681,16 @@
           "ko": "휴게실 코타츠 Part 2"
         },
         "caption": {
-          "zh": "睡在被子裡的是新人波姆。抱著吉兒的腳睡得正香。能不吵醒他把腳抽出來嗎…（待續）",
-          "ko": "이불 속에서 자고 있던 건 신입 폼. 질의 발을 껴안은 채 새근새근. 깨우지 않고 발을 뺄 수 있을까…(계속)"
+          "zh": "睡在被子裡的是新人栗子。抱著柚子的腳睡得正香。能不吵醒他把腳抽出來嗎…（待續）",
+          "ko": "이불 속에서 자고 있던 건 신입 쿠리. 유자의 발을 껴안은 채 새근새근. 깨우지 않고 발을 뺄 수 있을까…(계속)"
         }
       },
       "title_i18n": {
-        "ja": "休憩室のこたつ Part 2「先客は新人」 | レンとジル",
-        "ko": "휴게실 코타츠 Part 2 | 렌과 질 Ren & Jill",
-        "zh-Hant": "休息室的暖桌 Part 2 | 蓮與吉兒 Ren & Jill",
-        "es": "El kotatsu de la sala de descanso, Parte 2 | Ren & Jill",
-        "pt": "O kotatsu da sala de descanso, Parte 2 | Ren & Jill"
+        "ja": "休憩室のこたつ Part 2「先客は新人」 | 東京うさぎオフィス",
+        "ko": "휴게실 코타츠 Part 2 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "休息室的暖桌 Part 2 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "El kotatsu de la sala de descanso, Parte 2 | Tokyo Usagi Office",
+        "pt": "O kotatsu da sala de descanso, Parte 2 | Tokyo Usagi Office"
       },
       "series": {
         "id": "breakroom",
@@ -2708,8 +2708,8 @@
       "ep": "breakroom3",
       "no": 101,
       "title": "休憩室のこたつ Part 3「課長の席」",
-      "caption_ja": "みかんでポムを布団から出して、ジルの足は無事に。課長もやっと仕事…と思ったら、膝の上で二度寝。",
-      "caption_en": "A mikan lures Pom out and Jill gets her foot back. Back to work, boss... until Pom curls up on his lap for a second nap.",
+      "caption_ja": "みかんでクリを布団から出して、ユズの足は無事に。課長もやっと仕事…と思ったら、膝の上で二度寝。",
+      "caption_en": "A mikan lures Kuri out and Yuzu gets her foot back. Back to work, boss... until Kuri curls up on his lap for a second nap.",
       "tag_set": "C",
       "thumb": {
         "t": 21.0,
@@ -2724,16 +2724,16 @@
           "ko": "휴게실 코타츠 Part 3"
         },
         "caption": {
-          "zh": "用橘子把波姆引出被子，吉兒的腳得救了。課長終於要工作了…結果波姆在他腿上睡回籠覺。",
-          "ko": "귤로 폼을 이불에서 꺼내 질의 발은 무사히. 과장님도 드디어 일…인 줄 알았는데, 무릎 위에서 두 번째 낮잠."
+          "zh": "用橘子把栗子引出被子，柚子的腳得救了。課長終於要工作了…結果栗子在他腿上睡回籠覺。",
+          "ko": "귤로 쿠리를 이불에서 꺼내 유자의 발은 무사히. 과장님도 드디어 일…인 줄 알았는데, 무릎 위에서 두 번째 낮잠."
         }
       },
       "title_i18n": {
-        "ja": "休憩室のこたつ Part 3「課長の席」 | レンとジル",
-        "ko": "휴게실 코타츠 Part 3 | 렌과 질 Ren & Jill",
-        "zh-Hant": "休息室的暖桌 Part 3 | 蓮與吉兒 Ren & Jill",
-        "es": "El kotatsu de la sala de descanso, Parte 3 | Ren & Jill",
-        "pt": "O kotatsu da sala de descanso, Parte 3 | Ren & Jill"
+        "ja": "休憩室のこたつ Part 3「課長の席」 | 東京うさぎオフィス",
+        "ko": "휴게실 코타츠 Part 3 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "休息室的暖桌 Part 3 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "El kotatsu de la sala de descanso, Parte 3 | Tokyo Usagi Office",
+        "pt": "O kotatsu da sala de descanso, Parte 3 | Tokyo Usagi Office"
       },
       "series": {
         "id": "breakroom",

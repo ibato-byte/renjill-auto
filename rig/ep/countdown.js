@@ -1,7 +1,7 @@
 // 「カウントダウン」（約9.5秒・セリフなし）v2 演出／キャラは本番の rig.js
-// 状況：大みそかの夜。時計は 23:59。ジルはクラッカーを持って 3・2・1（わくわく）。課長は横でぐっすり
-// ひっくり返し：0:00、ジルのクラッカーがパーン（紙ふぶき）。課長は起きない
-// オチ：0:01、課長がはっと起きて、1人でクラッカーをパーン（ジルの頭に紙テープ）。字幕「上司、1分遅れて新年」
+// 状況：大みそかの夜。時計は 23:59。ユズはクラッカーを持って 3・2・1（わくわく）。課長は横でぐっすり
+// ひっくり返し：0:00、ユズのクラッカーがパーン（紙ふぶき）。課長は起きない
+// オチ：0:01、課長がはっと起きて、1人でクラッカーをパーン（ユズの頭に紙テープ）。字幕「上司、1分遅れて新年」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
 const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
@@ -22,11 +22,11 @@ var EP = {
     const newYear = t >= 3.6, rUp = t >= 5.5;
     const min = t < 3.6 ? [23, 59] : t < 5.5 ? [0, 0] : [0, 1];
     const bg = L.office({ sky: 'night', clock: min });
-    // ジル（左）：クラッカーを持ってわくわく → 3・2・1 → パーン（にこ・きらきら）→ 課長を見る「…」→ 紙テープが頭に → ジト目
+    // ユズ（左）：クラッカーを持ってわくわく → 3・2・1 → パーン（にこ・きらきら）→ 課長を見る「…」→ 紙テープが頭に → ジト目
     const jface = t < 3.6 ? Object.assign({}, RIG.FACES.smile, { sparkle: 1 }) : t < 4.4 ? Object.assign({}, RIG.FACES.smile, { sparkle: 1 }) : t < 6.0 ? RIG.FACES.think : t < 6.8 ? Object.assign({}, RIG.FACES.surprised, { excl: 0 }) : RIG.FACES.annoyed;
     L.char('jil', Object.assign({}, t >= 3.6 && t < 4.2 ? RIG.POSES.binky : RIG.POSES.sit, jface, { x: 20, y: DESK - 413 * 1.3, scale: 1.3, eyeLook: t >= 4.4 ? .8 : .2 }), t,
       (t < 3.6 ? POPPER(380, 1160, 30) : POPPER(380, 1160, 15)) + (t >= 6.1 ? `<path d="M200 960 q60 -30 120 10 q50 30 110 -10" stroke="#5BC0F0" stroke-width="10" fill="none" stroke-linecap="round"/><path d="M230 980 q40 40 90 20" stroke="#FF8FC8" stroke-width="10" fill="none" stroke-linecap="round"/>` : ''), {});
-    // レン（右）：ぐっすり（sleepy・loaf）→ 0:01 はっと起きる（びっくり）→ 1人でパーン（binky・きらきら）→ ご満悦
+    // モチ（右）：ぐっすり（sleepy・loaf）→ 0:01 はっと起きる（びっくり）→ 1人でパーン（binky・きらきら）→ ご満悦
     const rface = !rUp ? RIG.FACES.sleepy : t < 6.0 ? Object.assign({}, RIG.FACES.surprised, { excl: 1 }) : t < 6.8 ? Object.assign({}, RIG.FACES.smile, { sparkle: 1 }) : RIG.FACES.smug;
     L.char('ren', Object.assign({}, !rUp ? RIG.POSES.loaf : t >= 6.0 && t < 6.6 ? RIG.POSES.binky : RIG.POSES.sit, rface, { x: 560, y: DESK - 413 * 1.35, scale: 1.35, flip: true, eyeLook: -.5 }), t,
       rUp ? POPPER(700, 1180, -20) : '', {});
@@ -36,7 +36,7 @@ var EP = {
     fx += `<g transform="translate(540 ${DESK - 30})"><rect x="-120" y="-56" width="240" height="96" rx="14" fill="#2B3142" stroke="#5A6470" stroke-width="5"/><text y="12" text-anchor="middle" font-family="Noto Sans CJK JP" font-weight="900" font-size="56" fill="${newYear ? '#F2C230' : '#9BE3FF'}">${String(min[0]).padStart(2, '0')}:${String(min[1]).padStart(2, '0')}</text></g>`;
     // 3・2・1
     if (t > 1.0 && t < 3.6) { const n = t < 1.8 ? 3 : t < 2.6 ? 2 : 1, k = ((t - 1.0) % .8) / .8; fx += `<text x="300" y="${DESK - 640}" text-anchor="middle" font-family="Noto Sans CJK JP" font-weight="900" font-size="${130 * outBack(Math.min(1, k * 4))}" fill="#F2C230" stroke="#3A2414" stroke-width="10" paint-order="stroke">${n}</text>`; }
-    // 紙ふぶき（ジル 3.6、課長 6.0）
+    // 紙ふぶき（ユズ 3.6、課長 6.0）
     fx += CONFETTI(380, 1160, seg(t, 3.6, 5.0), 1) + CONFETTI(700, 1180, seg(t, 6.0, 7.4), 7);
     if (t > 3.6 && t < 4.6) fx += `<text x="540" y="${DESK - 560}" text-anchor="middle" font-family="Noto Sans CJK JP" font-weight="900" font-size="${96 * outBack(seg(t, 3.6, 3.9))}" fill="#FFF7E8" stroke="#E8473A" stroke-width="10" paint-order="stroke">HAPPY NEW YEAR</text>`;
     if (t > 4.6 && t < 5.5) fx += L.emark(220, DESK - 650, 1.0, '…');

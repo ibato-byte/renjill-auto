@@ -1,11 +1,11 @@
 // 「1枚だけ印刷」（約9.5秒・セリフなし）v3 演出（2026-11-15 総見直しで作り直し）／キャラは本番の rig.js
-// 状況：レンがプリンターのボタンを押す（画面に「×1」）→ 紙が1枚…2枚…止まらない → 紙の山がおなかまでたまり、頭にも乗る
-// ひっくり返し：ジルが跳ねて来て、ボタンの上にちょこんと座る（腕は使わない）→ オチ：ぴたっと止まる（緑のランプ・チェック）
-// オチの後のオチ（0.5秒）：最後の1枚がひらひら落ちてきて、レンの頭にぺたっと乗り、耳がしょんぼり
-// 前の版（v2）の問題：紙の束（横長の線）がレンの顔の前を横切って顔が隠れる／ジルが小さく、左で4割以上切れる／止めた動きが見えない
+// 状況：モチがプリンターのボタンを押す（画面に「×1」）→ 紙が1枚…2枚…止まらない → 紙の山がおなかまでたまり、頭にも乗る
+// ひっくり返し：ユズが跳ねて来て、ボタンの上にちょこんと座る（腕は使わない）→ オチ：ぴたっと止まる（緑のランプ・チェック）
+// オチの後のオチ（0.5秒）：最後の1枚がひらひら落ちてきて、モチの頭にぺたっと乗り、耳がしょんぼり
+// 前の版（v2）の問題：紙の束（横長の線）がモチの顔の前を横切って顔が隠れる／ユズが小さく、左で4割以上切れる／止めた動きが見えない
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
-// プリンター（ボタンは左側＝ジルが届く側）。press（0〜1）でボタンが沈む
+// プリンター（ボタンは左側＝ユズが届く側）。press（0〜1）でボタンが沈む
 const PRINTER = (x, y, n, lamp, press) => `<defs><linearGradient id="prBody" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F2F4F7"/><stop offset=".55" stop-color="#DDE1E6"/><stop offset="1" stop-color="#B9C0C9"/></linearGradient><radialGradient id="prBtn" cx="38%" cy="32%" r="75%"><stop offset="0" stop-color="#fff" stop-opacity=".75"/><stop offset=".45" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#3B2412" stop-opacity=".3"/></radialGradient></defs>
 <g transform="translate(${x} ${y}) scale(.82)"><ellipse cx="6" cy="2" rx="250" ry="16" fill="#3B2412" opacity=".22"/><rect x="-200" y="-230" width="400" height="60" rx="12" fill="#C9D0D8"/><rect x="-200" y="-230" width="400" height="14" rx="7" fill="#E4E8ED"/><rect x="-170" y="-246" width="340" height="24" rx="6" fill="#FFFFFF" stroke="#CFC3B0" stroke-width="3"/><rect x="-230" y="-200" width="460" height="200" rx="22" fill="url(#prBody)" stroke="#9AA3AE" stroke-width="6"/><rect x="-214" y="-190" width="428" height="10" rx="5" fill="#fff" opacity=".7"/><rect x="-210" y="-36" width="420" height="20" rx="8" fill="#6B7580" opacity=".35"/><rect x="-196" y="-32" width="392" height="8" rx="4" fill="#2E3440" opacity=".55"/>
 <rect x="4" y="-136" width="172" height="92" rx="14" fill="#9AA3AE"/><rect x="10" y="-130" width="160" height="80" rx="10" fill="#2E3440"/><rect x="10" y="-130" width="160" height="12" rx="6" fill="#000" opacity=".4"/><text x="90" y="-72" text-anchor="middle" font-size="52" font-weight="900" font-family="Noto Sans Mono, monospace" fill="#7CF0A8" opacity=".35" stroke="#7CF0A8" stroke-width="8" stroke-linejoin="round">×${n}</text><text x="90" y="-72" text-anchor="middle" font-size="52" font-weight="900" font-family="Noto Sans Mono, monospace" fill="#7CF0A8">×${n}</text><path d="M16 -126 L70 -126 L40 -54 L16 -54Z" fill="#fff" opacity=".06"/>
@@ -13,8 +13,8 @@ const PRINTER = (x, y, n, lamp, press) => `<defs><linearGradient id="prBody" x1=
 // 紙1枚（たて長・少し傾く）
 const SHEET = (x, y, rot, s = 1) => `<g transform="translate(${x} ${y}) rotate(${rot}) scale(${s})"><rect x="-50" y="-66" width="110" height="144" rx="4" fill="#3B2412" opacity=".13"/><rect x="-55" y="-72" width="110" height="144" rx="4" fill="#fff" stroke="#CFC3B0" stroke-width="3"/><path d="M31 -72 L55 -48 L31 -48Z" fill="#E9E2D5" stroke="#CFC3B0" stroke-width="2.5" stroke-linejoin="round"/><rect x="-55" y="40" width="110" height="32" rx="4" fill="#3B2412" opacity=".05"/><path d="M-36 -44 H36 M-36 -22 H36 M-36 0 H24" stroke="#D9D2C6" stroke-width="6" stroke-linecap="round"/></g>`;
 const DESK = 1400, PX = 450, OUTX = PX + 190, OUTY = DESK - 60;
-const RS = 1.4, RCX = 820;              // レン：大きさ・体の中心（rig の x は左端。中心＝x＋200×scale）
-const JS = 1.35, JCX = 210;             // ジル
+const RS = 1.4, RCX = 820;              // モチ：大きさ・体の中心（rig の x は左端。中心＝x＋200×scale）
+const JS = 1.35, JCX = 210;             // ユズ
 var EP = {
   dur: 9.5,
   bgmHolds: '5.9-6.4',
@@ -29,7 +29,7 @@ var EP = {
     const flowF = t < 5.9 ? Math.min(1, ease(seg(t, .9, 3.6)) + seg(t, 3.6, 5.9) * .0) : 1;
     const nf = flowF * flowF * 40, n = Math.floor(nf);
     const pile = Math.min(1, nf / 40);                // 山の高さ（0〜1）
-    // ---- レン（右）：ボタンを押す → 紙が止まらず驚く → 胸まで埋もれて汗 → 止まってほっ → 最後の1枚が顔に
+    // ---- モチ（右）：ボタンを押す → 紙が止まらず驚く → 胸まで埋もれて汗 → 止まってほっ → 最後の1枚が顔に
     const buried = t >= 3.6;
     let rface = t < 1.9 ? RIG.FACES.smile : t < 3.6 ? Object.assign({}, RIG.FACES.surprised, { excl: 0 }) : Object.assign({}, RIG.FACES.oops, { sweat: 1, eyeOpen: 1 });
     if (stopped) rface = t > 6.4 && t < 8.15 ? RIG.FACES.smile : RIG.FACES.neutral;
@@ -38,7 +38,7 @@ var EP = {
       L.anticip(t, 0.3, .15), L.startle(t, 1.9), L.land(t, 3.6, .3), t >= 8.15 ? L.droop(t, 8.15) : {});
     if (rp.yOff) rp.y += rp.yOff;   // 部品の yOff は rig が使わない。y に足す
     L.char('ren', rp, t, '', {});
-    // ---- ジル（左）：4.4 左から跳ねて来る → 5.6 ため → ボタンの上にちょこんと座る（5.9）→ 6.5 元の場所へ。顔はずっと平然
+    // ---- ユズ（左）：4.4 左から跳ねて来る → 5.6 ため → ボタンの上にちょこんと座る（5.9）→ 6.5 元の場所へ。顔はずっと平然
     const h = RIG.hop(t, 4.5, 5.1, -330, JCX - 200 * JS, { hops: 2, height: 46 });
     const BTN = PX - 130 * .82;
     const onBtn = seg(t, 5.6, 5.9), offBtn = seg(t, 6.6, 6.9);
@@ -54,7 +54,7 @@ var EP = {
       + [60, 560].map(x => `${L.drawer(x, DESK)}`).join('');
     const press = (t > .2 && t < .45) ? 1 : (t > 5.85 && t < 6.6) ? 1 : 0;
     fx += PRINTER(PX, DESK + 6, Math.max(1, n), stopped ? '#5DBB63' : (Math.floor(t * 8) % 2 ? '#E8473A' : '#FFB86B'), press);
-    // 紙の山：レンの前（体の下半分だけ。顔は隠さない）。高さは最大 300px
+    // 紙の山：モチの前（体の下半分だけ。顔は隠さない）。高さは最大 300px
     const pileH = 165 * pile, pileL = RCX - 170, pileR = RCX + 230;
     if (pileH > 4) {
       fx += `<path d="M${pileL - 40} ${DESK} Q${pileL} ${DESK - pileH * .9} ${RCX - 60} ${DESK - pileH} Q${RCX + 80} ${DESK - pileH * 1.05} ${pileR} ${DESK - pileH * .7} Q${pileR + 40} ${DESK - pileH * .3} ${pileR + 50} ${DESK}Z" fill="#FBF8F2" stroke="#CFC3B0" stroke-width="4"/><ellipse cx="${RCX + 30}" cy="${DESK + 2}" rx="${(pileR - pileL) / 2 + 60}" ry="12" fill="#3B2412" opacity="${(.2 * pile).toFixed(3)}"/>`;
@@ -69,7 +69,7 @@ var EP = {
       const x = OUTX + (tx - OUTX) * fly, y = OUTY - 50 * Math.sin(Math.PI * fly) + (DESK - pileH - OUTY) * fly;
       fx += SHEET(x, y, fly * 360 * (i % 2 ? 1 : -1), .9);
     }
-    // オチの後のオチ：最後の1枚がひらひら落ちて、レンの頭にぺたっ（7.4〜8.15）
+    // オチの後のオチ：最後の1枚がひらひら落ちて、モチの頭にぺたっ（7.4〜8.15）
     if (t > 7.4) { const k = seg(t, 7.4, 8.15); const fy = 300 + (DESK - 413 * RS + 60 - 300) * ease(k); fx += SHEET(RCX + 10 + Math.sin(k * 9) * 60 * (1 - k), fy, Math.sin(k * 8) * 25 * (1 - k), 1.0); }
     if (t > .2 && t < .5) fx += L.impact(BTN, DESK - 80, seg(t, .2, .5), .8, '#7CF0A8');
     if (t > 5.85 && t < 6.2) fx += L.impact(BTN, DESK - 80, seg(t, 5.85, 6.2), 1.1, '#5DBB63');
@@ -80,9 +80,9 @@ var EP = {
       { t: 0.01, z: 1.15, cx: 700, cy: 1150, d: .9 },
       { t: 2.0, z: 1.0, cx: 640, cy: 1150, d: .6 },
       { t: 4.2, z: 1.0, cx: 580, cy: 1150, d: .5 },
-      { t: 5.5, z: 1.2, cx: 420, cy: 1180, d: .3 },                // ボタンの上のジル
+      { t: 5.5, z: 1.2, cx: 420, cy: 1180, d: .3 },                // ボタンの上のユズ
       { t: 6.7, z: 1.0, cx: 590, cy: 1150, d: .5 },
-      { t: 7.5, z: 1.25, cx: 760, cy: 1100, d: .6 },                // 頭に紙が乗るレン
+      { t: 7.5, z: 1.25, cx: 760, cy: 1100, d: .6 },                // 頭に紙が乗るモチ
     ], t);
     if (t > 8.6) { fx = ''; ui = ''; }
     L.mount({ bg, fx, ui, cam, t, shake: t > 3.6 && t < 3.75 ? 8 : t > 5.9 && t < 6.0 ? 6 : 0 });

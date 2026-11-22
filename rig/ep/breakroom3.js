@@ -1,13 +1,13 @@
 // 「休憩室のこたつ 第3話（Part 3・最終話）課長の席」（本編24秒＋締めテロップ3秒＋エンドカード1秒・セリフなし）2026-11-21 オーナーの絵コンテ
-// 前回：布団の中で、新人ポムがジルの後ろ足を抱えて眠っていた。レンがみかんの房を鼻先へ → 鼻がひくっ（最初の絵は第2話の最後と同じ）
-// 状況：みかんでポムを布団から出し、ジルの足を助ける。レンは仕事に戻る
-// オチ：ポムはみかんを抱えたまま、レンの膝で二度寝。ハンコを構えたまま固まるレン、笑いをこらえるジル
-// 0–5    みかんの香りに、ポムの鼻がひくひく。目を閉じたまま、小さな前足をのばす
-// 5–11   レンがみかんを少しずつ手前に引く → ポムが追って布団から出てくる → そのすきにジルが足を引き抜く → ほっとしてレンに小さくうなずき、耳がふわっと起きる
-// 11–17  レンはみかんをポムに渡して仕事に戻る。書類を前足でまっすぐそろえ、今度こそとハンコを構える
-// 17–24  ポムはみかんを抱えたまま、布団のはしからするっとレンの膝へ → 丸くなって二度寝 → レンはハンコを浮かせたまま固まる。ジルはノートPCの画面の陰に顔をふせ、肩と耳が小刻みにゆれる（一拍）
+// 前回：布団の中で、新人クリがユズの後ろ足を抱えて眠っていた。モチがみかんの房を鼻先へ → 鼻がひくっ（最初の絵は第2話の最後と同じ）
+// 状況：みかんでクリを布団から出し、ユズの足を助ける。モチは仕事に戻る
+// オチ：クリはみかんを抱えたまま、モチの膝で二度寝。ハンコを構えたまま固まるモチ、笑いをこらえるユズ
+// 0–5    みかんの香りに、クリの鼻がひくひく。目を閉じたまま、小さな前足をのばす
+// 5–11   モチがみかんを少しずつ手前に引く → クリが追って布団から出てくる → そのすきにユズが足を引き抜く → ほっとしてモチに小さくうなずき、耳がふわっと起きる
+// 11–17  モチはみかんをクリに渡して仕事に戻る。書類を前足でまっすぐそろえ、今度こそとハンコを構える
+// 17–24  クリはみかんを抱えたまま、布団のはしからするっとモチの膝へ → 丸くなって二度寝 → モチはハンコを浮かせたまま固まる。ユズはノートPCの画面の陰に顔をふせ、肩と耳が小刻みにゆれる（一拍）
 // 24–27  締めテロップ「次のお話も、フォローして待っててね」
-// 前の話の最後の状態：rig/ep/breakroom2.js（布団の右はしはめくったまま・房は鼻先・ポムはジルの足を抱いて寝ている）。位置はそこから計算して合わせる
+// 前の話の最後の状態：rig/ep/breakroom2.js（布団の右はしはめくったまま・房は鼻先・クリはユズの足を抱いて寝ている）。位置はそこから計算して合わせる
 document.write('<script src="v2/lib.js"><\/script><script src="v2/elevator_set.js"><\/script><script src="v2/breakroom_set.js"><\/script>');
 (function () {
   const sm = (a, b, t) => { const k = Math.max(0, Math.min(1, (t - a) / (b - a))); return k * k * (3 - 2 * k); };
@@ -16,15 +16,15 @@ document.write('<script src="v2/lib.js"><\/script><script src="v2/elevator_set.j
   // 第2話の最後と同じ値（breakroom2.js の footTip・POM_AT・NOSE を 24 秒で計算したもの）
   const F2 = { foot: { x: 742, y: 1600 }, pom: { x: 772, y: 1504, s: 1.2, rot: 20 + 2 * Math.sin(24 * 1.6) } };
   const nose2 = (() => { const p = F2.pom, r = p.rot * Math.PI / 180, d = 70 - 114 * p.s; return { x: p.x - d * Math.sin(r), y: p.y + d * Math.cos(r) }; })();
-  const OUT = { x: 868, y: 1736 };    // 布団から出たポムの位置（床・布団の前の右）
-  const LAP = { x: 862, y: 1262 };    // レンの膝（布団の右はしの上）
-  // 房の位置（レンの前足でそっと支える）
+  const OUT = { x: 868, y: 1736 };    // 布団から出たクリの位置（床・布団の前の右）
+  const LAP = { x: 862, y: 1262 };    // モチの膝（布団の右はしの上）
+  // 房の位置（モチの前足でそっと支える）
   function segAt(t) {
     if (t < 5.2) return { x: nose2.x + 34, y: nose2.y + 2 };
     if (t < 9.6) { const k = L.ease(sm(5.2, 9.6, t)); return { x: lerp(nose2.x + 34, OUT.x + 52, k), y: lerp(nose2.y + 2, OUT.y - 150, k) }; }   // 少しずつ手前へ
     return { x: OUT.x + 52, y: OUT.y - 150 };
   }
-  // ポム
+  // クリ
   function pomAt(t) {
     const P = F2.pom;
     if (t < 5.6) return { mode: 'in', x: P.x, y: P.y, s: P.s, rot: P.rot + 2 * Math.sin(t * 1.6) };
@@ -53,7 +53,7 @@ document.write('<script src="v2/lib.js"><\/script><script src="v2/elevator_set.j
     const R = BR.REN, F = RIG.FACES;
     let face = Object.assign({}, F.neutral, { mouth: 'line' }), look = .2, nod = 28, eyeOpen = 1.15, x = R.x + BR.CROUCH.dx, y = R.y + BR.CROUCH.dy, tilt = BR.CROUCH.tilt;
     if (t < 5.2) { look = .2; }
-    if (t >= 5.2 && t < 11) { look = .4; eyeOpen = 1.05; face = Object.assign({}, F.neutral, { mouth: 'w' }); if (t > 9) { look = lerp(.4, -1, sm(9.0, 9.3, t)); } }   // 少しずつ引く → ジルのうなずきを受ける
+    if (t >= 5.2 && t < 11) { look = .4; eyeOpen = 1.05; face = Object.assign({}, F.neutral, { mouth: 'w' }); if (t > 9) { look = lerp(.4, -1, sm(9.0, 9.3, t)); } }   // 少しずつ引く → ユズのうなずきを受ける
     if (t >= 11 && t < 12.9) { const k = L.ease(sm(11.8, 12.8, t)); x = R.x + BR.CROUCH.dx * (1 - k); y = R.y + BR.CROUCH.dy * (1 - k); tilt = BR.CROUCH.tilt * (1 - k); nod = lerp(28, 12, k); look = .1; face = F.neutral; }   // 仕事に戻る
     if (t >= 12.9 && t < 19.2) { x = R.x; y = R.y; tilt = 0; nod = 12; look = -.1; face = Object.assign({}, F.sharp); eyeOpen = .9; }   // 今度こそ
     if (t >= 19.2) { x = R.x; y = R.y; tilt = 0; const k = sm(19.2, 19.5, t); nod = lerp(12, 22, k); look = lerp(-.1, .5, k); face = Object.assign({}, F.neutral, { mouth: 'line' }); eyeOpen = 1.22; }   // 膝を見て、固まる
@@ -81,8 +81,8 @@ document.write('<script src="v2/lib.js"><\/script><script src="v2/elevator_set.j
     <text y="-22" font-size="80" fill="#FFF7E8">次のお話も、</text><text y="82" font-size="70" fill="#F2D3A8">フォローして待っててね</text></g>`;
   window.EP = {
     dur: 28.0,
-    bgm: { style: 'warm', bpm: 88, level: .5, mel: .45, shaker: .4, lift: [[7.0, 1.25]], dips: [[18.7, 21.2, .3], [CUT, 27, .7]] },   // ポムが布団から出たら少し軽やかに。膝で丸くなる瞬間に引く
-    qaAllow: { still: [[CUT - .1, 28]], hidden_jil: [[19.6, 28]] },   // わざと：ジルは画面の陰に顔をふせる（オーナーの絵コンテ）
+    bgm: { style: 'warm', bpm: 88, level: .5, mel: .45, shaker: .4, lift: [[7.0, 1.25]], dips: [[18.7, 21.2, .3], [CUT, 27, .7]] },   // クリが布団から出たら少し軽やかに。膝で丸くなる瞬間に引く
+    qaAllow: { still: [[CUT - .1, 28]], hidden_jil: [[19.6, 28]] },   // わざと：ユズは画面の陰に顔をふせる（オーナーの絵コンテ）
     sfx: SFX.sort((a, b) => a.t - b.t),
     frame(t) {
       if (!window.L || !window.RIG || !window.BR) return;
@@ -95,7 +95,7 @@ document.write('<script src="v2/lib.js"><\/script><script src="v2/elevator_set.j
       const hanko = tt >= 15.0 ? { held: true } : null;
       let fx = BR.kotatsu({ props: { laptop: { open: 1, glow: .6 }, papers: { lift: 0, mess: 0 }, taken: 1, hankoHeld: !!hanko }, lift, inside, bumps: tt > 17.9 && tt < 18.8 ? [{ x: 900, k: .5 * L.pulse(tt, 17.9, 18.8) }] : [] });
       if (p.mode === 'out' || p.mode === 'lap') fx += pomSvg(tt);
-      // みかんの房：レンの前足で（11.8 まで）→ ポムが抱える
+      // みかんの房：モチの前足で（11.8 まで）→ クリが抱える
       const sg = segAt(tt);
       if (tt < 11.8) { fx += BR.segment(tt < 11.0 ? sg.x : lerp(sg.x, OUT.x, sm(11.0, 11.6, tt)), tt < 11.0 ? sg.y : lerp(sg.y, OUT.y - 110, sm(11.0, 11.6, tt)), 1.3, -30); }
       else if (p.mode === 'out') fx += BR.segment(p.x, p.y - 112 * p.s / 1.3, 1.3, -10);
@@ -109,20 +109,20 @@ document.write('<script src="v2/lib.js"><\/script><script src="v2/elevator_set.j
       const cam = L.camAt([
         { t: 0, z: 1.6, cx: 860, cy: 1420 },                    // 第2話の最後（鼻先にみかん）
         { t: 0.01, z: 1.62, cx: 850, cy: 1420, d: 4.5 },        // ひくひく（最初のコマからゆっくり）
-        { t: 5.0, z: 1.04, cx: 660, cy: 1330, d: .8 },          // 引く → 出てくる・ジル
+        { t: 5.0, z: 1.04, cx: 660, cy: 1330, d: .8 },          // 引く → 出てくる・ユズ
         { t: 10.9, z: 1.35, cx: 600, cy: 1260, d: .6 },         // 渡す → 仕事に戻る
         { t: 17.0, z: 1.3, cx: 640, cy: 1360, d: .5 },          // 布団のはしへ
-        { t: 18.9, z: 1.42, cx: 560, cy: 1200, d: .6 },         // 膝で二度寝・固まるレン・ふせるジル
+        { t: 18.9, z: 1.42, cx: 560, cy: 1200, d: .6 },         // 膝で二度寝・固まるモチ・ふせるユズ
       ], tt);
       const dim = t >= CUT ? `<rect x="0" y="0" width="1080" height="1920" fill="#1E140C" opacity="${(.42 * sm(CUT, CUT + .2, t)).toFixed(2)}"/>` : '';
       L.mount({ bg, fx: fx + fx2, ui: t < 27 ? dim + TELOP(L.seg(t, CUT + .05, CUT + .5)) : dim, cam, t: tt });
       const fxl = document.getElementById('fx');
-      // レンの前足（公式の長さ）：みかんの房をそっと支えて、少しずつ手前へ（11.0 まで）
+      // モチの前足（公式の長さ）：みかんの房をそっと支えて、少しずつ手前へ（11.0 まで）
       if (tt < 11.0) limb(fxl, 'ren', { x: sg.x + 22, y: sg.y + 6 }, { max: 120, w: 26, bend: 12 });
-      // レンの前足：書類をそろえる（トントン）→ ハンコを持つ
+      // モチの前足：書類をそろえる（トントン）→ ハンコを持つ
       if (tt >= 12.9 && tt < 15.0) { const lift = Math.max(...[13.1, 13.7, 14.3].map(a => .6 * L.pulse(tt, a, a + .36))); for (const dx of [-58, 62]) limb(fxl, 'ren', { x: P.papers.x + dx, y: P.papers.y - 14 - 40 * lift }, { max: 110, w: 32 }); }
       if (hanko) { const k = L.ease(sm(15.0, 15.8, tt)); limb(fxl, 'ren', { x: lerp(P.hanko.x, P.papers.x + 12, k) + 16, y: lerp(P.hanko.y, P.papers.y - 80, k) - 26 }, { max: 120, w: 32 }); limb(fxl, 'ren', { x: P.papers.x + 50, y: P.papers.y - 8 }, { max: 110, w: 32 }); }
-      // ジルの前足：キーボードの上
+      // ユズの前足：キーボードの上
       if (tt < 19.6) for (const dx of [-26, 30]) limb(fxl, 'jil', { x: P.laptop.x + 20 + dx, y: P.laptop.y + 4 }, { max: 110, w: 30 });
       if (typeof endcard === 'function') endcard(t, EP.dur);
     }

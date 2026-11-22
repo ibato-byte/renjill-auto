@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""「レンとジル」公式ページ（静的 HTML）を作る（依頼 #38）。投稿のたびに post.yml が実行する。AI は使わない。
+"""「東京うさぎオフィス」公式ページ（静的 HTML）を作る（依頼 #38）。投稿のたびに post.yml が実行する。AI は使わない。
 入力：auto/schedule.json（回の情報・series）、auto/posted.json（YouTube の動画 ID）
 出力：site/public/index.html・sitemap.xml・robots.txt（Cloudflare Pages の「ビルド出力ディレクトリ」に site/public を指定）
 YouTube に出ている回（動画 ID がある回）だけを載せる。数字は載せない。"""
@@ -23,8 +23,8 @@ def links(d):
     s = d.get("site") or {}
     out = []
     if s.get("youtube"): out.append(("YouTube", s["youtube"]))
-    out += [("Instagram", "https://www.instagram.com/renjill_office/"), ("TikTok", "https://www.tiktok.com/@renjill_office"),
-            ("X", "https://x.com/renjill_office"), ("Facebook", "https://www.facebook.com/profile.php?id=1358515160686321")]
+    out += [("Instagram", "https://www.instagram.com/tokyo_usagi_office/"), ("TikTok", "https://www.tiktok.com/@tokyo_usagi_office"),
+            ("X", "https://x.com/tokyo_usagi_ofc"), ("Facebook", "https://www.facebook.com/profile.php?id=1358515160686321")]
     if s.get("bluesky"): out.append(("Bluesky", s["bluesky"]))
     return out
 
@@ -42,17 +42,17 @@ def page(sch, eps):
     for e in eps: series.setdefault(e.get("series") or "すべてのエピソード", []).append(e)
     body = "".join(f'<section><h2>{E(name)}</h2><div class="g">{"".join(card(e) for e in lst)}</div></section>' for name, lst in series.items())
     if not eps: body = "<p>最初のエピソードを準備中です。</p>"
-    ld = {"@context": "https://schema.org", "@type": "VideoGallery", "name": "レンとジル Ren & Jill",
-          "description": "うさぎの課長レンと部下ジルのセリフなしオフィスコメディ。A wordless office comedy about two bunnies.",
+    ld = {"@context": "https://schema.org", "@type": "VideoGallery", "name": "東京うさぎオフィス Tokyo Usagi Office",
+          "description": "うさぎの課長モチと部下ユズのセリフなしオフィスコメディ。A wordless office comedy about two bunnies.",
           "url": url + "/", "hasPart": [{"@type": "VideoObject", "name": f'EP.{e["no"]} {e["title"]}', "description": e["caption_en"], "uploadDate": e["date"],
                                           "embedUrl": f'https://www.youtube.com/embed/{e["yt"]}', "thumbnailUrl": f'https://i.ytimg.com/vi/{e["yt"]}/hqdefault.jpg'} for e in eps]}
     ldj = json.dumps(ld, ensure_ascii=False).replace("</", "<\\/")
     sns = "".join(f'<li><a href="{E(u)}" rel="noopener">{E(n)}</a></li>' for n, u in links(d))
     return f'''<!doctype html>
 <html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>レンとジル Ren &amp; Jill｜セリフなしのオフィスコメディ</title>
-<meta name="description" content="うさぎの課長レンと、しっかり者の部下ジル。セリフなしのオフィスコメディを全話まとめて見られます。A wordless office comedy about two bunnies.">
-<link rel="canonical" href="{E(url)}/"><meta property="og:title" content="レンとジル Ren &amp; Jill"><meta property="og:type" content="website">
+<title>東京うさぎオフィス Tokyo Usagi Office｜セリフなしのオフィスコメディ</title>
+<meta name="description" content="うさぎの課長モチと、しっかり者の部下ユズ。セリフなしのオフィスコメディを全話まとめて見られます。A wordless office comedy about two bunnies.">
+<link rel="canonical" href="{E(url)}/"><meta property="og:title" content="東京うさぎオフィス Tokyo Usagi Office"><meta property="og:type" content="website">
 <script type="application/ld+json">{ldj}</script>
 <style>
 :root{{--bg:#fff7e8;--fg:#3b2a18;--ac:#355f86;--card:#fff}}
@@ -62,9 +62,9 @@ main{{max-width:960px;margin:0 auto;padding:24px 16px 64px}} a{{color:var(--ac)}
 .g{{display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}} .ep{{background:var(--card);border-radius:12px;padding:12px 16px}}
 .v{{aspect-ratio:9/16;max-height:480px}} iframe{{width:100%;height:100%;border:0;border-radius:8px}} ul.sns{{display:flex;flex-wrap:wrap;gap:8px 20px;padding:0;list-style:none}}
 </style></head><body><main>
-<header><h1>レンとジル <small lang="en">Ren &amp; Jill</small></h1>
-<p>うさぎの課長レン（たれ耳）と、しっかり者の部下ジル。セリフなしのオフィスコメディです。世界中どこからでも楽しめます。</p>
-<p lang="en">A wordless office comedy about two bunnies: Ren, the absent-minded boss, and Jill, his sharp assistant.</p>
+<header><h1>東京うさぎオフィス <small lang="en">Tokyo Usagi Office</small></h1>
+<p>うさぎの課長モチ（たれ耳）と、しっかり者の部下ユズ。セリフなしのオフィスコメディです。世界中どこからでも楽しめます。</p>
+<p lang="en">A wordless office comedy about two bunnies: Mochi, the absent-minded boss, and Yuzu, his sharp assistant.</p>
 <h2>フォローはこちら / Follow</h2><ul class="sns">{sns}</ul></header>
 {body}
 <footer><p>運営：COANA TOKYO合同会社</p></footer></main></body></html>

@@ -1,6 +1,6 @@
 // 「更新バーが99%で止まる」（12秒）
-// ゲーム：99%で止まった更新バーを待つ。①レンが小さく足トントン ②中くらいの足ダン ③大きい足ダン（でも99%のまま）
-// ジルは1カットで「あきれ」。ポムは机の上でおとなしく待つ → 三人とも力尽きて寝る（壁の時計だけ進む）
+// ゲーム：99%で止まった更新バーを待つ。①モチが小さく足トントン ②中くらいの足ダン ③大きい足ダン（でも99%のまま）
+// ユズは1カットで「あきれ」。クリは机の上でおとなしく待つ → 三人とも力尽きて寝る（壁の時計だけ進む）
 // （間：無音で寝息）→ バーが100%に → 「再起動が必要です」→ 全員びっくりして起きる
 // オチの後のオチ：誰も再起動せず、また待ち始める → 三人ともまた寝ている絵で終わる
 window.EP = {
@@ -27,7 +27,7 @@ window.EP = {
     const wake = t >= 8.2 && t < 9.4;
     const resleep = (a) => seg(t, a, a + 0.5);
 
-    // ---- ポム（机の上）
+    // ---- クリ（机の上）
     const PX = 600, PY = 1192, PS = 1.2;
     const q = { cheek: 0, eye: 'round', bow: 0, squash: 0, paws: 0, wob: 0, blush: 0.3, look: -0.4, mouth: 'w', sweat: 0 };
     if (t >= 3.3 && t < 4.7) { q.look = -0.2; q.sweat = 0; }
@@ -49,7 +49,7 @@ window.EP = {
     if (t >= 5.6 && t < 8.2) zz(f, PX + 60 + S.x, PY - 220 + S.y, t, 1.1);
     if (t >= 10.2) zz(f, PX + 60 + S.x, PY - 220 + S.y, t, 1.1);
 
-    // ---- レン（床、机の手前）
+    // ---- モチ（床、机の手前）
     const RX = 120, RY = 1160;
     let R = Object.assign({}, RIG.POSES.sit, RIG.FACES.neutral, { scale: 1.45, x: RX + S.x, y: RY + S.y, eyeLook: 0.9, headNod: -6 });
     // ① 小さい足トントン（0.4 / 0.8 / 1.5 / 1.85）
@@ -73,11 +73,11 @@ window.EP = {
     thumpWave(f, t, 2.5, Rq.x + 120, 1730);
     thumpWave(f, t, 4.1, Rq.x + 120, 1730);
 
-    // ---- ジル
+    // ---- ユズ
     const JX = 520;
     let J = Object.assign({}, RIG.POSES.sit, RIG.FACES.neutral, { scale: 1.25, flip: true, x: JX + S.x, y: 1240 + S.y, eyeLook: 0.9 });
     if (t >= 1.1 && t < 2.5) Object.assign(J, { eyeLook: 0.9, mouth: 'line' });
-    // あきれ：ひと息ついて、レンの方を細い目でじっと見る（中盤の寄り）
+    // あきれ：ひと息ついて、モチの方を細い目でじっと見る（中盤の寄り）
     if (t >= 2.5 && t < 4.7) Object.assign(J, RIG.FACES.annoyed, { sweat: 1, eyeLook: 1, eyeOpen: t > 3.3 && t < 3.45 ? 0.05 : 0.45, headTilt: 6 * seg(t, 2.6, 3.0) });
     if (t >= 4.1 && t < 4.7) Object.assign(J, RIG.FACES.annoyed, { sweat: 1, eyeOpen: 0.3, headTilt: 8 });
     if (t >= 4.7 && t < 8.2) Object.assign(J, RIG.FACES.annoyed, { eyeOpen: lerp(0.4, 0.06, ease(sleepJil)), eyeShape: 'flat', mouth: 'w', headNod: 20 * ease(sleepJil), headTilt: 0, sweat: 0, zzz: seg(t, 5.9, 6.3) });
@@ -94,12 +94,12 @@ window.EP = {
     const shots = [
       { t: 0.0, cx: 790, cy: 1070, z: 2.7, z2: 2.9 },        // A 寄り：画面いっぱいの99%、バーが止まっている
       { t: 1.1, cx: 480, cy: 1210, z: 1.3 },                          // B 中：三人で待つ、足トントン→足ダン
-      { t: 2.9, cx: FJ.x - 60, cy: FJ.y - 20, z: 2.2 },               // C 寄り：ジルのあきれ顔
+      { t: 2.9, cx: FJ.x - 60, cy: FJ.y - 20, z: 2.2 },               // C 寄り：ユズのあきれ顔
       { t: 3.6, cx: 480, cy: 1210, z: 1.25 },                         // D 中：大きい足ダン（でも99%）
       { t: 4.9, cx: 540, cy: 1000, z: 1.0, z2: 1.12 },                // E 引き：三人とも寝る、時計だけ進む（間）
       { t: 7.0, cx: SCREEN.x, cy: SCREEN.y, z: 2.6, z2: 2.8 },        // F 寄り：100%、「再起動が必要です」
       { t: 7.9, cx: 480, cy: 1210, z: 1.3 },                          // G 中：全員びっくりして起きる
-      { t: 8.9, cx: 500, cy: 1160, z: 1.5 },                         // H 中寄り：レン、迷う／ジル、あきれ
+      { t: 8.9, cx: 500, cy: 1160, z: 1.5 },                         // H 中寄り：モチ、迷う／ユズ、あきれ
       { t: 10.0, cx: 540, cy: 1000, z: 1.0 }                          // I 引き：また三人とも寝ている
     ];
     camera(cameraAt(shots, t), punch);
@@ -160,7 +160,7 @@ function screenUI(back, t, full, popup, S) {
   back.appendChild(el('g', {}, g));
 }
 
-// ---------- ポム（キンクマハムスター）の SVG。pom_debut.js と同じ描き方 ----------
+// ---------- クリ（キンクマハムスター）の SVG。pom_debut.js と同じ描き方 ----------
 const POM = { a: '#F3E3CA', b: '#DCC29E', deep: '#C9A57A', cream: '#FAF1E4', earO: '#8E786C', earI: '#E9A9A2', nose: '#E58F98', pink: '#F2B8B0', band: '#C8263C', eye: '#0B0D10' };
 function pomDefs() {
 const st = (o, c, a) => el('stop', { offset: o, 'stop-color': c, 'stop-opacity': a == null ? 1 : a });

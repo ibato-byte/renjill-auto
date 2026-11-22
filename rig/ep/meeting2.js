@@ -15,7 +15,7 @@ window.EP = {
     office({ clock: [9, t < 14.4 ? 55 : 58], shake: S });
     const f = clear('fx'), ui = clear('ui'); clear('back');
 
-    // ---- レン：机の上で伸び寝
+    // ---- モチ：机の上で伸び寝
     const RX = 40, RY = 600, RS = 1.5;
     let R = Object.assign({}, RIG.POSES.stretch, RIG.FACES.sleepy, { scale: RS, x: RX + S.x, y: RY + S.y, zzz: 0.7 + 0.3 * Math.sin(t * 3), bodySquash: 1 + 0.05 * Math.sin(t * 2.4) });
     if (t >= 5.3) R.flip = true;
@@ -42,7 +42,7 @@ window.EP = {
     if (bub > 0) f.appendChild(el('g', {}, [el('circle', { cx: nx + 22 * bub * RS, cy: ny + 6, r: 26 * bub * RS, fill: '#DCEFFA', opacity: 0.75, stroke: '#9FC3DE', 'stroke-width': 3 }), el('circle', { cx: nx + 14 * bub * RS, cy: ny - 4 * bub * RS, r: 6 * bub * RS, fill: '#FFFFFF', opacity: 0.9 })]));
     if (t >= 12.05 && t < 12.3) { const u = seg(t, 12.05, 12.3); for (let i = 0; i < 6; i++) { const a = i * Math.PI / 3; f.appendChild(el('circle', { cx: nx + 30 + Math.cos(a) * 60 * u, cy: ny + Math.sin(a) * 60 * u, r: 6 * (1 - u), fill: '#9FC3DE' })); } }
 
-    // ---- ジル
+    // ---- ユズ
     const JX = 600;
     const hp = RIG.hop(t, 2.2, 3.6, 1150, JX, { hops: 3, height: 40 });
     let J = Object.assign({}, RIG.POSES.sit, RIG.FACES.neutral, { scale: 1.25, flip: true, x: hp.x + S.x, y: 1240 + hp.yOff + S.y, bodySquash: hp.squash, eyeLook: 0.9 });
@@ -71,9 +71,9 @@ window.EP = {
     speedLines(ui, fly > 0 && fly < 0.6 ? 1 : 0);
     const shots = [
       { t: 0.0, cx: 330, cy: 960, z: 2.3, z2: 2.5 },                  // A 寄り：鼻ちょうちん
-      { t: 2.2, cx: 640, cy: 1150, z: 1.2 },                          // B 引き：ジル登場、時計9:55
+      { t: 2.2, cx: 640, cy: 1150, z: 1.2 },                          // B 引き：ユズ登場、時計9:55
       { t: 3.8, cx: 520, cy: 1050, z: 1.45 },                         // C 中：トントン→寝返り
-      { t: 5.6, cx: FACE_JIL.x - 40, cy: FACE_JIL.y, z: 2.3 },        // D 寄り：ジル無言
+      { t: 5.6, cx: FACE_JIL.x - 40, cy: FACE_JIL.y, z: 2.3 },        // D 寄り：ユズ無言
       { t: 6.8, cx: 560, cy: 1150, z: 1.2 },                          // E 引き：小さい足ダン
       { t: 7.9, cx: 330, cy: 950, z: 2.2 },                           // F 寄り：耳の毛布
       { t: 9.2, cx: FACE_JIL.x - 40, cy: FACE_JIL.y, z: 2.5 },        // G 寄り：目がピクッ
@@ -82,7 +82,7 @@ window.EP = {
       { t: 13.4, cx: 360, cy: 980, z: 2.1 },                          // J 寄り：時計を見て焦る
       { t: 15.6, cx: 520, cy: 1100, z: 1.35 },                        // K 中：ネクタイ直し
       { t: 18.4, cx: 360, cy: 980, z: 2.2, z2: 2.5 },                 // L 寄り：また寝る（鼻ちょうちん）
-      { t: 20.8, cx: FACE_JIL.x - 40, cy: FACE_JIL.y, z: 2.3 },       // M 寄り：ジルの汗
+      { t: 20.8, cx: FACE_JIL.x - 40, cy: FACE_JIL.y, z: 2.3 },       // M 寄り：ユズの汗
       { t: 22.0, cx: 560, cy: 1100, z: 1.15 }                         // N 引き
     ];
     camera(cameraAt(shots, t), punch);

@@ -26,7 +26,7 @@ class TextCheckTest(unittest.TestCase):
     def test_filename_left_at_caption_end_is_ng(self):  # Hub 依頼 #178：説明文の末尾に 20261102_update99 が残りかけた
         p = {"ep": "deadline2", "caption_en": "Update stuck at 99%. 20261102_update99"}
         self.assertEqual(len(textcheck.check(p)), 1)
-        self.assertEqual(textcheck.check({"ep": "deadline2", "caption_en": "Update stuck at 99%. #RenAndJill"}), [])
+        self.assertEqual(textcheck.check({"ep": "deadline2", "caption_en": "Update stuck at 99%. #TokyoUsagiOffice"}), [])
         self.assertTrue(textcheck.caption_tail_problem("たのしい update99.mp4"))
 
     def test_schedule_is_clean(self):

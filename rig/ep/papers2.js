@@ -1,6 +1,6 @@
 // 第4話 v2「書類の山を足ダンで整列」（約22秒）
 // ゲーム：課長が整えるほど書類が崩れる。①そっと押す→ずれる ②まねして足ダン→散らばって1枚が頭に ③上に乗って押さえる→爆散
-// （間）→ジルの足ダン→書類がぴしっと揃う → オチの後のオチ：課長がまねして足ダン→紙が1枚ジルの頭に
+// （間）→ユズの足ダン→書類がぴしっと揃う → オチの後のオチ：課長がまねして足ダン→紙が1枚ユズの頭に
 window.EP = {
   dur: 22.0,
   bgmHolds: '10.6-11.6',
@@ -20,7 +20,7 @@ window.EP = {
     office({ clock: [14, 5], shake: sh, papers: clamp(neat, 0, 1), paperLift: lift, paperMess: mess });
     const f = clear('fx'), ui = clear('ui'); clear('back');
 
-    // ---- レン（書類の山の右）
+    // ---- モチ（書類の山の右）
     const RX = 470, RY = 668;
     let R = Object.assign({}, RIG.POSES.sit, RIG.FACES.think, { scale: 1.3, x: RX + sh.x, y: RY + sh.y, flip: true, eyeLook: 0.7, question: pulse(t, 0.0, 0.8) });
     const n1 = goBack(t, 0.6, 1.0, 1.6, 2.0);
@@ -35,7 +35,7 @@ window.EP = {
     if (t >= 7.8 && t < 8.2) Object.assign(R, RIG.POSES.thump, RIG.FACES.sharp, { legLift: 0.4, bodySquash: -0.4, sweat: 0 });
     if (jump > 0 && jump < 1) Object.assign(R, RIG.POSES.binky, RIG.FACES.smile, { x: RX - 150 * ease(jump) + sh.x, y: RY - 200 * Math.sin(Math.PI * jump) + 30 * jump + sh.y });
     if (t >= 8.9 && t < 11.6) Object.assign(R, RIG.POSES.loaf, RIG.FACES.smug, { x: RX - 150 + sh.x, y: RY + 30 + sh.y, bodySquash: t < 9.1 ? -0.6 : -0.4, sparkle: pulse(t, 9.6, 10.4) });
-    // ジルの足ダンで飛ばされて元の位置へ
+    // ユズの足ダンで飛ばされて元の位置へ
     const back = seg(t, 11.65, 12.4);
     if (back > 0) Object.assign(R, RIG.FACES.surprised, { pose: 'sit', sparkle: 0, x: lerp(RX - 150, RX, ease(back)) + sh.x, y: RY - 180 * Math.sin(Math.PI * back) + sh.y, earL: -30, earR: 30 });
     if (t >= 12.6) Object.assign(R, RIG.FACES.surprised, { excl: 0, sparkle: 1, eyeLook: 0.7, y: RY + sh.y, earL: 0, earR: 0 });  // きらきら目
@@ -49,7 +49,7 @@ window.EP = {
     // ②で頭に乗る1枚
     if (t >= 5.6 && t < 8.2) { const ht = headTop(Rq); const d = seg(t, 5.15, 5.6); f.appendChild(el('rect', { x: ht.x - 60, y: ht.y - 26 - 200 * (1 - d), width: 120, height: 26, rx: 3, fill: '#FFFFFF', stroke: '#D8CBB6', 'stroke-width': 3, transform: `rotate(${-8 + 6 * Math.sin(t * 3)} ${ht.x} ${ht.y})` })); }
 
-    // ---- ジル
+    // ---- ユズ
     const JX = 620;
     let J = Object.assign({}, RIG.POSES.sit, RIG.FACES.neutral, { scale: 1.25, flip: true, x: JX + sh.x, y: 1240 + sh.y, eyeLook: 0.9 });
     if (t >= 2.6 && t < 4.4) Object.assign(J, RIG.FACES.annoyed, { sweat: 0, eyeOpen: t > 3.3 && t < 3.45 ? 0.05 : 0.5 });
@@ -61,7 +61,7 @@ window.EP = {
     if (t >= 17.5) Object.assign(J, RIG.FACES.surprised, { sparkle: 0, eyeLook: 0.9, excl: pulse(t, 17.5, 18.0) });
     if (t >= 18.6) Object.assign(J, RIG.FACES.annoyed, { eyeLook: 0, sweat: 0 });    // 頭に紙、無表情
     const Jq = draw('jil', 'jil', J, t, { blink: !(t >= 2.6 && t < 4.4) && !(t >= 6.2 && t < 7.8) && t < 18.6 });
-    // ジルの頭に紙が1枚ひらひら落ちる
+    // ユズの頭に紙が1枚ひらひら落ちる
     if (t >= 17.6) { const ht = headTop(Jq); const d = ease(seg(t, 17.6, 18.6)); const sway = Math.sin(t * 6) * 40 * (1 - d); f.appendChild(el('rect', { x: ht.x - 70 + sway, y: ht.y - 20 - 500 * (1 - d), width: 140, height: 26, rx: 3, fill: '#FFFFFF', stroke: '#D8CBB6', 'stroke-width': 3, transform: `rotate(${sway * 0.4} ${ht.x + sway} ${ht.y - 500 * (1 - d)})` })); }
 
     thumpWave(f, t, 11.6, Jq.x + 250, 1730);
@@ -70,7 +70,7 @@ window.EP = {
     speedLines(ui, jump > 0 && jump < 1 ? 1 : 0);
     const shots = [
       { t: 0.0, cx: 600, cy: 1030, z: 2.0, z2: 2.1 },                  // A 寄り：書類をそっと押す
-      { t: 2.4, cx: FACE_JIL.x - 60, cy: FACE_JIL.y, z: 2.3 },         // B 寄り：ジル無言
+      { t: 2.4, cx: FACE_JIL.x - 60, cy: FACE_JIL.y, z: 2.3 },         // B 寄り：ユズ無言
       { t: 4.3, cx: 520, cy: 1050, z: 1.5 },                           // C 中：まね足ダン→散らばる
       { t: 6.2, cx: FACE_JIL.x - 60, cy: FACE_JIL.y, z: 2.5 },         // D 寄り：目がピクッ
       { t: 7.8, cx: 520, cy: 1080, z: 1.2 },                           // E 引き：書類に乗る
@@ -78,7 +78,7 @@ window.EP = {
       { t: 11.5, cx: 540, cy: 1100, z: 1.0 },                          // G 引き：足ダン→整列
       { t: 13.0, cx: 640, cy: 1000, z: 2.0 },                          // H 寄り：課長きらきら
       { t: 15.4, cx: 560, cy: 1120, z: 1.3 },                          // I 中：まね足ダン
-      { t: 18.4, cx: FACE_JIL.x - 60, cy: FACE_JIL.y - 40, z: 2.2 },   // J 寄り：頭に紙のジル
+      { t: 18.4, cx: FACE_JIL.x - 60, cy: FACE_JIL.y - 40, z: 2.2 },   // J 寄り：頭に紙のユズ
       { t: 20.0, cx: 560, cy: 1100, z: 1.15 }                          // K 引き
     ];
     camera(cameraAt(shots, t), punch);

@@ -1,5 +1,5 @@
 // 「付箋」（約9.5秒・セリフなし）v2 演出／キャラは本番の rig.js
-// 状況：ジルが付箋に「TODO」と書いて、パソコンのふちにぴしっと1枚（きりっ）
+// 状況：ユズが付箋に「TODO」と書いて、パソコンのふちにぴしっと1枚（きりっ）
 // ひっくり返し：課長も付箋の束を持ってやる気 → ぺた、ぺた、ぺた……全部、自分の体に貼っていく
 // オチ：耳にもおなかにも付箋。どこに貼ったか探してきょろきょろ。字幕「上司のメモ：ぜんぶ自分に貼る」
 document.write('<script src="v2/lib.js"><\/script>');
@@ -19,16 +19,16 @@ var EP = {
     const { seg, ease, outBack } = L;
     const DESK = 1400, RN = [858, 1156];
     const bg = L.office({ sky: 'day', clock: [10, 0] });
-    // ジル（左）：書いて貼る（lean・きりっ）→ 満足 → 課長が貼りまくるのに「？」→ ジト目
+    // ユズ（左）：書いて貼る（lean・きりっ）→ 満足 → 課長が貼りまくるのに「？」→ ジト目
     const jl = t > .5 && t < 1.8;
     const jface = t < 2.2 ? RIG.FACES.sharp : t < 3.4 ? Object.assign({}, RIG.FACES.smile, { sparkle: t < 2.9 ? 1 : 0 }) : t < 5.8 ? Object.assign({}, RIG.FACES.think, { question: 1 }) : RIG.FACES.annoyed;
     L.char('jil', Object.assign({}, jl ? RIG.POSES.lean : RIG.POSES.sit, jface, { x: 20, y: DESK - 413 * 1.3, scale: 1.3, eyeLook: t > 2.6 ? .9 : .3, bodyTilt: jl ? -8 : 0 }), t, '', {});
-    // レン（右）：見ている → 付箋の束でやる気 → 自分にぺたぺた（きりっ）→ どこ？（きょろきょろ）
+    // モチ（右）：見ている → 付箋の束でやる気 → 自分にぺたぺた（きりっ）→ どこ？（きょろきょろ）
     const stick = t >= 3.4 && t < 5.6, look = t >= 5.6 && t < 7.4;
     const rface = t < 2.8 ? RIG.FACES.neutral : t < 3.4 ? Object.assign({}, RIG.FACES.smile, { sparkle: 1 }) : stick ? RIG.FACES.sharp : look ? Object.assign({}, RIG.FACES.think, { question: 1 }) : Object.assign({}, RIG.FACES.oops, { sweat: 1 });
     L.char('ren', Object.assign({}, RIG.POSES.sit, rface, { x: 560, y: DESK - 413 * 1.35, scale: 1.35, flip: true, eyeLook: look ? Math.sin(t * 5) * .8 : -.3, headTilt: look ? Math.sin(t * 5) * 10 : 0, bodyTilt: stick ? Math.sin(t * 9) * 4 : 0 }), t, '', {});
     let fx = DESKFX(L, DESK);
-    // ジルのパソコン（顔より下）と、ふちの付箋1枚
+    // ユズのパソコン（顔より下）と、ふちの付箋1枚
     fx += L.laptop(330, DESK, .55, `<g fill="#9FB4C6">${[0, 1, 2, 3].map(i => `<rect x="30" y="${40 + i * 40}" width="${i === 3 ? 140 : 260}" height="14" rx="7"/>`).join('')}</g>`);
     fx += NOTE(418, DESK - 112, 6, 'TODO', seg(t, 1.5, 1.8));
     // 課長の付箋の束（手もと）
@@ -38,7 +38,7 @@ var EP = {
     spots.forEach(([x, y, r, txt], i) => { fx += NOTE(x, y + (look ? Math.sin(t * 5 + i) * 3 : 0), r, txt, seg(t, 3.5 + i * .35, 3.8 + i * .35)); });
     if (look) fx += L.emark(RN[0] + 260, RN[1] - 240, .8, '?');
     if (t > 7.2 && t < 8.6) fx += L.emark(220, DESK - 660, 1.0, '…');
-    let ui = (t > 0.8 && t < 2.6 ? CHIP(L, 'STICKY NOTE', 'ジル、付箋を1枚', 1650, seg(t, .8, 1.1)) : '')
+    let ui = (t > 0.8 && t < 2.6 ? CHIP(L, 'STICKY NOTE', 'ユズ、付箋を1枚', 1650, seg(t, .8, 1.1)) : '')
       + (t > 6.0 && t < 8.6 ? CHIP_OFF(L, 'MEMOS: ALL ON HIMSELF', '上司のメモ：ぜんぶ自分に貼る', 1650, seg(t, 6.0, 6.3)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.3, cx: 480, cy: 1150 },

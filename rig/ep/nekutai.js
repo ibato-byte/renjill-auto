@@ -1,5 +1,5 @@
 // 「ネクタイ」（約9.5秒・セリフなし）v2 演出／キャラは本番の rig.js
-// 状況：ジルがプレゼントの箱にリボンをきゅっ（きりっ）
+// 状況：ユズがプレゼントの箱にリボンをきゅっ（きりっ）
 // ひっくり返し：課長もネクタイを結び直す……くるくる、くるくる、手もとがこんがらがる
 // オチ：ネクタイはそのまま、頭の上に大きなリボン（ご満悦）。字幕「上司のネクタイ：頭にリボン」
 document.write('<script src="v2/lib.js"><\/script>');
@@ -18,16 +18,16 @@ var EP = {
     const { seg, ease, outBack } = L;
     const DESK = 1400, RN = [858, 1156];
     const bg = L.office({ sky: 'day', clock: [9, 30] });
-    // ジル（左）：箱にリボン（lean・きりっ）→ 満足 → 課長のくるくるに「？」→ 頭のリボンに「！」→ ジト目
+    // ユズ（左）：箱にリボン（lean・きりっ）→ 満足 → 課長のくるくるに「？」→ 頭のリボンに「！」→ ジト目
     const jl = t > .5 && t < 1.8;
     const jface = t < 2.0 ? RIG.FACES.sharp : t < 3.4 ? Object.assign({}, RIG.FACES.smile, { sparkle: t < 2.8 ? 1 : 0 }) : t < 5.6 ? Object.assign({}, RIG.FACES.think, { question: 1 }) : t < 6.8 ? Object.assign({}, RIG.FACES.surprised, { excl: 1 }) : RIG.FACES.annoyed;
     L.char('jil', Object.assign({}, jl ? RIG.POSES.lean : RIG.POSES.sit, jface, { x: 20, y: DESK - 413 * 1.3, scale: 1.3, eyeLook: t > 2.6 ? .9 : .4, bodyTilt: jl ? -8 : 0 }), t, '', {});
-    // レン（右）：見ている → やる気 → くるくる（あせ）→ 頭にリボンでご満悦
+    // モチ（右）：見ている → やる気 → くるくる（あせ）→ 頭にリボンでご満悦
     const tie = t > 3.4 && t < 5.6;
     const rface = t < 3.0 ? RIG.FACES.neutral : t < 3.4 ? Object.assign({}, RIG.FACES.smile, { sparkle: 1 }) : tie ? Object.assign({}, RIG.FACES.oops, { sweat: 1 }) : Object.assign({}, RIG.FACES.smug, { sparkle: t < 7.4 ? 1 : 0 });
     L.char('ren', Object.assign({}, RIG.POSES.sit, rface, { x: 560, y: DESK - 413 * 1.35, scale: 1.35, flip: true, eyeLook: tie ? .3 : -.3, headNod: tie ? 10 : 0, bodyTilt: tie ? Math.sin(t * 7) * 5 : 0 }), t, '', {});
     let fx = DESKFX(L, DESK);
-    // ジルの箱とリボン
+    // ユズの箱とリボン
     fx += `<g transform="translate(370 ${DESK})"><rect x="-80" y="-120" width="160" height="120" rx="8" fill="#7FB3D9"/><rect x="-12" y="-120" width="24" height="120" fill="#E8473A"/><rect x="-80" y="-72" width="160" height="22" fill="#E8473A"/></g>`;
     fx += BOW(370, DESK - 124, outBack(seg(t, 1.2, 1.6)) * .7, '#E8473A');
     // 課長の手もと：ネクタイの線がこんがらがる（胸の前、顔より下）
@@ -37,7 +37,7 @@ var EP = {
     fx += BOW(RN[0] - 10, RN[1] - 225, outBack(seg(t, 5.5, 5.9)) * 1.25, '#E9A23B');
     if (t > 5.8 && t < 7.2) fx += L.sparkles(RN[0] - 10, RN[1] - 230, t, 1.4, 6);
     if (t > 7.2 && t < 8.6) fx += L.emark(220, DESK - 660, 1.0, '…');
-    let ui = (t > 0.8 && t < 2.6 ? CHIP(L, 'GIFT RIBBON', 'ジル、リボンをきゅっ', 1650, seg(t, .8, 1.1)) : '')
+    let ui = (t > 0.8 && t < 2.6 ? CHIP(L, 'GIFT RIBBON', 'ユズ、リボンをきゅっ', 1650, seg(t, .8, 1.1)) : '')
       + (t > 6.0 && t < 8.6 ? CHIP_OFF(L, 'BOSS TIES HIS TIE: A BOW', '上司のネクタイ：頭にリボン', 1650, seg(t, 6.0, 6.3)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.3, cx: 480, cy: 1150 },

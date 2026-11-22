@@ -21,7 +21,7 @@ const [ep, t, cam, hook, no, out, variant = 'A'] = process.argv.slice(2);
       .chip .s{background:#355F86;color:#fff;font-weight:700;font-size:42px;font-family:'Noto Sans',sans-serif;letter-spacing:.06em;padding:16px 34px;border-radius:999px;border:8px solid #FFF7E8;box-shadow:0 8px 0 #5A3A1E}
       .frame{position:fixed;inset:0;z-index:98;box-shadow:inset 0 0 0 26px #FFF7E8, inset 0 0 0 40px #C9962F;pointer-events:none}`;
     const st = document.createElement('style'); st.textContent = css; document.head.appendChild(st);
-    document.body.insertAdjacentHTML('beforeend', `<div class="frame"></div><div class="chip"><span class="s">REN &amp; JILL</span></div>`);
+    document.body.insertAdjacentHTML('beforeend', `<div class="frame"></div><div class="chip"><span class="s">TOKYO USAGI OFFICE</span></div>`);
     if (variant !== 'C') {
       const [l1, l2] = hook.split('/');
       const d = document.createElement('div'); d.className = 'th hook';

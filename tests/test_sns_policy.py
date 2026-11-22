@@ -10,7 +10,7 @@ POL = json.loads((ROOT / "auto" / "sns_policy.json").read_text())
 D = {"yt_description": "▶ game: https://hay-dash.coana.co.jp/?lang=en\n\nabout", "platforms": ["ig"],
      "tag_sets": {"A": "#a #b"}, "fb_tag_sets": {"A": "#a"}}
 P = {"caption_en": "EN", "caption_ja": "JA", "tag_set": "A", "title": "T"}
-SITE = "https://renjill.coana.co.jp/"
+SITE = "https://usagi.coana.co.jp/"
 
 
 class PolicyFileTest(unittest.TestCase):

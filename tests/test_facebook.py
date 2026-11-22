@@ -34,8 +34,8 @@ class FakeHttp:
         self.calls = []
         self.debug = debug if debug is not None else {"data": {"is_valid": True, "type": "SYSTEM_USER",
                                                                "scopes": list(fb.ALL_SCOPES), "expires_at": 0}}
-        self.me = me or {"id": fb.PAGE_ID, "name": "レンとジル Ren & Jill", "instagram_business_account": {"id": "17841"}}
-        self.page = page if page is not None else {"id": fb.PAGE_ID, "name": "レンとジル Ren & Jill", "access_token": PAGE_TOK,
+        self.me = me or {"id": fb.PAGE_ID, "name": "東京うさぎオフィス Tokyo Usagi Office", "instagram_business_account": {"id": "17841"}}
+        self.page = page if page is not None else {"id": fb.PAGE_ID, "name": "東京うさぎオフィス Tokyo Usagi Office", "access_token": PAGE_TOK,
                                                    "instagram_business_account": {"id": "17841"}}
         self.thumbs = thumbs or [{"success": True}]
         self.start = start or [{"video_id": "v1", "upload_url": "https://rupload.facebook.com/video-upload/v21.0/v1"}]
@@ -77,7 +77,7 @@ class CaptionTest(unittest.TestCase):
         self.assertEqual(len(fb.fb_tags({"tag_set": "B"}, d).split()), 3)
 
     def test_brand(self):
-        self.assertEqual(fb.normalize_brand("レン＆ジル と レン&ジル / Ren and Jill"), "レンとジル と レンとジル / Ren & Jill")
+        self.assertEqual(fb.normalize_brand("\u30ec\u30f3\uff06\u30b8\u30eb と \u30ec\u30f3&\u30b8\u30eb / R" "en and J" "ill / tokyo usagi office"), "東京うさぎオフィス と 東京うさぎオフィス / Tokyo Usagi Office / Tokyo Usagi Office")
 
 
 class DiagnoseTest(unittest.TestCase):
@@ -108,7 +108,7 @@ class DiagnoseTest(unittest.TestCase):
         self.assertFalse(a["ok"]); self.assertIn(fb.PAGE_ID, a["reasons"][0])
 
     def test_no_page_token(self):
-        h = FakeHttp(page={"id": fb.PAGE_ID, "name": "レンとジル Ren & Jill"})
+        h = FakeHttp(page={"id": fb.PAGE_ID, "name": "東京うさぎオフィス Tokyo Usagi Office"})
         self.assertFalse(fb.diagnose({"IG_ACCESS_TOKEN": TOK}, h)["ok"])
 
     def test_page_token_directly(self):
@@ -118,7 +118,7 @@ class DiagnoseTest(unittest.TestCase):
 
     def test_other_page_rejected(self):
         h = FakeHttp(debug={"data": {"is_valid": True, "type": "PAGE", "scopes": list(fb.ALL_SCOPES), "expires_at": 0}},
-                     me={"id": "1386940331166810", "name": "レンとジル Ren & Jill"})
+                     me={"id": "1386940331166810", "name": "東京うさぎオフィス Tokyo Usagi Office"})
         self.assertFalse(fb.diagnose({"IG_ACCESS_TOKEN": TOK}, h)["ok"])
 
     def test_no_token_in_reasons(self):

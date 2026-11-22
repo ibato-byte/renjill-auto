@@ -1,7 +1,7 @@
 // 「サンタとトナカイ」（約9.5秒・セリフなし）v2 演出／キャラは本番の rig.js
-// 状況：クリスマス当日。課長はサンタ帽でそり（段ボール）に乗る。ジルはトナカイのカチューシャで、ひもを引く → びくともしない（汗）
-// ひっくり返し：ジルが棒の先に牧草をつるす → 課長がそりから飛び出す
-// オチ：交代。課長が牧草を追いかけて引く（ご機嫌）、ジルはそりで牧草の棒を持つ（にこ）。字幕「トナカイ交代」
+// 状況：クリスマス当日。課長はサンタ帽でそり（段ボール）に乗る。ユズはトナカイのカチューシャで、ひもを引く → びくともしない（汗）
+// ひっくり返し：ユズが棒の先に牧草をつるす → 課長がそりから飛び出す
+// オチ：交代。課長が牧草を追いかけて引く（ご機嫌）、ユズはそりで牧草の棒を持つ（にこ）。字幕「トナカイ交代」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
 const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
@@ -23,12 +23,12 @@ var EP = {
     let fx = `${L.deskFront(DESK)}`
       + [60, 560].map(x => `${L.drawer(x, DESK)}`).join('');
     if (!swap) {
-      // ジル（左・トナカイ）：にこ → 引く（lean・ぷるぷる・汗）→ ひらめき「！」→ 牧草の棒
+      // ユズ（左・トナカイ）：にこ → 引く（lean・ぷるぷる・汗）→ ひらめき「！」→ 牧草の棒
       const pull = t >= 2.0 && t < 4.2;
       const jface = t < 2.0 ? Object.assign({}, RIG.FACES.smile, { sparkle: t > .8 && t < 1.6 ? 1 : 0 }) : t < 4.2 ? RIG.FACES.oops : t < 4.7 ? Object.assign({}, RIG.FACES.surprised, { excl: 1 }) : RIG.FACES.smug;
       L.char('jil', hid ? null : Object.assign({}, pull ? RIG.POSES.lean : RIG.POSES.sit, jface, { x: -20, y: DESK - 413 * 1.3, scale: 1.3, eyeLook: -.6, bodyTilt: pull ? -16 + Math.sin(t * 40) * 3 : 0, flip: true }), t,
         t >= .8 ? ANTLERS(210, 960, outBack(seg(t, .8, 1.1)) * .9) : '', {});
-      // レン（そりの中・サンタ帽）：ご満悦 → 牧草を見て目がきらっ → 飛び出す
+      // モチ（そりの中・サンタ帽）：ご満悦 → 牧草を見て目がきらっ → 飛び出す
       const out = ease(seg(t, 5.4, 5.8));
       const rface = t < 4.8 ? RIG.FACES.smug : Object.assign({}, RIG.FACES.smile, { sparkle: 1 });
       L.char('ren', hid ? null : Object.assign({}, t >= 5.4 ? RIG.POSES.binky : RIG.POSES.sit, rface, { x: 520 - out * 300, y: DESK - 413 * 1.35 - 60 - out * 120, scale: 1.35, flip: true, eyeLook: t >= 4.8 ? -.8 : 0 }), t,
@@ -40,14 +40,14 @@ var EP = {
       if (t >= 4.8) { const k = ease(seg(t, 4.8, 5.2)); fx += `<line x1="280" y1="1180" x2="${280 + 420 * k}" y2="${1180 - 220 * k}" stroke="#8C5A3C" stroke-width="9" stroke-linecap="round"/><line x1="${280 + 420 * k}" y1="${960 + 20 * (1 - k)}" x2="${280 + 420 * k}" y2="1060" stroke="#7A5634" stroke-width="3"/>` + L.hayStrand(280 + 420 * k - 40, 1070, 90, -60); }
       if (pull) fx += `<g fill="#9BC7E8">${[0, 1].map(i => `<path d="M${120 + i * 50} ${980 - ((t * 2 + i * .5) % 1) * 40} q8 14 0 20 q-8 -6 0 -20 Z" opacity="${(1 - ((t * 2 + i * .5) % 1)).toFixed(2)}"/>`).join('')}</g>`;
     } else {
-      // 交代：課長が引く（lean・ご機嫌・スピード線）／ジルはそりで牧草の棒を持つ（にこ）
+      // 交代：課長が引く（lean・ご機嫌・スピード線）／ユズはそりで牧草の棒を持つ（にこ）
       const run = t >= 6.0;
       L.char('ren', hid ? null : Object.assign({}, RIG.POSES.lean, Object.assign({}, RIG.FACES.smile, { sparkle: 1 }), { x: -80, y: DESK - 413 * 1.35 - 20, scale: 1.35, flip: true, eyeLook: -.8, bodyTilt: -18 + (run ? Math.sin(t * 20) * 4 : 0), headNod: run ? Math.abs(Math.sin(t * 20)) * 8 : 0 }), t,
         SHAT(220, 1010, 1, -10), {});
       L.char('jil', hid ? null : Object.assign({}, RIG.POSES.sit, RIG.FACES.smile, { x: 560, y: DESK - 413 * 1.3 - 60, scale: 1.3, eyeLook: -.6, flip: true }), t, ANTLERS(800, 960, .9), {});
       fx += SLED(500);
       fx += `<path d="M320 1270 C400 1310 450 1310 505 1270" stroke="#7A5634" stroke-width="7" fill="none"/>`;
-      // ジルが持つ棒の先に牧草（課長の鼻先）
+      // ユズが持つ棒の先に牧草（課長の鼻先）
       fx += `<line x1="700" y1="1100" x2="40" y2="760" stroke="#8C5A3C" stroke-width="9" stroke-linecap="round"/><line x1="40" y1="760" x2="40" y2="930" stroke="#7A5634" stroke-width="3"/>` + L.hayStrand(0, 940, 90, -60);
       if (run) fx += L.speed(540, 1150, .35, 36);
     }

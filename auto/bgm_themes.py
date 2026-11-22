@@ -15,14 +15,14 @@ HAND = {
     "rain_morning": ("lofi", "city", "morning", "rain"),
 }
 
-# 時間帯：章ごとの時刻・2匹のようす（レン／ジル）・表紙に使う場面（章, 秒）
+# 時間帯：章ごとの時刻・2匹のようす（モチ／ユズ）・表紙に使う場面（章, 秒）
 ARCS = {
     "morning": {"hours": [8.5, 9.5, 10.5, 11.5], "ren": ["sleepy", "type", "hay", "type"], "jil": ["type", "happy", "glance", "type"], "thumb": [1, 20.0],
                 "en": "Morning", "ja": "朝", "zh": "早晨", "ko": "아침", "b_en": "A slow start to the day.", "b_ja": "ゆっくり始まる朝。"},
     "noon": {"hours": [11.5, 12.5, 13.5, 14.5], "ren": ["hay", "sleepy", "type", "type"], "jil": ["type", "glance", "type", "happy"], "thumb": [1, 13.5],
-             "en": "Midday", "ja": "昼下がり", "zh": "午後", "ko": "오후", "b_en": "After lunch, staying awake is Ren's biggest task.", "b_ja": "お昼のあと、眠気とたたかうのが課長のいちばんの仕事。"},
+             "en": "Midday", "ja": "昼下がり", "zh": "午後", "ko": "오후", "b_en": "After lunch, staying awake is Mochi's biggest task.", "b_ja": "お昼のあと、眠気とたたかうのが課長のいちばんの仕事。"},
     "sunset": {"hours": [15.5, 16.5, 17.5, 19.0], "ren": ["type", "hay", "type", "sleepy"], "jil": ["type", "type", "happy", "glance"], "thumb": [2, 20.0],
-               "en": "Sunset", "ja": "夕暮れ", "zh": "黃昏", "ko": "해 질 녘", "b_en": "One more task before going home.", "b_ja": "帰る前に、もうひと仕事。"},
+               "en": "Sunset", "ja": "夕暮れ", "zh": "黃昏", "ko": "해 유자 녘", "b_en": "One more task before going home.", "b_ja": "帰る前に、もうひと仕事。"},
     "night": {"hours": [18.0, 20.0, 22.0, 23.75], "ren": ["type", "type", "hay", "asleep"], "jil": ["happy", "type", "glance", "type"], "thumb": [2, 14.5],
               "en": "Night", "ja": "夜", "zh": "夜晚", "ko": "밤", "b_en": "Two bunnies finishing the day.", "b_ja": "2匹が一日の仕事を終えるまで。"},
 }

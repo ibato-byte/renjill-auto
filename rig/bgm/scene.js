@@ -232,7 +232,7 @@
     } else if (CFG.jil === 'glance') {   // 仕事をしながら、ときどき課長のほうを見る（30秒に1回・あきれ顔）
       const u = t % 30, look = u > 12 && u < 17, k = look ? Math.sin(Math.PI * (u - 12) / 5) : 0;
       p = Object.assign({}, RIG.POSES.sit, RIG.FACES.sharp, { eyeShape: look && k > 0.3 ? 'half' : 'round', eyeLook: 0.3 * w(t, 8) * (1 - k) + 1.0 * k, headTilt: 10 * k + 2 * w(t, 6), headNod: 2 * w(t, 18), bodySquash: breathe, eyeOpen: 1 - 0.3 * k, sweat: look && k > 0.6 ? 0.6 : 0 });
-    } else if (CFG.jil === 'dance') {    // 小さくノリノリ（ジルは控えめ）：拍で首がはずみ、耳がぴょこぴょこ
+    } else if (CFG.jil === 'dance') {    // 小さくノリノリ（ユズは控えめ）：拍で首がはずみ、耳がぴょこぴょこ
       const b = Math.abs(w(t, 60, 0.4)), sway = w(t, 30, 0.6);
       p = Object.assign({}, RIG.POSES.sit, RIG.FACES.smile, { headNod: 3 + 9 * b, headTilt: -6 * sway, bodyTilt: -2.5 * sway, bodySquash: -0.08 * b + breathe, blush: 0.6, earL: 10 * b, earR: -10 * b });
     } else if (CFG.jil === 'gaze') {     // 手を止めて、窓の外を見る

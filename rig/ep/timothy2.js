@@ -1,10 +1,10 @@
-// 「ポムのお土産『金のチモシー』第2話（Part 2）課長が預かります」（本編20秒＋締めテロップ3秒＋エンドカード1秒・セリフなし）2026-11-21 オーナーの絵コンテ
-// 前回：ジルが箱のチモシーを3分の1まで食べたところを、レン課長に見られた（最初の1.6秒：残り3分の1の箱を見下ろすレン）
+// 「クリのお土産『金のチモシー』第2話（Part 2）課長が預かります」（本編20秒＋締めテロップ3秒＋エンドカード1秒・セリフなし）2026-11-21 オーナーの絵コンテ
+// 前回：ユズが箱のチモシーを3分の1まで食べたところを、モチ課長に見られた（最初の1.6秒：残り3分の1の箱を見下ろすモチ）
 // 状況：お土産を「課長が預かる」ことになった
 // オチ：預かったはずの課長がデスクでほぼ食べきり、口の端から1本出たまま真顔
-// 0–6    第1話の続き。レンがきりっとした顔で、残り約3分の1の箱を見下ろす →（カット・引き）誰もいない休憩室にレンだけ。首ごと左・右・左を確かめる（2026-11-22 オーナー） → 鼻を近づける → 鼻ひくっ・耳ぴん・思わず笑顔 → もう一度目だけで周り →（カット）レンが去ったあと、箱のチモシーは1〜2本
-// 6–13   レンのデスク。書類の横に、箱から取り分けたチモシーの浅い皿。真面目な顔で書類 → 目が皿へ → ひとくち → すぐ書類へ → 一拍で目が皿へ → もうひとくち（同じ構図で皿の中身を減らす）
-// 13–20  ジルとポムがデスクの横から顔をのぞかせる。レンは何事もなかったように真顔で正面。皿はほとんど空、口の端からチモシーが1本（片側だけのヒゲのよう）。ふたりの目がそろってその1本へ。BGMを少し引いて真顔を一拍 → 17.4〜 ふたりで課長をじろり（あきれ顔。2026-11-22 オーナー）
+// 0–6    第1話の続き。モチがきりっとした顔で、残り約3分の1の箱を見下ろす →（カット・引き）誰もいない休憩室にモチだけ。首ごと左・右・左を確かめる（2026-11-22 オーナー） → 鼻を近づける → 鼻ひくっ・耳ぴん・思わず笑顔 → もう一度目だけで周り →（カット）モチが去ったあと、箱のチモシーは1〜2本
+// 6–13   モチのデスク。書類の横に、箱から取り分けたチモシーの浅い皿。真面目な顔で書類 → 目が皿へ → ひとくち → すぐ書類へ → 一拍で目が皿へ → もうひとくち（同じ構図で皿の中身を減らす）
+// 13–20  ユズとクリがデスクの横から顔をのぞかせる。モチは何事もなかったように真顔で正面。皿はほとんど空、口の端からチモシーが1本（片側だけのヒゲのよう）。ふたりの目がそろってその1本へ。BGMを少し引いて真顔を一拍 → 17.4〜 ふたりで課長をじろり（あきれ顔。2026-11-22 オーナー）
 // 20–23  締めテロップ「課長もハマった？」「フォローして最終話へ」
 // 前足：使わない（デスクの陰）。持ち出し・取り分けは「箱のチモシーが1〜2本になる」→「デスクの皿に盛られている」のカットでつなぐ
 // 次の話へ引きつぐ状態：休憩室の箱の皿は空に近い（1〜2本）→ 第3話は翌日で空っぽ
@@ -17,9 +17,9 @@ document.write('<script src="v2/lib.js"><\/script><script src="v2/elevator_set.j
   // デスクの皿の量（同じ構図のカットごとに減らす）
   const deskDish = t => t < CUTD[0] ? 1 : t < CUTD[1] ? .62 : t < PEEK ? .3 : .06;
   const chew = (t, t0, d = 1.0) => t >= t0 && t < t0 + d ? (Math.sin((t - t0) * 2 * Math.PI * 4.2) > 0 ? 1 : 0) : -1;
-  const DD = { x: 520, y: DESK - 6 };       // デスクの皿（レンの左前）
-  const PAPERS = { x: 840, y: DESK + 4 };   // 書類（レンの右前）
-  // ---- 休憩室のレン（0–5.3）----
+  const DD = { x: 520, y: DESK - 6 };       // デスクの皿（モチの左前）
+  const PAPERS = { x: 840, y: DESK + 4 };   // 書類（モチの右前）
+  // ---- 休憩室のモチ（0–5.3）----
   function renRoom(t) {
     const R = TM.REN, F = RIG.FACES;
     let look = -.3, nod = 16, face = Object.assign({}, F.sharp, { mouth: 'line' }), eyeOpen = 1, earL = 0, earR = 0, nose = 0, lean = 0;
@@ -34,10 +34,10 @@ document.write('<script src="v2/lib.js"><\/script><script src="v2/elevator_set.j
     if (t >= SNIFF && t < SMILE + .9) nose = Math.max(0, Math.sin((t - SNIFF) * 30));                                               // 鼻がひくっ
     if (t >= SMILE) { const k = L.outBack(sm(SMILE, SMILE + .25, t)); earL = -12 * k; earR = 12 * k; face = Object.assign({}, F.smile, { blush: .8 }); }   // 耳ぴん・思わず笑顔
     if (t >= CHECK) { const u = (t - CHECK) / .8; look = u < 1 ? Math.sin(u * Math.PI * 2) * -.9 : -.4; eyeOpen = .8; face = Object.assign({}, F.neutral, { mouth: 'w', eyeShape: 'half' }); earL = earR = 0; }   // もう一度、目だけで周り
-    const bx = t < ALONE ? R.x : R.x + QX;   // カットのあと、レンは箱のま後ろへ
+    const bx = t < ALONE ? R.x : R.x + QX;   // カットのあと、モチは箱のま後ろへ
     return Object.assign({}, RIG.POSES.sit, face, { x: bx - 40 * lean, y: R.y + QY * lean, scale: R.s, flip, headTilt: tiltH, eyeLook: look, headNod: nod + 12 * lean, earL, earR, eyeOpen, nose, bodyTilt: -6 * lean });
   }
-  // ---- デスクのレン（6–20）----
+  // ---- デスクのモチ（6–20）----
   const RD = { x: 420, y: DESK - 560, s: 1.35 };
   function renDesk(t) {
     const F = RIG.FACES;
@@ -53,7 +53,7 @@ document.write('<script src="v2/lib.js"><\/script><script src="v2/elevator_set.j
     if (t >= B2 + .4) strand = 1;   // ふたくち目から、口の端に1本
     return Object.assign({}, RIG.POSES.sit, face, { x: RD.x - 70 * lean, y: RD.y + 40 * lean, scale: RD.s, flip: false, eyeLook: look, headNod: nod + 16 * lean, eyeOpen, earL, earR, strand, bodyTilt: -4 * lean }, mouth ? { mouth } : {});
   }
-  // ---- のぞくジル・ポム（デスクの左はし）----
+  // ---- のぞくユズ・クリ（デスクの左はし）----
   const JP = { x: 10, y: DESK - 380, s: 1.15 };
   function jilPeek(t) {
     const k = L.ease(sm(PEEK, PEEK + .6, t)), F = RIG.FACES;
@@ -76,7 +76,7 @@ document.write('<script src="v2/lib.js"><\/script><script src="v2/elevator_set.j
   window.EP = {
     dur: 24.0,
     bgm: { style: 'comedy', level: .5, dips: [[SNIFF - .2, SMILE + .5, .4], [B1 - .1, B1 + .8, .45], [B2 - .1, B2 + .8, .45], [LOOK - .3, 18.6, .25], [CUT, 23.0, .65]] },   // 鼻・かむ音の所で引き、最後は真顔の一拍で大きく引く
-    qaAllow: { cuts: [ALONE, 2.2, 2.95, SNIFF - .5, CHECK, GONE, DESK_T, PEEK - .1, LOOK - .1, 17.4], still: [[CUT - .1, 24]], hidden_jil: [[0, PEEK + .5]], hidden_ren: [[GONE - .05, DESK_T + .05]] },   // 休憩室にはレンだけ（ジルは13.2秒にデスクの横から）・5.3〜6.0 はレンが去ったあとの箱だけ
+    qaAllow: { cuts: [ALONE, 2.2, 2.95, SNIFF - .5, CHECK, GONE, DESK_T, PEEK - .1, LOOK - .1, 17.4], still: [[CUT - .1, 24]], hidden_jil: [[0, PEEK + .5]], hidden_ren: [[GONE - .05, DESK_T + .05]] },   // 休憩室にはモチだけ（ユズは13.2秒にデスクの横から）・5.3〜6.0 はモチが去ったあとの箱だけ
     sfx: SFX.sort((a, b) => a.t - b.t),
     frame(t) {
       if (!window.L || !window.RIG || !window.TM) return;
@@ -91,7 +91,7 @@ document.write('<script src="v2/lib.js"><\/script><script src="v2/elevator_set.j
         cam = L.camAt([
           { t: 0, z: 1.6, cx: 700, cy: 990 },                                    // 第1話の続き：きりっと箱を見下ろす
           { t: 0.01, z: 1.68, cx: 705, cy: 985, d: 1.5 },
-          { t: ALONE, z: .9, cx: 520, cy: 960, d: .01 },                          // 引き：休憩室にはレンだけ（カット）。誰もいない部屋をしっかり
+          { t: ALONE, z: .9, cx: 520, cy: 960, d: .01 },                          // 引き：休憩室にはモチだけ（カット）。誰もいない部屋をしっかり
           { t: ALONE + .01, z: .9, cx: 470, cy: 960, d: .7 },                     // 左を見る → カメラも少し左（入口の札）
           { t: 2.25, z: .9, cx: 610, cy: 960, d: .6 },                            // 右を見る → 窓・棚
           { t: 3.0, z: .92, cx: 540, cy: 960, d: .5 },
@@ -106,10 +106,10 @@ document.write('<script src="v2/lib.js"><\/script><script src="v2/elevator_set.j
         fx = L.deskFront(DESK) + L.papers(PAPERS.x, PAPERS.y, 6) + TM.dish(DD.x, DD.y, deskDish(tt), .9, { left: tt >= PEEK ? 1 : 0 });
         if (tt >= PEEK) { const p = pomPeek(tt); fx = ELV.pom(p.x, p.y, p.s, p.q) + fx; }
         cam = L.camAt([
-          { t: DESK_T, z: 1.6, cx: 600, cy: 1120 },                               // レンのデスク
+          { t: DESK_T, z: 1.6, cx: 600, cy: 1120 },                               // モチのデスク
           { t: DESK_T + .01, z: 1.7, cx: 600, cy: 1120, d: 1.6 },
-          { t: PEEK - .1, z: 1.35, cx: 480, cy: 1120, d: .01 },                    // ジルとポムがのぞく（カット）
-          { t: LOOK - .1, z: 2.4, cx: RD.x + 200, cy: 1000, d: .01 },             // レンの真顔と口の端の1本（カット）
+          { t: PEEK - .1, z: 1.35, cx: 480, cy: 1120, d: .01 },                    // ユズとクリがのぞく（カット）
+          { t: LOOK - .1, z: 2.4, cx: RD.x + 200, cy: 1000, d: .01 },             // モチの真顔と口の端の1本（カット）
           { t: 17.4, z: 1.35, cx: 480, cy: 1120, d: .01 },                         // ふたりの目がその1本へ
         ], tt);
       }

@@ -1,9 +1,9 @@
 // 「月曜の朝」（約10.6秒・セリフなし）v3 演出（2026-11-15 総見直しで作り直し）／キャラは本番の rig.js
-// 状況：月曜 7:00、目覚ましが鳴る。布団のレンは、寝返りで目覚ましを体でつぶして止める（7:00→7:10→7:20 と3回）→ 時計が 8:59 に飛ぶ
-// オチ：会社。8:59、ジルはコーヒーを持って席にいる。横の席は空（ネクタイだけ）→ ジルが空の席を見る
-//       → 寝室に戻る：8:59 の赤い時計の横で、レンはまだ寝ている（＝出社しない理由が絵で分かる）→ はっと飛び起きる
+// 状況：月曜 7:00、目覚ましが鳴る。布団のモチは、寝返りで目覚ましを体でつぶして止める（7:00→7:10→7:20 と3回）→ 時計が 8:59 に飛ぶ
+// オチ：会社。8:59、ユズはコーヒーを持って席にいる。横の席は空（ネクタイだけ）→ ユズが空の席を見る
+//       → 寝室に戻る：8:59 の赤い時計の横で、モチはまだ寝ている（＝出社しない理由が絵で分かる）→ はっと飛び起きる
 // オチの後のオチ（0.5秒）：着地して、そのまま布団に戻って寝る（最初のコマに戻るループ）
-// 前の版（v2）の問題：寝室でレンの顔が右で切れる（キャラの中心が x+300 にあり、時計とも重なっていた）／出社しない理由が絵で分からない
+// 前の版（v2）の問題：寝室でモチの顔が右で切れる（キャラの中心が x+300 にあり、時計とも重なっていた）／出社しない理由が絵で分からない
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
 // 目覚まし。squash（0〜1）で体につぶされて縦に縮む
@@ -23,7 +23,7 @@ const BEDROOM = () => ROOM(0);
 // 朝の寝室（8:59）：窓が明るい
 const BEDROOM_DAY = () => ROOM(1);
 const FUTON = (x, y, lift) => `<defs><linearGradient id="fuQ" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9DBDE4"/><stop offset=".6" stop-color="#7FA6D6"/><stop offset="1" stop-color="#5E86B8"/></linearGradient></defs><g transform="translate(${x} ${y})"><ellipse cx="0" cy="170" rx="600" ry="26" fill="#0E1424" opacity=".25"/><rect x="-560" y="40" width="1120" height="120" rx="30" fill="#F4ECE0"/><rect x="-560" y="110" width="1120" height="50" rx="25" fill="#C9BFAE" opacity=".6"/><rect x="-540" y="50" width="1080" height="12" rx="6" fill="#fff" opacity=".7"/><path d="M-520 ${60 - lift * 30} Q-400 ${-260 - lift * 60} 0 -240 Q400 -260 520 60 Z" fill="url(#fuQ)"/><path d="M-360 ${40 - lift * 20} Q-300 ${-150 - lift * 40} -250 -214 M-120 50 Q-100 -150 -90 -236 M130 50 Q120 -150 110 -238 M370 50 Q320 -140 270 -222" stroke="#5E86B8" stroke-width="5" fill="none" opacity=".55"/><path d="M-430 ${-120 - lift * 40} Q-200 ${-222 - lift * 50} 0 -212 Q200 -216 400 -150" stroke="#C4DAF2" stroke-width="10" fill="none" opacity=".6" stroke-linecap="round"/><path d="M-520 ${60 - lift * 30} Q-400 ${-200 - lift * 40} 0 -180 Q400 -200 520 60" fill="none" stroke="#5E86B8" stroke-width="10"/></g>`;
-const RS = 1.6, CXR = 470;            // 寝室のレン：大きさと体の中心（rig の x は左端。中心＝x＋200×scale）
+const RS = 1.6, CXR = 470;            // 寝室のモチ：大きさと体の中心（rig の x は左端。中心＝x＋200×scale）
 const DESKY = 1250, AX = 880, AY = DESKY - 150;
 var EP = {
   dur: 10.6,
@@ -56,13 +56,13 @@ var EP = {
       // 7:20 のあと：時計の数字が高速で進む（飛ぶ）
       if (t > 4.2) { const k = seg(t, 4.2, 4.6); bg = BEDROOM() + L.digital(300, 360, ['7:20', '7:41', '8:05', '8:30', '8:59'][Math.min(4, Math.floor(k * 5))], { s: 1.2 + k * .2, color: k > .8 ? '#E8473A' : '#FFB86B' }); }
     } else if (office) {
-      // ---- 会社 8:59：ジルはコーヒーを持って席に。横の席は空（ネクタイだけ）
+      // ---- 会社 8:59：ユズはコーヒーを持って席に。横の席は空（ネクタイだけ）
       bg = L.office({ sky: 'day', noClock: true }) + L.digital(540, 520, '8:59', { s: 1.3, color: '#E8473A' });
       const DESK = 1400, JS = 1.45;
       jp = Object.assign({}, RIG.POSES.sit, RIG.FACES.sharp, { x: 280 - 200 * JS, y: DESK - 413 * JS, scale: JS, eyeLook: t > 5.9 ? .8 : 0, headTilt: t > 6.3 ? -8 : 0 });
       fx += `${L.deskFront(DESK)}`
         + [60, 560].map(x => `${L.drawer(x, DESK)}`).join('');
-      // ジルのコーヒー（体のすぐ前）・空の席（レンのネクタイだけ椅子に）
+      // ユズのコーヒー（体のすぐ前）・空の席（モチのネクタイだけ椅子に）
       const sip = t > 5.4 && t < 5.9 ? -30 : 0;
       fx += `<g transform="translate(470 ${DESK - 10 + sip})"><path d="M-50 0 L-60 -110 L60 -110 L50 0Z" fill="#fff" stroke="#C9A87E" stroke-width="5"/><path d="M60 -90 q50 0 50 40 q0 40 -50 40" fill="none" stroke="#C9A87E" stroke-width="8"/><path d="M-20 -130 q10 -30 0 -50 M10 -130 q10 -30 0 -50" stroke="#C9A87E" stroke-width="5" fill="none" stroke-linecap="round" opacity=".7"/></g>`;
       fx += L.chair(820, DESK - 20, 0) + `<g transform="translate(820 ${DESK - 330})"><path d="M-14 0 L14 0 L8 20 L16 100 L0 118 L-16 100 L-8 20Z" fill="#F2B632" stroke="#C98C10" stroke-width="4"/></g>`;
@@ -81,7 +81,7 @@ var EP = {
       fx += ALARM(AX, AY, t < 9.2, 1.0, t, 0);
     }
     L.char('ren', rp, t, '', {}); L.char('jil', jp, t, '', {});
-    let ui = (t > 1.8 && t < 3.4 ? CHIP(L, 'MONDAY, 7:00 AM', '月曜の朝7時、上司のレン', 1500, seg(t, 1.8, 2.1)) : '');
+    let ui = (t > 1.8 && t < 3.4 ? CHIP(L, 'MONDAY, 7:00 AM', '月曜の朝7時、上司のモチ', 1500, seg(t, 1.8, 2.1)) : '');
     const cam = office
       ? L.camAt([{ t: 0, z: 1.0, cx: 540, cy: 1100 }, { t: 4.61, z: 1.2, cx: 560, cy: 1120, d: .9 }, { t: 6.1, z: 1.3, cx: 570, cy: 1120, d: .5 }], t)
       : late

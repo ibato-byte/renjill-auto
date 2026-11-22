@@ -1,7 +1,7 @@
 // 「くしゃみ」（約9.5秒・セリフなし）v2 演出／キャラは本番の rig.js
-// 状況：冬。ジルが机の書類をきれいに積み上げる（きりっ）
+// 状況：冬。ユズが机の書類をきれいに積み上げる（きりっ）
 // ひっくり返し：課長の鼻がむずむず……「へっ、へっ」→ 大きなくしゃみ！（うしろへ）
-// オチ：書類が全部まい上がって、ジルの頭に1枚ふわり。課長は「…すまん」のあせ。字幕「上司のくしゃみ：書類が全部とぶ」
+// オチ：書類が全部まい上がって、ユズの頭に1枚ふわり。課長は「…すまん」のあせ。字幕「上司のくしゃみ：書類が全部とぶ」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
 const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
@@ -18,20 +18,20 @@ var EP = {
     const bg = L.office({ sky: 'day', clock: [11, 0] });
     const stack = Math.min(8, Math.floor(seg(t, .5, 1.8) * 8));      // 積み上げた書類の枚数
     const ah = t >= 2.8 && t < 4.6, sneeze = t >= 4.6 && t < 5.2, fly = seg(t, 4.6, 6.4);
-    // ジル（左）：書類を積む（lean）→ 満足 → 課長の「へっ」に「？」→ 書類がとんで「！」→ 頭に1枚、ジト目
+    // ユズ（左）：書類を積む（lean）→ 満足 → 課長の「へっ」に「？」→ 書類がとんで「！」→ 頭に1枚、ジト目
     const jl = t > .4 && t < 1.9;
     const jface = t < 2.0 ? RIG.FACES.sharp : t < 2.8 ? Object.assign({}, RIG.FACES.smile, { sparkle: 1 }) : t < 4.6 ? Object.assign({}, RIG.FACES.think, { question: 1 }) : t < 6.4 ? Object.assign({}, RIG.FACES.surprised, { excl: 1 }) : RIG.FACES.annoyed;
     L.char('jil', Object.assign({}, jl ? RIG.POSES.lean : RIG.POSES.sit, jface, { x: 20, y: DESK - 413 * 1.3, scale: 1.3, eyeLook: t > 2.8 ? .9 : .3, bodyTilt: jl ? -8 : t > 4.6 && t < 5.2 ? 10 : 0 }), t, '', {});
-    // レン（右）：鼻むずむず（目をとじて、顔を上げていく）→ くしゃみ（体がうしろへ・nudge）→ あせ
+    // モチ（右）：鼻むずむず（目をとじて、顔を上げていく）→ くしゃみ（体がうしろへ・nudge）→ あせ
     const rface = t < 2.8 ? RIG.FACES.neutral : ah ? Object.assign({}, RIG.FACES.oops, { eyeOpen: .25 + .25 * Math.sin(t * 9), sweat: 0 }) : sneeze ? Object.assign({}, RIG.FACES.surprised, { eyeOpen: .1, excl: 0 }) : RIG.FACES.oops;
     L.char('ren', Object.assign({}, sneeze ? RIG.POSES.nudge : RIG.POSES.sit, rface, { x: 560, y: DESK - 413 * 1.35, scale: 1.35, flip: true, eyeLook: -.2, headNod: ah ? -6 - 10 * seg(t, 2.8, 4.6) : sneeze ? 18 : 0, bodyTilt: sneeze ? -12 : 0 }), t, '', {});
     let fx = `${L.deskFront(DESK)}`
       + [60, 560].map(x => `${L.drawer(x, DESK)}`).join('');
-    // 書類の山（ジルの机）→ くしゃみで、左上へまい上がる（顔の前は通らない高さ）
+    // 書類の山（ユズの机）→ くしゃみで、左上へまい上がる（顔の前は通らない高さ）
     for (let i = 0; i < 8; i++) {
       if (fly <= 0) { if (i < stack) fx += SHEET(430 + (i % 2) * 6, DESK - 46 - i * 14, (i % 3 - 1) * 3); continue; }
       const u = ease(Math.min(1, fly * (1 + i * .12))), sx = 430 - 120 * u - i * 40 * u + Math.sin(t * 4 + i) * 30 * u, sy = DESK - 46 - i * 14 - 700 * u + Math.sin(u * Math.PI) * 0 + (t > 5.6 ? 120 * Math.sin((t - 5.6) * 2 + i) : 0);
-      if (i === 0) { const land = seg(t, 5.6, 6.4); fx += SHEET(430 + (JN[0] - 430) * land, DESK - 46 + (JN[1] - 205 - DESK + 46) * land - Math.sin(land * Math.PI) * 300, 20 - 30 * land); continue; }   // 1枚だけ、ジルの頭の上へ（顔より上）
+      if (i === 0) { const land = seg(t, 5.6, 6.4); fx += SHEET(430 + (JN[0] - 430) * land, DESK - 46 + (JN[1] - 205 - DESK + 46) * land - Math.sin(land * Math.PI) * 300, 20 - 30 * land); continue; }   // 1枚だけ、ユズの頭の上へ（顔より上）
       fx += SHEET(sx, sy, u * 200 + i * 30);
     }
     // 「へっ…」「へっ…」とくしゃみの文字
@@ -39,7 +39,7 @@ var EP = {
     if (sneeze) fx += `<text x="${900}" y="${820}" text-anchor="middle" font-family="Noto Sans CJK JP" font-weight="900" font-size="${130 * outBack(seg(t, 4.6, 4.8))}" fill="#E8473A" stroke="#FFF7E8" stroke-width="12" paint-order="stroke">ACHOO!</text>`
       + L.impact(640, 1230, seg(t, 4.6, 5.0), .8, '#BFD6EA');
     if (t > 7.0 && t < 8.6) fx += L.emark(240, DESK - 720, 1.0, '…');
-    let ui = (t > 0.8 && t < 2.6 ? CHIP(L, 'NEAT STACK', 'ジル、書類をきれいに', 1600, seg(t, .8, 1.1)) : '')
+    let ui = (t > 0.8 && t < 2.6 ? CHIP(L, 'NEAT STACK', 'ユズ、書類をきれいに', 1600, seg(t, .8, 1.1)) : '')
       + (t > 6.4 && t < 8.6 ? CHIP_OFF(L, 'ACHOO! PAPERS FLY', '上司のくしゃみ：書類が全部とぶ', 1600, seg(t, 6.4, 6.7)) : '');
     const cam = L.camAt([
       { t: 0, z: 1.3, cx: 480, cy: 1150 },

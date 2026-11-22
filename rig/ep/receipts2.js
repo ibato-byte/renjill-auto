@@ -1,6 +1,6 @@
-// 第8話 v2「牧草の領収書の山とジルの電卓」（約22秒）
-// ゲーム：経費精算の領収書がぜんぶ「牧草」。①1枚→ジル無言 ②5枚どさっ→電卓の桁が増えて目がピクッ ③山ごとどーん→ジルが領収書に埋もれる（耳だけ出る）
-// （間：耳だけピクッ）→山の中から足ダン→領収書が舞ってぴしっと揃う → オチの後のオチ：課長が1枚もぐもぐ→ジルもこっそり1枚もぐもぐ
+// 第8話 v2「牧草の領収書の山とユズの電卓」（約22秒）
+// ゲーム：経費精算の領収書がぜんぶ「牧草」。①1枚→ユズ無言 ②5枚どさっ→電卓の桁が増えて目がピクッ ③山ごとどーん→ユズが領収書に埋もれる（耳だけ出る）
+// （間：耳だけピクッ）→山の中から足ダン→領収書が舞ってぴしっと揃う → オチの後のオチ：課長が1枚もぐもぐ→ユズもこっそり1枚もぐもぐ
 window.EP = {
   dur: 22.0,
   bgmHolds: '10.6-11.6',
@@ -19,7 +19,7 @@ window.EP = {
       el('rect', { x: -50, y: -29, width: 100, height: 58, rx: 4, fill: '#FFFDF7', stroke: '#D8CBB6', 'stroke-width': 3 }),
       el('path', { d: 'M-32 15 q8 -26 4 -30 M-24 15 q2 -24 10 -28 M-16 15 q-4 -20 6 -24', fill: 'none', stroke: '#7CB36A', 'stroke-width': 3.5, 'stroke-linecap': 'round' }),
       el('rect', { x: 0, y: -13, width: 36, height: 6, rx: 3, fill: '#D9DEE4' }), el('rect', { x: 0, y: 1, width: 28, height: 6, rx: 3, fill: '#D9DEE4' })]));
-    // 床のジルの前に積まれる領収書（1枚→6枚→山）
+    // 床のユズの前に積まれる領収書（1枚→6枚→山）
     const floorX = JX + 160, floorY = 1690;
     const fly = seg(t, 11.65, 12.6);
     let count = t < 1.2 ? 0 : t < 4.4 ? 1 : t < 4.9 ? 1 + Math.floor(seg(t, 4.4, 4.9) * 5) + 1 : t < 8.6 ? 6 : 34;
@@ -31,7 +31,7 @@ window.EP = {
       slip(x + sh.x, y + sh.y, r, 1, fly > 0 ? f : (i >= 6 ? f : back));
     }
 
-    // ---- レン（机の上）
+    // ---- モチ（机の上）
     const RX = 300, RY = 668;
     let R = Object.assign({}, RIG.POSES.sit, RIG.FACES.smile, { scale: 1.3, x: RX + sh.x, y: RY + sh.y });
     const give = (a) => goBack(t, a, a + 0.3, a + 0.5, a + 0.8);
@@ -49,7 +49,7 @@ window.EP = {
     const Rq = draw('ren', 'ren', R, t, {});
     if (t >= 14.6) { const ht = headTop(Rq); const nx = ht.x + 8, ny = ht.y + 128 * 1.3; f.appendChild(el('path', { d: `M${nx} ${ny} q30 10 56 4 M${nx} ${ny + 4} q26 18 50 16`, fill: 'none', stroke: '#7CB36A', 'stroke-width': 5, 'stroke-linecap': 'round' })); }
 
-    // ---- ジル（床、電卓つき）
+    // ---- ユズ（床、電卓つき）
     let J = Object.assign({}, RIG.POSES.sit, RIG.FACES.sharp, { scale: 1.25, flip: true, x: JX + sh.x, y: 1240 + sh.y, eyeLook: 0.3 });
     if (t >= 2.2 && t < 3.8) Object.assign(J, RIG.FACES.annoyed, { sweat: 0, eyeLook: 0.9, eyeOpen: t > 2.9 && t < 3.05 ? 0.05 : 0.5 });
     if (t >= 5.2 && t < 6.0) Object.assign(J, { headNod: Math.sin(t * 24) > 0 ? 10 : 4, eyeLook: -0.2 });
@@ -93,7 +93,7 @@ window.EP = {
       { t: 9.4, cx: FACE_JIL.x - 60, cy: FACE_JIL.y + 40, z: 2.0, z2: 3.0 },// F 寄り：耳だけピクッ（無音）
       { t: 11.5, cx: 560, cy: 1150, z: 1.0 },                          // G 引き：足ダン→整列
       { t: 13.2, cx: 520, cy: 1000, z: 1.9 },                          // H 寄り：課長もぐもぐ
-      { t: 15.6, cx: FACE_JIL.x - 60, cy: FACE_JIL.y, z: 2.3 },        // I 寄り：ジルあきれ→こっそりもぐもぐ
+      { t: 15.6, cx: FACE_JIL.x - 60, cy: FACE_JIL.y, z: 2.3 },        // I 寄り：ユズあきれ→こっそりもぐもぐ
       { t: 19.4, cx: 560, cy: 1150, z: 1.15 }                          // J 引き
     ];
     camera(cameraAt(shots, t), punch);

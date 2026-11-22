@@ -1,7 +1,7 @@
 // 「クリスマスツリーの飾り」（約9.5秒・セリフなし）v2 演出／キャラは本番の rig.js
-// 状況：オフィスにツリー。ジルが赤・金の玉を飾る（きらきら）
-// ひっくり返し：レンも飾る → 吊るすのは書類（赤丸の締め切り印つき）→ ツリーが書類だらけ
-// オチ：ジルが星の代わりに、てっぺんに「✓」のスタンプ。字幕「飾り：締め切りの書類」
+// 状況：オフィスにツリー。ユズが赤・金の玉を飾る（きらきら）
+// ひっくり返し：モチも飾る → 吊るすのは書類（赤丸の締め切り印つき）→ ツリーが書類だらけ
+// オチ：ユズが星の代わりに、てっぺんに「✓」のスタンプ。字幕「飾り：締め切りの書類」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
 const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
@@ -27,11 +27,11 @@ var EP = {
     const balls = Math.min(4, Math.max(0, Math.floor((t - 0.4) / 0.5)));          // 0.9〜2.4
     const papers = t < 3.2 ? 0 : Math.min(5, Math.floor((t - 2.7) / 0.5));          // 3.2〜5.2
     const star = t >= 7.6 ? outBack(seg(t, 7.6, 8.0)) : 0;
-    // ジル（左）：飾る（lean、玉のたびに体を揺らす）→ 書類を見て固まる → 7.2 ✓ を置きに手を伸ばす（stretch）
+    // ユズ（左）：飾る（lean、玉のたびに体を揺らす）→ 書類を見て固まる → 7.2 ✓ を置きに手を伸ばす（stretch）
     const jface = t < 3.2 ? RIG.FACES.smile : t < 7.2 ? RIG.FACES.annoyed : RIG.FACES.smug;
     const jp = Object.assign({}, t < 2.6 ? RIG.POSES.lean : t >= 7.2 ? RIG.POSES.stretch : RIG.POSES.sit, jface, { x: 40, y: DESK - 413 * 1.3, scale: 1.3, bodyTilt: t < 2.6 ? -10 + Math.sin(t * 12) * 3 : 0, eyeLook: .8, headTilt: t >= 5.6 && t < 7.2 ? -12 : 0 });
     L.char('jil', jp, t, '', {});
-    // レン（右）：様子を見る → 3.2〜5.2 書類を吊るす（lean、得意げ）→ 満足（smile）→ ✓ に拍手（頭の上下）
+    // モチ（右）：様子を見る → 3.2〜5.2 書類を吊るす（lean、得意げ）→ 満足（smile）→ ✓ に拍手（頭の上下）
     const rface = t < 3.2 ? RIG.FACES.neutral : t < 5.6 ? RIG.FACES.smile : t < 7.6 ? RIG.FACES.smug : RIG.FACES.shy;
     const rp = Object.assign({}, t >= 3.0 && t < 5.4 ? RIG.POSES.lean : RIG.POSES.sit, rface, { x: 540, y: DESK - 413 * 1.35, scale: 1.35, flip: true, bodyTilt: t >= 3.0 && t < 5.4 ? -10 + Math.sin(t * 12) * 3 : 0, eyeLook: .6, headNod: t > 8.0 ? Math.abs(Math.sin(t * 14)) * 8 : 0 });
     L.char('ren', rp, t, '', {});
@@ -44,7 +44,7 @@ var EP = {
     if (t > 5.6 && t < 7.2) fx += L.emark(230, DESK - 650, 1.0, '…');
     if (t > 7.6 && t < 8.1) fx += L.impact(540, DESK - 570, seg(t, 7.6, 8.1), .9, '#5DBB63');
     if (t > 7.6) fx += L.sparkles(540, DESK - 560, t, 1.0, 6);
-    let ui = (t > 1.8 && t < 3.2 ? CHIP(L, 'OFFICE TREE: DAY 1', 'オフィスのツリー。ジルが飾る', 1380, seg(t, 1.8, 2.1)) : '')
+    let ui = (t > 1.8 && t < 3.2 ? CHIP(L, 'OFFICE TREE: DAY 1', 'オフィスのツリー。ユズが飾る', 1380, seg(t, 1.8, 2.1)) : '')
       + (t > 4.0 && t < 5.6 ? CHIP_OFF(L, 'ORNAMENTS: DEADLINES', '上司の飾り：締め切りの書類', 1380, seg(t, 4.0, 4.3)) : '')
       + (t > 7.8 && t < 8.6 ? CHIP_OFF(L, 'TOP OF THE TREE: DONE', 'てっぺんは「済」', 1380, seg(t, 7.8, 8.1)) : '');
     const cam = L.camAt([

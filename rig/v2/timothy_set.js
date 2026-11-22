@@ -1,4 +1,4 @@
-// 連載「ポムのお土産『金のチモシー』」（timothy1・2・3）のセットと小物（2026-11-21 オーナーの絵コンテ）
+// 連載「クリのお土産『金のチモシー』」（timothy1・2・3）のセットと小物（2026-11-21 オーナーの絵コンテ）
 // オーナーの決まり：休憩室の背景・テーブル・お土産箱・金色の袋・浅い皿のデザインは全話で同じ → ここで1か所に決める。
 //   部屋は休憩室のこたつと同じ BR.bg（札「休憩室」・窓・時計・棚）。こたつの代わりに、ふつうのテーブル。
 // 使い方：document.write('<script src="v2/lib.js"><\/script><script src="v2/elevator_set.js"><\/script><script src="v2/breakroom_set.js"><\/script><script src="v2/timothy_set.js"><\/script>')
@@ -10,18 +10,18 @@
   const TM = {};
   // ---- 立ち位置（3話とも同じ）----
   TM.T = { cx: 540, top: 1150, half: 460, floor: 1650 };          // テーブル（天板の上の面の高さ top）
-  TM.JIL = { x: 30, y: 716, s: 1.15, flip: true };                // ジル：テーブルの左の奥（右向き）
-  TM.REN = { x: 640, y: 670, s: 1.3, flip: false };               // レン：テーブルの右の奥（左向き）
-  TM.POM = { x: 742, y: TM.T.top + 6, s: 1.15 };                   // ポム：テーブルの上、箱の右（小さいハムスター）
+  TM.JIL = { x: 30, y: 716, s: 1.15, flip: true };                // ユズ：テーブルの左の奥（右向き）
+  TM.REN = { x: 640, y: 670, s: 1.3, flip: false };               // モチ：テーブルの右の奥（左向き）
+  TM.POM = { x: 742, y: TM.T.top + 6, s: 1.15 };                   // クリ：テーブルの上、箱の右（小さいハムスター）
   TM.BOX = { x: 450, y: TM.T.top + 4 };                           // お土産箱（底のまんなか）
-  TM.DISH_IN = { x: TM.BOX.x - 44, y: TM.BOX.y - 82 };           // 箱の中の浅い皿（ふちの高さ。箱の左＝ジルの側）
+  TM.DISH_IN = { x: TM.BOX.x - 44, y: TM.BOX.y - 82 };           // 箱の中の浅い皿（ふちの高さ。箱の左＝ユズの側）
   const C = { wood: '#A36A40', wood2: '#6E4428', woodTop: '#C08A5A', ink: '#3B2412', box: '#F4EADB', box2: '#E2D2BA', boxIn: '#B89C78', ribbon: '#C8263C', gold1: '#F7D774', gold2: '#D9A93A', gold3: '#A8781E', hay: '#A8B84E', hay2: '#8C9C3A', hay3: '#C7CF7A', dish: '#FFFDF8', dish2: '#D9E3EA' };
   const TXT = (x, y, s, txt, o = {}) => `<text x="${x}" y="${y}" text-anchor="middle" font-family="Noto Sans CJK JP, sans-serif" font-weight="900" font-size="${s}" fill="${o.fill || C.ink}"${o.stroke ? ` stroke="${o.stroke}" stroke-width="${o.sw || 6}" paint-order="stroke" stroke-linejoin="round"` : ''}${o.ls ? ` letter-spacing="${o.ls}"` : ''}>${txt}</text>`;
   // ---- テーブル ----
   TM.table = (o = {}) => {
     const T = TM.T, x0 = T.cx - T.half, x1 = T.cx + T.half;
     return `<g data-nb="1"><ellipse cx="${T.cx}" cy="${T.floor + 4}" rx="${T.half + 40}" ry="26" fill="${C.ink}" opacity=".16"/>`
-      // テーブルクロス（前の面を床近くまでおおう。奥に座るレンとジルの体がテーブルの下から見えないように）
+      // テーブルクロス（前の面を床近くまでおおう。奥に座るモチとユズの体がテーブルの下から見えないように）
       + `<path d="M${x0 - 4} ${T.top + 6} H${x1 + 4} L${x1 + 14} ${T.floor - 70} Q${T.cx} ${T.floor - 52} ${x0 - 14} ${T.floor - 70} Z" fill="#F6EFE2"/>`
       + `<path d="M${x0 - 4} ${T.top + 6} H${x1 + 4} L${x1 + 8} ${T.top + 150} H${x0 - 8} Z" fill="#E7D9C2" opacity=".5"/>`
       + Array.from({ length: 9 }, (_, i) => `<path d="M${x0 + 40 + i * 84} ${T.top + 40} q-4 ${(T.floor - T.top) * .5} 4 ${T.floor - T.top - 120}" stroke="#E2D2B8" stroke-width="5" fill="none" opacity=".8"/>`).join('')
@@ -77,7 +77,7 @@
       + `<rect x="-78" y="${-h + 12}" width="156" height="54" rx="9" fill="#FFFFFF" stroke="${C.ribbon}" stroke-width="5"/>` + TXT(0, -h + 54, 40, 'お土産', { ls: 4 });
     return `<g transform="translate(${x} ${y})"><ellipse cx="0" cy="4" rx="${w / 2 + 20}" ry="14" fill="${C.ink}" opacity=".2"/>${flaps}${inner}${bag}${dish}${front}</g>`;
   };
-  // ---- 紙袋（お土産を入れてきた茶色い紙袋）。(x, y) は持ち手のてっぺん（ポムがくわえる所）。o.flat = たたんで置いた（中身を出したあと）----
+  // ---- 紙袋（お土産を入れてきた茶色い紙袋）。(x, y) は持ち手のてっぺん（クリがくわえる所）。o.flat = たたんで置いた（中身を出したあと）----
   TM.paperBag = (x, y, s = 1, o = {}) => {
     if (o.flat) return `<g transform="translate(${x} ${y}) scale(${s})"><ellipse cx="0" cy="4" rx="70" ry="9" fill="${C.ink}" opacity=".16"/><path d="M-62 0 L-54 -26 H54 L62 0Z" fill="#C79A63"/><path d="M-54 -26 H54 L48 -32 H-48Z" fill="#B38450"/><path d="M-30 -28 q30 -26 60 0" stroke="#8C603C" stroke-width="5" fill="none"/></g>`;
     const sw = o.swing || 0;

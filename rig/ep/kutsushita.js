@@ -1,6 +1,6 @@
 // 「くつした」（約9.5秒・セリフなし）v2 演出／キャラは本番の rig.js
-// 状況：クリスマスイブの夜。ジルは小さなくつしたを机にかける。課長は床まで届く特大のくつした（にやり）
-// ひっくり返し：翌朝。ジルのくつしたには小さな箱。課長の特大くつしたは、ぺたんこ → 頭から潜って探す（足だけ見える）
+// 状況：クリスマスイブの夜。ユズは小さなくつしたを机にかける。課長は床まで届く特大のくつした（にやり）
+// ひっくり返し：翌朝。ユズのくつしたには小さな箱。課長の特大くつしたは、ぺたんこ → 頭から潜って探す（足だけ見える）
 // オチ：出てきた課長の口に、牧草1本。それでもご満悦。字幕「プレゼントは同じ大きさ」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
@@ -22,11 +22,11 @@ var EP = {
     const bg = L.office({ sky: morning ? 'day' : 'night', clock: morning ? [7, 0] : [22, 0] });
     const big = outBack(seg(t, 2.1, 2.6));
     const dive = t >= 5.2 && t < 6.8;
-    // ジル（左）：かける（lean）→ 特大を見て「…」→ 朝：自分の箱にきらっ → 課長を見る → にこ
+    // ユズ（左）：かける（lean）→ 特大を見て「…」→ 朝：自分の箱にきらっ → 課長を見る → にこ
     const jface = t < 2.1 ? RIG.FACES.smile : t < 3.4 ? Object.assign({}, RIG.FACES.surprised, { excl: 0 }) : t < 4.6 ? Object.assign({}, RIG.FACES.smile, { sparkle: 1 }) : t < 7.2 ? RIG.FACES.think : RIG.FACES.smile;
     const jlean = t > .7 && t < 1.4;
     L.char('jil', Object.assign({}, jlean ? RIG.POSES.lean : RIG.POSES.sit, jface, { x: 30, y: DESK - 413 * 1.3, scale: 1.3, eyeLook: .8, bodyTilt: jlean ? -10 : 0 }), t, '', {});
-    // レン（右）：にやり → 朝、ぺたんこのくつしたに「？」→ 頭から潜る（見えない）→ 牧草1本くわえて出てくる（ご満悦）
+    // モチ（右）：にやり → 朝、ぺたんこのくつしたに「？」→ 頭から潜る（見えない）→ 牧草1本くわえて出てくる（ご満悦）
     if (!dive) {
       const rface = t < 3.4 ? Object.assign({}, RIG.FACES.smug, { sparkle: t > 2.6 ? 1 : 0 }) : t < 5.2 ? Object.assign({}, RIG.FACES.surprised, { excl: 0 }) : Object.assign({}, RIG.FACES.smile, { sparkle: t < 7.6 ? 1 : 0 });
       const pop = t >= 6.8 ? outBack(seg(t, 6.8, 7.2)) : 1;
@@ -37,7 +37,7 @@ var EP = {
       + [60, 560].map(x => `${L.drawer(x, DESK)}`).join('');
     // フック
     fx += `<circle cx="300" cy="${DESK + 40}" r="9" fill="#C9A24A"/><circle cx="760" cy="${DESK + 40}" r="9" fill="#C9A24A"/>`;
-    // ジルの小さなくつした（朝は小さな箱がのぞく）
+    // ユズの小さなくつした（朝は小さな箱がのぞく）
     if (t >= .9) { const s = outBack(seg(t, .9, 1.2));
       if (morning) fx += `<g transform="translate(330 ${DESK + 34})"><rect x="-26" y="-40" width="52" height="46" rx="6" fill="#3E8A55"/><rect x="-5" y="-40" width="10" height="46" fill="#F2C230"/></g>`;
       fx += `<g transform="translate(270 ${DESK + 36}) scale(${s})">${SOCK(0, 0, 80, 150, 0, 4)}</g>`; }
@@ -58,7 +58,7 @@ var EP = {
       { t: 0, z: 1.3, cx: 460, cy: 1250 },
       { t: 0.01, z: 1.0, cx: 540, cy: 1300, d: .9 },
       { t: 2.0, z: .92, cx: 600, cy: 1380, d: .5 },                 // 特大のくつした（床まで）
-      { t: 3.6, z: 1.3, cx: 460, cy: 1300, d: .5 },                 // ジルの箱
+      { t: 3.6, z: 1.3, cx: 460, cy: 1300, d: .5 },                 // ユズの箱
       { t: 4.6, z: .95, cx: 620, cy: 1380, d: .5 },                 // 潜る
       { t: 6.8, z: 1.3, cx: 640, cy: 1200, d: .4 },                 // 牧草1本
       { t: 7.6, z: 1.05, cx: 540, cy: 1250, d: .5 },

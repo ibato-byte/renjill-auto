@@ -1,4 +1,4 @@
-"""ポムの体が透明にならないこと（2026-11-22：ELV.pom を使う回で pomDefs を入れ忘れ、体のグラデーションが無くて透明になった）"""
+"""クリの体が透明にならないこと（2026-11-22：ELV.pom を使う回で pomDefs を入れ忘れ、体のグラデーションが無くて透明になった）"""
 import re, unittest, pathlib
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 

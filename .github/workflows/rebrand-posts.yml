@@ -1,0 +1,32 @@
+name: rebrand-posts
+# 公開済みの投稿の「文字」を新しい名前（東京うさぎオフィス・モチ・ユズ・クリ）にする（2026-11-22 オーナー決定：動画はそのまま・文字だけ）。
+# YouTube（ショート・作業用BGM）の題・説明・翻訳と、Facebook リールの説明。直す物が無ければ何もしない。手動でだけ動かす。
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "1 なら確かめるだけ（直さない）"
+        required: false
+        default: "1"
+permissions:
+  contents: read
+concurrency: post
+jobs:
+  rebrand:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v5
+        with: { ref: main }
+      - uses: actions/setup-python@v6
+        with: { python-version: "3.12" }
+      - run: pip install -q requests google-api-python-client google-auth google-auth-httplib2
+      - name: 公開済みの投稿の文字を直す
+        env:
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
+          YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
+          YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
+          DRY: ${{ github.event.inputs.dry_run }}
+        run: |
+          if [ "$DRY" = "1" ]; then python auto/rebrand_posts.py --dry-run; else python auto/rebrand_posts.py; fi

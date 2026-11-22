@@ -1,6 +1,6 @@
 // 「残業の夜食」（約9.5秒・セリフなし）v2 演出／キャラは本番の rig.js
-// 状況：21:00、残業。レンがカップ麺にお湯を入れて、ふたを閉じる。3分（時計）
-// ひっくり返し：待っているうちに寝落ち → 時計がぐるぐる回って 23:00 → オチ：ジルが起こす。麺はのびのび（カップから麺があふれる）。字幕「3分のつもりが2時間」
+// 状況：21:00、残業。モチがカップ麺にお湯を入れて、ふたを閉じる。3分（時計）
+// ひっくり返し：待っているうちに寝落ち → 時計がぐるぐる回って 23:00 → オチ：ユズが起こす。麺はのびのび（カップから麺があふれる）。字幕「3分のつもりが2時間」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
 const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
@@ -22,12 +22,12 @@ var EP = {
     const lid = t < 1.0 ? 1 : t < 2.2 ? 1 - ease(seg(t, 1.0, 1.4)) : t < 7.4 ? 0 : ease(seg(t, 7.4, 7.8));
     const asleep = t >= 3.8 && t < 7.4;
     const over = t >= 7.4 ? outBack(seg(t, 7.4, 8.0)) : 0;
-    // レン（右）：お湯を入れる → じっと待つ（3分）→ 3.8 こっくり → 寝る（zzz）→ 7.4 起こされてびっくり → のびた麺にしょんぼり
+    // モチ（右）：お湯を入れる → じっと待つ（3分）→ 3.8 こっくり → 寝る（zzz）→ 7.4 起こされてびっくり → のびた麺にしょんぼり
     const rface = t < 3.2 ? RIG.FACES.neutral : t < 3.8 ? Object.assign({}, RIG.FACES.sleepy, { zzz: 0 }) : asleep ? RIG.FACES.sleepy : t < 8.0 ? RIG.FACES.surprised : Object.assign({}, RIG.FACES.oops, { sweat: 1 });
     const nod = t >= 3.2 && t < 3.8 ? Math.abs(Math.sin(t * 12)) * 10 : asleep ? 26 : 0;
     const rp = Object.assign({}, asleep ? RIG.POSES.loaf : RIG.POSES.sit, rface, { x: 540, y: DESK - 413 * 1.35, scale: 1.35, flip: true, eyeLook: .5, headNod: nod, headTilt: asleep ? 10 : 0, bodySquash: t >= 8.0 ? -.15 : 0 });
     L.char('ren', rp, t, '', {});
-    // ジル（左）：6.6 に来て（左から）、7.0 レンの肩をとんとん（lean）
+    // ユズ（左）：6.6 に来て（左から）、7.0 モチの肩をとんとん（lean）
     if (t >= 6.6) {
       const h = RIG.hop(t, 6.6, 7.0, -700, 60, { hops: 2, height: 40 });
       const jp = Object.assign({}, t < 7.0 ? RIG.POSES.stand : RIG.POSES.lean, t < 7.9 ? RIG.FACES.sharp : RIG.FACES.annoyed, { x: h.x, y: DESK - 413 * 1.3 + h.yOff, scale: 1.3, bodySquash: h.squash, bodyTilt: t >= 7.0 ? -10 : 0, eyeLook: .8 });

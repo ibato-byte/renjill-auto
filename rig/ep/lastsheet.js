@@ -1,9 +1,9 @@
 // 「最後の1枚」（セリフなし・約11.6秒）v2 演出／キャラは本番の rig.js
-// 2026-11-11 作り直し（総見直し）：レンとジルには腕がない。紙のはしを「口でくわえて」引っぱる（うさぎらしいしぐさ）。limb() は使わない。
-// ゲーム：トレイに残った最後のコピー用紙。レンとジルが左右から同時にくわえて綱引き。
-// ①小（くわえて首を振る）②中（体ごと後ろへ）③大（立ち上がって全力・耳が飛ぶ）→（間：音が止まり、紙の割れ目に寄る→ジルがレンを見て、ほんの少しゆるみ、またきりっ）→ビリッ
+// 2026-11-11 作り直し（総見直し）：モチとユズには腕がない。紙のはしを「口でくわえて」引っぱる（うさぎらしいしぐさ）。limb() は使わない。
+// ゲーム：トレイに残った最後のコピー用紙。モチとユズが左右から同時にくわえて綱引き。
+// ①小（くわえて首を振る）②中（体ごと後ろへ）③大（立ち上がって全力・耳が飛ぶ）→（間：音が止まり、紙の割れ目に寄る→ユズがモチを見て、ほんの少しゆるみ、またきりっ）→ビリッ
 // オチ：二人とも半分をくわえたまま、得意げにビンキー（少しずらして）。
-// オチの後のオチ：ポムがトレイの後ろから出てきて、2枚の半分をテープで貼り合わせて「受理」。紙がトレイに戻ると、また二人がくわえに寄る（冒頭につながる）
+// オチの後のオチ：クリがトレイの後ろから出てきて、2枚の半分をテープで貼り合わせて「受理」。紙がトレイに戻ると、また二人がくわえに寄る（冒頭につながる）
 document.write('<script src="v2/lib.js"><\/script>');
 var EP = {
   dur: 11.6,
@@ -24,12 +24,12 @@ var EP = {
     const CX = 540, PWID = 330, PHT = 230;            // 紙の幅・高さ
     const sR = 1.55, sJ = 1.38;                        // 大きさ（画面の高さの35%以上に見えるよう、寄りと合わせて）
     const FEET = 1660;
-    const RY = FEET - 405 * sR;                        // レン（左・向きを反転＝顔が内側）
+    const RY = FEET - 405 * sR;                        // モチ（左・向きを反転＝顔が内側）
     const MOUTHY = RY + 261 * sR;                      // くわえたときの口の高さ
-    const JY = MOUTHY - 261 * sJ;                      // ジル（右）の口の高さをそろえる
+    const JY = MOUTHY - 261 * sJ;                      // ユズ（右）の口の高さをそろえる
     const TRAYY = 1560;                                // トレイ（紙の置き台）の上のふち
 
-    // ---------- 綱引きの強さ：d<0 で紙がレン側（左）へ。k：紙の伸び
+    // ---------- 綱引きの強さ：d<0 で紙がモチ側（左）へ。k：紙の伸び
     const stage = (a, b, v0, v1) => lerp(v0, v1, ease(seg(t, a, b)));
     const bite = ease(seg(t, 0.15, 0.45));            // 寄ってくわえる
     const biting = t >= 0.45 && t < 5.9;
@@ -48,7 +48,7 @@ var EP = {
     const pullBack = biting ? (t < 2.0 ? 4 : t < 3.4 ? 14 : 24) : 0;   // 体を後ろへ反らす
     const sh = t > 5.9 && t < 6.35 ? (1 - seg(t, 5.9, 6.35)) * 22 : 0;
 
-    // ---------- レン（左）
+    // ---------- モチ（左）
     const rIn = lerp(-70, 0, bite);                    // くわえる前は少し離れている
     let rx = CX - PWID / 2 - stretch / 2 - 220 * sR + rIn + d - pullBack;
     let R = Object.assign({}, RIG.POSES.sit, RIG.FACES.smile, { scale: sR, flip: true, x: rx, y: RY, eyeLook: -0.8, headNod: 18 * bite });
@@ -66,7 +66,7 @@ var EP = {
     if (R.yOff) { R.y += R.yOff; delete R.yOff; }
     const Rq = drawChar('ren', R, t);
 
-    // ---------- ジル（右）：少し遅れて同じことをする（2匹が同時に同じ動きをしない）
+    // ---------- ユズ（右）：少し遅れて同じことをする（2匹が同時に同じ動きをしない）
     const jIn = lerp(70, 0, ease(seg(t, 0.2, 0.5)));
     let jx = CX + PWID / 2 + stretch / 2 - 188 * sJ + jIn + d + pullBack;
     let J = Object.assign({}, RIG.POSES.sit, RIG.FACES.sharp, { scale: sJ, x: jx, y: JY, eyeLook: -0.8, headNod: 18 * ease(seg(t, 0.2, 0.5)) });
@@ -74,7 +74,7 @@ var EP = {
     if (t >= 0.5 && t < 2.0) Object.assign(J, RIG.FACES.sharp, { mouth: 'line', headTilt: -5 * Math.sin(ph + 0.6) });
     if (t >= 2.0 && t < 3.4) Object.assign(J, RIG.POSES.lean, RIG.FACES.sharp, { eyeShape: 'angry', mouth: 'line', bodyTilt: -10, headNod: 18, sweat: 0.6, eyeLook: -0.8 }, L.anticip(t, 2.08));
     if (t >= 3.4 && t < 4.6) Object.assign(J, RIG.POSES.stand, RIG.FACES.angry, { excl: 0, mouth: 'line', headNod: 0, bodyTilt: -16, y: JY - 36, earL: 18, earR: -18, sweat: 1 }, L.anticip(t, 3.48));
-    // 間：ジルがレンを見て、ほんの少しゆるみ、またきりっ
+    // 間：ユズがモチを見て、ほんの少しゆるみ、またきりっ
     if (t >= 4.6 && t < 5.9) {
       Object.assign(J, RIG.POSES.stand, { y: JY - 36, headNod: 0, bodyTilt: -16, eyeShape: 'round', eyeOpen: 0.95, mouth: 'line', sweat: 0.5, excl: 0, browAngle: -6, eyeLook: -1 });
       const soft = pulse(t, 4.75, 5.55);
@@ -139,16 +139,16 @@ var EP = {
       const x0 = side < 0 ? 12 : -w + 12;
       return `<g transform="translate(${m.x} ${m.y}) rotate(${swing}) scale(${s})"><path d="${dd}" fill="#FFFFFF" stroke="#CBBDA6" stroke-width="6" stroke-linejoin="round"/>${paperLines(x0 - 8, 0, w - 4, 5)}</g>` + (give <= 0 ? TEETH(m.x, m.y) : '');
     };
-    // ポム（オチの後のオチ）：トレイの後ろから出て、2枚を受け取り、テープでとめる
+    // クリ（オチの後のオチ）：トレイの後ろから出て、2枚を受け取り、テープでとめる
     const pomIn = t >= 7.9 && t < 10.3;
     const PY = lerp(TRAYY + 120, TRAYY - 40, ease(seg(t, 7.9, 8.35)) - ease(seg(t, 9.95, 10.3)));   // 出てきて、紙を戻したら引っこむ
-    const give = ease(seg(t, 8.4, 8.85));             // 半分が口からポムの前へ
+    const give = ease(seg(t, 8.4, 8.85));             // 半分が口からクリの前へ
     const taped = t >= 9.3;
     const JOIN = { x: CX, y: TRAYY - 420 };
     if (torn && !taped) {
       const sw = (side) => (side < 0 ? -1 : 1) * 22 * Math.exp(-3 * (t - 5.9)) * Math.sin((t - 5.9) * 14) + (side < 0 ? 4 : -4);
       const hl = { x: lerp(mR.x, JOIN.x - 2, give), y: lerp(mR.y, JOIN.y, give) }, hr = { x: lerp(mJ.x, JOIN.x + 2, give), y: lerp(mJ.y, JOIN.y, give) };
-      // ポムに渡すときは、ジャグ（破れたふち）どうしが真ん中で合う向きに
+      // クリに渡すときは、ジャグ（破れたふち）どうしが真ん中で合う向きに
       if (give < 1) { fx += half({ x: hl.x - (PWID / 2 + 4) * 0 * give, y: hl.y }, -1, sw(-1) * (1 - give)); fx += half(hr, 1, sw(1) * (1 - give)); }
       else { fx += half({ x: JOIN.x - PWID / 2 - 4, y: JOIN.y }, -1, 0); fx += half({ x: JOIN.x + PWID / 2 + 4, y: JOIN.y }, 1, 0); }
       // テープ：ぴっと上から下へ
@@ -174,10 +174,10 @@ var EP = {
       { t: 0, z: 1.18, cx: CX, cy: MOUTHY - 190 },                  // A 寄り：トレイの最後の1枚へ、両側から口が寄る（すぐ動く）
       { t: 2.0, z: 1.26, cx: CX, cy: MOUTHY - 150, d: .5 },        // B 中：体ごと
       { t: 3.4, z: 1.12, cx: CX, cy: MOUTHY - 190, d: .5 },        // C 引き：立ち上がって全力
-      { t: 4.6, z: 1.55, cx: CX + 120, cy: MOUTHY - 60, d: .5 },  // D ジルの顔：レンを見て、ほんの少しゆるむ
+      { t: 4.6, z: 1.55, cx: CX + 120, cy: MOUTHY - 60, d: .5 },  // D ユズの顔：モチを見て、ほんの少しゆるむ
       { t: 5.25, z: 2.3, cx: CX, cy: MOUTHY + 90, d: .45 },       // E 寄り：紙の割れ目
       { t: 5.9, z: 1.15, cx: CX, cy: MOUTHY - 170, d: .35 },       // F 引き：ビリッ
-      { t: 7.8, z: 1.3, cx: CX, cy: MOUTHY - 200, d: .5 },        // G ポム
+      { t: 7.8, z: 1.3, cx: CX, cy: MOUTHY - 200, d: .5 },        // G クリ
       { t: 9.75, z: 1.18, cx: CX, cy: MOUTHY - 190, d: .5 }        // H トレイに戻る→また口が寄る
     ], t);
     L.mount({ bg, fx: (pomIn ? '' : '') + fx, ui, cam, t, shake: sh });
@@ -185,7 +185,7 @@ var EP = {
       const q = { cheek: 0, eye: 'round', bow: 0, squash: 0, paws: t >= 8.5 && t < 9.7 ? 1 : 0, wob: 0, blush: 0.4, look: 0, mouth: 'w', sweat: 0 };
       if (t >= 9.0 && t < 9.3) Object.assign(q, { eye: 'big' });
       if (t >= 9.3) Object.assign(q, { eye: 'happy', blush: 0.9, bow: L.pulse(t, 9.5, 9.9) });
-      // ポムは紙とトレイの間（紙の後ろ、トレイの前には出ない）
+      // クリは紙とトレイの間（紙の後ろ、トレイの前には出ない）
       const tr = f.lastElementChild; f.insertBefore(pomDefs(), tr); f.insertBefore(pomShape(CX, PY, 1.15, q), tr); }
     if (typeof endcard === 'function') endcard(t, dur);
   }
@@ -211,7 +211,7 @@ function mouthOf(id) {
   return { x: w.x, y: w.y };
 }
 
-// ---------- ポム（キンクマハムスター）の SVG。pom_debut と同じ見目 ----------
+// ---------- クリ（キンクマハムスター）の SVG。pom_debut と同じ見目 ----------
 const POM = { a: '#F3E3CA', b: '#DCC29E', deep: '#C9A57A', cream: '#FAF1E4', earO: '#8E786C', earI: '#E9A9A2', nose: '#E58F98', pink: '#F2B8B0', band: '#C8263C', eye: '#0B0D10' };
 function pomEl(n, a, k) { const e = document.createElementNS('http://www.w3.org/2000/svg', n); for (const x in a) e.setAttribute(x, a[x]); (k || []).forEach(c => c && e.appendChild(c)); return e; }
 function pomDefs() {

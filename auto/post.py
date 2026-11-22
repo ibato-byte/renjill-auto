@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""レンとジル 自動投稿
+"""東京うさぎオフィス 自動投稿
 - auto/schedule.json から「今日・このスロット」の回を取り出す
 - 未レンダリングなら rig でレンダリング（dist/<ep>_yt.mp4 と dist/<ep>_loop.mp4）
 - Instagram / TikTok / YouTube / Facebook（リール）に投稿し、auto/posted.json に記録する
@@ -11,7 +11,7 @@
   TT_ACCESS_TOKEN                               … TikTok（Content Posting API, video.publish）
   YT_CLIENT_ID, YT_CLIENT_SECRET, YT_REFRESH_TOKEN … YouTube Data API v3
   MEDIA_TOKEN                                   … Instagramが取りに来る公開URL（renjill-media）への書き込み
-Facebook ページ「レンとジル Ren & Jill」（ID 1358515160686321）のページトークンは IG_ACCESS_TOKEN から取る（auto/facebook.py）。
+Facebook ページ「東京うさぎオフィス Tokyo Usagi Office」（ID 1358515160686321）のページトークンは IG_ACCESS_TOKEN から取る（auto/facebook.py）。
 Instagram・Facebook のサムネは dist/<ep>_thumb.jpg（Instagram は公開URLを cover_url に、Facebook は /thumbnails に送る）。
 失敗したSNSはスキップして他を続け、終了コードで知らせる。
 Facebook は権限・設定がなければ飛ばすだけ（失敗にしない）。理由は dist/post_hub_args 経由で Automation Hub の「やること」に出る。
@@ -169,8 +169,8 @@ def thumb_times(t0, dur=None):
 YT_TITLE_MAX = 100  # YouTube のタイトル上限（超える・< > を含むと invalidTitle で失敗する。2026-11-12「ハンコ8個」で発生）
 
 def yt_title(p):
-    """YouTube のタイトル。英語の説明＋「| Ren & Jill「題名」」。100文字を超えるときは英語の説明を単語の切れ目で縮めて「…」を付ける"""
-    tail = f' | Ren & Jill「{p["title"]}」'
+    """YouTube のタイトル。英語の説明＋「| Tokyo Usagi Office「題名」」。100文字を超えるときは英語の説明を単語の切れ目で縮めて「…」を付ける"""
+    tail = f' | Tokyo Usagi Office「{p["title"]}」'
     head = re.sub(r"[<>]", "", p["caption_en"]).strip()
     tail = re.sub(r"[<>]", "", tail)
     if len(head) + len(tail) <= YT_TITLE_MAX: return head + tail
@@ -240,7 +240,7 @@ def tiktok_task(p, d, video_url, cover_url):
     if tail: raise TikTokNoCover("説明文の末尾に" + tail)
     steps = ("TikTok の投稿画面（https://www.tiktok.com/tiktokstudio/upload）で、①動画のファイルを選ぶ（下の動画リンクを開いて保存したもの）"
              "②表紙：「カバーを編集」→「カバーをアップロード」で、下の「表紙の画像」を保存して選ぶ（動画のコマや TikTok の文字・スタンプで表紙を作らない。画像を指定できないときは投稿しない）"
-             "③説明欄に次の文をそのまま貼り、最後が「Follow for more Ren & Jill 🐰」や #タグで終わっていて、ファイル名（20261102_update99 など）が残っていないか確かめる"
+             "③説明欄に次の文をそのまま貼り、最後が「Follow for more Tokyo Usagi Office 🐰」や #タグで終わっていて、ファイル名（20261102_update99 など）が残っていないか確かめる"
              "④「投稿」を押す ⑤投稿のあと、プロフィールの一覧で表紙が画像どおり（半透明でない）か見る。違ったら削除せず、すぐ知らせる（削除は取り返しがつかない）。"
              "\n\n--- 説明欄に貼る文 ---\n" + cap)
     links = [{"label": "表紙の画像を開く（保存して使う）", "url": cover_url}, {"label": "TikTok の投稿画面を開く", "url": "https://www.tiktok.com/tiktokstudio/upload"}]
@@ -388,7 +388,7 @@ def next_api_post(sch, posted, now, detail=False):
             return (label, p["title"], at.astimezone(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:00Z")) if detail else label
     return None
 
-HUB_DOES = "毎週 月・木・土（3話連載）の 12:00・18:00・19:00 のうち予定の時刻に、予定の動画を Instagram・Facebook などに自動で投稿する（レンとジル）"
+HUB_DOES = "毎週 月・木・土（3話連載）の 12:00・18:00・19:00 のうち予定の時刻に、予定の動画を Instagram・Facebook などに自動で投稿する（東京うさぎオフィス）"
 
 def write_hub_args(fb_result, results=None, actions=None, next_api=None, keep_actions=False, summary=None, outcome=None, count=None, next_action=None):
     """Automation Hub の report に渡す追加の引数（NUL 区切り。post.yml が読む）。

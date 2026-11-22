@@ -1,24 +1,24 @@
 // 「休憩室のこたつ 第2話（Part 2）先客は新人」（本編24秒＋締めテロップ3秒＋エンドカード1秒・セリフなし）2026-11-21 オーナーの絵コンテ
-// 前回：布団の中で足に「コツン」→ 2人が足を引くと布団の真ん中がもぞっ → レンがそっと前足をのばした（最初の絵は第1話の最後と同じ）
-// 状況：レンが布団のはしを持ち上げると、新人ポムがジルの後ろ足を抱えて眠っていた
-// オチ：起こさずに足を抜きたいジルと、みかんで起こそうとするレン。みかんの房が鼻先へ → 鼻がひくっ（で切る）
-// 0–5    レンが布団のはしをそっと持ち上げる。中にポム。ジルの後ろ足を小さな前足で抱えて、すやすや
-// 5–11   ジルがゆっくり足を引く → ポムも抱えたまま座布団の上をずるずる → ジルはぴたりと止まる
-// 11–17  レンが目を合わせ、小さくゆっくりうなずく → ジルがもう一度そっと → ポムが寝返り、足をぎゅっと抱き直す → ジルの耳がへにゃっ
-// 17–24  ジルが助けを求めてレンを見る → レンの目が天板のみかんで止まる → むいてあるみかんを一房、前足でそっと支えてポムの鼻先へ → 鼻がひくっ → カット
+// 前回：布団の中で足に「コツン」→ 2人が足を引くと布団の真ん中がもぞっ → モチがそっと前足をのばした（最初の絵は第1話の最後と同じ）
+// 状況：モチが布団のはしを持ち上げると、新人クリがユズの後ろ足を抱えて眠っていた
+// オチ：起こさずに足を抜きたいユズと、みかんで起こそうとするモチ。みかんの房が鼻先へ → 鼻がひくっ（で切る）
+// 0–5    モチが布団のはしをそっと持ち上げる。中にクリ。ユズの後ろ足を小さな前足で抱えて、すやすや
+// 5–11   ユズがゆっくり足を引く → クリも抱えたまま座布団の上をずるずる → ユズはぴたりと止まる
+// 11–17  モチが目を合わせ、小さくゆっくりうなずく → ユズがもう一度そっと → クリが寝返り、足をぎゅっと抱き直す → ユズの耳がへにゃっ
+// 17–24  ユズが助けを求めてモチを見る → モチの目が天板のみかんで止まる → むいてあるみかんを一房、前足でそっと支えてクリの鼻先へ → 鼻がひくっ → カット
 // 24–27  締めテロップ「みかんで起きる？」「フォローして最終話へ」
-// 次の話へ引きつぐ最後の状態：布団の右はし（BR.LIFT）はめくったまま・みかんの房はポムの鼻先（NOSE）・むいたみかんは 5 房
+// 次の話へ引きつぐ最後の状態：布団の右はし（BR.LIFT）はめくったまま・みかんの房はクリの鼻先（NOSE）・むいたみかんは 5 房
 document.write('<script src="v2/lib.js"><\/script><script src="v2/elevator_set.js"><\/script><script src="v2/breakroom_set.js"><\/script>');
 (function () {
   const sm = (a, b, t) => { const k = Math.max(0, Math.min(1, (t - a) / (b - a))); return k * k * (3 - 2 * k); };
   const lerp = (a, b, k) => a + (b - a) * k;
   const CUT = 24.0;
-  const TIP0 = { x: 830, y: 1600 };                         // ジルの足先（はじめ）
+  const TIP0 = { x: 830, y: 1600 };                         // ユズの足先（はじめ）
   const footTip = t => { const a = L.ease(sm(5.4, 8.6, t)) * 70 + L.ease(sm(13.0, 13.5, t)) * 18; return { x: TIP0.x - a, y: TIP0.y }; };
   const POM_AT = t => { const f = footTip(t), roll = L.ease(sm(13.6, 14.4, t)); return { x: f.x + 30, y: f.y - 96, s: 1.2, rot: lerp(-22, 20, roll) + 2 * Math.sin(t * 1.6) }; };
-  // ポムの鼻（ELV.pom の鼻＝足もとから上へ 114×大きさ。寝ている角度で回す）
-  const NOSE = (t = 99) => { const p = POM_AT(t), r = p.rot * Math.PI / 180, d = 70 - 114 * p.s; return { x: p.x - d * Math.sin(r), y: p.y + d * Math.cos(r) }; };   // ポムの鼻先（第3話もここから）
-  // ---- レン（第1話の最後：身をかがめて、布団のはしに前足）----
+  // クリの鼻（ELV.pom の鼻＝足もとから上へ 114×大きさ。寝ている角度で回す）
+  const NOSE = (t = 99) => { const p = POM_AT(t), r = p.rot * Math.PI / 180, d = 70 - 114 * p.s; return { x: p.x - d * Math.sin(r), y: p.y + d * Math.cos(r) }; };   // クリの鼻先（第3話もここから）
+  // ---- モチ（第1話の最後：身をかがめて、布団のはしに前足）----
   function renPose(t) {
     const R = BR.REN, F = RIG.FACES;
     let face = F.neutral, look = -.3, nod = 26, eyeOpen = 1.2, x = R.x + BR.CROUCH.dx, y = R.y + BR.CROUCH.dy, tilt = BR.CROUCH.tilt, earL = 0, sq = 0;
@@ -41,7 +41,7 @@ document.write('<script src="v2/lib.js"><\/script><script src="v2/elevator_set.j
       if (t > 21.6) { look = .5; nod = 22; } }
     return Object.assign({}, RIG.POSES.sit, face, { x, y: J.y, scale: J.s, flip: J.flip, eyeLook: look, headNod: nod, headTilt: htilt, bodySquash: sq, earL, earR, eyeOpen, blush: .3 });
   }
-  // ポム（布団の中）：寝返り・抱き直し・鼻
+  // クリ（布団の中）：寝返り・抱き直し・鼻
   function pomSvg(t) {
     const f = footTip(t), p = POM_AT(t), sq = .06 * Math.sin(t * 2.2) - .14 * L.pulse(t, 14.3, 14.8);   // 寝息・寝返り・ぎゅっ
     const q = { eye: 'happy', blush: .7, paws: 1 };
@@ -62,7 +62,7 @@ document.write('<script src="v2/lib.js"><\/script><script src="v2/elevator_set.j
     <text y="-22" font-size="88" fill="#FFF7E8">みかんで起きる？</text><text y="82" font-size="66" fill="#F2D3A8">フォローして最終話へ</text></g>`;
   window.EP = {
     dur: 28.0,
-    bgm: { style: 'warm', bpm: 80, level: .5, mel: .35, shaker: .25, dips: [[5.4, 8.9, .45], [21.8, 24.0, .22], [CUT, 27, .7]] },   // ポムの寝顔に合うやわらかい曲。ずるずるは布の音が聞こえるように少し下げ、みかんが鼻先に近づいたら控える
+    bgm: { style: 'warm', bpm: 80, level: .5, mel: .35, shaker: .25, dips: [[5.4, 8.9, .45], [21.8, 24.0, .22], [CUT, 27, .7]] },   // クリの寝顔に合うやわらかい曲。ずるずるは布の音が聞こえるように少し下げ、みかんが鼻先に近づいたら控える
     qaAllow: { still: [[CUT - .1, 28]] },
     sfx: SFX.sort((a, b) => a.t - b.t),
     nose: NOSE, pomAt: t => POM_AT(t), footTip: t => footTip(t),
@@ -79,17 +79,17 @@ document.write('<script src="v2/lib.js"><\/script><script src="v2/elevator_set.j
       const nose = NOSE(tt);
       let nosey = '';
       if (tt >= 23.4) { const a = L.pulse(tt, 23.45, 23.8); nosey = `<g transform="translate(${nose.x - 26} ${nose.y + 6})" opacity="${a.toFixed(2)}" stroke="#FFF7E8" stroke-width="5" stroke-linecap="round"><path d="M-10 -14 l-8 -6 M-12 0 h-10 M-10 14 l-8 6"/></g>`; }
-      // 2人の顔は「ジルの寄り」と「レン（こたつの右の外）とポムの寄り」を切り返す（レンが右の外にかがんでいるので、2人を一度に入れるとジルが小さくなる）
+      // 2人の顔は「ユズの寄り」と「モチ（こたつの右の外）とクリの寄り」を切り返す（モチが右の外にかがんでいるので、2人を一度に入れるとユズが小さくなる）
       const cam = L.camAt([
         { t: 0, z: 1.04, cx: 690, cy: 1290 },                   // 第1話の最後（こたつの右の外で身をかがめ、前足を布団のはしへ）
-        { t: 0.01, z: 1.6, cx: 860, cy: 1420, d: 2.2 },         // めくる（中のポムとレンの顔）
-        { t: 4.6, z: 1.6, cx: 760, cy: 1420, d: .7 },           // ジルの足をそっと引く → ポムもずるずる
-        { t: 8.2, z: 1.4, cx: 470, cy: 1100, d: .4 },           // ジル、ぴたりと止まる
-        { t: 11.3, z: 1.6, cx: 980, cy: 1380, d: .4 },          // レン、ゆっくりうなずく（そっとね）
+        { t: 0.01, z: 1.6, cx: 860, cy: 1420, d: 2.2 },         // めくる（中のクリとモチの顔）
+        { t: 4.6, z: 1.6, cx: 760, cy: 1420, d: .7 },           // ユズの足をそっと引く → クリもずるずる
+        { t: 8.2, z: 1.4, cx: 470, cy: 1100, d: .4 },           // ユズ、ぴたりと止まる
+        { t: 11.3, z: 1.6, cx: 980, cy: 1380, d: .4 },          // モチ、ゆっくりうなずく（そっとね）
         { t: 13.2, z: 1.6, cx: 800, cy: 1420, d: .4 },          // 寝返り・ぎゅっ
-        { t: 14.3, z: 1.4, cx: 470, cy: 1100, d: .35 },         // ジル、へにゃっ → 助けて…
-        { t: 18.0, z: 1.04, cx: 640, cy: 1230, d: .6 },         // レンの視線がみかんへ・身を起こして一房
-        { t: 20.8, z: 1.6, cx: 860, cy: 1420, d: 1.3 },         // 鼻先（レンの前足とみかん）
+        { t: 14.3, z: 1.4, cx: 470, cy: 1100, d: .35 },         // ユズ、へにゃっ → 助けて…
+        { t: 18.0, z: 1.04, cx: 640, cy: 1230, d: .6 },         // モチの視線がみかんへ・身を起こして一房
+        { t: 20.8, z: 1.6, cx: 860, cy: 1420, d: 1.3 },         // 鼻先（モチの前足とみかん）
       ], tt);
       const dim = t >= CUT ? `<rect x="0" y="0" width="1080" height="1920" fill="#1E140C" opacity="${(.42 * sm(CUT, CUT + .2, t)).toFixed(2)}"/>` : '';
       L.mount({ bg, fx: fx + nosey, ui: t < 27 ? dim + TELOP(L.seg(t, CUT + .05, CUT + .5)) : dim, cam, t: tt });
@@ -98,9 +98,9 @@ document.write('<script src="v2/lib.js"><\/script><script src="v2/elevator_set.j
       if (tt < 18.8) limb(fxl, 'ren', { x: BR.LIFT.cx + 120, y: BR.K.floor - 40 - 230 * liftAt(tt) }, { max: 120, w: 30, bend: 10 });
       if (tt >= 19.45 && tt < 20.5) { const hx = P.peeled.x + 10, hy = P.peeled.y - 14 - 30 * L.ease(sm(19.9, 20.5, tt));
         limb(fxl, 'ren', { x: hx, y: hy }, { max: 120, w: 30 }); if (tt > 19.9) fxl.insertAdjacentHTML('beforeend', BR.segment(hx - 14, hy - 4, 1.1, -20)); }   // 一房とる
-      if (tt >= 20.5) { const k1 = L.ease(sm(20.5, 21.2, tt)), k2 = L.ease(sm(21.3, 22.6, tt)); const sx = lerp(lerp(P.peeled.x - 4, nose.x + 150, k1), nose.x + 34, k2), sy = lerp(lerp(P.peeled.y - 48, nose.y - 80, k1), nose.y + 2, k2);   // レンが身をかがめるのと一緒に下ろし、そっと鼻先へ   // 房を前足でそっと支えて鼻先へ
+      if (tt >= 20.5) { const k1 = L.ease(sm(20.5, 21.2, tt)), k2 = L.ease(sm(21.3, 22.6, tt)); const sx = lerp(lerp(P.peeled.x - 4, nose.x + 150, k1), nose.x + 34, k2), sy = lerp(lerp(P.peeled.y - 48, nose.y - 80, k1), nose.y + 2, k2);   // モチが身をかがめるのと一緒に下ろし、そっと鼻先へ   // 房を前足でそっと支えて鼻先へ
         limb(fxl, 'ren', { x: sx + 22, y: sy + 6 }, { max: 120, w: 26, bend: 12 }); fxl.insertAdjacentHTML('beforeend', BR.segment(sx, sy, 1.3, -30)); }
-      // ジルの前足：キーボードの上で止まったまま
+      // ユズの前足：キーボードの上で止まったまま
       for (const dx of [-26, 30]) limb(fxl, 'jil', { x: P.laptop.x + 20 + dx, y: P.laptop.y + 4 }, { max: 110, w: 30 });
       if (typeof endcard === 'function') endcard(t, EP.dur);
     }

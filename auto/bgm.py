@@ -29,7 +29,7 @@ import bgm_qa, bgm_names, bgm_themes
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 AUTO, DIST, RIG = ROOT / "auto", ROOT / "dist", ROOT / "rig" / "bgm"
 JST = dt.timezone(dt.timedelta(hours=9))
-PLAYLIST = "Lofi with Ren & Jill / 作業用BGM"
+PLAYLIST = "Lofi with Tokyo Usagi Office / 作業用BGM"
 FPS, LOOP = 24, 60          # 1章の絵は 60 秒のループ
 # 2026-11-15：絵は 2560x1440 で描いて、そのまま上げる（前は 1920x1080）。YouTube は 1440p 以上で上げた動画に質の高い圧縮を使うので、
 # 見る人の画面（1080p で見る人も）で、暗い所のグラデーションのにじみ・輪郭のつぶれが減る。表紙は今までどおり 1280x720。
@@ -51,7 +51,7 @@ LUFS = {"club": -14.0}                                                          
 THEMES = [
     {"id": "rain_night", "weather": "rain", "hours": [17.5, 19.5, 21.5, 23.5], "en": "Rainy Night Overtime", "ja": "雨の夜の残業", "zh": "下雨夜的加班", "ko": "비 오는 밤의 야근",
      "ren": ["type", "hay", "sleepy", "asleep"], "jil": ["type", "glance", "glance", "happy"], "thumb": [2, 13.5],
-     "blurb_en": "It's raining outside. Jill keeps working; Ren… tries his best until he doesn't.", "blurb_ja": "外は雨。ジルは黙々と、課長のレンは…がんばって、やがて寝ます。"},
+     "blurb_en": "It's raining outside. Yuzu keeps working; Mochi… tries his best until he doesn't.", "blurb_ja": "外は雨。ユズは黙々と、課長のモチは…がんばって、やがて寝ます。"},
     {"id": "seaside", "style": "sea", "weather": "clear", "hours": [13.0, 15.0, 17.2, 18.6], "en": "Seaside Office", "ja": "海辺のオフィス", "zh": "海邊的辦公室", "ko": "바닷가 사무실",
      "ren": ["type", "hay", "sleepy", "type"], "jil": ["type", "happy", "glance", "happy"], "thumb": [1, 14.0],
      "blurb_en": "Today the office has an ocean view. Waves, a slow guitar, and a boss in a straw hat.", "blurb_ja": "今日のオフィスは海の見える窓。波の音とゆったりしたギター、麦わら帽子の課長。"},
@@ -66,14 +66,14 @@ THEMES = [
      "blurb_en": "Piano and strings by candlelight. A slow, sentimental hour to end the day.", "blurb_ja": "ろうそくの灯りと、ピアノとストリングス。一日の終わりの、しっとりした1時間。"},
     {"id": "morning", "weather": "clear", "hours": [8.5, 9.5, 10.5, 11.5], "en": "Morning Focus", "ja": "朝の集中タイム", "zh": "早晨的專注時間", "ko": "아침 집중 타임",
      "ren": ["sleepy", "type", "hay", "type"], "jil": ["type", "happy", "glance", "type"], "thumb": [1, 20.0],
-     "blurb_en": "A bright morning at the office. Ren wakes up slowly; Jill is already in the zone.", "blurb_ja": "晴れた朝のオフィス。レンはゆっくり目を覚まし、ジルはもう集中しています。"},
+     "blurb_en": "A bright morning at the office. Mochi wakes up slowly; Yuzu is already in the zone.", "blurb_ja": "晴れた朝のオフィス。モチはゆっくり目を覚まし、ユズはもう集中しています。"},
     {"id": "clear_night", "weather": "clear", "hours": [18.0, 20.0, 22.0, 23.75], "en": "Late Night at the Office", "ja": "夜のオフィス", "zh": "夜晚的辦公室", "ko": "밤의 사무실",
      "ren": ["type", "type", "hay", "asleep"], "jil": ["happy", "type", "glance", "type"], "thumb": [2, 14.5],
      "blurb_en": "City lights, a warm desk lamp, and two bunnies finishing the day.", "blurb_ja": "街の明かりとデスクランプ。2匹が一日の仕事を終えるまで。"},
     {"id": "rain_afternoon", "weather": "rain", "hours": [13.0, 14.0, 15.0, 16.0], "en": "Rainy Afternoon", "ja": "雨の午後", "zh": "下雨的午後", "ko": "비 오는 오후",
      "ren": ["hay", "sleepy", "type", "type"], "jil": ["type", "glance", "type", "happy"], "thumb": [1, 13.5],
-     "blurb_en": "A slow, rainy afternoon. After lunch, staying awake is Ren's biggest task.", "blurb_ja": "雨の午後。お昼のあと、眠気とたたかうのが課長のいちばんの仕事。"},
-    {"id": "sunset", "weather": "clear", "hours": [15.5, 16.5, 17.5, 19.0], "en": "Sunset at the Office", "ja": "夕暮れのオフィス", "zh": "黃昏的辦公室", "ko": "해 질 녘의 사무실",
+     "blurb_en": "A slow, rainy afternoon. After lunch, staying awake is Mochi's biggest task.", "blurb_ja": "雨の午後。お昼のあと、眠気とたたかうのが課長のいちばんの仕事。"},
+    {"id": "sunset", "weather": "clear", "hours": [15.5, 16.5, 17.5, 19.0], "en": "Sunset at the Office", "ja": "夕暮れのオフィス", "zh": "黃昏的辦公室", "ko": "해 유자 녘의 사무실",
      "ren": ["type", "hay", "type", "sleepy"], "jil": ["type", "type", "happy", "glance"], "thumb": [2, 20.0],
      "blurb_en": "The sky turns orange, then blue. One more task before going home.", "blurb_ja": "空がオレンジから青へ。帰る前に、もうひと仕事。"},
     {"id": "rain_morning", "weather": "rain", "hours": [8.0, 9.0, 10.0, 11.0], "en": "Rainy Morning", "ja": "雨の朝", "zh": "下雨的早晨", "ko": "비 오는 아침",
@@ -85,11 +85,11 @@ def pick_names(seed, n, used=(), theme=None): return bgm_names.pick(seed, n, use
 
 
 I18N = {  # YouTube の多言語の題名・説明（{en}{ja}{zh}{ko}＝テーマ名、{g}＝曲調）
-    "ja": ("【作業用BGM】{ja}｜レンとジルと一緒に1時間 {g}", "うさぎの課長レンと部下ジルと一緒に、作業や勉強を。音楽もアニメもこの動画のためのオリジナルです。"),
-    "ko": ("{ko} – 렌과 질과 함께하는 1시간 {g} | 공부·작업용 음악", "토끼 과장 렌과 부하 질과 함께 공부하고 일해요. 음악과 애니메이션 모두 이 영상을 위해 만든 오리지널입니다."),
-    "zh-Hant": ("{zh}｜和 Ren 與 Jill 一起的 1 小時 {g}｜讀書・工作用音樂", "和兔子課長 Ren、部下 Jill 一起讀書工作。音樂與動畫都是為這支影片原創製作。"),
-    "es": ("{en} – 1 hora de {g} para trabajar y estudiar con Ren & Jill", "Trabaja o estudia junto a Ren y Jill, dos conejos de oficina. Música y animación originales, hechas para este vídeo."),
-    "pt": ("{en} – 1 hora de {g} para trabalhar e estudar com Ren & Jill", "Trabalhe ou estude com Ren e Jill, dois coelhos de escritório. Música e animação originais, feitas para este vídeo."),
+    "ja": ("【作業用BGM】{ja}｜東京うさぎオフィスと一緒に1時間 {g}", "うさぎの課長モチと部下ユズと一緒に、作業や勉強を。音楽もアニメもこの動画のためのオリジナルです。"),
+    "ko": ("{ko} – 모찌와 유자와 함께하는 1시간 {g} | 공부·작업용 음악", "토끼 과장 모찌와 부하 유자와 함께 공부하고 일해요. 음악과 애니메이션 모두 이 영상을 위해 만든 오리지널입니다."),
+    "zh-Hant": ("{zh}｜和 東京兔子辦公室 一起的 1 小時 {g}｜讀書・工作用音樂", "和兔子課長 Mochi、部下 Yuzu 一起讀書工作。音樂與動畫都是為這支影片原創製作。"),
+    "es": ("{en} – 1 hora de {g} para trabajar y estudiar con Tokyo Usagi Office", "Trabaja o estudia junto a Mochi y Yuzu, dos conejos de oficina. Música y animación originales, hechas para este vídeo."),
+    "pt": ("{en} – 1 hora de {g} para trabalhar e estudar com Tokyo Usagi Office", "Trabalhe ou estude com Mochi e Yuzu, dois coelhos de escritório. Música e animação originais, feitas para este vídeo."),
 }
 STYLE_TAGS = {"lofi": ["lofi", "lofi hip hop", "lofi 作業用", "chill beats", "relaxing music"], "sea": ["seaside music", "ocean waves", "chill guitar", "海 BGM", "relaxing music"],
               "wa": ["japanese music", "koto", "shakuhachi", "和風BGM", "relaxing music"], "club": ["house music", "upbeat music", "dance mix", "テンション上がる BGM", "workout music"],
@@ -150,20 +150,23 @@ def plan(date, st=None, cfg=None, theme=None, n=None):
     seed = int(date.replace("-", ""))
     minutes = cfg["minutes"]
     style = th.get("style", "lofi"); g, use = GENRE[style]
-    title = f'{th["en"]} – {_dur_en(minutes)} {g} {use} with Ren & Jill | 作業用BGM {th["ja"]}'
-    if len(title) > 100: title = f'{th["en"]} – {_dur_en(minutes)} {g} with Ren & Jill | 作業用BGM {th["ja"]}'
+    title = f'{th["en"]} – {_dur_en(minutes)} {g} {use} with Tokyo Usagi Office | 作業用BGM {th["ja"]}'
+    if len(title) > 100: title = f'{th["en"]} – {_dur_en(minutes)} {g} with Tokyo Usagi Office | 作業用BGM {th["ja"]}'
     return {"date": date, "no": n + 1, "theme": th["id"], "seed": seed, "look": n % 4, "minutes": minutes, "weather": th["weather"], "hours": th["hours"], "style": style, "view": th["view"], "arc": th["arc"], "month": int(date[5:7]),
             "ren": th["ren"], "jil": th["jil"], "thumb": th["thumb"], "title": title[:100], "en": th["en"], "ja": th["ja"], "zh": th.get("zh", th["en"]), "ko": th.get("ko", th["en"]), "blurb_en": th["blurb_en"], "blurb_ja": th["blurb_ja"]}
 
 
 # 説明欄の SNS の行。出している SNS だけを書く（2026-11-15：「X」と書いていたが、X には出していない＝公式サイト・ゲームの SNS の一覧と食い違っていた）
-SNS_LINE = "Instagram / TikTok / Threads: @renjill_office"
-SNS_LINE_OLD = "Instagram / TikTok / X: @renjill_office"
+SNS_LINE = "Instagram / TikTok / Threads: @tokyo_usagi_office"
+SNS_LINE_OLDS = ("Instagram / TikTok / X: @renjill_office", "Instagram / TikTok / Threads: @renjill_office")  # 旧ID（2026-11-22 に改名）の行
+SNS_LINE_OLD = SNS_LINE_OLDS[0]
 
 
 def fresh_links(text):
     """説明の中の古い SNS の行を、いまの行に直す（作り置きの回は、作った時の説明を持っているので、出す直前にも通す）"""
-    return (text or "").replace(SNS_LINE_OLD, SNS_LINE)
+    text = text or ""
+    for o in SNS_LINE_OLDS: text = text.replace(o, SNS_LINE)
+    return text
 
 
 TRACKLIST = "Tracklist｜曲目"      # 見出しも日本語を並べる（2026-11-14 オーナーの指摘「Tracklist が意味不明」）
@@ -181,8 +184,8 @@ def description(pl, tracks, used_names=()):
     for nm, tr in zip(names, tracks):
         if t < pl["minutes"] * 60 - 20: lines.append(f"{_ts(t)} {nm}")
         t += tr["sec"] - 3.0
-    body = (f'Work or study alongside Ren & Jill, two office bunnies. {pl["blurb_en"]}\n'
-            f'レンとジルと一緒に、作業や勉強を。{pl["blurb_ja"]}\n\n'
+    body = (f'Work or study alongside Tokyo Usagi Office, two office bunnies. {pl["blurb_en"]}\n'
+            f'東京うさぎオフィスと一緒に、作業や勉強を。{pl["blurb_ja"]}\n\n'
             f'The clock moves on every {pl["minutes"] // len(pl["hours"])} minutes – see how the two of them are doing.\n'
             f'{pl["minutes"] // len(pl["hours"])}分ごとに時計が進みます。ときどき2匹のようすをのぞいてみてください。\n\n'
             f'{TRACKLIST}\n' + "\n".join(lines) + '\n\n'
@@ -313,7 +316,7 @@ def build(date, minutes=None, keep=False, par=3, theme=None, n=None, redo=False)
     run(["ffmpeg", "-y", "-loglevel", "error", "-i", thumb_full, "-vf", "crop=1440:810:400:200,scale=1280:720", "-q:v", "2", thumb])   # 2匹とランプに寄る（文字なし。YouTube の表紙は文字なしにそろえる＝2026-10-26 の決定）
     desc, names = description(pl, tracks, used_names)
     meta = {**pl, "code": code_hash(), "description": desc, "track_names": names, "tracks": tracks, "localizations": localizations(pl, pl["title"], desc),
-            "tags": STYLE_TAGS[pl.get("style", "lofi")] + ["study music", "work music", "作業用BGM", "勉強用BGM", "focus music", "Ren and Jill", "レンとジル", "bunny", "うさぎ", "background music"]}
+            "tags": STYLE_TAGS[pl.get("style", "lofi")] + ["study music", "work music", "作業用BGM", "勉強用BGM", "focus music", "Mochi and Yuzu", "東京うさぎオフィス", "bunny", "うさぎ", "background music"]}
     (work / "meta.json").write_text(json.dumps(meta, ensure_ascii=False, indent=1))
     st = state()
     # 前の回＝出した回＋作り置き＋「これから作る、この回より前の回」（sims）。並べて作る作り置きでは、すぐ前の回がまだ無いことがある。
@@ -496,7 +499,7 @@ def fix_links(dry=False):
         try:
             it = (yt.videos().list(part="snippet,localizations", id=r["yt"]).execute().get("items") or [None])[0]
             if not it: raise RuntimeError("動画が見つからない")
-            sn = it["snippet"]; old = SNS_LINE_OLD in sn.get("description", "") or any(SNS_LINE_OLD in v.get("description", "") for v in (it.get("localizations") or {}).values())
+            sn = it["snippet"]; old = any(o in sn.get("description", "") or any(o in v.get("description", "") for v in (it.get("localizations") or {}).values()) for o in SNS_LINE_OLDS)
             if old:
                 body = {"id": r["yt"], "snippet": {"title": sn["title"], "categoryId": sn.get("categoryId", "10"), "description": fresh_links(sn["description"])[:5000]}}
                 for k in ("tags", "defaultLanguage"):
@@ -515,7 +518,7 @@ MEDIA_REPO = "ibato-byte/renjill-media"
 
 
 def media_list(st):
-    """公式サイト（renjill.coana.co.jp）の「長い動画」の一覧。公開した回だけ・新しい順。サイトが renjill-media/bgm.json を読む"""
+    """公式サイト（usagi.coana.co.jp）の「長い動画」の一覧。公開した回だけ・新しい順。サイトが renjill-media/bgm.json を読む"""
     th = {t["id"]: t for t in THEMES}; out = []
     for d, r in st["episodes"].items():
         if not r.get("yt") or r.get("privacy") != "public": continue

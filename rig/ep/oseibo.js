@@ -1,7 +1,7 @@
 // 「お歳暮の箱」（約9.5秒・セリフなし）v2 演出／キャラは本番の rig.js
 // 状況：12月。大きなお歳暮の箱（のし紙つき）が机に届く。二人ともわくわく
 // ひっくり返し：開けると中にまた箱 → また箱 …（5回、どんどん小さく）。机の端に空き箱の山
-// オチ：最後の小さな箱に、牧草が1本。レンは大喜び（照れ・♥）、ジルはジト目。字幕「箱5個。中身：牧草1本」
+// オチ：最後の小さな箱に、牧草が1本。モチは大喜び（照れ・♥）、ユズはジト目。字幕「箱5個。中身：牧草1本」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
 const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
@@ -26,11 +26,11 @@ var EP = {
     const DESK = 1400, BX = 560, BY = DESK + 6;
     const bg = L.office({ sky: 'day', clock: [10, 0] });
     const opened = OPEN.filter(o => t >= o).length;                  // 開けた箱の数
-    // ジル（左）：わくわく（にこ）→ 箱が続いて「？」→ 牧草1本でジト目
+    // ユズ（左）：わくわく（にこ）→ 箱が続いて「？」→ 牧草1本でジト目
     const jface = t < 3.8 ? RIG.FACES.smile : t < 5.6 ? RIG.FACES.think : RIG.FACES.annoyed;
     const jp = Object.assign({}, RIG.POSES.sit, jface, { x: 40, y: DESK - 413 * 1.3, scale: 1.3, eyeLook: .8, question: t >= 3.8 && t < 5.6 ? 1 : 0 });
     L.char('jil', jp, t, '', {});
-    // レン（右）：わくわく → 開ける（lean・前のめり）→ 牧草1本を見て大喜び（照れ・♥）→ もぐもぐ
+    // モチ（右）：わくわく → 開ける（lean・前のめり）→ 牧草1本を見て大喜び（照れ・♥）→ もぐもぐ
     const busy = t >= 2.2 && t < 5.5;
     const rface = t < 2.2 ? RIG.FACES.smile : t < 5.5 ? RIG.FACES.sharp : RIG.FACES.shy;
     const rp = Object.assign({}, busy ? RIG.POSES.lean : RIG.POSES.sit, rface, { x: 540, y: DESK - 413 * 1.35, scale: 1.35, flip: true, eyeLook: .4, bodyTilt: busy ? -10 : 0, headNod: t >= 7.4 ? Math.abs(Math.sin(t * 16)) * 10 : 0, bodySquash: t >= 5.6 && t < 6.0 ? .12 * Math.sin((t - 5.6) * 15) : 0 });

@@ -1,7 +1,7 @@
 // 「ハンコ8個」（約9.5秒・セリフなし）v2 演出／キャラは本番の rig.js
-// 状況：書類にハンコの枠が8つ。レンがとん、とん、と押していく（1〜7個目）
-// ひっくり返し：8個目で朱肉が切れる（かすれ）→ レンは自分の前足をぺたん → 肉球の判
-// オチ：ジルがチェック（✓）して受理。字幕「8個目：にくきゅう。受理」
+// 状況：書類にハンコの枠が8つ。モチがとん、とん、と押していく（1〜7個目）
+// ひっくり返し：8個目で朱肉が切れる（かすれ）→ モチは自分の前足をぺたん → 肉球の判
+// オチ：ユズがチェック（✓）して受理。字幕「8個目：にくきゅう。受理」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
 const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
@@ -33,12 +33,12 @@ var EP = {
     const pawDown = t >= 5.6 && t < 6.1 ? seg(t, 5.6, 6.1) : 0;                   // 前足をぺたん
     const paw = t >= 6.1 ? 1 : 0;
     const ok = t >= 7.5;
-    // レン（右）：押す（頭を上下）→ かすれて汗 → ひらめき → 前足をぺたん → 得意げ
+    // モチ（右）：押す（頭を上下）→ かすれて汗 → ひらめき → 前足をぺたん → 得意げ
     const rface = t < 3.9 ? RIG.FACES.neutral : t < 4.6 ? Object.assign({}, RIG.FACES.oops, { sweat: 1 }) : t < 5.6 ? RIG.FACES.think : t < 7.5 ? RIG.FACES.smile : RIG.FACES.smug;
     const stampNod = t > 0.8 && t < 3.6 ? Math.abs(Math.sin((t - 0.6) / 0.4 * Math.PI)) * 14 : 0;
     const rp = Object.assign({}, RIG.POSES.lean, rface, { x: 520, y: DESK - 413 * 1.35, scale: 1.35, flip: true, headNod: stampNod + (pawDown ? 16 * pawDown : 0), bodyTilt: -8 - (pawDown ? 10 * pawDown : 0) + (t > 3.9 && t < 4.6 ? Math.sin(t * 30) * 2 : 0), eyeLook: t < 3.9 ? .4 : .2 });
     L.char('ren', rp, t, '', {});
-    // ジル（左）：見守る → 肉球にきょとん → 7.5 ✓ で受理（にこっ）
+    // ユズ（左）：見守る → 肉球にきょとん → 7.5 ✓ で受理（にこっ）
     const jface = t < 6.1 ? RIG.FACES.sharp : t < 7.5 ? Object.assign({}, RIG.FACES.think, { question: 0 }) : RIG.FACES.smile;
     const jp = Object.assign({}, RIG.POSES.sit, jface, { x: 40, y: DESK - 413 * 1.25, scale: 1.25, eyeLook: .8, headTilt: t >= 6.1 && t < 7.5 ? -12 : 0 });
     L.char('jil', jp, t, '', {});

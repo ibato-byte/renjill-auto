@@ -1,11 +1,11 @@
-// 新キャラ回「新人のポム（ほおぶくろ）」v2（18秒）
-// ポム：キンクマハムスターの新入社員（赤いはちまき・若葉の社員バッジ）。ゲーム「チモシーダッシュ」と同じ見た目。
+// 新キャラ回「新人のクリ（ほおぶくろ）」v2（18秒）
+// クリ：キンクマハムスターの新入社員（赤いはちまき・若葉の社員バッジ）。ゲーム「チモシーダッシュ」と同じ見た目。
 // ゲーム：新人は渡された仕事を、ぜんぶほおぶくろにしまう（断らない新人あるある）。量は倍々で増える。
 // ①1枚目がもう空中（0.3秒でつかむ）→ほおへ ②3枚 → ほおがふくらむ ③課長、調子に乗ってタワーごと → パンパン、本人は得意げ
-// （間：ジルの寄り・無音）→ 足ダン → ほおから書類が全部噴き出して課長の頭に積もる（マグの回の天丼）→ 0.3秒かたまる
-// 関係性：ジルはあきれつつ課長の頭から1枚どけてあげる → 課長、その1枚をまたポムへ（ジルが止めても聞かない＝報われない課長）
-// オチの後のオチ：ポム、うれしそうにまたしまう → ジルの無言の顔（2秒）。最後の絵（空中の書類・ポム）が冒頭につながる
-// 審査（依頼の4役レビュー 1周目）の指摘で直した点：冒頭のおじぎをやめて動作から入る／ポムを大きく／量を倍々に／噴き出す瞬間を中くらいの画で／後半を短く
+// （間：ユズの寄り・無音）→ 足ダン → ほおから書類が全部噴き出して課長の頭に積もる（マグの回の天丼）→ 0.3秒かたまる
+// 関係性：ユズはあきれつつ課長の頭から1枚どけてあげる → 課長、その1枚をまたクリへ（ユズが止めても聞かない＝報われない課長）
+// オチの後のオチ：クリ、うれしそうにまたしまう → ユズの無言の顔（2秒）。最後の絵（空中の書類・クリ）が冒頭につながる
+// 審査（依頼の4役レビュー 1周目）の指摘で直した点：冒頭のおじぎをやめて動作から入る／クリを大きく／量を倍々に／噴き出す瞬間を中くらいの画で／後半を短く
 window.EP = {
 dur: 18.0,
 bgmHolds: '6.3-7.2',
@@ -22,7 +22,7 @@ const S = { x: sh.x, y: sh.y };
 office({ clock: [10, 5], shake: S, mug: false, papers: 'neat' });
 const f = clear('fx'), ui = clear('ui'), back = clear('back');
 
-// ---- ポム（机の上）
+// ---- クリ（机の上）
 const PX = 600, PY = 1192, PS = 1.2;
 const q = { cheek: 0, eye: 'round', bow: 0, squash: 0, paws: 0, wob: 0, blush: 0.35, look: 0, mouth: 'w', sweat: 0 };
 const st1 = seg(t, 0.45, 0.65), st2 = seg(t, 2.55, 2.8), st3 = seg(t, 4.75, 5.2), st4 = seg(t, 12.05, 12.3);
@@ -45,7 +45,7 @@ back.appendChild(pomShape(PX + S.x, PY + S.y, PS, q));
 sparkle(back, t, 5.55, PX, PY - 250, 1.3);
 sparkle(back, t, 12.45, PX, PY - 250, 1.0);
 
-// ---- レン（床、机の手前）
+// ---- モチ（床、机の手前）
 const RX = 120, RY = 1160;
 let R = Object.assign({}, RIG.POSES.sit, RIG.FACES.neutral, { scale: 1.45, x: RX + S.x, y: RY + S.y, eyeLook: 0.7, headNod: -6 });
 const toss = (a) => goBack(t, a, a + 0.3, a + 0.5, a + 0.8);
@@ -107,7 +107,7 @@ const p = { x: lerp(cheekPos.x, x, u) + 40 * Math.sin(u * 9 + k) * (1 - u), y: l
 sheetAt(u < 1 ? f : back, p, u < 1 ? 40 * Math.sin(u * 8 + k) : [12, -9, 4][k], 1.1, 1);
 });
 
-// ---- ジル
+// ---- ユズ
 const JX = 650;
 const hp = RIG.hop(t, 1.6, 2.6, 1150, JX, { hops: 3, height: 40 });
 const hp2 = RIG.hop(t, 8.9, 9.45, JX, 570, { hops: 1, height: 34 });
@@ -123,7 +123,7 @@ if (t >= 8.5 && t < 8.9) Object.assign(J, RIG.FACES.annoyed, { sweat: 1, eyeLook
 const nd = goBack(t, 9.45, 9.6, 9.8, 10.1);
 if (nd > 0) Object.assign(J, RIG.POSES.nudge, RIG.FACES.sharp, { bodyTilt: 10 * nd, headTilt: 14 * nd, headNod: 14 * nd });
 if (t >= 10.1 && t < 10.8) Object.assign(J, RIG.FACES.neutral, { eyeLook: 0.8 });
-// 「やめて」：ジルが立ち上がって止める → 課長は気づかず渡す
+// 「やめて」：ユズが立ち上がって止める → 課長は気づかず渡す
 const stop = goBack(t, 10.8, 11.1, 11.6, 11.9);
 if (stop > 0) Object.assign(J, RIG.POSES.stand, RIG.FACES.surprised, { excl: 0, headNod: -16 - 20 * stop, y: 1240 - 80 * stop + S.y, eyeLook: 1 });
 if (t >= 11.9) Object.assign(J, RIG.FACES.annoyed, { sparkle: 0, eyeLook: 0.9, sweat: 1, eyeOpen: 0.15, eyeShape: 'flat' });
@@ -133,15 +133,15 @@ const punch = impactAt(ui, t, 7.2);
 
 const FJ = { x: 650 + 212 * 1.25, y: 1490 };
 const shots = [
-{ t: 0.0, cx: 500, cy: 1250, z: 1.5, z2: 1.6 }, // A 中寄り：書類が空中→新人ポムがキャッチ（課長の顔も入る）
+{ t: 0.0, cx: 500, cy: 1250, z: 1.5, z2: 1.6 }, // A 中寄り：書類が空中→新人クリがキャッチ（課長の顔も入る）
 { t: 1.6, cx: 520, cy: 1220, z: 1.3 }, // B 中：3枚
 { t: 3.6, cx: 540, cy: 1180, z: 1.2 }, // C 中：タワーごと
 { t: 5.0, cx: 600, cy: 1060, z: 2.1, z2: 2.3 }, // D 寄り：ほおパンパン、得意げ
-{ t: 6.15, cx: FJ.x - 30, cy: FJ.y, z: 2.0, z2: 2.6 }, // E 寄り：ジルのため（無音）
+{ t: 6.15, cx: FJ.x - 30, cy: FJ.y, z: 2.0, z2: 2.6 }, // E 寄り：ユズのため（無音）
 { t: 7.1, cx: 460, cy: 1180, z: 1.25 }, // F 中：足ダン→噴き出す→課長の頭に山、かたまる
-{ t: 8.6, cx: 470, cy: 1240, z: 1.35 }, // G 中：ポムのごめんなさい、ジルが1枚どける
-{ t: 10.4, cx: 500, cy: 1240, z: 1.3 }, // H 中：課長がまた渡す（ジルが止めても）
-{ t: 12.7, cx: FJ.x - 110, cy: FJ.y, z: 2.4 }, // I 寄り：ジルの無言（2秒）
+{ t: 8.6, cx: 470, cy: 1240, z: 1.35 }, // G 中：クリのごめんなさい、ユズが1枚どける
+{ t: 10.4, cx: 500, cy: 1240, z: 1.3 }, // H 中：課長がまた渡す（ユズが止めても）
+{ t: 12.7, cx: FJ.x - 110, cy: FJ.y, z: 2.4 }, // I 寄り：ユズの無言（2秒）
 { t: 14.7, cx: 520, cy: 1220, z: 1.2 } // J 中：最後の絵
 ];
 camera(cameraAt(shots, t), punch);
@@ -149,7 +149,7 @@ endcard(t, dur);
 }
 };
 
-// ---------- ポム（キンクマハムスター）の SVG。足元が (x, y)。ゲームの絵と同じ配色 ----------
+// ---------- クリ（キンクマハムスター）の SVG。足元が (x, y)。ゲームの絵と同じ配色 ----------
 const POM = { a: '#F3E3CA', b: '#DCC29E', deep: '#C9A57A', cream: '#FAF1E4', earO: '#8E786C', earI: '#E9A9A2', nose: '#E58F98', pink: '#F2B8B0', band: '#C8263C', eye: '#0B0D10' };
 function pomDefs() {
 const st = (o, c, a) => el('stop', { offset: o, 'stop-color': c, 'stop-opacity': a == null ? 1 : a });

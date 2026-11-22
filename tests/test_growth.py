@@ -12,7 +12,7 @@ P = {"caption_en": "EN", "caption_ja": "JA", "tag_set": "A", "title": "T"}
 class GrowthTest(unittest.TestCase):
     def test_caption_ends_with_english_line(self):
         for c in (post.caption(P, D), facebook.caption(P, D)):
-            self.assertTrue(c.rstrip().endswith("Follow for more Ren & Jill 🐰"), c)
+            self.assertTrue(c.rstrip().endswith("Follow for more Tokyo Usagi Office 🐰"), c)
 
     def test_localizations(self):
         loc = growth.youtube_localizations({**P, "title_i18n": {"ko": "한국어 제목"}}, D, "En title", "En desc")

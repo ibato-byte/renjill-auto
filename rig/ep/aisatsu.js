@@ -1,7 +1,7 @@
 // 「新年のごあいさつ」（約9.5秒・セリフなし）v2 演出／キャラは本番の rig.js
-// 状況：1月1日。オフィスに「謹賀新年」。ジルがきちんとおじぎ（にこ）
+// 状況：1月1日。オフィスに「謹賀新年」。ユズがきちんとおじぎ（にこ）
 // ひっくり返し：課長もおじぎ → 深く、もっと深く → そのまま前にころん（1回転）
-// オチ：ジルの横で起き上がり、ご満悦。ジルは思わず笑う。字幕「上司のおじぎ、深すぎ」
+// オチ：ユズの横で起き上がり、ご満悦。ユズは思わず笑う。字幕「上司のおじぎ、深すぎ」
 document.write('<script src="v2/lib.js"><\/script>');
 const CHIP = (L, en, ja, y, k) => k <= 0 ? '' : `<g transform="translate(540 ${y}) scale(${L.outBack(Math.min(1, k * 3))})" opacity="${Math.min(1, k * 4)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle"><rect x="-470" y="-78" width="940" height="164" rx="40" fill="#3A2414" opacity=".88"/><text y="-4" font-size="72" fill="#FFF7E8">${en}</text><text y="58" font-size="44" fill="#F2D3A8">${ja}</text></g>`;
 const CHIP_OFF = () => ''; // 2026-11-10 オーナー：言葉を入れすぎると世界観が崩れる。途中の字幕は1回（状況）まで。オチは絵で見せる
@@ -15,11 +15,11 @@ var EP = {
     const { seg, ease, outBack } = L;
     const DESK = 1400;
     const bg = L.office({ sky: 'day', clock: [9, 0] });
-    // ジル（左）：おじぎ（1.8〜2.6）→ 課長を見る → ころんに「！」→ 笑う（にこ・照れ）
+    // ユズ（左）：おじぎ（1.8〜2.6）→ 課長を見る → ころんに「！」→ 笑う（にこ・照れ）
     const jbow = t >= 1.8 && t < 2.6 ? Math.sin(seg(t, 1.8, 2.6) * Math.PI) : 0;
     const jface = t < 3.2 ? RIG.FACES.smile : t < 4.9 ? RIG.FACES.think : t < 6.2 ? Object.assign({}, RIG.FACES.surprised, { excl: 1 }) : Object.assign({}, RIG.FACES.smile, { sparkle: 1 });
     L.char('jil', Object.assign({}, jbow ? RIG.POSES.lean : RIG.POSES.sit, jface, { x: 20, y: DESK - 413 * 1.3, scale: 1.3, eyeLook: .8, bodyTilt: -22 * jbow, headNod: 26 * jbow }), t, '', {});
-    // レン（右）：おじぎがどんどん深く（3.2〜4.8）→ ころん（4.8〜5.7・1回転しながら左へ）→ 起き上がってご満悦
+    // モチ（右）：おじぎがどんどん深く（3.2〜4.8）→ ころん（4.8〜5.7・1回転しながら左へ）→ 起き上がってご満悦
     const deep = ease(seg(t, 3.2, 4.8)), roll = ease(seg(t, 4.8, 5.7));
     const rface = t < 3.2 ? RIG.FACES.smile : t < 4.8 ? RIG.FACES.sharp : t < 5.9 ? RIG.FACES.oops : Object.assign({}, RIG.FACES.smug, { sparkle: t < 7.0 ? 1 : 0 });
     const rx = 560 - 120 * roll;

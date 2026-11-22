@@ -1,5 +1,5 @@
 // チモシーダッシュ（ゲーム）のアプリのアイコンを書き出す。使い方: node rig/icon3.js <renjill-game の app フォルダ>
-// 2 倍の細かさで描いてから縮める（毛並み・ひげがなめらか）。A＝ふつうのアイコン（512・192・iPhone 用 180）、M＝マスク用 512、F＝ブラウザのタブ用 64（レンの顔を大きく）
+// 2 倍の細かさで描いてから縮める（毛並み・ひげがなめらか）。A＝ふつうのアイコン（512・192・iPhone 用 180）、M＝マスク用 512、F＝ブラウザのタブ用 64（モチの顔を大きく）
 const path = require('path'), fs = require('fs'), { execFileSync } = require('child_process');
 let chromium; try { ({ chromium } = require('playwright')); } catch (e) { ({ chromium } = require('/opt/npm-tools/node_modules/playwright')); }
 (async () => { const out = process.argv[2]; if (!out || !fs.existsSync(out)) { console.error('出力先のフォルダを指定してください'); process.exit(2); }
