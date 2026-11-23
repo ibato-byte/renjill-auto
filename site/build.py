@@ -7,7 +7,7 @@ import datetime as dt, html, json, pathlib
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 OUT = pathlib.Path(__file__).resolve().parent / "public"
-SITE = "https://renjill.pages.dev"  # Cloudflare Pages のプロジェクト名を renjill にした場合。違えば schedule.json の defaults.site.url で上書き
+SITE = "https://usagi.coana.co.jp"  # 公式サイト（2026-11-23：旧い仮のアドレス renjill.pages.dev をやめた）。違えば schedule.json の defaults.site.url で上書き
 E = html.escape
 
 

@@ -269,7 +269,8 @@ def post_tiktok(p, d, path):
 MEDIA_REPO = os.environ.get("MEDIA_REPO", "ibato-byte/usagi-office-media")  # 公開済み動画とカバーだけを置く公開リポジトリ（Shota承認 2026-10-20）
 
 def media_purge(name):
-    """公式サイトは renjill-media を配信の中つぎ（jsDelivr）ごしに読む。中つぎは同じ名前の物をしばらくおぼえているので、
+    """2026-11-23：公式サイトは usagi-office-media の GitHub Pages（https://ibato-byte.github.io/usagi-office-media/）から直接読むようになった（jsDelivr は新しい名前だと 50MB 制限で 403）。下の「消して」は以前の名残で、失敗しても害はない。
+    以前：公式サイトは renjill-media を配信の中つぎ（jsDelivr）ごしに読む。中つぎは同じ名前の物をしばらくおぼえているので、
     置きかえたら「消して」と頼む（2026-11-15：出し直した「10分の会議」で、サイトにだけ古い・ちかちかする動画が残った）。失敗しても投稿は止めない"""
     try:
         r = requests.get(f"https://purge.jsdelivr.net/gh/{MEDIA_REPO}@main/{name}", timeout=20)
