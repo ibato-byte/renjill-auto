@@ -36,7 +36,7 @@
     "ig_story_at": "2026-10-23T18:41+09:00",
     "fb_story": "1451300960399099",
     "fb_story_at": "2026-10-23T18:42+09:00",
-    "x": "2122168274221932882",
+    "x": "manual",
     "x_at": "2026-11-16T12:46+09:00",
     "tt_ok": "2026-11-16 確認（TikTok Studio の一覧。11/15 突き合わせ・11/16 月曜の朝は Claude が投稿）",
     "yt_deleted": "xIzVzowGgjw",
@@ -45,7 +45,8 @@
     "facebook_deleted": "2484687808688789",
     "ig_deleted": "18150064267515844",
     "threads_deleted": "18138798721629542",
-    "deleted_note": "2026-11-23 オーナーの指示で全SNSから削除（YouTube・Facebook は API、Instagram・Threads・TikTok は画面から）"
+    "deleted_note": "2026-11-23 オーナーの指示で全SNSから削除（YouTube・Facebook は API、Instagram・Threads・TikTok は画面から）",
+    "x_deleted": "2122168274221932882"
   },
   "2026-10-25_chime2": {
     "tag_set": "A",
@@ -459,7 +460,7 @@
     "ig_story_at": "2026-11-14T15:23+09:00",
     "fb_story": "1167342195801984",
     "fb_story_at": "2026-11-14T15:23+09:00",
-    "x": "2122013331615826167",
+    "x": "manual",
     "x_at": "2026-11-16T02:15+09:00",
     "tt_ok": "2026-11-16 確認（TikTok Studio の一覧。11/15 突き合わせ・11/16 月曜の朝は Claude が投稿）",
     "yt_deleted": "tU3WksIcWFQ",
@@ -468,7 +469,8 @@
     "facebook_deleted": "1080018728454670",
     "ig_deleted": "18164524045540642",
     "threads_deleted": "18110988038212310",
-    "deleted_note": "2026-11-23 オーナーの指示で全SNSから削除（YouTube・Facebook は API、Instagram・Threads・TikTok は画面から）"
+    "deleted_note": "2026-11-23 オーナーの指示で全SNSから削除（YouTube・Facebook は API、Instagram・Threads・TikTok は画面から）",
+    "x_deleted": "2122013331615826167"
   },
   "2026-11-15_meeting": {
     "tag_set": "A",
@@ -493,7 +495,7 @@
     "yt_at": "2026-11-15T18:45+09:00",
     "threads": "manual",
     "threads_at": "2026-11-15T18:46+09:00",
-    "x": "2121960756929609893",
+    "x": "manual",
     "x_at": "2026-11-15T23:20+09:00",
     "tt_ok": "2026-11-16 確認（TikTok Studio の一覧。11/15 突き合わせ・11/16 月曜の朝は Claude が投稿）",
     "yt_deleted": "681B5lJ7xzc",
@@ -502,7 +504,8 @@
     "facebook_deleted": "1172474902013018",
     "ig_deleted": "18473286727137522",
     "threads_deleted": "18191904730413887",
-    "deleted_note": "2026-11-23 オーナーの指示で全SNSから削除（YouTube・Facebook は API、Instagram・Threads・TikTok は画面から）"
+    "deleted_note": "2026-11-23 オーナーの指示で全SNSから削除（YouTube・Facebook は API、Instagram・Threads・TikTok は画面から）",
+    "x_deleted": "2121960756929609893"
   },
   "2026-11-16_monday": {
     "tag_set": "C",
@@ -527,7 +530,7 @@
     "ig_story_at": "2026-11-16T12:10+09:00",
     "fb_story": "2682763352176188",
     "fb_story_at": "2026-11-16T12:10+09:00",
-    "x": "2122167705432469559",
+    "x": "manual",
     "x_at": "2026-11-16T12:43+09:00",
     "tt_ok": "2026-11-16 確認（TikTok Studio の一覧。11/15 突き合わせ・11/16 月曜の朝は Claude が投稿）",
     "yt_deleted": "d6UeRgkPXug",
@@ -536,7 +539,8 @@
     "facebook_deleted": "1137659152577319",
     "ig_deleted": "18079883594441645",
     "threads_deleted": "17883301809548831",
-    "deleted_note": "2026-11-23 オーナーの指示で全SNSから削除（YouTube・Facebook は API、Instagram・Threads・TikTok は画面から）"
+    "deleted_note": "2026-11-23 オーナーの指示で全SNSから削除（YouTube・Facebook は API、Instagram・Threads・TikTok は画面から）",
+    "x_deleted": "2122167705432469559"
   },
   "2026-11-19_elevator": {
     "tag_set": "C",
