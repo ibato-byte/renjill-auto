@@ -4,7 +4,7 @@
 - 1件の形：{ep, date, title:{ja,en,zh,ko}, caption:{ja,en,zh,ko}, cover, video, youtube_id}
   - 題・一言の4言語：ja は title・caption_ja、en は caption_en（題は site_i18n.title.en）、zh・ko は schedule.json の回の site_i18n（週次PDCAが書く）
   - 無い言語は書かない（サイトが英語→日本語の順で代わりに出す）
-- 出す回：posted.json に記録があり、公開日（日本時間）が今日以前の回。今ある episodes.json とまとめる（今ある回・今ある項目は消さない。
+- 出す回：posted.json に記録があり、公開日（日本時間）が今日以前の回。消した回（posted.json の deleted_at）は出さない。今ある episodes.json とまとめる（今ある回・今ある項目は消さない。
   YouTube の ID など、今回分からない項目は前のまま残す）
 - カバー・動画は renjill-media に実際にある名前だけ載せる。YouTube の ID は posted.json の本物の ID だけ（"manual" は載せない）
 - 投稿の後処理。失敗しても投稿は止めない（post.py から呼ぶ）。sns_policy.json の episodes_json が false なら何もしない
@@ -42,8 +42,9 @@ def build(sch, posted, media_files=(), today=None, also=()):
     """also：今の episodes.json にすでにある回（投稿前に載せた回も、予定表の文言・4言語で書き直す）"""
     today = today or dt.datetime.now(JST).date().isoformat()
     files, also = set(media_files), set(also)
+    gone = {k for k, r in posted.items() if isinstance(r, dict) and r.get("deleted_at")}  # 全SNSから消した回（2026-11-23）は公式サイトにも出さない
     out = [entry(p, posted.get(f'{p["date"]}_{p["ep"]}'), files) for p in sch["posts"]
-           if (f'{p["date"]}_{p["ep"]}' in posted and p["date"] <= today) or p["ep"] in also]
+           if f'{p["date"]}_{p["ep"]}' not in gone and ((f'{p["date"]}_{p["ep"]}' in posted and p["date"] <= today) or p["ep"] in also)]
     return sorted(out, key=lambda e: e["date"], reverse=True)
 
 
