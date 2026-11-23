@@ -6,12 +6,16 @@
     "ig": "18564581677076149",
     "tt": "manual",
     "note": "IG/TikTokは手動で予約済み（2026-10-20）",
-    "yt": "tgxLKS_ontc",
-    "facebook": "1416219104006689",
+    "yt": "manual",
+    "facebook": "manual",
     "facebook_at": "2026-10-21T02:30+09:00",
     "ig_via": "manual",
     "facebook_via": "manual",
-    "tt_ok": "2026-11-16 確認（TikTok Studio の一覧。11/15 突き合わせ・11/16 月曜の朝は Claude が投稿）"
+    "tt_ok": "2026-11-16 確認（TikTok Studio の一覧。11/15 突き合わせ・11/16 月曜の朝は Claude が投稿）",
+    "yt_deleted": "tgxLKS_ontc",
+    "deleted_at": "2026-11-23T22:42+09:00",
+    "skip_sns_check": true,
+    "facebook_deleted": "1416219104006689"
   },
   "2026-10-23_mug2": {
     "tag_set": "B",
@@ -19,10 +23,10 @@
     "title": "マグカップはどこ",
     "tt": "manual",
     "note": "IG/TikTokは手動で予約済み（2026-10-20）",
-    "yt": "xIzVzowGgjw",
+    "yt": "manual",
     "ig": "18150064267515844",
     "ig_at": "2026-10-23T18:38+09:00",
-    "facebook": "2484687808688789",
+    "facebook": "manual",
     "facebook_at": "2026-10-23T18:39+09:00",
     "threads": "18138798721629542",
     "threads_at": "2026-10-23T18:40+09:00",
@@ -32,7 +36,11 @@
     "fb_story_at": "2026-10-23T18:42+09:00",
     "x": "2122168274221932882",
     "x_at": "2026-11-16T12:46+09:00",
-    "tt_ok": "2026-11-16 確認（TikTok Studio の一覧。11/15 突き合わせ・11/16 月曜の朝は Claude が投稿）"
+    "tt_ok": "2026-11-16 確認（TikTok Studio の一覧。11/15 突き合わせ・11/16 月曜の朝は Claude が投稿）",
+    "yt_deleted": "xIzVzowGgjw",
+    "deleted_at": "2026-11-23T22:42+09:00",
+    "skip_sns_check": true,
+    "facebook_deleted": "2484687808688789"
   },
   "2026-10-25_chime2": {
     "tag_set": "A",
@@ -40,10 +48,10 @@
     "title": "定時のチャイム",
     "tt": "manual",
     "note": "IG/TikTokは手動で予約済み（2026-10-20）",
-    "yt": "ToguHMsoIaU",
+    "yt": "manual",
     "ig": "17914088523284768",
     "ig_at": "2026-10-25T18:26+09:00",
-    "facebook": "26989796237384502",
+    "facebook": "manual",
     "facebook_at": "2026-10-25T18:26+09:00",
     "threads": "18418090285080399",
     "threads_at": "2026-10-25T18:27+09:00",
@@ -51,7 +59,11 @@
     "ig_story_at": "2026-10-25T18:28+09:00",
     "fb_story": "2174743766411113",
     "fb_story_at": "2026-10-25T18:28+09:00",
-    "tt_ok": "2026-11-16 確認（TikTok Studio の一覧。11/15 突き合わせ・11/16 月曜の朝は Claude が投稿）"
+    "tt_ok": "2026-11-16 確認（TikTok Studio の一覧。11/15 突き合わせ・11/16 月曜の朝は Claude が投稿）",
+    "yt_deleted": "ToguHMsoIaU",
+    "deleted_at": "2026-11-23T22:42+09:00",
+    "skip_sns_check": true,
+    "facebook_deleted": "26989796237384502"
   },
   "2026-10-26_jil_morning2": {
     "tag_set": "B",
@@ -61,9 +73,9 @@
     "note": "IG/TikTokは手動で予約済み（2026-10-20）",
     "ig": "18097154477678095",
     "ig_at": "2026-10-26T12:27+09:00",
-    "yt": "QvCS2uRpm8o",
+    "yt": "manual",
     "yt_at": "2026-10-26T12:27+09:00",
-    "facebook": "2198891387727425",
+    "facebook": "manual",
     "facebook_at": "2026-10-26T12:27+09:00",
     "threads": "18210799069365711",
     "threads_at": "2026-10-26T12:28+09:00",
@@ -71,7 +83,11 @@
     "ig_story_at": "2026-10-26T12:29+09:00",
     "fb_story": "2211061049817762",
     "fb_story_at": "2026-10-26T12:29+09:00",
-    "tt_ok": "2026-11-16 確認（TikTok Studio の一覧。11/15 突き合わせ・11/16 月曜の朝は Claude が投稿）"
+    "tt_ok": "2026-11-16 確認（TikTok Studio の一覧。11/15 突き合わせ・11/16 月曜の朝は Claude が投稿）",
+    "yt_deleted": "QvCS2uRpm8o",
+    "deleted_at": "2026-11-23T22:42+09:00",
+    "skip_sns_check": true,
+    "facebook_deleted": "2198891387727425"
   },
   "2026-10-28_receipts2": {
     "tag_set": "A",
@@ -79,8 +95,11 @@
     "title": "牧草の領収書",
     "tt": "manual",
     "note": "IG/TikTokは手動で予約済み（2026-10-20）",
-    "yt": "Z4xjAF7jovo",
-    "tt_ok": "2026-11-16 確認（TikTok Studio の一覧。11/15 突き合わせ・11/16 月曜の朝は Claude が投稿）"
+    "yt": "manual",
+    "tt_ok": "2026-11-16 確認（TikTok Studio の一覧。11/15 突き合わせ・11/16 月曜の朝は Claude が投稿）",
+    "yt_deleted": "Z4xjAF7jovo",
+    "deleted_at": "2026-11-23T22:42+09:00",
+    "skip_sns_check": true
   },
   "2026-10-30_deadline2": {
     "tag_set": "B",
@@ -88,8 +107,11 @@
     "title": "締め切りのカレンダー",
     "tt": "manual",
     "note": "IG/TikTokは手動で予約済み（2026-10-20）",
-    "yt": "rnYfUNddYQs",
-    "tt_ok": "2026-11-16 確認（TikTok Studio の一覧。11/15 突き合わせ・11/16 月曜の朝は Claude が投稿）"
+    "yt": "manual",
+    "tt_ok": "2026-11-16 確認（TikTok Studio の一覧。11/15 突き合わせ・11/16 月曜の朝は Claude が投稿）",
+    "yt_deleted": "rnYfUNddYQs",
+    "deleted_at": "2026-11-23T22:42+09:00",
+    "skip_sns_check": true
   },
   "2026-11-01_pom_debut": {
     "tag_set": "A",
@@ -104,9 +126,9 @@
       "threads": "text"
     },
     "tt": "manual",
-    "yt": "PRylIlpVD-k",
+    "yt": "manual",
     "yt_at": "2026-11-01T14:04+09:00",
-    "facebook": "2128736131848997",
+    "facebook": "manual",
     "facebook_at": "2026-11-01T14:04+09:00",
     "threads": "18102366593344332",
     "threads_at": "2026-11-01T14:05+09:00",
@@ -114,7 +136,11 @@
     "ig_story_at": "2026-11-01T14:06+09:00",
     "fb_story": "2468080117055499",
     "fb_story_at": "2026-11-01T14:06+09:00",
-    "tt_ok": "2026-11-16 確認（TikTok Studio の一覧。11/15 突き合わせ・11/16 月曜の朝は Claude が投稿）"
+    "tt_ok": "2026-11-16 確認（TikTok Studio の一覧。11/15 突き合わせ・11/16 月曜の朝は Claude が投稿）",
+    "yt_deleted": "PRylIlpVD-k",
+    "deleted_at": "2026-11-23T22:42+09:00",
+    "skip_sns_check": true,
+    "facebook_deleted": "2128736131848997"
   },
   "2026-11-02_update99": {
     "tag_set": "A",
@@ -129,9 +155,9 @@
       "threads": "text"
     },
     "tt": "manual",
-    "yt": "QB6yeURg6sk",
+    "yt": "manual",
     "yt_at": "2026-11-02T18:51+09:00",
-    "facebook": "2039657630078597",
+    "facebook": "manual",
     "facebook_at": "2026-11-02T18:52+09:00",
     "threads": "18106711517369540",
     "threads_at": "2026-11-02T18:52+09:00",
@@ -139,7 +165,11 @@
     "ig_story_at": "2026-11-02T18:53+09:00",
     "fb_story": "1825094635284350",
     "fb_story_at": "2026-11-02T18:53+09:00",
-    "tt_ok": "2026-11-16 確認（TikTok Studio の一覧。11/15 突き合わせ・11/16 月曜の朝は Claude が投稿）"
+    "tt_ok": "2026-11-16 確認（TikTok Studio の一覧。11/15 突き合わせ・11/16 月曜の朝は Claude が投稿）",
+    "yt_deleted": "QB6yeURg6sk",
+    "deleted_at": "2026-11-23T22:42+09:00",
+    "skip_sns_check": true,
+    "facebook_deleted": "2039657630078597"
   },
   "2026-11-04_vending": {
     "tag_set": "A",
@@ -154,9 +184,9 @@
       "threads": "text"
     },
     "tt": "manual",
-    "yt": "DS44Zo6wJQg",
+    "yt": "manual",
     "yt_at": "2026-11-04T14:05+09:00",
-    "facebook": "1468164448591335",
+    "facebook": "manual",
     "facebook_at": "2026-11-04T14:06+09:00",
     "threads": "18098426996673814",
     "threads_at": "2026-11-04T14:06+09:00",
@@ -164,21 +194,29 @@
     "ig_story_at": "2026-11-04T14:08+09:00",
     "fb_story": "1818622302715077",
     "fb_story_at": "2026-11-04T14:08+09:00",
-    "tt_ok": "2026-11-16 確認（TikTok Studio の一覧。11/15 突き合わせ・11/16 月曜の朝は Claude が投稿）"
+    "tt_ok": "2026-11-16 確認（TikTok Studio の一覧。11/15 突き合わせ・11/16 月曜の朝は Claude が投稿）",
+    "yt_deleted": "DS44Zo6wJQg",
+    "deleted_at": "2026-11-23T22:42+09:00",
+    "skip_sns_check": true,
+    "facebook_deleted": "1468164448591335"
   },
   "2026-11-04_promo_hay_dash": {
     "title": "ゲーム紹介：チモシーダッシュ",
     "promo": 1,
     "ig": "18126410500941596",
     "ig_at": "2026-11-04T22:38+09:00",
-    "facebook": "1131054983049311",
+    "facebook": "manual",
     "facebook_at": "2026-11-04T22:38+09:00",
-    "yt": "ZV-nJpPQ1Mk",
+    "yt": "manual",
     "yt_at": "2026-11-04T22:38+09:00",
     "ig_story": "17895550563439960",
     "ig_story_at": "2026-11-04T22:39+09:00",
     "fb_story": "1520279816596552",
-    "fb_story_at": "2026-11-04T22:39+09:00"
+    "fb_story_at": "2026-11-04T22:39+09:00",
+    "yt_deleted": "ZV-nJpPQ1Mk",
+    "deleted_at": "2026-11-23T22:42+09:00",
+    "skip_sns_check": true,
+    "facebook_deleted": "1131054983049311"
   },
   "2026-11-06_replyall": {
     "tag_set": "B",
@@ -193,9 +231,9 @@
       "threads": "text"
     },
     "tt": "manual",
-    "yt": "TwQ8ilmzlpY",
+    "yt": "manual",
     "yt_at": "2026-11-06T12:04+09:00",
-    "facebook": "1005624762585552",
+    "facebook": "manual",
     "facebook_at": "2026-11-06T12:05+09:00",
     "threads": "17894641281615132",
     "threads_at": "2026-11-06T12:05+09:00",
@@ -203,7 +241,11 @@
     "ig_story_at": "2026-11-06T12:06+09:00",
     "fb_story": "1634395601758485",
     "fb_story_at": "2026-11-06T12:06+09:00",
-    "tt_ok": "2026-11-16 確認（TikTok Studio の一覧。11/15 突き合わせ・11/16 月曜の朝は Claude が投稿）"
+    "tt_ok": "2026-11-16 確認（TikTok Studio の一覧。11/15 突き合わせ・11/16 月曜の朝は Claude が投稿）",
+    "yt_deleted": "TwQ8ilmzlpY",
+    "deleted_at": "2026-11-23T22:42+09:00",
+    "skip_sns_check": true,
+    "facebook_deleted": "1005624762585552"
   },
   "2026-11-08_thumbsup": {
     "tag_set": "A",
@@ -219,9 +261,9 @@
       "threads": "text"
     },
     "tt": "manual",
-    "yt": "lc9nIK9SNY4",
+    "yt": "manual",
     "yt_at": "2026-11-08T12:22+09:00",
-    "facebook": "1093638260139129",
+    "facebook": "manual",
     "facebook_at": "2026-11-08T12:23+09:00",
     "threads": "18115930697273558",
     "threads_at": "2026-11-08T12:23+09:00",
@@ -230,7 +272,11 @@
     "fb_story": "2066071510778572",
     "fb_story_at": "2026-11-08T12:25+09:00",
     "ig_old": "18129523333897197",
-    "tt_ok": "2026-11-16 確認（TikTok Studio の一覧。11/15 突き合わせ・11/16 月曜の朝は Claude が投稿）"
+    "tt_ok": "2026-11-16 確認（TikTok Studio の一覧。11/15 突き合わせ・11/16 月曜の朝は Claude が投稿）",
+    "yt_deleted": "lc9nIK9SNY4",
+    "deleted_at": "2026-11-23T22:42+09:00",
+    "skip_sns_check": true,
+    "facebook_deleted": "1093638260139129"
   },
   "2026-11-10_lastsheet": {
     "tag_set": "B",
@@ -245,9 +291,9 @@
       "threads": "text"
     },
     "tt": "manual",
-    "yt": "0vmSNpJNgMM",
+    "yt": "manual",
     "yt_at": "2026-11-10T12:04+09:00",
-    "facebook": "4675233596031561",
+    "facebook": "manual",
     "facebook_at": "2026-11-10T12:05+09:00",
     "threads": "18118141217467268",
     "threads_at": "2026-11-10T12:06+09:00",
@@ -255,7 +301,11 @@
     "ig_story_at": "2026-11-10T12:06+09:00",
     "fb_story": "4814387778807972",
     "fb_story_at": "2026-11-10T12:07+09:00",
-    "tt_ok": "2026-11-16 確認（TikTok Studio の一覧。11/15 突き合わせ・11/16 月曜の朝は Claude が投稿）"
+    "tt_ok": "2026-11-16 確認（TikTok Studio の一覧。11/15 突き合わせ・11/16 月曜の朝は Claude が投稿）",
+    "yt_deleted": "0vmSNpJNgMM",
+    "deleted_at": "2026-11-23T22:42+09:00",
+    "skip_sns_check": true,
+    "facebook_deleted": "4675233596031561"
   },
   "2026-11-11_nenmatsu": {
     "tag_set": "C",
@@ -270,9 +320,9 @@
       "threads": "text"
     },
     "tt": "manual",
-    "yt": "vFEhvF_gK5E",
+    "yt": "manual",
     "yt_at": "2026-11-11T12:05+09:00",
-    "facebook": "1107660668930389",
+    "facebook": "manual",
     "facebook_at": "2026-11-11T12:06+09:00",
     "threads": "18041955257647368",
     "threads_at": "2026-11-11T12:06+09:00",
@@ -280,7 +330,11 @@
     "ig_story_at": "2026-11-11T12:08+09:00",
     "fb_story": "2933471443695838",
     "fb_story_at": "2026-11-11T12:08+09:00",
-    "tt_ok": "2026-11-16 確認（TikTok Studio の一覧。11/15 突き合わせ・11/16 月曜の朝は Claude が投稿）"
+    "tt_ok": "2026-11-16 確認（TikTok Studio の一覧。11/15 突き合わせ・11/16 月曜の朝は Claude が投稿）",
+    "yt_deleted": "vFEhvF_gK5E",
+    "deleted_at": "2026-11-23T22:42+09:00",
+    "skip_sns_check": true,
+    "facebook_deleted": "1107660668930389"
   },
   "2026-11-12_hanko": {
     "tag_set": "B",
@@ -295,7 +349,7 @@
       "yt": "none"
     },
     "tt": "manual",
-    "facebook": "1825120562077287",
+    "facebook": "manual",
     "facebook_at": "2026-11-12T12:05+09:00",
     "threads": "17946873426371301",
     "threads_at": "2026-11-12T12:05+09:00",
@@ -303,9 +357,13 @@
     "ig_story_at": "2026-11-12T12:06+09:00",
     "fb_story": "2720144188447275",
     "fb_story_at": "2026-11-12T12:06+09:00",
-    "yt": "AEc7bC8FW1E",
+    "yt": "manual",
     "yt_at": "2026-11-12T13:29+09:00",
-    "tt_ok": "2026-11-16 確認（TikTok Studio の一覧。11/15 突き合わせ・11/16 月曜の朝は Claude が投稿）"
+    "tt_ok": "2026-11-16 確認（TikTok Studio の一覧。11/15 突き合わせ・11/16 月曜の朝は Claude が投稿）",
+    "yt_deleted": "AEc7bC8FW1E",
+    "deleted_at": "2026-11-23T22:42+09:00",
+    "skip_sns_check": true,
+    "facebook_deleted": "1825120562077287"
   },
   "2026-11-13_teiji": {
     "tag_set": "C",
@@ -320,9 +378,9 @@
       "threads": "text"
     },
     "tt": "manual",
-    "yt": "NO7yNGaorco",
+    "yt": "manual",
     "yt_at": "2026-11-13T12:04+09:00",
-    "facebook": "956586714199430",
+    "facebook": "manual",
     "facebook_at": "2026-11-13T12:05+09:00",
     "threads": "18103821053117492",
     "threads_at": "2026-11-13T12:05+09:00",
@@ -330,7 +388,11 @@
     "ig_story_at": "2026-11-13T12:06+09:00",
     "fb_story": "4592964774280258",
     "fb_story_at": "2026-11-13T12:06+09:00",
-    "tt_ok": "2026-11-16 確認（TikTok Studio の一覧。11/15 突き合わせ・11/16 月曜の朝は Claude が投稿）"
+    "tt_ok": "2026-11-16 確認（TikTok Studio の一覧。11/15 突き合わせ・11/16 月曜の朝は Claude が投稿）",
+    "yt_deleted": "NO7yNGaorco",
+    "deleted_at": "2026-11-23T22:42+09:00",
+    "skip_sns_check": true,
+    "facebook_deleted": "956586714199430"
   },
   "2026-11-14_watercooler": {
     "tag_set": "B",
@@ -345,9 +407,9 @@
       "threads": "text"
     },
     "tt": "manual",
-    "yt": "tU3WksIcWFQ",
+    "yt": "manual",
     "yt_at": "2026-11-14T15:21+09:00",
-    "facebook": "1080018728454670",
+    "facebook": "manual",
     "facebook_at": "2026-11-14T15:22+09:00",
     "threads": "18110988038212310",
     "threads_at": "2026-11-14T15:22+09:00",
@@ -357,7 +419,11 @@
     "fb_story_at": "2026-11-14T15:23+09:00",
     "x": "2122013331615826167",
     "x_at": "2026-11-16T02:15+09:00",
-    "tt_ok": "2026-11-16 確認（TikTok Studio の一覧。11/15 突き合わせ・11/16 月曜の朝は Claude が投稿）"
+    "tt_ok": "2026-11-16 確認（TikTok Studio の一覧。11/15 突き合わせ・11/16 月曜の朝は Claude が投稿）",
+    "yt_deleted": "tU3WksIcWFQ",
+    "deleted_at": "2026-11-23T22:42+09:00",
+    "skip_sns_check": true,
+    "facebook_deleted": "1080018728454670"
   },
   "2026-11-15_meeting": {
     "tag_set": "A",
@@ -374,17 +440,21 @@
     "ig_story_at": "2026-11-15T13:29+09:00",
     "fb_story": "1920134792477264",
     "fb_story_at": "2026-11-15T13:29+09:00",
-    "facebook": "1172474902013018",
+    "facebook": "manual",
     "facebook_at": "2026-11-15T18:25+09:00",
     "ig": "18473286727137522",
     "ig_at": "2026-11-15T18:45+09:00",
-    "yt": "681B5lJ7xzc",
+    "yt": "manual",
     "yt_at": "2026-11-15T18:45+09:00",
     "threads": "18191904730413887",
     "threads_at": "2026-11-15T18:46+09:00",
     "x": "2121960756929609893",
     "x_at": "2026-11-15T23:20+09:00",
-    "tt_ok": "2026-11-16 確認（TikTok Studio の一覧。11/15 突き合わせ・11/16 月曜の朝は Claude が投稿）"
+    "tt_ok": "2026-11-16 確認（TikTok Studio の一覧。11/15 突き合わせ・11/16 月曜の朝は Claude が投稿）",
+    "yt_deleted": "681B5lJ7xzc",
+    "deleted_at": "2026-11-23T22:42+09:00",
+    "skip_sns_check": true,
+    "facebook_deleted": "1172474902013018"
   },
   "2026-11-16_monday": {
     "tag_set": "C",
@@ -399,9 +469,9 @@
       "threads": "text"
     },
     "tt": "manual",
-    "yt": "d6UeRgkPXug",
+    "yt": "manual",
     "yt_at": "2026-11-16T12:08+09:00",
-    "facebook": "1137659152577319",
+    "facebook": "manual",
     "facebook_at": "2026-11-16T12:08+09:00",
     "threads": "17883301809548831",
     "threads_at": "2026-11-16T12:09+09:00",
@@ -411,7 +481,11 @@
     "fb_story_at": "2026-11-16T12:10+09:00",
     "x": "2122167705432469559",
     "x_at": "2026-11-16T12:43+09:00",
-    "tt_ok": "2026-11-16 確認（TikTok Studio の一覧。11/15 突き合わせ・11/16 月曜の朝は Claude が投稿）"
+    "tt_ok": "2026-11-16 確認（TikTok Studio の一覧。11/15 突き合わせ・11/16 月曜の朝は Claude が投稿）",
+    "yt_deleted": "d6UeRgkPXug",
+    "deleted_at": "2026-11-23T22:42+09:00",
+    "skip_sns_check": true,
+    "facebook_deleted": "1137659152577319"
   },
   "2026-11-19_elevator": {
     "tag_set": "C",
@@ -426,16 +500,20 @@
       "threads": "text"
     },
     "tt": "manual",
-    "yt": "4vZtQrAbZ30",
+    "yt": "manual",
     "yt_at": "2026-11-19T18:19+09:00",
-    "facebook": "1829455588318944",
+    "facebook": "manual",
     "facebook_at": "2026-11-19T18:20+09:00",
     "threads": "17919790338495970",
     "threads_at": "2026-11-19T18:20+09:00",
     "ig_story": "17934131760163496",
     "ig_story_at": "2026-11-19T18:21+09:00",
     "fb_story": "1607972797277315",
-    "fb_story_at": "2026-11-19T18:22+09:00"
+    "fb_story_at": "2026-11-19T18:22+09:00",
+    "yt_deleted": "4vZtQrAbZ30",
+    "deleted_at": "2026-11-23T22:42+09:00",
+    "skip_sns_check": true,
+    "facebook_deleted": "1829455588318944"
   },
   "2026-11-21_elevator2": {
     "tag_set": "A",
@@ -450,15 +528,19 @@
       "threads": "text"
     },
     "tt": "manual",
-    "yt": "3rlI0noPSQ4",
+    "yt": "manual",
     "yt_at": "2026-11-21T18:13+09:00",
-    "facebook": "4573683009626201",
+    "facebook": "manual",
     "facebook_at": "2026-11-21T18:14+09:00",
     "threads": "18118093430032261",
     "threads_at": "2026-11-21T18:14+09:00",
     "ig_story": "18117608300520220",
     "ig_story_at": "2026-11-21T18:15+09:00",
     "fb_story": "3636758246511184",
-    "fb_story_at": "2026-11-21T18:15+09:00"
+    "fb_story_at": "2026-11-21T18:15+09:00",
+    "yt_deleted": "3rlI0noPSQ4",
+    "deleted_at": "2026-11-23T22:42+09:00",
+    "skip_sns_check": true,
+    "facebook_deleted": "4573683009626201"
   }
 }
