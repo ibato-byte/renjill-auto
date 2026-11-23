@@ -91,7 +91,8 @@ class EpisodesJsonTest(unittest.TestCase):
         self.assertTrue(eps and all(e["ep"] and e["date"] and e["title"].get("ja") for e in eps))
         for e in eps:
             if e["ep"] in ("deadline2", "receipts2", "chime2", "mug2", "papers2"):
-                self.assertTrue(e.get("youtube_id")); self.assertEqual(set(e["title"]), {"ja", "en", "zh", "ko"})
+                # 2026-11-23：消した回（posted.json の yt が "manual"・yt_deleted あり）は YouTube の ID を載せない
+                self.assertNotIn(e.get("youtube_id"), ("manual", "skip")); self.assertEqual(set(e["title"]), {"ja", "en", "zh", "ko"})
 
     def test_publish_failure_does_not_raise(self):
         with mock.patch.object(sns_policy, "load", return_value=POL), \

@@ -166,7 +166,7 @@ def main(argv):
     if changed: posted_f.write_text(json.dumps(posted, ensure_ascii=False, indent=2))
     start, end = week_window(now)
     artifact = os.environ.get("ARTIFACT_NAME", f"manual-{now:%Y%m%d}")
-    run_url = f"{os.environ.get('GITHUB_SERVER_URL', 'https://github.com')}/{os.environ.get('GITHUB_REPOSITORY', 'ibato-byte/renjill-auto')}/actions/runs/{os.environ.get('GITHUB_RUN_ID', '')}"
+    run_url = f"{os.environ.get('GITHUB_SERVER_URL', 'https://github.com')}/{os.environ.get('GITHUB_REPOSITORY', 'ibato-byte/usagi-office-auto')}/actions/runs/{os.environ.get('GITHUB_RUN_ID', '')}"
     manifest = {"week_start": start.isoformat(), "week_end": end.isoformat(), "generated_at": now.isoformat(timespec="seconds"),
                 "artifact": artifact, "run_url": run_url, "posts": posts,
                 "excluded": [{"ep": e, "reason": "QA・サムネ・縦横比のどれかが不合格（予約しない）"} for e in sorted(set(ng))]}

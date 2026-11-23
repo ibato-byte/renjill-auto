@@ -119,7 +119,7 @@ def gh_check(label, secret, repo):
         print(label, "check error:", type(e).__name__)
 
 gh_check("Hub トークン", "HUB_TOKEN", "ibato-byte/automation-hub")
-gh_check("動画置き場トークン", "MEDIA_TOKEN", "ibato-byte/renjill-media")
+gh_check("動画置き場トークン", "MEDIA_TOKEN", "ibato-byte/usagi-office-media")
 
 # ---- 出力 ----
 args = []

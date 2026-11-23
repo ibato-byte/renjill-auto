@@ -46,7 +46,7 @@ except Exception as e: res("Instagram", False, repr(e)[:200])
 
 # 公開URLの置き場（renjill-media）に書けるか（読み取りで権限だけ見る）
 try:
-    repo = os.environ.get("MEDIA_REPO", "ibato-byte/renjill-media")
+    repo = os.environ.get("MEDIA_REPO", "ibato-byte/usagi-office-media")
     r = requests.get(f"https://api.github.com/repos/{repo}", headers={"Authorization": f"Bearer {os.environ['MEDIA_TOKEN']}", "Accept": "application/vnd.github+json"}, timeout=30)
     j = r.json() if r.status_code == 200 else {}
     res("renjill-media", r.status_code == 200 and (j.get("permissions") or {}).get("push") and not j.get("private"),

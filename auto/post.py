@@ -266,7 +266,7 @@ def post_tiktok(p, d, path):
     return init["data"]["publish_id"]
 
 # ---------- Instagram ----------
-MEDIA_REPO = os.environ.get("MEDIA_REPO", "ibato-byte/renjill-media")  # 公開済み動画とカバーだけを置く公開リポジトリ（Shota承認 2026-10-20）
+MEDIA_REPO = os.environ.get("MEDIA_REPO", "ibato-byte/usagi-office-media")  # 公開済み動画とカバーだけを置く公開リポジトリ（Shota承認 2026-10-20）
 
 def media_purge(name):
     """公式サイトは renjill-media を配信の中つぎ（jsDelivr）ごしに読む。中つぎは同じ名前の物をしばらくおぼえているので、
