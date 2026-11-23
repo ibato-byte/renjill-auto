@@ -97,7 +97,9 @@ const STEP = 0.125, W = 1080, H = 1920;
         for (let i = 1; i <= 3; i++) for (let j = 1; j <= 3; j++) {
           const x = l + (rt - l) * i / 4, y = tp + (fb - tp) * j / 4; if (x < 0 || x > W || y < 0 || y > H) continue; n++;
           const els = document.elementsFromPoint(x, y);
-          const top = els.find(e => e.tagName !== 'svg' && e.tagName !== 'DIV'); const svg = top && top.closest ? top.closest('svg') : null;
+          // 画面全体に敷く半透明の幕（締めテロップの暗い幕など）は「かくす物」に数えない（2026-11-23：金のチモシー全3話で、顔の見える暗い幕を「テロップが顔にかかる」と誤って出していた）
+          const veil = e => { const rr = e.getBoundingClientRect(); if (rr.width < W - 2 || rr.height < H - 2) return false; const cs = getComputedStyle(e); return parseFloat(cs.opacity) * parseFloat(cs.fillOpacity || 1) < 0.9; };
+          const top = els.find(e => e.tagName !== 'svg' && e.tagName !== 'DIV' && !veil(e)); const svg = top && top.closest ? top.closest('svg') : null;
           if (svg && svg.id !== id && svg.id !== 'bg' && svg.id !== 'back' && svg.id !== 'ui') covered++;
           if (svg && svg.id === 'ui') byUi++;   // テロップ・字幕の帯が顔にかかる（2026-11-17：エレベーター第3話で最後のテロップがオチの顔を6秒かくした）
         }
@@ -149,8 +151,8 @@ const STEP = 0.125, W = 1080, H = 1920;
         if (vis > 0.02 && vis < 0.6 && r.z < 1.58) cutT[id] = (cutT[id] || 0) + STEP; // 寄り（z≥1.6）は演出として除く。まったく映っていない（舞台の外で出番を待っている・退場した）のは「切れている」ではない（2026-11-15：advent・plant・rain で誤って数えていた）
         if (vis > 0.95) sizeSum[id] = (sizeSum[id] || 0) + h / H, sizeN[id] = (sizeN[id] || 0) + 1; }
     }
-    if (hash === prevHash) { stillSince += STEP; if (stillSince >= 1.5 && Math.abs(stillSince - 1.5) < 1e-6 && r.end < 0.5) warns.push(`1.5秒以上止まっている t=${(t - stillSince).toFixed(2)}〜（オチ前の間は0.7秒まで）`); if (stillSince >= 2.5 && Math.abs(stillSince - 2.5) < 1e-6 && r.end < 0.5 && !allowAt('still', t)) issues.push(`2.5秒以上動きなし t=${(t - stillSince).toFixed(2)}〜`); }
-    else stillSince = 0;
+    if (hash === prevHash) { stillSince += STEP; if (stillSince >= 1.5 && Math.abs(stillSince - 1.5) < 1e-6 && r.end < 0.5 && !allowAt('still', t)) warns.push(`1.5秒以上止まっている t=${(t - stillSince).toFixed(2)}〜（オチ前の間は0.7秒まで）`); if (stillSince >= 2.5 && Math.abs(stillSince - 2.5) < 1e-6 && r.end < 0.5 && !allowAt('still', t)) issues.push(`2.5秒以上動きなし t=${(t - stillSince).toFixed(2)}〜`); }
+    else stillSince = 0;   // 台本が「わざと止める」と宣言した時間（qaAllow.still：締めテロップなど）は警告も出さない（2026-11-23：金のチモシー全3話で締めテロップの静止を毎回警告していた）
     prevHash = hash;
     // 白飛び／黒つぶれ：ごく小さいJPEGは単色
     if (buf.length < 6000 && r.end < 0.5 && r.dim < 0.9) issues.push(`単色フレーム t=${t.toFixed(2)}`);
