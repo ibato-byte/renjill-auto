@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 """表紙の「型」がそろっているかの検査（Hub 依頼 #124。#114 の再発防止）。
 
-正しい型：YouTube＝文字なし（動画の冒頭のコマが表紙になる）、Instagram・Facebook・TikTok・Threads＝文字あり（rig/thumb.js の正式な表紙）。
+正しい型：すべての SNS＝文字あり（rig/thumb.js の正式な表紙）。
+2026-11-24 オーナー決定：YouTube も、ほかの SNS と同じ題名入りの表紙にそろえる（それまでは「YouTube＝文字なし」。10/26 の決定を置きかえ）。
+YouTube は投稿のあと thumbnails().set で表紙を付け、付いたか確かめる（post.py の post_youtube）。
 投稿の前に、今回の表紙の型を実物（動画の冒頭のコマ・表紙の画像）から調べ、
   ①正しい型と違う ②その SNS の直近の投稿（posted.json の cover_style）の型と違う
 ときは投稿を止めて「あなたの対応」に出す。あわせて「直近の表紙＋今回の表紙」を並べた一覧画像（dist/<回>_covers.jpg）を作る。
@@ -13,8 +15,9 @@ import json, pathlib, subprocess, sys, tempfile
 AUTO = pathlib.Path(__file__).resolve().parent
 DIST = AUTO.parent / "dist"
 LABEL = {"yt": "YouTube", "ig": "Instagram", "facebook": "Facebook", "tt": "TikTok", "threads": "Threads"}
-EXPECTED = {"yt": "none", "ig": "text", "facebook": "text", "tt": "text", "threads": "text"}
+EXPECTED = {"yt": "text", "ig": "text", "facebook": "text", "tt": "text", "threads": "text"}
 STYLE_JA = {"none": "文字なし", "text": "文字あり"}
+YT_TEXT_FROM = "2026-11-24"  # YouTube も文字ありになった日
 FRAME_T = 0.5  # 冒頭の一言が最も濃く出ている時間（秒）
 
 
@@ -44,8 +47,8 @@ def yt_style(yt, loop, work):
 
 def planned_styles(p, yt, loop, thumb, work):
     """今回出す予定の表紙の型 {SNS: 型}。実物から調べる"""
-    st = {"yt": yt_style(yt, loop, work)}
-    for k in ("ig", "facebook", "tt", "threads"):
+    st = {}
+    for k in ("yt", "ig", "facebook", "tt", "threads"):  # YouTube も同じ表紙を送る（2026-11-24）
         st[k] = "text" if pathlib.Path(thumb).exists() else "none"
     return st
 
@@ -54,8 +57,10 @@ def latest_styles(posted, key):
     """SNS ごとの、直近の投稿（key より前）の cover_style"""
     last = {}
     for k in sorted(posted):
-        if k >= key: continue
-        for sns, s in (posted[k].get("cover_style") or {}).items(): last[sns] = (k, s)
+        if k >= key or posted[k].get("deleted_at"): continue  # 消した投稿は数えない（2026-11-23 に全部消した）
+        for sns, s in (posted[k].get("cover_style") or {}).items():
+            if sns == "yt" and k < YT_TEXT_FROM: continue  # 決まりが変わる前の YouTube（文字なし）は比べない
+            last[sns] = (k, s)
     return last
 
 

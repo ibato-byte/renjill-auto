@@ -180,7 +180,7 @@ def yt_title(p):
     title = cut.rstrip(" ,.;:") + "…" + tail
     return title[:YT_TITLE_MAX]
 
-def post_youtube(p, d, path):
+def post_youtube(p, d, path, thumb_path=None, info=None):
     from google.oauth2.credentials import Credentials
     from googleapiclient.discovery import build
     from googleapiclient.http import MediaFileUpload
@@ -194,8 +194,24 @@ def post_youtube(p, d, path):
             "status": {"privacyStatus": "public", "selfDeclaredMadeForKids": False}}
     req = yt.videos().insert(part="snippet,status,localizations", body=body, media_body=MediaFileUpload(str(path), chunksize=-1, resumable=True))
     res = req.execute()
-    # YouTube には文字入りの表紙を送らない（YouTube は文字なしにそろえる。オーナー決定 2026-10-26・依頼 #124）。表紙は動画の冒頭のコマ（一言なし）になる
+    # 表紙：ほかの SNS と同じ題名入りの正式な表紙を付ける（2026-11-24 オーナー決定。10/26 の「YouTube は文字なし」を置きかえ）。
+    # 付けないと YouTube が途中のコマを勝手に選ぶ（2026-11-24「定時1分前」3本で起きた）。付いたか読み直して確かめ、だめなら3回までやり直す
+    if info is not None: info["thumb"] = yt_set_thumbnail(yt, res["id"], thumb_path)
     return res["id"]
+
+
+def yt_set_thumbnail(yt, vid, thumb_path, tries=3):
+    """YouTube の表紙を付けて確かめる。"OK" / "NG" / "なし"（表紙のファイルがない）"""
+    from googleapiclient.http import MediaFileUpload
+    if not thumb_path or not pathlib.Path(thumb_path).exists(): return "なし"
+    for i in range(tries):
+        try:
+            r = yt.thumbnails().set(videoId=vid, media_body=MediaFileUpload(str(thumb_path), mimetype="image/jpeg")).execute()
+            if (r.get("items") or [{}])[0]: return "OK"
+        except Exception as e:
+            log(f"YouTube の表紙を付けられない（{i + 1}回目）", repr(e)[:200])
+        time.sleep(5 * (i + 1))
+    return "NG"
 
 # ---------- TikTok ----------
 class TikTokManual(Exception):
@@ -557,7 +573,11 @@ def main(argv=None):
                 if pl in ("ig", "facebook") and fb_access is None:
                     fb_access = fb.diagnose()  # ページトークンと Instagram の ID（読み取りのみ）
                     for r in fb_access["reasons"]: log("Meta:", fb.scrub(r))
-                if pl == "yt": rec["yt"] = post_youtube(p, d, yt_path)
+                if pl == "yt":
+                    yinfo = {}
+                    rec["yt"] = post_youtube(p, d, yt_path, thumb(), yinfo)
+                    if yinfo.get("thumb") != "OK":  # 表紙が付かなかった（動画は公開済み）。人の手で直す
+                        actions.append(f'YouTube ショート「{p["title"]}」に正式な表紙が付かなかった（{yinfo.get("thumb")}）。Claude に「{p["ep"]} の YouTube の表紙を付けて」と伝える')
                 elif pl == "tt": rec["tt"] = post_tiktok(p, d, loop_path)
                 elif pl == "threads":
                     if not threads.threads_ready(): raise threads.GrowthSkip("Threads の権限・Secrets が未設定で見送り")  # 動画を置く前に確かめる

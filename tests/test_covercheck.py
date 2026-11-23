@@ -1,4 +1,4 @@
-"""表紙の型の検査（Hub 依頼 #124）：YouTube＝文字なし、ほかの SNS＝文字あり。今回だけ違う回は止める。"""
+"""表紙の型の検査（Hub 依頼 #124）：すべての SNS＝文字あり（2026-11-24 から YouTube も）。今回だけ違う回は止める。"""
 import os, re, sys, unittest
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -7,13 +7,13 @@ import covercheck  # noqa: E402
 
 
 class JudgeTest(unittest.TestCase):
-    ALL_OK = {"yt": "none", "ig": "text", "facebook": "text", "tt": "text", "threads": "text"}
+    ALL_OK = {"yt": "text", "ig": "text", "facebook": "text", "tt": "text", "threads": "text"}
 
     def test_correct_styles_pass(self):
         self.assertEqual(covercheck.judge(self.ALL_OK, {}), [])
 
-    def test_youtube_with_text_is_ng(self):  # 10/26「ユズの朝」の事故
-        probs = covercheck.judge(dict(self.ALL_OK, yt="text"), {})
+    def test_youtube_without_cover_is_ng(self):  # 2026-11-24：YouTube が途中のコマを勝手に表紙にした
+        probs = covercheck.judge(dict(self.ALL_OK, yt="none"), {})
         self.assertEqual([s for s, _ in probs], ["yt"])
 
     def test_other_sns_without_text_is_ng(self):
@@ -25,21 +25,28 @@ class JudgeTest(unittest.TestCase):
         self.assertEqual([s for s, _ in probs], ["ig"])
 
     def test_only_limits_to_sns_being_posted(self):
-        self.assertEqual(covercheck.judge(dict(self.ALL_OK, yt="text"), {}, only={"ig"}), [])
+        self.assertEqual(covercheck.judge(dict(self.ALL_OK, yt="none"), {}, only={"ig"}), [])
 
     def test_latest_styles_uses_only_earlier_posts(self):
-        posted = {"2026-10-25_a": {"cover_style": {"yt": "none"}}, "2026-10-26_b": {"cover_style": {"yt": "text"}}, "2026-10-27_c": {}}
-        self.assertEqual(covercheck.latest_styles(posted, "2026-10-27_c")["yt"], ("2026-10-26_b", "text"))
-        self.assertEqual(covercheck.latest_styles(posted, "2026-10-26_b")["yt"], ("2026-10-25_a", "none"))
+        posted = {"2026-10-25_a": {"cover_style": {"ig": "none"}}, "2026-10-26_b": {"cover_style": {"ig": "text"}}, "2026-10-27_c": {}}
+        self.assertEqual(covercheck.latest_styles(posted, "2026-10-27_c")["ig"], ("2026-10-26_b", "text"))
+        self.assertEqual(covercheck.latest_styles(posted, "2026-10-26_b")["ig"], ("2026-10-25_a", "none"))
+
+    def test_old_youtube_rule_and_deleted_posts_are_not_compared(self):  # 11/24 に決まりが変わった・11/23 に全部消した
+        posted = {"2026-11-21_a": {"cover_style": {"yt": "none"}}, "2026-11-22_b": {"cover_style": {"ig": "none"}, "deleted_at": "2026-11-23"}}
+        self.assertEqual(covercheck.latest_styles(posted, "2026-11-26_c"), {})
+        self.assertEqual(covercheck.judge(self.ALL_OK, covercheck.latest_styles(posted, "2026-11-26_c")), [])
 
 
 class WiringTest(unittest.TestCase):
     def src(self, *p): return open(os.path.join(ROOT, *p), encoding="utf-8").read()
 
-    def test_youtube_does_not_send_text_thumbnail(self):
+    def test_youtube_sends_and_checks_the_cover(self):  # 2026-11-24 オーナー：YouTube も正式な表紙に。付かなければ「あなたの対応」
         post = self.src("auto", "post.py")
         body = post[post.index("def post_youtube"):post.index("# ---------- TikTok")]
-        self.assertNotIn("thumbnails().set", re.sub(r"#.*", "", body))
+        self.assertIn("thumbnails().set", re.sub(r"#.*", "", body))
+        self.assertIn("post_youtube(p, d, yt_path, thumb(), yinfo)", post)
+        self.assertIn("YouTube の表紙を付けて", post)
 
     def test_youtube_video_is_rendered_without_hook(self):
         post = self.src("auto", "post.py")
