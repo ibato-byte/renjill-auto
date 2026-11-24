@@ -103,7 +103,7 @@ class SeriesTest(unittest.TestCase):
         """予定表（本物）に、月・木・土の外の回がない（再発防止：毎日投稿の回が混ざらない）"""
         pol = series.policy()
         posts = json.loads((ROOT / "auto" / "schedule.json").read_text(encoding="utf-8"))["posts"]
-        bad = [p["date"] + " " + p["ep"] for p in posts if not series.allowed(p["date"], pol)]
+        bad = [p["date"] + " " + p["ep"] for p in posts if not series.allowed(p["date"], pol) and not series.owner_exception(p)]   # オーナーが「今回に限り」と決めた回は除く
         self.assertEqual(bad, [])
 
 
@@ -137,3 +137,13 @@ if __name__ == "__main__":
         r = series.check([a, b, c], dt.date(2026, 11, 21), 12, pol, src=SRC.get)
         self.assertFalse(any("投稿時刻" in x for x in r["issues"]), r)
 
+
+
+class OwnerExceptionTest(unittest.TestCase):
+    """2026-11-25 オーナー：「今回の投稿に限り」11/25〜27 の 8:00 に出す。決まりの外の日でも、owner_exception がある回だけは出す"""
+    def test_exception_post_is_picked_on_off_day(self):
+        import post
+        p = {"date": "2026-11-25", "slot": "08:00", "ep": "x", "title": "x", "series": {"id": "s", "part": 1, "of": 3}, "owner_exception": "2026-11-25 オーナー"}
+        self.assertTrue(series.owner_exception(p))
+        self.assertFalse(series.owner_exception(dict(p, owner_exception="")))
+        self.assertFalse(series.allowed("2026-11-25"))   # 水曜は本来は出さない

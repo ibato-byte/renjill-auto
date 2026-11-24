@@ -80,6 +80,12 @@ def groups(start, end, pol=None):
     return [g for g in out if g and g[-1] >= st]
 
 
+def owner_exception(p):
+    """オーナーが「今回に限り」と日時を決めた回（予定表の owner_exception に、いつ・だれが・何をを書く）。
+    曜日・時刻・何話目かの決まりの外でも出す（2026-11-25 オーナー：社員からのお土産を 11/25〜27 の 8:00 に）"""
+    return bool(str(p.get("owner_exception") or "").strip())
+
+
 def series_ok(p, pol=None):
     """投稿してよい回か（series_start 以降は、連載の欄 series がある回だけ。approval_from 以降は、オーナーが絵コンテをOKした回だけ）"""
     pol = policy() if pol is None else pol
@@ -114,7 +120,8 @@ def check(posts, today, days=21, pol=None, src=_src):
         if len(ps) > 1: issues.append(f"{d}: 同じ日に {len(ps)} 本（週3本・1日1本）")
     for p in rows:
         tag = f'{p["date"]} {p.get("ep")}'
-        if not allowed(p["date"], pol):
+        exc = owner_exception(p)
+        if not allowed(p["date"], pol) and not exc:
             issues.append(f"{tag}: {DAYS_JA[dt.date.fromisoformat(p['date']).weekday()]}曜日の回（投稿は{label(pol)}だけ。在庫 auto/stock.json に移す）")
             continue
         if p["date"] < pol["series_start"]: continue
@@ -122,9 +129,9 @@ def check(posts, today, days=21, pol=None, src=_src):
         if not s.get("id") or not s.get("part"):
             issues.append(f'{tag}: 連載の欄 series（id・part・of）がない（{label(pol)}の3本で1つの話。この日は第{n}話）')
             continue
-        if s["part"] != n: issues.append(f'{tag}: 第{s["part"]}話になっているが、この日は第{n}話（{pol["series_start"]} から投稿日の順に 1→2→3）')
+        if s["part"] != n and not exc: issues.append(f'{tag}: 第{s["part"]}話になっているが、この日は第{n}話（{pol["series_start"]} から投稿日の順に 1→2→3）')
         want = (pol.get("slots") or {}).get(str(dt.date.fromisoformat(p["date"]).weekday()))
-        if want and p["date"] >= pol.get("slots_from", "9999") and p.get("slot") != want:
+        if want and not exc and p["date"] >= pol.get("slots_from", "9999") and p.get("slot") != want:
             issues.append(f'{tag}: 投稿時刻が {p.get("slot")}（{DAYS_JA[dt.date.fromisoformat(p["date"]).weekday()]}曜日は {want}。2026-11-21 オーナー：月・木 18:00、土 12:00）')
         if not storyboard_ok(p, pol):
             days_left = (dt.date.fromisoformat(p["date"]) - today).days
@@ -146,6 +153,8 @@ def check(posts, today, days=21, pol=None, src=_src):
     last = max(dt.date.fromisoformat(max([p["date"] for p in rows], default=start)), today + dt.timedelta(days=7))
     for g in groups(start, last, pol):
         days_ = [x.isoformat() for x in g]
+        if any(owner_exception(p) for p in rows if days_[0] <= p["date"] <= days_[-1]) or any(owner_exception(p) for p in rows if (dt.date.fromisoformat(p["date"]) - g[0]).days in range(-7, 1)):
+            continue   # オーナーが日時を決めた回のまわりの組は、月・木・土の3本の組では数えない（その回の日付で出す）
         ids = {(by_date.get(d, [{}])[0].get("series") or {}).get("id") for d in days_ if d in by_date}
         ids.discard(None)
         if len(ids) > 1: issues.append(f"{days_[0]} からの3本：別の話になっている（{'・'.join(sorted(ids))}。3本で1つの話）")

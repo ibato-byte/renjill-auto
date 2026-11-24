@@ -10,7 +10,9 @@ class Looks(unittest.TestCase):
     def test_no_repeat_within_4(self):
         m = looks.assign(looks.all_posts())
         order = [e for e in m if looks.is_office(e)]   # 専用のセットの回（エレベーターなど）は部屋を使わない
+        pinned = {p["ep"] for p in looks.all_posts() if p.get("look") is not None}   # 予定表の look で固定した回（OKをもらった動画の部屋。2026-11-25）は数えない
         for i in range(len(order)):
+            if order[i] in pinned: continue
             prev = [m[e] for e in order[max(0, i - 3):i]]
             self.assertNotIn(m[order[i]], prev, order[i])
 
