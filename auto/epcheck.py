@@ -198,7 +198,9 @@ def check(posts, today, days=14, pc=None, lk=None):
             # 部屋・効果音・小物の「続けない」見張りは、ほかの話の回とだけ比べる
             sid = (p.get("series") or {}).get("id")
             other = [h for h, hs in hist if not (sid and hs == sid)]
-            office_eps = [h for h in other if (info(h, pc) or {}).get("office")]
+            # 「前の3話」＝直前に出た3本（ほかの話の回）。そこに会社の部屋の回があるときだけ比べる。
+            # （2026-11-23：12日・4本前の「月曜の朝」まで数えて、金のチモシー第2話に警告が出ていた。週3本では前の3本＝約1週間）
+            office_eps = [h for h in other[-3:] if (info(h, pc) or {}).get("office")]
             if i.get("office") and ep in lk and any(lk.get(h) == lk[ep] for h in office_eps[-3:]):
                 warns.append(f"{tag}: 前の3話と同じ部屋（rig/v2/looks.js を作り直す：python3 auto/looks.py）")
             prev = [info(h, pc) for h in other[-2:]]

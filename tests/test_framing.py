@@ -22,6 +22,17 @@ class Framing(unittest.TestCase):
         self.assertRegex(QA, r"Math\.abs\(full\.length - base\.length\) > 200\) issues\.push")
         self.assertNotRegex(QA, r"warns\.push\(`エンドカード直前に")  # 22 話で誤って出ていた古い警告は戻さない
 
+    def test_veil_is_not_a_cover(self):
+        # 画面全体の半透明の幕（締めテロップの暗い幕）は、顔をかくす物に数えない（2026-11-23 誤った警告）
+        self.assertIn("const veil = e =>", QA)
+        self.assertIn("!veil(e)", QA)
+        self.assertIn("テロップが${id === 'ren' ? 'モチ' : 'ユズ'}の顔にかかっている", QA)  # 本当にかかる帯の見張りは残す
+
+    def test_declared_still_is_quiet(self):
+        # qaAllow.still の時間は、2.5 秒の不合格も 1.5 秒の警告も出さない（宣言のない静止は今までどおり）
+        self.assertRegex(QA, r"stillSince >= 1\.5 && [^\n]*!allowAt\('still', t\)\) warns\.push")
+        self.assertRegex(QA, r"stillSince >= 2\.5 && [^\n]*!allowAt\('still', t\)\) issues\.push")
+
     def test_camfit_tool_exists(self):
         s = (ROOT / "rig" / "camfit.js").read_text(encoding="utf-8")
         self.assertIn("--write", s)
