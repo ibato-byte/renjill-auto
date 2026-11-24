@@ -151,3 +151,8 @@ class SameRoom20261118(unittest.TestCase):
     def test_same_series_not_counted(self):
         s = lambda n: {"id": "x", "part": n, "of": 3}
         self.assertEqual(self._warns([("teiji", s(1)), ("meeting", s(2))], {"teiji": 2, "meeting": 2}), [])
+
+    def test_only_last_three_posts(self):
+        """2026-11-23：前の3本より前の会社の回とは比べない（4本前の同じ部屋は警告しない・3本前は警告する）"""
+        self.assertEqual(self._warns([("teiji", None), ("elevator", None), ("elevator2", None), ("elevator3", None), ("meeting", None)], {"teiji": 2, "meeting": 2}), [])
+        self.assertTrue(self._warns([("teiji", None), ("elevator", None), ("elevator2", None), ("meeting", None)], {"teiji": 2, "meeting": 2}))
