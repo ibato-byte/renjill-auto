@@ -49,7 +49,7 @@ document.write('<script src="v2/lib.js"><\/script><script src="v2/elevator_set.j
     if (t >= CHECK && t < MOVE) { const u = (t - CHECK) / .7; look = u < 1 ? Math.sin(u * Math.PI * 2) * -.9 : -.4; eyeOpen = .8; face = Object.assign({}, F.neutral, { mouth: 'w', eyeShape: 'half' }); earL = earR = 0; }   // もう一度、目だけで周り
     if (t >= MOVE) {   // 箱の右へ。空の皿 →（カット）山盛り → 皿をくわえて右へ
       x = R.x - 60; look = -.4; nod = 14; face = Object.assign({}, F.smile, { blush: .7, eyeShape: t >= FILLED ? 'happy' : 'round' });
-      if (t >= LEAVE) { const k = (t - LEAVE) / (GONE - LEAVE); x = R.x - 60 + 760 * L.ease(Math.min(1, k * 1.05)); y = R.y - 26 * Math.abs(Math.sin(k * Math.PI * 4.5)); nod = 8; face = Object.assign({}, F.smile, { eyeShape: 'happy', blush: .9, mouth: 'line' }); }
+      if (t >= LEAVE) { const k = (t - LEAVE) / (GONE - LEAVE); x = R.x - 60 + 640 * Math.pow(Math.min(1, k), 1.35); y = R.y - 26 * Math.abs(Math.sin(k * Math.PI * 4.5)); nod = 8; face = Object.assign({}, F.smile, { eyeShape: 'happy', blush: .9, mouth: 'line' }); }   // ゆっくり出ていく（画面の右はしを 11.4 秒ごろに出る）
     }
     return Object.assign({}, RIG.POSES.sit, face, { x: x - 40 * lean, y: y + QY * lean, scale: R.s, flip, headTilt: tiltH, eyeLook: look, headNod: nod + 12 * lean, earL, earR, eyeOpen, nose, bodyTilt: -6 * lean });
   }
