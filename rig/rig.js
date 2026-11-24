@@ -402,7 +402,7 @@
       p.pose === 'sploot' ? G({}, [P('M242 140 C 262 190 266 250 288 298', 'none', { stroke: c.ear3, 'stroke-width': 6, 'stroke-linecap': 'round', opacity: 0.3, filter: u('blurS') }), E(296, 302, 26, 6, '#EAD3B4', { opacity: 0.4, filter: u('blurS') })]) : null,
       P('M248 122 C 238 112 224 110 210 118', 'none', { stroke: c.ear3, 'stroke-width': 4, 'stroke-linecap': 'round', opacity: 0.5 })
     ]);
-    const head = G({ transform: (p.pose === 'flop' ? 'translate(0 396) scale(1.03 0.95) translate(0 -396) ' : '') + `translate(${p.headX || 0} ${p.headNod}) rotate(${p.headTilt} 180 240)` + (p.pose === 'sploot' ? ' translate(0 292) scale(1.02 0.96) translate(0 -292)' : '') }, [ // 寝る時：あごが前足に押されて、少しつぶれる（26）
+    const head = G({ 'data-neo-head': 1, transform: (p.pose === 'flop' ? 'translate(0 396) scale(1.03 0.95) translate(0 -396) ' : '') + `translate(${p.headX || 0} ${p.headNod}) rotate(${p.headTilt} 180 240)` + (p.pose === 'sploot' ? ' translate(0 292) scale(1.02 0.96) translate(0 -292)' : '') }, [ // 寝る時：あごが前足に押されて、少しつぶれる（26）
       // 頭
       P('M180 105 C 252 105 292 150 292 202 C 292 258 246 292 180 292 C 114 292 68 258 68 202 C 68 150 108 105 180 105 Z', u('head'), fur),
       E(180, 250, 70, 34, '#E9D3B6', { opacity: 0.75, filter: u('blur') }),
@@ -492,7 +492,7 @@
       yawn:  G({}, [E(188, 252, 10, 14, '#7A3436', { stroke: c.mouth, 'stroke-width': 2 }), E(188, 259, 6.5, 5.5, '#E58C8C'), P('M181 241 l2 4 M195 241 l-2 4', 'none', { stroke: '#FFFFFF', 'stroke-width': 2, 'stroke-linecap': 'round' })])
     }[p.mouth] || null;
 
-    const head = G({ transform: (p.pose === 'flop' ? 'translate(0 396) scale(1.03 0.95) translate(0 -396) ' : '') + `translate(${p.headX || 0} ${p.headNod}) rotate(${p.headTilt} 188 240)` + (p.pose === 'sploot' ? ' translate(0 290) scale(1.02 0.96) translate(0 -290)' : '') }, [
+    const head = G({ 'data-neo-head': 1, transform: (p.pose === 'flop' ? 'translate(0 396) scale(1.03 0.95) translate(0 -396) ' : '') + `translate(${p.headX || 0} ${p.headNod}) rotate(${p.headTilt} 188 240)` + (p.pose === 'sploot' ? ' translate(0 290) scale(1.02 0.96) translate(0 -290)' : '') }, [
       // 立ち耳（根元で回転）
       p.pose === 'sploot' ? E(286, 214, 40, 10, '#7A5638', { opacity: 0.18, filter: u('blurS'), transform: 'rotate(32 286 214)' }) : null, // 寝かせた耳が首にのっている所のかげ
       ...(p.pose === 'sploot' ? [ // 寝る時の立ち耳：首のうしろへ寝かせる。前からは短く、外へ倒れて見え、内側の桃色はほとんど見えない（27・28）

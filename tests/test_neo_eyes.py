@@ -53,3 +53,19 @@ def test_paper_bag_logo_is_green_heart():
     s = (ROOT / "rig/v2/timothy_set.js").read_text()
     bag = s[s.index("TM.paperBag"):s.index("TM.crunch")]
     assert "#4E9A52" in bag and "#C8263C" not in bag
+
+
+def test_crisp_layers_keep_draw_order():
+    # 2026-11-24 オーナー：社員証・ネクタイが口元からぶら下がって見えた（くっきり版を全部いちばん上に重ねていた）
+    #   → 体（ふわ）→ 社員証・ネクタイ → 頭（ふわ）→ 目・鼻・口・ひげ の順に重ねる
+    s = (ROOT / "rig/rig.js").read_text()
+    assert s.count("const head = G({ 'data-neo-head': 1,") == 2
+    n = (ROOT / "rig/v2/neo_ui.js").read_text()
+    assert "g.after(crispBody, ...(headFluff ? [headFluff] : []), crispHead);" in n
+    assert "body,headfluff,head" in (ROOT / "rig/qa.js").read_text()
+
+
+def test_part3_akire_sweat():
+    # 2026-11-24 オーナー：Part 3 の 0:28 のユズに呆れた汗マーク
+    s = (ROOT / "rig/ep/timothy3.js").read_text()
+    assert "akireSweat(jp, tt)" in s and 'data-sweat="akire"' in s

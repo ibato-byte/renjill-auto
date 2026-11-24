@@ -22,7 +22,14 @@ document.write('<script src="v2/lib.js"><\/script><script src="v2/elevator_set.j
   const BAG = () => ({ x: 960, y: TM.T.floor, s: 2.1, rot: -7 });   // 業務用の大袋（テーブルの右に立てかけ）
   const dishAt = t => t < DISH_F ? 0 : 1;
   const chew = (t, t0, d = .9) => t >= t0 && t < t0 + d ? (Math.sin((t - t0) * 2 * Math.PI * 4.2) > 0 ? 1 : 0) : -1;
-  // ---- ユズ ----
+  // 呆れた汗（2026-11-24 オーナー：0:28 のユズに呆れた汗マーク）。おでこの横、みんなの方の側に大きめのしずく。AKIRE から最後まで
+  const akireSweat = (p, t) => {
+    const k = sm(AKIRE + .15, AKIRE + .45, t); if (k <= 0) return '';
+    const lx = 96, ly = 128 + (p.headNod || 0), x = p.x + (p.flip ? 400 - lx : lx) * p.scale, y = p.y + ly * p.scale + 14 * (1 - k) + 3 * Math.sin(t * 3), s = p.scale * (.7 + .3 * L.ease(k));
+    return `<g data-sweat="akire" transform="translate(${x.toFixed(1)} ${y.toFixed(1)}) scale(${s.toFixed(3)})" opacity="${Math.min(1, k * 1.5).toFixed(2)}">`
+      + `<path d="M0 -30 C-6 -16 -17 -2 -17 9 C-17 19 -9 25 0 25 C9 25 17 19 17 9 C17 -2 6 -16 0 -30Z" fill="#CFE8F8" stroke="#4A7FB0" stroke-width="3.2" stroke-linejoin="round"/>`
+      + `<path d="M-8 4 Q-9 13 -3 17" stroke="#FFFFFF" stroke-width="3.4" fill="none" stroke-linecap="round"/></g>`;
+  };
   function jilPose(t) {
     const J = TM.JIL, F = RIG.FACES;
     let face = F.neutral, look = .6, nod = 6, earL = 0, earR = 0, eyeOpen = 1, lean = 0, tilt = 0;
@@ -32,7 +39,7 @@ document.write('<script src="v2/lib.js"><\/script><script src="v2/elevator_set.j
     if (t >= EYES) look = 1;                                                                                    // クリと顔を見合わせる
     if (t >= TURN) { const k = L.outBack(sm(TURN, TURN + .2, t)); look = 1; earL = lerp(40, -14, k); earR = lerp(-40, 14, k); eyeOpen = 1; face = Object.assign({}, F.neutral, { mouth: 'pout' }); nod = 0; tilt = 4 * k; }   // 右を向く（耳ぴん）   // 目の大きさはほかの場面とそろえる（eyeOpen 1。2026-11-22 オーナー：大きすぎ）
     if (t >= WIDE) { look = 1; eyeOpen = 1; face = Object.assign({}, F.neutral, { mouth: 'line' }); earL = -8; earR = 8; }
-    if (t >= AKIRE) { const k = sm(AKIRE, AKIRE + .3, t); look = 1; eyeOpen = .65; face = Object.assign({}, F.annoyed, { sweat: .7 }); earL = 26 * k; earR = -26 * k; }     // 呆れた顔
+    if (t >= AKIRE) { const k = sm(AKIRE, AKIRE + .3, t); look = 1; eyeOpen = .65; face = Object.assign({}, F.annoyed, { sweat: 0 }); earL = 26 * k; earR = -26 * k; }     // 呆れた顔
     const back = L.ease(sm(LAST, LAST + .4, t));   // 最後：モチが割りこむので、ユズは少し身を引く
     return Object.assign({}, RIG.POSES.sit, face, { x: J.x + 150 * lean - 90 * back, y: J.y - 50 * lean, scale: J.s, flip: J.flip, eyeLook: look, headNod: nod + 10 * lean, earL, earR, eyeOpen, bodyTilt: tilt + 6 * lean });
   }
@@ -80,7 +87,7 @@ document.write('<script src="v2/lib.js"><\/script><script src="v2/elevator_set.j
       const CY = z => TM.T.top - (1430 - 960) / z;   // 天板が画面の下の方（y 1430）
       const bg = BR.bg({ t: tt, min: 5 + tt / 12 });
       if (tt >= WIDE) L.char('ren', renPose(tt), tt, '', opt); else L.char('ren', Object.assign({}, RIG.POSES.sit, off), tt, '', { shadow: false });
-      L.char('jil', jilPose(tt), tt, '', opt);
+      { const jp = jilPose(tt); L.char('jil', jp, tt, akireSweat(jp, tt), opt); }
       const p = pomAt(tt);
       let fx = TM.table() + TM.box(TM.BOX.x, TM.BOX.y, { dish: dishAt(tt) }) + ELV.pom(p.x, p.y, p.s, p.q);
       if (tt >= WIDE) { const B = BAG(); fx += TM.bag(B.x, B.y, B.s, { biz: 1, rot: B.rot, open: 1 }); }

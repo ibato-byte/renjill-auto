@@ -97,21 +97,36 @@
     }
     for (const id of ['ren', 'jil']) NEO.crisp(id);
   };
+  // 重ね順（2026-11-24 オーナー：社員証・ネクタイが口元からぶら下がって見えた＝くっきり版を全部いちばん上に重ねていた）
+  //   ① 体（ふわ）→ ② 体のくっきり部品（社員証・ネクタイ）→ ③ 頭（ふわ）→ ④ 頭のくっきり部品（目・鼻・口・ひげ・メガネ）
+  //   元の絵の「体→ネクタイ→頭」の順を守るので、首元の物が顔にかぶらない
   NEO.crisp = (id) => {
     const svg = document.getElementById(id); if (!svg) return;
     svg.style.filter = 'none';
     const g = svg.querySelector(':scope > g:not([data-neo-crisp])'); if (!g) return;
     g.style.filter = 'url(#neoFluff)';
     const sharp = g.querySelectorAll('[data-crisp]'); if (!sharp.length) return;
-    const c = g.cloneNode(true);
-    c.setAttribute('data-neo-crisp', '1'); c.style.filter = 'none'; c.setAttribute('visibility', 'hidden');
-    c.querySelectorAll('defs, clipPath, filter').forEach(n => n.remove());
-    c.querySelectorAll('[id]').forEach(n => n.removeAttribute('id'));
-    c.querySelectorAll('[filter]').forEach(n => n.removeAttribute('filter'));
-    c.querySelectorAll('[data-crisp]').forEach(n => n.setAttribute('visibility', 'visible'));
-    sharp.forEach(n => n.setAttribute('visibility', 'hidden'));   // ふわをかけた方の目は消す（ふちのザラザラが残らないように）
+    const head = g.querySelector('[data-neo-head]');
+    const layer = (show, fluff, tag) => {   // show = 元の絵の中で見せる部品の選び方
+      const c = g.cloneNode(true);
+      c.setAttribute('data-neo-crisp', tag); c.style.filter = fluff ? 'url(#neoFluff)' : 'none'; c.setAttribute('visibility', 'hidden');
+      c.querySelectorAll('defs, clipPath').forEach(n => n.remove());
+      c.querySelectorAll('[id]').forEach(n => n.removeAttribute('id'));
+      if (!fluff) c.querySelectorAll('[filter]').forEach(n => n.removeAttribute('filter'));
+      show(c);
+      return c;
+    };
+    const inHead = n => !!n.closest('[data-neo-head]');
+    const crispBody = layer(c => c.querySelectorAll('[data-crisp]').forEach(n => { if (!inHead(n)) n.setAttribute('visibility', 'visible'); }), false, 'body');
+    let headFluff = null, crispHead;
+    if (head) {
+      headFluff = layer(c => { const h = c.querySelector('[data-neo-head]'); h.setAttribute('visibility', 'visible'); h.querySelectorAll('[data-crisp]').forEach(n => n.setAttribute('visibility', 'hidden')); }, true, 'headfluff');
+      crispHead = layer(c => c.querySelectorAll('[data-neo-head] [data-crisp]').forEach(n => n.setAttribute('visibility', 'visible')), false, 'head');
+      head.setAttribute('visibility', 'hidden');   // ①には頭を描かない（③で描く）
+    } else crispHead = layer(c => c.querySelectorAll('[data-crisp]').forEach(n => { if (inHead(n)) n.setAttribute('visibility', 'visible'); }), false, 'head');
+    sharp.forEach(n => n.setAttribute('visibility', 'hidden'));   // ふわをかけた方のくっきり部品は消す（ふちのザラザラが残らないように）
     g.querySelectorAll('clipPath *').forEach(n => n.setAttribute('visibility', 'visible'));   // 半目・ジロッの目を切り抜く形は消さない（消すと目が線だけになった。2026-11-24）
-    g.after(c);
+    g.after(crispBody, ...(headFluff ? [headFluff] : []), crispHead);
   };
   window.NEO = NEO;
 })();
