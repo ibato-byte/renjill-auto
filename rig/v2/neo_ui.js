@@ -110,6 +110,7 @@
     c.querySelectorAll('[filter]').forEach(n => n.removeAttribute('filter'));
     c.querySelectorAll('[data-crisp]').forEach(n => n.setAttribute('visibility', 'visible'));
     sharp.forEach(n => n.setAttribute('visibility', 'hidden'));   // ふわをかけた方の目は消す（ふちのザラザラが残らないように）
+    g.querySelectorAll('clipPath *').forEach(n => n.setAttribute('visibility', 'visible'));   // 半目・ジロッの目を切り抜く形は消さない（消すと目が線だけになった。2026-11-24）
     g.after(c);
   };
   window.NEO = NEO;

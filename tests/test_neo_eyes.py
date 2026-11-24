@@ -22,3 +22,9 @@ def test_neo_install_overlays_crisp_eyes():
 
 def test_qa_checks_crisp_eyes():
     assert "NEO.crisp" in (ROOT / "rig/qa.js").read_text()
+
+
+def test_lid_clip_kept_visible():
+    # 2026-11-24：ふわをかけた方の目を隠したら、半目の切り抜き（clipPath）まで隠れて、ジロッの目が線だけになった
+    assert "g.querySelectorAll('clipPath *').forEach(n => n.setAttribute('visibility', 'visible'))" in (ROOT / "rig/v2/neo_ui.js").read_text()
+    assert "半目の切り抜きが消えて" in (ROOT / "rig/qa.js").read_text()
