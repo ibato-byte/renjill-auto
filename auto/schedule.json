@@ -805,8 +805,14 @@
         "storyboard_ok": "2026-11-21",
         "part": 1
       },
-      "cta": "Send this to the coworker who can't stop at one bite./ひとくちで止まれない同僚に送ろう",
-      "note": "2026-11-24 オーナー：定時1分前と同じデザイン（表紙・テロップ・締め）・約30秒・題名「社員からのお土産」"
+      "cta": "Save this for your next Monday./月曜の朝のために保存して",
+      "note": "2026-11-24 オーナー：定時1分前と同じデザイン（表紙・テロップ・締め）・約30秒・題名「社員からのお土産」",
+      "experiment": {
+        "var": "cta",
+        "std": "Save this for your next Monday./月曜の朝のために保存して",
+        "value": "Save this for your next Monday./月曜の朝のために保存して",
+        "why": "最後の一言を足して、送る・保存する人が増えるか比べる"
+      }
     },
     {
       "date": "2026-11-28",
