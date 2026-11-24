@@ -4,5 +4,11 @@
     "kind": "heavy_rain",
     "label": "大雨の日（降水 32mm）",
     "status": "new"
+  },
+  {
+    "date": "2026-11-24",
+    "kind": "after_holiday",
+    "label": "連休明けの朝",
+    "status": "new"
   }
 ]
