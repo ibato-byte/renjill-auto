@@ -28,3 +28,28 @@ def test_lid_clip_kept_visible():
     # 2026-11-24：ふわをかけた方の目を隠したら、半目の切り抜き（clipPath）まで隠れて、ジロッの目が線だけになった
     assert "g.querySelectorAll('clipPath *').forEach(n => n.setAttribute('visibility', 'visible'))" in (ROOT / "rig/v2/neo_ui.js").read_text()
     assert "半目の切り抜きが消えて" in (ROOT / "rig/qa.js").read_text()
+
+
+def test_face_parts_and_props_crisp():
+    # 2026-11-24 オーナー：ひげ・鼻・口・社員証・ネクタイにも毛ふわがかかっていた → 目と同じく、くっきり
+    s = (ROOT / "rig/rig.js").read_text()
+    assert s.count("G({ 'data-crisp': 1 }, [mouthEl])") == 2, "口"
+    assert s.count("G({ 'data-crisp': 1, transform: noseT(p,") == 2, "鼻"
+    assert s.count("G({ 'data-crisp': 1, transform: p.nose ? `translate(") == 2, "ひげ"
+    assert "const lanyard = p.prop ? G({ 'data-crisp': 1 }" in s, "社員証"
+    assert "const tie = p.prop ? G({ 'data-crisp': 1," in s, "ネクタイ"
+
+
+def test_fluff_edges_only():
+    # 毛並みは「定時1分前」と同じく、ふちにだけ短い毛（中はなめらか）。ふわっとし過ぎに戻さない
+    s = (ROOT / "rig/v2/neo_ui.js").read_text()
+    assert 'operator="erode"' in s and '<feMergeNode in="core"/>' in s
+    m = re.search(r'id="neoFluff".*?scale="(\d+(?:\.\d+)?)"', s, re.S)
+    assert m and float(m.group(1)) <= 6, "毛のゆらし幅が大きすぎる"
+
+
+def test_paper_bag_logo_is_green_heart():
+    # 2026-11-24 オーナー：紙袋の赤い十字が救急箱に見えた → 緑のハート
+    s = (ROOT / "rig/v2/timothy_set.js").read_text()
+    bag = s[s.index("TM.paperBag"):s.index("TM.crunch")]
+    assert "#4E9A52" in bag and "#C8263C" not in bag

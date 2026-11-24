@@ -84,7 +84,7 @@
     return `<g transform="translate(${x} ${y}) rotate(${sw.toFixed(1)}) scale(${s})">`
       + `<path d="M-26 34 Q-24 -6 0 -2 Q24 -6 26 34" stroke="#8C603C" stroke-width="6" fill="none" stroke-linecap="round"/>`   // 持ち手（ひも）
       + `<path d="M-48 34 H48 L52 124 H-52Z" fill="#C79A63"/><path d="M-48 34 H48 L46 44 H-46Z" fill="#B38450"/><path d="M14 40 L18 120" stroke="#B38450" stroke-width="4" opacity=".6"/>`
-      + `<rect x="-24" y="62" width="48" height="34" rx="6" fill="#FFF7E8" stroke="#C8263C" stroke-width="3"/><path d="M-10 79 h20 M0 69 v20" stroke="#C8263C" stroke-width="4"/>`   // 赤いリボンのシール
+      + `<rect x="-24" y="62" width="48" height="34" rx="6" fill="#FFF7E8" stroke="#4E9A52" stroke-width="3"/><path d="M0 91 C-4 87 -15 81 -15 73.5 C-15 68.5 -11 66 -7.5 66 C-4 66 -1.5 68 0 70.5 C1.5 68 4 66 7.5 66 C11 66 15 68.5 15 73.5 C15 81 4 87 0 91Z" fill="#4E9A52"/>`   // 緑のハートのシール（赤い十字は救急箱に見えた。2026-11-24 オーナー）
       + `<path d="M-46 118 H46" stroke="${C.ink}" stroke-width="3" opacity=".15"/></g>`;
   };
   // ---- 画面の小さなしるし ----

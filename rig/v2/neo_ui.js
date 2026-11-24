@@ -82,13 +82,13 @@
     g += `</g>`;
     return `<g opacity="${a.toFixed(2)}" transform="translate(${x} ${y}) scale(${s.toFixed(3)}) translate(${-x} ${-y})">${g}</g>`;
   };
-  // ---- 毛をふわっと（見本の絵：体のふちに細い毛が出ている）。#ren・#jil の svg に重ねがけ ----
+  // ---- 毛をふわっと（見本の絵：体のふちにだけ短い毛。中はなめらか。2026-11-24 オーナー：ふわっとし過ぎ→「定時1分前」に合わせて弱く）----
   NEO.install = () => {
     if (document.getElementById('neoFluffDefs')) return;
     document.body.insertAdjacentHTML('beforeend', `<svg id="neoFluffDefs" width="0" height="0" style="position:absolute"><defs><filter id="neoFluff" x="-5%" y="-5%" width="110%" height="110%">`
-      + `<feTurbulence type="fractalNoise" baseFrequency="0.55 0.9" numOctaves="2" seed="3" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="9" xChannelSelector="R" yChannelSelector="G" result="d"/>`
-      + `<feTurbulence type="fractalNoise" baseFrequency="1.6 0.35" numOctaves="1" seed="5" result="t"/><feColorMatrix in="t" type="matrix" values="0 0 0 0 1  0 0 0 0 .96  0 0 0 0 .9  .9 0 0 0 -.45" result="tc"/>`
-      + `<feComposite in="tc" in2="d" operator="in" result="hl"/><feMerge><feMergeNode in="d"/><feMergeNode in="hl"/></feMerge></filter></defs></svg>`);
+      + `<feTurbulence type="fractalNoise" baseFrequency="0.9 0.9" numOctaves="2" seed="3" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="6" xChannelSelector="R" yChannelSelector="G" result="d"/>`
+      + `<feMorphology in="SourceAlpha" operator="erode" radius="3" result="er"/><feGaussianBlur in="er" stdDeviation="1.5" result="erb"/><feComposite in="SourceGraphic" in2="erb" operator="in" result="core"/>`
+      + `<feMerge><feMergeNode in="d"/><feMergeNode in="core"/></feMerge></filter></defs></svg>`);
     window.NEO_EYES = true;   // rig.js：目を「定時1分前」と同じ、くっきりした形で描く
     // 毛ふわは体だけ。目とメガネ（data-crisp）は、ふわをかけない写しを上に重ねる（2026-11-24 オーナー：目をはっきり）
     if (window.L && !L.__neoCrisp) {
