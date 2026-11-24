@@ -126,6 +126,12 @@ def S(kind):
         for at, g in ((0, .26), (.055, .18)):
             nn = bp(noise(.035), 1800, 5200) * env(int(SR * .035), .001, .012) * g; i = int(at * SR); x[i:i + len(nn)] += nn
         return x
+    if kind == 'dosu':    # ドスッ（低くて重い。床がゆれるような音。2026-11-24 オーナー：「ザクッ」の振動の音を低いドスッドスッに）
+        n = int(SR * .42); tt = np.arange(n) / SR
+        f = 48 + 70 * np.exp(-tt * 22)                                   # 高めから低くすべる
+        body = np.sin(2 * np.pi * np.cumsum(f) / SR) * np.exp(-tt * 9) * .95
+        hit = lp(noise(.06), 260)[:n] if n else 0; x = body.copy(); x[:len(hit)] += .5 * hit * env(len(hit), .001, .03)
+        return x
     if kind == 'zaku':    # ザクッ（大きく、やけに力強くかむ。低めで長い）
         x = np.zeros(int(SR * .3))
         for at, g in ((0, .55), (.07, .42), (.15, .3)):

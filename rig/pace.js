@@ -107,6 +107,6 @@ window.PACE_ALL.breakroom1 = { start: 0.0, speed: 1.0, hook: 'KOTATSU./休憩室
 window.PACE_ALL.breakroom2 = { start: 0.0, speed: 1.0, hook: 'KOTATSU./休憩室のこたつ Part 2' };
 window.PACE_ALL.breakroom3 = { start: 0.0, speed: 1.0, hook: 'KOTATSU./休憩室のこたつ Part 3' };
 // 2026-11-21「クリのお土産『金のチモシー』」：タイトルのデザインと大きさを3話でそろえる（同じ文字列＝同じ大きさ。Part だけ変わる）
-window.PACE_ALL.timothy1 = { start: 0.0, speed: 1.0, hook: 'GOLDEN TIMOTHY./金のチモシー Part 1' };
-window.PACE_ALL.timothy2 = { start: 0.0, speed: 1.0, hook: 'GOLDEN TIMOTHY./金のチモシー Part 2' };
-window.PACE_ALL.timothy3 = { start: 0.0, speed: 1.0, hook: 'GOLDEN TIMOTHY./金のチモシー Part 3' };
+window.PACE_ALL.timothy1 = { start: 0.0, speed: 1.0, hook: '' };   // 2026-11-24：題名は台本の中で「定時1分前」と同じデザインで描く（rig/v2/neo_ui.js）
+window.PACE_ALL.timothy2 = { start: 0.0, speed: 1.0, hook: '' };   // 2026-11-24：題名は台本の中で「定時1分前」と同じデザインで描く（rig/v2/neo_ui.js）
+window.PACE_ALL.timothy3 = { start: 0.0, speed: 1.0, hook: '' };   // 2026-11-24：題名は台本の中で「定時1分前」と同じデザインで描く（rig/v2/neo_ui.js）

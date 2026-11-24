@@ -61,7 +61,8 @@ class OpeningText(unittest.TestCase):
         self.assertEqual(bad, [], "冒頭の日本語は 13 文字まで：" + ", ".join(bad))
 
     def test_cover_text_matches_hook(self):
-        bad = [p["ep"] for p in upcoming() if p["ep"] in HOOKS and (p.get("thumb") or {}).get("hook") and p["thumb"]["hook"] != HOOKS[p["ep"]]]
+        # 2026-11-24：「定時1分前」と同じデザインの回は、冒頭の題名を台本の中で描く（pace.js の hook は空・表紙は variant N）。その回は比べない
+        bad = [p["ep"] for p in upcoming() if HOOKS.get(p["ep"]) and (p.get("thumb") or {}).get("hook") and p["thumb"]["hook"] != HOOKS[p["ep"]]]
         self.assertEqual(bad, [], "表紙の文字（schedule.json）と冒頭の一言（pace.js）がちがう：" + ", ".join(bad))
 
 

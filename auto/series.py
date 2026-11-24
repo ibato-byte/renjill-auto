@@ -130,14 +130,15 @@ def check(posts, today, days=21, pol=None, src=_src):
             days_left = (dt.date.fromisoformat(p["date"]) - today).days
             (issues if days_left <= 3 else warns).append(f"{tag}: オーナーの絵コンテのOK（series.storyboard_ok）がまだ。OKが出るまで動画を作らず、投稿もしない")
         hook = (p.get("thumb") or {}).get("hook", "")
-        if f'Part {s["part"]}' not in hook: issues.append(f'{tag}: 冒頭の一言（thumb.hook）に「Part {s["part"]}」がない（途中から見た人にも何話目か分かるように）')
+        if not re.search(rf'Part\s*{s["part"]}\b', hook, re.I): issues.append(f'{tag}: 冒頭の一言（thumb.hook）に「Part {s["part"]}」がない（途中から見た人にも何話目か分かるように）')
         if s["part"] < pol["parts"]:
             if "つづく" not in p.get("caption_ja", ""): warns.append(f"{tag}: caption_ja に「（つづく）」がない")
             if "to be continued" not in p.get("caption_en", "").lower(): warns.append(f"{tag}: caption_en に「(to be continued)」がない")
         code = src(p["ep"])
         if code is None: continue  # 台本がまだない回は preflight が止める
-        if "フォロー" not in code: issues.append(f"{tag}: 最後にフォローをうながすテロップ（「フォロー」の文字）がない")
-        NEXT = ("次回", "第2話へ", "第3話へ", "最終話へ", "次の話")   # 2026-11-21 オーナーのテロップ「フォローして第2話へ」「フォローして最終話へ」も次回予告
+        # 2026-11-24：「定時1分前」と同じ締め（赤い札「つづく ▶ …」＋英語「Follow for Part 2 ▶ …」）も、フォローをうながすテロップとして数える
+        if "フォロー" not in code and "Follow for" not in code: issues.append(f"{tag}: 最後にフォローをうながすテロップ（「フォロー」の文字）がない")
+        NEXT = ("次回", "第2話へ", "第3話へ", "最終話へ", "次の話", "つづく ▶")   # 2026-11-21 オーナーのテロップ「フォローして第2話へ」「フォローして最終話へ」も次回予告
         if s["part"] < pol["parts"] and not any(w in code for w in NEXT): issues.append(f"{tag}: 最後に次回予告（「次回」「第2話へ」「最終話へ」などの文字）がない")
         if s["part"] >= 2 and not re.search(r"^\s*//\s*前回[：:]", code, re.M):
             issues.append(f"{tag}: 冒頭のあらすじがない（台本の頭のコメントに「// 前回：」の1行を書き、最初の1〜2秒で前回を見せる）")

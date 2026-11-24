@@ -1,18 +1,21 @@
-// 「クリのお土産『金のチモシー』第3話（Part 3）業務用」（本編20秒＋締めテロップ3秒＋エンドカード1秒・セリフなし）2026-11-21 オーナーの絵コンテ
+// 「社員からのお土産 Part 3」（約30秒・セリフなし・テロップは日本語＋英語）2026-11-21 オーナーの絵コンテ ＋ 2026-11-22・11-24 の直し
+// 2026-11-24 オーナー：見た目・締め方・演出は「定時1分前のちょっといい？」にそろえる（rig/v2/neo_ui.js）・長さは毎回30秒前後・題名「社員からのお土産」
 // 前回：モチ課長が箱のチモシーを預かって、デスクでほぼ食べきった（最初の2秒：空っぽの皿をのぞくユズとクリ）
 // 状況：翌日、お土産の皿は空っぽ
 // オチ：課長が「業務用」の大袋を買ってきて補充し、自分がまた食べる
-// 0–6    翌日の休憩室。ユズとクリの前に、昨日と同じ「お土産」の箱。中の皿は空っぽ。ふたりで皿をのぞき込み、がっかりして顔を見合わせる
-// 6–13   画面の右から、やけに大きな「ザクッ、ザクッ」。音に合わせて画面をほんの少し揺らし、ふたりが同時に右を向く（モチも大袋も画面に入れない）→ ふたりの反応を一拍
-// 13–20  引きの画：モチと、テーブルの横に立てかけた巨大な金色の袋「金のチモシー 業務用」。箱の皿を同じ角度で 空っぽ → 山盛り（モチが補充した）。モチはふたりの視線に気づいてにっこり。
-//        ユズとクリは一拍おいて、呆れた顔で目を合わせる。BGMを一瞬引き、モチが補充したばかりの皿に顔を近づけて、もうひとくち。「ザクッ」で本編を締める
-// 20–23  締めテロップ「次のお話も、」「フォローして待っててね」
+// 0–1.8   題名「社員からのお土産 / A souvenir from the new hire」
+// 0–8     翌日の休憩室。ユズとクリの前に、昨日と同じ「お土産」の箱。中の皿は空っぽ。ふたりで皿をのぞき込む。
+//         2〜4秒 テロップ「あっという間になくなる / Gone in no time.」（2026-11-24：2秒たす）→ がっかりして顔を見合わせる
+// 8–15    画面の右から、やけに大きな「ドスッ、ドスッ」（2026-11-24：低い音に）。音に合わせて画面をほんの少し揺らし、ふたりが同時に右を向く（モチも大袋も画面に入れない）
+// 15–26   引きの画：モチと、テーブルの横に立てかけた巨大な金色の袋「金のチモシー 業務用」。箱の皿を同じ角度で 空っぽ → 山盛り（モチが補充した）。
+//         モチはふたりの視線に気づいてにっこり。ユズとクリは一拍おいて、呆れた顔で目を合わせる。BGMを一瞬引き、モチが補充したばかりの皿にもうひとくち「ザクッ」
+// 26.3–30 締めの赤い札「フォローで次の話も ▶ / Follow for the next story!」
 // 前足：使わない（テーブルの陰）。補充は「皿が空っぽ」→「山盛り」のカットでつなぐ
-document.write('<script src="v2/lib.js"><\/script><script src="v2/elevator_set.js"><\/script><script src="v2/breakroom_set.js"><\/script><script src="v2/timothy_set.js"><\/script>');
+document.write('<script src="v2/lib.js"><\/script><script src="v2/elevator_set.js"><\/script><script src="v2/breakroom_set.js"><\/script><script src="v2/timothy_set.js"><\/script><script src="v2/neo_ui.js"><\/script>');
 (function () {
   const sm = (a, b, t) => { const k = Math.max(0, Math.min(1, (t - a) / (b - a))); return k * k * (3 - 2 * k); };
   const lerp = (a, b, k) => a + (b - a) * k;
-  const PEER = 1.0, SAD = 2.9, EYES = 4.0, ZAKU = [6.4, 7.2, 9.9, 10.7], TURN = 6.6, WIDE = 13.0, DISH_E = 14.2, DISH_F = 14.9, NOTICE = 15.6, AKIRE = 16.9, LAST = 18.1, LASTZ = 19.4, CUT = 20.0;
+  const PEER = 1.0, GONE_T = [2.0, 4.6], SAD = 4.9, EYES = 6.0, ZAKU = [8.4, 9.2, 11.9, 12.7], TURN = 8.6, WIDE = 15.0, DISH_E = 16.4, DISH_F = 17.2, NOTICE = 18.2, AKIRE = 19.8, LAST = 21.4, LASTZ = 22.9, END = 26.3, STORY = 30.0;
   // （TM はこのあと読みこまれるので、位置は使う時に決める）
   const RW = () => ({ x: 600, y: 520 });   // 立って、クリの後ろ          // 引きの画のモチ（テーブルの右のはし・大袋の横）
   const RL = () => ({ x: 300, y: TM.REN.y - 70 });     // 最後のひとくち（箱のま後ろから身をのり出す）
@@ -57,24 +60,24 @@ document.write('<script src="v2/lib.js"><\/script><script src="v2/elevator_set.j
     return Object.assign({}, t >= LAST ? RIG.POSES.sit : RIG.POSES.stand, face, { x: x - 40 * lean, y: y + 20 * lean, scale: TM.REN.s, flip: false, eyeLook: look, headNod: nod + 14 * lean, eyeOpen, bodyTilt: tilt - 6 * lean }, mouth ? { mouth } : {});
   }
   const SFX = [{ t: .15, type: 'pop', pan: 0 }, { t: PEER + .1, type: 'swish', pan: -.2 }, { t: SAD, type: 'flop', pan: -.2 }, { t: EYES, type: 'blink', pan: 0 }];
-  for (const z of ZAKU) SFX.push({ t: z, type: 'zaku', pan: .85 });
-  SFX.push({ t: TURN + .02, type: 'twitch', pan: 0 }, { t: TURN + .05, type: 'whoosh', pan: .3 }, { t: WIDE, type: 'zaku', pan: .5 }, { t: WIDE + .5, type: 'zaku', pan: .5 },
+  for (const z of ZAKU) SFX.push({ t: z, type: 'dosu', pan: .85 });   // 低い「ドスッ」（2026-11-24 オーナー）
+  SFX.push({ t: TURN + .02, type: 'twitch', pan: 0 }, { t: TURN + .05, type: 'whoosh', pan: .3 }, { t: WIDE, type: 'dosu', pan: .5 }, { t: WIDE + .5, type: 'dosu', pan: .5 },
     { t: DISH_E + .05, type: 'blink', pan: 0 }, { t: DISH_F, type: 'pop', pan: 0 }, { t: NOTICE + .1, type: 'chime', pan: .4 }, { t: AKIRE, type: 'blink', pan: -.2 }, { t: AKIRE + .4, type: 'flop', pan: -.2 },
-    { t: LASTZ, type: 'zaku', pan: 0 }, { t: CUT + .02, type: 'pop', pan: 0 });
+    { t: LASTZ, type: 'zaku', pan: 0 }, { t: END, type: 'pop', pan: 0 });
   // 締めテロップ：1文を読みやすく2行に（「、」で改行）
-  const TELOP = k => k <= 0 ? '' : `<g transform="translate(520 330) scale(${L.outBack(Math.min(1, k * 1.6))})" opacity="${Math.min(1, k * 3)}" font-family="Noto Sans CJK JP" font-weight="900" text-anchor="middle">
-    <rect x="-440" y="-150" width="880" height="300" rx="48" fill="#3B2412" opacity=".22" transform="translate(6 10)"/><rect x="-440" y="-150" width="880" height="300" rx="48" fill="#3A2414" opacity=".92"/>
-    <text y="-22" font-size="84" fill="#FFF7E8">次のお話も、</text><text y="82" font-size="70" fill="#F2D3A8">フォローして待っててね</text></g>`;
   const off = { x: 3000, y: 0, scale: 1 };
   window.EP = {
-    dur: 24.0,
-    bgm: { style: 'comedy', level: .5, dips: [[SAD - .1, EYES + .8, .45], [ZAKU[0] - .3, 12.9, .3], [LAST - .2, LASTZ + .5, .2], [CUT, 23.0, .65]] },   // ザクッの間・最後のひとくちの前に引く
-    qaAllow: { cuts: [TURN, WIDE, DISH_E, DISH_F, NOTICE, LAST], still: [[CUT - .1, 24]], hidden_ren: [[0, WIDE + .05], [DISH_E - .05, NOTICE + .05]] },   // モチは 13 秒の引きの画まで画面に入れない（オーナーの絵コンテ）・皿の寄りの間も
+    neoTitle: true,   // 題名は rig/v2/neo_ui.js の NEO.title で画面に描く（qa.js が確かめる）
+    dur: 31.0,   // 30 秒（Instagram・TikTok）＋エンドカード 1 秒（YouTube 用）
+    bgm: { style: 'comedy', level: .5, dips: [[GONE_T[0], EYES + .8, .45], [ZAKU[0] - .3, ZAKU[3] + .5, .3], [LAST - .2, LASTZ + .5, .2], [END, STORY, .7]] },   // ザクッの間・最後のひとくちの前に引く
+    qaAllow: { cuts: [TURN, WIDE, DISH_E, DISH_F, NOTICE, LAST], still: [[LASTZ + .6, 31]], hidden_ren: [[0, WIDE + .05], [DISH_E - .05, NOTICE + .05]] },   // モチは 13 秒の引きの画まで画面に入れない（オーナーの絵コンテ）・皿の寄りの間も
     sfx: SFX.sort((a, b) => a.t - b.t),
     frame(t) {
-      if (!window.L || !window.RIG || !window.TM) return;
-      const tt = Math.min(t, CUT);
-      const opt = { twitch: false, shadow: false, blink: t < CUT, breathe: t < CUT, ears: false };
+      if (!window.L || !window.RIG || !window.TM || !window.NEO) return;
+      NEO.install();
+      const tt = Math.min(t, STORY);
+      const opt = { twitch: false, shadow: false, blink: true, breathe: true, ears: false };
+      const CY = z => TM.T.top - (1430 - 960) / z;   // 天板が画面の下の方（y 1430）
       const bg = BR.bg({ t: tt, min: 5 + tt / 12 });
       if (tt >= WIDE) L.char('ren', renPose(tt), tt, '', opt); else L.char('ren', Object.assign({}, RIG.POSES.sit, off), tt, '', { shadow: false });
       L.char('jil', jilPose(tt), tt, '', opt);
@@ -86,18 +89,22 @@ document.write('<script src="v2/lib.js"><\/script><script src="v2/elevator_set.j
       // 画面をほんの少し揺らす：カメラをゆっくり（6Hz）左右に。速くゆらすと1コマごとに絵が変わって「ちかちか」になる（2026-11-21 qa.py）
       let sx = 0, sy = 0; for (const z of ZAKU) if (tt >= z && tt < z + .4) { const u = (tt - z) / .4, a = 7 * (1 - u); sx = a * Math.sin(u * 2 * Math.PI * 2.4); sy = a * .5 * Math.sin(u * 2 * Math.PI * 2.4 + 1.3); }
       const cam = L.camAt([
-        { t: 0, z: 1.7, cx: 470, cy: 990 },                                    // 翌日：ユズとクリと箱
-        { t: 0.01, z: 1.78, cx: 480, cy: 995, d: 2.6 },
-        { t: EYES, z: 1.7, cx: 490, cy: 990, d: .5 },                            // 顔を見合わせる
-        { t: TURN, z: 1.72, cx: 495, cy: 985, d: .01 },                          // 右を向く（モチも大袋も入れない）
+        { t: 0, z: 1.55, cx: 450, cy: CY(1.55) },                                    // 翌日：ユズとクリと箱
+        { t: 0.01, z: 1.6, cx: 455, cy: CY(1.6), d: 3.6 },
+        { t: EYES, z: 1.55, cx: 460, cy: CY(1.55), d: .5 },                            // 顔を見合わせる
+        { t: TURN, z: 1.58, cx: 465, cy: CY(1.58), d: .01 },                          // 右を向く（モチも大袋も入れない）
         { t: WIDE, z: .98, cx: 610, cy: 1080, d: .01 },                         // 引きの画（カット）：モチと業務用の大袋
-        { t: DISH_E, z: 2.6, cx: TM.DISH_IN.x + 20, cy: 1040, d: .01 },          // 箱の皿（同じ角度）：空っぽ
+        { t: DISH_E, z: 2.6, cx: TM.DISH_IN.x + 20, cy: CY(2.6) + 40, d: .01 },          // 箱の皿（同じ角度）：空っぽ
         { t: NOTICE, z: .98, cx: 610, cy: 1080, d: .01 },                       // 引き：にっこり → 呆れ顔
-        { t: LAST, z: 2.0, cx: TM.DISH_IN.x + 60, cy: 990, d: .01 },             // 補充したばかりの皿に、もうひとくち
+        { t: LAST, z: 2.0, cx: TM.DISH_IN.x + 60, cy: CY(2.0), d: .01 },             // 補充したばかりの皿に、もうひとくち
+        { t: LASTZ + 1.0, z: 1.35, cx: 480, cy: CY(1.35), d: 1.6 },                // 少し引いて、呆れ顔のふたりも（締めの札の間）
       ], tt);
       cam.cx += sx; cam.cy += sy;
-      const dim = t >= CUT ? `<rect x="0" y="0" width="1080" height="1920" fill="#1E140C" opacity="${(.42 * sm(CUT, CUT + .2, t)).toFixed(2)}"/>` : '';
-      L.mount({ bg, fx, ui: t < 23.0 ? dim + TELOP(L.seg(t, CUT + .05, CUT + .5)) : dim, cam, t: tt });
+      // ---- 画面の文字（定時1分前と同じデザイン。日本語＋英語）----
+      let ui = NEO.brand() + NEO.title('社員からのお土産', 'A souvenir from the new hire', 1 - sm(1.5, 1.8, t), 'PART 3 / 3');
+      ui += NEO.telop('あっという間になくなる', 'Gone in no time.', L.seg(t, GONE_T[0], GONE_T[0] + .4) * (1 - L.seg(t, GONE_T[1] - .3, GONE_T[1])));
+      ui += NEO.ending('フォローで次の話も ▶', 'Follow for the next story!', L.seg(t, END, END + .5));
+      L.mount({ bg, fx, ui, cam, t: tt });
       if (typeof endcard === 'function') endcard(t, EP.dur);
     }
   };
