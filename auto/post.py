@@ -16,7 +16,7 @@ Instagram・Facebook のサムネは dist/<ep>_thumb.jpg（Instagram は公開UR
 失敗したSNSはスキップして他を続け、終了コードで知らせる。
 Facebook は権限・設定がなければ飛ばすだけ（失敗にしない）。理由は dist/post_hub_args 経由で Automation Hub の「やること」に出る。
 """
-import datetime as dt, json, os, re, subprocess, sys, time, pathlib
+import shutil, datetime as dt, json, os, re, subprocess, sys, time, pathlib
 import requests
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 import facebook as fb
@@ -81,6 +81,11 @@ def pick_posts(slot_override=None, now=None, ignore_posted=False):
     return sch, posted, out
 
 # ---------- レンダリング ----------
+def pace_hook(ep):
+    """rig/pace.js のその回の冒頭の一言（hook）。書いていなければ None、空なら ''"""
+    m = re.search(r"PACE_ALL\.%s\s*=\s*\{[^}]*hook:\s*'([^']*)'" % re.escape(ep), (RIG / "pace.js").read_text(encoding="utf-8"))
+    return m.group(1) if m else None
+
 def render(ep):
     """yt＝YouTube 用（冒頭の一言を焼き込まない。YouTube は冒頭のコマを表紙にするため。依頼 #124）、loop＝ほかの SNS 用（一言あり・エンドカードなし）"""
     yt, loop = DIST / f"{ep}_yt.mp4", DIST / f"{ep}_loop.mp4"
@@ -94,9 +99,13 @@ def render(ep):
     dur = json.loads((RIG / "out" / ep / "meta.json").read_text())["dur"]
     # ループ版：エンドカード（最後の0.9秒）を落とす
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(full), "-t", str(dur - 1.0), "-c", "copy", str(loop)], check=True)
-    # YouTube 版：冒頭の一言なし
-    subprocess.run(["node", str(RIG / "render-ep.js"), ep, "nohook"], check=True, env=env)
-    subprocess.run(["bash", str(RIG / "build.sh"), f"{ep}_nohook", str(yt)], check=True)
+    # YouTube 版：冒頭の一言なし。pace.js の hook が空の回（2026-11-24〜「定時1分前」と同じ見た目で、題名を台本の中で描く回）は
+    # 一言を焼き込まないので、全編がそのまま YouTube 版になる（同じ絵をもう一度書き出さない：毛のふわっとした回は1本に約1時間かかる）
+    if not pace_hook(ep):
+        shutil.copyfile(full, yt)
+    else:
+        subprocess.run(["node", str(RIG / "render-ep.js"), ep, "nohook"], check=True, env=env)
+        subprocess.run(["bash", str(RIG / "build.sh"), f"{ep}_nohook", str(yt)], check=True)
     mark.write_text("hook なし（依頼 #124）\n")
     return yt, loop
 
