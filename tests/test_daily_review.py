@@ -104,3 +104,13 @@ class FbRows(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class SeriesVariables(unittest.TestCase):
+    def test_series_skips_slot_and_thumb_variant(self):
+        # 2026-11-23 週次：連載の回は時刻が決まりで固定、B の表紙は検査に通らない。試す変数は tag_set か cta だけ
+        import daily_review as dr
+        self.assertEqual(dr.next_variable([], series=True), "tag_set")
+        exps = [{"変数": "tag_set", "投稿日": "2026-11-21", "採用": "様子見"}]
+        self.assertEqual(dr.next_variable(exps, series=True), "cta")
+        self.assertEqual(dr.next_variable([]), "thumb_variant")  # 1話完結の回は今までどおり

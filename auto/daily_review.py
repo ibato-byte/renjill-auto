@@ -117,13 +117,20 @@ def evaluate(exps, posted, views, today):
     return changed
 
 
-def next_variable(exps):
-    """次に試す変数。評価が「戻す」だった変数は後回しにし、まだ試していない・いちばん昔に試した変数を先に"""
+# 連載の回（予定表に series がある回）では試さない変数（2026-11-23 週次）：
+# slot＝投稿時刻は連載の決まり（auto/series_policy.json の slots）で固定。変えると series.py が不合格にする。
+# thumb_variant＝B（文字が下）は「Part N」の札で文字の塊が高くなり、キャラと重なって表紙の検査に一度も通っていない（11/23 エレベーター第3話・11/26 金のチモシー第1話で確認）。A に戻されるだけで比べられない
+SERIES_SKIP = {"slot", "thumb_variant"}
+
+
+def next_variable(exps, series=False):
+    """次に試す変数。評価が「戻す」だった変数は後回しにし、まだ試していない・いちばん昔に試した変数を先に。連載の回は SERIES_SKIP を除く"""
     last, bad = {}, set()
     for e in exps:
         last[e["変数"]] = e["投稿日"]
         if e["採用"] == "戻す": bad.add(e["変数"])
-    return sorted(VARIABLES, key=lambda v: (v in bad, last.get(v, "")))[0]
+    pool = [v for v in VARIABLES if not (series and v in SERIES_SKIP)]
+    return sorted(pool, key=lambda v: (v in bad, last.get(v, "")))[0]
 
 
 def assign(p, var, standards, defaults, posted_slots):
@@ -180,7 +187,7 @@ def main(argv):
     target = next((p for p in future if "experiment" not in p), None)
     next_try = None
     if target:
-        var = next_variable(exps)
+        var = next_variable(exps, series=bool(target.get("series")))
         by_var = {}
         for e in exps: by_var.setdefault(e["変数"], []).append(e)
         res = assign(target, var, standards, sch["defaults"], by_var)

@@ -53,3 +53,14 @@ class Thumb(unittest.TestCase):
         self.assertIn("エンドカードの上に物が残っている", src)
         self.assertNotIn("r.fx - fxMin > 3", src)
         self.assertNotIn("&& r.fx > 3)", src)
+
+
+class ThumbPartLayout(unittest.TestCase):
+    def test_chip_compared_only_with_same_layout(self):
+        # 2026-11-23 週次：連載の表紙（見出しの下に「Part N」の札）はチップが約190px下がる。
+        # 1話完結の回の中央値（約655px）と比べて、どのコマでも THUMB_NOT_ALIGNED になり、11/22 の事前の動画づくりが止まった。
+        # チップの位置は、同じ形（part の有無）の回どうしでだけ比べる。同じ形が3本未満なら比べない
+        src = (ROOT / "rig/thumb.js").read_text()
+        self.assertIn("part: isPart", src)
+        self.assertIn("!!o.part === me.part", src)
+        self.assertIn("ref.chipTop != null && Math.abs(me.chipTop - ref.chipTop) > 160", src)
