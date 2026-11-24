@@ -58,6 +58,9 @@ const STEP = 0.125, W = 1080, H = 1920;
     // 2026-11-24：「定時1分前」と同じデザインの回は、題名（日本語＋英語）を台本が画面に描く（EP.neoTitle）。0.5秒の時点で #ui に題名の文字があるかを見る
     const neoTitle = await p.evaluate(() => { if (!(window.EP && EP.neoTitle)) return null; window.setOut(0.5); const ts = [...document.querySelectorAll('#ui text')].map(e => e.textContent); return ts.some(x => /[A-Za-z]/.test(x) && !/TOKYO USAGI OFFICE/.test(x)) && ts.some(x => /[ぁ-んァ-ン一-龥]/.test(x) && !/東京うさぎオフィス/.test(x)); });
     if (neoTitle === false) issues.push('冒頭の題名（日本語と英語）が0.5秒の時点で画面にない（NEO.title）');
+    // 2026-11-24 オーナー：NEO の回は、目とメガネを毛ふわ（ザラザラ）にせず、くっきり描く（NEO.crisp）。目が見える所で、ふわなしの写しがあるかを見る
+    const neoEyes = await p.evaluate(() => { if (!(window.EP && EP.neoTitle)) return null; const bad = []; for (let s = 1; s < EP.dur - 1; s += 2.5) { window.setOut(s); for (const id of ['ren', 'jil']) { const g = document.querySelector(`#${id} > g:not([data-neo-crisp])`); if (!g || !g.querySelector('[data-crisp]')) continue; const r = g.getBoundingClientRect(); if (r.right < 0 || r.left > innerWidth) continue; const c = document.querySelector(`#${id} > g[data-neo-crisp]`); if (!c || !window.NEO_EYES || c.querySelector('[data-crisp][visibility="visible"]') == null || getComputedStyle(c).filter !== 'none') bad.push(`${s.toFixed(1)}s ${id}`); } } return bad; });
+    if (neoEyes && neoEyes.length) issues.push(`目がくっきり描かれていない（NEO.crisp）：${neoEyes.slice(0, 4).join('、')}`);
     if (!hk && neoTitle == null) issues.push('冒頭の英語の一言がない（pace.js に hook を入れる）');
     else if (hk) {
       if (hk.op < 0.9) issues.push(`冒頭の一言が0.5秒の時点で見えていない（opacity ${hk.op.toFixed(2)}）`);

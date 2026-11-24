@@ -80,6 +80,13 @@
   const E = (cx, cy, rx, ry, fill, extra) => el('ellipse', Object.assign({ cx, cy, rx, ry, fill }, extra || {}));
   const P = (d, fill, extra) => el('path', Object.assign({ d, fill }, extra || {}));
   const G = (attrs, kids) => el('g', attrs, kids);
+  // NEO の目（2026-11-24 オーナー：「定時1分前」と同じ、くっきりした目）：黒に近い紺の玉、左上に白い光、下にうすい映りこみの弧
+  const neoEye = (x, y, rx, ry, u, lid) => { const k = Math.min(1, ry / rx); return [
+    !lid && k > .6 ? E(x, y + 1, rx * 1.62, rx * 1.62, u('eyeRing')) : null,   // 目のまわりの明るいクリーム（見本のモチ＝メガネのレンズの中だけ。ユズは無し）
+    E(x, y, rx, ry, u('eyeN')),
+    k > .45 ? el('ellipse', { cx: x - rx * .3, cy: y - ry * .42, rx: rx * .3, ry: rx * .24, fill: '#FFFFFF', transform: `rotate(-28 ${x - rx * .3} ${y - ry * .42})` }) : null,
+    k > .6 ? P(`M${x - rx * .55} ${y + ry * .42} Q${x} ${y + ry * .72} ${x + rx * .55} ${y + ry * .42}`, 'none', { stroke: '#7D8B9A', 'stroke-width': rx * .11, 'stroke-linecap': 'round', opacity: .75 }) : null
+  ].filter(Boolean); };
 
   function defs(id, c, isRen) {
     const furFilter = el('filter', { id: id + 'fur', x: '-10%', y: '-10%', width: '120%', height: '120%' }, [
@@ -99,6 +106,8 @@
       rg('head', [[0, c.head1], [0.65, c.head2], [1, c.head3]], 0.5, 0.42, 0.62),
       rg('cream', [[0, c.cream, 1], [0.6, c.cream, 0.9], [1, c.cream, 0]], 0.5, 0.45, 0.5),
       rg('eye', [[0, c.eye1], [0.45, c.eye2], [1, c.eye3]], 0.42, 0.38, 0.65),
+      rg('eyeRing', [[0, '#FAF0DF', .95], [0.72, '#F7E7CE', .85], [1, '#F2DDBF', 0]], 0.5, 0.5, 0.5),
+      rg('eyeN', [[0, '#5A6572'], [0.5, '#22272F'], [1, '#090B0F']], 0.5, 0.6, 0.62), // NEO の目（定時1分前の見本：黒に近い紺、下に少し明るみ）
       isRen ? lg('ear', [[0, c.ear1], [0.6, c.ear2], [1, c.ear3]], 0.2, 1) : lg('ear', [[0, c.ear1], [1, c.ear2]], 0, 1),
       isRen ? null : lg('earIn', [[0, c.earIn1], [1, c.earIn2]], 0, 1),
       // 足（2026-11-16）：上がやわらかい光、下が少し沈む。前足はクリーム、後ろ足は体より少し明るい茶
@@ -360,12 +369,12 @@
       } else {
         // 半目・怒り目：上を頭の色の板でかくすと、色が合わず四角く見えた（2026-11-16）→ まぶたの線の下だけを見せ、まぶたの線を引く
         const lid = p.eyeShape === 'half' ? `M${cx - 21} 186 Q${cx} 190 ${cx + 21} 186` : p.eyeShape === 'angry' ? (cx < 180 ? `M${cx - 21} 182.6 L${cx + 21} 193.6` : `M${cx - 21} 193.6 L${cx + 21} 182.6`) : null;
-        const eyeIn = [E(cx + eyeDx, 195, 13, eyeRy, u('eye')), E(cx + eyeDx + 4.5, 189.5, 4, 3.2, '#FFFFFF', { opacity: 0.9 })];
+        const eyeIn = window.NEO_EYES ? neoEye(cx + eyeDx, 195, 13, eyeRy, u, lid) : [E(cx + eyeDx, 195, 13, eyeRy, u('eye')), E(cx + eyeDx + 4.5, 189.5, 4, 3.2, '#FFFFFF', { opacity: 0.9 })];
         if (lid) { const cid = `${id}lid${cx}`; kids.push(el('clipPath', { id: cid }, [P(lid + ` V${186 + 60} H${cx - 21} Z`, '#000')])); kids.push(G({ 'clip-path': `url(#${cid})` }, eyeIn)); kids.push(P(lid, 'none', { stroke: c.eye2, 'stroke-width': 3.6, 'stroke-linecap': 'round' })); }
         else kids.push(...eyeIn);
         if (!lid) kids.push(P(`M${cx - 13} 192 Q${cx} 178 ${cx + 13} 192`, 'none', { stroke: '#5E4535', 'stroke-width': 1.6, opacity: 0.6 }));
       }
-      return G({}, kids);
+      return G({ 'data-crisp': 1 }, kids);   // 目：NEO の毛ふわ（neo_ui.js）をかけず、くっきり描く印
     };
     const mouthEl = {
       w:     P('M180 236 V243 M180 243 Q174 249 168 247 M180 243 Q186 249 192 247', 'none', { stroke: c.mouth, 'stroke-width': 1.8, 'stroke-linecap': 'round' }),
@@ -466,12 +475,12 @@
       } else {
         // 半目・怒り目：上を頭の色の板でかくすと、色が合わず四角く見えた（2026-11-16）→ まぶたの線の下だけを見せ、まぶたの線を引く
         const lid = p.eyeShape === 'half' ? `M${cx - 26} 191 Q${cx} 195 ${cx + 26} 191` : p.eyeShape === 'angry' ? (cx < 188 ? `M${cx - 26} 184.5 L${cx + 26} 197.5` : `M${cx - 26} 197.5 L${cx + 26} 184.5`) : null;
-        const eyeIn = [E(cx + eyeDx, 201, 18, eyeRy, u('eye')), E(cx + eyeDx + 6, 193, 5.2, 4.2, '#FFFFFF', { opacity: 0.92 })];
+        const eyeIn = window.NEO_EYES ? neoEye(cx + eyeDx, 201, 18, eyeRy, u, true) : [E(cx + eyeDx, 201, 18, eyeRy, u('eye')), E(cx + eyeDx + 6, 193, 5.2, 4.2, '#FFFFFF', { opacity: 0.92 })];
         if (lid) { const cid = `${id}lid${cx}`; kids.push(el('clipPath', { id: cid }, [P(lid + ` V${191 + 60} H${cx - 26} Z`, '#000')])); kids.push(G({ 'clip-path': `url(#${cid})` }, eyeIn)); kids.push(P(lid, 'none', { stroke: c.eye2, 'stroke-width': 3.6, 'stroke-linecap': 'round' })); }
         else kids.push(...eyeIn);
         kids.push(P(`M${cx - 9} 210 Q${cx} 215 ${cx + 9} 210`, 'none', { stroke: '#A9BDCC', 'stroke-width': 2, opacity: 0.25 }));
       }
-      return G({}, kids);
+      return G({ 'data-crisp': 1 }, kids);   // 目：NEO の毛ふわ（neo_ui.js）をかけず、くっきり描く印
     };
     const mouthEl = {
       w:     P('M188 236 V243 M188 243 Q183 248 178 246 M188 243 Q193 248 198 246', 'none', { stroke: c.mouth, 'stroke-width': 1.8, 'stroke-linecap': 'round' }),
@@ -507,7 +516,7 @@
       G({ transform: p.nose ? `translate(188 240) scale(${1 + 0.03 * p.nose} 1) translate(-188 ${-240 - 1.6 * p.nose})` : '' }, [P(SLEEPY.test(p.pose) ? 'M166 242 Q132 240 100 246 M166 247 Q134 253 106 263 M210 242 Q244 240 276 246 M210 247 Q242 253 270 263' : 'M166 240 Q130 230 98 226 M166 246 Q132 248 102 256 M210 240 Q246 230 278 226 M210 246 Q244 248 274 256', 'none', { stroke: '#FBF6EE', 'stroke-width': 1.1, opacity: 0.9 })]), // ひげも鼻と一緒に少し持ち上がる
       SLEEPY.test(p.pose) ? G({}, [E(148, 213, 20, 5, '#B48E66', { opacity: 0.2, filter: u('blurS') }), E(228, 213, 20, 5, '#B48E66', { opacity: 0.2, filter: u('blurS') }), P('M131 203 l-5 3 M245 203 l5 3', 'none', { stroke: c.eye2, 'stroke-width': 2.2, 'stroke-linecap': 'round', opacity: 0.6 }), ...(p.pose === 'sploot' ? [E(140, 280, 24, 8, c.head2, { opacity: 0.4, filter: u('blurS') }), E(236, 280, 24, 8, c.head2, { opacity: 0.4, filter: u('blurS') })] : [])]) : null, // 前足に押されたほおの毛は、のび寝だけ（ばたんでは顔の外にうかんだ。2026-11-17）
       // メガネ
-      p.prop ? G(SLEEPY.test(p.pose) ? { transform: 'translate(0 5) rotate(-4 188 200)' } : {}, [ // 寝ている時：メガネが少し鼻へずり落ちて、かたむく
+      p.prop ? G(Object.assign({ 'data-crisp': 1 }, SLEEPY.test(p.pose) ? { transform: 'translate(0 5) rotate(-4 188 200)' } : {}), [ // 寝ている時：メガネが少し鼻へずり落ちて、かたむく
         SLEEPY.test(p.pose) ? G({}, [el('circle', { cx: 148, cy: 201, r: 25, fill: '#DCE6EE', opacity: 0.12 }), el('circle', { cx: 228, cy: 201, r: 25, fill: '#DCE6EE', opacity: 0.12 })]) : null, // レンズのうすい色
         el('circle', { cx: 148, cy: 201, r: 26, fill: 'none', stroke: c.ring, 'stroke-width': 2.2 }),
         el('circle', { cx: 228, cy: 201, r: 26, fill: 'none', stroke: c.ring, 'stroke-width': 2.2 }),

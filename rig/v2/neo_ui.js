@@ -89,7 +89,28 @@
       + `<feTurbulence type="fractalNoise" baseFrequency="0.55 0.9" numOctaves="2" seed="3" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="9" xChannelSelector="R" yChannelSelector="G" result="d"/>`
       + `<feTurbulence type="fractalNoise" baseFrequency="1.6 0.35" numOctaves="1" seed="5" result="t"/><feColorMatrix in="t" type="matrix" values="0 0 0 0 1  0 0 0 0 .96  0 0 0 0 .9  .9 0 0 0 -.45" result="tc"/>`
       + `<feComposite in="tc" in2="d" operator="in" result="hl"/><feMerge><feMergeNode in="d"/><feMergeNode in="hl"/></feMerge></filter></defs></svg>`);
-    for (const id of ['ren', 'jil']) { const e = document.getElementById(id); if (e) e.style.filter = 'url(#neoFluff)'; }
+    window.NEO_EYES = true;   // rig.js：目を「定時1分前」と同じ、くっきりした形で描く
+    // 毛ふわは体だけ。目とメガネ（data-crisp）は、ふわをかけない写しを上に重ねる（2026-11-24 オーナー：目をはっきり）
+    if (window.L && !L.__neoCrisp) {
+      const orig = L.char; L.__neoCrisp = true;
+      L.char = function (id) { orig.apply(this, arguments); NEO.crisp(id); };
+    }
+    for (const id of ['ren', 'jil']) NEO.crisp(id);
+  };
+  NEO.crisp = (id) => {
+    const svg = document.getElementById(id); if (!svg) return;
+    svg.style.filter = 'none';
+    const g = svg.querySelector(':scope > g:not([data-neo-crisp])'); if (!g) return;
+    g.style.filter = 'url(#neoFluff)';
+    const sharp = g.querySelectorAll('[data-crisp]'); if (!sharp.length) return;
+    const c = g.cloneNode(true);
+    c.setAttribute('data-neo-crisp', '1'); c.style.filter = 'none'; c.setAttribute('visibility', 'hidden');
+    c.querySelectorAll('defs, clipPath, filter').forEach(n => n.remove());
+    c.querySelectorAll('[id]').forEach(n => n.removeAttribute('id'));
+    c.querySelectorAll('[filter]').forEach(n => n.removeAttribute('filter'));
+    c.querySelectorAll('[data-crisp]').forEach(n => n.setAttribute('visibility', 'visible'));
+    sharp.forEach(n => n.setAttribute('visibility', 'hidden'));   // ふわをかけた方の目は消す（ふちのザラザラが残らないように）
+    g.after(c);
   };
   window.NEO = NEO;
 })();
