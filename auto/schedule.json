@@ -776,8 +776,8 @@
       "tag_set": "C",
       "thumb": {
         "t": 9.4,
-        "cam": "1.55,470,850",
-        "hook": "社員からの|お土産/A souvenir from the new hire/PART 1 / 3",
+        "cam": "1.85,480,800",
+        "hook": "社員からの|お土産/The new hire's gift/PART 1 / 3",
         "variant": "N"
       },
       "first_comment": "最後のお土産、どうなると思う？ / What happens to the last of the souvenir?",
@@ -825,8 +825,8 @@
       "tag_set": "C",
       "thumb": {
         "t": 22.6,
-        "cam": "1.45,520,1080",
-        "hook": "社員からの|お土産/A souvenir from the new hire/PART 2 / 3",
+        "cam": "1.65,440,1080",
+        "hook": "社員からの|お土産/The new hire's gift/PART 2 / 3",
         "variant": "N"
       },
       "first_comment": "課長もハマったと思う？ / Is the boss hooked too?",
@@ -867,9 +867,9 @@
       "caption_en": "Next day, the souvenir plate is empty. Then a heavy THUD, THUD from the right. Boss... is that the bulk size? (the end)",
       "tag_set": "C",
       "thumb": {
-        "t": 19.0,
-        "cam": "1.4,540,800",
-        "hook": "社員からの|お土産/A souvenir from the new hire/PART 3 / 3",
+        "t": 20.5,
+        "cam": "1.45,520,790",
+        "hook": "社員からの|お土産/The new hire's gift/PART 3 / 3",
         "variant": "N"
       },
       "first_comment": "あなたの職場にも「業務用」を買う人いる？ / Anyone at your office who buys the bulk size?",

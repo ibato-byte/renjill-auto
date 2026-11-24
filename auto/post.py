@@ -142,7 +142,7 @@ def thumbnail(p):
     # 検査に通らないとき（記号が文字にかかる・背景がごちゃつく など）は、少し前後のコマで作り直す（2026-11-10：おかしな表紙は出さない・でも投稿は止めない）
     t0 = float(th["t"]); rc = 1
     for t in thumb_times(t0, ep_dur(p["ep"])):
-        for vv in ([v, "A"] if v != "A" else ["A"]):
+        for vv in ([v, "A"] if v not in ("A", "N") else [v]):   # N（定時1分前と同じ表紙）は A 型に落とさない：別のコマで作り直す（2026-11-25 オーナー：表紙のデザインをそろえる）
             rc = gen(vv, t)
             if rc == 0:
                 if (t, vv) != (t0, v): log(f"thumbnail {v}@{t0} NG → {vv}@{t}")
