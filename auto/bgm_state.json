@@ -226,23 +226,19 @@
     "Usual Mirror Ball｜いつものミラーボール",
     "Late Dance Floor｜夜ふけのダンスフロア",
     "Late Spotlight｜夜ふけのスポットライト"
-   ]
-  }
- },
- "stock": {
+   ],
+   "links_ok": 1
+  },
   "2026-11-25": {
-   "run": "43702508125",
-   "artifact": "bgm-stock-2026-11-25",
-   "code": "03b5cd63ce08",
-   "no": 5,
+   "yt": "VA0MHdbn5HE",
+   "privacy": "public",
+   "title": "Quiet Night Ballads – 1 Hour Piano Ballads with Tokyo Usagi Office | 作業用BGM 静かな夜のバラード",
    "theme": "quiet_ballads",
    "style": "ballad",
-   "title": "Quiet Night Ballads – 1 Hour Piano Ballads for Quiet Nights with Ren & Jill | 作業用BGM 静かな夜のバラード",
    "seed": 20261125,
    "look": 0,
    "minutes": 60,
-   "mb": 1262,
-   "made": "2026-11-15T21:23+09:00",
+   "at": "2026-11-26T06:11+09:00",
    "track_keys": [
     "Eb major|0maj7-77-9m7-5maj7|68.0",
     "G minor|0m7-8maj7-3maj7-107|63.0",
@@ -281,7 +277,9 @@
     "After-Hours Night Shift｜定時すぎの夜の当番",
     "Usual Yawn｜いつものあくび"
    ]
-  },
+  }
+ },
+ "stock": {
   "2026-11-28": {
    "run": "43702508125",
    "artifact": "bgm-stock-2026-11-28",
