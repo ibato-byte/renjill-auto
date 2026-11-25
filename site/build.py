@@ -36,10 +36,20 @@ def card(e):
             f'<p><a href="https://www.youtube.com/shorts/{E(e["yt"])}">YouTube で見る</a></p></article>')
 
 
+def series_name(e):
+    """シリーズの見出し。series が文字ならそのまま。連載（{"id":…,"part":…}）なら題名の「 Part n」より前。
+    2026-11-26：連載の series（辞書）をそのまま見出しに使って、公式ページの更新が落ちた"""
+    s = e.get("series")
+    if isinstance(s, str) and s: return s
+    import re
+    t = re.split(r"\s*Part\s*\d", e.get("title", ""), maxsplit=1, flags=re.I)[0].strip()
+    return (t if s else "") or "すべてのエピソード"
+
+
 def page(sch, eps):
     d = sch["defaults"]; url = (d.get("site") or {}).get("url", SITE)
     series = {}
-    for e in eps: series.setdefault(e.get("series") or "すべてのエピソード", []).append(e)
+    for e in eps: series.setdefault(series_name(e), []).append(e)
     body = "".join(f'<section><h2>{E(name)}</h2><div class="g">{"".join(card(e) for e in lst)}</div></section>' for name, lst in series.items())
     if not eps: body = "<p>最初のエピソードを準備中です。</p>"
     ld = {"@context": "https://schema.org", "@type": "VideoGallery", "name": "東京うさぎオフィス Tokyo Usagi Office",
