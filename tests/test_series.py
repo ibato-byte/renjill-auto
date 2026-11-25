@@ -147,3 +147,17 @@ class OwnerExceptionTest(unittest.TestCase):
         self.assertTrue(series.owner_exception(p))
         self.assertFalse(series.owner_exception(dict(p, owner_exception="")))
         self.assertFalse(series.allowed("2026-11-25"))   # 水曜は本来は出さない
+
+
+class HoldTest(unittest.TestCase):
+    """2026-11-25 オーナー：出した回を消してブラッシュアップ中。hold の回は、時刻が来ても出さない"""
+    def test_hold_posts_are_not_picked(self):
+        import post, datetime as dt, json, pathlib
+        s = json.loads((pathlib.Path(post.AUTO) / "schedule.json").read_text())
+        held = [p for p in s["posts"] if p.get("hold")]
+        for p in held:
+            h, m = map(int, p["slot"].split(":"))
+            now = dt.datetime.fromisoformat(p["date"]).replace(hour=h, minute=m + 5, tzinfo=post.JST)
+            eps = [x[1]["ep"] for x in post.pick_posts(None, now)[2]]
+            self.assertNotIn(p["ep"], eps)
+            self.assertNotIn(p["ep"], [x[1]["ep"] for x in post.pick_posts(p["slot"], now)[2]])

@@ -603,29 +603,5 @@
     "ig_deleted": "17901584670398054",
     "threads_deleted": "18118093430032261",
     "deleted_note": "2026-11-23 オーナーの指示で全SNSから削除（YouTube・Facebook は API、Instagram・Threads・TikTok は画面から）"
-  },
-  "2026-11-25_timothy1": {
-    "tag_set": "C",
-    "no": 99,
-    "title": "社員からのお土産 Part 1「ひとくちだけ」",
-    "ig": "17929971747439997",
-    "ig_at": "2026-11-25T10:05+09:00",
-    "cover_style": {
-      "ig": "text",
-      "yt": "text",
-      "facebook": "text",
-      "threads": "text"
-    },
-    "tt": "manual",
-    "yt": "LnZjJJW8VpM",
-    "yt_at": "2026-11-25T10:06+09:00",
-    "facebook": "1843193723659206",
-    "facebook_at": "2026-11-25T10:06+09:00",
-    "threads": "18089794112514093",
-    "threads_at": "2026-11-25T10:07+09:00",
-    "ig_story": "18145906375614835",
-    "ig_story_at": "2026-11-25T10:08+09:00",
-    "fb_story": "1441341368166043",
-    "fb_story_at": "2026-11-25T10:08+09:00"
   }
 }

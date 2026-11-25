@@ -117,7 +117,7 @@ def check(posts, today, days=21, pol=None, src=_src):
     by_date = {}
     for p in rows: by_date.setdefault(p["date"], []).append(p)
     for d, ps in by_date.items():
-        if len(ps) > 1: issues.append(f"{d}: 同じ日に {len(ps)} 本（週3本・1日1本）")
+        if len(ps) > 1 and not all(owner_exception(p) for p in ps): issues.append(f"{d}: 同じ日に {len(ps)} 本（週3本・1日1本）")   # オーナーが「今回に限り」同じ日にまとめた回は除く（2026-11-25）
     for p in rows:
         tag = f'{p["date"]} {p.get("ep")}'
         exc = owner_exception(p)

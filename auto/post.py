@@ -61,6 +61,8 @@ def pick_posts(slot_override=None, now=None, ignore_posted=False):
     out = []
     for p in sch["posts"]:
         if p["date"] != today: continue
+        if p.get("hold"):   # 作り直し中の回（オーナーの指示で止めている）。hold を外すまで出さない（2026-11-25）
+            print(f'[post] {p["date"]} {p["ep"]} は止めている回（hold）。出さない', file=sys.stderr); continue
         # 週3本（月・木・土）・3話連載（2026-11-16 オーナー決定。auto/series_policy.json）：ほかの曜日の回は、予定表に残っていても出さない
         if not series.allowed(p["date"]) and not series.owner_exception(p):   # オーナーが「今回に限り」と決めた回（owner_exception）は曜日の決まりの外でも出す
             print(f'[post] {p["date"]} {p["ep"]} は投稿しない曜日の回（投稿は{series.label()}だけ）。出さずに飛ばす', file=sys.stderr); continue

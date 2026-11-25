@@ -766,8 +766,8 @@
       }
     },
     {
-      "date": "2026-11-25",
-      "slot": "08:00",
+      "date": "2026-11-26",
+      "slot": "18:00",
       "ep": "timothy1",
       "no": 99,
       "title": "社員からのお土産 Part 1「ひとくちだけ」",
@@ -813,11 +813,12 @@
         "value": "Save this for your next Monday./月曜の朝のために保存して",
         "why": "最後の一言を足して、送る・保存する人が増えるか比べる"
       },
-      "owner_exception": "2026-11-25 オーナー：今回の投稿に限り、11/25・11/26・11/27 の 8:00 に Part 1 から順に出す"
+      "owner_exception": "2026-11-25 オーナー：Part 1 を消して、3本ともブラッシュアップしてから同時に全 SNS へ出し直す（hold を外した日に出す）",
+      "hold": true
     },
     {
       "date": "2026-11-26",
-      "slot": "08:00",
+      "slot": "18:00",
       "ep": "timothy2",
       "no": 100,
       "title": "社員からのお土産 Part 2「課長が預かります」",
@@ -857,18 +858,19 @@
       },
       "cta": "Send this to the coworker who needs it./あの同僚に送ってあげて",
       "note": "2026-11-24 オーナー：定時1分前と同じデザイン（表紙・テロップ・締め）・約30秒・題名「社員からのお土産」",
-      "owner_exception": "2026-11-25 オーナー：今回の投稿に限り、11/25・11/26・11/27 の 8:00 に Part 1 から順に出す",
+      "owner_exception": "2026-11-25 オーナー：Part 1 を消して、3本ともブラッシュアップしてから同時に全 SNS へ出し直す（hold を外した日に出す）",
       "look": 1,
       "experiment": {
         "var": "cta",
         "std": "Save this for your next Monday./月曜の朝のために保存して",
         "value": "Send this to the coworker who needs it./あの同僚に送ってあげて",
         "why": "最後の一言を足して、送る・保存する人が増えるか比べる"
-      }
+      },
+      "hold": true
     },
     {
-      "date": "2026-11-27",
-      "slot": "08:00",
+      "date": "2026-11-26",
+      "slot": "18:00",
       "ep": "timothy3",
       "no": 101,
       "title": "社員からのお土産 Part 3「業務用」",
@@ -908,7 +910,8 @@
       },
       "cta": "Send this to the coworker who can't stop at one bite./ひとくちで止まれない同僚に送ろう",
       "note": "2026-11-24 オーナー：定時1分前と同じデザイン（表紙・テロップ・締め）・約30秒・題名「社員からのお土産」",
-      "owner_exception": "2026-11-25 オーナー：今回の投稿に限り、11/25・11/26・11/27 の 8:00 に Part 1 から順に出す"
+      "owner_exception": "2026-11-25 オーナー：Part 1 を消して、3本ともブラッシュアップしてから同時に全 SNS へ出し直す（hold を外した日に出す）",
+      "hold": true
     }
   ]
 }
