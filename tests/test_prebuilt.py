@@ -34,3 +34,9 @@ def test_prebuilt_used_only_when_stamp_matches(monkeypatch, tmp_path):
 def test_no_prebuilt_falls_back(monkeypatch, tmp_path):
     monkeypatch.setattr(post.requests, "get", lambda url, timeout=0: R(404))
     assert not post.fetch_prebuilt("timothy1", tmp_path / "a", tmp_path / "b")
+
+
+def test_playlist_title_from_series_dict():
+    import stories
+    assert stories.playlist_title({"series": {"id": "timothy", "part": 1, "of": 3}, "title": "社員からのお土産 Part 1「ひとくちだけ」"}) == "社員からのお土産"
+    assert stories.playlist_title({"series": "定時1分前", "title": "x"}) == "定時1分前"

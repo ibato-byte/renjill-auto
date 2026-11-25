@@ -534,7 +534,7 @@ def post_extra(pl, key, p, d, rec, loop_path, fb_access, results, posted):
             from googleapiclient.discovery import build
             creds = Credentials(None, refresh_token=os.environ["YT_REFRESH_TOKEN"], token_uri="https://oauth2.googleapis.com/token",
                                 client_id=os.environ["YT_CLIENT_ID"], client_secret=os.environ["YT_CLIENT_SECRET"])
-            rec[pl] = stories.add_to_playlist(build("youtube", "v3", credentials=creds), rec["yt"], p["series"])
+            rec[pl] = stories.add_to_playlist(build("youtube", "v3", credentials=creds), rec["yt"], stories.playlist_title(p))
         rec[pl + "_at"] = dt.datetime.now(JST).isoformat(timespec="minutes")
         results[label] = "投稿OK"
         log("OK", key, pl, rec[pl])

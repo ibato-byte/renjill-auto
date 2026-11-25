@@ -183,6 +183,16 @@ def post_fb_story(page_id, tok, video_path, http=requests):
 
 
 # ---------- YouTube ----------
+def playlist_title(p):
+    """再生リストの名前。series が文字ならそのまま。連載（{"id":…,"part":…}）なら題名の「 Part n」より前（例：社員からのお土産）。
+    2026-11-25：連載の series（辞書）をそのまま名前に渡して YouTube に断られた"""
+    s = p.get("series")
+    if isinstance(s, str): return s
+    import re
+    t = re.split(r"\s*Part\s*\d", p.get("title", ""), maxsplit=1, flags=re.I)[0].strip()
+    return t or (s or {}).get("id", "シリーズ")
+
+
 def add_to_playlist(yt, video_id, series):
     """シリーズ名の再生リストを探し（なければ作る）、動画を足す。yt：googleapiclient の YouTube オブジェクト"""
     pid, page = None, None
