@@ -20,9 +20,9 @@
   // ---- テーブル ----
   TM.table = (o = {}) => {
     const T = TM.T, x0 = T.cx - T.half, x1 = T.cx + T.half;
-    return `<g data-nb="1"><ellipse cx="${T.cx}" cy="${T.floor + 4}" rx="${T.half + 40}" ry="26" fill="${C.ink}" opacity=".16"/>`
+    return `<g data-nb="1"><defs><linearGradient id="tmCloth" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F3E3CB"/><stop offset=".45" stop-color="#F6EAD6"/><stop offset="1" stop-color="#E9D2B4"/></linearGradient></defs><ellipse cx="${T.cx}" cy="${T.floor + 4}" rx="${T.half + 40}" ry="26" fill="${C.ink}" opacity=".16"/>`
       // テーブルクロス（前の面を床近くまでおおう。奥に座るモチとユズの体がテーブルの下から見えないように）
-      + `<path d="M${x0 - 4} ${T.top + 6} H${x1 + 4} L${x1 + 14} ${T.floor - 70} Q${T.cx} ${T.floor - 52} ${x0 - 14} ${T.floor - 70} Z" fill="#F6EFE2"/>`
+      + `<path d="M${x0 - 4} ${T.top + 6} H${x1 + 4} L${x1 + 14} ${T.floor - 70} Q${T.cx} ${T.floor - 52} ${x0 - 14} ${T.floor - 70} Z" fill="url(#tmCloth)"/>`
       + `<path d="M${x0 - 4} ${T.top + 6} H${x1 + 4} L${x1 + 8} ${T.top + 150} H${x0 - 8} Z" fill="#E7D9C2" opacity=".5"/>`
       + Array.from({ length: 9 }, (_, i) => `<path d="M${x0 + 40 + i * 84} ${T.top + 40} q-4 ${(T.floor - T.top) * .5} 4 ${T.floor - T.top - 120}" stroke="#E2D2B8" stroke-width="5" fill="none" opacity=".8"/>`).join('')
       + `<path d="M${x0 - 14} ${T.floor - 70} Q${T.cx} ${T.floor - 52} ${x1 + 14} ${T.floor - 70}" stroke="#C9A57E" stroke-width="8" fill="none"/>`
@@ -89,5 +89,16 @@
   };
   // ---- 画面の小さなしるし ----
   TM.crunch = (x, y, k, s = 1) => k <= 0 || k >= 1 ? '' : `<g transform="translate(${x} ${y}) scale(${s * (.8 + .4 * k)})" opacity="${(1 - k).toFixed(2)}" stroke="#FFF7E8" stroke-width="7" stroke-linecap="round"><path d="M-40 -6 l-18 -10 M0 -24 v-20 M40 -6 l18 -10"/></g>`;
+  // かんだ時に飛ぶチモシーのかけら（2026-11-25 ブラッシュアップ：食べる所の気持ちよさ）。k：0〜1。(x, y) は口元
+  TM.bits = (x, y, k, seed = 0, n = 6) => {
+    if (k <= 0 || k >= 1) return '';
+    let g = '';
+    for (let i = 0; i < n; i++) {
+      const u = hash(i + 7 + seed * 13), v = hash(i + 31 + seed * 5), ang = -Math.PI * (.15 + .7 * u), sp = 90 + 110 * v;
+      const px = x + Math.cos(ang) * sp * k, py = y + Math.sin(ang) * sp * k + 230 * k * k, rot = (u - .5) * 520 * k, len = 16 + 14 * v;
+      g += `<path d="M${-len / 2} 0 h${len}" transform="translate(${px.toFixed(1)} ${py.toFixed(1)}) rotate(${rot.toFixed(1)})" stroke="${[C.hay, C.hay2, C.hay3][i % 3]}" stroke-width="6" stroke-linecap="round" opacity="${(1 - k * k).toFixed(2)}"/>`;
+    }
+    return `<g data-nb="1">${g}</g>`;
+  };
   window.TM = TM;
 })();

@@ -66,7 +66,22 @@ document.write('<script src="v2/lib.js"><\/script><script src="v2/elevator_set.j
     if (t >= LAST) { x = RL().x; y = RL().y; lean = L.ease(sm(LAST + .1, LAST + .7, t)); look = -.6; face = Object.assign({}, F.smile, { eyeShape: 'happy', blush: .8 }); const c2 = chew(t, LASTZ, .6); if (c2 >= 0) mouth = c2 ? 'w' : 'line'; }
     return Object.assign({}, t >= LAST ? RIG.POSES.sit : RIG.POSES.stand, face, { x: x - 40 * lean, y: y + 20 * lean, scale: TM.REN.s, flip: false, eyeLook: look, headNod: nod + 14 * lean, eyeOpen, bodyTilt: tilt - 6 * lean }, mouth ? { mouth } : {});
   }
-  const SFX = [{ t: .15, type: 'pop', pan: 0 }, { t: PEER + .1, type: 'swish', pan: -.2 }, { t: SAD, type: 'flop', pan: -.2 }, { t: EYES, type: 'blink', pan: 0 }];
+  // 題名は表紙（auto/schedule.json の thumb.hook）と同じ（tests/test_neo_cover.py が見張る）
+  const TITLE = { ja: '社員からのお土産', en: "The new hire's gift", part: 'PART 3 / 3' };
+  // 飾り（2026-11-25 ブラッシュアップ）。w:1 は世界の座標
+  const DECO = [
+    { a: 2.0, b: 4.6, k: 'chip', x: 170, y: 690, txt: '翌日', en: 'The next day' },
+    { a: SAD, b: EYES, k: 'word', w: 1, x: 450, y: 1250, txt: 'からっぽ…', size: 60, fill: '#8E9AAE', rot: 0 },
+    { a: SAD + .2, b: TURN, k: 'sweat', w: 1, x: 300, y: 900, s: .8 },
+    ...ZAKU.map((z, i) => ({ a: z, b: z + .7, k: 'word', x: 880 - 30 * (i % 2), y: 900 + 90 * (i % 2), txt: 'ドスッ', size: 96, fill: '#5B55C8', rot: -12 + 8 * (i % 2), mx: 200 })),
+    { a: TURN + .05, b: TURN + 1.1, k: 'mark', w: 1, x: 420, y: 800, txt: '?', size: 140 }, { a: TURN + .15, b: TURN + 1.1, k: 'mark', w: 1, x: 900, y: 930, txt: '?', size: 100 },
+    { a: WIDE + .05, b: WIDE + 1.2, k: 'word', w: 1, x: 760, y: 560, txt: 'ザクザク', size: 76, fill: '#5B55C8' },
+    { a: DISH_F, b: NOTICE, k: 'star', w: 1, x: 330, y: 1000, r: 22 }, { a: DISH_F + .1, b: NOTICE, k: 'star', w: 1, x: 500, y: 980, r: 16 },
+    { a: NOTICE + .1, b: NOTICE + 1.2, k: 'mark', w: 1, x: 760, y: 500, txt: '!', size: 130 },
+    { a: AKIRE + .1, b: AKIRE + 1.4, k: 'word', w: 1, x: 330, y: 760, txt: 'ジロ〜ッ', size: 72, fill: '#7A62D8' },
+    { a: LASTZ, b: LASTZ + .9, k: 'word', w: 1, x: 520, y: 1250, txt: 'サクッ', size: 72 }, { a: LASTZ + .4, b: LASTZ + 1.7, k: 'heart', w: 1, x: 640, y: 900 }, { a: LASTZ + .9, b: LASTZ + 2.2, k: 'heart', w: 1, x: 700, y: 880, r: 18 },
+  ];
+  const SFX = [{ t: .1, type: 'title', pan: 0 }, { t: GONE_T[0] + .05, type: 'telop', pan: 0 }, { t: TURN + .07, type: 'hatena', pan: 0 }, { t: NOTICE + .12, type: 'bikkuri', pan: .4 }, { t: DISH_F + .05, type: 'kira', pan: 0 }, { t: END + .12, type: 'kira', pan: 0 }, { t: .15, type: 'pop', pan: 0 }, { t: PEER + .1, type: 'swish', pan: -.2 }, { t: SAD, type: 'flop', pan: -.2 }, { t: EYES, type: 'blink', pan: 0 }];
   for (const z of ZAKU) SFX.push({ t: z, type: 'dosu', pan: .85 });   // 低い「ドスッ」（2026-11-24 オーナー）
   SFX.push({ t: TURN + .02, type: 'twitch', pan: 0 }, { t: TURN + .05, type: 'whoosh', pan: .3 }, { t: WIDE, type: 'dosu', pan: .5 }, { t: WIDE + .5, type: 'dosu', pan: .5 },
     { t: DISH_E + .05, type: 'blink', pan: 0 }, { t: DISH_F, type: 'pop', pan: 0 }, { t: NOTICE + .1, type: 'chime', pan: .4 }, { t: AKIRE, type: 'blink', pan: -.2 }, { t: AKIRE + .4, type: 'flop', pan: -.2 },
@@ -76,23 +91,26 @@ document.write('<script src="v2/lib.js"><\/script><script src="v2/elevator_set.j
   window.EP = {
     neoTitle: true,   // 題名は rig/v2/neo_ui.js の NEO.title で画面に描く（qa.js が確かめる）
     dur: 31.0,   // 30 秒（Instagram・TikTok）＋エンドカード 1 秒（YouTube 用）
-    bgm: { style: 'comedy', level: .5, dips: [[GONE_T[0], EYES + .8, .45], [ZAKU[0] - .3, ZAKU[3] + .5, .3], [LAST - .2, LASTZ + .5, .2], [END, STORY, .7]] },   // ザクッの間・最後のひとくちの前に引く
+    bgm: { style: 'neo', level: 2.6, warm: [[GONE_T[0], EYES + .8], [END, 31]], dips: [[GONE_T[0], EYES + .8, .45], [ZAKU[0] - .3, ZAKU[3] + .5, .3], [LAST - .2, LASTZ + .5, .2], [END, STORY, .7]] },   // ザクッの間・最後のひとくちの前に引く
     qaAllow: { cuts: [TURN, WIDE, DISH_E, DISH_F, NOTICE, LAST], still: [[LASTZ + .6, 31]], hidden_ren: [[0, WIDE + .05], [DISH_E - .05, NOTICE + .05]] },   // モチは 13 秒の引きの画まで画面に入れない（オーナーの絵コンテ）・皿の寄りの間も
     sfx: SFX.sort((a, b) => a.t - b.t),
     frame(t) {
       if (!window.L || !window.RIG || !window.TM || !window.NEO) return;
       NEO.install();
       const tt = Math.min(t, STORY);
-      const opt = { twitch: false, shadow: false, blink: true, breathe: true, ears: false };
+      const opt = { shadow: false, blink: true, breathe: true, ears: false };
       const CY = z => TM.T.top - (1430 - 960) / z;   // 天板が画面の下の方（y 1430）
       const bg = BR.bg({ t: tt, min: 5 + tt / 12 });
       if (tt >= WIDE) L.char('ren', renPose(tt), tt, '', opt); else L.char('ren', Object.assign({}, RIG.POSES.sit, off), tt, '', { shadow: false });
       { const jp = jilPose(tt); L.char('jil', jp, tt, akireSweat(jp, tt), opt); }
       const p = pomAt(tt);
-      let fx = TM.table() + TM.box(TM.BOX.x, TM.BOX.y, { dish: dishAt(tt) }) + ELV.pom(p.x, p.y, p.s, p.q);
+      let hopY = 0; for (const z of ZAKU) if (tt >= z + .03 && tt < z + .3) hopY = -12 * Math.sin((tt - z - .03) / .27 * Math.PI);   // ドスッで、箱とクリが一瞬浮く（2026-11-25）
+      let fx = TM.table() + TM.box(TM.BOX.x, TM.BOX.y + hopY, { dish: dishAt(tt) }) + ELV.pom(p.x, p.y + hopY * 1.3, p.s, p.q);
       if (tt >= WIDE) { const B = BAG(); fx += TM.bag(B.x, B.y, B.s, { biz: 1, rot: B.rot, open: 1 }); }
       for (const z of ZAKU) if (tt >= z && tt < z + .3) fx += TM.crunch(770, 880, (tt - z) / .3, 1.2);   // 右の外から（画面のはし）
       if (tt >= LASTZ && tt < LASTZ + .35) fx += TM.crunch(TM.DISH_IN.x + 30, TM.DISH_IN.y - 90, (tt - LASTZ) / .35, 1.1);
+      fx += TM.bits(TM.DISH_IN.x + 30, TM.DISH_IN.y - 70, (tt - LASTZ) / .7, 21);   // かけらが飛ぶ（2026-11-25）
+      for (const z of ZAKU) if (tt >= z && tt < z + .5) { const u = (tt - z) / .5; fx += `<g data-nb="1" opacity="${(.5 * (1 - u)).toFixed(2)}" fill="#E9D8C0"><ellipse cx="${1040 - 60 * u}" cy="${TM.T.top - 10 - 30 * u}" rx="${30 + 50 * u}" ry="${16 + 22 * u}"/><ellipse cx="${1000 - 110 * u}" cy="${TM.T.top - 4 - 14 * u}" rx="${20 + 36 * u}" ry="${10 + 14 * u}"/></g>`; }   // ドスッのたびに、右はしから土ぼこり
       // 画面をほんの少し揺らす：カメラをゆっくり（6Hz）左右に。速くゆらすと1コマごとに絵が変わって「ちかちか」になる（2026-11-21 qa.py）
       let sx = 0, sy = 0; for (const z of ZAKU) if (tt >= z && tt < z + .4) { const u = (tt - z) / .4, a = 7 * (1 - u); sx = a * Math.sin(u * 2 * Math.PI * 2.4); sy = a * .5 * Math.sin(u * 2 * Math.PI * 2.4 + 1.3); }
       const cam = L.camAt([
@@ -108,9 +126,9 @@ document.write('<script src="v2/lib.js"><\/script><script src="v2/elevator_set.j
       ], tt);
       cam.cx += sx; cam.cy += sy;
       // ---- 画面の文字（定時1分前と同じデザイン。日本語＋英語）----
-      let ui = NEO.brand() + NEO.title('社員からのお土産', 'A souvenir from the new hire', 1 - sm(1.5, 1.8, t), 'PART 3 / 3');
+      let ui = NEO.grade() + NEO.deco(t, cam, DECO) + NEO.brand() + NEO.title(TITLE.ja, TITLE.en, 1 - sm(1.75, 2.0, t), TITLE.part);
       ui += NEO.telop('あっという間になくなる', 'Gone in no time.', L.seg(t, GONE_T[0], GONE_T[0] + .4) * (1 - L.seg(t, GONE_T[1] - .3, GONE_T[1])));
-      ui += NEO.ending('フォローで次の話も ▶', 'Follow for the next story!', L.seg(t, END, END + .5));
+      ui += NEO.ending('フォローで次の話も ▶', 'Follow for the next story!', L.seg(t, END, END + .5), t);
       L.mount({ bg, fx, ui, cam, t: tt });
       if (typeof endcard === 'function') endcard(t, EP.dur);
     }

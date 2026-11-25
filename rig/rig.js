@@ -81,11 +81,11 @@
   const P = (d, fill, extra) => el('path', Object.assign({ d, fill }, extra || {}));
   const G = (attrs, kids) => el('g', attrs, kids);
   // NEO の目（2026-11-24 オーナー：「定時1分前」と同じ、くっきりした目）：黒に近い紺の玉、左上に白い光、下にうすい映りこみの弧
-  const neoEye = (x, y, rx, ry, u, lid) => { const k = Math.min(1, ry / rx); return [
+  const neoEye = (x, y, rx, ry, u, lid, grad = 'eyeN') => { const k = Math.min(1, ry / rx), arc = grad === 'eyeNB' ? '#B98A62' : '#7D8B9A'; return [
     !lid && k > .6 ? E(x, y + 1, rx * 1.62, rx * 1.62, u('eyeRing')) : null,   // 目のまわりの明るいクリーム（見本のモチ＝メガネのレンズの中だけ。ユズは無し）
-    E(x, y, rx, ry, u('eyeN')),
+    E(x, y, rx, ry, u(grad)),
     k > .45 ? el('ellipse', { cx: x - rx * .3, cy: y - ry * .42, rx: rx * .3, ry: rx * .24, fill: '#FFFFFF', transform: `rotate(-28 ${x - rx * .3} ${y - ry * .42})` }) : null,
-    k > .6 ? P(`M${x - rx * .55} ${y + ry * .42} Q${x} ${y + ry * .72} ${x + rx * .55} ${y + ry * .42}`, 'none', { stroke: '#7D8B9A', 'stroke-width': rx * .11, 'stroke-linecap': 'round', opacity: .75 }) : null
+    k > .6 ? P(`M${x - rx * .55} ${y + ry * .42} Q${x} ${y + ry * .72} ${x + rx * .55} ${y + ry * .42}`, 'none', { stroke: arc, 'stroke-width': rx * .11, 'stroke-linecap': 'round', opacity: .75 }) : null
   ].filter(Boolean); };
 
   function defs(id, c, isRen) {
@@ -107,6 +107,7 @@
       rg('cream', [[0, c.cream, 1], [0.6, c.cream, 0.9], [1, c.cream, 0]], 0.5, 0.45, 0.5),
       rg('eye', [[0, c.eye1], [0.45, c.eye2], [1, c.eye3]], 0.42, 0.38, 0.65),
       rg('eyeRing', [[0, '#FAF0DF', .95], [0.72, '#F7E7CE', .85], [1, '#F2DDBF', 0]], 0.5, 0.5, 0.5),
+      rg('eyeNB', [[0, '#8A5A3A'], [0.5, '#4A2B18'], [1, '#1C0E06']], 0.5, 0.6, 0.62), // NEO のモチの目（見本：こげ茶・つや）2026-11-25
       rg('eyeN', [[0, '#5A6572'], [0.5, '#22272F'], [1, '#090B0F']], 0.5, 0.6, 0.62), // NEO の目（定時1分前の見本：黒に近い紺、下に少し明るみ）
       isRen ? lg('ear', [[0, c.ear1], [0.6, c.ear2], [1, c.ear3]], 0.2, 1) : lg('ear', [[0, c.ear1], [1, c.ear2]], 0, 1),
       isRen ? null : lg('earIn', [[0, c.earIn1], [1, c.earIn2]], 0, 1),
@@ -369,7 +370,7 @@
       } else {
         // 半目・怒り目：上を頭の色の板でかくすと、色が合わず四角く見えた（2026-11-16）→ まぶたの線の下だけを見せ、まぶたの線を引く
         const lid = p.eyeShape === 'half' ? `M${cx - 21} 186 Q${cx} 190 ${cx + 21} 186` : p.eyeShape === 'angry' ? (cx < 180 ? `M${cx - 21} 182.6 L${cx + 21} 193.6` : `M${cx - 21} 193.6 L${cx + 21} 182.6`) : null;
-        const eyeIn = window.NEO_EYES ? neoEye(cx + eyeDx, 195, 13, eyeRy, u, lid) : [E(cx + eyeDx, 195, 13, eyeRy, u('eye')), E(cx + eyeDx + 4.5, 189.5, 4, 3.2, '#FFFFFF', { opacity: 0.9 })];
+        const eyeIn = window.NEO_EYES ? neoEye(cx + eyeDx, 195, 13, eyeRy, u, true, 'eyeNB') : [E(cx + eyeDx, 195, 13, eyeRy, u('eye')), E(cx + eyeDx + 4.5, 189.5, 4, 3.2, '#FFFFFF', { opacity: 0.9 })];
         if (lid) { const cid = `${id}lid${cx}`; kids.push(el('clipPath', { id: cid }, [P(lid + ` V${186 + 60} H${cx - 21} Z`, '#000')])); kids.push(G({ 'clip-path': `url(#${cid})` }, eyeIn)); kids.push(P(lid, 'none', { stroke: c.eye2, 'stroke-width': 3.6, 'stroke-linecap': 'round' })); }
         else kids.push(...eyeIn);
         if (!lid) kids.push(P(`M${cx - 13} 192 Q${cx} 178 ${cx + 13} 192`, 'none', { stroke: '#5E4535', 'stroke-width': 1.6, opacity: 0.6 }));
@@ -422,7 +423,7 @@
       G({ 'data-crisp': 1, transform: noseT(p, 180) }, [P('M173 229 Q180 225 187 229 Q184 235 180 236 Q176 235 173 229 Z', c.nose)]), // 鼻のひくひく（alive の p.nose）
       G({ 'data-crisp': 1 }, [mouthEl]),   // 口：毛ふわをかけない
       p.strand ? P(`M184 244 q${(34 * p.strand).toFixed(1)} -2 ${(74 * p.strand).toFixed(1)} -18`, 'none', { stroke: '#9AAE3E', 'stroke-width': 6.5, 'stroke-linecap': 'round' }) : null,
-      E(124, 228, 15, 9, c.blush, { opacity: (SLEEPY.test(p.pose) ? 0.35 : 0.55) * p.blush }), E(236, 228, 15, 9, c.blush, { opacity: (SLEEPY.test(p.pose) ? 0.35 : 0.55) * p.blush }), // 寝ている時はほおの赤みを弱く
+      E(124, 228, 15, 9, c.blush, { opacity: (SLEEPY.test(p.pose) ? 0.35 : 0.55) * (window.NEO_EYES ? Math.max(.6, p.blush) : p.blush) }), E(236, 228, 15, 9, c.blush, { opacity: (SLEEPY.test(p.pose) ? 0.35 : 0.55) * (window.NEO_EYES ? Math.max(.6, p.blush) : p.blush) }), // 寝ている時はほおの赤みを弱く
       G({ 'data-crisp': 1, transform: p.nose ? `translate(180 240) scale(${1 + 0.03 * p.nose} 1) translate(-180 ${-240 - 1.6 * p.nose})` : '' }, [P(SLEEPY.test(p.pose) ? 'M158 242 Q124 240 94 247 M158 247 Q126 253 100 263 M202 242 Q236 240 266 247 M202 247 Q234 253 260 263' : 'M158 240 Q122 230 92 229 M158 246 Q124 247 96 254 M202 240 Q238 230 268 229 M202 246 Q236 247 264 254', 'none', { stroke: '#FBF6EE', 'stroke-width': 1.1, opacity: 0.85 })]), // 寝ている時：ひげの力がぬけて下がる
       SLEEPY.test(p.pose) ? G({}, [E(150, 207, 17, 5, '#B48E66', { opacity: 0.22, filter: u('blurS') }), E(210, 207, 17, 5, '#B48E66', { opacity: 0.22, filter: u('blurS') }), // 閉じた目の下のふくらみ
         P('M136 197 l-5 3 M224 197 l5 3', 'none', { stroke: c.eye2, 'stroke-width': 2, 'stroke-linecap': 'round', opacity: 0.6 }), // 目じりのまつ毛
@@ -512,7 +513,7 @@
       G({ 'data-crisp': 1, transform: noseT(p, 188) }, [P('M181 229 Q188 225 195 229 Q192 235 188 236 Q184 235 181 229 Z', c.nose)]), // 鼻のひくひく（alive の p.nose）
       G({ 'data-crisp': 1 }, [mouthEl]),   // 口：毛ふわをかけない
       p.strand ? P(`M184 244 q${(34 * p.strand).toFixed(1)} -2 ${(74 * p.strand).toFixed(1)} -18`, 'none', { stroke: '#9AAE3E', 'stroke-width': 6.5, 'stroke-linecap': 'round' }) : null,
-      E(118, 232, 14, 8, c.blush, { opacity: 0.55 * p.blush }), E(258, 232, 14, 8, c.blush, { opacity: 0.55 * p.blush }),
+      E(118, 232, 14, 8, c.blush, { opacity: 0.55 * (window.NEO_EYES ? Math.max(.6, p.blush) : p.blush) }), E(258, 232, 14, 8, c.blush, { opacity: 0.55 * (window.NEO_EYES ? Math.max(.6, p.blush) : p.blush) }),
       G({ 'data-crisp': 1, transform: p.nose ? `translate(188 240) scale(${1 + 0.03 * p.nose} 1) translate(-188 ${-240 - 1.6 * p.nose})` : '' }, [P(SLEEPY.test(p.pose) ? 'M166 242 Q132 240 100 246 M166 247 Q134 253 106 263 M210 242 Q244 240 276 246 M210 247 Q242 253 270 263' : 'M166 240 Q130 230 98 226 M166 246 Q132 248 102 256 M210 240 Q246 230 278 226 M210 246 Q244 248 274 256', 'none', { stroke: '#FBF6EE', 'stroke-width': 1.1, opacity: 0.9 })]), // ひげも鼻と一緒に少し持ち上がる
       SLEEPY.test(p.pose) ? G({}, [E(148, 213, 20, 5, '#B48E66', { opacity: 0.2, filter: u('blurS') }), E(228, 213, 20, 5, '#B48E66', { opacity: 0.2, filter: u('blurS') }), P('M131 203 l-5 3 M245 203 l5 3', 'none', { stroke: c.eye2, 'stroke-width': 2.2, 'stroke-linecap': 'round', opacity: 0.6 }), ...(p.pose === 'sploot' ? [E(140, 280, 24, 8, c.head2, { opacity: 0.4, filter: u('blurS') }), E(236, 280, 24, 8, c.head2, { opacity: 0.4, filter: u('blurS') })] : [])]) : null, // 前足に押されたほおの毛は、のび寝だけ（ばたんでは顔の外にうかんだ。2026-11-17）
       // メガネ

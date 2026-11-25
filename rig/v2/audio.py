@@ -118,6 +118,17 @@ def S(kind):
     if kind == 'mozo':    # もぞっ（布団がこすれる・動く）
         d = .5; t = t_(d); w = np.sin(np.pi * t / d) ** 1.5 * (1 + .5 * np.sin(2 * np.pi * 7 * t))
         return 0.2 * bp(noise(d), 250, 2200) * w
+    if kind == 'kira':    # キラッ（星・締めの札。高い鈴が2つ）2026-11-25
+        return A(.32 * modal(2093, [1, 2.76, 5.4], [1, .3, .1], [.22, .1, .05], .5), np.concatenate([np.zeros(int(SR * .07)), .26 * modal(2637, [1, 2.76], [1, .3], [.25, .1], .5)]))
+    if kind == 'hatena':  # ポヨン？（「?」が出る。上がって少し下がる）2026-11-25
+        t = t_(.32); f = 420 + 380 * np.sin(np.pi * np.minimum(1, t / .22)) ** 1.2
+        return .5 * np.sin(2 * np.pi * np.cumsum(f) / SR) * env(len(t), .004, .12)
+    if kind == 'bikkuri':  # ピッ！（「!」が出る。短く高い2音）2026-11-25
+        return A(.4 * modal(1320, [1, 2], [1, .3], [.05, .03], .12), np.concatenate([np.zeros(int(SR * .06)), .45 * modal(1760, [1, 2], [1, .3], [.09, .04], .2)]))
+    if kind == 'telop':   # ふわっ（字幕が出る。やわらかい息の音）2026-11-25
+        return .16 * bp(noise(.16), 900, 3200) * env(int(SR * .16), .03, .05)
+    if kind == 'title':   # じゃん（題名。やわらかい和音がひとつ）2026-11-25
+        return A(*[.2 * modal(note(m), [1, 2, 3], [1, .3, .1], [.5, .25, .12], .9) for m in (69, 73, 76, 81)])
     if kind == 'koto':    # コトッ（紙の箱をテーブルに置く。軽い木の音）
         a = 0.5 * modal(330, [1, 2.4, 3.9], [1, .3, .12], [.07, .03, .015], .12); b = 0.3 * lp(noise(.04), 1600) * env(int(SR * .04), .001, .015)
         return A(a, b)
@@ -198,10 +209,56 @@ def bgm_warm(dur, o):
     return np.stack([L, R], 1)[:int(SR * dur)]
 
 
+def bgm_neo(dur, o):
+    # 2026-11-25 オーナー：「これまでに投稿した動画と音楽が変わっている」→「定時1分前のちょっといい？」の曲に合わせる。
+    # 見本の音を調べた結果：イ長調・112 拍/分・1拍ごとに低音が ラ(A2)→ミ(E3) と交互に鳴る「忍び足」の曲（倍音は 1・0.36・0.19・0.11）、
+    # 上に小さな和音。しんみりする所は Dm→B♭→C→F のやわらかい和音を約2.7秒ずつ（o.warm = [[開始, 終わり], …]）
+    bpm = o.get('bpm', 112); beat = 60 / bpm; n = int(SR * (dur + 1)); L = np.zeros(n); R = np.zeros(n)
+    warm = o.get('warm', [])
+    def is_warm(t): return any(a <= t < b for a, b in warm)
+    def add(x, at, pan=0, g=1.0):
+        i = int(at * SR)
+        if i >= n: return
+        x = x[:max(0, n - i)]
+        L[i:i + len(x)] += x * g * (1 - pan) * .5 ** .5; R[i:i + len(x)] += x * g * (1 + pan) * .5 ** .5
+    def bass(m, d=.62):   # やわらかい低音（見本の倍音の比・立ち上がり 0.05 秒・ゆっくり消える）
+        t = t_(d); f = note(m); y = np.zeros_like(t)
+        for k, a in enumerate([1, .36, .19, .11, .08], 1): y += a * np.sin(2 * np.pi * f * k * t) * np.exp(-t * (1.6 + .9 * k))
+        return y * np.minimum(1, t / .05) * np.minimum(1, (d - t) / .05)
+    def pizz(m, d=.32):   # 小さな和音（つまびく音）
+        t = t_(d); f = note(m)
+        return (np.sin(2 * np.pi * f * t) + .35 * np.sin(4 * np.pi * f * t) * np.exp(-t * 9) + .12 * np.sin(6 * np.pi * f * t) * np.exp(-t * 16)) * np.exp(-t * 9) * np.minimum(1, t / .004)
+    def pad(ms, d):       # しんみりする所のやわらかい和音
+        t = t_(d); y = np.zeros_like(t)
+        for j, m in enumerate(ms):
+            f = note(m); y += (np.sin(2 * np.pi * f * t) + .22 * np.sin(4 * np.pi * f * t) + .06 * np.sin(6 * np.pi * f * t)) * (1 + .003 * np.sin(2 * np.pi * (4.5 + j * .3) * t))
+        return y / len(ms) * np.minimum(1, t / .35) * np.minimum(1, (d - t) / .5)
+    b = 0
+    while b * beat < dur + .5:
+        t0 = b * beat
+        if not is_warm(t0):
+            bar = (b // 4) % 8; root = 45 if bar not in (5,) else 50   # 8小節に1回だけ レ(D) に寄り道して戻る（同じくり返しで飽きない）
+            fifth = root + 7
+            walk = (b % 4 == 3 and bar in (3, 7))                    # 4・8小節目の最後の拍は、次へ歩く音（シ→ド♯）
+            m = (root + 2 if bar == 3 else root + 4) if walk else (root if b % 2 == 0 else fifth)
+            add(bass(m), t0, 0, .30)
+            ch = [root + 19, root + 24, root + 28] if b % 2 == 0 else [fifth + 12, fifth + 16, fifth + 19]   # E4 A4 C#5 ／ E4 G#4 B4
+            for j, mm in enumerate(ch): add(pizz(mm), t0 + .5 * beat + j * .008, -.2 + j * .2, .035)            # 裏拍に小さく
+            if b % 2 == 1: add(hp(noise(.035), 7500) * env(int(SR * .035), .003, .012), t0 + .5 * beat, .3, .010)  # とても小さな刻み
+        b += 1
+    for a, c in warm:   # Dm → B♭ → C → F（見本 第3話）
+        prog = [[50, 57, 62, 65, 69], [46, 53, 58, 62, 65], [48, 55, 60, 64, 67], [41, 53, 57, 60, 65]]; d = 2.72; k = 0; t0 = a
+        while t0 < c:
+            ch = prog[k % 4]; dd = min(d, c - t0) + .4
+            add(pad(ch[1:], dd), t0, 0, .16); add(bass(ch[0], min(dd, 2.2)) , t0, 0, .22)
+            t0 += d; k += 1
+    return np.stack([L, R], 1)[:int(SR * dur)]
+
+
 def bgm(dur, holds, opt=None):
     # style：warm（休憩室のこたつ）・comedy（2026-11-21「金のチモシー」：いつものウクレレと鉄琴の軽いオフィスコメディ曲に、dips・level を効かせる）
-    if opt and opt.get('style') in ('warm', 'comedy'):
-        st = bgm_warm(dur, opt) if opt.get('style') == 'warm' else bgm_old(dur, ''); g = np.ones(len(st))
+    if opt and opt.get('style') in ('warm', 'comedy', 'neo'):
+        st = bgm_warm(dur, opt) if opt.get('style') == 'warm' else bgm_neo(dur, opt) if opt.get('style') == 'neo' else bgm_old(dur, ''); g = np.ones(len(st))
         for h in (holds or '').split(','):
             if not h: continue
             a, c = (int(float(x) * SR) for x in h.split('-')); f = int(SR * .06)

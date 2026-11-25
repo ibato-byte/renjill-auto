@@ -60,7 +60,7 @@ document.write('<script src="v2/lib.js"><\/script><script src="v2/elevator_set.j
     let look = .5, nod = 14, face = Object.assign({}, F.sharp, { mouth: 'line' }), eyeOpen = .9, lean = 0, mouth = null, strand = 0, earL = 0, earR = 0;
     // 書類（右）を見る ⇔ 皿（左）を見る
     if (t >= F_(7.2) && t < B1) { look = lerp(.5, -1, sm(F_(7.2), F_(7.45), t)); }                                    // 目が皿へ
-    for (const b of [B1, B2]) { const k = L.ease(sm(b - .35, b, t)) * (1 - L.ease(sm(b + .8, b + 1.0, t))); lean = Math.max(lean, k); if (t >= b - .35 && t < b + 1.0) look = -.6; const c = chew(t, b); if (c >= 0) mouth = c ? 'w' : 'line'; }
+    for (const b of [B1, B2]) { const k = L.outBack(sm(b - .35, b, t)) * (1 - L.ease(sm(b + .8, b + 1.0, t))); lean = Math.max(lean, k); if (t >= b - .35 && t < b + 1.0) look = -.6; const c = chew(t, b); if (c >= 0) mouth = c ? 'w' : 'line'; }
     if (t >= B1 + 1.0 && t < F_(10.0)) { look = .5; }                                                           // すぐ書類へ
     if (t >= F_(10.0) && t < B2 - .35) { look = lerp(.5, -1, sm(F_(10.0), F_(10.2), t)); }                              // 一拍で、また皿へ
     if (t >= B2 + 1.0) { look = .5; mouth = mouth || 'w'; }
@@ -77,11 +77,29 @@ document.write('<script src="v2/lib.js"><\/script><script src="v2/elevator_set.j
     let look = 1, eyeOpen = 1.1, face = Object.assign({}, F.neutral, { mouth: 'line' });
     if (t >= LOOK) { look = .9; eyeOpen = 1.1; face = Object.assign({}, F.neutral, { mouth: 'pout' }); }
     let nod = 4, earL = 0, earR = 0;
-    if (t >= JIRO2) { const j = sm(JIRO2, JIRO2 + .3, t); look = 1; eyeOpen = 1; nod = 4 + 6 * j; earL = 18 * j; earR = -18 * j; face = Object.assign({}, F.annoyed, { eyeShape: 'half', sweat: .6 }); }   // 課長をじろり（半目のあきれ顔）
+    if (t >= JIRO2) { const j = sm(JIRO2, JIRO2 + .3, t); look = 1; eyeOpen = 1; nod = 4 + 6 * j; earL = 18 * j; earR = -18 * j; face = Object.assign({}, F.annoyed, { eyeShape: 'half', sweat: 0 }); }   // 課長をじろり（半目のあきれ顔）
     return Object.assign({}, RIG.POSES.sit, face, { x: JP.x, y: JP.y + 260 * (1 - k), scale: JP.s, flip: true, eyeLook: look, headNod: nod, eyeOpen, earL, earR });
   }
   const pomPeek = t => { const k = L.ease(sm(PEEK + .25, PEEK + .8, t)); return { x: 420, y: DESK + 30 + 150 * (1 - k), s: 1.15, q: t >= JIRO2 ? { eye: 'half', look: 1, squash: .06, wob: 4, blush: 0, mouth: 'w' } : { eye: t >= LOOK ? 'big' : 'round', look: 1, squash: 0, blush: .4 } }; };   // 17.4〜 課長をじろり（あきれ顔）
-  const SFX = [{ t: .15, type: 'pop', pan: 0 }, { t: ALONE, type: 'blink', pan: 0 }, { t: ALONE + .3, type: 'tap', pan: -.4 }, { t: 2.65, type: 'swish', pan: .4 }, { t: 3.85, type: 'swish', pan: -.4 }, { t: THINK[0] + .05, type: 'pop', pan: 0 },
+  // 題名は表紙（auto/schedule.json の thumb.hook）と同じ（tests/test_neo_cover.py が見張る）
+  const TITLE = { ja: '社員からのお土産', en: "The new hire's gift", part: 'PART 2 / 3' };
+  // 飾り（2026-11-25 ブラッシュアップ：見本と同じ、音の文字・「!」「?」・ハート・星）。w:1 は世界の座標
+  const DECO = [
+    { a: 2.0, b: 2.6, k: 'word', w: 1, x: 640, y: 800, txt: 'キョロ', size: 62 }, { a: 2.7, b: 3.7, k: 'word', w: 1, x: 1000, y: 800, txt: 'キョロ', size: 62, rot: 8 },
+    { a: 3.9, b: 4.7, k: 'word', w: 1, x: 640, y: 800, txt: 'キョロ', size: 62 },
+    { a: SNIFF, b: SMILE + .1, k: 'word', w: 1, x: 430, y: 1250, txt: 'くんくん', size: 56 },
+    { a: SMILE, b: CHECK, k: 'star', w: 1, x: 360, y: 880, r: 26 }, { a: SMILE + .1, b: CHECK, k: 'heart', w: 1, x: 520, y: 900 },
+    { a: FILLED, b: LEAVE, k: 'word', w: 1, x: 690, y: 1260, txt: 'どっさり', size: 64, fill: '#E58A2E' }, { a: FILLED, b: LEAVE, k: 'star', w: 1, x: 600, y: 1040, r: 28 }, { a: FILLED + .1, b: LEAVE, k: 'star', w: 1, x: 790, y: 1060, r: 22 },
+    { a: LEAVE + .1, b: GONE - .1, k: 'word', w: 1, x: 560, y: 1330, txt: 'そろ〜り', size: 70 },
+    { a: GONE + .1, b: OFFICE - .05, k: 'word', w: 1, x: 450, y: 1260, txt: 'からっぽ…', size: 58, fill: '#8E9AAE', rot: 0 },
+    { a: B1, b: B1 + .85, k: 'word', w: 1, x: 420, y: 1250, txt: 'サクッ', size: 70 }, { a: B1 + .5, b: B1 + 1.7, k: 'heart', w: 1, x: 760, y: 1010 },
+    { a: B2, b: B2 + .85, k: 'word', w: 1, x: 470, y: 1230, txt: 'サクッ', size: 70, rot: 4 }, { a: B2 + .5, b: B2 + 1.7, k: 'heart', w: 1, x: 780, y: 1000 },
+    { a: PEEK + .3, b: LOOK - .15, k: 'word', w: 1, x: 300, y: 1000, txt: 'じ〜っ', size: 66, fill: '#7A62D8' },
+    { a: LOOK, b: LOOK + 1.0, k: 'mark', x: 820, y: 700, txt: '?', size: 150 },
+    { a: JIRO2 + .1, b: JIRO2 + 1.4, k: 'word', w: 1, x: 330, y: 960, txt: 'ジロ〜ッ', size: 72, fill: '#7A62D8' },
+    { a: JIRO2 + .3, b: 31, k: 'sweat', w: 1, x: 420, y: 1120 },
+  ];
+  const SFX = [{ t: .1, type: 'title', pan: 0 }, { t: OFFICE + .17, type: 'telop', pan: 0 }, { t: FILLED + .05, type: 'kira', pan: .2 }, { t: LOOK + .02, type: 'hatena', pan: .3 }, { t: END + .12, type: 'kira', pan: 0 }, { t: .15, type: 'pop', pan: 0 }, { t: ALONE, type: 'blink', pan: 0 }, { t: ALONE + .3, type: 'tap', pan: -.4 }, { t: 2.65, type: 'swish', pan: .4 }, { t: 3.85, type: 'swish', pan: -.4 }, { t: THINK[0] + .05, type: 'pop', pan: 0 },
     { t: SNIFF, type: 'sniff', pan: 0 }, { t: SNIFF + .35, type: 'sniff', pan: 0 }, { t: SMILE, type: 'twitch', pan: .2 }, { t: CHECK + .1, type: 'blink', pan: 0 }, { t: MOVE + .05, type: 'koto', pan: .2 }, { t: FILLED, type: 'pop', pan: .2 }];
   for (let h = LEAVE + .1; h < GONE; h += .3) SFX.push({ t: h, type: 'tap', pan: .5 });
   SFX.push({ t: GONE, type: 'swish', pan: .6 }, { t: OFFICE + .1, type: 'pop', pan: 0 }, { t: DESK_T + .1, type: 'pop', pan: 0 }, { t: F_(6.6), type: 'tap', pan: .3 }, { t: F_(7.25), type: 'blink', pan: 0 });
@@ -91,14 +109,14 @@ document.write('<script src="v2/lib.js"><\/script><script src="v2/elevator_set.j
   window.EP = {
     neoTitle: true,   // 題名は rig/v2/neo_ui.js の NEO.title で画面に描く（qa.js が確かめる）
     dur: 31.0,   // 30 秒（Instagram・TikTok）＋エンドカード 1 秒（YouTube 用）
-    bgm: { style: 'comedy', level: .5, dips: [[THINK[0], THINK[1], .55], [SNIFF - .2, SMILE + .5, .4], [B1 - .1, B1 + .8, .45], [B2 - .1, B2 + .8, .45], [LOOK - .3, LOOK + 1.8, .25], [END, STORY, .7]] },   // 鼻・かむ音の所で引き、最後は真顔の一拍で大きく引く
+    bgm: { style: 'neo', level: 2.6, warm: [[END, 31]], dips: [[THINK[0], THINK[1], .55], [SNIFF - .2, SMILE + .5, .4], [B1 - .1, B1 + .8, .45], [B2 - .1, B2 + .8, .45], [LOOK - .3, LOOK + 1.8, .25], [END, STORY, .7]] },   // 鼻・かむ音の所で引き、最後は真顔の一拍で大きく引く
     qaAllow: { cuts: [ALONE, 2.6, 3.8, SNIFF - .5, CHECK, MOVE, FILLED, LEAVE, GONE, OFFICE, DESK_T, PEEK - .1, LOOK - .1, JIRO2], still: [[JIRO2 + .3, 31]], hidden_jil: [[0, PEEK + .5]], hidden_ren: [[GONE - .3, OFFICE + .05]] },   // 休憩室にはモチだけ（ユズは13.2秒にデスクの横から）・5.3〜6.0 はモチが去ったあとの箱だけ
     sfx: SFX.sort((a, b) => a.t - b.t),
     frame(t) {
       if (!window.L || !window.RIG || !window.TM || !window.NEO) return;
       NEO.install();
       const tt = Math.min(t, STORY);
-      const opt = { twitch: false, shadow: false, blink: true, breathe: true, ears: false };
+      const opt = { shadow: false, blink: true, breathe: true, ears: false };
       const CY = z => TM.T.top - (1430 - 960) / z;   // 休憩室：天板が画面の下の方（y 1430）
       let plate = '';
       let bg, fx, cam;
@@ -109,7 +127,7 @@ document.write('<script src="v2/lib.js"><\/script><script src="v2/elevator_set.j
         L.char('jil', Object.assign({}, RIG.POSES.sit, off), tt, '', { shadow: false });
         const moved = tt >= FILLED;
         fx = TM.table() + TM.box(TM.BOX.x, TM.BOX.y, { dish: moved ? 0 : .34, left: moved ? 2 : 0 });
-        if (tt >= MOVE && tt < LEAVE) fx += TM.dish(PLATE.x, PLATE.y, moved ? 1 : 0, .8);          // 箱の横の浅い皿：空 →（カット）山盛り
+        if (tt >= MOVE && tt < LEAVE) { const pk = moved ? 1 + .12 * Math.sin(Math.min(1, (tt - FILLED) / .35) * Math.PI) : 1; fx += TM.dish(PLATE.x, PLATE.y, moved ? 1 : 0, .8 * pk); }   // 山盛りになった瞬間、皿がぽんとふくらむ（2026-11-25）          // 箱の横の浅い皿：空 →（カット）山盛り
         if (rp && tt >= LEAVE) { const s2 = rp.scale / 1.3; plate = TM.dish(rp.x + MOUTH.dx * s2 - 30, rp.y + rp.headNod * 1.2 + MOUTH.dy * s2 + 34, 1, .62); fx += plate; }   // 皿のふちを口でくわえて運ぶ
         cam = L.camAt([
           { t: 0, z: 1.6, cx: 700, cy: CY(1.6) },                                 // 第1話の続き：きりっと箱を見下ろす
@@ -126,10 +144,11 @@ document.write('<script src="v2/lib.js"><\/script><script src="v2/elevator_set.j
           { t: GONE, z: 2.0, cx: TM.BOX.x, cy: CY(2.0) + 40, d: .01 },            // 去ったあとの箱（1〜2本）
         ], tt);
       } else {
-        bg = L.office({ sky: 'day', clock: [10, 30] });
+        bg = L.office({ sky: 'day', clock: [15, 20] });   // 休憩室（15時すぎ）のあと
         L.char('ren', renDesk(Math.max(tt, OFFICE)), tt, '', opt);
         if (tt >= PEEK) L.char('jil', jilPeek(tt), tt, '', opt); else L.char('jil', Object.assign({}, RIG.POSES.sit, off), tt, '', { shadow: false });
         fx = L.deskFront(DESK) + L.papers(PAPERS.x, PAPERS.y, 6) + TM.dish(DD.x, DD.y, deskDish(tt), .9, { left: tt >= PEEK ? 1 : 0 });
+        [B1, B2].forEach((b, i) => { fx += TM.bits(DD.x + 40, DD.y - 50, (tt - b) / .7, i + 9) + TM.bits(DD.x + 30, DD.y - 50, (tt - b - .42) / .6, i + 14, 4); });   // かけらが飛ぶ（2026-11-25）
         if (tt >= PEEK) { const p = pomPeek(tt); fx = ELV.pom(p.x, p.y, p.s, p.q) + fx; }
         cam = L.camAt([
           { t: OFFICE, z: .92, cx: 540, cy: 1000 },                               // 課長室の引き（テロップ「課長室は安全」）
@@ -139,13 +158,14 @@ document.write('<script src="v2/lib.js"><\/script><script src="v2/elevator_set.j
           { t: PEEK - .1, z: 1.35, cx: 480, cy: 1120, d: .01 },                    // ユズとクリがのぞく（カット）
           { t: LOOK - .1, z: 2.4, cx: RD.x + 200, cy: 1000, d: .01 },             // モチの真顔と口の端の1本（カット）
           { t: JIRO2, z: 1.35, cx: 480, cy: 1120, d: .01 },                        // ふたりで課長をじろり
+          { t: JIRO2 + .01, z: 1.42, cx: 470, cy: 1125, d: 6 },                    // そのまま、ゆっくり寄る（止め絵にしない。2026-11-25）
         ], tt);
       }
       // ---- 画面の文字（定時1分前と同じデザイン。日本語＋英語）----
-      let ui = NEO.brand() + NEO.title('社員からのお土産', 'A souvenir from the new hire', 1 - sm(1.5, 1.8, t), 'PART 2 / 3');
+      let ui = NEO.grade(tt >= OFFICE ? 2.2 : 1) + NEO.deco(t, cam, DECO) + NEO.brand() + NEO.title(TITLE.ja, TITLE.en, 1 - sm(1.75, 2.0, t), TITLE.part);
       ui += NEO.think(560, 600, '誰も見ていないな', "Nobody's watching...", L.seg(t, THINK[0], THINK[0] + .5) * (1 - L.seg(t, THINK[1] - .25, THINK[1])), { tx: 600, ty: 860 });
       ui += NEO.telop('課長室は安全', "The boss's office is safe.", L.seg(t, OFFICE + .15, OFFICE + .5) * (1 - L.seg(t, DESK_T - .25, DESK_T)));
-      ui += NEO.ending('つづく ▶ 課長もハマった？', 'Follow for Part 3 ▶ Is the boss hooked too?', L.seg(t, END, END + .5));
+      ui += NEO.ending('つづく ▶ 課長もハマった？', 'Follow for Part 3 ▶ Is the boss hooked too?', L.seg(t, END, END + .5), t);
       L.mount({ bg, fx, ui, cam, t: tt });
       if (typeof endcard === 'function') endcard(t, EP.dur);
     }
