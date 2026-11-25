@@ -5741,3 +5741,29 @@
 2026-11-24,account,17841455420932757,views,2519,
 2026-11-24,account,17841455420932757,follows_and_unfollows,,内訳が返らなかった
 2026-11-24,story,17841455420932757,stories,,いま24時間以内のストーリーズがない
+2026-11-25,reel,2026-11-25_timothy1,reach,,"Unsupported get request. Object with ID '17929971747439997' does not exist, cannot be loaded due to missing permissions,"
+2026-11-25,reel,2026-11-25_timothy1,saved,,"Unsupported get request. Object with ID '17929971747439997' does not exist, cannot be loaded due to missing permissions,"
+2026-11-25,reel,2026-11-25_timothy1,shares,,"Unsupported get request. Object with ID '17929971747439997' does not exist, cannot be loaded due to missing permissions,"
+2026-11-25,reel,2026-11-25_timothy1,ig_reels_avg_watch_time,,"Unsupported get request. Object with ID '17929971747439997' does not exist, cannot be loaded due to missing permissions,"
+2026-11-25,reel,2026-11-25_timothy1,ig_reels_video_view_total_time,,"Unsupported get request. Object with ID '17929971747439997' does not exist, cannot be loaded due to missing permissions,"
+2026-11-25,reel,2026-11-25_timothy1,total_interactions,,"Unsupported get request. Object with ID '17929971747439997' does not exist, cannot be loaded due to missing permissions,"
+2026-11-25,reel,2026-11-25_timothy1,avg_watch_ratio,,平均視聴時間÷動画の長さ（完走率の代わり）
+2026-11-25,reel,2026-11-25_timothy1,view_3s_rate,,Instagram の API では3秒視聴率・完走率は取れない（アプリの画面にだけ出る）。代わりに平均視聴時間÷動画の長さを見る
+2026-11-25,reel,2026-11-25_timothy1,profile_visits,,リール1本ごとの値は API が対応していない（2026-10-25 に確認）。アカウント全体の profile_views・follows で見る
+2026-11-25,reel,2026-11-25_timothy1,follows,,リール1本ごとの値は API が対応していない（2026-10-25 に確認）。アカウント全体の profile_views・follows で見る
+2026-11-25,account,17841455420932757,reach,2357,
+2026-11-25,account,17841455420932757,profile_views,84,
+2026-11-25,account,17841455420932757,accounts_engaged,20,
+2026-11-25,account,17841455420932757,views,3135,
+2026-11-25,account,17841455420932757,follows_and_unfollows,,内訳が返らなかった
+2026-11-25,story,17841455420932757,stories,,いま24時間以内のストーリーズがない
+2026-11-25,fb_reel,2026-11-25_timothy1,plays,0,
+2026-11-25,fb_reel,2026-11-25_timothy1,reactions,0,
+2026-11-25,fb_reel,2026-11-25_timothy1,comments,0,
+2026-11-25,fb_reel,2026-11-25_timothy1,shares,0,
+2026-11-25,threads,2026-11-25_timothy1,views,4,
+2026-11-25,threads,2026-11-25_timothy1,likes,0,
+2026-11-25,threads,2026-11-25_timothy1,replies,0,
+2026-11-25,threads,2026-11-25_timothy1,reposts,0,
+2026-11-25,threads,2026-11-25_timothy1,quotes,0,
+2026-11-25,threads,2026-11-25_timothy1,shares,0,
