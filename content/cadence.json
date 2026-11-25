@@ -7,19 +7,19 @@
  "recent": [
   {
    "key": "2026-10-26_jil_morning2",
-   "ratio": 0.139
+   "ratio": 0.157
   },
   {
    "key": "2026-11-01_pom_debut",
-   "ratio": 0.206
+   "ratio": 0.224
   },
   {
    "key": "2026-11-02_update99",
-   "ratio": 0.486
+   "ratio": 0.505
   }
  ],
- "schedule_days_ahead": 8,
+ "schedule_days_ahead": 2,
  "schedule_target_days": 7,
  "same_day_twice": [],
- "date": "2026-11-22"
+ "date": "2026-11-25"
 }

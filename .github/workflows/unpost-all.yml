@@ -1,0 +1,48 @@
+name: unpost-all
+# これまでに出した短い動画を全部の SNS から消す（取り消せない。オーナーの指示があった時だけ。auto/unpost_all.py）
+# 動かし方：Actions の画面から手で動かす（confirm に DELETE-ALL）か、auto/unpost_all.request を書きかえて push する。
+on:
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: "消すなら DELETE-ALL と入れる（それ以外は確かめるだけ）"
+        required: false
+        default: ""
+  push:
+    branches: [main]
+    paths: ["auto/unpost_all.request"]
+permissions:
+  contents: write
+concurrency: post
+jobs:
+  unpost:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+        with: { ref: main }
+      - uses: actions/setup-python@v6
+        with: { python-version: "3.12" }
+      - run: pip install -q requests google-api-python-client google-auth google-auth-httplib2
+      - name: 消す
+        env:
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
+          YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
+          YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
+          THREADS_ACCESS_TOKEN: ${{ secrets.THREADS_ACCESS_TOKEN }}
+          THREADS_USER_ID: ${{ secrets.THREADS_USER_ID }}
+          CONFIRM: ${{ github.event.inputs.confirm }}
+        run: |
+          REQ="$(cat auto/unpost_all.request 2>/dev/null | head -1)"
+          if [ "$CONFIRM" = "DELETE-ALL" ] || { [ "${{ github.event_name }}" = "push" ] && [ "${REQ%% *}" = "DELETE-ALL" ]; }; then
+            python auto/unpost_all.py
+          else
+            python auto/unpost_all.py --dry-run
+          fi
+      - name: 記録を保存
+        run: |
+          git config user.name "renjill-auto"; git config user.email "actions@users.noreply.github.com"
+          git add auto/posted.json
+          git diff --cached --quiet || { git commit -q -m "unpost-all: 消した投稿の記録を更新"; bash auto/push_main.sh; }

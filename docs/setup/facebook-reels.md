@@ -26,7 +26,7 @@ Instagram リールと Facebook リールは、GitHub Actions（`post.yml`、12:
 
 ## 投稿のしかた（自動）
 
-- **Instagram リール**：動画（`dist/<ep>_loop.mp4`）とサムネ（`dist/<ep>_thumb.jpg`、チェック済み）を公開リポジトリ `ibato-byte/renjill-media` に置き（`MEDIA_TOKEN`）、その公開 URL を `video_url`・`cover_url` に入れて `/{IG の ID}/media`（`media_type=REELS`）→ `/media_publish`。
+- **Instagram リール**：動画（`dist/<ep>_loop.mp4`）とサムネ（`dist/<ep>_thumb.jpg`、チェック済み）を公開リポジトリ `ibato-byte/usagi-office-media` に置き（`MEDIA_TOKEN`）、その公開 URL を `video_url`・`cover_url` に入れて `/{IG の ID}/media`（`media_type=REELS`）→ `/media_publish`。
 - **Facebook リール**：`GET /1358515160686321?fields=access_token` でページトークンを取り、Reels Publishing API（start → アップロード → サムネ `/{video_id}/thumbnails`（`is_preferred=true`）→ finish）で公開。サムネを付けられなかったときは公開後にもう一度試し、それでもだめなら Automation Hub の「やること」に出します（動画は公開済み）。
 - `auto/posted.json` に投稿 ID を記録し、同じ SNS に二度出しません。`"bs-scheduled"`（Business Suite で予約済み）・`"manual"`（手で予約済み）も「出した」とみなします。
 - 投稿のたびに Automation Hub の「東京うさぎオフィス 自動投稿」に、回・SNS ごとの結果を記録します。
@@ -54,7 +54,7 @@ Instagram リールと Facebook リールは、GitHub Actions（`post.yml`、12:
 1. https://business.facebook.com/settings/ → ビジネスポートフォリオ **tokyo_usagi_office** → **ユーザー** → **システムユーザー** → **renjill-auto**。
 2. **アセットを割り当てる** で、ページ「東京うさぎオフィス Tokyo Usagi Office」・Instagram @tokyo_usagi_office・アプリ renjill-auto がフルアクセスになっていることを確かめる。
 3. **新しいトークンを生成** → アプリ **renjill-auto** → 有効期限 **なし** → 上の7つの権限にチェック → 生成。
-4. https://github.com/ibato-byte/renjill-auto/settings/secrets/actions → `IG_ACCESS_TOKEN` の鉛筆（Update）→ 貼り付けて **Update secret**。
+4. https://github.com/ibato-byte/usagi-office-auto/settings/secrets/actions → `IG_ACCESS_TOKEN` の鉛筆（Update）→ 貼り付けて **Update secret**。
 5. Actions → **tokens** → **Run workflow**。Hub の「トークンの期限チェック」が `Meta トークン=期限なし`・`Meta 権限=すべてOK` になれば完了。
 
 ## 接続テスト（読み取りのみ・投稿しない）

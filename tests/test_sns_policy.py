@@ -88,10 +88,12 @@ class EpisodesJsonTest(unittest.TestCase):
         sch = json.loads((ROOT / "auto" / "schedule.json").read_text())
         posted = json.loads((ROOT / "auto" / "posted.json").read_text())
         eps = episodes_json.build(sch, posted, today="2099-01-01")
-        self.assertTrue(eps and all(e["ep"] and e["date"] and e["title"].get("ja") for e in eps))
+        # 2026-11-23 に全部消したので、空でもよい（消した回は出さない）。出る回は形がそろっていること
+        self.assertTrue(all(e["ep"] and e["date"] and e["title"].get("ja") for e in eps))
         for e in eps:
             if e["ep"] in ("deadline2", "receipts2", "chime2", "mug2", "papers2"):
-                self.assertTrue(e.get("youtube_id")); self.assertEqual(set(e["title"]), {"ja", "en", "zh", "ko"})
+                # 2026-11-23：消した回（posted.json の yt が "manual"・yt_deleted あり）は YouTube の ID を載せない
+                self.assertNotIn(e.get("youtube_id"), ("manual", "skip")); self.assertEqual(set(e["title"]), {"ja", "en", "zh", "ko"})
 
     def test_publish_failure_does_not_raise(self):
         with mock.patch.object(sns_policy, "load", return_value=POL), \
@@ -107,3 +109,13 @@ class EpisodesJsonTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class EpisodesJsonDeletedTest(unittest.TestCase):
+    """2026-11-24：全SNSから消した回が、公式サイトの一覧に戻ってこない"""
+    def test_deleted_posts_are_not_listed(self):
+        import episodes_json
+        sch = {"posts": [{"date": "2026-11-21", "ep": "a", "title": "A"}, {"date": "2026-11-22", "ep": "b", "title": "B"}]}
+        posted = {"2026-11-21_a": {"yt": "x", "deleted_at": "2026-11-23"}, "2026-11-22_b": {"yt": "y"}}
+        eps = episodes_json.build(sch, posted, today="2026-11-24", also={"a"})
+        self.assertEqual([e["ep"] for e in eps], ["b"])

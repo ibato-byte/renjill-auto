@@ -33,7 +33,7 @@ const STEP = 0.125, W = 1080, H = 1920;
   try { const src = fs.readFileSync(path.join(__dirname, 'ep', ep + '.js'), 'utf8');
     const thick = (src.match(/'stroke-width':\s*(2[8-9]|[3-9]\d)\b[^)]*'stroke-linecap':\s*'round'|'stroke-linecap':\s*'round'[^)]*'stroke-width':\s*(2[8-9]|[3-9]\d)\b/g) || []);
     if (thick.length) issues.push(`腕のような太い線を直接描いている（${thick.length}か所）：腕は limb() で、体のふちから短く`); } catch (e) { }
-  if (!(dur >= 8 && dur <= 28.2)) issues.push(`尺が範囲外: ${dur.toFixed(1)}s（8〜28s＝本編24秒＋締めテロップ3秒＋エンドカード1秒まで。2026-11-21 オーナー：休憩室のこたつは各話27秒。2026-11-16 オーナー：エレベーター第1話を20秒に。目安は7〜12s、最後まで見られる長さに）`);
+  if (!(dur >= 8 && dur <= 31.2)) issues.push(`尺が範囲外: ${dur.toFixed(1)}s（8〜31s＝2026-11-24 オーナー：毎回30秒前後＋エンドカード1秒。以前は 8〜28s＝本編24秒＋締めテロップ3秒＋エンドカード1秒まで。2026-11-21 オーナー：休憩室のこたつは各話27秒。2026-11-16 オーナー：エレベーター第1話を20秒に。目安は7〜12s、最後まで見られる長さに）`);
   else if (dur > 17) {   // 3話連載の回は 7〜21 秒が目安（docs/SERIES.md・2026-11-16 オーナー）。連載の回にこの警告を出すと見張りにならない（2026-11-17）
     let serial = false; try { serial = (JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'auto', 'schedule.json'), 'utf8')).posts || []).some(q => q.ep === ep && q.series); } catch (e) { }
     if (!serial) warns.push(`尺が長め: ${dur.toFixed(1)}s（目安は7〜12s。3話連載の回は21秒まで）`);
@@ -55,8 +55,14 @@ const STEP = 0.125, W = 1080, H = 1920;
     const hk = await p.evaluate(() => { const h = document.getElementById('hook'); if (!window.PACE.hook) return null; window.setOut(0.5);
       const sp = h.firstChild, sm = h.querySelector('small'); const rg = document.createRange(); rg.selectNodeContents(sp); const r = rg.getBoundingClientRect(), all = h.getBoundingClientRect(), sr = sm && sm.getBoundingClientRect();
       return { op: parseFloat(getComputedStyle(h).opacity), en: parseFloat(sp.style.fontSize), w: r.width, top: all.top, bottom: all.bottom, ja: sm ? parseFloat(sm.style.fontSize) : 0 }; });
-    if (!hk) issues.push('冒頭の英語の一言がない（pace.js に hook を入れる）');
-    else {
+    // 2026-11-24：「定時1分前」と同じデザインの回は、題名（日本語＋英語）を台本が画面に描く（EP.neoTitle）。0.5秒の時点で #ui に題名の文字があるかを見る
+    const neoTitle = await p.evaluate(() => { if (!(window.EP && EP.neoTitle)) return null; window.setOut(0.5); const ts = [...document.querySelectorAll('#ui text')].map(e => e.textContent); return ts.some(x => /[A-Za-z]/.test(x) && !/TOKYO USAGI OFFICE/.test(x)) && ts.some(x => /[ぁ-んァ-ン一-龥]/.test(x) && !/東京うさぎオフィス/.test(x)); });
+    if (neoTitle === false) issues.push('冒頭の題名（日本語と英語）が0.5秒の時点で画面にない（NEO.title）');
+    // 2026-11-24 オーナー：NEO の回は、目とメガネを毛ふわ（ザラザラ）にせず、くっきり描く（NEO.crisp）。目が見える所で、ふわなしの写しがあるかを見る
+    const neoEyes = await p.evaluate(() => { if (!(window.EP && EP.neoTitle)) return null; const bad = []; for (let s = 1; s < EP.dur - 1; s += 2.5) { window.setOut(s); for (const id of ['ren', 'jil']) { const g = document.querySelector(`#${id} > g:not([data-neo-crisp])`); if (!g || !g.querySelector('[data-crisp]')) continue; const r = g.getBoundingClientRect(); if (r.right < 0 || r.left > innerWidth) continue; const c = document.querySelector(`#${id} > g[data-neo-crisp="head"]`); if (!c || !window.NEO_EYES || c.querySelector('[data-crisp][visibility="visible"]') == null || getComputedStyle(c).filter !== 'none') bad.push(`${s.toFixed(1)}s ${id}`); const ls = [...document.querySelectorAll(`#${id} > g[data-neo-crisp]`)].map(n => n.getAttribute('data-neo-crisp')).join(); if (ls !== 'body,headfluff,head' || g.nextElementSibling.getAttribute('data-neo-crisp') !== 'body') bad.push(`${s.toFixed(1)}s ${id}（重ね順が 体→社員証・ネクタイ→頭 になっていない：${ls}）`);  if ([...g.querySelectorAll('clipPath *')].some(n => getComputedStyle(n).visibility !== 'visible')) bad.push(`${s.toFixed(1)}s ${id}（半目の切り抜きが消えて目が線だけ）`); } } return bad; });
+    if (neoEyes && neoEyes.length) issues.push(`目がくっきり描かれていない（NEO.crisp）：${neoEyes.slice(0, 4).join('、')}`);
+    if (!hk && neoTitle == null) issues.push('冒頭の英語の一言がない（pace.js に hook を入れる）');
+    else if (hk) {
       if (hk.op < 0.9) issues.push(`冒頭の一言が0.5秒の時点で見えていない（opacity ${hk.op.toFixed(2)}）`);
       if (hk.en < 90 || hk.w < 1080 * 0.6) issues.push(`冒頭の英語が小さい（${Math.round(hk.en)}px・幅${Math.round(hk.w)}px。90px以上・幅の60%以上に）`);
       if (hk.top < 280 || hk.bottom > 1640 || hk.w > 1040) issues.push(`冒頭の一言が安全域をはみ出す（上${Math.round(hk.top)}・下${Math.round(hk.bottom)}・幅${Math.round(hk.w)}）`);

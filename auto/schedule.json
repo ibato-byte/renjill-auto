@@ -767,25 +767,25 @@
     },
     {
       "date": "2026-11-26",
-      "slot": "18:00",
+      "slot": "07:50",
       "ep": "timothy1",
       "no": 99,
-      "title": "クリのお土産『金のチモシー』 Part 1「ひとくちだけ」",
+      "title": "社員からのお土産 Part 1「ひとくちだけ」",
       "caption_ja": "新人クリの旅行のお土産は「金のチモシー」。ユズがひとくちだけ…のはずが、皿はみるみる3分の1に。そこへ課長が。（つづく）",
       "caption_en": "Kuri brought back \"Golden Timothy\" from his trip. Yuzu takes just one bite... then the plate is down to a third. And here comes the boss. (to be continued)",
       "tag_set": "C",
       "thumb": {
-        "t": 1.0,
-        "cam": "2.2,700,1010",
-        "hook": "GOLDEN TIMOTHY./金のチモシー Part 1",
-        "variant": "B"
+        "t": 9.4,
+        "cam": "1.85,480,800",
+        "hook": "社員からの|お土産/The new hire's gift/PART 1 / 3",
+        "variant": "N"
       },
       "first_comment": "最後のお土産、どうなると思う？ / What happens to the last of the souvenir?",
       "site_i18n": {
         "title": {
-          "en": "Kuri's souvenir: Golden Timothy, Part 1",
-          "zh": "栗子的伴手禮「黃金提摩西草」Part 1",
-          "ko": "쿠리의 기념품 「황금 티모시」 Part 1"
+          "en": "A souvenir from the new hire, Part 1: Just One Bite",
+          "zh": "新人帶來的伴手禮 Part 1",
+          "ko": "신입이 사 온 기념품 Part 1"
         },
         "caption": {
           "zh": "新人栗子旅行帶回的伴手禮是「黃金提摩西草」。柚子只吃一口…盤子卻剩下三分之一。這時課長來了。（待續）",
@@ -793,11 +793,11 @@
         }
       },
       "title_i18n": {
-        "ja": "クリのお土産『金のチモシー』 Part 1「ひとくちだけ」 | 東京うさぎオフィス",
-        "ko": "쿠리의 기념품 「황금 티모시」 Part 1 | 도쿄 토끼 오피스 Tokyo Usagi Office",
-        "zh-Hant": "栗子的伴手禮「黃金提摩西草」Part 1 | 東京兔子辦公室 Tokyo Usagi Office",
-        "es": "El recuerdo de Kuri: Heno Dorado, Parte 1 | Tokyo Usagi Office",
-        "pt": "A lembrancinha do Kuri: Feno Dourado, Parte 1 | Tokyo Usagi Office"
+        "ja": "社員からのお土産 Part 1「ひとくちだけ」 | 東京うさぎオフィス",
+        "ko": "신입이 사 온 기념품 Part 1 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "新人帶來的伴手禮 Part 1 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "Un recuerdo del nuevo, Parte 1 | Tokyo Usagi Office",
+        "pt": "Uma lembrancinha do novato, Parte 1 | Tokyo Usagi Office"
       },
       "series": {
         "id": "timothy",
@@ -805,34 +805,37 @@
         "storyboard_ok": "2026-11-21",
         "part": 1
       },
-      "cta": "Send this to the coworker who can't stop at one bite./ひとくちで止まれない同僚に送ろう",
+      "cta": "Save this for your next Monday./月曜の朝のために保存して",
+      "note": "2026-11-24 オーナー：定時1分前と同じデザイン（表紙・テロップ・締め）・約30秒・題名「社員からのお土産」",
       "experiment": {
-        "var": "thumb_variant",
-        "std": "A",
-        "value": "B",
-        "why": "サムネの文字の位置（上と下）を変えて、プロフィール一覧からの見られ方を比べる"
-      }
+        "var": "cta",
+        "std": "Save this for your next Monday./月曜の朝のために保存して",
+        "value": "Save this for your next Monday./月曜の朝のために保存して",
+        "why": "最後の一言を足して、送る・保存する人が増えるか比べる"
+      },
+      "owner_exception": "2026-11-25 オーナー：ブラッシュアップした3本を、11/26 7:50 に同時に全 SNS へ出す（20時を過ぎたら翌朝 7:50 に、の指示）"
     },
     {
-      "date": "2026-11-28",
-      "slot": "12:00",
+      "date": "2026-11-26",
+      "slot": "07:50",
       "ep": "timothy2",
       "no": 100,
-      "title": "クリのお土産『金のチモシー』 Part 2「課長が預かります」",
+      "title": "社員からのお土産 Part 2「課長が預かります」",
       "caption_ja": "「これは課長が預かります」…のはずが、デスクでひとくち、もうひとくち。口の端に1本、残ってますよ課長。（つづく）",
       "caption_en": "The boss \"confiscates\" the souvenir. At his desk: one bite, then another. Boss, there's a strand sticking out of your mouth. (to be continued)",
       "tag_set": "C",
       "thumb": {
-        "t": 15.6,
-        "cam": "2.4,620,1000",
-        "hook": "GOLDEN TIMOTHY./金のチモシー Part 2"
+        "t": 22.6,
+        "cam": "1.65,440,1080",
+        "hook": "社員からの|お土産/The new hire's gift/PART 2 / 3",
+        "variant": "N"
       },
       "first_comment": "課長もハマったと思う？ / Is the boss hooked too?",
       "site_i18n": {
         "title": {
-          "en": "Kuri's souvenir: Golden Timothy, Part 2",
-          "zh": "栗子的伴手禮「黃金提摩西草」Part 2",
-          "ko": "쿠리의 기념품 「황금 티모시」 Part 2"
+          "en": "A souvenir from the new hire, Part 2: The Boss Will Hold Onto It",
+          "zh": "新人帶來的伴手禮 Part 2",
+          "ko": "신입이 사 온 기념품 Part 2"
         },
         "caption": {
           "zh": "「這由課長保管」…結果在座位上一口、再一口。課長，嘴角還有一根喔。（待續）",
@@ -840,11 +843,11 @@
         }
       },
       "title_i18n": {
-        "ja": "クリのお土産『金のチモシー』 Part 2「課長が預かります」 | 東京うさぎオフィス",
-        "ko": "쿠리의 기념품 「황금 티모시」 Part 2 | 도쿄 토끼 오피스 Tokyo Usagi Office",
-        "zh-Hant": "栗子的伴手禮「黃金提摩西草」Part 2 | 東京兔子辦公室 Tokyo Usagi Office",
-        "es": "El recuerdo de Kuri: Heno Dorado, Parte 2 | Tokyo Usagi Office",
-        "pt": "A lembrancinha do Kuri: Feno Dourado, Parte 2 | Tokyo Usagi Office"
+        "ja": "社員からのお土産 Part 2「課長が預かります」 | 東京うさぎオフィス",
+        "ko": "신입이 사 온 기념품 Part 2 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "新人帶來的伴手禮 Part 2 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "Un recuerdo del nuevo, Parte 2 | Tokyo Usagi Office",
+        "pt": "Uma lembrancinha do novato, Parte 2 | Tokyo Usagi Office"
       },
       "series": {
         "id": "timothy",
@@ -852,40 +855,50 @@
         "storyboard_ok": "2026-11-21",
         "part": 2
       },
-      "cta": "Send this to the coworker who can't stop at one bite./ひとくちで止まれない同僚に送ろう"
+      "cta": "Send this to the coworker who needs it./あの同僚に送ってあげて",
+      "note": "2026-11-24 オーナー：定時1分前と同じデザイン（表紙・テロップ・締め）・約30秒・題名「社員からのお土産」",
+      "owner_exception": "2026-11-25 オーナー：ブラッシュアップした3本を、11/26 7:50 に同時に全 SNS へ出す（20時を過ぎたら翌朝 7:50 に、の指示）",
+      "look": 1,
+      "experiment": {
+        "var": "cta",
+        "std": "Save this for your next Monday./月曜の朝のために保存して",
+        "value": "Send this to the coworker who needs it./あの同僚に送ってあげて",
+        "why": "最後の一言を足して、送る・保存する人が増えるか比べる"
+      }
     },
     {
-      "date": "2026-11-30",
-      "slot": "18:00",
+      "date": "2026-11-26",
+      "slot": "07:50",
       "ep": "timothy3",
       "no": 101,
-      "title": "クリのお土産『金のチモシー』 Part 3「業務用」",
-      "caption_ja": "翌日、お土産の皿は空っぽ。…と思ったら、右から大きな「ザクッ」。課長、それ業務用ですよね。（おわり）",
-      "caption_en": "Next day, the souvenir plate is empty. Then a loud CRUNCH from the right. Boss... is that the bulk size? (the end)",
+      "title": "社員からのお土産 Part 3「業務用」",
+      "caption_ja": "翌日、お土産の皿は空っぽ。…と思ったら、右から重たい「ドスッ、ドスッ」。課長、それ業務用ですよね。（おわり）",
+      "caption_en": "Next day, the souvenir plate is empty. Then a heavy THUD, THUD from the right. Boss... is that the bulk size? (the end)",
       "tag_set": "C",
       "thumb": {
-        "t": 16.2,
-        "cam": "0.98,610,1080",
-        "hook": "GOLDEN TIMOTHY./金のチモシー Part 3"
+        "t": 20.5,
+        "cam": "1.45,520,790",
+        "hook": "社員からの|お土産/The new hire's gift/PART 3 / 3",
+        "variant": "N"
       },
       "first_comment": "あなたの職場にも「業務用」を買う人いる？ / Anyone at your office who buys the bulk size?",
       "site_i18n": {
         "title": {
-          "en": "Kuri's souvenir: Golden Timothy, Part 3",
-          "zh": "栗子的伴手禮「黃金提摩西草」Part 3",
-          "ko": "쿠리의 기념품 「황금 티모시」 Part 3"
+          "en": "A souvenir from the new hire, Part 3: Bulk Size",
+          "zh": "新人帶來的伴手禮 Part 3",
+          "ko": "신입이 사 온 기념품 Part 3"
         },
         "caption": {
-          "zh": "隔天，伴手禮的盤子空了。…這時右邊傳來好大一聲「喀滋」。課長，那是業務用的吧。（完）",
-          "ko": "다음 날, 기념품 접시는 텅. …그런데 오른쪽에서 큰 「와삭」. 과장님, 그거 업소용이죠. (끝)"
+          "zh": "隔天，伴手禮的盤子空了。…這時右邊傳來重重的「咚、咚」。課長，那是業務用的吧。（完）",
+          "ko": "다음 날, 기념품 접시는 텅. …그런데 오른쪽에서 묵직한 「쿵, 쿵」. 과장님, 그거 업소용이죠. (끝)"
         }
       },
       "title_i18n": {
-        "ja": "クリのお土産『金のチモシー』 Part 3「業務用」 | 東京うさぎオフィス",
-        "ko": "쿠리의 기념품 「황금 티모시」 Part 3 | 도쿄 토끼 오피스 Tokyo Usagi Office",
-        "zh-Hant": "栗子的伴手禮「黃金提摩西草」Part 3 | 東京兔子辦公室 Tokyo Usagi Office",
-        "es": "El recuerdo de Kuri: Heno Dorado, Parte 3 | Tokyo Usagi Office",
-        "pt": "A lembrancinha do Kuri: Feno Dourado, Parte 3 | Tokyo Usagi Office"
+        "ja": "社員からのお土産 Part 3「業務用」 | 東京うさぎオフィス",
+        "ko": "신입이 사 온 기념품 Part 3 | 도쿄 토끼 오피스 Tokyo Usagi Office",
+        "zh-Hant": "新人帶來的伴手禮 Part 3 | 東京兔子辦公室 Tokyo Usagi Office",
+        "es": "Un recuerdo del nuevo, Parte 3 | Tokyo Usagi Office",
+        "pt": "Uma lembrancinha do novato, Parte 3 | Tokyo Usagi Office"
       },
       "series": {
         "id": "timothy",
@@ -893,7 +906,9 @@
         "storyboard_ok": "2026-11-21",
         "part": 3
       },
-      "cta": "Send this to the coworker who can't stop at one bite./ひとくちで止まれない同僚に送ろう"
+      "cta": "Send this to the coworker who can't stop at one bite./ひとくちで止まれない同僚に送ろう",
+      "note": "2026-11-24 オーナー：定時1分前と同じデザイン（表紙・テロップ・締め）・約30秒・題名「社員からのお土産」",
+      "owner_exception": "2026-11-25 オーナー：ブラッシュアップした3本を、11/26 7:50 に同時に全 SNS へ出す（20時を過ぎたら翌朝 7:50 に、の指示）"
     }
   ]
 }

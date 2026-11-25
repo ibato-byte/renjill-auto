@@ -21,6 +21,34 @@ const [ep, t, cam, hook, no, out, variant = 'A'] = process.argv.slice(2);
       .chip .s{background:#355F86;color:#fff;font-weight:700;font-size:42px;font-family:'Noto Sans',sans-serif;letter-spacing:.06em;padding:16px 34px;border-radius:999px;border:8px solid #FFF7E8;box-shadow:0 8px 0 #5A3A1E}
       .frame{position:fixed;inset:0;z-index:98;box-shadow:inset 0 0 0 26px #FFF7E8, inset 0 0 0 40px #C9962F;pointer-events:none}`;
     const st = document.createElement('style'); st.textContent = css; document.head.appendChild(st);
+    // 2026-11-24 オーナー：表紙は「定時1分前のちょっといい？」（usagi-office-media の 20261124_teiji59_*_cover.jpg）と同じデザインにそろえる＝variant N
+    //   hook は「日本語の題名（| で改行）/英語/PART 1 / 3」。クリーム色の枠と金の細い線・黄色の大きな題名・英語（大文字）・赤い PART の札・下にブランドの札
+    if (variant === 'N') {
+      const hp = hook.split('/'), ja = (hp[0] || '').trim(), en = (hp[1] || '').trim(), part = hp.slice(2).join('/').trim();   // PART 1 / 3 の「/」も残す
+      const css2 = `.frame{box-shadow:none !important}
+        .frame2{position:fixed;inset:0;z-index:98;pointer-events:none;border:22px solid #FFF7E8;border-radius:0}
+        .frame2::after{content:'';position:absolute;inset:0;border:6px solid #C9962F;border-radius:38px;box-shadow:0 0 0 30px #FFF7E8}
+        .hook.neo{font-family:'Noto Sans CJK JP',sans-serif;font-weight:900;color:#FFE34D;-webkit-text-stroke:24px #4A2C16;paint-order:stroke fill;filter:drop-shadow(0 9px 0 #3B2210);line-height:1.08;letter-spacing:.02em}
+        .hook.neo span{display:block;white-space:nowrap}
+        .hook.neo small{display:block;margin-top:8px;font-family:'Noto Sans CJK JP','Noto Sans',sans-serif;font-weight:900;font-size:76px;color:#FFF7E8;-webkit-text-stroke:16px #4A2C16;paint-order:stroke fill;letter-spacing:.005em;white-space:nowrap;text-transform:uppercase}
+        .chip.neo{top:0}.chip.neo .s{display:inline-block;transform:rotate(-3deg);background:#C8213A;font-family:'Noto Sans CJK JP','Noto Sans',sans-serif;font-size:56px;font-weight:900;padding:6px 44px 12px;border:7px solid #FFF7E8;box-shadow:0 8px 0 #5A1420;letter-spacing:.04em}
+        .neoshade{position:fixed;left:0;right:0;top:0;height:1000px;z-index:97;pointer-events:none;background:linear-gradient(to bottom,rgba(58,38,22,.62) 0,rgba(58,38,22,.42) 380px,rgba(58,38,22,.16) 720px,rgba(58,38,22,0) 1000px)}
+        .brandpill{position:fixed;left:0;right:0;top:1636px;z-index:99;display:flex;justify-content:center;pointer-events:none}
+        .brandpill b{background:#2F4E73;color:#fff;font:800 30px 'Noto Sans CJK JP',sans-serif;padding:12px 30px;border-radius:999px;border:6px solid #FFF7E8;box-shadow:0 6px 0 #1E3350}`;
+      const st2 = document.createElement('style'); st2.textContent = css2; document.head.appendChild(st2);
+      document.body.insertAdjacentHTML('beforeend', `<div class="neoshade"></div><div class="frame"></div><div class="frame2"></div><div class="chip"><span class="s"></span></div>`);   // neoshade：見本と同じく上を暗くして、題名を浮かせる
+      const chip = document.querySelector('.chip'); chip.classList.add('neo'); chip.querySelector('.s').textContent = part || 'PART 1 / 3';
+      const d = document.createElement('div'); d.className = 'th hook neo'; d.style.top = '330px';
+      d.innerHTML = ja.split('|').map(l => `<span>${l}</span>`).join('') + (en ? `<small>${en}</small>` : '')   // 英語はそのまま（見本で "…" が付くのは、せりふの題名の回だけ。2026-11-25 オーナー：文字がこれまでと少し違う）;
+      document.body.appendChild(d);
+      document.body.insertAdjacentHTML('beforeend', `<div class="brandpill"><b>東京うさぎオフィス TOKYO USAGI OFFICE</b></div>`);
+      const rg = document.createRange();
+      const fitN = (el, target, base, min) => { const w = fs => { el.style.fontSize = fs + 'px'; rg.selectNodeContents(el); return rg.getBoundingClientRect().width; }; let fs = base; while (w(fs) > target && fs > min) fs -= 2; return fs; };
+      const spans = [...d.querySelectorAll('span')]; const fs0 = Math.min(...spans.map(sp => fitN(sp, 880, 150, 70))); spans.forEach(sp => { sp.style.fontSize = fs0 + 'px'; });
+      const sm = d.querySelector('small'); if (sm) fitN(sm, 900, 76, 40);
+      { const r2 = document.createRange(); r2.selectNodeContents(d); chip.style.top = Math.round(Math.max(d.getBoundingClientRect().bottom, r2.getBoundingClientRect().bottom) + 26) + 'px'; }   // 札は少し傾けるので、すき間を広めに
+      return;
+    }
     document.body.insertAdjacentHTML('beforeend', `<div class="frame"></div><div class="chip"><span class="s">TOKYO USAGI OFFICE</span></div>`);
     if (variant !== 'C') {
       const [l1, l2] = hook.split('/');
@@ -84,7 +112,7 @@ const [ep, t, cam, hook, no, out, variant = 'A'] = process.argv.slice(2);
     const rect = el => { if (!el) return null; const rg = document.createRange(); rg.selectNodeContents(el); const r = rg.getBoundingClientRect(); return { x: r.left, y: r.top, w: r.width, h: r.height }; };
     const h = document.querySelector('.hook'); const c = document.querySelector('.chip .s');
     const out = { en: rect(h && h.querySelector('span')), ja: rect(h && h.querySelector('small')), chip: c ? (r => ({ x: r.left, y: r.top, w: r.width, h: r.height }))(c.getBoundingClientRect()) : null };
-    document.querySelectorAll('.th,.chip,.frame').forEach(e => { e.style.visibility = 'hidden'; });
+    document.querySelectorAll('.th,.chip,.frame,.brandpill').forEach(e => { e.style.visibility = 'hidden'; }); document.querySelectorAll('.frame2,.neoshade').forEach(e => { e.style.visibility = 'hidden'; });
     return out;
   });
   // (d) 文字に記号・効果が重ならない（2026-11-10：年末調整の表紙で「！」が日本語の文字にかかっていた。オーナー「サムネがおかしくなることは絶対に起こさない」）
@@ -112,7 +140,7 @@ const [ep, t, cam, hook, no, out, variant = 'A'] = process.argv.slice(2);
       return Math.round(edge / n * 1000) / 10; // %
     }, png);
   }
-  await p.evaluate(() => document.querySelectorAll('.th,.chip,.frame').forEach(e => { e.style.visibility = ''; }));
+  await p.evaluate(() => document.querySelectorAll('.th,.chip,.frame,.frame2,.brandpill,.neoshade').forEach(e => { e.style.visibility = ''; }));
   const BUSY_MAX = 3.0; // %（文字の範囲の背景のうち、強いエッジの画素の割合の上限）
   const busyNg = Object.entries(busy).filter(([, v]) => v > BUSY_MAX);
   if (busyNg.length) { console.error('THUMB_BUSY_BACKGROUND', JSON.stringify({ busy, max: BUSY_MAX })); await b.close(); process.exit(7); }
@@ -121,10 +149,10 @@ const [ep, t, cam, hook, no, out, variant = 'A'] = process.argv.slice(2);
   //     英語の見出しの幅・高さ・位置、チップの位置が大きくずれていたら NG
   const fs = require('fs'), path = require('path');
   const dir = path.dirname(path.resolve(out));
-  const me = { ep, en: m.en && { width: m.en.width, height: m.en.height, top: Math.round(m.text.top) }, chipTop: m.chip ? Math.round(m.chip.top) : null, busy, made: new Date().toISOString() };
+  const me = { ep, variant, en: m.en && { width: m.en.width, height: m.en.height, top: Math.round(m.text.top) }, chipTop: m.chip ? Math.round(m.chip.top) : null, busy, made: new Date().toISOString() };
   const others = fs.readdirSync(dir).filter(f => f.endsWith('_thumb.json') && f !== `${ep}_thumb.json`)
     .map(f => { try { return JSON.parse(fs.readFileSync(path.join(dir, f), 'utf8')); } catch { return null; } })
-    .filter(o => o && o.en).sort((a, b) => String(b.made).localeCompare(String(a.made))).slice(0, 6);
+    .filter(o => o && o.en && (o.variant === 'N') === (variant === 'N')).sort((a, b) => String(b.made).localeCompare(String(a.made))).slice(0, 6);
   if (variant !== 'C' && me.en && others.length >= 3) {
     const med = a => { const s = [...a].sort((x, y) => x - y); return s[Math.floor(s.length / 2)]; };
     const ref = { width: med(others.map(o => o.en.width)), height: med(others.map(o => o.en.height)), top: med(others.map(o => o.en.top)), chipTop: med(others.map(o => o.chipTop)) };

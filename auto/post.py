@@ -16,7 +16,7 @@ Instagram・Facebook のサムネは dist/<ep>_thumb.jpg（Instagram は公開UR
 失敗したSNSはスキップして他を続け、終了コードで知らせる。
 Facebook は権限・設定がなければ飛ばすだけ（失敗にしない）。理由は dist/post_hub_args 経由で Automation Hub の「やること」に出る。
 """
-import datetime as dt, json, os, re, subprocess, sys, time, pathlib
+import shutil, datetime as dt, json, os, re, subprocess, sys, time, pathlib
 import requests
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 import facebook as fb
@@ -61,8 +61,10 @@ def pick_posts(slot_override=None, now=None, ignore_posted=False):
     out = []
     for p in sch["posts"]:
         if p["date"] != today: continue
+        if p.get("hold"):   # 作り直し中の回（オーナーの指示で止めている）。hold を外すまで出さない（2026-11-25）
+            print(f'[post] {p["date"]} {p["ep"]} は止めている回（hold）。出さない', file=sys.stderr); continue
         # 週3本（月・木・土）・3話連載（2026-11-16 オーナー決定。auto/series_policy.json）：ほかの曜日の回は、予定表に残っていても出さない
-        if not series.allowed(p["date"]):
+        if not series.allowed(p["date"]) and not series.owner_exception(p):   # オーナーが「今回に限り」と決めた回（owner_exception）は曜日の決まりの外でも出す
             print(f'[post] {p["date"]} {p["ep"]} は投稿しない曜日の回（投稿は{series.label()}だけ）。出さずに飛ばす', file=sys.stderr); continue
         # 連載が始まったら、1話完結の回（series の欄がない）は出さない（2026-11-17 オーナー：指示があるまで）
         if not series.series_ok(p):
@@ -81,11 +83,51 @@ def pick_posts(slot_override=None, now=None, ignore_posted=False):
     return sch, posted, out
 
 # ---------- レンダリング ----------
+def pace_hook(ep):
+    """rig/pace.js のその回の冒頭の一言（hook）。書いていなければ None、空なら ''"""
+    m = re.search(r"PACE_ALL\.%s\s*=\s*\{[^}]*hook:\s*'([^']*)'" % re.escape(ep), (RIG / "pace.js").read_text(encoding="utf-8"))
+    return m.group(1) if m else None
+
+RENDER_FILES = ["rig.js", "render-ep.js", "build.sh", "ep.html", "pace.js", "settled.js", "video.json", "sfx.py"]
+
+
+def rig_stamp(ep):
+    """動画の絵と音を決めるファイルの指紋（台本・v2 の部品・描画の仕組み）。表紙（thumb.js）や点検（qa.js）は入れない"""
+    import hashlib
+    h = hashlib.sha256()
+    files = [RIG / f for f in RENDER_FILES] + [RIG / "ep" / f"{ep}.js"] + sorted((RIG / "v2").glob("*.js")) + sorted((RIG / "v2").glob("*.py"))
+    for f in files:
+        if f.exists(): h.update(f.relative_to(RIG).as_posix().encode() + b"\0" + f.read_bytes() + b"\0")
+    return h.hexdigest()[:16]
+
+
+def fetch_prebuilt(ep, yt, loop):
+    """手元で描いて確かめた動画（usagi-office-media の prebuilt/）が今の台本・部品と同じ指紋なら、それを使う。
+    2026-11-25：毛のふわっとした回は Actions で1本40分を超え、8:00 の投稿が描画の途中で打ち切られた（何も出なかった）。
+    指紋がちがう（台本や部品が後で変わった）ときは使わず、ここで描き直す"""
+    base = f"https://raw.githubusercontent.com/{MEDIA_REPO}/main/prebuilt/{ep}"
+    try:
+        r = requests.get(base + ".json", timeout=30)
+        if r.status_code != 200: return False
+        meta = r.json()
+        if meta.get("stamp") != rig_stamp(ep):
+            log("prebuilt", ep, "指紋がちがうので使わない", meta.get("stamp"), rig_stamp(ep)); return False
+        for name, dst in (("_yt.mp4", yt), ("_loop.mp4", loop)):
+            v = requests.get(base + name, timeout=120)
+            if v.status_code != 200 or len(v.content) < 100000: return False
+            dst.write_bytes(v.content)
+        log("prebuilt", ep, "手元で描いた動画を使う", meta.get("stamp")); return True
+    except Exception as e:
+        log("prebuilt", ep, "取れなかった", repr(e)[:200]); return False
+
+
 def render(ep):
     """yt＝YouTube 用（冒頭の一言を焼き込まない。YouTube は冒頭のコマを表紙にするため。依頼 #124）、loop＝ほかの SNS 用（一言あり・エンドカードなし）"""
     yt, loop = DIST / f"{ep}_yt.mp4", DIST / f"{ep}_loop.mp4"
     mark = DIST / f"{ep}_yt.nohook"  # この印がない yt は一言入りの古い版なので作り直す
     if yt.exists() and loop.exists() and mark.exists(): return yt, loop
+    if fetch_prebuilt(ep, yt, loop):
+        mark.write_text("hook なし（依頼 #124）\n"); return yt, loop
     log("render", ep)
     env = dict(os.environ, NODE_PATH=os.environ.get("NODE_PATH") or subprocess.check_output(["npm", "root", "-g"]).decode().strip())
     full = DIST / f"{ep}_full.mp4"  # 一言ありの全編（ループ版の元）
@@ -94,9 +136,13 @@ def render(ep):
     dur = json.loads((RIG / "out" / ep / "meta.json").read_text())["dur"]
     # ループ版：エンドカード（最後の0.9秒）を落とす
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(full), "-t", str(dur - 1.0), "-c", "copy", str(loop)], check=True)
-    # YouTube 版：冒頭の一言なし
-    subprocess.run(["node", str(RIG / "render-ep.js"), ep, "nohook"], check=True, env=env)
-    subprocess.run(["bash", str(RIG / "build.sh"), f"{ep}_nohook", str(yt)], check=True)
+    # YouTube 版：冒頭の一言なし。pace.js の hook が空の回（2026-11-24〜「定時1分前」と同じ見た目で、題名を台本の中で描く回）は
+    # 一言を焼き込まないので、全編がそのまま YouTube 版になる（同じ絵をもう一度書き出さない：毛のふわっとした回は1本に約1時間かかる）
+    if not pace_hook(ep):
+        shutil.copyfile(full, yt)
+    else:
+        subprocess.run(["node", str(RIG / "render-ep.js"), ep, "nohook"], check=True, env=env)
+        subprocess.run(["bash", str(RIG / "build.sh"), f"{ep}_nohook", str(yt)], check=True)
     mark.write_text("hook なし（依頼 #124）\n")
     return yt, loop
 
@@ -133,7 +179,7 @@ def thumbnail(p):
     # 検査に通らないとき（記号が文字にかかる・背景がごちゃつく など）は、少し前後のコマで作り直す（2026-11-10：おかしな表紙は出さない・でも投稿は止めない）
     t0 = float(th["t"]); rc = 1
     for t in thumb_times(t0, ep_dur(p["ep"])):
-        for vv in ([v, "A"] if v != "A" else ["A"]):
+        for vv in ([v, "A"] if v not in ("A", "N") else [v]):   # N（定時1分前と同じ表紙）は A 型に落とさない：別のコマで作り直す（2026-11-25 オーナー：表紙のデザインをそろえる）
             rc = gen(vv, t)
             if rc == 0:
                 if (t, vv) != (t0, v): log(f"thumbnail {v}@{t0} NG → {vv}@{t}")
@@ -180,7 +226,7 @@ def yt_title(p):
     title = cut.rstrip(" ,.;:") + "…" + tail
     return title[:YT_TITLE_MAX]
 
-def post_youtube(p, d, path):
+def post_youtube(p, d, path, thumb_path=None, info=None):
     from google.oauth2.credentials import Credentials
     from googleapiclient.discovery import build
     from googleapiclient.http import MediaFileUpload
@@ -194,8 +240,24 @@ def post_youtube(p, d, path):
             "status": {"privacyStatus": "public", "selfDeclaredMadeForKids": False}}
     req = yt.videos().insert(part="snippet,status,localizations", body=body, media_body=MediaFileUpload(str(path), chunksize=-1, resumable=True))
     res = req.execute()
-    # YouTube には文字入りの表紙を送らない（YouTube は文字なしにそろえる。オーナー決定 2026-10-26・依頼 #124）。表紙は動画の冒頭のコマ（一言なし）になる
+    # 表紙：ほかの SNS と同じ題名入りの正式な表紙を付ける（2026-11-24 オーナー決定。10/26 の「YouTube は文字なし」を置きかえ）。
+    # 付けないと YouTube が途中のコマを勝手に選ぶ（2026-11-24「定時1分前」3本で起きた）。付いたか読み直して確かめ、だめなら3回までやり直す
+    if info is not None: info["thumb"] = yt_set_thumbnail(yt, res["id"], thumb_path)
     return res["id"]
+
+
+def yt_set_thumbnail(yt, vid, thumb_path, tries=3):
+    """YouTube の表紙を付けて確かめる。"OK" / "NG" / "なし"（表紙のファイルがない）"""
+    from googleapiclient.http import MediaFileUpload
+    if not thumb_path or not pathlib.Path(thumb_path).exists(): return "なし"
+    for i in range(tries):
+        try:
+            r = yt.thumbnails().set(videoId=vid, media_body=MediaFileUpload(str(thumb_path), mimetype="image/jpeg")).execute()
+            if (r.get("items") or [{}])[0]: return "OK"
+        except Exception as e:
+            log(f"YouTube の表紙を付けられない（{i + 1}回目）", repr(e)[:200])
+        time.sleep(5 * (i + 1))
+    return "NG"
 
 # ---------- TikTok ----------
 class TikTokManual(Exception):
@@ -266,10 +328,11 @@ def post_tiktok(p, d, path):
     return init["data"]["publish_id"]
 
 # ---------- Instagram ----------
-MEDIA_REPO = os.environ.get("MEDIA_REPO", "ibato-byte/renjill-media")  # 公開済み動画とカバーだけを置く公開リポジトリ（Shota承認 2026-10-20）
+MEDIA_REPO = os.environ.get("MEDIA_REPO", "ibato-byte/usagi-office-media")  # 公開済み動画とカバーだけを置く公開リポジトリ（Shota承認 2026-10-20）
 
 def media_purge(name):
-    """公式サイトは renjill-media を配信の中つぎ（jsDelivr）ごしに読む。中つぎは同じ名前の物をしばらくおぼえているので、
+    """2026-11-23：公式サイトは usagi-office-media の GitHub Pages（https://ibato-byte.github.io/usagi-office-media/）から直接読むようになった（jsDelivr は新しい名前だと 50MB 制限で 403）。下の「消して」は以前の名残で、失敗しても害はない。
+    以前：公式サイトは renjill-media を配信の中つぎ（jsDelivr）ごしに読む。中つぎは同じ名前の物をしばらくおぼえているので、
     置きかえたら「消して」と頼む（2026-11-15：出し直した「10分の会議」で、サイトにだけ古い・ちかちかする動画が残った）。失敗しても投稿は止めない"""
     try:
         r = requests.get(f"https://purge.jsdelivr.net/gh/{MEDIA_REPO}@main/{name}", timeout=20)
@@ -473,7 +536,7 @@ def post_extra(pl, key, p, d, rec, loop_path, fb_access, results, posted):
             from googleapiclient.discovery import build
             creds = Credentials(None, refresh_token=os.environ["YT_REFRESH_TOKEN"], token_uri="https://oauth2.googleapis.com/token",
                                 client_id=os.environ["YT_CLIENT_ID"], client_secret=os.environ["YT_CLIENT_SECRET"])
-            rec[pl] = stories.add_to_playlist(build("youtube", "v3", credentials=creds), rec["yt"], p["series"])
+            rec[pl] = stories.add_to_playlist(build("youtube", "v3", credentials=creds), rec["yt"], stories.playlist_title(p))
         rec[pl + "_at"] = dt.datetime.now(JST).isoformat(timespec="minutes")
         results[label] = "投稿OK"
         log("OK", key, pl, rec[pl])
@@ -556,7 +619,11 @@ def main(argv=None):
                 if pl in ("ig", "facebook") and fb_access is None:
                     fb_access = fb.diagnose()  # ページトークンと Instagram の ID（読み取りのみ）
                     for r in fb_access["reasons"]: log("Meta:", fb.scrub(r))
-                if pl == "yt": rec["yt"] = post_youtube(p, d, yt_path)
+                if pl == "yt":
+                    yinfo = {}
+                    rec["yt"] = post_youtube(p, d, yt_path, thumb(), yinfo)
+                    if yinfo.get("thumb") != "OK":  # 表紙が付かなかった（動画は公開済み）。人の手で直す
+                        actions.append(f'YouTube ショート「{p["title"]}」に正式な表紙が付かなかった（{yinfo.get("thumb")}）。Claude に「{p["ep"]} の YouTube の表紙を付けて」と伝える')
                 elif pl == "tt": rec["tt"] = post_tiktok(p, d, loop_path)
                 elif pl == "threads":
                     if not threads.threads_ready(): raise threads.GrowthSkip("Threads の権限・Secrets が未設定で見送り")  # 動画を置く前に確かめる

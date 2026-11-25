@@ -27,8 +27,8 @@ def assign(posts, office=is_office):
         if not ep or ep in seen:
             continue
         seen.add(ep)
-        out[ep] = n % N
-        if office(ep):
+        out[ep] = p["look"] if p.get("look") is not None else n % N   # 予定表の look で固定できる（日付を動かしても、OKをもらった動画の部屋を変えない。2026-11-25）
+        if office(ep) and p.get("look") is None:   # 固定した回は数えない（次の回が固定の部屋と続かないよう、番号を進めない）
             n += 1
     return out
 

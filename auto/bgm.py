@@ -514,7 +514,7 @@ def fix_links(dry=False):
     return 1 if bad else 0
 
 
-MEDIA_REPO = "ibato-byte/renjill-media"
+MEDIA_REPO = "ibato-byte/usagi-office-media"
 
 
 def media_list(st):

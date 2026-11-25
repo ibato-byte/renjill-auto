@@ -80,6 +80,12 @@ def groups(start, end, pol=None):
     return [g for g in out if g and g[-1] >= st]
 
 
+def owner_exception(p):
+    """オーナーが「今回に限り」と日時を決めた回（予定表の owner_exception に、いつ・だれが・何をを書く）。
+    曜日・時刻・何話目かの決まりの外でも出す（2026-11-25 オーナー：社員からのお土産を 11/25〜27 の 8:00 に）"""
+    return bool(str(p.get("owner_exception") or "").strip())
+
+
 def series_ok(p, pol=None):
     """投稿してよい回か（series_start 以降は、連載の欄 series がある回だけ。approval_from 以降は、オーナーが絵コンテをOKした回だけ）"""
     pol = policy() if pol is None else pol
@@ -111,10 +117,11 @@ def check(posts, today, days=21, pol=None, src=_src):
     by_date = {}
     for p in rows: by_date.setdefault(p["date"], []).append(p)
     for d, ps in by_date.items():
-        if len(ps) > 1: issues.append(f"{d}: 同じ日に {len(ps)} 本（週3本・1日1本）")
+        if len(ps) > 1 and not all(owner_exception(p) for p in ps): issues.append(f"{d}: 同じ日に {len(ps)} 本（週3本・1日1本）")   # オーナーが「今回に限り」同じ日にまとめた回は除く（2026-11-25）
     for p in rows:
         tag = f'{p["date"]} {p.get("ep")}'
-        if not allowed(p["date"], pol):
+        exc = owner_exception(p)
+        if not allowed(p["date"], pol) and not exc:
             issues.append(f"{tag}: {DAYS_JA[dt.date.fromisoformat(p['date']).weekday()]}曜日の回（投稿は{label(pol)}だけ。在庫 auto/stock.json に移す）")
             continue
         if p["date"] < pol["series_start"]: continue
@@ -122,22 +129,23 @@ def check(posts, today, days=21, pol=None, src=_src):
         if not s.get("id") or not s.get("part"):
             issues.append(f'{tag}: 連載の欄 series（id・part・of）がない（{label(pol)}の3本で1つの話。この日は第{n}話）')
             continue
-        if s["part"] != n: issues.append(f'{tag}: 第{s["part"]}話になっているが、この日は第{n}話（{pol["series_start"]} から投稿日の順に 1→2→3）')
+        if s["part"] != n and not exc: issues.append(f'{tag}: 第{s["part"]}話になっているが、この日は第{n}話（{pol["series_start"]} から投稿日の順に 1→2→3）')
         want = (pol.get("slots") or {}).get(str(dt.date.fromisoformat(p["date"]).weekday()))
-        if want and p["date"] >= pol.get("slots_from", "9999") and p.get("slot") != want:
+        if want and not exc and p["date"] >= pol.get("slots_from", "9999") and p.get("slot") != want:
             issues.append(f'{tag}: 投稿時刻が {p.get("slot")}（{DAYS_JA[dt.date.fromisoformat(p["date"]).weekday()]}曜日は {want}。2026-11-21 オーナー：月・木 18:00、土 12:00）')
         if not storyboard_ok(p, pol):
             days_left = (dt.date.fromisoformat(p["date"]) - today).days
             (issues if days_left <= 3 else warns).append(f"{tag}: オーナーの絵コンテのOK（series.storyboard_ok）がまだ。OKが出るまで動画を作らず、投稿もしない")
         hook = (p.get("thumb") or {}).get("hook", "")
-        if f'Part {s["part"]}' not in hook: issues.append(f'{tag}: 冒頭の一言（thumb.hook）に「Part {s["part"]}」がない（途中から見た人にも何話目か分かるように）')
+        if not re.search(rf'Part\s*{s["part"]}\b', hook, re.I): issues.append(f'{tag}: 冒頭の一言（thumb.hook）に「Part {s["part"]}」がない（途中から見た人にも何話目か分かるように）')
         if s["part"] < pol["parts"]:
             if "つづく" not in p.get("caption_ja", ""): warns.append(f"{tag}: caption_ja に「（つづく）」がない")
             if "to be continued" not in p.get("caption_en", "").lower(): warns.append(f"{tag}: caption_en に「(to be continued)」がない")
         code = src(p["ep"])
         if code is None: continue  # 台本がまだない回は preflight が止める
-        if "フォロー" not in code: issues.append(f"{tag}: 最後にフォローをうながすテロップ（「フォロー」の文字）がない")
-        NEXT = ("次回", "第2話へ", "第3話へ", "最終話へ", "次の話")   # 2026-11-21 オーナーのテロップ「フォローして第2話へ」「フォローして最終話へ」も次回予告
+        # 2026-11-24：「定時1分前」と同じ締め（赤い札「つづく ▶ …」＋英語「Follow for Part 2 ▶ …」）も、フォローをうながすテロップとして数える
+        if "フォロー" not in code and "Follow for" not in code: issues.append(f"{tag}: 最後にフォローをうながすテロップ（「フォロー」の文字）がない")
+        NEXT = ("次回", "第2話へ", "第3話へ", "最終話へ", "次の話", "つづく ▶")   # 2026-11-21 オーナーのテロップ「フォローして第2話へ」「フォローして最終話へ」も次回予告
         if s["part"] < pol["parts"] and not any(w in code for w in NEXT): issues.append(f"{tag}: 最後に次回予告（「次回」「第2話へ」「最終話へ」などの文字）がない")
         if s["part"] >= 2 and not re.search(r"^\s*//\s*前回[：:]", code, re.M):
             issues.append(f"{tag}: 冒頭のあらすじがない（台本の頭のコメントに「// 前回：」の1行を書き、最初の1〜2秒で前回を見せる）")
@@ -145,6 +153,8 @@ def check(posts, today, days=21, pol=None, src=_src):
     last = max(dt.date.fromisoformat(max([p["date"] for p in rows], default=start)), today + dt.timedelta(days=7))
     for g in groups(start, last, pol):
         days_ = [x.isoformat() for x in g]
+        if any(owner_exception(p) for p in rows if days_[0] <= p["date"] <= days_[-1]) or any(owner_exception(p) for p in rows if (dt.date.fromisoformat(p["date"]) - g[0]).days in range(-7, 1)):
+            continue   # オーナーが日時を決めた回のまわりの組は、月・木・土の3本の組では数えない（その回の日付で出す）
         ids = {(by_date.get(d, [{}])[0].get("series") or {}).get("id") for d in days_ if d in by_date}
         ids.discard(None)
         if len(ids) > 1: issues.append(f"{days_[0]} からの3本：別の話になっている（{'・'.join(sorted(ids))}。3本で1つの話）")

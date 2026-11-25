@@ -34,8 +34,9 @@ class RebrandTest(unittest.TestCase):
 
     def test_ids(self):
         yt, fb = rebrand_posts.ids()
-        self.assertGreater(len(yt), 10); self.assertGreater(len(fb), 5)
-        self.assertEqual(len(yt), len(set(yt)))
+        # 2026-11-23：オーナーの指示で過去のショート動画を全部消したので、本数は決めない（作業用BGMの長い動画は残る）
+        self.assertGreater(len(yt), 0); self.assertNotIn("manual", yt); self.assertNotIn("manual", fb)
+        self.assertEqual(len(yt), len(set(yt))); self.assertEqual(len(fb), len(set(fb)))
 
 
 if __name__ == "__main__":

@@ -4,10 +4,13 @@ on:
     - cron: "0 3 * * *"   # 12:00 JST
     - cron: "0 9 * * *"   # 18:00 JST
     - cron: "0 10 * * *"  # 19:00 JST
+    - cron: "50 22 * * *"  # 07:50 JST（2026-11-26 社員からのお土産 3本を同時に。GitHub の時刻起動は遅れることがあるので、Claude の予約からも手動で起動する）
+    - cron: "0 23 * * *"  # 08:00 JST（2026-11-25 オーナー：社員からのお土産 3話を 11/25〜27 の 8:00 に）
     # 拾い直し：定時の実行が来なかった日のために 40 分後にもう一度（出す回がなければすぐ終わる。窓は予定の 10 分前〜2 時間後。Hub 依頼 #178・#175）
     - cron: "40 3 * * *"   # 12:40 JST
     - cron: "40 9 * * *"   # 18:40 JST
     - cron: "40 10 * * *"  # 19:40 JST
+    - cron: "40 23 * * *"  # 08:40 JST
   workflow_dispatch:
     inputs:
       slot:
@@ -28,7 +31,7 @@ jobs:
     # 投稿用のキー（Secrets）を登録し、Settings → Variables で AUTO_POST_ENABLED=true にするまで動かない
     if: vars.AUTO_POST_ENABLED == 'true'
     runs-on: ubuntu-24.04
-    timeout-minutes: 40
+    timeout-minutes: 75   # 2026-11-25：同じ時刻に3本出す日がある。途中で打ち切られると posted.json が残らず、拾い直しで二重投稿になる
     steps:
       - name: Automation Hub：一時停止の確認
         id: hub

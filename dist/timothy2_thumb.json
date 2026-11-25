@@ -1,0 +1,16 @@
+{
+ "ep": "timothy2",
+ "variant": "N",
+ "en": {
+  "width": 764,
+  "height": 217,
+  "top": 302
+ },
+ "chipTop": 778,
+ "busy": {
+  "en": 0,
+  "ja": 0,
+  "chip": 0.8
+ },
+ "made": "2026-11-25T03:58:57.792Z"
+}
