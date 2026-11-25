@@ -603,5 +603,81 @@
     "ig_deleted": "17901584670398054",
     "threads_deleted": "18118093430032261",
     "deleted_note": "2026-11-23 オーナーの指示で全SNSから削除（YouTube・Facebook は API、Instagram・Threads・TikTok は画面から）"
+  },
+  "2026-11-26_timothy1": {
+    "tag_set": "C",
+    "no": 99,
+    "title": "社員からのお土産 Part 1「ひとくちだけ」",
+    "ig": "18109606145205421",
+    "ig_at": "2026-11-26T07:52+09:00",
+    "cover_style": {
+      "ig": "text",
+      "yt": "text",
+      "facebook": "text",
+      "threads": "text"
+    },
+    "tt": "manual",
+    "yt": "og5TCGrH8-A",
+    "yt_at": "2026-11-26T07:52+09:00",
+    "facebook": "1476797854629933",
+    "facebook_at": "2026-11-26T07:52+09:00",
+    "threads": "18119919383331053",
+    "threads_at": "2026-11-26T07:53+09:00",
+    "ig_story": "18114038453237458",
+    "ig_story_at": "2026-11-26T07:54+09:00",
+    "fb_story": "2042427313096103",
+    "fb_story_at": "2026-11-26T07:54+09:00"
+  },
+  "2026-11-26_timothy2": {
+    "tag_set": "C",
+    "no": 100,
+    "title": "社員からのお土産 Part 2「課長が預かります」",
+    "ig": "18100436366671003",
+    "ig_at": "2026-11-26T07:57+09:00",
+    "cover_style": {
+      "ig": "text",
+      "yt": "text",
+      "facebook": "text",
+      "threads": "text"
+    },
+    "tt": "manual",
+    "yt": "IXvaOKcRT60",
+    "yt_at": "2026-11-26T07:58+09:00",
+    "facebook": "2093897674622817",
+    "facebook_at": "2026-11-26T07:58+09:00",
+    "threads": "17887995420626046",
+    "threads_at": "2026-11-26T07:59+09:00",
+    "ig_story": "18125203585943937",
+    "ig_story_at": "2026-11-26T08:00+09:00",
+    "fb_story": "1465013565055258",
+    "fb_story_at": "2026-11-26T08:00+09:00",
+    "yt_playlist": "PLHZ1hOnLxHFA",
+    "yt_playlist_at": "2026-11-26T08:00+09:00"
+  },
+  "2026-11-26_timothy3": {
+    "tag_set": "C",
+    "no": 101,
+    "title": "社員からのお土産 Part 3「業務用」",
+    "ig": "18121301738047450",
+    "ig_at": "2026-11-26T08:03+09:00",
+    "cover_style": {
+      "ig": "text",
+      "yt": "text",
+      "facebook": "text",
+      "threads": "text"
+    },
+    "tt": "manual",
+    "yt": "i1gjP9lV1nk",
+    "yt_at": "2026-11-26T08:04+09:00",
+    "facebook": "1491826756384812",
+    "facebook_at": "2026-11-26T08:04+09:00",
+    "threads": "17886810021527101",
+    "threads_at": "2026-11-26T08:05+09:00",
+    "ig_story": "18108460316326176",
+    "ig_story_at": "2026-11-26T08:06+09:00",
+    "fb_story": "28244946485182413",
+    "fb_story_at": "2026-11-26T08:07+09:00",
+    "yt_playlist": "PLHZ1hOnLxHFA",
+    "yt_playlist_at": "2026-11-26T08:07+09:00"
   }
 }

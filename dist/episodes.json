@@ -1,7 +1,7 @@
 [
  {
   "ep": "timothy1",
-  "date": "2026-11-25",
+  "date": "2026-11-26",
   "title": {
    "ja": "社員からのお土産 Part 1「ひとくちだけ」",
    "en": "A souvenir from the new hire, Part 1: Just One Bite",
@@ -14,8 +14,46 @@
    "zh": "新人栗子旅行帶回的伴手禮是「黃金提摩西草」。柚子只吃一口…盤子卻剩下三分之一。這時課長來了。（待續）",
    "ko": "신입 쿠리의 여행 기념품은 「황금 티모시」. 유자가 한 입만… 접시는 어느새 3분의 1. 그때 과장님이. (계속)"
   },
-  "cover": "20261125_timothy1_cover.jpg",
-  "video": "20261125_timothy1.mp4",
-  "youtube_id": "LnZjJJW8VpM"
+  "cover": "20261126_timothy1_cover.jpg",
+  "video": "20261126_timothy1.mp4",
+  "youtube_id": "og5TCGrH8-A"
+ },
+ {
+  "ep": "timothy2",
+  "date": "2026-11-26",
+  "title": {
+   "ja": "社員からのお土産 Part 2「課長が預かります」",
+   "en": "A souvenir from the new hire, Part 2: The Boss Will Hold Onto It",
+   "zh": "新人帶來的伴手禮 Part 2",
+   "ko": "신입이 사 온 기념품 Part 2"
+  },
+  "caption": {
+   "ja": "「これは課長が預かります」…のはずが、デスクでひとくち、もうひとくち。口の端に1本、残ってますよ課長。（つづく）",
+   "en": "The boss \"confiscates\" the souvenir. At his desk: one bite, then another. Boss, there's a strand sticking out of your mouth. (to be continued)",
+   "zh": "「這由課長保管」…結果在座位上一口、再一口。課長，嘴角還有一根喔。（待續）",
+   "ko": "「과장이 맡아둘게」… 그런데 자리에서 한 입, 또 한 입. 과장님, 입가에 한 가닥 남아 있어요. (계속)"
+  },
+  "cover": "20261126_timothy2_cover.jpg",
+  "video": "20261126_timothy2.mp4",
+  "youtube_id": "IXvaOKcRT60"
+ },
+ {
+  "ep": "timothy3",
+  "date": "2026-11-26",
+  "title": {
+   "ja": "社員からのお土産 Part 3「業務用」",
+   "en": "A souvenir from the new hire, Part 3: Bulk Size",
+   "zh": "新人帶來的伴手禮 Part 3",
+   "ko": "신입이 사 온 기념품 Part 3"
+  },
+  "caption": {
+   "ja": "翌日、お土産の皿は空っぽ。…と思ったら、右から重たい「ドスッ、ドスッ」。課長、それ業務用ですよね。（おわり）",
+   "en": "Next day, the souvenir plate is empty. Then a heavy THUD, THUD from the right. Boss... is that the bulk size? (the end)",
+   "zh": "隔天，伴手禮的盤子空了。…這時右邊傳來重重的「咚、咚」。課長，那是業務用的吧。（完）",
+   "ko": "다음 날, 기념품 접시는 텅. …그런데 오른쪽에서 묵직한 「쿵, 쿵」. 과장님, 그거 업소용이죠. (끝)"
+  },
+  "cover": "20261126_timothy3_cover.jpg",
+  "video": "20261126_timothy3.mp4",
+  "youtube_id": "i1gjP9lV1nk"
  }
 ]
