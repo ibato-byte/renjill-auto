@@ -58,7 +58,7 @@ document.write('<script src="v2/lib.js"><\/script><script src="v2/elevator_set.j
     if (t < KOTO) {   // 紙袋をくわえて右からとことこ（手は使わない）→ 止まって「皆さんでどうぞ」
       const k = sm(.2, WALK, t), x = lerp(P.x + 230, P.x, k), walking = t > .2 && t < WALK, ph = (t - .2) * 3.2;
       const hop = walking ? Math.abs(Math.sin(ph * Math.PI)) : 0;
-      const say = t >= SAY[0] + .1 && t < SAY[0] + .9 ? Math.abs(Math.sin((t - SAY[0] - .1) * Math.PI * 2.5)) : 0;   // 「皆さんでどうぞ」で、ぴょこぴょこ2回（2026-11-25）
+      const say = t >= SAY[0] + .1 && t < SAY[0] + .9 ? Math.pow(Math.sin((t - SAY[0] - .1) * Math.PI * 2.5), 2) : 0;   // sin² でなめらかに（|sin| だと着地の1コマだけ絵が変わり、qa の「ちかちか」に掛かった）   // 「皆さんでどうぞ」で、ぴょこぴょこ2回（2026-11-25）
       return { x, y: P.y - 16 * hop - 14 * say, s: P.s, bag: { swing: walking ? 7 * Math.sin(ph * Math.PI) : 3 * Math.sin((t - WALK) * 9) * Math.exp(-(t - WALK) * 3) },
         q: { eye: t > WALK + .1 ? 'happy' : 'round', look: -.6, squash: walking ? .06 - .1 * hop : -.08 * sm(WALK, WALK + .3, t) + .05 * say, wob: walking ? 5 * Math.sin(ph * Math.PI) : 0, blush: .7 } };
     }
