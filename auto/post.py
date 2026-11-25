@@ -86,11 +86,46 @@ def pace_hook(ep):
     m = re.search(r"PACE_ALL\.%s\s*=\s*\{[^}]*hook:\s*'([^']*)'" % re.escape(ep), (RIG / "pace.js").read_text(encoding="utf-8"))
     return m.group(1) if m else None
 
+RENDER_FILES = ["rig.js", "render-ep.js", "build.sh", "ep.html", "pace.js", "settled.js", "video.json", "sfx.py"]
+
+
+def rig_stamp(ep):
+    """動画の絵と音を決めるファイルの指紋（台本・v2 の部品・描画の仕組み）。表紙（thumb.js）や点検（qa.js）は入れない"""
+    import hashlib
+    h = hashlib.sha256()
+    files = [RIG / f for f in RENDER_FILES] + [RIG / "ep" / f"{ep}.js"] + sorted((RIG / "v2").glob("*.js")) + sorted((RIG / "v2").glob("*.py"))
+    for f in files:
+        if f.exists(): h.update(f.relative_to(RIG).as_posix().encode() + b"\0" + f.read_bytes() + b"\0")
+    return h.hexdigest()[:16]
+
+
+def fetch_prebuilt(ep, yt, loop):
+    """手元で描いて確かめた動画（usagi-office-media の prebuilt/）が今の台本・部品と同じ指紋なら、それを使う。
+    2026-11-25：毛のふわっとした回は Actions で1本40分を超え、8:00 の投稿が描画の途中で打ち切られた（何も出なかった）。
+    指紋がちがう（台本や部品が後で変わった）ときは使わず、ここで描き直す"""
+    base = f"https://raw.githubusercontent.com/{MEDIA_REPO}/main/prebuilt/{ep}"
+    try:
+        r = requests.get(base + ".json", timeout=30)
+        if r.status_code != 200: return False
+        meta = r.json()
+        if meta.get("stamp") != rig_stamp(ep):
+            log("prebuilt", ep, "指紋がちがうので使わない", meta.get("stamp"), rig_stamp(ep)); return False
+        for name, dst in (("_yt.mp4", yt), ("_loop.mp4", loop)):
+            v = requests.get(base + name, timeout=120)
+            if v.status_code != 200 or len(v.content) < 100000: return False
+            dst.write_bytes(v.content)
+        log("prebuilt", ep, "手元で描いた動画を使う", meta.get("stamp")); return True
+    except Exception as e:
+        log("prebuilt", ep, "取れなかった", repr(e)[:200]); return False
+
+
 def render(ep):
     """yt＝YouTube 用（冒頭の一言を焼き込まない。YouTube は冒頭のコマを表紙にするため。依頼 #124）、loop＝ほかの SNS 用（一言あり・エンドカードなし）"""
     yt, loop = DIST / f"{ep}_yt.mp4", DIST / f"{ep}_loop.mp4"
     mark = DIST / f"{ep}_yt.nohook"  # この印がない yt は一言入りの古い版なので作り直す
     if yt.exists() and loop.exists() and mark.exists(): return yt, loop
+    if fetch_prebuilt(ep, yt, loop):
+        mark.write_text("hook なし（依頼 #124）\n"); return yt, loop
     log("render", ep)
     env = dict(os.environ, NODE_PATH=os.environ.get("NODE_PATH") or subprocess.check_output(["npm", "root", "-g"]).decode().strip())
     full = DIST / f"{ep}_full.mp4"  # 一言ありの全編（ループ版の元）
