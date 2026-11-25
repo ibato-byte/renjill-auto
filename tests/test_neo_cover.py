@@ -7,7 +7,8 @@ sys.path.insert(0, str(ROOT / "auto"))
 def test_neo_cover_style():
     s = (ROOT / "rig/thumb.js").read_text()
     assert "neoshade" in s, "上を暗くして題名を浮かせる"
-    assert "&quot;${en}&quot;" in s, "英語は \"…\" でくくる"
+    assert "&quot;${en}&quot;" not in s, "英語を勝手に \"…\" でくくらない（見本で付くのは、せりふの題名の回だけ）"
+    assert "font-family:'Noto Sans CJK JP','Noto Sans',sans-serif;font-size:56px" in s, "PART の札の字は題名と同じ書体"
     assert "transform:rotate(-3deg)" in s, "PART の札は少し傾ける"
 
 
