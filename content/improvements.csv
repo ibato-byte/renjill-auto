@@ -91,3 +91,44 @@
 2026-11-19,renjill-midweek-check,8,計測,連載への切りかえで予定表から外れた5回（printer・wifi・bonenkai・aircon・kairo）の打ち手の記録を「取りやめ」にし、次に試す変数の選び方がずれないようにした,content/experiments.csv,daily_review.py next_variable は記録の日付で選ぶ
 2026-11-19,renjill-midweek-check,9,きまり,新作の判定で、連載の第2・3話が「第1話の2日後の作り直し」と誤って止められていたのを直した（新作 1/3→3/3）,auto/novelty.py,python auto/novelty.py の要対応2件が消えた
 2026-11-19,renjill-midweek-check,10,テスト,連載の各話は新作・同じ話数の作り直しは作り直し、のテストを2つ追加,tests/test_novelty.py,全333件のテストが合格
+2026-11-22,renjill-growth-research,1,仕様,Instagram のリールのリンク（連載の次の話へ進むボタン）を第1章に追加,docs/GROWTH_PLAYBOOK.md 第1章,https://www.tubefilter.com/2025/08/22/instagram-reels-short-form-web-series-sequential-linked/
+2026-11-22,renjill-growth-research,2,仕様,Meta の連載向け「シリーズ」機能はテスト中で日本で使えるか未発表、と第1章に明記,docs/GROWTH_PLAYBOOK.md 第1章,検索結果の要約（gulfnews・emarketer 2026-06）
+2026-11-22,renjill-growth-research,3,仕様,YouTube の関連動画のリンクで Part 2・3 から Part 1 へつなぐ手を第1章に追加,docs/GROWTH_PLAYBOOK.md 第1章,YouTube ヘルプ answer/14075157（検索結果の要約）
+2026-11-22,renjill-growth-research,4,仕様,YouTube ショートのシリーズ（2026-09-23）はパートナー限定で今は使えない、と第1章に明記,docs/GROWTH_PLAYBOOK.md 第1章,https://9to5google.com/2026/09/23/made-on-youtube-2026/
+2026-11-22,renjill-growth-research,5,仕様,TikTok の検索語は本文・画面の文字・タグに自然に入れ、詰め込まない、を第1章に追加,docs/GROWTH_PLAYBOOK.md 第1章,https://blog.hootsuite.com/tiktok-seo/
+2026-11-22,renjill-growth-research,6,仕様,TikTok の11月の新機能（出典1つ）は未確認として採用しない、と第1章に明記,docs/GROWTH_PLAYBOOK.md 第1章,ttcalculator.net のみ。TikTok newsroom で確認できず
+2026-11-22,renjill-growth-research,7,正確さ,「30日で10回以上の転載でおすすめから外れる」に公式の裏づけなしの注記を第1章にも付けた（第10章と食い違っていた）,docs/GROWTH_PLAYBOOK.md 第1章,第10章 11/8 の調査
+2026-11-22,renjill-growth-research,8,型,新人クリを加えた3人の関係と3話の山の作り方（新人がかき回す→ユズが止める→課長がやらかす）を第2章に追加,docs/GROWTH_PLAYBOOK.md 第2章,連載「上司とエレベーター」「金のチモシー」の台本
+2026-11-22,renjill-growth-research,9,きまり,尺を連載の27秒（本編24＋締め3）に直した（古い 18〜28秒のままだった）,docs/GROWTH_PLAYBOOK.md 第3章,docs/SERIES.md 共通ルール 2026-11-21
+2026-11-22,renjill-growth-research,10,きまり,シリーズの段を Part どうしのリンク（IG・YT）と (to be continued) の書き方に直した,docs/GROWTH_PLAYBOOK.md 第3章,docs/SERIES.md
+2026-11-22,renjill-growth-research,11,きまり,投稿頻度を「毎日1本」から週3本・3話連載・月木18時土12時に直した,docs/GROWTH_PLAYBOOK.md 第3章,auto/series_policy.json
+2026-11-22,renjill-growth-research,12,計測,連載の続き（Part 2÷Part 1）の目安を仮で追加。エレベーター 69%,docs/GROWTH_PLAYBOOK.md 第4章,content/metrics.csv（IG 201→139）
+2026-11-22,renjill-growth-research,13,きまり,自動で見直す仕組みの週次PDCAの本数を週3本に直した,docs/GROWTH_PLAYBOOK.md 第5章,auto/series_policy.json
+2026-11-22,renjill-growth-research,14,きまり,main への反映の流れ（毎回 PR＋承認を週1件）を今の運用に直した,docs/GROWTH_PLAYBOOK.md 第5章,prompts/renjill-growth-research.md（依頼 #249）
+2026-11-22,renjill-growth-research,15,計測,現在地を 11/22 に更新（合計10のまま・IG 中央値138・YT 中央値3.5・改名）,docs/GROWTH_PLAYBOOK.md 第8章,content/followers.csv・metrics.csv
+2026-11-22,renjill-growth-research,16,ベンチマーク,短い連続ものの成功例「銀河特急 ミルキー☆サブウェイ」を追加,docs/GROWTH_PLAYBOOK.md 第8章,https://realsound.jp/tech/2026/02/post-2308866.html
+2026-11-22,renjill-growth-research,17,きまり,100万人までの道のり1の「毎日投稿」を週3本の連載に直した,docs/GROWTH_PLAYBOOK.md 第8章,auto/series_policy.json
+2026-11-22,renjill-growth-research,18,きまり,「いま決めたこと」の毎日5本に、11/16 に週3本へ変わった旨を付けた,docs/GROWTH_PLAYBOOK.md 第8章,docs/SERIES.md
+2026-11-22,renjill-growth-research,19,振り返り,前週の候補1（TikTok のキーワード管理）：TikTok の計測なしで判定できず保留,docs/GROWTH_PLAYBOOK.md 第9章,content/metrics.csv
+2026-11-22,renjill-growth-research,20,振り返り,前週の候補2（英語1行目に office/boss）：比べる相手が1〜2本で判定せず続ける,docs/GROWTH_PLAYBOOK.md 第9章,content/metrics.csv・auto/schedule.json
+2026-11-22,renjill-growth-research,21,振り返り,前週の候補3（物の並びで始める）：対象の回が予定表から外れたので保留,docs/GROWTH_PLAYBOOK.md 第9章,auto/schedule.json
+2026-11-22,renjill-growth-research,22,試す候補,金のチモシー Part 1→2→3 を Instagram のリールのリンクでつなぎ、続きの割合を比べる,docs/GROWTH_PLAYBOOK.md 第9章,第1章の出典
+2026-11-22,renjill-growth-research,23,試す候補,YouTube の Part 2・3 に関連動画のリンクで Part 1 を付ける,docs/GROWTH_PLAYBOOK.md 第9章,第1章の出典
+2026-11-22,renjill-growth-research,24,試す候補,英語1行目に office/boss（11/26 Part 1 は入っていないので比べられる）,docs/GROWTH_PLAYBOOK.md 第9章,auto/schedule.json timothy1
+2026-11-22,renjill-growth-research,25,ネタ,冬のボーナス（12/10・12/12・12/14）の3話連載案,docs/GROWTH_PLAYBOOK.md 第9章,https://limo.media/articles/-/140785
+2026-11-22,renjill-growth-research,26,ネタ,冬至のゆず湯（12/17・12/19・12/21、冬至 12/22）の3話連載案,docs/GROWTH_PLAYBOOK.md 第9章,https://eco.mtk.nao.ac.jp/koyomi/yoko/2026/rekiyou262.html
+2026-11-22,renjill-growth-research,27,ネタ,忘年会の幹事（ビンゴの景品が全部チモシー）の3話連載案,docs/GROWTH_PLAYBOOK.md 第9章,金のチモシーの続き
+2026-11-22,renjill-growth-research,28,ネタ,仕事納め・大掃除（12/24・12/26・12/28、御用納め 12/28）の3話連載案,docs/GROWTH_PLAYBOOK.md 第9章,https://bestcalendar.jp/tools/shigoto-osame
+2026-11-22,renjill-growth-research,29,ネタ,仕事始めの書き初め（12/31・1/2・1/4）の3話連載案,docs/GROWTH_PLAYBOOK.md 第9章,行政機関の休日に関する法律（1/3まで休み）
+2026-11-22,renjill-growth-research,30,計測,11/26 Part 1 の表紙 B 型が 11/23 と同じく検査に通らない恐れを書き、通らなければ記録を「中止」にする手順を週次PDCAに渡した,docs/GROWTH_PLAYBOOK.md 第9章,content/experiments.csv elevator3
+2026-11-22,renjill-growth-research,31,記録,11/15 の調査の要約を第10章に残した（第9章の入れかえで消えないように）,docs/GROWTH_PLAYBOOK.md 第10章,11/15 の版
+2026-11-22,renjill-growth-research,32,商標,旧名の J-PlatPat 調査が改名の置き換えで新しい名前の調査のように読めていた誤りを直し、新しい名前は未調査と明記,docs/TRADEMARK_PLAN.md 第1章,git show 5079541 の差分
+2026-11-22,renjill-growth-research,33,商標,新しい名前（東京うさぎオフィス・Tokyo Usagi Office・Mochi and Yuzu）で Web 検索し、同名の使用なしを記録,docs/TRADEMARK_PLAN.md 第1章,Web 検索 2026-11-22
+2026-11-22,renjill-growth-research,34,商標,地名＋ふつうの言葉の組み合わせは見分けのつく名前かを問われるおそれ、出願前に弁理士へ確認、を追加,docs/TRADEMARK_PLAN.md 第1章,https://www.jpo.go.jp/system/laws/rule/guideline/trademark/kijun/index.html
+2026-11-22,renjill-growth-research,35,商標,キャラクター名（モチ・ユズ・クリ）は単独では弱く、守る中心はブランド名と絵、を追加,docs/TRADEMARK_PLAN.md 第1章,—
+2026-11-22,renjill-growth-research,36,商標,旧名だけの 25類の注意が置き換えで「YUZU 系」という事実でない文になっていたのを直した,docs/TRADEMARK_PLAN.md 第1章,git show 5079541 の差分
+2026-11-22,renjill-growth-research,37,商標,「名前を変えない」に 11/22 の改名と、新しい名前の使い始めの証拠（#153 以降）を追記,docs/TRADEMARK_PLAN.md 第4章,PR #153
+2026-11-22,renjill-growth-research,38,商標,次の月1回の確認日（2026-12-06）を明記,docs/TRADEMARK_PLAN.md 第5章,毎月第1日曜
+2026-11-22,renjill-growth-research,39,商標,見張りの記録に 11/22 の行を追加,docs/TRADEMARK_PLAN.md 第6章,content/followers.csv・metrics.csv
+2026-11-22,renjill-growth-research,40,計測,取りやめた連載「休憩室のこたつ」の打ち手の記録 kotatsu1（cta）が「予定」のまま残っていたのを「取りやめ」に,content/experiments.csv,git 4ae0166（2026-11-21）
+2026-11-22,renjill-growth-research,41,計測,同じく kotatsu2（タグ）を「取りやめ」に,content/experiments.csv,git 4ae0166（2026-11-21）
