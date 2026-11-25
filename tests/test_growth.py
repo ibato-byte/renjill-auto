@@ -43,6 +43,14 @@ class GrowthTest(unittest.TestCase):
             self.assertLessEqual(L["start"] + L["show"], L["total"] + 1e-6)
             if total <= 27: self.assertGreaterEqual(L["start"], total - 1e-6)  # 本編の最後のシーンにかぶらない（2026-11-10）
 
+    def test_follow_line_skipped_when_it_would_cover_the_ending(self):
+        # 2026-11-26 再検査：約30秒の連載の回で、紺の幕が本編の最後の2秒（締めの「つづく」・顔）にかぶっていた
+        for total in (10.0, 21.0, 27.9):
+            self.assertTrue(growth.follow_fits(total))
+            self.assertGreaterEqual(growth.follow_layout(total, 1920)["start"], total - 1e-6)
+        for total in (28.5, 30.13, 31.0):
+            self.assertFalse(growth.follow_fits(total))
+
     def test_topics(self):
         self.assertIn("month_end", [k for k, _ in topics.calendar_topics(dt.date(2026, 10, 30))])
         self.assertIn("after_holiday", [k for k, _ in topics.calendar_topics(dt.date(2026, 11, 24))])

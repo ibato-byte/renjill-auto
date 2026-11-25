@@ -77,6 +77,13 @@ def follow_layout(total, h, extend=FOLLOW_EXTEND):
             "text_bottom": y0 + (n - 1) * pitch + fs + pad, "show": FOLLOW_SHOW}
 
 
+def follow_fits(total, extend=FOLLOW_EXTEND):
+    """最後の一言を、本編が終わってから（のばした絵の上だけに）出せるか。
+    本編が長く（約28秒以上）のばす余地がないと、紺の幕が本編の最後の2秒（連載の締めのテロップ・キャラの顔）にかぶる。
+    そのときは入れない（2026-11-26 再検査：社員からのお土産 Part 1〜3 は約30秒で、締めの「つづく」とキャラの顔に幕がかかっていた）"""
+    return follow_layout(total, 1920, extend)["extend"] >= FOLLOW_SHOW - 0.01
+
+
 def band_rect(L):
     """紺の幕（画面の端から端まで）の上端と高さ。検査と共用"""
     top = max(0, L["y0"] - 2 * L["pad"])
@@ -117,6 +124,7 @@ def add_follow_line(loop_path, out_path):
     if not f: return None
     total = duration(loop_path)
     if total < 3: return None
+    if not follow_fits(total): return None  # 本編にかぶるなら入れない（元の動画のまま。本編の締めのテロップを使う）
     h = _video_height(loop_path)
     L = follow_layout(total, h)
     tmp = pathlib.Path(tempfile.mkdtemp())

@@ -132,3 +132,9 @@
 2026-11-22,renjill-growth-research,39,商標,見張りの記録に 11/22 の行を追加,docs/TRADEMARK_PLAN.md 第6章,content/followers.csv・metrics.csv
 2026-11-22,renjill-growth-research,40,計測,取りやめた連載「休憩室のこたつ」の打ち手の記録 kotatsu1（cta）が「予定」のまま残っていたのを「取りやめ」に,content/experiments.csv,git 4ae0166（2026-11-21）
 2026-11-22,renjill-growth-research,41,計測,同じく kotatsu2（タグ）を「取りやめ」に,content/experiments.csv,git 4ae0166（2026-11-21）
+2026-11-26,renjill-midweek-check,1,品質,約30秒の回では投稿時に足す「フォローして続きを見てね」の紺の幕が本編の最後の2秒（締めの「つづく」・キャラの顔）にかぶるため、入れないようにした（PR #160）,auto/growth.py follow_fits・add_follow_line,dist/timothy1_follow.jpg（変更前に作って確認）
+2026-11-26,renjill-midweek-check,2,テスト,最後の一言を入れる長さ・入れない長さのテストを追加,tests/test_growth.py,PR #160
+2026-11-26,renjill-midweek-check,3,検査,ブラッシュアップ検査で、のばす余地のない回は理由つきで「入れない」と判定（これまでは不合格のまま）,auto/brushup.py follow_check,PR #160
+2026-11-26,renjill-midweek-check,4,計測,timothy1・timothy2 の表紙の打ち手（A/B）を取りやめに（オーナー決定で N 型に固定）,content/experiments.csv,auto/schedule.json thumb.variant=N（2026-11-24）
+2026-11-26,renjill-midweek-check,5,計測,timothy2 の打ち手の投稿日を 11/28→11/26 に,content/experiments.csv,auto/schedule.json timothy2.date
+2026-11-26,renjill-midweek-check,6,計測,timothy1 の cta の打ち手（標準と試す値が同じ）を取りやめに,content/experiments.csv,auto/schedule.json timothy1.experiment

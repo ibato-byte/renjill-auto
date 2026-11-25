@@ -70,6 +70,9 @@ def band_edges_dark(video, L, h):
 def follow_check(ep, loop):
     """最後の一言（フォローして続きを見てね）の検査：2秒以上・読める大きさ・下のボタンに隠れない・30秒未満。
     作った動画の最後の数コマを dist/<ep>_follow.jpg に書き出す（目視で、顔に重なっていないか見る）"""
+    base = growth.duration(loop)
+    if not growth.follow_fits(base):  # 本編が長くのばす余地がない回は入れない（本編の締めのテロップを使う）
+        return {"pass": True, "issues": [], "skipped": f"本編が{base:.1f}秒で、のばすと30秒をこえるため最後の一言は入れない（本編の締めのテロップを使う）"}
     out = growth.add_follow_line(loop, DIST / f"{ep}_loopf.mp4")
     if not out: return {"pass": False, "issues": ["最後の一言を動画に入れられなかった（日本語フォントや ffmpeg を確認）"]}
     h = growth._video_height(out)
