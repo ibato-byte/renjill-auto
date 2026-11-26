@@ -626,7 +626,11 @@
     "fb_story": "2042427313096103",
     "fb_story_at": "2026-11-26T07:54+09:00",
     "yt_deleted": "og5TCGrH8-A",
-    "yt_deleted_note": "2026-11-26 オーナーが YouTube から削除（表紙が正式なものになっていなかった）。表紙を付けて YouTube だけ出し直す"
+    "yt_deleted_note": "2026-11-26 オーナーが YouTube から削除（表紙が正式なものになっていなかった）。Actions の準備（apt）が2回止まったため、Claude が YouTube Studio から正式な表紙（usagi-office-media の 20261126_timothy1_cover.jpg）付きで出し直し、公開画面で表紙を確認済み",
+    "yt": "x0-yeftMbEQ",
+    "yt_at": "2026-11-26T18:31+09:00",
+    "yt_playlist": "PLHZ1hOnLxHFA",
+    "yt_playlist_at": "2026-11-26T18:31+09:00"
   },
   "2026-11-26_timothy2": {
     "tag_set": "C",
@@ -650,7 +654,11 @@
     "fb_story": "1465013565055258",
     "fb_story_at": "2026-11-26T08:00+09:00",
     "yt_deleted": "IXvaOKcRT60",
-    "yt_deleted_note": "2026-11-26 オーナーが YouTube から削除（表紙が正式なものになっていなかった）。表紙を付けて YouTube だけ出し直す"
+    "yt_deleted_note": "2026-11-26 オーナーが YouTube から削除（表紙が正式なものになっていなかった）。Actions の準備（apt）が2回止まったため、Claude が YouTube Studio から正式な表紙（usagi-office-media の 20261126_timothy2_cover.jpg）付きで出し直し、公開画面で表紙を確認済み",
+    "yt": "JX2ylTOsU54",
+    "yt_at": "2026-11-26T18:32+09:00",
+    "yt_playlist": "PLHZ1hOnLxHFA",
+    "yt_playlist_at": "2026-11-26T18:32+09:00"
   },
   "2026-11-26_timothy3": {
     "tag_set": "C",
@@ -674,6 +682,10 @@
     "fb_story": "28244946485182413",
     "fb_story_at": "2026-11-26T08:07+09:00",
     "yt_deleted": "i1gjP9lV1nk",
-    "yt_deleted_note": "2026-11-26 オーナーが YouTube から削除（表紙が正式なものになっていなかった）。表紙を付けて YouTube だけ出し直す"
+    "yt_deleted_note": "2026-11-26 オーナーが YouTube から削除（表紙が正式なものになっていなかった）。Actions の準備（apt）が2回止まったため、Claude が YouTube Studio から正式な表紙（usagi-office-media の 20261126_timothy3_cover.jpg）付きで出し直し、公開画面で表紙を確認済み",
+    "yt": "_hOUHVvJTeU",
+    "yt_at": "2026-11-26T18:33+09:00",
+    "yt_playlist": "PLHZ1hOnLxHFA",
+    "yt_playlist_at": "2026-11-26T18:33+09:00"
   }
 }
