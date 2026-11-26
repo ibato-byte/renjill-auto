@@ -617,8 +617,6 @@
       "threads": "text"
     },
     "tt": "manual",
-    "yt": "og5TCGrH8-A",
-    "yt_at": "2026-11-26T07:52+09:00",
     "facebook": "1476797854629933",
     "facebook_at": "2026-11-26T07:52+09:00",
     "threads": "18119919383331053",
@@ -627,8 +625,8 @@
     "ig_story_at": "2026-11-26T07:54+09:00",
     "fb_story": "2042427313096103",
     "fb_story_at": "2026-11-26T07:54+09:00",
-    "yt_playlist": "PLHZ1hOnLxHFA",
-    "yt_playlist_at": "2026-11-26T08:13+09:00"
+    "yt_deleted": "og5TCGrH8-A",
+    "yt_deleted_note": "2026-11-26 オーナーが YouTube から削除（表紙が正式なものになっていなかった）。表紙を付けて YouTube だけ出し直す"
   },
   "2026-11-26_timothy2": {
     "tag_set": "C",
@@ -643,8 +641,6 @@
       "threads": "text"
     },
     "tt": "manual",
-    "yt": "IXvaOKcRT60",
-    "yt_at": "2026-11-26T07:58+09:00",
     "facebook": "2093897674622817",
     "facebook_at": "2026-11-26T07:58+09:00",
     "threads": "17887995420626046",
@@ -653,8 +649,8 @@
     "ig_story_at": "2026-11-26T08:00+09:00",
     "fb_story": "1465013565055258",
     "fb_story_at": "2026-11-26T08:00+09:00",
-    "yt_playlist": "PLHZ1hOnLxHFA",
-    "yt_playlist_at": "2026-11-26T08:00+09:00"
+    "yt_deleted": "IXvaOKcRT60",
+    "yt_deleted_note": "2026-11-26 オーナーが YouTube から削除（表紙が正式なものになっていなかった）。表紙を付けて YouTube だけ出し直す"
   },
   "2026-11-26_timothy3": {
     "tag_set": "C",
@@ -669,8 +665,6 @@
       "threads": "text"
     },
     "tt": "manual",
-    "yt": "i1gjP9lV1nk",
-    "yt_at": "2026-11-26T08:04+09:00",
     "facebook": "1491826756384812",
     "facebook_at": "2026-11-26T08:04+09:00",
     "threads": "17886810021527101",
@@ -679,7 +673,7 @@
     "ig_story_at": "2026-11-26T08:06+09:00",
     "fb_story": "28244946485182413",
     "fb_story_at": "2026-11-26T08:07+09:00",
-    "yt_playlist": "PLHZ1hOnLxHFA",
-    "yt_playlist_at": "2026-11-26T08:07+09:00"
+    "yt_deleted": "i1gjP9lV1nk",
+    "yt_deleted_note": "2026-11-26 オーナーが YouTube から削除（表紙が正式なものになっていなかった）。表紙を付けて YouTube だけ出し直す"
   }
 }
