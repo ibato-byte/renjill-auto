@@ -1,0 +1,32 @@
+name: fix-covers
+# 投稿ずみの回の表紙だけを差し替える（YouTube・Facebook）。動画は消さない。auto/fix_covers.py
+on:
+  workflow_dispatch:
+    inputs:
+      covers:
+        description: '表紙の JSON（[{"part":2,"yt":"…","cover":"https://…jpg","match":["…"]}]）'
+        required: true
+      list_only:
+        description: "1 なら一覧を出すだけ（何も変えない）"
+        required: false
+        default: "1"
+permissions:
+  contents: read
+jobs:
+  fix:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with: { python-version: "3.12" }
+      - run: pip install -q requests google-api-python-client google-auth google-auth-httplib2
+      - env:
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
+          YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
+          YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
+          COVERS: ${{ github.event.inputs.covers }}
+          LIST_ONLY: ${{ github.event.inputs.list_only }}
+        run: python auto/fix_covers.py
