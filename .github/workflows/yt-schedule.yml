@@ -1,0 +1,29 @@
+name: yt-schedule
+# YouTube に予約公開で上げる（表紙つき）。auto/yt_schedule.json に並べた回だけ。上げた回は "done" に動画 ID を書いて戻す（二重に上げない）
+on:
+  push:
+    branches: [main]
+    paths: [auto/yt_schedule.json, auto/yt_schedule.py]
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency: { group: yt-schedule, cancel-in-progress: false }
+jobs:
+  up:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with: { python-version: "3.12" }
+      - run: pip install -q requests google-api-python-client google-auth google-auth-httplib2
+      - env:
+          YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
+          YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
+          YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
+        run: python auto/yt_schedule.py
+      - if: always()
+        run: |
+          git config user.name "github-actions[bot]"; git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add auto/yt_schedule.json
+          git diff --cached --quiet || (git commit -m "yt-schedule: 予約した動画の ID を記録 [skip ci]" && git pull --rebase -q && git push)
