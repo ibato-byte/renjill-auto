@@ -4,7 +4,8 @@
 使い方：auto/yt_schedule.json に並べた回を、上から順に上げる。
   各回：{"key": 記録の名前, "video": 動画の URL, "cover": 表紙の URL, "title": 題名, "description": 説明, "publish_at": "2026-11-28T09:00:00Z"}
 - 上げた回は auto/yt_schedule.json の "done" に動画 ID を書く（もう一度動かしても二重に上げない）。
-- 表紙は post.py と同じ yt_set_thumbnail で付けて確かめる。
+- 表紙は post.py と同じ yt_set_thumbnail で付けて確かめる。YouTube の処理が終わってから付ける（直後だと付いたことにならない。2026-11-28）。
+- 公開されたら、チャンネルのショートの一覧で表紙を目で確かめる（API の「成功」だけで済ませない）。
 - 公開の時刻・非公開のまま予約になっているかを読み直して確かめる。
 """
 import json, os, pathlib, sys, time, urllib.request
@@ -45,6 +46,13 @@ def main():
         res = yt.videos().insert(part="snippet,status", body=body, media_body=MediaFileUpload(str(v), chunksize=-1, resumable=True)).execute()
         vid = res["id"]; it["done"] = vid
         CFG.write_text(json.dumps(cfg, ensure_ascii=False, indent=2) + "\n")
+        # 2026-11-28 事故：上げた直後（YouTube の処理が終わる前）に表紙を付けると、API は成功を返すのに、
+        # 公開されたときは途中のコマのままだった。処理が終わるまで待ってから付ける（最大15分）。
+        for _ in range(90):
+            ps = yt.videos().list(part="processingDetails", id=vid).execute()["items"][0].get("processingDetails", {})
+            if ps.get("processingStatus") in ("succeeded", "failed", "terminated"): break
+            time.sleep(10)
+        print(it["key"], "処理", ps.get("processingStatus"))
         th = yt_set_thumbnail(yt, vid, c)
         time.sleep(3)
         st = yt.videos().list(part="status,snippet", id=vid).execute()["items"][0]
