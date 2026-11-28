@@ -5922,3 +5922,69 @@
 2026-11-27,threads,2026-11-26_timothy3,reposts,0,
 2026-11-27,threads,2026-11-26_timothy3,quotes,0,
 2026-11-27,threads,2026-11-26_timothy3,shares,0,
+2026-11-28,reel,2026-11-26_timothy1,reach,122,
+2026-11-28,reel,2026-11-26_timothy1,saved,0,
+2026-11-28,reel,2026-11-26_timothy1,shares,0,
+2026-11-28,reel,2026-11-26_timothy1,ig_reels_avg_watch_time,6206,
+2026-11-28,reel,2026-11-26_timothy1,ig_reels_video_view_total_time,738539,
+2026-11-28,reel,2026-11-26_timothy1,total_interactions,1,
+2026-11-28,reel,2026-11-26_timothy1,avg_watch_ratio,0.2,平均視聴時間÷動画の長さ（完走率の代わり）
+2026-11-28,reel,2026-11-26_timothy1,view_3s_rate,,Instagram の API では3秒視聴率・完走率は取れない（アプリの画面にだけ出る）。代わりに平均視聴時間÷動画の長さを見る
+2026-11-28,reel,2026-11-26_timothy1,profile_visits,,リール1本ごとの値は API が対応していない（2026-10-25 に確認）。アカウント全体の profile_views・follows で見る
+2026-11-28,reel,2026-11-26_timothy1,follows,,リール1本ごとの値は API が対応していない（2026-10-25 に確認）。アカウント全体の profile_views・follows で見る
+2026-11-28,reel,2026-11-26_timothy2,reach,112,
+2026-11-28,reel,2026-11-26_timothy2,saved,0,
+2026-11-28,reel,2026-11-26_timothy2,shares,0,
+2026-11-28,reel,2026-11-26_timothy2,ig_reels_avg_watch_time,5918,
+2026-11-28,reel,2026-11-26_timothy2,ig_reels_video_view_total_time,656933,
+2026-11-28,reel,2026-11-26_timothy2,total_interactions,1,
+2026-11-28,reel,2026-11-26_timothy2,avg_watch_ratio,0.191,平均視聴時間÷動画の長さ（完走率の代わり）
+2026-11-28,reel,2026-11-26_timothy2,view_3s_rate,,Instagram の API では3秒視聴率・完走率は取れない（アプリの画面にだけ出る）。代わりに平均視聴時間÷動画の長さを見る
+2026-11-28,reel,2026-11-26_timothy2,profile_visits,,リール1本ごとの値は API が対応していない（2026-10-25 に確認）。アカウント全体の profile_views・follows で見る
+2026-11-28,reel,2026-11-26_timothy2,follows,,リール1本ごとの値は API が対応していない（2026-10-25 に確認）。アカウント全体の profile_views・follows で見る
+2026-11-28,reel,2026-11-26_timothy3,reach,112,
+2026-11-28,reel,2026-11-26_timothy3,saved,0,
+2026-11-28,reel,2026-11-26_timothy3,shares,0,
+2026-11-28,reel,2026-11-26_timothy3,ig_reels_avg_watch_time,5357,
+2026-11-28,reel,2026-11-26_timothy3,ig_reels_video_view_total_time,637527,
+2026-11-28,reel,2026-11-26_timothy3,total_interactions,2,
+2026-11-28,reel,2026-11-26_timothy3,avg_watch_ratio,0.173,平均視聴時間÷動画の長さ（完走率の代わり）
+2026-11-28,reel,2026-11-26_timothy3,view_3s_rate,,Instagram の API では3秒視聴率・完走率は取れない（アプリの画面にだけ出る）。代わりに平均視聴時間÷動画の長さを見る
+2026-11-28,reel,2026-11-26_timothy3,profile_visits,,リール1本ごとの値は API が対応していない（2026-10-25 に確認）。アカウント全体の profile_views・follows で見る
+2026-11-28,reel,2026-11-26_timothy3,follows,,リール1本ごとの値は API が対応していない（2026-10-25 に確認）。アカウント全体の profile_views・follows で見る
+2026-11-28,account,17841455420932757,reach,28,
+2026-11-28,account,17841455420932757,profile_views,5,
+2026-11-28,account,17841455420932757,accounts_engaged,1,
+2026-11-28,account,17841455420932757,views,57,
+2026-11-28,account,17841455420932757,follows_and_unfollows,,内訳が返らなかった
+2026-11-28,story,17841455420932757,stories,,いま24時間以内のストーリーズがない
+2026-11-28,fb_reel,2026-11-26_timothy1,plays,0,
+2026-11-28,fb_reel,2026-11-26_timothy1,reactions,0,
+2026-11-28,fb_reel,2026-11-26_timothy1,comments,0,
+2026-11-28,fb_reel,2026-11-26_timothy1,shares,0,
+2026-11-28,fb_reel,2026-11-26_timothy2,plays,0,
+2026-11-28,fb_reel,2026-11-26_timothy2,reactions,0,
+2026-11-28,fb_reel,2026-11-26_timothy2,comments,0,
+2026-11-28,fb_reel,2026-11-26_timothy2,shares,0,
+2026-11-28,fb_reel,2026-11-26_timothy3,plays,0,
+2026-11-28,fb_reel,2026-11-26_timothy3,reactions,0,
+2026-11-28,fb_reel,2026-11-26_timothy3,comments,0,
+2026-11-28,fb_reel,2026-11-26_timothy3,shares,0,
+2026-11-28,threads,2026-11-26_timothy1,views,8,
+2026-11-28,threads,2026-11-26_timothy1,likes,0,
+2026-11-28,threads,2026-11-26_timothy1,replies,0,
+2026-11-28,threads,2026-11-26_timothy1,reposts,0,
+2026-11-28,threads,2026-11-26_timothy1,quotes,0,
+2026-11-28,threads,2026-11-26_timothy1,shares,0,
+2026-11-28,threads,2026-11-26_timothy2,views,3,
+2026-11-28,threads,2026-11-26_timothy2,likes,0,
+2026-11-28,threads,2026-11-26_timothy2,replies,0,
+2026-11-28,threads,2026-11-26_timothy2,reposts,0,
+2026-11-28,threads,2026-11-26_timothy2,quotes,0,
+2026-11-28,threads,2026-11-26_timothy2,shares,0,
+2026-11-28,threads,2026-11-26_timothy3,views,4,
+2026-11-28,threads,2026-11-26_timothy3,likes,0,
+2026-11-28,threads,2026-11-26_timothy3,replies,0,
+2026-11-28,threads,2026-11-26_timothy3,reposts,0,
+2026-11-28,threads,2026-11-26_timothy3,quotes,0,
+2026-11-28,threads,2026-11-26_timothy3,shares,0,
